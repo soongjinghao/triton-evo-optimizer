@@ -1,67 +1,68 @@
 {
   "best_fitness": 0.95281131222872,
   "speedup": 0.0,
-  "generations": 3,
-  "time_elapsed": 800.5056557655334,
+  "generations": 2,
+  "time_elapsed": 2646.4946959018707,
   "llm_stats": {
-    "total_tokens": 17362,
-    "call_count": 20,
-    "current_model": "deepseek-ai/DeepSeek-V3",
+    "total_tokens": 36715,
+    "call_count": 55,
+    "current_model": "deepseek-ai/DeepSeek-V4-Flash",
     "available_models": [
-      "deepseek-ai/DeepSeek-V3"
+      "deepseek-ai/DeepSeek-V4-Pro",
+      "deepseek-ai/DeepSeek-V4-Flash"
     ],
     "purpose_breakdown": {
       "Analysis": {
-        "count": 4,
-        "tokens": 3966,
-        "success": 4,
+        "count": 33,
+        "tokens": 15415,
+        "success": 33,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Pro"
         ]
       },
       "Mutation": {
-        "count": 6,
-        "tokens": 3703,
-        "success": 6,
+        "count": 14,
+        "tokens": 12157,
+        "success": 14,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Flash"
         ]
       },
       "Crossover": {
-        "count": 10,
-        "tokens": 9693,
-        "success": 10,
+        "count": 8,
+        "tokens": 9143,
+        "success": 8,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Flash"
         ]
       }
     }
   },
   "top5_summary": [
     {
-      "id": "99b5b171",
+      "id": "a089b1b3",
       "fitness": 0.95281131222872,
-      "generation": 2
-    },
-    {
-      "id": "99b5b171",
-      "fitness": 0.95281131222872,
-      "generation": 2
-    },
-    {
-      "id": "797e2e8d",
-      "fitness": 0.9351665684433135,
       "generation": 0
     },
     {
-      "id": "e10770b5",
-      "fitness": 0.9351665684433135,
+      "id": "a089b1b3",
+      "fitness": 0.95281131222872,
+      "generation": 0
+    },
+    {
+      "id": "284f25bc",
+      "fitness": 0.8487223787083286,
+      "generation": 0
+    },
+    {
+      "id": "2353806c",
+      "fitness": 0.6474230319782107,
       "generation": 3
     },
     {
-      "id": "d47cb8ba",
-      "fitness": 0.8859470379106387,
-      "generation": 1
+      "id": "07d319da",
+      "fitness": 0.6121089699418133,
+      "generation": 2
     }
   ]
 }

@@ -1,67 +1,68 @@
 {
-  "best_fitness": 0.7236218911985396,
+  "best_fitness": 0.9802760092717361,
   "speedup": 0.0,
-  "generations": 3,
-  "time_elapsed": 1213.442063331604,
+  "generations": 2,
+  "time_elapsed": 5101.598613739014,
   "llm_stats": {
-    "total_tokens": 28566,
-    "call_count": 22,
-    "current_model": "deepseek-ai/DeepSeek-V3",
+    "total_tokens": 59238,
+    "call_count": 58,
+    "current_model": "deepseek-ai/DeepSeek-V4-Pro",
     "available_models": [
-      "deepseek-ai/DeepSeek-V3"
+      "deepseek-ai/DeepSeek-V4-Pro",
+      "deepseek-ai/DeepSeek-V4-Pro"
     ],
     "purpose_breakdown": {
       "Analysis": {
-        "count": 4,
-        "tokens": 6732,
-        "success": 4,
+        "count": 34,
+        "tokens": 24834,
+        "success": 34,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Pro"
         ]
       },
       "Mutation": {
-        "count": 8,
-        "tokens": 7092,
-        "success": 8,
+        "count": 17,
+        "tokens": 21682,
+        "success": 17,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Pro"
         ]
       },
       "Crossover": {
-        "count": 10,
-        "tokens": 14742,
-        "success": 10,
+        "count": 7,
+        "tokens": 12722,
+        "success": 7,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Pro"
         ]
       }
     }
   },
   "top5_summary": [
     {
-      "id": "7fb4ad0f",
-      "fitness": 0.7236218911985396,
+      "id": "ac69e54f",
+      "fitness": 0.9802760092717361,
       "generation": 2
     },
     {
-      "id": "f038fef2",
-      "fitness": 0.7107000717128514,
-      "generation": 0
+      "id": "873b0e93",
+      "fitness": 0.9754708301134218,
+      "generation": 1
     },
     {
-      "id": "9c3f256d",
-      "fitness": 0.22460047920035908,
-      "generation": 4
+      "id": "873b0e93",
+      "fitness": 0.9754708301134218,
+      "generation": 1
     },
     {
-      "id": "75e5c7c7",
-      "fitness": 0.2233400948892379,
-      "generation": 4
-    },
-    {
-      "id": "ee42790e",
+      "id": "dffb8448",
       "fitness": 0.0,
-      "generation": 4
+      "generation": 2
+    },
+    {
+      "id": "a25dbc32",
+      "fitness": 0.0,
+      "generation": 2
     }
   ]
 }

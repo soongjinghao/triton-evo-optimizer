@@ -63,36 +63,55 @@ def _per_token_group_quant_8bit_colmajor(
 
                 y_s_ptr_local = y_s_ptr + group_idx * y_s_col_stride + m
 
-                _absmax = eps.to(tl.float32)
-
                 cols = tl.arange(0, BLOCK)
-                for chunk_start in range(0, actual_group_size, BLOCK):
-                    chunk_end = min(chunk_start + BLOCK, actual_group_size)
-                    chunk_size = chunk_end - chunk_start
-                    
-                    if chunk_size > 0:
-                        mask = cols < chunk_size
-                        y_chunk = tl.load(y_row_ptr + col_start + chunk_start + cols, mask=mask, other=0.0).to(tl.float32)
 
-                        chunk_max = tl.max(tl.abs(y_chunk))
-                        _absmax = tl.maximum(_absmax, chunk_max)
+                if actual_group_size <= BLOCK:
+                    # Fused load-compute-store for small groups:
+                    # load entire group once, compute absmax and scale,
+                    # quantize in-register, and store without re-reading.
+                    mask = cols < actual_group_size
+                    y_chunk = tl.load(y_row_ptr + col_start + cols, mask=mask, other=0.0).to(tl.float32)
 
-                y_s = _absmax / bit8_max
-                
-                if SCALE_UE8M0:
-                    y_s = tl.exp2(tl.ceil(tl.log2(tl.abs(y_s))))
+                    _absmax = tl.max(tl.abs(y_chunk))
+                    y_s = _absmax / bit8_max
 
-                for chunk_start in range(0, actual_group_size, BLOCK):
-                    chunk_end = min(chunk_start + BLOCK, actual_group_size)
-                    chunk_size = chunk_end - chunk_start
-                    
-                    if chunk_size > 0:
-                        mask = cols < chunk_size
-                        y_chunk = tl.load(y_row_ptr + col_start + chunk_start + cols, mask=mask, other=0.0).to(tl.float32)
+                    if SCALE_UE8M0:
+                        y_s = tl.exp2(tl.ceil(tl.log2(tl.abs(y_s))))
+
+                    y_q_chunk = tl.clamp(y_chunk / y_s, bit8_min, bit8_max).to(y_q_ptr.dtype.element_ty)
+                    tl.store(y_q_row_ptr + col_start + cols, y_q_chunk, mask=mask)
+
+                else:
+                    # Large group: two-pass chunked processing
+                    _absmax = eps.to(tl.float32)
+
+                    for chunk_start in range(0, actual_group_size, BLOCK):
+                        chunk_end = min(chunk_start + BLOCK, actual_group_size)
+                        chunk_size = chunk_end - chunk_start
                         
-                        y_q_chunk = tl.clamp(y_chunk / y_s, bit8_min, bit8_max).to(y_q_ptr.dtype.element_ty)
+                        if chunk_size > 0:
+                            mask = cols < chunk_size
+                            y_chunk = tl.load(y_row_ptr + col_start + chunk_start + cols, mask=mask, other=0.0).to(tl.float32)
 
-                        tl.store(y_q_row_ptr + col_start + chunk_start + cols, y_q_chunk, mask=mask)
+                            chunk_max = tl.max(tl.abs(y_chunk))
+                            _absmax = tl.maximum(_absmax, chunk_max)
+
+                    y_s = _absmax / bit8_max
+                    
+                    if SCALE_UE8M0:
+                        y_s = tl.exp2(tl.ceil(tl.log2(tl.abs(y_s))))
+
+                    for chunk_start in range(0, actual_group_size, BLOCK):
+                        chunk_end = min(chunk_start + BLOCK, actual_group_size)
+                        chunk_size = chunk_end - chunk_start
+                        
+                        if chunk_size > 0:
+                            mask = cols < chunk_size
+                            y_chunk = tl.load(y_row_ptr + col_start + chunk_start + cols, mask=mask, other=0.0).to(tl.float32)
+                            
+                            y_q_chunk = tl.clamp(y_chunk / y_s, bit8_min, bit8_max).to(y_q_ptr.dtype.element_ty)
+
+                            tl.store(y_q_row_ptr + col_start + chunk_start + cols, y_q_chunk, mask=mask)
 
                 tl.store(y_s_ptr_local, y_s)
 

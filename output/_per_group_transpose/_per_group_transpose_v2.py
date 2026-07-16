@@ -5,7 +5,6 @@ import torch
 import triton
 import triton.language as tl
 
-
 @triton.jit
 def _per_group_transpose(
     data_ptr: torch.Tensor,
@@ -41,7 +40,6 @@ def _per_group_transpose(
         data = tl.load(data_start_ptr + off, mask=mask)
         tl.store(trans_data_start_ptr + trans_off, data, mask=mask)
 
-
 def per_group_transpose(
     a: torch.Tensor,
     expert_offsets: torch.Tensor,
@@ -54,15 +52,12 @@ def per_group_transpose(
     trans_a = torch.empty_like(a)
     num_experts = expert_offsets.size(0) - 1
 
-    avg_tokens_per_expert = m // num_experts
-    BLOCK_SIZE_M = 16 if avg_tokens_per_expert <= 2048 else 32
-
     grid = lambda META: (
         num_experts,
-        triton.cdiv((m + num_experts - 1) // num_experts, BLOCK_SIZE_M),
-        triton.cdiv(k, 8),
+        triton.cdiv((m + num_experts - 1) // num_experts, META["BLOCK_SIZE_M"]),
+        triton.cdiv(k, META["BLOCK_SIZE_K"]),
     )
     _per_group_transpose[grid](
-        a, trans_a, expert_offsets, k, M_ALIGNMENT, BLOCK_SIZE_M=BLOCK_SIZE_M, BLOCK_SIZE_K=8
+        a, trans_a, expert_offsets, k, M_ALIGNMENT, BLOCK_SIZE_M=16, BLOCK_SIZE_K=8
     )
     return trans_a

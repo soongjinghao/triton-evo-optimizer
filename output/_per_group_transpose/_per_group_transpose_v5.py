@@ -1,3 +1,6 @@
+import os
+from typing import Any, Dict, List, Optional, Tuple
+
 import torch
 import triton
 import triton.language as tl
@@ -37,10 +40,13 @@ def _per_group_transpose(
         data = tl.load(data_start_ptr + off, mask=mask)
         tl.store(trans_data_start_ptr + trans_off, data, mask=mask)
 
+def _next_power_of_2(n):
+    return 1 << (n - 1).bit_length()
+
 def per_group_transpose(
     a: torch.Tensor,
     expert_offsets: torch.Tensor,
-    M_ALIGNMENT: int = 1,
+    M_ALIGNMENT: int = 16,
 ) -> torch.Tensor:
     assert a.dim() == 2
     assert a.is_contiguous(), "`a` is not contiguous"
@@ -49,16 +55,22 @@ def per_group_transpose(
     trans_a = torch.empty_like(a)
     num_experts = expert_offsets.size(0) - 1
 
-    # Dynamic block size selection based on input size
-    BLOCK_SIZE_M = 16 if m < 2048 else 32
-    BLOCK_SIZE_K = 8
+    # Dynamic block sizing: next power of 2, capped at 64, multiple of 16
+    avg_tokens_per_expert = (m + num_experts - 1) // num_experts
+    base_m = max(16, min(64, _next_power_of_2(avg_tokens_per_expert)))
+    base_k = max(16, min(64, _next_power_of_2(k)))
+    # Ensure multiples of 16
+    BLOCK_SIZE_M = (base_m + 15) // 16 * 16
+    BLOCK_SIZE_K = (base_k + 15) // 16 * 16
 
     grid = lambda META: (
         num_experts,
-        triton.cdiv((m + num_experts - 1) // num_experts, BLOCK_SIZE_M),
-        triton.cdiv(k, BLOCK_SIZE_K),
+        triton.cdiv((m + num_experts - 1) // num_experts, META["BLOCK_SIZE_M"]),
+        triton.cdiv(k, META["BLOCK_SIZE_K"]),
     )
     _per_group_transpose[grid](
-        a, trans_a, expert_offsets, k, M_ALIGNMENT, BLOCK_SIZE_M=BLOCK_SIZE_M, BLOCK_SIZE_K=BLOCK_SIZE_K
+        a, trans_a, expert_offsets, k, M_ALIGNMENT,
+        BLOCK_SIZE_M=BLOCK_SIZE_M,
+        BLOCK_SIZE_K=BLOCK_SIZE_K
     )
     return trans_a

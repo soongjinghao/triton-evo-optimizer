@@ -1,67 +1,68 @@
 {
-  "best_fitness": 0.9842322063612108,
+  "best_fitness": 0.9689727183793195,
   "speedup": 0.0,
-  "generations": 3,
-  "time_elapsed": 970.6859188079834,
+  "generations": 2,
+  "time_elapsed": 4040.8192217350006,
   "llm_stats": {
-    "total_tokens": 24377,
-    "call_count": 19,
-    "current_model": "deepseek-ai/DeepSeek-V3",
+    "total_tokens": 45165,
+    "call_count": 49,
+    "current_model": "deepseek-ai/DeepSeek-V4-Pro",
     "available_models": [
-      "deepseek-ai/DeepSeek-V3"
+      "deepseek-ai/DeepSeek-V4-Pro",
+      "deepseek-ai/DeepSeek-V4-Pro"
     ],
     "purpose_breakdown": {
       "Analysis": {
-        "count": 4,
-        "tokens": 6168,
-        "success": 4,
+        "count": 28,
+        "tokens": 19229,
+        "success": 28,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Pro"
         ]
       },
       "Mutation": {
-        "count": 5,
-        "tokens": 4363,
-        "success": 5,
+        "count": 17,
+        "tokens": 19504,
+        "success": 17,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Pro"
         ]
       },
       "Crossover": {
-        "count": 10,
-        "tokens": 13846,
-        "success": 10,
+        "count": 4,
+        "tokens": 6432,
+        "success": 4,
         "models": [
-          "deepseek-ai/DeepSeek-V3"
+          "deepseek-ai/DeepSeek-V4-Pro"
         ]
       }
     }
   },
   "top5_summary": [
     {
-      "id": "c4c53aef",
-      "fitness": 0.9842322063612108,
-      "generation": 2
-    },
-    {
-      "id": "cdf22681",
-      "fitness": 0.9765430454315167,
-      "generation": 4
-    },
-    {
-      "id": "1d47fe3c",
-      "fitness": 0.9615192311538385,
-      "generation": 4
-    },
-    {
-      "id": "be4aaf38",
-      "fitness": 0.9469506862172843,
+      "id": "079903c9",
+      "fitness": 0.9689727183793195,
       "generation": 0
     },
     {
-      "id": "9ec85555",
-      "fitness": 0.9190994002324954,
-      "generation": 4
+      "id": "079903c9",
+      "fitness": 0.9689727183793195,
+      "generation": 0
+    },
+    {
+      "id": "079903c9",
+      "fitness": 0.9689727183793195,
+      "generation": 0
+    },
+    {
+      "id": "079903c9",
+      "fitness": 0.9689727183793195,
+      "generation": 0
+    },
+    {
+      "id": "9df735ab",
+      "fitness": 0.9328170253285941,
+      "generation": 2
     }
   ]
 }

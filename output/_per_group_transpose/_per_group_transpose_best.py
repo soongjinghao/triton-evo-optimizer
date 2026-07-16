@@ -52,15 +52,12 @@ def per_group_transpose(
     trans_a = torch.empty_like(a)
     num_experts = expert_offsets.size(0) - 1
 
-    BLOCK_SIZE_M = 16
-    BLOCK_SIZE_K = 8
-
     grid = lambda META: (
         num_experts,
-        triton.cdiv((m + num_experts - 1) // num_experts, BLOCK_SIZE_M),
-        triton.cdiv(k, BLOCK_SIZE_K),
+        triton.cdiv((m + num_experts - 1) // num_experts, META["BLOCK_SIZE_M"]),
+        triton.cdiv(k, META["BLOCK_SIZE_K"]),
     )
     _per_group_transpose[grid](
-        a, trans_a, expert_offsets, k, M_ALIGNMENT, BLOCK_SIZE_M=BLOCK_SIZE_M, BLOCK_SIZE_K=BLOCK_SIZE_K
+        a, trans_a, expert_offsets, k, M_ALIGNMENT, BLOCK_SIZE_M=16, BLOCK_SIZE_K=8
     )
     return trans_a

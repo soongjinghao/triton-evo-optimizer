@@ -1,6 +1,3 @@
-import os
-from typing import Any, Dict, List, Optional, Tuple
-
 import torch
 import triton
 import triton.language as tl
@@ -30,6 +27,7 @@ def _per_group_transpose(
 
     k_coord = k_id * BLOCK_SIZE_K + tl.arange(0, BLOCK_SIZE_K)
     k_mask = k_coord < k
+
     for start_m in tl.range(0, num_tokens_of_expert, BLOCK_SIZE_M * tl.num_programs(1)):
         m_coord = start_m + m_id * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
         m_mask = m_coord < num_tokens_of_expert
@@ -52,15 +50,21 @@ def per_group_transpose(
     trans_a = torch.empty_like(a)
     num_experts = expert_offsets.size(0) - 1
 
-    BLOCK_SIZE_M = 16
-    BLOCK_SIZE_K = 8
+    # Dynamic block sizing: use next_power_of_2, cap at 64, ensure multiple of 16
+    avg_tokens = (m + num_experts - 1) // num_experts
+    BLOCK_SIZE_M = triton.next_power_of_2(min(64, avg_tokens))
+    BLOCK_SIZE_M = max(16, BLOCK_SIZE_M)  # ensure at least 16
+    BLOCK_SIZE_K = triton.next_power_of_2(min(64, k))
+    BLOCK_SIZE_K = max(16, BLOCK_SIZE_K)
 
     grid = lambda META: (
         num_experts,
-        triton.cdiv((m + num_experts - 1) // num_experts, BLOCK_SIZE_M),
-        triton.cdiv(k, BLOCK_SIZE_K),
+        triton.cdiv(avg_tokens, META["BLOCK_SIZE_M"]),
+        triton.cdiv(k, META["BLOCK_SIZE_K"]),
     )
     _per_group_transpose[grid](
-        a, trans_a, expert_offsets, k, M_ALIGNMENT, BLOCK_SIZE_M=BLOCK_SIZE_M, BLOCK_SIZE_K=BLOCK_SIZE_K
+        a, trans_a, expert_offsets, k, M_ALIGNMENT,
+        BLOCK_SIZE_M=BLOCK_SIZE_M,
+        BLOCK_SIZE_K=BLOCK_SIZE_K,
     )
     return trans_a

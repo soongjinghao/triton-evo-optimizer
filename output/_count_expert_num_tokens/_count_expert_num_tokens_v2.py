@@ -13,36 +13,26 @@ def _count_expert_num_tokens(
     BLOCK_SIZE: tl.constexpr,
 ):
     curr_expert = tl.program_id(0)
-    
     if curr_expert >= num_experts:
         return
-    
+
     offsets = tl.arange(0, BLOCK_SIZE)
     num_blocks = tl.cdiv(topk_numel, BLOCK_SIZE)
-    
     acc = tl.zeros((BLOCK_SIZE,), dtype=tl.int32)
     base_ptr = topk_ids_ptr + offsets
-    
-    next_block_start = 0
-    next_mask = offsets < (topk_numel - next_block_start)
-    next_expert_ids = tl.load(base_ptr + next_block_start, mask=next_mask, other=-1)
-    
+
     for x in range(num_blocks):
-        curr_block_start = next_block_start
-        curr_mask = next_mask
-        curr_expert_ids = next_expert_ids
-        
-        next_block_start = (x + 1) * BLOCK_SIZE
-        next_mask = offsets < (topk_numel - next_block_start)
-        if x + 1 < num_blocks:
-            next_expert_ids = tl.load(base_ptr + next_block_start, mask=next_mask, other=-1)
-        
+        block_start = x * BLOCK_SIZE
+        mask = offsets < (topk_numel - block_start)
+        expert_ids = tl.load(base_ptr + block_start, mask=mask, other=-1)
+
         if HAS_EXPERT_MAP:
-            map_mask = curr_expert_ids >= 0
-            curr_expert_ids = tl.load(expert_map_ptr + curr_expert_ids, mask=map_mask, other=-1)
-        
-        acc += tl.where(curr_expert_ids == curr_expert, 1, 0)
-    
+            map_mask = expert_ids >= 0
+            expert_ids = tl.load(expert_map_ptr + expert_ids, mask=map_mask, other=-1)
+
+        has_curr_expert = tl.where(expert_ids == curr_expert, 1, 0)
+        acc = acc + has_curr_expert
+
     tl.store(expert_num_tokens_ptr + curr_expert, tl.sum(acc))
 
 def count_expert_num_tokens(
@@ -54,11 +44,8 @@ def count_expert_num_tokens(
     )
 
     grid = num_local_experts
-    BLOCK_SIZE = 128
-    
-    if topk_ids.numel() < BLOCK_SIZE:
-        BLOCK_SIZE = triton.next_power_of_2(topk_ids.numel())
-        BLOCK_SIZE = max(BLOCK_SIZE, 16)
+    # Tuned block size: ensure at least 16 (vector width), power of 2, and cap at 1024
+    BLOCK_SIZE = min(1024, max(16, triton.next_power_of_2(topk_ids.numel())))
 
     _count_expert_num_tokens[(grid,)](
         topk_ids,
