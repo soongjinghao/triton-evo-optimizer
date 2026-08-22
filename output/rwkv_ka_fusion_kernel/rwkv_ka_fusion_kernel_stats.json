@@ -1,0 +1,82 @@
+{
+  "best_fitness": 1.0105261052673684,
+  "speedup": 0.0,
+  "generations": 2,
+  "time_elapsed": 786.2450523376465,
+  "llm_stats": {
+    "total_tokens": 94179,
+    "total_time_seconds": 1268.2549362182617,
+    "call_count": 14,
+    "current_model": "deepseek-v4-pro-260425",
+    "available_models": [
+      "deepseek-v4-flash-260425",
+      "deepseek-v4-pro-260425"
+    ],
+    "purpose_breakdown": {
+      "Analysis": {
+        "count": 2,
+        "tokens": 11598,
+        "time_seconds": 155.13464903831482,
+        "success": 2,
+        "models": [
+          "deepseek-v4-pro-260425",
+          "deepseek-v4-flash-260425"
+        ]
+      },
+      "Initial Strategy Generation": {
+        "count": 4,
+        "tokens": 24287,
+        "time_seconds": 280.0933802127838,
+        "success": 4,
+        "models": [
+          "deepseek-v4-pro-260425"
+        ]
+      },
+      "Crossover": {
+        "count": 5,
+        "tokens": 45346,
+        "time_seconds": 655.1678574085236,
+        "success": 5,
+        "models": [
+          "deepseek-v4-pro-260425"
+        ]
+      },
+      "Mutation": {
+        "count": 3,
+        "tokens": 12948,
+        "time_seconds": 177.85904955863953,
+        "success": 3,
+        "models": [
+          "deepseek-v4-pro-260425"
+        ]
+      }
+    }
+  },
+  "top5_summary": [
+    {
+      "id": "7ca0ccd5",
+      "fitness": 1.0105261052673684,
+      "generation": 2
+    },
+    {
+      "id": "7ca0ccd5",
+      "fitness": 1.0105261052673684,
+      "generation": 2
+    },
+    {
+      "id": "4f7918cf",
+      "fitness": 1.0,
+      "generation": 2
+    },
+    {
+      "id": "4f7918cf",
+      "fitness": 1.0,
+      "generation": 2
+    },
+    {
+      "id": "052c0e49",
+      "fitness": 0.9896904134401421,
+      "generation": 2
+    }
+  ]
+}

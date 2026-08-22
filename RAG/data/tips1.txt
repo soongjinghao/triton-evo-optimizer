@@ -1,0 +1,394 @@
+# Triton / Ascend 算子优化 Evidence-Based RAG 知识库 V2
+
+> 本文件面向 `_get_rag_code_analysis()` 输出的瓶颈短语进行检索。
+> 正向 ACTION 必须结合“必须前提 / 禁用条件”；`ACTION_GUARD_*` 是正确性与适用条件护栏。
+> 正式平台证据优先级高于单 testcase / 本地单次实测；出现隐藏 testcase correctness/runtime 失败时，应优先沉淀为 Guard/反证据，而不是继续放大激进 Positive。
+> `ACTION_QUERY_VOCABULARY_ALIGNMENT` 与 `ACTION_RETRIEVE_POSITIVE_WITH_GUARD` 是系统治理规则，保留在文本中供维护，但 `kb_cli.py` 构建业务索引时应继续跳过它们。
+
+---
+
+## 1. 规约 / 量化类
+
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+#### ⚛️ `ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`：行级规约按 n_cols 建立整行 / 分块 Fast Path
+
+* **检索锚点**：行级全宽规约, RMSNorm, Softmax, LogSoftmax, n_cols动态, 非2次幂列数, 尾块mask, 完整规约域, 持久化多行循环, Vector规约占比高。
+* **Profiling 锚点**：Vector 主瓶颈；MTE2 读流量来自同一行多趟扫描。
+* **结构判据**：每个 row 独立，核心是 `max/sum/sumsq` 规约；不同 testcase 的 n_cols 跨小/中/大尺寸。
+* **优化动作**：小中 n_cols 用 `next_power_of_2(n_cols)` 整行一次 load+reduce；大 n_cols 用中等 BLOCK 分块；对整除/full tile 单独走无 mask fast path。
+* **必须前提**：整行 tile 可放入寄存器/UB；完整规约域不能截断；局部逻辑宽度必须有独立 mask 证明。
+* **禁用条件**：超大 n_cols 强行整行驻留；为了去 mask 漏算尾元素；只使用 flatten 后总长度 mask 代替局部 Row/Head/Group 边界。
+* **正式平台证据**：`_rms_norm_kernel` 正式 `avg=2.00`；`_log_softmax_kernel` 正式 `avg=1.10, min=0.97, max=1.27`。
+* **可信度**：A(RMSNorm), B(LogSoftmax)。
+
+#### ⚛️ `ACTION_RSQRT_FUSION`：sqrt + reciprocal 合并
+
+* **检索锚点**：sqrt/rsqrt, 1/sqrt级联, 向量除法, Vector超越函数占比高, RMSNorm归一化。
+* **Profiling 锚点**：Vector 向量主瓶颈；超越函数/除法链较长。
+* **结构判据**：存在 `rms = tl.sqrt(x)` 后 `1.0/rms`，或等价倒平方根模式。
+* **优化动作**：在 Ascend backend 已验证可用时使用 `tl.math.rsqrt(x)` 合并两步。
+* **必须前提**：数值误差满足要求，backend intrinsic 已通过 testcase。
+* **禁用条件**：未经目标后端验证的新 intrinsic 不直接替换。
+* **正式平台证据**：`_rms_norm_kernel` 高分版本共同采用 rsqrt，正式 `avg=2.00`。
+* **可信度**：A。
+
+#### ⚛️ `ACTION_SMALL_K_STREAMING_OUTER_PRODUCT`：小 K 累加改为流式 Outer Product
+
+* **检索锚点**：小K矩阵累加, chunk_size较小, tl.dot小矩阵, 二维tile构造, K维循环, Vector计算占比高, 动态stride地址计算。
+* **Profiling 锚点**：Vector/Scalar 同时偏高；小矩阵 `tl.dot` 数据整理与地址计算成本突出。
+* **结构判据**：计算形如 `sum_k x[:,k] * b[k,:]`，K/chunk 很小，原版构造二维 K tile 后调用 `tl.dot`。
+* **优化动作**：沿 K 流式 load `x_vec` 与 `b_vec`，执行 `acc += x_vec[:,None] * b_vec[None,:]`，指针增量推进。
+* **必须前提**：K 小、M/N tile 可控；不是标准大 GEMM。
+* **禁用条件**：大 K 或矩阵核能充分利用时保留 `tl.dot`。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 正式 `avg=2.00`。
+* **可信度**：A。
+
+#### ⚛️ `ACTION_VALUE_DEPENDENT_MASK_ELISION`：数学零贡献时移除值相关访存 Mask
+
+* **检索锚点**：value-dependent mask, nonzero mask, sparse mask, k!=0, 稀疏乘法, conditional gather, 数据相关mask, 零值贡献。
+* **Profiling 锚点**：Vector/Scalar mask 生成开销较高；值相关稀疏 mask 未明显降低 MTE 流量。
+* **结构判据**：load 地址本身合法；额外 mask 只由已经加载的数据值决定；mask=False 时该元素对最终数学结果严格贡献为零。
+* **优化动作**：仅删除 value-dependent mask，继续保留 boundary/shape mask；对合法地址执行 dense load，再通过零值乘法等数学运算自然消除贡献。
+* **必须前提**：
+  - 被删除的不是越界/边界 mask。
+  - 所有新增 load 地址均合法。
+  - mask=False 对应的数学贡献严格为零。
+  - NaN/Inf/未初始化内存等特殊值语义可证明不改变结果。
+* **禁用条件**：
+  - mask 同时承担边界安全职责。
+  - 被屏蔽地址本身非法。
+  - 零乘非法/NaN 值可能改变结果。
+  - load/store 本身具有副作用或原地依赖。
+* **正式平台证据**：`rwkv_mm_sparsity_kernel` 正式 `avg=1.86, min=1.76, max=2.00`，未在正式失败任务中出现该 kernel 的 accuracy/runtime failure。
+* **可信度**：B（单一 kernel family，已通过正式多 testcase 验证）。
+
+---
+
+## 2. 网格 / 任务粒度类
+
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+#### ⚛️ `ACTION_INDEPENDENT_AXIS_PACKING`：独立 Head / Row / Group 向量化打包
+
+* **检索锚点**：Head独立规约, Row独立规约, Group独立规约, 单head program过小, Token/Group/Head打包, 二维grid, 可共享另一维arange。
+* **Profiling 锚点**：launch-bound 或 MTE 共享参数重复读取。
+* **结构判据**：head/row/group 间逻辑独立且 store 地址不冲突，每个独立域单独 program 太轻。
+* **优化动作**：增加 `BLOCK_H/BLOCK_M/GROUPS_PER_BLOCK`，把独立轴加入向量维，一次 program 同时处理多个独立域。
+* **必须前提**：二维寄存器 tensor 可控；不混合独立规约域；局部域 mask 正确；wrapper launch contract 可证明。
+* **禁用条件**：打包导致 tile 面积爆炸；不同域存在依赖/原子冲突；使用全局 flatten mask 误覆盖下一个逻辑域。
+* **正式平台证据**：`_correct_attn_cp_out_kernel` 正式 `avg=1.79`。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_TILE_AREA_BUDGET`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：A。
+
+#### ⚛️ `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP`：单 Program 串行循环过长时扩展 Grid
+
+* **检索锚点**：单program长串行循环, grid覆盖维度不足, Token/Sequence串行循环, 持久化循环过长, program数量偏少, Scalar循环控制占比高。
+* **Profiling 锚点**：Scalar 比例偏高，且必须有证据证明循环真实执行多次并形成单 program latency。
+* **结构判据**：循环迭代之间独立，grid 当前没有覆盖该独立维；每个 program 内循环确实较长，而不是 `tl.cdiv(..., BLOCK)` 后实际只有一次迭代。
+* **优化动作**：在 wrapper launch contract 允许时，把独立循环维映射到已有/新增 PID，使 program 数增加，缩短单 program 串行工作。
+* **必须前提**：
+  - 必须证明实际迭代次数 > 1 且足够长。
+  - 新增 program 工作量不能小到 launch-bound。
+  - 输出映射完整唯一、无写冲突。
+  - wrapper/test 的真实 grid rank 与 axis 语义允许对应变换。
+  - 若引入 atomic/reduction，必须额外证明并行语义等价。
+* **禁用条件**：
+  - 原本就是海量微小 program。
+  - 仅因代码中出现 `for/range` 就判定为“长循环”。
+  - wrapper grid 不变却凭空使用新的 `program_id(axis)`。
+  - 通过 atomic 重构语义但未证明初始化与累计次数。
+* **正式反证据**：`moe_align_block_size_stage` 的激进并行重构在本地获得很高收益，但正式平台多个版本/多 testcase 出现系统性 runtime error；由于候选同时改变 grid/atomic/阶段结构，不能把失败单独归因于 Grid Expansion，但该案例证明此 ACTION 必须联动 Launch/Atomic/Backend Guard。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_ATOMIC_REDUCTION_EQUIVALENCE`。
+* **可信度**：C（条件性候选，等待更干净的正式独立正证据）。
+
+---
+
+## 3. 访存 / 布局 / 地址计算类
+
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+#### ⚛️ `ACTION_INVARIANT_LOAD_HOIST`：公共 Weight / Scale / Metadata 片上复用
+
+* **检索锚点**：不变量加载, weight重复加载, scale重复加载, 循环内公共参数load, 持久化多行循环, MTE2读访存占比高。
+* **Profiling 锚点**：MTE2 读访存主瓶颈。
+* **结构判据**：循环/多行处理中某个 vector/scalar 参数与迭代行无关，却每次从 global memory 重读。
+* **优化动作**：进入循环前 load 一次并寄存器复用；必要时配合少量 row packing 摊薄 load。
+* **必须前提**：公共参数片上驻留成本可控。
+* **禁用条件**：参数本身随迭代变化；预加载过大导致 spilling。
+* **正式平台证据**：RMSNorm 的 weight hoist + 多 rows/program 出现在正式 2x 方案。
+* **可信度**：A（组合证据）。
+
+#### ⚛️ `ACTION_ALIGNED_MASKLESS_FASTPATH`：完整覆盖且证明充分时的无 Mask Fast Path
+
+* **检索锚点**：尾块mask, 完整覆盖, full tile, n_cols整除, chunk完整, mask可证明冗余, 非2次幂逻辑组, 无效Token, alignment证明。
+* **Profiling 锚点**：Vector/Scalar predicate 开销；MTE 搬运存在谓词。
+* **结构判据**：某些 shape 可以从 `n % BLOCK == 0 / chunk完整 / grid边界` 严格证明 load/store 不越界。
+* **优化动作**：wrapper 或 constexpr 分支选择独立 unmasked kernel/path；通用尾块继续使用 mask。
+* **必须前提**：边界完整性、局部逻辑域与对齐条件逐项可证明。
+* **禁用条件**：证明不足时绝不删 mask；contiguous 不等于任意动态行首对齐；全局 tensor 边界不能代替 Head/Group/Row 局部域边界。
+* **正式平台证据**：`_chunk_cumsum_fwd_kernel` aligned/full path 正式 `avg=2.00`；RMSNorm full-row path 同样高分。
+* **强制联动 Guard**：`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_MASK_COVERAGE_PROOF`。
+* **可信度**：A。
+
+#### ⚛️ `ACTION_TILE_AREA_BUDGET`：按片上容量预算二维 Tile
+
+* **检索锚点**：BLOCK过大, tile面积过大, UB/寄存器压力, chunk_size动态, n_cols动态, occupancy下降, BLOCK_SIZE微调, 片上资源不匹配, hidden shape, 大shape runtime。
+* **Profiling 锚点**：各管线利用率不高但性能差；可能是 occupancy/资源受限。
+* **结构判据**：tile 元素量约为 `BLOCK_H*chunk_size`、`ROWS*n_cols`、`BLOCK_M*BLOCK_N` 等，shape 变化时固定 BLOCK 导致资源压力剧烈变化。
+* **优化动作**：设定经验/实测 MAX_ELEMS，根据另一维反推本维 BLOCK，并限制 `next_power_of_2` 后的 tile 面积；必要时为大 shape 自动降低 rows/head/group packing。
+* **必须前提**：预算来自目标 NPU 实测或资源约束；不能只基于公开单 testcase。
+* **禁用条件**：不要把某个算子的 MAX_ELEMS 常数机械复制给所有未知算子；不要为了减少 grid 使二维 tile 面积在隐藏 shape 下爆炸。
+* **正式平台正证据**：`_chunk_cumsum_fwd_kernel` 动态 head tile budget 参与正式 `avg=2.00` 方案。
+* **正式平台反证据**：`layer_norm_fwd_kernel` 的部分候选在大 testcase 出现 runtime error，而带有 shape-aware 资源上限的版本未出现同类模式，说明大 shape 资源上限必须显式约束。
+* **可信度**：A（组合证据）。
+
+---
+
+## 4. 算术 / 编译期专化类
+
+#### ⚛️ `ACTION_CONSTEXPR_MODE_SPECIALIZATION`：Shape / Stride / Mode 编译期特化
+
+* **检索锚点**：动态shape, 动态stride, constexpr机会, 编译期分支, HAS_*模式, full tile模式, 重复标量地址计算, Scalar标量占比高。
+* **Profiling 锚点**：Scalar 主瓶颈；分支和地址生成开销高。
+* **结构判据**：n_cols/chunk_size/stride/布尔模式在一次 kernel 编译实例内固定，但仍作为运行时变量参与地址和分支。
+* **优化动作**：将真实稳定参数设为 `tl.constexpr`，派生 `IS_FULL_TILE/NEEDS_MASK/HAS_*` 等编译期 flag，删除不可达逻辑。
+* **必须前提**：稳定性来自 wrapper/API 契约，而不是单个公开 testcase；shape/stride 组合数量可控。
+* **禁用条件**：高度动态 workload 中过度 constexpr 导致编译/缓存爆炸；把公开 testcase 的特定 shape/stride 当作全局契约硬编码。
+* **正式平台证据**：`_state_passing_fwd_kernel` 正式 `avg=1.48, min=0.43, max=2.00`，说明收益高度 shape-dependent。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：B。
+
+#### ⚛️ `ACTION_RECIPROCAL_MUL_WHEN_SAFE`：向量除法改乘倒数
+
+* **检索锚点**：向量除法, x/scale, Vector算术受限, FP8 scale, GroupQuant scale, reciprocal, 标量scale广播。
+* **Profiling 锚点**：Vector 向量占比高。
+* **结构判据**：同一个标量/每组标量 scale 被多个向量元素用于除法。
+* **优化动作**：先计算标量/组级 `inv_scale = 1.0 / scale`，随后向量乘 `x * inv_scale`；静态常数倒数可 constexpr 预计算。
+* **必须前提**：特殊值、零分母与误差语义一致。
+* **禁用条件**：不要使用未经 Ascend backend 验证的 `tl.math.rcp` 等 intrinsic。
+* **正式平台反证据**：`_quantize_k_cache_fast_kernel` 某候选使用未经验证的 reciprocal intrinsic 后多个 testcase runtime error；因此“数学等价”不代表“后端可执行”。
+* **强制联动 Guard**：`ACTION_GUARD_BACKEND_INTRINSIC`。
+* **可信度**：B。
+
+---
+
+## 5. 安全护栏 / 反知识
+
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_ALIAS_INPLACE_SEMANTICS`：原地更新必须保留 Alias / 读写顺序语义
+
+* **检索锚点**：in-place copy, cache relocation, cache update, src/tgt alias, 原地写, scatter copy, KV cache, overwrite hazard。
+* **核心规则**：当输入和输出可能指向同一底层存储时，数学结果相同不意味着访存顺序等价。优化必须保持原实现要求的 read-before-write 关系。
+* **必须检查**：
+  - src/tgt 是否可能 alias。
+  - 某次 store 是否可能覆盖后续尚未 load 的 source。
+  - wrapper 是否依赖传入 tensor 被原地修改，而不是返回一个新 tensor。
+* **严禁模式**：
+  - 将“全部 source load 后统一 store”改为 `load one -> store one`，却没有证明 src/tgt 不重叠。
+  - 创建新 tensor 代替调用者期待被修改的 cache tensor。
+  - 为减少临时值而破坏原有 copy/relocation 顺序。
+* **风险案例**：KV-cache relocation/copy 类 kernel 对 alias 极其敏感；正式平台中 `copy_all_layer_kv_cache_tiled` 出现大量 accuracy failure，因此任何改变读写覆盖关系的重构都必须先满足本 Guard。该正式失败不能单独归因于 alias，但足以作为高风险条件。
+* **可信度**：Guard/B+。
+
+#### ⚛️ `ACTION_GUARD_ATOMIC_REDUCTION_EQUIVALENCE`：Atomic 并行化必须证明 Reduction 语义等价
+
+* **检索锚点**：atomic_add, atomic_max, histogram, count, expert计数, 多program累加, reduction并行化, grid expand, scatter reduction。
+* **核心规则**：把串行/单 program reduction 改为多 program + atomic 时，必须同时证明输出初始化、累计次数、索引唯一性、dtype/backend 支持与数值语义。
+* **必须证明**：
+  - 输出 buffer 在 atomic 前具有正确初值。
+  - 每个输入贡献恰好累计一次。
+  - 不会因 grid 重映射造成重复累计或遗漏。
+  - atomic dtype / 地址模式在 Ascend Triton 已验证。
+  - 若原算法有确定顺序或特殊精度要求，atomic 重排不会破坏精度/语义。
+* **严禁模式**：
+  - 仅因“可并行”就从直接 store 改成 atomic。
+  - wrapper 未清零输出却假设 atomic 从 0 开始。
+  - arbitrary gather 地址上同时叠加未经证明的 alignment hint。
+* **正式风险证据**：`_count_expert_num_tokens` 的部分二维分块/atomic 候选在 tc1~tc3 出现 accuracy failure；这些候选同时包含其他高风险改动，因此不能把失败单独归因于 atomic，但 atomic 重构必须作为强制检查项。
+* **可信度**：Guard/B+。
+
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_DTYPE_VIEW_STRIDE`：不同 dtype / subview 的 stride 不可复用
+
+* **检索锚点**：多dtype view, fp8/fp32/bf16混合, 动态stride, subview, scale区域, rope区域, 地址偏移。
+* **核心规则**：stride 单位是当前 view 的“元素”；dtype/view 改变后必须分别获取并传递 `.stride()`。来自同一底层 tensor 不代表不同 view 的元素 stride 相同。
+* **严禁模式**：使用 q-view 的 `stride_0` 构造 fp32 scale view 或 bf16 rope view 的 row offset。
+* **正式失败证据**：`_dequantize_k_cache_fast_kernel_v3` 将 q view 的行 stride 复用于 fp32 scale / bf16 rope，三个 testcase 全部 accuracy fail。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_NO_OVERFETCH`：删除循环不能靠读取整个 Capacity
+
+* **检索锚点**：去循环, 一次性大BLOCK加载, num_valid小于capacity, block_table_stride, MTE2读访存受限, 无效元素over-fetch。
+* **核心规则**：如果 `capacity >> valid_length`，为了删除短循环而读取整个 capacity 会放大 HBM/MTE2 流量。
+* **严禁模式**：只为了“单次 load/store”把有效域扩成整个 capacity；用超大 BLOCK 覆盖大量永远无效元素。
+* **正式失败证据**：`_copy_page_indices_kernel` 读取范围从 `num_blocks` 扩成更大 capacity 后，正式 `avg=0.22, min=0.18, max=0.28`。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_POWER_OF_TWO_BITWISE`：位运算替代 // % 必须证明 divisor 为 2 次幂
+
+* **检索锚点**：整数除法取模, PAGE_SIZE, //与%, 标量地址计算, bitwise寻址, 动态page size, Scalar标量占比高。
+* **核心规则**：只有当前编译实例已证明 divisor 是 2^n 时，才能使用 `>> SHIFT` 与 `& MASK`；SHIFT/MASK 必须由参数推导，禁止从 testcase 硬编码。
+* **正式失败证据**：`_set_k_and_s_triton_kernel` 某些候选硬编码位移/掩码后在隐藏 testcase 出现 accuracy failure；该 kernel 正式 `avg=0.09, min=0.07, max=0.12`。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`：Random Gather 不宜过度扩大单 Program Tile
+
+* **检索锚点**：间接索引, random gather, block_table, token_indices, 大BLOCK, occupancy不足, MTE2读延迟, 单program工作量过大。
+* **核心规则**：random gather 依赖更多并发 program 隐藏访存延迟；不要仅为减少 grid 把 BLOCK 从百级扩大到千级。
+* **正式失败证据**：`_convert_req_index_to_global_index_kernel` 将 random-gather 单 program tile 过度扩大，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_BACKEND_INTRINSIC`：数学等价 / 高阶构造必须验证 Ascend Triton 支持
+
+* **检索锚点**：tl.math intrinsic, reciprocal intrinsic, exp2/log2, backend支持, runtime error, Vector算术优化, backend-specific api。
+* **核心规则**：数学等价不等于目标后端可编译/可运行；新 intrinsic / 高阶构造必须先通过最小 testcase 与目标 Ascend Triton 版本验证。
+* **严禁模式**：
+  - 未验证就使用 `tl.math.rcp`、新数学 intrinsic 或后端不稳定关键字参数。
+  - 为追求语法简洁引入当前后端未验证的复杂 tensor helper。
+* **正式失败证据**：`_quantize_k_cache_fast_kernel` 某候选使用未经验证的 reciprocal intrinsic 后多个 testcase runtime error，而其他版本未出现同类 runtime failure。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_TINY_KERNEL_AUTOTUNE`：极短 Kernel 不把 Autotune 当核心优化
+
+* **检索锚点**：极短内核, Profiling计数器未捕获, 单program元素量小, num_warps/num_stages, autotune多配置, Launch调度开销。
+* **核心规则**：1~3us 级简单 load/store/index kernel 优先低风险地址简化、参数离线选择与结构证明，不要堆大量在线 autotune config。
+* **反证据**：`_set_k_and_s_triton_kernel` 正式 `avg=0.09`；`_copy_page_indices_kernel` 正式 `avg=0.22`。这些 tiny kernel 的主要问题并不因扩大 autotune 搜索而自然解决。
+* **可信度**：Guard/A。
+
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+#### ⚛️ `ACTION_QUERY_VOCABULARY_ALIGNMENT`：知识块与瓶颈输出共用词汇体系
+
+* **检索锚点**：行级全宽规约, GroupQuant, FP8 Clamp, UE8M0 scale, 海量微小program, 持久化多行循环, 二维grid, Token/Group/Head打包, 尾块mask, 动态stride, 间接索引, 向量除法, sqrt/rsqrt, exp/log, Scalar标量, Vector向量, MTE2读, MTE3写, program_id, launch contract, alias, atomic。
+* **核心规则**：知识条目的“检索锚点”必须优先使用 `_get_rag_code_analysis()` Prompt 会输出的词；优化动作名称和代码细节放在锚点之后，避免 embedding 被动作术语稀释。
+* **推荐做法**：每条 ACTION 保持 8~20 个高相关锚点，包含结构词 + Profiling 管线词 + 常见同义词；不要塞入与该动作弱相关的所有术语。
+* **可信度**：系统级规则。
+
+#### ⚛️ `ACTION_RETRIEVE_POSITIVE_WITH_GUARD`：激进动作与 Guard 配对召回
+
+* **检索锚点**：alignment未证明, mask证明不足, dynamic stride, bitwise寻址, random gather, 大BLOCK, backend intrinsic, program_id, grid重映射, atomic, in-place alias。
+* **核心规则**：命中 Mask Removal / Alignment / Stride Strip / Bitwise / Grid Transform / Intrinsic / Atomic / In-place Rewrite 等高风险动作时，必须同时召回对应 Guard。
+* **强制配对建议**：
+  - `GRID_CONSOLIDATE / GRID_EXPAND / AXIS_PACKING` → `GUARD_GRID_DIRECTION_CONTEXTUAL + GUARD_LAUNCH_CONTRACT`
+  - `MASKLESS / FULL_TILE` → `GUARD_MASK_COVERAGE_PROOF + GUARD_ALIGNMENT_PROOF`
+  - `STRIDE_STRIP / VIEW_REWRITE` → `GUARD_DTYPE_VIEW_STRIDE`
+  - `BITWISE_ADDRESSING` → `GUARD_POWER_OF_TWO_BITWISE`
+  - `RANDOM_GATHER + LARGE_TILE` → `GUARD_RANDOM_GATHER_OCCUPANCY`
+  - `NEW_INTRINSIC` → `GUARD_BACKEND_INTRINSIC`
+  - `ATOMIC_PARALLELIZATION` → `GUARD_ATOMIC_REDUCTION_EQUIVALENCE`
+  - `CACHE/COPY/INPLACE_REWRITE` → `GUARD_ALIAS_INPLACE_SEMANTICS`
+* **原因**：正式平台 750 个任务中成功 667、失败 83；大量失败来自隐藏 testcase 下的 correctness、runtime、launch/layout/backend contract，而不是优化方向本身完全没有潜力。
+* **可信度**：系统级规则。
