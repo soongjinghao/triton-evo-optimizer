@@ -1,7 +1,7 @@
-<div align="center" style="display:flex; justify-content:center; align-items:center; gap:16px;">
-  <img src="assets/school_logo.png" alt="西北大学校徽" width="120" style="vertical-align:middle;"/>
-  <img src="assets/school_name.png" alt="西北大学" width="420" style="vertical-align:middle;"/>
-</div>
+<p align="center">
+  <img src="assets/school_logo.png" alt="西北大学校徽" height="100"/>
+  <img src="assets/school_name.png" alt="西北大学" height="100"/>
+</p>
 
 ---
 
