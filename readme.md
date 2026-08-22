@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="assets/school_logo.png" alt="西北大学校徽" height="200"/>
-  <img src="assets/school_name.png" alt="西北大学" height="200"/>
+  <img src="assets/school_logo.png" alt="西北大学校徽" height="160"/>
+  <img src="assets/school_name.png" alt="西北大学" height="160"/>
 </p>
 
 ---
