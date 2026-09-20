@@ -36,12 +36,12 @@ class EAConfig:
 
     # ==================== Large Model Configuration (Key) ====================
     # 仅配置两类模型：Flash 用于快速分析，Pro 用于复杂生成和代码修复
-    flash_model: str = os.getenv("ENGINE_FLASH", "deepseek-v4-flash-260425")
-    pro_model: str = os.getenv("ENGINE_PRO", "deepseek-v4-pro-260425")
+    flash_model: str = os.getenv("ENGINE_FLASH", "deepseek-v4-flash-ga-260731")
+    pro_model: str = os.getenv("ENGINE_PRO", "deepseek-v4-pro-ga-260813")
 
     llm_models: List[str] = field(default_factory=lambda: [
-        os.getenv("ENGINE_FLASH", "deepseek-v4-flash-260425"),
-        os.getenv("ENGINE_PRO", "deepseek-v4-pro-260425")
+        os.getenv("ENGINE_FLASH", "deepseek-v4-flash-ga-260731"),
+        os.getenv("ENGINE_PRO", "deepseek-v4-pro-ga-260813")
     ])
 
     # LLM generation parameters

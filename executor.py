@@ -7,6 +7,7 @@ High-Throughput Thread-Safe & Isolated Version
 
 import os
 import re
+import sys
 import json
 import subprocess
 import csv
@@ -144,6 +145,10 @@ class TritonExecutor:
 
         test_script_abs = str(test_file.resolve())
 
+        # 用当前解释器跑测试脚本，确保 torch/triton 可用
+        # （直接写 `python3` 可能命中系统 python3，没装 torch）
+        python_bin = sys.executable or "python3"
+
         # 构建子进程独立的环境变量，彻底消除线程间对 ASCEND_DEVICE_ID 的锁竞争
         custom_env = os.environ.copy()
         custom_env['ASCEND_DEVICE_ID'] = str(device_id)
@@ -154,7 +159,7 @@ class TritonExecutor:
         cmd_str = (
             f'msprof op '
             f'--output={result_dir} '
-            f'--application="python3 {test_script_abs}" '
+            f'--application="{python_bin} {test_script_abs}" '
             f'--kernel-name="{self.kernel_name}" '
             f'--aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline'
         )
