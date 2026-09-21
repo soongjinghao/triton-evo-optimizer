@@ -1,0 +1,23 @@
+{
+  "kernel": "matmul_kernel_simplified",
+  "t_base_us": 2.720109,
+  "t_seed_us": 2.720109,
+  "seed_similarity": 0.6538597109622841,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "matmul_kernel_simplified.py": {
+      "path": "/workspace/Agent/datasets/matmul_kernel_simplified/matmul_kernel_simplified.py",
+      "latency_us": 2.720109,
+      "success": true,
+      "error": null
+    },
+    "matmul_kernel_simplified_1.py": {
+      "path": "/workspace/Agent/datasets/matmul_kernel_simplified/matmul_kernel_simplified_1.py",
+      "latency_us": 2.74011,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-20T16:08:32"
+}

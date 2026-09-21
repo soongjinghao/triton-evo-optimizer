@@ -1,0 +1,80 @@
+{
+  "task": "任务1 环境连通性验证",
+  "created_at": "2026-09-21T01:54:06",
+  "python": "/usr/local/python3.11.15/bin/python3.11",
+  "cwd": "/workspace/Agent",
+  "checks": {
+    "llm": {
+      "api_url": "https://ark.cn-beijing.volces.com/api/v3",
+      "api_key": "ark-13d1***",
+      "models": {
+        "flash": {
+          "model": "deepseek-v4-flash-ga-260731",
+          "ok": true,
+          "latency_s": 1.84,
+          "prompt_tokens": 13,
+          "completion_tokens": 45,
+          "reply_chars": 31,
+          "reply": "def add(a, b):     return a + b"
+        },
+        "pro": {
+          "model": "deepseek-v4-pro-ga-260813",
+          "ok": true,
+          "latency_s": 2.29,
+          "prompt_tokens": 13,
+          "completion_tokens": 68,
+          "reply_chars": 31,
+          "reply": "def add(a, b):     return a + b"
+        }
+      },
+      "ok": true
+    },
+    "rag": {
+      "ok": true,
+      "load_seconds": 8.2,
+      "index_ntotal": 27,
+      "action_docs": 27,
+      "embedding_model": "BAAI/bge-small-zh-v1.5",
+      "query": "MTE2读访存主瓶颈, 行级全宽规约, 尾块mask, group_size较小",
+      "normalized_query": "MTE2读访存主瓶颈, 行级全宽规约, 尾块mask, group_size较小",
+      "broad_recall": 10,
+      "positives": [
+        "ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION",
+        "ACTION_GROUP_PACK_RESHAPE_REDUCE"
+      ],
+      "blocked": [
+        "ACTION_INVARIANT_LOAD_HOIST",
+        "ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS",
+        "ACTION_INDEPENDENT_AXIS_PACKING",
+        "ACTION_TILE_AREA_BUDGET"
+      ],
+      "guards": [
+        "ACTION_GUARD_MASK_COVERAGE_PROOF",
+        "ACTION_GUARD_NO_OVERFETCH",
+        "ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL"
+      ],
+      "candidate_pack_chars": 4627
+    },
+    "msprof": {
+      "kernel": "matmul_kernel_simplified",
+      "device_id": 0,
+      "ok": true,
+      "msprof": "/usr/local/Ascend/cann-9.0.0/bin/msprof",
+      "msprof_version": "cann-9.0.0",
+      "baseline_json": "./baseline/baseline.json",
+      "baseline_time_us": 2.44,
+      "test_file": "/workspace/Agent/datasets/matmul_kernel_simplified/test_matmul_kernel_simplified_1.py",
+      "code_chars": 6333,
+      "samples_us": [
+        2.68,
+        2.58,
+        2.6
+      ],
+      "repeats": 3,
+      "error": null,
+      "elapsed_s": 48.6,
+      "latency_us": 2.6
+    }
+  },
+  "all_ok": true
+}
