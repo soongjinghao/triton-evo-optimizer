@@ -368,6 +368,7 @@ class TritonKnowledgeNode:
         broad_top_k: int = 10,
         positive_top_k: int = 3,
         guard_top_k: int = 3,
+        retrieval_mode: str = "hybrid",   # hybrid=混合重排+Guard | semantic=普通语义Top-k
     ):
         self.knowledge_dir = self._resolve_knowledge_dir(knowledge_dir)
         self.embedding_model = embedding_model
@@ -376,6 +377,7 @@ class TritonKnowledgeNode:
         self.broad_top_k = max(5, int(broad_top_k))
         self.positive_top_k = max(1, int(positive_top_k))
         self.guard_top_k = max(1, int(guard_top_k))
+        self.retrieval_mode = retrieval_mode
 
         self.action_docs: Dict[str, object] = {}
 
@@ -665,12 +667,16 @@ class TritonKnowledgeNode:
             category = str(doc.metadata.get("category", "generic"))
             confidence = str(doc.metadata.get("confidence", "Unknown"))
 
-            final = (
-                0.62 * semantic
-                + 0.30 * lexical
-                + CATEGORY_BONUS.get(category, 0.0)
-                + self._confidence_bonus(confidence)
-            )
+            if self.retrieval_mode == "semantic":
+                # 普通语义 Top-k：仅按向量语义相似度排序，不引入词法/类别重排
+                final = semantic
+            else:
+                final = (
+                    0.62 * semantic
+                    + 0.30 * lexical
+                    + CATEGORY_BONUS.get(category, 0.0)
+                    + self._confidence_bonus(confidence)
+                )
 
             ranked.append(
                 {
@@ -728,6 +734,8 @@ class TritonKnowledgeNode:
         code: Optional[str],
         positives: Sequence[Dict[str, object]],
     ) -> Set[str]:
+        if self.retrieval_mode == "semantic":
+            return set()   # 普通语义 Top-k 不带 Guard 确定性联动
         forced: Set[str] = set()
         query_key = self._text_key(normalized_query)
         code_text = (code or "").casefold()

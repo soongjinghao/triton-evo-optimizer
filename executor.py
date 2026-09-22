@@ -311,3 +311,34 @@ class TritonExecutor:
             fitness=fitness,
             error=None
         )
+
+    def measure_repeat(self, code: str, repeats: int = 5, device_id: int = 0,
+                       timeout: int = 600) -> EvaluationResult:
+        """串行、单设备重复测量，取中位数作为协议化延迟（阶段 A/C 专用）。
+
+        与搜索过程中的 evaluate 使用完全相同的 msprof 命令与计时口径，
+        仅增加重复次数以抑制短 Kernel 的测量抖动。
+        """
+        samples = []
+        last_err = None
+        for _ in range(max(1, repeats)):
+            res = self.evaluate(code, timeout=timeout, device_id=device_id)
+            if res.success and res.execution_time > 0:
+                samples.append(res.execution_time)
+            else:
+                last_err = res.error or "measurement failed"
+
+        if not samples:
+            return EvaluationResult(False, 0.0, 0.0, 0.0, error=last_err)
+
+        samples.sort()
+        median = samples[len(samples) // 2] if len(samples) % 2 else \
+            (samples[len(samples) // 2 - 1] + samples[len(samples) // 2]) / 2
+
+        return EvaluationResult(
+            success=True,
+            execution_time=median,
+            speedup=self.baseline_time / median if median > 0 else 0.0,
+            fitness=0.0,
+            error=None
+        )

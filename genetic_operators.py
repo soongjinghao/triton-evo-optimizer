@@ -73,7 +73,10 @@ class GeneticOperators:
         """初始化遗传算子，绑定 LLM 接口、配置和 RAG 知识库节点"""
         self.llm = llm
         self.config = config
-        self.knowledge_node = TritonKnowledgeNode(knowledge_dir="RAG/knowledge")
+        self.knowledge_node = TritonKnowledgeNode(
+            knowledge_dir="RAG/knowledge",
+            retrieval_mode=getattr(config, "rag_mode", "hybrid"),
+        )
         self.total_prompt_tokens = 0
         self.total_completion_tokens = 0
         self._lock = threading.Lock()
@@ -323,14 +326,19 @@ class GeneticOperators:
         """分析内核代码，结合代码感知 RAG 生成多个互补优化方向"""
         compressed_seed = self._compress_code_for_prompt(seed_codes[0])
         seed_prompt = f"```python\n{self._escape_code_for_prompt(compressed_seed)}\n```"
-        code_features_for_rag = self._get_rag_code_analysis(compressed_seed, profiling_context)
+        # RAG 开关：关闭时不调用知识库，也不消耗事实提取的 LLM 预算
+        if getattr(self.config, 'enable_rag', True):
+            code_features_for_rag = self._get_rag_code_analysis(compressed_seed, profiling_context)
 
-        # 新版 KnowledgeNode 会同时利用事实 Query 与真实代码结构做过滤；
-        # Positive ACTION 可以为 0，此时 Planner 进入 evidence-only 模式。
-        retrieved_hardware_rules = self.knowledge_node.execute(
-            code_features_for_rag,
-            code=compressed_seed,
-        )
+            # 新版 KnowledgeNode 会同时利用事实 Query 与真实代码结构做过滤；
+            # Positive ACTION 可以为 0，此时 Planner 进入 evidence-only 模式。
+            retrieved_hardware_rules = self.knowledge_node.execute(
+                code_features_for_rag,
+                code=compressed_seed,
+            )
+        else:
+            code_features_for_rag = ""
+            retrieved_hardware_rules = "（本轮未启用 RAG 检索，请仅依据基线代码与 Profiling 证据设计策略）"
 
         # 只有 Candidate Pack 中显式的 [P1]/[P2]/... 才属于本轮真实 Positive ACTION。
         # Fallback 区域即使出现 ACTION 名称，也不能算作 RAG 正向命中。
@@ -445,6 +453,10 @@ class GeneticOperators:
         self, baseline_code: str, strategy_str: str, rag_rules_text: str = ""
     ) -> Individual:
         """根据指定策略蓝图，从基线代码生成初始个体"""
+        # B1：无证据引导的普通初始化（无 Profiling / 无 RAG / 无策略蓝图）
+        if not strategy_str:
+            return self._generate_plain_individual(baseline_code)
+
         self._switch_model_for_purpose('generation')
         ret_count = self._get_return_count_ast(baseline_code)
 
@@ -500,6 +512,41 @@ class GeneticOperators:
 
         return Individual(code=sanitized_code, generation=0, metadata=metadata, model_used=self.llm.current_model)
 
+    def _generate_plain_individual(self, baseline_code: str) -> Individual:
+        """无引导基线（B1）的第 0 代生成：不注入 Profiling、RAG 规则与策略蓝图，
+        仅以通用 Ascend 高性能规范直接改写基线代码。"""
+        self._switch_model_for_purpose('generation')
+        ret_count = self._get_return_count_ast(baseline_code)
+
+        prompt_parts = [
+            "你是华为 Ascend NPU 的 Triton 高性能内核专家。",
+            "【任务】请对【基线代码】进行性能优化重构，直接输出优化后的完整 Python 代码。",
+            "你可以自行判断该算子的性能瓶颈并选择优化方向，但没有额外的硬件 Profiling 数据和知识库建议可供参考。",
+            "",
+            f"🔒【绝对死线 - 接口与语义契约】：",
+            f"1. 外层 Wrapper 函数名、签名、参数默认值与返回值数量必须与基线一致（当前必须恰好返回 {ret_count} 个变量）。",
+            "2. 输出 shape、dtype、物理布局，以及量化边界、stride、有效 Token 等功能语义必须保持一致。",
+            "3. 所有逐元素、分组与规约计算必须覆盖完整逻辑输入域；禁止固定 BLOCK 截断剩余数据。",
+            "4. 若基线公开同名入口本身是 @triton.jit kernel，则生成后的同名入口必须继续保持 @triton.jit。",
+            "5. 保持 Python 严格缩进，直接输出 ```python 代码块。",
+            "",
+            f"```python\n{self._escape_code_for_prompt(self._compress_code_for_prompt(baseline_code))}\n```",
+            "请直接输出重构后的代码：",
+            "```python"
+        ]
+
+        metadata = {'operation': 'gen0_plain', 'applied_strategy': 'NONE'}
+        response = self.llm.generate("\n".join(prompt_parts), system_msg=self.SYSTEM_CODER,
+                                     purpose='initial', max_tokens=16888)
+        self._track_tokens(response, metadata)
+
+        sanitized_code, syntax_error = self._sanitize_code(response.text, original_code=baseline_code)
+        if syntax_error:
+            metadata['syntax_error'] = syntax_error
+
+        return Individual(code=sanitized_code, generation=0, metadata=metadata,
+                          model_used=self.llm.current_model)
+
     def mutate(self, individual: Individual) -> Individual:
         """对个体进行变异操作，支持超参调优、算术降级和结构重构三种变异类型"""
         if random.random() < 0.2 and hasattr(self.config, 'available_models') and len(self.config.available_models) > 1:
@@ -513,15 +560,26 @@ class GeneticOperators:
         ret_count = self._get_return_count_ast(individual.code)
         speedup = individual.metadata.get('speedup', 0.0)
 
-        if speedup > 2.5:
-            mutation_types = ['arithmetic_and_mask', 'param_tuning']
-            weights = [0.70, 0.30]
-        elif speedup > 1.5:
-            mutation_types = ['arithmetic_and_mask', 'param_tuning', 'structure_rewrite']
-            weights = [0.60, 0.30, 0.10]
-        else:
+        mode = getattr(self.config, 'mutation_mode', 'adaptive')
+        if mode == 'uniform':
+            # 均匀变异：三类等概率，不依赖父代实测性能
+            mutation_types = ['param_tuning', 'arithmetic_and_mask', 'structure_rewrite']
+            weights = [1 / 3, 1 / 3, 1 / 3]
+        elif mode == 'aggressive':
+            # 激进变异：以结构重写为主导
             mutation_types = ['structure_rewrite', 'arithmetic_and_mask', 'param_tuning']
-            weights = [0.50, 0.35, 0.15]
+            weights = [0.60, 0.25, 0.15]
+        else:
+            # adaptive：性能分级变异（默认）
+            if speedup > 2.5:
+                mutation_types = ['arithmetic_and_mask', 'param_tuning']
+                weights = [0.70, 0.30]
+            elif speedup > 1.5:
+                mutation_types = ['arithmetic_and_mask', 'param_tuning', 'structure_rewrite']
+                weights = [0.60, 0.30, 0.10]
+            else:
+                mutation_types = ['structure_rewrite', 'arithmetic_and_mask', 'param_tuning']
+                weights = [0.50, 0.35, 0.15]
 
         code_mutation_type = random.choices(mutation_types, weights=weights, k=1)[0]
         profiling_context = individual.metadata.get('profiling_context', '')
@@ -573,6 +631,7 @@ class GeneticOperators:
 
         metadata = {
             'parent': individual.id,
+            'parent_latency': individual.metadata.get('execution_time'),
             'operation': 'mutation',
             'mutation_type': code_mutation_type,
             'mutation_weights': dict(zip(mutation_types, weights))
@@ -613,14 +672,24 @@ class GeneticOperators:
         compressed_dom = self._compress_code_for_prompt(dominant.code)
         compressed_don = self._compress_code_for_prompt(donor.code)
 
+        if getattr(self.config, 'crossover_mode', 'protected') == 'unconstrained':
+            crossover_brief = [
+                "【任务】自由融合两个父代，尽量同时吸收两者的优势，生成更强的子代。",
+                "【无约束融合方式】：允许在一次交叉中同时重组 Grid、寻址、算术表达式、Mask 与 Launch 配置等多个部分，不限制为单个局部基因。",
+            ]
+        else:
+            crossover_brief = [
+                "【任务】以【主干父代】为物理骨架，从【供体父代】中识别并嫁接一个兼容、可验证的高效基因，生成更强的子代。",
+                "🔒【单基因兼容性交叉约束】:",
+                "1. 【主干优先】：完整继承主干父代的数学计算、Grid、指针偏移、Mask、输出布局和功能开关语义。",
+                "2. 【一次只移植一个基因】：优先选择一个明确差异，例如单个 Launch 参数组合、一个经证明的算术等价式、一个兼容的加载提示；不要同时混合 Grid、寻址、Mask 和超越函数。",
+                "3. 【前提验证】：只有供体基因的 shape、stride、对齐、规约域和 dtype 前提在主干中同样成立时才能移植。`tl.multiple_of`、Mask 删除和倒数代除都不能无条件复制。",
+                "4. 【Profiling 使用】：主干父代的 Profiling 决定当前瓶颈；供体 Profiling 只用于解释被移植基因，不得驱动无关重写。",
+            ]
+
         prompt_parts = [
             self.EXPERT_PREFIX,
-            "【任务】以【主干父代】为物理骨架，从【供体父代】中识别并嫁接一个兼容、可验证的高效基因，生成更强的子代。",
-            "🔒【单基因兼容性交叉约束】:",
-            "1. 【主干优先】：完整继承主干父代的数学计算、Grid、指针偏移、Mask、输出布局和功能开关语义。",
-            "2. 【一次只移植一个基因】：优先选择一个明确差异，例如单个 Launch 参数组合、一个经证明的算术等价式、一个兼容的加载提示；不要同时混合 Grid、寻址、Mask 和超越函数。",
-            "3. 【前提验证】：只有供体基因的 shape、stride、对齐、规约域和 dtype 前提在主干中同样成立时才能移植。`tl.multiple_of`、Mask 删除和倒数代除都不能无条件复制。",
-            "4. 【Profiling 使用】：主干父代的 Profiling 决定当前瓶颈；供体 Profiling 只用于解释被移植基因，不得驱动无关重写。",
+            *crossover_brief,
             f"5. 【契约一致】：外层 Wrapper 函数名、签名、输出 shape/dtype/layout 与返回值数量必须保持一致，当前返回数量为 {ret_count}。",
             "",
             f"### 【主干父代】(ID: {dominant.id} | 加速比: {dom_sp:.4f}x)",
@@ -638,6 +707,7 @@ class GeneticOperators:
         metadata = {
             'parents': [parent1.id, parent2.id],
             'dominant_parent': dominant.id,
+            'dominant_latency': dominant.metadata.get('execution_time'),
             'operation': 'crossover',
             'dominant_fitness': dominant.fitness,
             'donor_fitness': donor.fitness

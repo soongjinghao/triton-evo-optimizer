@@ -5,6 +5,8 @@ Evolutionary Algorithm Main Logic Module - High-Throughput & Unified Pipeline
 """
 
 import random
+import json
+import time
 import os
 import queue
 import csv
@@ -18,6 +20,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from config import EAConfig
 from genetic_operators import GeneticOperators, Individual
 from executor import TritonExecutor, EvaluationResult
+from experiments.common import ExpLogger, set_random_seed
 
 
 class EvolutionaryAlgorithm:
@@ -39,6 +42,13 @@ class EvolutionaryAlgorithm:
         self.stagnant_generations = 0
         self.last_best_fitness = 0.0
         self.seed_execution_time = 0.0
+
+        # 3.1 主实验：搜索预算计数与事件日志
+        self.eval_count = 0
+        self.gen0_snapshot: List[Individual] = []  # 3.2：第 0 代种群快照，用于计算 D_G0
+        self.logger = ExpLogger(config.log_path)
+        self._init_dataset()
+        set_random_seed(getattr(config, 'random_seed', 0))
 
         self._init_save_dir()
 
@@ -251,27 +261,39 @@ class EvolutionaryAlgorithm:
     def _process_single_generation_task(self, task_type: str, seed_code: str = "", strategy_str: str = "", 
                                          parent1: Individual = None, parent2: Individual = None, rag_rules_text: str = "") -> Individual:
         """处理单个生成任务，支持策略生成、交叉变异等多种任务类型，并处理 AST 门禁回退"""
-        if task_type == 'gen0_strategy':
-            new_ind = self.genetic_ops.generate_initial_individual_with_strategy(
-                baseline_code=seed_code,
-                strategy_str=strategy_str,
-                rag_rules_text=rag_rules_text
-            )
-            fallback_code = seed_code
-        elif task_type == 'crossover_mutate':
-            if parent1 and parent2 and random.random() < self.config.crossover_rate:
-                child = self.genetic_ops.crossover(parent1, parent2)
-            else:
-                child = parent1 if parent1 and parent1.fitness >= getattr(parent2, 'fitness', 0.0) else parent2
+        # 静态门禁拒绝后重新生成补位，保证各方法的真实 NPU 评测次数一致
+        max_retries = 3
+        new_ind = None
+        for attempt in range(max_retries):
+            if task_type == 'gen0_strategy':
+                new_ind = self.genetic_ops.generate_initial_individual_with_strategy(
+                    baseline_code=seed_code,
+                    strategy_str=strategy_str,
+                    rag_rules_text=rag_rules_text
+                )
+                fallback_code = seed_code
+            elif task_type == 'crossover_mutate':
+                if (parent1 and parent2 and getattr(self.config, 'enable_crossover', True)
+                        and random.random() < self.config.crossover_rate):
+                    child = self.genetic_ops.crossover(parent1, parent2)
+                else:
+                    child = parent1 if parent1 and parent1.fitness >= getattr(parent2, 'fitness', 0.0) else parent2
 
-            if child and child.code and random.random() < self.config.mutation_rate:
-                child = self.genetic_ops.mutate(child)
-            
-            new_ind = child
-            fallback_code = parent1.code if parent1 else seed_code
-        else:
-            new_ind = Individual(code=seed_code, generation=self.generation)
-            fallback_code = seed_code
+                if child and child.code and random.random() < self.config.mutation_rate:
+                    child = self.genetic_ops.mutate(child)
+
+                new_ind = child
+                fallback_code = parent1.code if parent1 else seed_code
+            else:
+                new_ind = Individual(code=seed_code, generation=self.generation)
+                fallback_code = seed_code
+
+            if new_ind and new_ind.code:
+                break
+            print(f"[EA] retry {attempt + 1}/{max_retries}: candidate rejected by AST gate, regenerating")
+            # 每次静态门禁拒绝都记录，用于统计 AST 通过率与有效候选率
+            if new_ind is not None:
+                self.logger.log(self._event(new_ind, 'reject'))
 
         if not new_ind.code:
             err = new_ind.metadata.get('syntax_error', 'Unknown AST/Contract/Preflight error')
@@ -289,6 +311,7 @@ class EvolutionaryAlgorithm:
                 metadata=rejected_metadata,
                 model_used=getattr(new_ind, 'model_used', 'unknown'),
             )
+            self.logger.log(self._event(new_ind, 'reject'))
 
         return new_ind
 
@@ -336,39 +359,69 @@ class EvolutionaryAlgorithm:
             code1 = valid_seed_individuals[0].code
             code2 = valid_seed_individuals[1].code
             sim_ratio = difflib.SequenceMatcher(None, code1, code2).ratio()
-            print(f"[EA] 📊 2 个合法种子代码相似度为: {sim_ratio * 100:.2f}%")
-            if sim_ratio >= 0.85:
-                print(f"[EA] ✂️ 种子代码相似度达 85%+，仅保留运行速度更快者 (耗时: {valid_seed_individuals[0].metadata['execution_time']:.2f}us)，丢弃重复种子！")
+            sim_threshold = getattr(self.config, 'seed_diversity_threshold', 0.85)
+            print(f"[EA] 📊 2 个合法种子代码相似度为: {sim_ratio * 100:.2f}% (阈值 τ={sim_threshold})")
+
+            retained_before = len(valid_seed_individuals)
+            if sim_ratio >= sim_threshold:
+                print(f"[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 "
+                      f"(耗时: {valid_seed_individuals[0].metadata['execution_time']:.2f}us)，丢弃重复种子！")
                 valid_seed_individuals = [valid_seed_individuals[0]]
 
+            # 3.2：记录种子筛选决策，供种子保留率与决策变化统计使用
+            self.logger.log({
+                "event": "seed_filter",
+                "method": getattr(self.config, 'method', 'full'),
+                "kernel": self.executor.kernel_name,
+                "run_id": getattr(self.config, 'run_id', 0),
+                "sim_ratio": round(sim_ratio, 4),
+                "threshold": sim_threshold,
+                "seeds_before": retained_before,
+                "seeds_after": len(valid_seed_individuals),
+                "filtered": len(valid_seed_individuals) < retained_before,
+            })
+
         anchor_seed = valid_seed_individuals[0]
-        self.seed_execution_time = anchor_seed.metadata['execution_time']
+        _a = float(getattr(self.config, 'seed_anchor_time', 0.0) or 0.0)
+        self.seed_execution_time = (_a if _a > 0 else anchor_seed.metadata['execution_time'])
         anchor_seed.fitness = 1.0
         print(f"[EA] 🏆 黄金基准种子锁定成功！ID: {anchor_seed.id}, 基准耗时: {self.seed_execution_time:.2f}us")
 
         self.population = list(valid_seed_individuals)
         for ind in self.population:
             self._save_individual_code(ind, prefix="seed_")
+            self._save_code(ind)  # 3.6：保存种子源码，供事后计算与子代的代码差异
 
-        print(f"[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...")
-        profiling_context = anchor_seed.metadata.get('profiling_context', '')
-        if not profiling_context:
-            profiling_context = self._extract_profiling_context(device_id=anchor_seed.metadata.get('device_id', 0), ind=anchor_seed)
-        print(f"\n{profiling_context}\n")
+        # Stage 2：Profiling 证据（B1 关闭该引导信息）
+        if getattr(self.config, 'enable_profiling', True):
+            print(f"[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...")
+            profiling_context = anchor_seed.metadata.get('profiling_context', '')
+            if not profiling_context:
+                profiling_context = self._extract_profiling_context(device_id=anchor_seed.metadata.get('device_id', 0), ind=anchor_seed)
+            print(f"\n{profiling_context}\n")
+        else:
+            profiling_context = ""
+            print(f"[EA] ⛔ [Stage 2/4] Profiling 引导已关闭（方法要求），不注入硬件证据")
 
-        required_variants = self.config.population_size - len(self.population)
+        # 固定第 0 代候选数，保证各 Kernel 的 NPU 评测预算恒为 eval_budget
+        required_variants = getattr(self.config, 'gen0_candidates', 5)
         untested_candidates: List[Individual] = []
 
         if required_variants > 0:
-            print(f"[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 {required_variants} 条重构策略...")
-            strategies, _, rag_rules = self.genetic_ops.analyze_kernel(
-                [anchor_seed.code], required_variants, profiling_context=profiling_context
-            )
+            if getattr(self.config, 'enable_strategy_init', True):
+                print(f"[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 {required_variants} 条重构策略...")
+                strategies, _, rag_rules = self.genetic_ops.analyze_kernel(
+                    [anchor_seed.code], required_variants, profiling_context=profiling_context
+                )
+            else:
+                print(f"[EA] ⛔ [Stage 3/4] 策略驱动初始化已关闭，改为无引导的普通初始化")
+                strategies = [None] * required_variants
+                rag_rules = ""
 
             print(f"\n[EA] 📋 RAG 导流与 LLM 脑暴出的 {len(strategies)} 套重构策略蓝图：")
             print("=" * 80)
             for idx, strat in enumerate(strategies, 1):
-                parts = strat.split('|')
+                parts = (strat or "无策略蓝图（无引导初始化）").split('|')
                 st_name = parts[0].strip() if len(parts) > 0 else "未命名策略"
                 st_diag = parts[1].strip() if len(parts) > 1 else "无诊断"
                 st_act  = parts[2].strip() if len(parts) > 2 else "无具体动作"
@@ -402,11 +455,21 @@ class EvolutionaryAlgorithm:
                 self.population.append(ind)
                 self._save_individual_code(ind, prefix="init_")
 
+        # 预算恒定：种群规模超出设定时按适应度截断（保证 N_eval 不随种子数漂移）
+        if len(self.population) > self.config.population_size:
+            self.population.sort(key=lambda x: x.fitness, reverse=True)
+            self.population = self.population[:self.config.population_size]
+
         self.best_individual = max(self.population, key=lambda x: x.fitness)
-        print(f"\n[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: {self.best_individual.fitness:.4f}")
+        self.gen0_snapshot = list(self.population)  # 3.2：冻结第 0 代种群
+        print(f"\n[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: {self.best_individual.fitness:.4f} "
+              f"(第 0 代种群规模 {len(self.gen0_snapshot)})")
 
     def select_parents(self) -> Tuple[Individual, Individual]:
-        """锦标赛选择：从种群中选出两个父代，优先选择高适应度个体"""
+        """父代选择：tournament（默认 3 元锦标赛）或 roulette（轮盘赌，供 3.4.1 对比）"""
+        if getattr(self.config, 'selection', 'tournament') == 'roulette':
+            return self._select_parents_roulette()
+
         tournament_size = min(3, len(self.population))
         cand1 = random.sample(self.population, tournament_size)
         parent1 = max(cand1, key=lambda x: x.fitness)
@@ -417,6 +480,44 @@ class EvolutionaryAlgorithm:
         if parent1 == parent2 and len(self.population) > 1:
             remaining = [ind for ind in self.population if ind != parent1]
             parent2 = max(random.sample(remaining, min(tournament_size, len(remaining))), key=lambda x: x.fitness)
+        self._log_selection(parent1, parent2, "tournament")
+        return parent1, parent2
+
+    def _log_selection(self, parent1, parent2, mode):
+        """3.4.1：记录每次父代选择的被选父代适应度，用于衡量选择压力。"""
+        self.logger.log({
+            "event": "selection",
+            "method": getattr(self.config, 'method', 'full'),
+            "kernel": self.executor.kernel_name,
+            "run_id": getattr(self.config, 'run_id', 0),
+            "gen": self.generation,
+            "selection_mode": mode,
+            "parent_ids": [parent1.id, parent2.id],
+            "parent_fitness": [round(parent1.fitness, 6), round(parent2.fitness, 6)],
+        })
+
+    def _select_parents_roulette(self) -> Tuple[Individual, Individual]:
+        """轮盘赌选择：按适应度比例采样两个父代"""
+        weights = [max(ind.fitness, 0.0) for ind in self.population]
+        total = sum(weights)
+        if total <= 0:
+            weights = [1.0] * len(self.population)
+            total = float(len(self.population))
+
+        def _pick():
+            r = random.random() * total
+            acc = 0.0
+            for ind, w in zip(self.population, weights):
+                acc += w
+                if acc >= r:
+                    return ind
+            return self.population[-1]
+
+        parent1 = _pick()
+        parent2 = _pick()
+        if parent1 == parent2 and len(self.population) > 1:
+            parent2 = _pick()
+        self._log_selection(parent1, parent2, "roulette")
         return parent1, parent2
 
     def evolve_generation(self) -> None:
@@ -428,7 +529,8 @@ class EvolutionaryAlgorithm:
         elites = sorted_pop[:elite_count]
         new_population.extend(elites)
 
-        needed_children = self.config.population_size - len(new_population)
+        # 固定每代子代数，使 N_eval = gen0_candidates + max_generations * children_per_generation
+        needed_children = getattr(self.config, 'children_per_generation', 4)
         if needed_children <= 0:
             self.population = new_population
             return
@@ -487,6 +589,143 @@ class EvolutionaryAlgorithm:
         avg_fitness = sum(ind.fitness for ind in self.population) / len(self.population)
         print(f"[EA] Gen {self.generation} Summary: Best={current_best.fitness:.4f}, Avg={avg_fitness:.4f}")
 
+    # ---------------- 3.6：训练数据采集 ----------------
+    def _init_dataset(self):
+        """初始化数据集目录。仅落盘，不参与任何搜索决策。"""
+        self.dataset_enabled = bool(getattr(self.config, 'collect_data', False))
+        if not self.dataset_enabled:
+            return
+        self.dataset_dir = Path(getattr(self.config, 'dataset_dir', './experiments/dataset'))
+        (self.dataset_dir / "codes").mkdir(parents=True, exist_ok=True)
+        self.samples_path = self.dataset_dir / "samples.jsonl"
+
+    def _save_code(self, ind: Individual):
+        """保存候选源码，供事后计算代码差异特征（按 candidate_id 索引）。"""
+        if not getattr(self, 'dataset_enabled', False) or not ind.code:
+            return
+        try:
+            (self.dataset_dir / "codes" / f"{ind.id}.py").write_text(ind.code, encoding="utf-8")
+        except Exception:
+            pass
+
+    def _profile_metrics(self, device_id):
+        """从本次评测产生的 OPPROF 中提取管线利用率与 Block Dim。
+
+        这些是硬件侧证据特征，事后无法从覆盖式的 Profiling 目录中恢复，
+        因此必须在评测当时采集。全程容错，任何异常都只返回空字典。
+        """
+        try:
+            base = (self.executor.performance_dir
+                    / f"{self.executor.kernel_name}_dev_{device_id}"
+                    / self.executor.kernel_name)
+            if not base.exists():
+                return {}
+            dirs = [p for p in base.iterdir()
+                    if p.is_dir() and p.name.startswith("OPPROF_")]
+            if not dirs:
+                return {}
+            latest = max(dirs, key=lambda p: p.stat().st_mtime)
+
+            m = {}
+            pipe = latest / "PipeUtilization.csv"
+            if pipe.exists():
+                rows = list(csv.DictReader(pipe.open(encoding="utf-8")))
+                for key, name in [("aiv_vec_ratio", "vec"),
+                                  ("aiv_scalar_ratio", "scalar"),
+                                  ("aiv_mte2_ratio", "mte2"),
+                                  ("aiv_mte3_ratio", "mte3")]:
+                    vals = []
+                    for r in rows:
+                        raw = r.get(key)
+                        if raw and raw != "NA":
+                            try:
+                                vals.append(float(raw))
+                            except ValueError:
+                                pass
+                    if vals:
+                        m[name] = round(sum(vals) / len(vals) * 100, 2)
+
+            for c in sorted(latest.rglob("OpBasicInfo*.csv")):
+                rows = list(csv.DictReader(c.open(encoding="utf-8")))
+                if rows:
+                    m["block_dim"] = rows[0].get("Block Dim")
+                    break
+            return m
+        except Exception:
+            return {}
+
+    def _collect_sample(self, ind: Individual):
+        """采集一条训练样本：给定父子信息，标签为『子代是否优于父代』。
+
+        只记录成功取得延迟的候选；评测失败的候选没有标签，不进入数据集。
+        """
+        if not getattr(self, 'dataset_enabled', False):
+            return
+        md = ind.metadata or {}
+        latency = md.get('execution_time')
+        if not latency or latency <= 0:
+            return
+        # Gen0 候选的父代为锚点种子；交叉/变异子代用生成时记录的父代延迟
+        parent_latency = md.get('parent_latency') or getattr(self, 'seed_execution_time', 0)
+        if not parent_latency or parent_latency <= 0:
+            return
+
+        g = parent_latency / latency
+        parent = md.get('parent')
+        sample = {
+            "kernel": self.executor.kernel_name,
+            "method": getattr(self.config, 'method', 'full'),
+            "run_id": getattr(self.config, 'run_id', 0),
+            "tau": getattr(self.config, 'seed_diversity_threshold', None),
+            "gen": ind.generation,
+            "candidate_id": ind.id,
+            "operation": md.get('operation'),
+            "mutation_type": md.get('mutation_type'),
+            "parent_ids": md.get('parents') or ([parent] if parent else []),
+            "parent_latency": round(parent_latency, 4),
+            "child_latency": round(latency, 4),
+            "g_mut": round(g, 6),
+            "label": 1 if g > 1.0 else 0,
+            "applied_strategy": (md.get('applied_strategy') or "")[:200],
+            "seed_time": round(getattr(self, 'seed_execution_time', 0) or 0, 4),
+            "pop_size": len(self.population),
+            "child_profile": self._profile_metrics(md.get('device_id', 0)),
+            "model": getattr(ind, 'model_used', 'unknown'),
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        }
+        try:
+            with open(self.samples_path, 'a', encoding='utf-8') as f:
+                f.write(json.dumps(sample, ensure_ascii=False) + "\n")
+        except Exception:
+            pass
+
+    def _event(self, ind: Individual, event: str) -> dict:
+        """构造一条 JSONL 事件记录（3.1 主实验的原始数据）。"""
+        md = ind.metadata or {}
+        parent = md.get('parent')
+        return {
+            "event": event,
+            "method": getattr(self.config, 'method', 'full'),
+            "kernel": self.executor.kernel_name,
+            "run_id": getattr(self.config, 'run_id', 0),
+            "eval_index": self.eval_count,
+            "gen": ind.generation,
+            "candidate_id": ind.id,
+            "operation": md.get('operation'),
+            "mutation_type": md.get('mutation_type'),
+            "parent_ids": md.get('parents') or ([parent] if parent else []),
+            "dominant_parent": md.get('dominant_parent'),
+            "parent_latency": md.get('parent_latency') or md.get('dominant_latency'),
+            "ast_pass": not md.get('preflight_rejected', False),
+            "ast_reason": md.get('syntax_error'),
+            "compile_pass": bool(md.get('success', False)),
+            "correctness_pass": bool(md.get('success', False)),
+            "latency_us": md.get('execution_time') if md.get('success') else None,
+            "device_id": md.get('device_id'),
+            "model": getattr(ind, 'model_used', 'unknown'),
+            "error": md.get('error'),
+        }
+
     def _evaluate_individuals_batch(self, individuals: List[Individual]) -> List[Individual]:
         """批量评估个体：双 NPU 并发执行，计算相对种子的加速比作为适应度"""
         task_queue = queue.Queue()
@@ -494,6 +733,13 @@ class EvolutionaryAlgorithm:
             if not ind.metadata.get('evaluated', False):
                 if not ind.id or ind.id.startswith('hash_') or len(ind.id) != 8:
                     ind.id = uuid.uuid4().hex[:8]
+                # 预算耗尽：不再占用 NPU，直接判定为无效候选
+                if self.config.eval_budget > 0 and self.eval_count >= self.config.eval_budget:
+                    ind.metadata.update({'evaluated': True, 'success': False,
+                                         'error': 'eval_budget_exhausted'})
+                    ind.fitness = 0.0
+                    self.logger.log(self._event(ind, 'skipped'))
+                    continue
                 task_queue.put((idx, ind))
         
         results = list(individuals)
@@ -515,7 +761,8 @@ class EvolutionaryAlgorithm:
                 
                 try:
                     result = self.executor.evaluate(ind.code, timeout=600, device_id=device_id)
-                    
+                    self.eval_count += 1
+
                     ind.metadata.update({
                         'evaluated': True,
                         'success': result.success,
@@ -524,12 +771,18 @@ class EvolutionaryAlgorithm:
                         'error': result.error,
                         'device_id': device_id
                     })
-                    
-                    prof_ctx = self._extract_profiling_context(device_id=device_id, ind=ind)
-                    ind.metadata['profiling_context'] = prof_ctx
-                    
+
+                    if getattr(self.config, 'enable_profiling', True):
+                        prof_ctx = self._extract_profiling_context(device_id=device_id, ind=ind)
+                        ind.metadata['profiling_context'] = prof_ctx
+                    else:
+                        ind.metadata['profiling_context'] = ""
+
                     ind.fitness = 0.0
                     results[idx] = ind
+                    self.logger.log(self._event(ind, 'eval'))
+                    self._save_code(ind)
+                    self._collect_sample(ind)
                 except Exception as e:
                     print(f"[EA] ❌ 个体 {ind.id} 评估异常: {e}")
                     ind.metadata.update({
@@ -570,10 +823,83 @@ class EvolutionaryAlgorithm:
         
         return results
 
+    def run_hill_climb(self, seed_codes: List[str]) -> Individual:
+        """B2：单轨迹 LLM 迭代优化。不维护多父代种群，不执行父代交叉；
+        每次生成一个候选并 NPU 评测，仅当候选有效且更快时才替换当前候选。"""
+        print("[EA] 🥾 [B2] 单轨迹迭代：先评测初始种子并锁定起点（种子评测不计入预算）...")
+        valid = []
+        for i, code in enumerate(seed_codes):
+            res = self.executor.evaluate(code, timeout=600, device_id=i % 2)
+            if res.success and res.execution_time > 0:
+                ind = Individual(code=code, generation=0, metadata={
+                    'operation': 'seed', 'evaluated': True, 'success': True,
+                    'execution_time': res.execution_time, 'speedup': res.speedup,
+                    'device_id': i % 2,
+                })
+                if not getattr(self.config, 'enable_profiling', True):
+                    ind.metadata['profiling_context'] = ""
+                valid.append(ind)
+            else:
+                print(f"[EA] ❌ [B2] 种子 {i} 未通过评测，已过滤")
+
+        if not valid:
+            raise RuntimeError("【致命错误】B2：所有初始种子均未通过评测")
+
+        valid.sort(key=lambda x: x.metadata['execution_time'])
+        current = valid[0]
+        _a = float(getattr(self.config, 'seed_anchor_time', 0.0) or 0.0)
+        self.seed_execution_time = (_a if _a > 0 else current.metadata['execution_time'])
+        current.fitness = 1.0
+        self.population = [current]
+        self.best_individual = current
+        self._save_code(current)
+        print(f"[EA] 🏁 [B2] 起点锁定: {current.id}, 耗时={self.seed_execution_time:.2f}us")
+
+        for step in range(self.config.eval_budget):
+            if self.eval_count >= self.config.eval_budget:
+                break
+
+            child = None
+            for attempt in range(3):  # 静态门禁拒绝后重新生成补位
+                child = self.genetic_ops.mutate(current)
+                child.generation = step + 1
+                if child.code:
+                    break
+                print(f"[EA] \u267b\ufe0f [B2] \u5019\u9009\u672a\u901a\u8fc7\u9759\u6001\u95e8\u7981\uff0c\u91cd\u65b0\u751f\u6210 ({attempt + 1}/3)")
+                self.logger.log(self._event(child, 'reject'))  # 每次拒绝都记录
+            if not child.code:
+                continue
+
+            child = self._evaluate_individuals_batch([child])[0]
+            if child.metadata.get('success') and child.metadata.get('execution_time', 0) > 0:
+                t_child = child.metadata['execution_time']
+                t_cur = current.metadata.get('execution_time', float('inf'))
+                if t_child < t_cur:
+                    print(f"[EA] ⬆️ [B2] step {step + 1}: 接受更快候选 {child.id} "
+                          f"({t_cur:.2f}us -> {t_child:.2f}us)")
+                    current = child
+                else:
+                    print(f"[EA] ➖ [B2] step {step + 1}: 候选 {child.id} 未更快，保留当前候选")
+
+            if self.best_individual is None or current.fitness > self.best_individual.fitness:
+                self.best_individual = current
+
+        self.generation = self.config.eval_budget
+        print(f"[EA] ✅ [B2] 迭代结束，Best Fitness: {self.best_individual.fitness:.4f}")
+        return self.best_individual
+
     def run(self, seed_codes: List[str]) -> Individual:
         """运行完整的进化流程：初始化种群 -> 迭代演化 -> 返回最优个体"""
+        if getattr(self.config, 'method', 'full') == 'b2':
+            return self.run_hill_climb(seed_codes)
+
         self.initialize_population(seed_codes)
         for gen in range(self.config.max_generations):
+            # 预算耗尽时停止后续世代，避免空转消耗 LLM 预算
+            if (self.config.eval_budget > 0
+                    and self.eval_count >= self.config.eval_budget):
+                print(f"[EA] ⏹ NPU 评测预算已耗尽 (N_eval={self.eval_count})，停止后续世代")
+                break
             print(f"\n[EA] ===== Generation {gen + 1}/{self.config.max_generations} =====")
             self.evolve_generation()
 

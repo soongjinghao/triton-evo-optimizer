@@ -56,6 +56,40 @@ class EAConfig:
     timeout_seconds: int = 300             # Compilation/execution timeout
     max_iterations: int = 5                # Max fix attempts per operator
 
+    # ==================== 消融实验配置（3.1 主实验） ====================
+    # method: b0(仅重测) | b1(无证据引导EA) | b2(单轨迹LLM迭代) | full(完整TritonEvo-NPU)
+    method: str = "full"
+    enable_profiling: bool = True      # Profiling 硬件证据是否注入生成提示
+    enable_rag: bool = True            # 是否启用受约束 RAG 检索
+    enable_strategy_init: bool = True  # 是否启用策略驱动的第 0 代初始化
+    enable_crossover: bool = True      # 是否执行父代交叉（B2 关闭）
+    mutation_mode: str = "adaptive"    # adaptive | uniform | aggressive
+    selection: str = "tournament"      # tournament | roulette
+    crossover_mode: str = "protected"  # protected | unconstrained
+    rag_mode: str = "hybrid"        # hybrid(混合重排+Guard) | semantic(普通语义Top-k)
+
+    # 统一搜索预算（3.1）
+    gen0_candidates: int = 5           # 第 0 代生成的候选数
+    children_per_generation: int = 4   # 每代生成的子代数
+    eval_budget: int = 13              # NPU 评测预算 = 5 + 4 + 4
+    remeasure_repeats: int = 5         # 阶段 A/C 串行复测次数，取中位数
+
+    # 种子相似度去重阈值（3.2 敏感性实验；>1.0 表示不筛选）
+    seed_diversity_threshold: float = 0.85
+
+    # 适应度锚点：>0 时用它替代搜索内实测的种子延迟，使搜索内 fitness 与最终 F 口径一致
+    seed_anchor_time: float = 0.0
+
+    # 训练数据采集：记录每个进入 NPU 评测的候选及其父子延迟关系，
+    # 用于后续训练候选预筛选模型（3.6 节）。只落盘，不改变任何实验行为。
+    collect_data: bool = True
+    dataset_dir: str = "./experiments/dataset"
+
+    # 随机性与日志
+    random_seed: int = 0
+    run_id: int = 0
+    log_path: Optional[str] = None     # 非空时写入 JSONL 事件日志
+
     # ==================== Debug Parameters ====================
     debug: bool = False                    # Whether to enable debug mode
 
