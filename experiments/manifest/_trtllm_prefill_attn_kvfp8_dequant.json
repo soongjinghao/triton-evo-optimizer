@@ -1,0 +1,23 @@
+{
+  "kernel": "_trtllm_prefill_attn_kvfp8_dequant",
+  "t_base_us": 2.700054,
+  "t_seed_us": 2.700054,
+  "seed_similarity": 0.8816272965879265,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "_trtllm_prefill_attn_kvfp8_dequant.py": {
+      "path": "/workspace/Agent/datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant.py",
+      "latency_us": 2.700054,
+      "success": true,
+      "error": null
+    },
+    "_trtllm_prefill_attn_kvfp8_dequant_1.py": {
+      "path": "/workspace/Agent/datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant_1.py",
+      "latency_us": 2.780056,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-21T13:20:09"
+}

@@ -136,6 +136,9 @@ def table(kernels=None):
     sims = {k: s for k in kernels
             if (s := common.seed_similarity(k)) is not None}
     deltas = delta_n_table(sims)
+    retentions = {tau: ((2 * len(sims) - (0 if tau <= 0 else sum(
+        1 for v in sims.values() if v >= tau))) / (2 * len(sims)) if sims else 0.0)
+        for tau in TAU_CONFIGS}
 
     for tau in TAU_CONFIGS:
         tag = tau_tag(tau)
@@ -181,7 +184,9 @@ def table(kernels=None):
         rows.append({
             "setting": "不筛选" if tau <= 0 else f"{tau:.2f}",
             "n_kernels": len(per_kernel),
-            "retention": retained / totals if totals else 0.0,
+            # 种子保留率：基于全部算子的相似度分布直接统计（零成本，覆盖 50 个算子），
+            # 与实际跑过哪些算子无关，以保证与 ΔN 列口径一致
+            "retention": retentions.get(tau, 0.0),
             "delta_n": deltas.get(tau),
             "d_g0": sum(d_g0s) / len(d_g0s) if d_g0s else 0.0,
             "valid_rate": n_valid / n_eval if n_eval else 0.0,

@@ -1,0 +1,23 @@
+{
+  "kernel": "_trtllm_prefill_attn_kvfp8_dequant",
+  "method": "tau_0.95",
+  "run_id": 0,
+  "seed": 0,
+  "tau": 0.95,
+  "best_id": "6b6e28d8",
+  "best_fitness": 1.0629920422857653,
+  "best_latency_us": 2.540051,
+  "n_eval": 10,
+  "n_eval_done": 10,
+  "n_valid": 8,
+  "n_ast_reject": 5,
+  "n_seeds_total": 2,
+  "n_seeds_retained": 2,
+  "gen0_count": 6,
+  "d_g0": 0.3899,
+  "elapsed_seconds": 1684.7,
+  "llm_calls": 19,
+  "llm_tokens": 262957,
+  "code_path": "/workspace/Agent/experiments/results/tau_0.95/_trtllm_prefill_attn_kvfp8_dequant__r0.py",
+  "created_at": "2026-09-22T22:29:55"
+}

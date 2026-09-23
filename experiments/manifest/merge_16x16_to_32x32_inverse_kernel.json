@@ -1,0 +1,23 @@
+{
+  "kernel": "merge_16x16_to_32x32_inverse_kernel",
+  "t_base_us": 18.240364,
+  "t_seed_us": 15.0403,
+  "seed_similarity": 0.9085446673146593,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "merge_16x16_to_32x32_inverse_kernel.py": {
+      "path": "/workspace/Agent/datasets/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel.py",
+      "latency_us": 18.240364,
+      "success": true,
+      "error": null
+    },
+    "merge_16x16_to_32x32_inverse_kernel_1.py": {
+      "path": "/workspace/Agent/datasets/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel_1.py",
+      "latency_us": 15.0403,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-21T13:38:02"
+}

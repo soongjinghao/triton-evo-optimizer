@@ -1,0 +1,23 @@
+{
+  "kernel": "fused_qkvzba_split_reshape_cat_kernel",
+  "method": "tau_none",
+  "run_id": 0,
+  "seed": 0,
+  "tau": null,
+  "best_id": "3d11e443",
+  "best_fitness": 1.0639533683772042,
+  "best_latency_us": 3.440069,
+  "n_eval": 10,
+  "n_eval_done": 10,
+  "n_valid": 10,
+  "n_ast_reject": 0,
+  "n_seeds_total": 2,
+  "n_seeds_retained": 2,
+  "gen0_count": 6,
+  "d_g0": 0.3098,
+  "elapsed_seconds": 680.3,
+  "llm_calls": 13,
+  "llm_tokens": 112789,
+  "code_path": "/workspace/Agent/experiments/results/tau_none/fused_qkvzba_split_reshape_cat_kernel__r0.py",
+  "created_at": "2026-09-21T15:22:54"
+}

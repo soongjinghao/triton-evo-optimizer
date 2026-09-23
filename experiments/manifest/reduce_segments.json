@@ -1,0 +1,23 @@
+{
+  "kernel": "reduce_segments",
+  "t_base_us": 2.720054,
+  "t_seed_us": 2.660053,
+  "seed_similarity": 0.9109381184852883,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "reduce_segments.py": {
+      "path": "/workspace/Agent/datasets/reduce_segments/reduce_segments.py",
+      "latency_us": 2.720054,
+      "success": true,
+      "error": null
+    },
+    "reduce_segments_1.py": {
+      "path": "/workspace/Agent/datasets/reduce_segments/reduce_segments_1.py",
+      "latency_us": 2.660053,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-21T13:46:38"
+}
