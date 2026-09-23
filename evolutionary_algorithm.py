@@ -17,6 +17,9 @@ from pathlib import Path
 import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+# 候选生成的并发上限（本地 vLLM 显存/并发有限，可用环境变量调小）
+MAX_WORKERS = int(os.getenv("EA_MAX_WORKERS", "8"))
+
 from config import EAConfig
 from genetic_operators import GeneticOperators, Individual
 from executor import TritonExecutor, EvaluationResult
@@ -431,7 +434,7 @@ class EvolutionaryAlgorithm:
             print("=" * 80 + "\n")
 
             print(f"[EA] 🚀 [Stage 4/4] 并发生成 {len(strategies)} 个高多样性 Gen 0 重构个体...")
-            with ThreadPoolExecutor(max_workers=min(len(strategies), 8)) as thread_pool:
+            with ThreadPoolExecutor(max_workers=min(len(strategies), MAX_WORKERS)) as thread_pool:
                 futures = [
                     thread_pool.submit(
                         self._process_single_generation_task,
@@ -540,7 +543,7 @@ class EvolutionaryAlgorithm:
         print(f"[EA] 🚀 并发发射 {needed_children} 个子代变异/交叉 LLM 请求...")
         child_candidates: List[Individual] = []
 
-        with ThreadPoolExecutor(max_workers=min(needed_children, 8)) as thread_pool:
+        with ThreadPoolExecutor(max_workers=min(needed_children, MAX_WORKERS)) as thread_pool:
             futures = [
                 thread_pool.submit(
                     self._process_single_generation_task,

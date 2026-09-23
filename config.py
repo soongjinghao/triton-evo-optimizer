@@ -46,7 +46,8 @@ class EAConfig:
 
     # LLM generation parameters
     llm_temperature: float = 0.2         # Generation temperature
-    max_llm_tokens: int = 16888          # Max tokens per call
+    # 本地与云端统一取同一值；可用环境变量 MAX_LLM_TOKENS 覆盖
+    max_llm_tokens: int = int(os.getenv("MAX_LLM_TOKENS", "16888"))
 
     # Model evolution parameters
     model_switch_prob: float = 0.2         # Probability of switching model during mutation

@@ -9,10 +9,7 @@ saved_codes/*
 !.gitkeep
 
 #不同站点的apikey的配置
-set_env/set_api_deepseek.sh
-set_env/set_api_huoshan.sh
-set_env/set_api_siliconflow.sh
-set_env/set_api.sh
+set_env/
 
 #向量模型缓存
 RAG/.hf_cache/
@@ -21,7 +18,11 @@ RAG/.hf_cache/
 RAG/knowledge/
 
 #调试脚本
-test/
+#test/
 
 #项目文档
-doc/
+#doc/
+
+#原始项目种子
+#datasets2/
+
