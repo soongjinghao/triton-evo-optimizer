@@ -276,13 +276,17 @@ class EvolutionaryAlgorithm:
                 )
                 fallback_code = seed_code
             elif task_type == 'crossover_mutate':
+                performed = False
                 if (parent1 and parent2 and getattr(self.config, 'enable_crossover', True)
                         and random.random() < self.config.crossover_rate):
                     child = self.genetic_ops.crossover(parent1, parent2)
+                    performed = True
                 else:
                     child = parent1 if parent1 and parent1.fitness >= getattr(parent2, 'fitness', 0.0) else parent2
 
-                if child and child.code and random.random() < self.config.mutation_rate:
+                # 未交叉时必须变异：否则子代是父代的纯副本，会在去重时被剔除，
+                # 白白占用一个预算名额，导致各方法实际 NPU 评测次数不一致。
+                if child and child.code and (random.random() < self.config.mutation_rate or not performed):
                     child = self.genetic_ops.mutate(child)
 
                 new_ind = child
