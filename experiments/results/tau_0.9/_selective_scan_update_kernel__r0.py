@@ -3,55 +3,28 @@ import triton
 import triton.language as tl
 import torch.nn.functional as F
 from packaging import version
+
 from typing import Optional
+
 PAD_SLOT_ID = -1
+
 TRITON3 = version.parse(triton.__version__) >= version.parse("3.0.0")
+
 if TRITON3:
+
     @triton.jit
     def softplus(dt):
         dt = tl.where(dt <= 20.0, tl.math.log(tl.math.exp(dt) + 1), dt)
         return dt
+
 else:
+
     @triton.jit
     def softplus(dt):
         dt = tl.where(dt <= 20.0, tl.math.log1p(tl.exp(dt)), dt)
         return dt
-_ASCEND_UB_STATE_TILE_BUDGET = 128 * 1024
-_MIN_PARALLEL_PROGRAMS = 4
-def _fallback_block_size_m(dstate):
-    if dstate <= 16:
-        return 32
-    if dstate <= 32:
-        return 16
-    if dstate <= 64:
-        return 8
-    if dstate <= 128:
-        return 4
-    return 4
-def _select_block_size_m(dim, dstate, batch, nheads, state_elem_size):
-    block_size_dstate = triton.next_power_of_2(dstate)
-    if dstate <= 16:
-        preferred = 64
-    elif dstate <= 32:
-        preferred = 32
-    elif dstate <= 64:
-        preferred = 16
-    elif dstate <= 128:
-        preferred = 8
-    else:
-        preferred = 8
-    fallback = _fallback_block_size_m(dstate)
-    for cand in (64, 32, 16, 8, 4):
-        if cand < fallback or cand > preferred:
-            continue
-        state_tile_bytes = cand * block_size_dstate * state_elem_size
-        if state_tile_bytes > _ASCEND_UB_STATE_TILE_BUDGET:
-            continue
-        parallel_programs = triton.cdiv(dim, cand) * batch * nheads
-        if parallel_programs < _MIN_PARALLEL_PROGRAMS:
-            continue
-        return cand
-    return fallback
+
+
 @triton.heuristics({"HAS_DT_BIAS": lambda args: args["dt_bias_ptr"] is not None})
 @triton.heuristics({"HAS_D": lambda args: args["D_ptr"] is not None})
 @triton.heuristics({"HAS_Z": lambda args: args["z_ptr"] is not None})
@@ -79,6 +52,7 @@ def _selective_scan_update_kernel(
     out_ptr,
     state_batch_indices_ptr,
     pad_slot_id,
+    # Matrix dimensions
     batch,
     nheads,
     dim,
@@ -127,12 +101,17 @@ def _selective_scan_update_kernel(
     pid_m = tl.program_id(axis=0)
     pid_b = tl.program_id(axis=1)
     pid_h = tl.program_id(axis=2)
+
+    # If HAS_STATE_BATCH_INDICES is true, then the ssm state's batch coordinate
+    # is taken from the state_batch_indices_ptr Otherwise, the state coordinate
+    # is the same as the batch id.
     if HAS_STATE_BATCH_INDICES:
         state_batch_indices_ptr += pid_b
         state_batch_idx = tl.load(state_batch_indices_ptr).to(tl.int64)
         state_ptr += state_batch_idx * stride_state_batch + pid_h * stride_state_head
     else:
         state_ptr += pid_b * stride_state_batch + pid_h * stride_state_head
+
     x_ptr += pid_b * stride_x_batch + pid_h * stride_x_head
     dt_ptr += pid_b * stride_dt_batch + pid_h * stride_dt_head
     if HAS_DT_BIAS:
@@ -143,6 +122,7 @@ def _selective_scan_update_kernel(
     if HAS_Z:
         z_ptr += pid_b * stride_z_batch + pid_h * stride_z_head
     out_ptr += pid_b * stride_out_batch + pid_h * stride_out_head
+
     offs_m = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
     offs_n = tl.arange(0, BLOCK_SIZE_DSTATE)
     state_ptrs = state_ptr + (
@@ -168,6 +148,7 @@ def _selective_scan_update_kernel(
     if HAS_STATE_BATCH_INDICES:
         mask &= state_batch_idx != pad_slot_id
     state = tl.load(state_ptrs, mask=mask, other=0.0)
+
     x = tl.load(x_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
     if not TIE_HDIM:
         dt = tl.load(dt_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
@@ -187,14 +168,17 @@ def _selective_scan_update_kernel(
             dt = softplus(dt)
         A = tl.load(A_ptr).to(tl.float32)
         dA = tl.exp(A * dt)  # scalar, not a matrix
+
     B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     if HAS_D:
         D = tl.load(D_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
     if HAS_Z:
         z = tl.load(z_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
+
     dB = B[None, :] * dt[:, None] if not TIE_HDIM else B * dt
     state = state * dA + dB * x[:, None]
+
     mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
     if HAS_STATE_BATCH_INDICES:
         mask &= state_batch_idx != pad_slot_id
@@ -205,6 +189,8 @@ def _selective_scan_update_kernel(
     if HAS_Z:
         out *= z * tl.sigmoid(z)
     tl.store(out_ptrs, out, mask=offs_m < dim)
+
+
 def selective_state_update(
     state,
     x,
@@ -220,6 +206,26 @@ def selective_state_update(
     pad_slot_id=PAD_SLOT_ID,
     out=None,
 ):
+    """
+    Argument:
+        state: (batch, dim, dstate) or (batch, nheads, dim, dstate)
+        x: (batch, dim) or (batch, nheads, dim)
+        dt: (batch, dim) or (batch, nheads, dim)
+        A: (dim, dstate) or (nheads, dim, dstate)
+        B: (batch, dstate) or (batch, ngroups, dstate)
+        C: (batch, dstate) or (batch, ngroups, dstate)
+        D: (dim,) or (nheads, dim)
+        z: (batch, dim) or (batch, nheads, dim)
+        dt_bias: (dim,) or (nheads, dim)
+        pad_slot_id: int
+            if cache_indices is passed, lets the kernel identify padded
+            entries that will not be processed,
+            for example: cache_indices = [pad_slot_id, 1, 20, pad_slot_id]
+            in this case, the kernel will not process entries at
+            indices 0 and 3
+        out: Preallocated ssm output tensor. Assume same shape as x.
+             In-place updated.
+    """
     if state.dim() == 3:
         state = state.unsqueeze(1)
     if x.dim() == 2:
@@ -240,8 +246,10 @@ def selective_state_update(
         dt_bias = dt_bias.unsqueeze(0)
     if out.dim() == 2:
         out = out.unsqueeze(1)
+
     _, nheads, dim, dstate = state.shape
     batch = x.shape[0]
+
     assert x.shape == (batch, nheads, dim)
     assert dt.shape == x.shape
     assert A.shape == (nheads, dim, dstate)
@@ -258,17 +266,25 @@ def selective_state_update(
     if state_batch_indices is not None:
         assert state_batch_indices.shape == (batch,)
     assert out.shape == x.shape
+
     grid = lambda META: (triton.cdiv(dim, META["BLOCK_SIZE_M"]), batch, nheads)
     z_strides = (z.stride(0), z.stride(1), z.stride(2)) if z is not None else (0, 0, 0)
-    BLOCK_SIZE_M = _select_block_size_m(
-        dim, dstate, batch, nheads, state.element_size()
+    # We don't want autotune since it will overwrite the state
+    # We instead tune by hand.
+    BLOCK_SIZE_M, num_warps = (
+        (32, 4)
+        if dstate <= 16
+        else (
+            (16, 4)
+            if dstate <= 32
+            else ((8, 4) if dstate <= 64 else ((4, 4) if dstate <= 128 else ((4, 8))))
+        )
     )
-    num_warps = 4 if dstate <= 128 else 8
     tie_hdim = (
         A.stride(-1) == 0
         and A.stride(-2) == 0
         and dt.stride(-1) == 0
-        and (dt_bias is None or dt_bias.stride(-1) == 0)
+        and dt_bias.stride(-1) == 0
     )
     _selective_scan_update_kernel[grid](
         state,

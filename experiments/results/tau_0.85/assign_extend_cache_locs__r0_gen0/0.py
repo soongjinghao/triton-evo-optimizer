@@ -13,28 +13,14 @@ def assign_extend_cache_locs(
     bs_upper: tl.constexpr,
 ):
     BLOCK_SIZE: tl.constexpr = 32
-    PREF_BLOCK: tl.constexpr = 256
-
     pid = tl.program_id(axis=0)
     kv_start = tl.load(start_offset + pid)
     kv_end = tl.load(end_offset + pid)
     token_pool = req_to_token + tl.load(req_pool_indices + pid) * pool_len
-
-    if bs_upper <= PREF_BLOCK:
-        length_offset = tl.arange(0, bs_upper)
-        start = tl.load(start_offset + length_offset, mask=length_offset < pid, other=0)
-        end = tl.load(end_offset + length_offset, mask=length_offset < pid, other=0)
-        out_offset = tl.sum(end - start, axis=0)
-    else:
-        acc = kv_start * 0
-        for j in range(0, bs_upper, PREF_BLOCK):
-            lane = j + tl.arange(0, PREF_BLOCK)
-            mask = (lane < pid) & (lane < bs_upper)
-            start = tl.load(start_offset + lane, mask=mask, other=0)
-            end = tl.load(end_offset + lane, mask=mask, other=0)
-            acc += tl.sum(end - start, axis=0)
-        out_offset = acc
-
+    length_offset = tl.arange(0, bs_upper)
+    start = tl.load(start_offset + length_offset, mask=length_offset < pid, other=0)
+    end = tl.load(end_offset + length_offset, mask=length_offset < pid, other=0)
+    out_offset = tl.sum(end - start, axis=0)
     out_cache_ptr = out_cache_loc + out_offset
     load_offset = tl.arange(0, BLOCK_SIZE) + kv_start
     save_offset = tl.arange(0, BLOCK_SIZE)

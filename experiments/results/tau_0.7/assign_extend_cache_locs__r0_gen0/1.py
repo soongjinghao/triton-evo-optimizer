@@ -9,24 +9,21 @@ def assign_extend_cache_locs(
     start_offset,
     end_offset,
     out_cache_loc,
-    prefix_offsets,
     pool_len: tl.constexpr,
     bs_upper: tl.constexpr,
 ):
-    BLOCK_SIZE: tl.constexpr = 128
-
+    BLOCK_SIZE: tl.constexpr = 32
     pid = tl.program_id(axis=0)
-
     kv_start = tl.load(start_offset + pid)
     kv_end = tl.load(end_offset + pid)
     token_pool = req_to_token + tl.load(req_pool_indices + pid) * pool_len
-
-    out_offset = tl.load(prefix_offsets + pid)
+    length_offset = tl.arange(0, bs_upper)
+    start = tl.load(start_offset + length_offset, mask=length_offset < pid, other=0)
+    end = tl.load(end_offset + length_offset, mask=length_offset < pid, other=0)
+    out_offset = tl.sum(end - start, axis=0)
     out_cache_ptr = out_cache_loc + out_offset
-
     load_offset = tl.arange(0, BLOCK_SIZE) + kv_start
     save_offset = tl.arange(0, BLOCK_SIZE)
-
     num_loop = tl.cdiv(kv_end - kv_start, BLOCK_SIZE)
     for _ in range(num_loop):
         mask = load_offset < kv_end
@@ -34,29 +31,3 @@ def assign_extend_cache_locs(
         tl.store(out_cache_ptr + save_offset, data, mask=mask)
         load_offset += BLOCK_SIZE
         save_offset += BLOCK_SIZE
-
-
-def assign_extend_cache_locs_func(
-    req_pool_indices_tensor,
-    req_to_token_tensor,
-    start_offset_tensor,
-    end_offset_tensor,
-    out_cache_loc_tensor,
-    pool_len,
-    bs_upper
-):
-    lengths = end_offset_tensor - start_offset_tensor
-    prefix_offsets = torch.cumsum(lengths, dim=0, dtype=lengths.dtype) - lengths
-
-    grid = (req_pool_indices_tensor.numel(),)
-    assign_extend_cache_locs[grid](
-        req_pool_indices_tensor,
-        req_to_token_tensor,
-        start_offset_tensor,
-        end_offset_tensor,
-        out_cache_loc_tensor,
-        prefix_offsets,
-        pool_len=pool_len,
-        bs_upper=bs_upper,
-    )
-    return out_cache_loc_tensor

@@ -11,16 +11,40 @@
 set -u
 cd /workspace/Agent
 
-source set_env/set_api_huoshan.sh
-export ENGINE_FLASH=deepseek-v4-flash-ga-260731
-export ENGINE_PRO=deepseek-v4-pro-ga-260813
+# 默认本地 vLLM；ENV=cloud 时切回火山方舟
+if [ "${ENV:-local}" = "cloud" ]; then
+  source set_env/set_api_huoshan.sh
+  export ENGINE_FLASH=deepseek-v4-flash-ga-260731
+  export ENGINE_PRO=deepseek-v4-pro-ga-260813
+else
+  source set_env/set_api_local.sh
+fi
 
 PY=/usr/local/python3.11.15/bin/python3.11
 
 if [ $# -gt 0 ]; then
   KERNELS="$*"
 else
-  KERNELS=$(ls datasets)
+  # 跟随 common.DATASETS_DIR（默认 datasets2），不要硬编码 datasets。
+  # 同时跳过 manifest 中没有任何可用种子的 Kernel（否则搜索阶段必然失败）。
+  KERNELS=$($PY - <<'PYEOF'
+import sys, json
+sys.path.insert(0, '.')
+from experiments import common
+
+avail = []
+for k in common.list_kernels():
+    mf = common.MANIFEST_DIR / f"{k}.json"
+    if mf.exists():
+        d = json.load(open(mf, encoding='utf-8'))
+        if not any(v.get('success') for v in d.get('seeds', {}).values()):
+            continue          # 无任何可用种子，排除
+        if d.get('t_base_us') is None:
+            continue          # 主种子失败 -> T_base 缺失 -> S 无法计算，排除
+    avail.append(k)
+print(' '.join(avail))
+PYEOF
+)
 fi
 
 RUN_ID="${RUN_ID:-0}"
@@ -38,6 +62,25 @@ for k in $KERNELS; do
   fi
 
   for m in b1 b2 full; do
+    # 断点续跑：已有「搜索有效 + 复测成功」的结果则跳过，避免重复消耗 NPU 与 LLM。
+    # 断连导致的假成功（search_ok=False）不会被跳过，会自动重跑。
+    _sj="experiments/results/$m/${k}__r${RUN_ID}.json"
+    _rj="experiments/results/$m/${k}__r${RUN_ID}.remeasure.json"
+    if [ -f "$_sj" ] && [ -f "$_rj" ]; then
+      _ok=$($PY -c "
+import json
+try:
+    s = json.load(open('$_sj', encoding='utf-8'))
+    r = json.load(open('$_rj', encoding='utf-8'))
+    print(1 if (s.get('search_ok', True) and r.get('success')) else 0)
+except Exception:
+    print(0)")
+      if [ "$_ok" = "1" ]; then
+        echo "===== [$(date +%H:%M:%S)] SKIP: $k / $m 已有有效结果 ====="
+        continue
+      fi
+    fi
+
     echo "===== [$(date +%H:%M:%S)] Search: $k / $m ====="
     $PY experiments/pipeline.py search -k "$k" -m "$m" --run-id "$RUN_ID" --seed "$SEED"
     echo "===== [$(date +%H:%M:%S)] Remeasure: $k / $m ====="

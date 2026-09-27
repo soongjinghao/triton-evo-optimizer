@@ -1,9 +1,19 @@
-"""3.1 主实验聚合：按 Kernel 计算 F(k*) 与 S(k*)，并输出 GM(F) / GM(S)。
+"""3.1 主实验聚合：按 Kernel 计算 F(k*) 与 S(k*)，输出 GM(F) / GM(S)。
 
 聚合规则（对应 3.1 正文）：
   1. 同一方法多次独立重复时，先在 Kernel 内部对重复结果取中位数；
   2. F = T_seed / T_best，S = T_base / T_best；
   3. 几何平均仅在三种方法均有有效候选的 Kernel 子集上计算，并报告 N_used。
+
+额外产出（供论文表4 使用）：
+  - 中位数：几何平均易被极端值主导，中位数作为稳健性对照；
+  - 按参考实现延迟分组（短/中/长）的分组统计：
+    用于说明方法在不同规模 Kernel 上的收益差异；
+  - Markdown 表格（results/table4.md）可直接粘贴进论文。
+
+数学关系（可用作论文注脚）：
+  GM(S) = GM(T_base/T_seed) × GM(F)
+  即 GM(S) 比 GM(F) 多一个仅由数据集决定的常数因子。
 """
 
 import sys
@@ -15,6 +25,16 @@ import csv
 import json
 
 from experiments import common
+
+# 分组阈值（单位 us）：参考实现延迟
+SHORT_MAX = 5.0
+MID_MAX = 100.0
+
+GROUP_LABEL = {
+    'short': f'短 (<{SHORT_MAX:g}μs)',
+    'mid': f'中 ({SHORT_MAX:g}~{MID_MAX:g}μs)',
+    'long': f'长 (≥{MID_MAX:g}μs)',
+}
 
 
 def load_manifest(kernel):
@@ -39,8 +59,18 @@ def median(xs):
     return xs[mid] if len(xs) % 2 else (xs[mid - 1] + xs[mid]) / 2
 
 
+def group_of(t_base):
+    """按参考实现延迟分组。"""
+    if t_base is None:
+        return None
+    if t_base < SHORT_MAX:
+        return 'short'
+    if t_base < MID_MAX:
+        return 'mid'
+    return 'long'
+
+
 def main(kernels=None):
-    # 默认汇总全部已有 manifest 的 Kernel，缺失数据的会被自动跳过
     kernels = kernels or common.list_kernels()
     rows = []
     per_kernel = {}
@@ -52,7 +82,8 @@ def main(kernels=None):
             continue
 
         t_base, t_seed = man["t_base_us"], man["t_seed_us"]
-        row = {"kernel": kernel, "t_base": t_base, "t_seed": t_seed}
+        row = {"kernel": kernel, "t_base": t_base, "t_seed": t_seed,
+               "group": group_of(t_base)}
         per_kernel[kernel] = {}
 
         for method in common.METHODS:
@@ -68,11 +99,11 @@ def main(kernels=None):
                 per_kernel[kernel][method] = None
         rows.append(row)
 
-    # 三种方法均有有效候选的 Kernel 子集
     usable = [k for k, v in per_kernel.items()
               if all(v.get(m) for m in common.METHODS)]
     n_used = len(usable)
 
+    # ---------------- 逐 Kernel 明细 ----------------
     print(f"\n{'=' * 78}")
     print(f"3.1 主实验结果（参与统计 Kernel 数 = {n_used}/{len(rows)}）")
     print(f"{'=' * 78}")
@@ -107,7 +138,9 @@ def main(kernels=None):
                 vals.append(rec["llm_calls"])
         return sum(vals) / len(vals) if vals else None
 
+    # ---------------- 表4 主表 ----------------
     summary = [{"method": "B0", "GM(F)": None, "GM(S)": 1.0,
+                "median(F)": None, "median(S)": 1.0,
                 "N_used": n_used, "LLM调用数/算子": None}]
     for m in common.METHODS:
         fs = [per_kernel[k][m][0] for k in usable]
@@ -116,27 +149,89 @@ def main(kernels=None):
             "method": {"b1": "B1", "b2": "B2", "full": "FULL"}[m],
             "GM(F)": common.geometric_mean(fs),
             "GM(S)": common.geometric_mean(ss),
+            "median(F)": median(fs),
+            "median(S)": median(ss),
             "N_used": n_used,
             "LLM调用数/算子": llm_calls_per_kernel(m),
         })
 
-    print(f"\n表4 整体优化效果（几何平均，N_used={n_used}）")
-    print(f"{'方法':<8}{'GM(F)':>12}{'GM(S)':>12}{'参与算子数':>10}{'LLM调用数/算子':>14}")
+    print(f"\n表4 整体优化效果（N_used={n_used}）")
+    print(f"{'方法':<8}{'GM(F)':>10}{'GM(S)':>10}{'中位数F':>10}{'中位数S':>10}"
+          f"{'参与算子数':>10}{'LLM调用数/算子':>14}")
     for s in summary:
-        gmf = f"{s['GM(F)']:.4f}" if s["GM(F)"] else "—"
+        gmf = f"{s['GM(F)']:.4f}" if s.get("GM(F)") else "—"
+        gms = f"{s['GM(S)']:.4f}" if s.get("GM(S)") else "—"
+        mdf = f"{s['median(F)']:.4f}" if s.get("median(F)") else "—"
+        mds = f"{s['median(S)']:.4f}" if s.get("median(S)") else "—"
         lc = f"{s['LLM调用数/算子']:.1f}" if s["LLM调用数/算子"] else "—"
-        print(f"{s['method']:<8}{gmf:>12}{s['GM(S)']:>12.4f}"
-              f"{s['N_used']:>10}{lc:>14}")
+        print(f"{s['method']:<8}{gmf:>10}{gms:>10}{mdf:>10}"
+              f"{mds:>10}{s['N_used']:>10}{lc:>14}")
 
-    # 落盘
+    # ---------------- 分组统计 ----------------
+    # 分组：组别由各 Kernel 的 T_base 决定
+    kg = {r['kernel']: r['group'] for r in rows}
+    grouped = {'short': [], 'mid': [], 'long': []}
+    for k in usable:
+        g = kg.get(k)
+        if g in grouped:
+            grouped[g].append(k)
+
+    print(f"\n按参考实现延迟分组的统计（各组的 GM(S) 与中位数）")
+    print(f"{'组别':<18}{'Kernel数':>8}{'B1_GM(S)':>11}{'B2_GM(S)':>11}"
+          f"{'FULL_GM(S)':>12}{'FULL_中位数S':>13}")
+    group_rows = []
+    for g in ('short', 'mid', 'long'):
+        ks = grouped[g]
+        if not ks:
+            continue
+        gvals = {m: [per_kernel[k][m][1] for k in ks] for m in common.METHODS}
+        line = f"{GROUP_LABEL[g]:<18}{len(ks):>8}"
+        for m in common.METHODS:
+            line += f"{common.geometric_mean(gvals[m]):>11.4f}" \
+                if m != 'full' else f"{common.geometric_mean(gvals[m]):>12.4f}"
+        med_full = median(gvals['full'])
+        line += f"{med_full:>13.4f}" if med_full else f"{'—':>13}"
+        print(line)
+        group_rows.append({
+            "group": g, "label": GROUP_LABEL[g], "n_kernel": len(ks),
+            "GM(S)_b1": common.geometric_mean(gvals['b1']),
+            "GM(S)_b2": common.geometric_mean(gvals['b2']),
+            "GM(S)_full": common.geometric_mean(gvals['full']),
+            "median(S)_full": median(gvals['full']),
+        })
+
+    # ---------------- 落盘 ----------------
     common.ensure_dirs()
     with open(common.RESULTS_DIR / "per_kernel.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ["kernel"])
         w.writeheader()
         w.writerows(rows)
     (common.RESULTS_DIR / "table4.json").write_text(
-        json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"\n[Summarize] 已写出 {common.RESULTS_DIR / 'per_kernel.csv'} 与 table4.json")
+        json.dumps({"summary": summary, "groups": group_rows},
+                   ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # Markdown（可直接粘进论文）
+    md = []
+    md.append("### 表4 整体优化效果\n")
+    md.append("| 方法 | GM(F) | GM(S) | 中位数F | 中位数S | 参与 Kernel 数 | LLM 调用数/算子 |")
+    md.append("|---|---|---|---|---|---|---|")
+    for s in summary:
+        gmf = f"{s['GM(F)']:.4f}" if s.get("GM(F)") else "—"
+        gms = f"{s['GM(S)']:.4f}" if s.get("GM(S)") else "—"
+        mdf = f"{s['median(F)']:.4f}" if s.get("median(F)") else "—"
+        mds = f"{s['median(S)']:.4f}" if s.get("median(S)") else "—"
+        lc = f"{s['LLM调用数/算子']:.1f}" if s["LLM调用数/算子"] else "—"
+        md.append(f"| {s['method']} | {gmf} | {gms} | {mdf} | "
+                  f"{mds} | {s['N_used']} | {lc} |")
+    md.append("\n### 表4b 按 Kernel 规模分组的加速比 GM(S)\n")
+    md.append("| 组别 | Kernel 数 | B1 | B2 | FULL | FULL 中位数 |")
+    md.append("|---|---|---|---|---|---|")
+    for g in group_rows:
+        md.append(f"| {g['label']} | {g['n_kernel']} | {g['GM(S)_b1']:.4f} | "
+                  f"{g['GM(S)_b2']:.4f} | {g['GM(S)_full']:.4f} | {g['median(S)_full']:.4f} |")
+    (common.RESULTS_DIR / "table4.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+
+    print(f"\n[Summarize] 已写出 per_kernel.csv / table4.json / table4.md")
     return summary
 
 

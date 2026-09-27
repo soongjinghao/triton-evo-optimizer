@@ -321,12 +321,19 @@ class TritonExecutor:
         """
         samples = []
         last_err = None
+        consecutive_failures = 0
         for _ in range(max(1, repeats)):
             res = self.evaluate(code, timeout=timeout, device_id=device_id)
             if res.success and res.execution_time > 0:
                 samples.append(res.execution_time)
+                consecutive_failures = 0
             else:
                 last_err = res.error or "measurement failed"
+                consecutive_failures += 1
+                # 编译/正确性失败是确定性的，重复测量不会改变结果，
+                # 连续失败即提前退出，避免对不可用种子浪费全部 repeats 次评测。
+                if consecutive_failures >= 2:
+                    break
 
         if not samples:
             return EvaluationResult(False, 0.0, 0.0, 0.0, error=last_err)

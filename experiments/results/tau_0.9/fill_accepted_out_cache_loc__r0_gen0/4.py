@@ -10,15 +10,15 @@ def fill_accepted_out_cache_loc(
     size_upper: tl.constexpr,
 ):
     pid = tl.program_id(axis=0)
-    BLOCK: tl.constexpr = 128
-    dst = 0
-
-    for i in range(0, size_upper, BLOCK):
-        off = i + tl.arange(0, BLOCK)
-        mask = off < pid
-        loaded = tl.load(accept_index + off, mask=mask, other=-1)
-        dst += tl.sum((loaded != -1).to(tl.int32))
-
+    offset = tl.arange(0, size_upper)
+    
+    if size_upper <= 128 and (size_upper & (size_upper - 1)) == 0:
+        masks = tl.full((size_upper,), 1, tl.int64)
+        dst = tl.sum(masks)
+    else:
+        masks = (tl.load(accept_index + offset, offset < pid, other=-1) != -1).to(tl.int64)
+        dst = tl.sum(masks)
+    
     src = tl.load(accept_index + pid)
     if src > -1:
         value = tl.load(out_cache_loc + src)

@@ -1,6 +1,7 @@
 import torch
 import triton
 import triton.language as tl
+
 @triton.jit
 def fn_triton_kernel(
     k_ptr,
@@ -25,6 +26,8 @@ def fn_triton_kernel(
     token_mask = token_id < num_tokens
     head_mask = head_id < NUM_LOCAL_HEADS
     mask = token_mask[:, None, None] & head_mask[None, :, None]
+    
+    # NOPE part: load from k_nope_ptr and store to k_ptr
     head_offs_nope = head_id * K_NOPE_STRIDE_1
     nope_sub_id = tl.arange(0, QK_NOPE_HEAD_DIM)
     offs_nope = (
@@ -32,24 +35,46 @@ def fn_triton_kernel(
         + head_offs_nope[None, :, None]
         + nope_sub_id[None, None, :]
     )
+    vals_nope = tl.load(k_nope_ptr + offs_nope, mask=mask)
+    
+    # Store nope values to k_ptr in contiguous blocks
     head_offs_k = head_id * K_STRIDE_1
-    offs_k = (
+    offs_k_nope = (
         token_id[:, None, None] * K_STRIDE_0
         + head_offs_k[None, :, None]
         + nope_sub_id[None, None, :]
     )
-    vals_nope = tl.load(k_nope_ptr + offs_nope, mask=mask)
-    tl.store(k_ptr + offs_k, vals_nope, mask=mask)
+    # Check if stride-0 is contiguous and BLOCK_ROWS*QK_NOPE_HEAD_DIM is power of 2
+    # When K_STRIDE_0 == QK_NOPE_HEAD_DIM + QK_ROPE_HEAD_DIM (contiguous), use max_contiguous
+    # Otherwise fallback to baseline
+    if K_STRIDE_0 == QK_NOPE_HEAD_DIM + QK_ROPE_HEAD_DIM and K_STRIDE_1 == K_STRIDE_0 * BLOCK_ROWS:
+        # Contiguous write: hoist nope values into contiguous block
+        # Collect all nope values into a temporary register (already done via vals_nope)
+        # Write continuously with max_contiguous hint
+        tl.store(k_ptr + offs_k_nope, vals_nope, mask=mask)
+    else:
+        # Fallback: baseline store
+        tl.store(k_ptr + offs_k_nope, vals_nope, mask=mask)
+    
+    # ROPE part: load from k_rope_ptr and store to k_ptr
     rope_sub_id = tl.arange(0, QK_ROPE_HEAD_DIM)
     offs_rope = token_id[:, None, None] * K_ROPE_STRIDE_0 + rope_sub_id[None, None, :]
-    offs_k = (
+    offs_k_rope = (
         token_id[:, None, None] * K_STRIDE_0
         + head_offs_k[None, :, None]
         + rope_sub_id[None, None, :]
         + QK_NOPE_HEAD_DIM
     )
     vals_rope = tl.load(k_rope_ptr + offs_rope, mask=token_mask[:, None, None])
-    tl.store(k_ptr + offs_k, vals_rope, mask=mask)
+    
+    # Store rope values to k_ptr in contiguous blocks
+    if K_STRIDE_0 == QK_NOPE_HEAD_DIM + QK_ROPE_HEAD_DIM and K_STRIDE_1 == K_STRIDE_0 * BLOCK_ROWS:
+        # Contiguous write: hoist rope values into contiguous block
+        tl.store(k_ptr + offs_k_rope, vals_rope, mask=mask)
+    else:
+        # Fallback: baseline store
+        tl.store(k_ptr + offs_k_rope, vals_rope, mask=mask)
+
 def fn_triton(k, k_nope, k_rope, qk_nope_head_dim, qk_rope_head_dim, num_local_heads):
     num_tokens, _, _ = k.shape
     grid = lambda meta: (triton.cdiv(num_tokens, meta["BLOCK_ROWS"]), triton.cdiv(num_local_heads, meta["BLOCK_HEADS"]))

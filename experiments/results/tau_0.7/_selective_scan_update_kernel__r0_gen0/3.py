@@ -125,97 +125,47 @@ def _selective_scan_update_kernel(
     if HAS_Z:
         z_ptrs = z_ptr + offs_m * stride_z_dim
     out_ptrs = out_ptr + offs_m * stride_out_dim
-
+    mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
     if HAS_STATE_BATCH_INDICES:
-        if state_batch_idx == pad_slot_id:
-            x = tl.load(x_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-            if HAS_D:
-                D = tl.load(D_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-                out = x * D
-            else:
-                out = tl.zeros((BLOCK_SIZE_M,), dtype=tl.float32)
-            if HAS_Z:
-                z = tl.load(z_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-                out *= z * tl.sigmoid(z)
-            tl.store(out_ptrs, out, mask=offs_m < dim)
-        else:
-            mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
-            mask &= state_batch_idx != pad_slot_id
-            state = tl.load(state_ptrs, mask=mask, other=0.0)
-            x = tl.load(x_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-            if not TIE_HDIM:
-                dt = tl.load(dt_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-                if HAS_DT_BIAS:
-                    dt += tl.load(dt_bias_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-                if DT_SOFTPLUS:
-                    dt = softplus(dt)
-                A = tl.load(
-                    A_ptrs, mask=(offs_m[:, None] < dim) & (offs_n[None, :] < dstate), other=0.0
-                ).to(tl.float32)
-                dA = tl.exp(A * dt[:, None])
-            else:
-                dt = tl.load(dt_ptr).to(tl.float32)
-                if HAS_DT_BIAS:
-                    dt += tl.load(dt_bias_ptr).to(tl.float32)
-                if DT_SOFTPLUS:
-                    dt = softplus(dt)
-                A = tl.load(A_ptr).to(tl.float32)
-                dA = tl.exp(A * dt)
-            B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
-            C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
-            if HAS_D:
-                D = tl.load(D_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-            if HAS_Z:
-                z = tl.load(z_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-            dB = B[None, :] * dt[:, None] if not TIE_HDIM else B * dt
-            state = state * dA + dB * x[:, None]
-            mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
-            mask &= state_batch_idx != pad_slot_id
-            tl.store(state_ptrs, state, mask=mask)
-            out = tl.sum(state * C[None, :], axis=1)
-            if HAS_D:
-                out += x * D
-            if HAS_Z:
-                out *= z * tl.sigmoid(z)
-            tl.store(out_ptrs, out, mask=offs_m < dim)
+        mask &= state_batch_idx != pad_slot_id
+    state = tl.load(state_ptrs, mask=mask, other=0.0)
+    x = tl.load(x_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
+    if not TIE_HDIM:
+        dt = tl.load(dt_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
+        if HAS_DT_BIAS:
+            dt += tl.load(dt_bias_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
+        if DT_SOFTPLUS:
+            dt = softplus(dt)
+        A = tl.load(
+            A_ptrs, mask=(offs_m[:, None] < dim) & (offs_n[None, :] < dstate), other=0.0
+        ).to(tl.float32)
+        dA = tl.exp(A * dt[:, None])
     else:
-        mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
-        state = tl.load(state_ptrs, mask=mask, other=0.0)
-        x = tl.load(x_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-        if not TIE_HDIM:
-            dt = tl.load(dt_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-            if HAS_DT_BIAS:
-                dt += tl.load(dt_bias_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-            if DT_SOFTPLUS:
-                dt = softplus(dt)
-            A = tl.load(
-                A_ptrs, mask=(offs_m[:, None] < dim) & (offs_n[None, :] < dstate), other=0.0
-            ).to(tl.float32)
-            dA = tl.exp(A * dt[:, None])
-        else:
-            dt = tl.load(dt_ptr).to(tl.float32)
-            if HAS_DT_BIAS:
-                dt += tl.load(dt_bias_ptr).to(tl.float32)
-            if DT_SOFTPLUS:
-                dt = softplus(dt)
-            A = tl.load(A_ptr).to(tl.float32)
-            dA = tl.exp(A * dt)
-        B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
-        C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
-        if HAS_D:
-            D = tl.load(D_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-        if HAS_Z:
-            z = tl.load(z_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-        dB = B[None, :] * dt[:, None] if not TIE_HDIM else B * dt
-        state = state * dA + dB * x[:, None]
-        mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
-        tl.store(state_ptrs, state, mask=mask)
-        out = tl.sum(state * C[None, :], axis=1)
-        if HAS_D:
-            out += x * D
-        if HAS_Z:
-            out *= z * tl.sigmoid(z)
-        tl.store(out_ptrs, out, mask=offs_m < dim)
+        dt = tl.load(dt_ptr + offs_m * stride_dt_dim, mask=offs_m < dim, other=0.0).to(tl.float32)
+        if HAS_DT_BIAS:
+            dt += tl.load(dt_bias_ptr + offs_m * stride_dt_bias_dim, mask=offs_m < dim, other=0.0).to(tl.float32)
+        if DT_SOFTPLUS:
+            dt = softplus(dt)
+        A = tl.load(A_ptr + offs_m[:, None] * stride_A_dim + offs_n[None, :] * stride_A_dstate, mask=(offs_m[:, None] < dim) & (offs_n[None, :] < dstate), other=0.0).to(tl.float32)
+        dA = tl.exp(A * dt[:, None])
+    B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
+    C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
+    if HAS_D:
+        D = tl.load(D_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
+    if HAS_Z:
+        z = tl.load(z_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
+    dB = B[None, :] * dt[:, None] if not TIE_HDIM else B * dt[:, None]
+    state = state * dA + dB * x[:, None]
+    mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
+    if HAS_STATE_BATCH_INDICES:
+        mask &= state_batch_idx != pad_slot_id
+    tl.store(state_ptrs, state, mask=mask)
+    out = tl.sum(state * C[None, :], axis=1)
+    if HAS_D:
+        out += x * D
+    if HAS_Z:
+        out *= z * tl.sigmoid(z)
+    tl.store(out_ptrs, out, mask=offs_m < dim)
 def selective_state_update(
     state,
     x,

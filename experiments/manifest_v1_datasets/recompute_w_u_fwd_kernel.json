@@ -1,0 +1,23 @@
+{
+  "kernel": "recompute_w_u_fwd_kernel",
+  "t_base_us": 21.580431,
+  "t_seed_us": 21.580431,
+  "seed_similarity": 0.8325955074602394,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "recompute_w_u_fwd_kernel.py": {
+      "path": "/workspace/Agent/datasets/recompute_w_u_fwd_kernel/recompute_w_u_fwd_kernel.py",
+      "latency_us": 21.580431,
+      "success": true,
+      "error": null
+    },
+    "recompute_w_u_fwd_kernel_1.py": {
+      "path": "/workspace/Agent/datasets/recompute_w_u_fwd_kernel/recompute_w_u_fwd_kernel_1.py",
+      "latency_us": 21.900438,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-21T13:43:34"
+}

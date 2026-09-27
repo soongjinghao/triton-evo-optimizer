@@ -4,13 +4,21 @@
 set -u
 cd /workspace/Agent
 
-source set_env/set_api_huoshan.sh
-export ENGINE_FLASH=deepseek-v4-flash-ga-260731
-export ENGINE_PRO=deepseek-v4-pro-ga-260813
+# 默认用本地 vLLM；ENV=cloud 时切回火山方舟
+ENV="${ENV:-local}"
+if [ "$ENV" = "cloud" ]; then
+  source set_env/set_api_huoshan.sh
+  export ENGINE_FLASH=deepseek-v4-flash-ga-260731
+  export ENGINE_PRO=deepseek-v4-pro-ga-260813
+  echo "[env] cloud (flash + pro 双模型)"
+else
+  source set_env/set_api_local.sh
+  echo "[env] local (单模型，两角色共用)"
+fi
 
 PY=/usr/local/python3.11.15/bin/python3.11
-KERNELS="eye_kernel matmul_kernel_simplified _act_quant_kernel"
-METHODS="b1 b2 full"
+KERNELS="${KERNELS:-eye_kernel matmul_kernel_simplified _act_quant_kernel}"
+METHODS="${METHODS:-b1 b2 full}"
 
 for k in $KERNELS; do
   for m in $METHODS; do

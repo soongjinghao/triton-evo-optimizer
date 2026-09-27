@@ -1,0 +1,23 @@
+{
+  "kernel": "_correct_attn_cp_out_kernel",
+  "method": "tau_0.7",
+  "run_id": 0,
+  "seed": 0,
+  "tau": 0.7,
+  "best_id": "794dd27f",
+  "best_fitness": 1.0084865828886604,
+  "best_latency_us": 7.02014,
+  "n_eval": 5,
+  "n_eval_done": 5,
+  "n_valid": 5,
+  "n_ast_reject": 0,
+  "n_seeds_total": 2,
+  "n_seeds_retained": 1,
+  "gen0_count": 6,
+  "d_g0": 0.1564,
+  "elapsed_seconds": 128.7,
+  "llm_calls": 7,
+  "llm_tokens": 18989,
+  "code_path": "/workspace/Agent/experiments/results/tau_0.7/_correct_attn_cp_out_kernel__r0.py",
+  "created_at": "2026-09-26T06:02:23"
+}

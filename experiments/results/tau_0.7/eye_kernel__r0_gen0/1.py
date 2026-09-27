@@ -19,8 +19,8 @@ def eye_kernel(
     mask_j = off_j < M
     val = tl.where(off_i[:, None] == off_j[None, :], 1.0, 0.0)
     mask = mask_i[:, None] & mask_j[None, :]
-    row_base = off_i * M
-    tl.store(out_ptr + row_base[:, None] + off_j[None, :], val, mask=mask)
+    off_ij = off_i[:, None] * M + off_j[None, :]
+    tl.store(out_ptr + off_ij, val, mask=mask)
 def eye_m(n, m, *, dtype=None, layout=torch.strided, device=None, pin_memory=None):
     logger.debug("GEMS EYE_M")
     if dtype is None:
@@ -36,8 +36,8 @@ def eye_m(n, m, *, dtype=None, layout=torch.strided, device=None, pin_memory=Non
         BLOCK_i = 16
         BLOCK_j = 64
     else:
-        BLOCK_i = 32
-        BLOCK_j = 32
+        BLOCK_i = 16
+        BLOCK_j = 64
     grid = (triton.cdiv(n, BLOCK_i), triton.cdiv(m, BLOCK_j))
     eye_kernel[grid](
         out,

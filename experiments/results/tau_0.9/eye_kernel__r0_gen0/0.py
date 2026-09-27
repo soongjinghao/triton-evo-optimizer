@@ -2,7 +2,9 @@ import logging
 import torch
 import triton
 import triton.language as tl
+
 logger = logging.getLogger(__name__)
+
 @triton.jit
 def eye_kernel(
     out_ptr,
@@ -11,17 +13,19 @@ def eye_kernel(
     BLOCK_i: tl.constexpr,
     BLOCK_j: tl.constexpr,
 ):
-    pid_i = tl.program_id(0)
+    pid = tl.program_id(0)
+    num_i = tl.cdiv(N, BLOCK_i)
+    pid_i = pid // num_i
+    pid_j = pid % num_i
     off_i = pid_i * BLOCK_i + tl.arange(0, BLOCK_i)
     mask_i = off_i < N
-    pid_j = tl.program_id(1)
     off_j = pid_j * BLOCK_j + tl.arange(0, BLOCK_j)
     mask_j = off_j < M
     val = tl.where(off_i[:, None] == off_j[None, :], 1.0, 0.0)
     mask = mask_i[:, None] & mask_j[None, :]
-    row_off = off_i * M
-    off_ij = row_off[:, None] + off_j[None, :]
+    off_ij = off_i[:, None] * M + off_j[None, :]
     tl.store(out_ptr + off_ij, val, mask=mask)
+
 def eye_m(n, m, *, dtype=None, layout=torch.strided, device=None, pin_memory=None):
     logger.debug("GEMS EYE_M")
     if dtype is None:
@@ -39,12 +43,25 @@ def eye_m(n, m, *, dtype=None, layout=torch.strided, device=None, pin_memory=Non
     else:
         BLOCK_i = 32
         BLOCK_j = 32
-    grid = (triton.cdiv(n, BLOCK_i), triton.cdiv(m, BLOCK_j))
-    eye_kernel[grid](
-        out,
-        n,
-        m,
-        BLOCK_i,
-        BLOCK_j,
-    )
+    grid_i = triton.cdiv(n, BLOCK_i)
+    grid_j = triton.cdiv(m, BLOCK_j)
+    total_programs = grid_i * grid_j
+    if total_programs < 4:
+        grid = (grid_i, grid_j)
+        eye_kernel[grid](
+            out,
+            n,
+            m,
+            BLOCK_i,
+            BLOCK_j,
+        )
+    else:
+        grid = (total_programs,)
+        eye_kernel[grid](
+            out,
+            n,
+            m,
+            BLOCK_i,
+            BLOCK_j,
+        )
     return out

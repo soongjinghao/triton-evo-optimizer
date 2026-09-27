@@ -503,7 +503,9 @@ class GeneticOperators:
         ]
 
         metadata = {'operation': 'gen0_strategy_guided', 'applied_strategy': strategy_str}
-        response = self.llm.generate("\n".join(prompt_parts), system_msg=self.SYSTEM_CODER, purpose='initial', max_tokens=16888)
+        response = self.llm.generate("\n".join(prompt_parts), system_msg=self.SYSTEM_CODER,
+                                     purpose='initial',
+                                     max_tokens=getattr(self.config, 'max_llm_tokens', 8192))
         self._track_tokens(response, metadata)
 
         sanitized_code, syntax_error = self._sanitize_code(response.text, original_code=baseline_code)
@@ -537,7 +539,8 @@ class GeneticOperators:
 
         metadata = {'operation': 'gen0_plain', 'applied_strategy': 'NONE'}
         response = self.llm.generate("\n".join(prompt_parts), system_msg=self.SYSTEM_CODER,
-                                     purpose='initial', max_tokens=16888)
+                                     purpose='initial',
+                                     max_tokens=getattr(self.config, 'max_llm_tokens', 8192))
         self._track_tokens(response, metadata)
 
         sanitized_code, syntax_error = self._sanitize_code(response.text, original_code=baseline_code)

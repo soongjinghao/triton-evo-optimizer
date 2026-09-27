@@ -3,13 +3,16 @@
 import json
 import time
 import random
+import os
 from pathlib import Path
 from typing import List, Optional
 
 import numpy as np
 
 AGENT_DIR = Path(__file__).resolve().parent.parent
-DATASETS_DIR = AGENT_DIR / "datasets"
+# 论文使用官方原始种子集 datasets2（未经人工优化）。
+# 如需回到含手动优化种子的 datasets，设环境变量 DATASETS_DIR=.../Agent/datasets
+DATASETS_DIR = Path(os.getenv("DATASETS_DIR") or (AGENT_DIR / "datasets2"))
 EXPERIMENTS_DIR = AGENT_DIR / "experiments"
 LOGS_DIR = EXPERIMENTS_DIR / "logs"
 MANIFEST_DIR = EXPERIMENTS_DIR / "manifest"

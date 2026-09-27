@@ -1,0 +1,23 @@
+{
+  "kernel": "l2norm_fwd_kernel1",
+  "t_base_us": 4.100082,
+  "t_seed_us": 2.020041,
+  "seed_similarity": 0.4426502018522916,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "l2norm_fwd_kernel1.py": {
+      "path": "/workspace/Agent/datasets2/l2norm_fwd_kernel1/l2norm_fwd_kernel1.py",
+      "latency_us": 4.100082,
+      "success": true,
+      "error": null
+    },
+    "l2norm_fwd_kernel1_1.py": {
+      "path": "/workspace/Agent/datasets2/l2norm_fwd_kernel1/l2norm_fwd_kernel1_1.py",
+      "latency_us": 2.020041,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-26T13:07:37"
+}

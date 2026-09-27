@@ -3,19 +3,28 @@ import triton
 import triton.language as tl
 import torch.nn.functional as F
 from packaging import version
+
 from typing import Optional
+
 PAD_SLOT_ID = -1
+
 TRITON3 = version.parse(triton.__version__) >= version.parse("3.0.0")
+
 if TRITON3:
+
     @triton.jit
     def softplus(dt):
         dt = tl.where(dt <= 20.0, tl.math.log(tl.math.exp(dt) + 1), dt)
         return dt
+
 else:
+
     @triton.jit
     def softplus(dt):
         dt = tl.where(dt <= 20.0, tl.math.log1p(tl.exp(dt)), dt)
         return dt
+
+
 @triton.heuristics({"HAS_DT_BIAS": lambda args: args["dt_bias_ptr"] is not None})
 @triton.heuristics({"HAS_D": lambda args: args["D_ptr"] is not None})
 @triton.heuristics({"HAS_Z": lambda args: args["z_ptr"] is not None})
@@ -88,12 +97,14 @@ def _selective_scan_update_kernel(
     pid_m = tl.program_id(axis=0)
     pid_b = tl.program_id(axis=1)
     pid_h = tl.program_id(axis=2)
+
     if HAS_STATE_BATCH_INDICES:
         state_batch_indices_ptr += pid_b
         state_batch_idx = tl.load(state_batch_indices_ptr).to(tl.int64)
         state_ptr += state_batch_idx * stride_state_batch + pid_h * stride_state_head
     else:
         state_ptr += pid_b * stride_state_batch + pid_h * stride_state_head
+
     x_ptr += pid_b * stride_x_batch + pid_h * stride_x_head
     dt_ptr += pid_b * stride_dt_batch + pid_h * stride_dt_head
     if HAS_DT_BIAS:
@@ -104,6 +115,7 @@ def _selective_scan_update_kernel(
     if HAS_Z:
         z_ptr += pid_b * stride_z_batch + pid_h * stride_z_head
     out_ptr += pid_b * stride_out_batch + pid_h * stride_out_head
+
     offs_m = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
     offs_n = tl.arange(0, BLOCK_SIZE_DSTATE)
     state_ptrs = state_ptr + (
@@ -129,6 +141,7 @@ def _selective_scan_update_kernel(
     if HAS_STATE_BATCH_INDICES:
         mask &= state_batch_idx != pad_slot_id
     state = tl.load(state_ptrs, mask=mask, other=0.0)
+
     x = tl.load(x_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
     if not TIE_HDIM:
         dt = tl.load(dt_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
@@ -148,14 +161,17 @@ def _selective_scan_update_kernel(
             dt = softplus(dt)
         A = tl.load(A_ptr).to(tl.float32)
         dA = tl.exp(A * dt)
+
     B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     if HAS_D:
         D = tl.load(D_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
     if HAS_Z:
         z = tl.load(z_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
+
     dB = B[None, :] * dt[:, None] if not TIE_HDIM else B * dt
     state = state * dA + dB * x[:, None]
+
     mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
     if HAS_STATE_BATCH_INDICES:
         mask &= state_batch_idx != pad_slot_id
@@ -166,6 +182,8 @@ def _selective_scan_update_kernel(
     if HAS_Z:
         out *= z * tl.sigmoid(z)
     tl.store(out_ptrs, out, mask=offs_m < dim)
+
+
 def selective_state_update(
     state,
     x,
@@ -181,6 +199,7 @@ def selective_state_update(
     pad_slot_id=PAD_SLOT_ID,
     out=None,
 ):
+
     if state.dim() == 3:
         state = state.unsqueeze(1)
     if x.dim() == 2:
@@ -201,8 +220,10 @@ def selective_state_update(
         dt_bias = dt_bias.unsqueeze(0)
     if out.dim() == 2:
         out = out.unsqueeze(1)
+
     _, nheads, dim, dstate = state.shape
     batch = x.shape[0]
+
     assert x.shape == (batch, nheads, dim)
     assert dt.shape == x.shape
     assert A.shape == (nheads, dim, dstate)
@@ -219,15 +240,17 @@ def selective_state_update(
     if state_batch_indices is not None:
         assert state_batch_indices.shape == (batch,)
     assert out.shape == x.shape
+
     grid = lambda META: (triton.cdiv(dim, META["BLOCK_SIZE_M"]), batch, nheads)
     z_strides = (z.stride(0), z.stride(1), z.stride(2)) if z is not None else (0, 0, 0)
+
     BLOCK_SIZE_M, num_warps = (
         (32, 4)
         if dstate <= 16
         else (
-            (32, 8)
+            (16, 4)
             if dstate <= 32
-            else ((16, 8) if dstate <= 64 else ((4, 4) if dstate <= 128 else ((4, 8))))
+            else ((8, 4) if dstate <= 64 else ((4, 4) if dstate <= 128 else ((4, 8))))
         )
     )
     tie_hdim = (

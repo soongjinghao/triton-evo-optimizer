@@ -1,0 +1,23 @@
+{
+  "kernel": "moe_align_block_size_stage",
+  "t_base_us": 15.020301,
+  "t_seed_us": 15.020301,
+  "seed_similarity": 0.9966233766233766,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "moe_align_block_size_stage.py": {
+      "path": "/workspace/Agent/datasets2/moe_align_block_size_stage/moe_align_block_size_stage.py",
+      "latency_us": 15.020301,
+      "success": true,
+      "error": null
+    },
+    "moe_align_block_size_stage_1.py": {
+      "path": "/workspace/Agent/datasets2/moe_align_block_size_stage/moe_align_block_size_stage_1.py",
+      "latency_us": 15.080301,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-26T14:16:46"
+}

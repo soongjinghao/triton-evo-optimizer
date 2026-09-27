@@ -3,19 +3,28 @@ import triton
 import triton.language as tl
 import torch.nn.functional as F
 from packaging import version
+
 from typing import Optional
+
 PAD_SLOT_ID = -1
+
 TRITON3 = version.parse(triton.__version__) >= version.parse("3.0.0")
+
 if TRITON3:
+
     @triton.jit
     def softplus(dt):
         dt = tl.where(dt <= 20.0, tl.math.log(tl.math.exp(dt) + 1), dt)
         return dt
+
 else:
+
     @triton.jit
     def softplus(dt):
         dt = tl.where(dt <= 20.0, tl.math.log1p(tl.exp(dt)), dt)
         return dt
+
+
 @triton.heuristics({"HAS_DT_BIAS": lambda args: args["dt_bias_ptr"] is not None})
 @triton.heuristics({"HAS_D": lambda args: args["D_ptr"] is not None})
 @triton.heuristics({"HAS_Z": lambda args: args["z_ptr"] is not None})
@@ -78,8 +87,6 @@ def _selective_scan_update_kernel(
     stride_out_dim,
     DT_SOFTPLUS: tl.constexpr,
     TIE_HDIM: tl.constexpr,
-    IS_DIM_CONTIGUOUS: tl.constexpr,
-    IS_DSTATE_CONTIGUOUS: tl.constexpr,
     BLOCK_SIZE_M: tl.constexpr,
     HAS_DT_BIAS: tl.constexpr,
     HAS_D: tl.constexpr,
@@ -90,12 +97,14 @@ def _selective_scan_update_kernel(
     pid_m = tl.program_id(axis=0)
     pid_b = tl.program_id(axis=1)
     pid_h = tl.program_id(axis=2)
+
     if HAS_STATE_BATCH_INDICES:
         state_batch_indices_ptr += pid_b
         state_batch_idx = tl.load(state_batch_indices_ptr).to(tl.int64)
         state_ptr += state_batch_idx * stride_state_batch + pid_h * stride_state_head
     else:
         state_ptr += pid_b * stride_state_batch + pid_h * stride_state_head
+
     x_ptr += pid_b * stride_x_batch + pid_h * stride_x_head
     dt_ptr += pid_b * stride_dt_batch + pid_h * stride_dt_head
     if HAS_DT_BIAS:
@@ -106,31 +115,14 @@ def _selective_scan_update_kernel(
     if HAS_Z:
         z_ptr += pid_b * stride_z_batch + pid_h * stride_z_head
     out_ptr += pid_b * stride_out_batch + pid_h * stride_out_head
+
     offs_m = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
     offs_n = tl.arange(0, BLOCK_SIZE_DSTATE)
-    mask_m = offs_m < dim
-    mask_2d = mask_m[:, None] & (offs_n[None, :] < dstate)
-    state_mask = mask_2d
-    if HAS_STATE_BATCH_INDICES:
-        state_mask = state_mask & (state_batch_idx != pad_slot_id)
-
-    if IS_DSTATE_CONTIGUOUS:
-        state_ptrs = state_ptr + (
-            offs_m[:, None] * stride_state_dim + offs_n[None, :]
-        )
-    else:
-        state_ptrs = state_ptr + (
-            offs_m[:, None] * stride_state_dim
-            + offs_n[None, :] * stride_state_dstate
-        )
-    if IS_DIM_CONTIGUOUS:
-        x_ptrs = x_ptr + offs_m
-    else:
-        x_ptrs = x_ptr + offs_m * stride_x_dim
-    if IS_DIM_CONTIGUOUS:
-        dt_ptrs = dt_ptr + offs_m
-    else:
-        dt_ptrs = dt_ptr + offs_m * stride_dt_dim
+    state_ptrs = state_ptr + (
+        offs_m[:, None] * stride_state_dim + offs_n[None, :] * stride_state_dstate
+    )
+    x_ptrs = x_ptr + offs_m * stride_x_dim
+    dt_ptrs = dt_ptr + offs_m * stride_dt_dim
     if HAS_DT_BIAS:
         dt_bias_ptrs = dt_bias_ptr + offs_m * stride_dt_bias_dim
     if HAS_D:
@@ -144,20 +136,22 @@ def _selective_scan_update_kernel(
         D_ptrs = D_ptr + offs_m * stride_D_dim
     if HAS_Z:
         z_ptrs = z_ptr + offs_m * stride_z_dim
-    if IS_DIM_CONTIGUOUS:
-        out_ptrs = out_ptr + offs_m
-    else:
-        out_ptrs = out_ptr + offs_m * stride_out_dim
+    out_ptrs = out_ptr + offs_m * stride_out_dim
+    mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
+    if HAS_STATE_BATCH_INDICES:
+        mask &= state_batch_idx != pad_slot_id
+    state = tl.load(state_ptrs, mask=mask, other=0.0)
 
-    state = tl.load(state_ptrs, mask=state_mask, other=0.0)
-    x = tl.load(x_ptrs, mask=mask_m, other=0.0).to(tl.float32)
+    x = tl.load(x_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
     if not TIE_HDIM:
-        dt = tl.load(dt_ptrs, mask=mask_m, other=0.0).to(tl.float32)
+        dt = tl.load(dt_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
         if HAS_DT_BIAS:
-            dt += tl.load(dt_bias_ptrs, mask=mask_m, other=0.0).to(tl.float32)
+            dt += tl.load(dt_bias_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
         if DT_SOFTPLUS:
             dt = softplus(dt)
-        A = tl.load(A_ptrs, mask=mask_2d, other=0.0).to(tl.float32)
+        A = tl.load(
+            A_ptrs, mask=(offs_m[:, None] < dim) & (offs_n[None, :] < dstate), other=0.0
+        ).to(tl.float32)
         dA = tl.exp(A * dt[:, None])
     else:
         dt = tl.load(dt_ptr).to(tl.float32)
@@ -167,21 +161,29 @@ def _selective_scan_update_kernel(
             dt = softplus(dt)
         A = tl.load(A_ptr).to(tl.float32)
         dA = tl.exp(A * dt)
+
     B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     if HAS_D:
-        D = tl.load(D_ptrs, mask=mask_m, other=0.0).to(tl.float32)
+        D = tl.load(D_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
     if HAS_Z:
-        z = tl.load(z_ptrs, mask=mask_m, other=0.0).to(tl.float32)
+        z = tl.load(z_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
+
     dB = B[None, :] * dt[:, None] if not TIE_HDIM else B * dt
     state = state * dA + dB * x[:, None]
-    tl.store(state_ptrs, state, mask=state_mask)
+
+    mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
+    if HAS_STATE_BATCH_INDICES:
+        mask &= state_batch_idx != pad_slot_id
+    tl.store(state_ptrs, state, mask=mask)
     out = tl.sum(state * C[None, :], axis=1)
     if HAS_D:
         out += x * D
     if HAS_Z:
         out *= z * tl.sigmoid(z)
-    tl.store(out_ptrs, out, mask=mask_m)
+    tl.store(out_ptrs, out, mask=offs_m < dim)
+
+
 def selective_state_update(
     state,
     x,
@@ -197,6 +199,7 @@ def selective_state_update(
     pad_slot_id=PAD_SLOT_ID,
     out=None,
 ):
+
     if state.dim() == 3:
         state = state.unsqueeze(1)
     if x.dim() == 2:
@@ -217,8 +220,10 @@ def selective_state_update(
         dt_bias = dt_bias.unsqueeze(0)
     if out.dim() == 2:
         out = out.unsqueeze(1)
+
     _, nheads, dim, dstate = state.shape
     batch = x.shape[0]
+
     assert x.shape == (batch, nheads, dim)
     assert dt.shape == x.shape
     assert A.shape == (nheads, dim, dstate)
@@ -235,8 +240,10 @@ def selective_state_update(
     if state_batch_indices is not None:
         assert state_batch_indices.shape == (batch,)
     assert out.shape == x.shape
+
     grid = lambda META: (triton.cdiv(dim, META["BLOCK_SIZE_M"]), batch, nheads)
     z_strides = (z.stride(0), z.stride(1), z.stride(2)) if z is not None else (0, 0, 0)
+
     BLOCK_SIZE_M, num_warps = (
         (32, 4)
         if dstate <= 16
@@ -252,12 +259,6 @@ def selective_state_update(
         and dt.stride(-1) == 0
         and dt_bias.stride(-1) == 0
     )
-    is_dim_contiguous = (
-        x.stride(-1) == 1
-        and dt.stride(-1) == 1
-        and out.stride(-1) == 1
-    )
-    is_dstate_contiguous = state.stride(-1) == 1
     _selective_scan_update_kernel[grid](
         state,
         x,
@@ -305,8 +306,6 @@ def selective_state_update(
         out.stride(2),
         dt_softplus,
         tie_hdim,
-        is_dim_contiguous,
-        is_dstate_contiguous,
         BLOCK_SIZE_M,
         num_warps=num_warps,
     )

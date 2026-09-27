@@ -93,6 +93,13 @@ def stage_search(kernel_name: str, method: str, run_id: int = 0, seed: int = 0,
 
     ea, config = build_ea(kernel_name, method, run_id=run_id, seed=seed, **override)
 
+    # 每次搜索重置事件日志：ExpLogger 以追加模式写入，若沿用上次的日志文件，
+    # 历史事件会被重复计入 n_valid / n_ast_reject，导致有效候选率 > 100%。
+    if getattr(config, "log_path", None):
+        _lp = Path(config.log_path)
+        if _lp.exists():
+            _lp.unlink()
+
     # 同一 (method, kernel, run_id) 重跑时重置日志，避免事件重复计数
     if config.log_path and Path(config.log_path).exists():
         Path(config.log_path).unlink()
@@ -141,6 +148,15 @@ def stage_search(kernel_name: str, method: str, run_id: int = 0, seed: int = 0,
                 n_seeds_after = rec.get("seeds_after", 0)
 
     n_seeds_total = len(common.seed_code_paths(kernel_name))
+    # LLM 成功率统计：LLM 全部失败时种群只剩种子，fitness 恒为 1.0，
+    # 这是"假成功"，必须显式标记，避免污染最终统计。
+    _stats = ea.genetic_ops.llm.get_stats()
+    _pb = _stats.get("purpose_breakdown") or {}
+    _llm_total = sum(p.get("count", 0) for p in _pb.values())
+    _llm_ok = sum(p.get("success", 0) for p in _pb.values())
+    _llm_rate = (_llm_ok / _llm_total) if _llm_total else 0.0
+    _search_ok = bool(_llm_total and _llm_rate >= 0.5)
+
     record = {
         "kernel": kernel_name,
         "method": method,
@@ -159,8 +175,11 @@ def stage_search(kernel_name: str, method: str, run_id: int = 0, seed: int = 0,
         "gen0_count": len(gen0_codes),
         "d_g0": round(d_g0, 4),
         "elapsed_seconds": round(elapsed, 1),
-        "llm_calls": ea.genetic_ops.llm.get_stats()["call_count"],
-        "llm_tokens": ea.genetic_ops.llm.get_stats()["total_tokens"],
+        "llm_calls": _stats["call_count"],
+        "llm_tokens": _stats["total_tokens"],
+        "llm_success": _llm_ok,
+        "llm_success_rate": round(_llm_rate, 3),
+        "search_ok": _search_ok,
         "code_path": str(code_path),
         "created_at": datetime.now().isoformat(timespec="seconds"),
     }
@@ -184,12 +203,42 @@ def stage_remeasure(kernel_name: str, method: str, run_id: int = 0,
     if not code_path.exists():
         raise FileNotFoundError(f"未找到搜索结果: {code_path}")
 
+    # 搜索阶段 LLM 大面积失败（假成功）时，不再浪费 NPU 复测，直接标记无效
+    out_dir = code_path.parent
+    _srec_path = out_dir / f"{kernel_name}__r{run_id}.json"
+    _search_ok = True
+    if _srec_path.exists():
+        try:
+            _srec = json.loads(_srec_path.read_text(encoding="utf-8"))
+            _search_ok = _srec.get("search_ok", True)
+        except Exception:
+            _search_ok = True
+
+    if not _search_ok:
+        record = {
+            "kernel": kernel_name,
+            "method": method,
+            "run_id": run_id,
+            "tau": None if tau is None else (None if tau <= 0 else tau),
+            "t_best_us": None,
+            "success": False,
+            "error": "search_llm_failed",
+            "repeats": repeats,
+            "device_id": device_id,
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+        }
+        _mp = out_dir / f"{kernel_name}__r{run_id}.remeasure.json"
+        _mp.write_text(json.dumps(record, ensure_ascii=False, indent=2),
+                       encoding="utf-8")
+        print(f"[Remeasure] {method}/{kernel_name}/r{run_id}: "
+              f"跳过（搜索阶段 LLM 失败，判定为无效）")
+        return record
+
     config = make_config(method, kernel_name, run_id=run_id, log=False)
     executor = build_executor(kernel_name, config)
     res = executor.measure_repeat(common.read_code(code_path), repeats=repeats,
                                   device_id=device_id)
 
-    out_dir = code_path.parent
     record = {
         "kernel": kernel_name,
         "method": method,

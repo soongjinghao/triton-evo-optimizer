@@ -1,0 +1,23 @@
+{
+  "kernel": "_fwd_kernel_ep_gather",
+  "t_base_us": 10.780215,
+  "t_seed_us": 4.660093,
+  "seed_similarity": 0.7948062168011018,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "_fwd_kernel_ep_gather.py": {
+      "path": "/workspace/Agent/datasets2/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather.py",
+      "latency_us": 10.780215,
+      "success": true,
+      "error": null
+    },
+    "_fwd_kernel_ep_gather_1.py": {
+      "path": "/workspace/Agent/datasets2/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather_1.py",
+      "latency_us": 4.660093,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-26T09:54:37"
+}

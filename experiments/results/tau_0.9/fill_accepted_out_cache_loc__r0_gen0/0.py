@@ -11,9 +11,10 @@ def fill_accepted_out_cache_loc(
 ):
     pid = tl.program_id(axis=0)
     offset = tl.arange(0, size_upper)
+
     masks = (tl.load(accept_index + offset, offset < pid, other=-1) != -1).to(tl.int64)
     dst = tl.sum(masks)
     src = tl.load(accept_index + pid)
-    cond = src > -1
-    value = tl.load(out_cache_loc + src, mask=cond, other=0)
-    tl.store(accepted_out_cache_loc + dst, value, mask=cond)
+    if src > -1:
+        value = tl.load(out_cache_loc + src)
+        tl.store(accepted_out_cache_loc + dst, value)

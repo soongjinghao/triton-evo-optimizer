@@ -2,8 +2,10 @@ import os
 import torch
 import triton
 import triton.language as tl
+
 def prepare_lens(cu_seqlens: torch.LongTensor) -> torch.LongTensor:
     return cu_seqlens[1:] - cu_seqlens[:-1]
+
 def prepare_chunk_indices(
     cu_seqlens: torch.LongTensor, chunk_size: int
 ) -> torch.LongTensor:
@@ -14,6 +16,7 @@ def prepare_chunk_indices(
         ]
     )
     return torch.stack([indices.eq(0).cumsum(0) - 1, indices], 1).to(cu_seqlens)
+
 @triton.heuristics({"IS_VARLEN": lambda args: args["cu_seqlens"] is not None})
 @triton.jit
 def merge_16x16_to_32x32_inverse_kernel(
@@ -43,12 +46,10 @@ def merge_16x16_to_32x32_inverse_kernel(
     else:
         bos, eos = i_b * T, i_b * T + T
     o_i = tl.arange(0, 16)
-    o_i_plus_16 = o_i + 16
     m_A = o_i[:, None] > o_i[None, :]
     m_I = o_i[:, None] == o_i[None, :]
     A += (bos * H + i_h) * BT
     Ai += (bos * H + i_h) * BT
-    loop_base = A + (i_t * BT) * (H * BT)
     if not USE_TMA:
         p_A_11 = tl.make_block_ptr(
             A, (T, BT), (H * BT, 1), (i_t * BT, 0), (16, 16), (1, 0)
@@ -65,15 +66,12 @@ def merge_16x16_to_32x32_inverse_kernel(
         b_Ai_22 = desc.load([i_t * BT + 16, 16]).to(tl.float32)
     b_Ai_11 = -tl.where(m_A, b_Ai_11, 0)
     b_Ai_22 = -tl.where(m_A, b_Ai_22, 0)
-    remaining = T - i_t * BT
-    limit1 = tl.minimum(16, remaining)
-    for i in range(2, limit1):
-        b_a_11 = -tl.load(loop_base + i * (H * BT) + o_i)
+    for i in range(2, min(16, T - i_t * BT)):
+        b_a_11 = -tl.load(A + (i_t * BT + i) * H * BT + o_i)
         b_a_11 += tl.sum(b_a_11[:, None] * b_Ai_11, 0)
         b_Ai_11 = tl.where((o_i == i)[:, None], b_a_11, b_Ai_11)
-    limit2 = tl.minimum(32, remaining)
-    for i in range(18, limit2):
-        b_a_22 = -tl.load(loop_base + i * (H * BT) + o_i_plus_16)
+    for i in range(16 + 2, min(32, T - i_t * BT)):
+        b_a_22 = -tl.load(A + (i_t * BT + i) * H * BT + o_i + 16)
         b_a_22 += tl.sum(b_a_22[:, None] * b_Ai_22, 0)
         b_Ai_22 = tl.where((o_i == i - 16)[:, None], b_a_22, b_Ai_22)
     b_Ai_11 += m_I
@@ -125,6 +123,7 @@ def merge_16x16_to_32x32_inverse_kernel(
         desc_o.store(
             [i_t * BT + 16, 16], b_Ai_22.to(desc_o.dtype, fp_downcast_rounding="rtne")
         )
+
 def solve_tril(
     A: torch.Tensor,
     cu_seqlens: torch.Tensor | None = None,

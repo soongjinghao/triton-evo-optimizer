@@ -1,6 +1,10 @@
 import torch
 import triton
 import triton.language as tl
+import torch_npu
+
+device = torch.npu.current_device()
+stream = torch.npu.current_stream(device).npu_stream
 
 @triton.jit
 def fill_accepted_out_cache_loc(
@@ -11,6 +15,7 @@ def fill_accepted_out_cache_loc(
 ):
     pid = tl.program_id(axis=0)
     offset = tl.arange(0, size_upper)
+
     masks = (tl.load(accept_index + offset, offset < pid, other=-1) != -1).to(tl.int64)
     dst = tl.sum(masks)
     src = tl.load(accept_index + pid)

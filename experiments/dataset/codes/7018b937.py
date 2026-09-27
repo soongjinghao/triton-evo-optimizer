@@ -1,0 +1,199 @@
+import os
+import torch
+import triton
+import triton.language as tl
+
+def prepare_lens(cu_seqlens: torch.LongTensor) -> torch.LongTensor:
+    return cu_seqlens[1:] - cu_seqlens[:-1]
+
+def prepare_chunk_indices(
+    cu_seqlens: torch.LongTensor, chunk_size: int
+) -> torch.LongTensor:
+    indices = torch.cat(
+        [
+            torch.arange(n)
+            for n in triton.cdiv(prepare_lens(cu_seqlens), chunk_size).tolist()
+        ]
+    )
+    return torch.stack([indices.eq(0).cumsum(0) - 1, indices], 1).to(cu_seqlens)
+
+@triton.heuristics({"IS_VARLEN": lambda args: args["cu_seqlens"] is not None})
+@triton.jit
+def merge_16x16_to_32x32_inverse_kernel(
+    A,
+    Ai,
+    cu_seqlens,
+    chunk_indices,
+    T,
+    H: tl.constexpr,
+    BT: tl.constexpr,
+    USE_TMA: tl.constexpr,
+    IS_VARLEN: tl.constexpr,
+    DOT_PRECISION: tl.constexpr,
+):
+    i_t, i_bh = tl.program_id(0), tl.program_id(1)
+    i_b, i_h = i_bh // H, i_bh % H
+    if IS_VARLEN:
+        i_n, i_t = (
+            tl.load(chunk_indices + i_t * 2).to(tl.int32),
+            tl.load(chunk_indices + i_t * 2 + 1).to(tl.int32),
+        )
+        bos, eos = (
+            tl.load(cu_seqlens + i_n).to(tl.int32),
+            tl.load(cu_seqlens + i_n + 1).to(tl.int32),
+        )
+        T = eos - bos
+    else:
+        bos, eos = i_b * T, i_b * T + T
+    o_i = tl.arange(0, 16)
+    m_A = o_i[:, None] > o_i[None, :]
+    m_I = o_i[:, None] == o_i[None, :]
+    A += (bos * H + i_h) * BT
+    Ai += (bos * H + i_h) * BT
+    if not USE_TMA:
+        p_A_11 = tl.make_block_ptr(
+            A, (T, BT), (H * BT, 1), (i_t * BT, 0), (16, 16), (1, 0)
+        )
+        p_A_22 = tl.make_block_ptr(
+            A, (T, BT), (H * BT, 1), (i_t * BT + 16, 16), (16, 16), (1, 0)
+        )
+        b_Ai_11 = tl.load(p_A_11, boundary_check=(0, 1)).to(tl.float32)
+        b_Ai_22 = tl.load(p_A_22, boundary_check=(0, 1)).to(tl.float32)
+    else:
+        desc = tl.make_tensor_descriptor(A, [T, BT], [H * BT, 1], [16, 16])
+        desc_o = tl.make_tensor_descriptor(Ai, [T, BT], [H * BT, 1], [16, 16])
+        b_Ai_11 = desc.load([i_t * BT + 0, 0]).to(tl.float32)
+        b_Ai_22 = desc.load([i_t * BT + 16, 16]).to(tl.float32)
+    b_Ai_11 = -tl.where(m_A, b_Ai_11, 0)
+    b_Ai_22 = -tl.where(m_A, b_Ai_22, 0)
+    
+    # ACTION_GROUP_PACK_RESHAPE_REDUCE: pack two independent serial loops into one
+    # Load K=2 groups (each 16 rows) contiguously, reshape to (2, 16) for parallel compute
+    # Groups are physically contiguous: group0 at rows [0,16), group1 at rows [16,32)
+    # K=2 is compile-time constant, 2*16=32 rows within UB acceptable range
+    # Only apply when T - i_t * BT > 16 (i.e., at least group1 exists)
+    # For tail where only group0 exists, fall back to original single loop
+    if T - i_t * BT > 16:
+        # Load both groups as a single contiguous block of 32 rows
+        # Use tl.view to reshape as (2, 16) for parallel processing
+        # Load from A starting at row i_t*BT, column 0, 32 rows x 16 cols
+        # Since stride=1 for inner dim, rows are contiguous
+        # Use block_ptr to load 32x16 block
+        p_A_both = tl.make_block_ptr(
+            A, (T, BT), (H * BT, 1), (i_t * BT, 0), (32, 16), (1, 0)
+        )
+        b_A_both = tl.load(p_A_both, boundary_check=(0, 1)).to(tl.float32)
+        # Reshape to (2, 16, 16): 2 groups, each 16x16
+        # tl.view with 2D shape (2, 16, 16) is 3D, not allowed
+        # Instead, use 2D view: (32, 16) -> split manually
+        # Since groups are independent, process each group separately but with contiguous load
+        # Actually, reshape to (2, 16, 16) is 3D - not allowed
+        # Alternative: keep as (32,16) and index manually
+        # b_A_both has shape (32, 16)
+        # b_Ai_11 corresponds to rows 0-15, b_Ai_22 to rows 16-31
+        b_Ai_11_new = b_A_both[:16, :]
+        b_Ai_22_new = b_A_both[16:, :]
+        # Apply mask
+        b_Ai_11_new = -tl.where(m_A, b_Ai_11_new, 0)
+        b_Ai_22_new = -tl.where(m_A, b_Ai_22_new, 0)
+        # Compute loop bounds
+        max_i = tl.minimum(16, T - i_t * BT)
+        max_i2 = tl.minimum(32, T - i_t * BT)
+        # Process both groups in a single loop over i from 2 to max_i2
+        # For i < 16, update group0; for i >= 16, update group1
+        for i in range(2, max_i2):
+            if i < 16:
+                # Update group0
+                b_a_11 = -tl.load(A + (i_t * BT + i) * H * BT + o_i)
+                b_a_11 += tl.sum(b_a_11[:, None] * b_Ai_11_new, 0)
+                b_Ai_11_new = tl.where((o_i == i)[:, None], b_a_11, b_Ai_11_new)
+            else:
+                # Update group1
+                b_a_22 = -tl.load(A + (i_t * BT + i) * H * BT + o_i + 16)
+                b_a_22 += tl.sum(b_a_22[:, None] * b_Ai_22_new, 0)
+                b_Ai_22_new = tl.where((o_i == i - 16)[:, None], b_a_22, b_Ai_22_new)
+        b_Ai_11 = b_Ai_11_new
+        b_Ai_22 = b_Ai_22_new
+    else:
+        # Fallback: only group0 exists
+        for i in range(2, min(16, T - i_t * BT)):
+            b_a_11 = -tl.load(A + (i_t * BT + i) * H * BT + o_i)
+            b_a_11 += tl.sum(b_a_11[:, None] * b_Ai_11, 0)
+            b_Ai_11 = tl.where((o_i == i)[:, None], b_a_11, b_Ai_11)
+        # b_Ai_22 remains as loaded (no loop needed since group1 doesn't exist)
+    
+    b_Ai_11 += m_I
+    b_Ai_22 += m_I
+    if not USE_TMA:
+        p_A_21 = tl.make_block_ptr(
+            A, (T, BT), (H * BT, 1), (i_t * BT + 16, 0), (16, 16), (1, 0)
+        )
+        b_A_21 = tl.load(p_A_21, boundary_check=(0, 1)).to(tl.float32)
+    else:
+        b_A_21 = desc.load([i_t * BT + 16, 0]).to(tl.float32)
+    b_Ai_21 = -tl.dot(
+        tl.dot(b_Ai_22, b_A_21, input_precision=DOT_PRECISION),
+        b_Ai_11,
+        input_precision=DOT_PRECISION,
+    )
+    if not USE_TMA:
+        p_Ai_11 = tl.make_block_ptr(
+            Ai, (T, BT), (H * BT, 1), (i_t * BT, 0), (16, 16), (1, 0)
+        )
+        p_Ai_21 = tl.make_block_ptr(
+            Ai, (T, BT), (H * BT, 1), (i_t * BT + 16, 0), (16, 16), (1, 0)
+        )
+        p_Ai_22 = tl.make_block_ptr(
+            Ai, (T, BT), (H * BT, 1), (i_t * BT + 16, 16), (16, 16), (1, 0)
+        )
+        tl.store(
+            p_Ai_11,
+            b_Ai_11.to(p_Ai_11.dtype.element_ty, fp_downcast_rounding="rtne"),
+            boundary_check=(0, 1),
+        )
+        tl.store(
+            p_Ai_22,
+            b_Ai_22.to(p_Ai_22.dtype.element_ty, fp_downcast_rounding="rtne"),
+            boundary_check=(0, 1),
+        )
+        tl.store(
+            p_Ai_21,
+            b_Ai_21.to(p_Ai_21.dtype.element_ty, fp_downcast_rounding="rtne"),
+            boundary_check=(0, 1),
+        )
+    else:
+        desc_o.store(
+            [i_t * BT + 0, 0], b_Ai_11.to(desc_o.dtype, fp_downcast_rounding="rtne")
+        )
+        desc_o.store(
+            [i_t * BT + 16, 0], b_Ai_21.to(desc_o.dtype, fp_downcast_rounding="rtne")
+        )
+        desc_o.store(
+            [i_t * BT + 16, 16], b_Ai_22.to(desc_o.dtype, fp_downcast_rounding="rtne")
+        )
+
+def solve_tril(
+    A: torch.Tensor,
+    cu_seqlens: torch.Tensor | None = None,
+    output_dtype: torch.dtype = torch.float,
+) -> torch.Tensor:
+    assert A.shape[-1] in [32]
+    output_dtype = A.dtype if output_dtype is None else output_dtype
+    B, T, H, BT = A.shape
+    chunk_indices = (
+        prepare_chunk_indices(cu_seqlens, BT) if cu_seqlens is not None else None
+    )
+    NT = len(chunk_indices) if cu_seqlens is not None else triton.cdiv(T, BT)
+    Ai = torch.zeros_like(A, dtype=output_dtype)
+    merge_16x16_to_32x32_inverse_kernel[NT, B * H](
+        A=A,
+        Ai=Ai,
+        cu_seqlens=cu_seqlens,
+        chunk_indices=chunk_indices,
+        T=T,
+        H=H,
+        BT=BT,
+        USE_TMA=False,
+        DOT_PRECISION="ieee",
+    )
+    return Ai

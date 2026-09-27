@@ -39,6 +39,7 @@ else:
 )
 @triton.jit
 def _selective_scan_update_kernel(
+    # Pointers to matrices
     state_ptr,
     x_ptr,
     dt_ptr,
@@ -51,11 +52,13 @@ def _selective_scan_update_kernel(
     out_ptr,
     state_batch_indices_ptr,
     pad_slot_id,
+    # Matrix dimensions
     batch,
     nheads,
     dim,
     dstate,
     nheads_ngroups_ratio,
+    # Strides
     stride_state_batch,
     stride_state_head,
     stride_state_dim,
@@ -85,6 +88,7 @@ def _selective_scan_update_kernel(
     stride_out_batch,
     stride_out_head,
     stride_out_dim,
+    # Meta-parameters
     DT_SOFTPLUS: tl.constexpr,
     TIE_HDIM: tl.constexpr,
     BLOCK_SIZE_M: tl.constexpr,
@@ -98,6 +102,9 @@ def _selective_scan_update_kernel(
     pid_b = tl.program_id(axis=1)
     pid_h = tl.program_id(axis=2)
 
+    # If HAS_STATE_BATCH_INDICES is true, then the ssm state's batch coordinate
+    # is taken from the state_batch_indices_ptr Otherwise, the state coordinate
+    # is the same as the batch id.
     if HAS_STATE_BATCH_INDICES:
         state_batch_indices_ptr += pid_b
         state_batch_idx = tl.load(state_batch_indices_ptr).to(tl.int64)
@@ -160,7 +167,7 @@ def _selective_scan_update_kernel(
         if DT_SOFTPLUS:
             dt = softplus(dt)
         A = tl.load(A_ptr).to(tl.float32)
-        dA = tl.exp(A * dt)
+        dA = tl.exp(A * dt)  # scalar, not a matrix
 
     B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
@@ -199,7 +206,26 @@ def selective_state_update(
     pad_slot_id=PAD_SLOT_ID,
     out=None,
 ):
-
+    """
+    Argument:
+        state: (batch, dim, dstate) or (batch, nheads, dim, dstate)
+        x: (batch, dim) or (batch, nheads, dim)
+        dt: (batch, dim) or (batch, nheads, dim)
+        A: (dim, dstate) or (nheads, dim, dstate)
+        B: (batch, dstate) or (batch, ngroups, dstate)
+        C: (batch, dstate) or (batch, ngroups, dstate)
+        D: (dim,) or (nheads, dim)
+        z: (batch, dim) or (batch, nheads, dim)
+        dt_bias: (dim,) or (nheads, dim)
+        pad_slot_id: int
+            if cache_indices is passed, lets the kernel identify padded
+            entries that will not be processed,
+            for example: cache_indices = [pad_slot_id, 1, 20, pad_slot_id]
+            in this case, the kernel will not process entries at
+            indices 0 and 3
+        out: Preallocated ssm output tensor. Assume same shape as x.
+             In-place updated.
+    """
     if state.dim() == 3:
         state = state.unsqueeze(1)
     if x.dim() == 2:
@@ -243,7 +269,8 @@ def selective_state_update(
 
     grid = lambda META: (triton.cdiv(dim, META["BLOCK_SIZE_M"]), batch, nheads)
     z_strides = (z.stride(0), z.stride(1), z.stride(2)) if z is not None else (0, 0, 0)
-
+    # We don't want autotune since it will overwrite the state
+    # We instead tune by hand.
     BLOCK_SIZE_M, num_warps = (
         (32, 4)
         if dstate <= 16

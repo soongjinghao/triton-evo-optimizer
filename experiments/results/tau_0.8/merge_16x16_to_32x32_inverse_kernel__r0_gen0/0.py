@@ -1,8 +1,17 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+# SPDX-FileCopyrightText: Songlin Yang, Yu Zhang
+#
+# This file contains code copied from the flash-linear-attention project.
+# The original source code was licensed under the MIT license and included
+# the following copyright notice:
+# Copyright (c) 2023-2025, Songlin Yang, Yu Zhang
+# ruff: noqa: E501
+
 import os
 import torch
 import triton
 import triton.language as tl
-
 
 def prepare_lens(cu_seqlens: torch.LongTensor) -> torch.LongTensor:
     return cu_seqlens[1:] - cu_seqlens[:-1]
@@ -20,8 +29,9 @@ def prepare_chunk_indices(
     return torch.stack([indices.eq(0).cumsum(0) - 1, indices], 1).to(cu_seqlens)
 
 
+
 @triton.heuristics({"IS_VARLEN": lambda args: args["cu_seqlens"] is not None})
-@triton.jit
+@triton.jit(do_not_specialize=["T"])
 def merge_16x16_to_32x32_inverse_kernel(
     A,
     Ai,
@@ -48,6 +58,7 @@ def merge_16x16_to_32x32_inverse_kernel(
         T = eos - bos
     else:
         bos, eos = i_b * T, i_b * T + T
+
     o_i = tl.arange(0, 16)
     m_A = o_i[:, None] > o_i[None, :]
     m_I = o_i[:, None] == o_i[None, :]
@@ -69,17 +80,15 @@ def merge_16x16_to_32x32_inverse_kernel(
         b_Ai_11 = desc.load([i_t * BT + 0, 0]).to(tl.float32)
         b_Ai_22 = desc.load([i_t * BT + 16, 16]).to(tl.float32)
 
+    # [16, 16]
     b_Ai_11 = -tl.where(m_A, b_Ai_11, 0)
     b_Ai_22 = -tl.where(m_A, b_Ai_22, 0)
 
-    limit1 = tl.minimum(16, T - i_t * BT)
-    for i in range(2, limit1):
+    for i in range(2, min(16, T - i_t * BT)):
         b_a_11 = -tl.load(A + (i_t * BT + i) * H * BT + o_i)
         b_a_11 += tl.sum(b_a_11[:, None] * b_Ai_11, 0)
         b_Ai_11 = tl.where((o_i == i)[:, None], b_a_11, b_Ai_11)
-
-    limit2 = tl.minimum(32, T - i_t * BT)
-    for i in range(18, limit2):
+    for i in range(16 + 2, min(32, T - i_t * BT)):
         b_a_22 = -tl.load(A + (i_t * BT + i) * H * BT + o_i + 16)
         b_a_22 += tl.sum(b_a_22[:, None] * b_Ai_22, 0)
         b_Ai_22 = tl.where((o_i == i - 16)[:, None], b_a_22, b_Ai_22)
@@ -143,14 +152,33 @@ def solve_tril(
     cu_seqlens: torch.Tensor | None = None,
     output_dtype: torch.dtype = torch.float,
 ) -> torch.Tensor:
+    """
+    Compute the inverse of the matrix I + A
+    A should be strictly lower triangular, i.e., A.triu() == 0.
+
+    Args:
+        A (torch.Tensor):
+            [B, T, H, BT], where BT should only be 16, 32, or 64.
+        cu_seqlens (torch.Tensor):
+            The cumulative sequence lengths of the input tensor. Default: `None`.
+        output_dtype (torch.dtype):
+            The dtype of the output tensor. Default: `torch.float`.
+            If `None`, the output dtype will be the same as the input dtype.
+
+    Returns:
+        (I + A)^-1 with the same shape as A
+    """
     assert A.shape[-1] in [32]
     output_dtype = A.dtype if output_dtype is None else output_dtype
+
     B, T, H, BT = A.shape
     chunk_indices = (
         prepare_chunk_indices(cu_seqlens, BT) if cu_seqlens is not None else None
     )
     NT = len(chunk_indices) if cu_seqlens is not None else triton.cdiv(T, BT)
+
     Ai = torch.zeros_like(A, dtype=output_dtype)
+
     merge_16x16_to_32x32_inverse_kernel[NT, B * H](
         A=A,
         Ai=Ai,
@@ -163,3 +191,4 @@ def solve_tril(
         DOT_PRECISION="ieee",
     )
     return Ai
+

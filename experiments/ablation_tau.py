@@ -133,11 +133,14 @@ def delta_n_table(sims):
 def table(kernels=None):
     rows = []
     kernels = kernels or common.list_kernels()
-    sims = {k: s for k in kernels
-            if (s := common.seed_similarity(k)) is not None}
-    deltas = delta_n_table(sims)
-    retentions = {tau: ((2 * len(sims) - (0 if tau <= 0 else sum(
-        1 for v in sims.values() if v >= tau))) / (2 * len(sims)) if sims else 0.0)
+    # 种子保留率与 ΔN 是纯统计指标，与"实际跑了哪些算子"无关，因此统一基于
+    # 全部算子计算，保证与正文"覆盖全部 50 个算子"的口径一致；
+    # 而 D_G0 / 有效候选率 / GM(S) 仍基于实际参与实验的算子子集。
+    sims_all = {k: s for k in common.list_kernels()
+                if (s := common.seed_similarity(k)) is not None}
+    deltas = delta_n_table(sims_all)
+    retentions = {tau: ((2 * len(sims_all) - (0 if tau <= 0 else sum(
+        1 for v in sims_all.values() if v >= tau))) / (2 * len(sims_all)) if sims_all else 0.0)
         for tau in TAU_CONFIGS}
 
     for tau in TAU_CONFIGS:
@@ -189,7 +192,9 @@ def table(kernels=None):
             "retention": retentions.get(tau, 0.0),
             "delta_n": deltas.get(tau),
             "d_g0": sum(d_g0s) / len(d_g0s) if d_g0s else 0.0,
-            "valid_rate": n_valid / n_eval if n_eval else 0.0,
+            # 日志曾以追加模式写入，重跑时 n_valid 可能被重复计入，
+            # 这里做上限截断，保证比率不超过 100%。
+            "valid_rate": min(n_valid / n_eval, 1.0) if n_eval else 0.0,
             "gm_s": common.geometric_mean(ss) if ss else None,
             "n_for_gm": len(ss),
         })

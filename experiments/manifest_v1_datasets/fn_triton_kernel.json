@@ -1,0 +1,23 @@
+{
+  "kernel": "fn_triton_kernel",
+  "t_base_us": 3.840077,
+  "t_seed_us": 3.620072,
+  "seed_similarity": 0.8634826711749789,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "fn_triton_kernel.py": {
+      "path": "/workspace/Agent/datasets/fn_triton_kernel/fn_triton_kernel.py",
+      "latency_us": 3.840077,
+      "success": true,
+      "error": null
+    },
+    "fn_triton_kernel_1.py": {
+      "path": "/workspace/Agent/datasets/fn_triton_kernel/fn_triton_kernel_1.py",
+      "latency_us": 3.620072,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-21T13:31:48"
+}

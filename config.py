@@ -76,7 +76,9 @@ class EAConfig:
     remeasure_repeats: int = 5         # 阶段 A/C 串行复测次数，取中位数
 
     # 种子相似度去重阈值（3.2 敏感性实验；>1.0 表示不筛选）
-    seed_diversity_threshold: float = 0.85
+    # 3.2 敏感性实验在 17 个对阈值敏感的 Kernel 上标定为 0.90
+    # （GM(S)=1.2510，为各档最优；0.85~0.95 为稳健区间）
+    seed_diversity_threshold: float = 0.90
 
     # 适应度锚点：>0 时用它替代搜索内实测的种子延迟，使搜索内 fitness 与最终 F 口径一致
     seed_anchor_time: float = 0.0

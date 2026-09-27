@@ -2,9 +2,7 @@ import logging
 import torch
 import triton
 import triton.language as tl
-
 logger = logging.getLogger(__name__)
-
 @triton.jit
 def eye_kernel(
     out_ptr,
@@ -23,19 +21,6 @@ def eye_kernel(
     mask = mask_i[:, None] & mask_j[None, :]
     off_ij = off_i[:, None] * M + off_j[None, :]
     tl.store(out_ptr + off_ij, val, mask=mask)
-
-@triton.jit
-def eye_diag_kernel(
-    out_ptr,
-    k,
-    stride,
-    BLOCK_DIAG: tl.constexpr,
-):
-    pid = tl.program_id(0)
-    idx = pid * BLOCK_DIAG + tl.arange(0, BLOCK_DIAG)
-    mask = idx < k
-    tl.store(out_ptr + idx * stride, 1.0, mask=mask)
-
 def eye_m(n, m, *, dtype=None, layout=torch.strided, device=None, pin_memory=None):
     logger.debug("GEMS EYE_M")
     if dtype is None:
@@ -44,22 +29,6 @@ def eye_m(n, m, *, dtype=None, layout=torch.strided, device=None, pin_memory=Non
         device = torch.device('npu')
     if layout != torch.strided:
         raise ValueError("Currently only strided layout is supported for eye_m.")
-
-    if n * m > 4096:
-        out = torch.zeros(
-            (n, m), dtype=dtype, device=device, layout=layout, pin_memory=pin_memory
-        )
-        k = min(n, m)
-        BLOCK_DIAG = 256
-        grid = (triton.cdiv(k, BLOCK_DIAG),)
-        eye_diag_kernel[grid](
-            out,
-            k,
-            m + 1,
-            BLOCK_DIAG,
-        )
-        return out
-
     out = torch.empty(
         (n, m), dtype=dtype, device=device, layout=layout, pin_memory=pin_memory
     )

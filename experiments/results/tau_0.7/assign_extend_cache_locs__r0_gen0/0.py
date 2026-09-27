@@ -35,24 +35,3 @@ def assign_extend_cache_locs(
         tl.store(out_cache_ptr + save_offset, data, mask=mask)
         load_offset += BLOCK_SIZE
         save_offset += BLOCK_SIZE
-
-def assign_extend_cache_locs_func(
-    req_pool_indices_tensor,
-    req_to_token_tensor,
-    start_offset_tensor,
-    end_offset_tensor,
-    out_cache_loc_tensor,
-    pool_len,
-    bs_upper
-):
-    grid = (req_pool_indices_tensor.numel(),)
-    assign_extend_cache_locs[grid](
-        req_pool_indices_tensor,
-        req_to_token_tensor,
-        start_offset_tensor,
-        end_offset_tensor,
-        out_cache_loc_tensor,
-        pool_len=pool_len,
-        bs_upper=bs_upper
-    )
-    return out_cache_loc_tensor
