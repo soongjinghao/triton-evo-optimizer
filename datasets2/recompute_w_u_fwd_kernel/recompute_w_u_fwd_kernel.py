@@ -1,7 +1,7 @@
 
 import torch
-
-from vllm.triton_utils import tl, triton
+import triton
+import triton.language as tl
 
 import functools
 from collections.abc import Callable

@@ -1,10 +1,8 @@
 import torch
+import triton
+import triton.language as tl
 
-from vllm.platforms import current_platform
-from vllm.triton_utils import tl, triton
-
-float8_info = torch.finfo(current_platform.fp8_dtype())
-
+# Remove float8_info since float8 is not supported on NPU
 
 @triton.jit
 def cdiv_fn(x, y):
@@ -53,8 +51,6 @@ def reduce_segments(
     BLOCK_Q: tl.constexpr,  # int
     NUM_SEGMENTS_PER_SEQ: tl.constexpr,  # int
     USE_FP8: tl.constexpr,  # bool
-    FP8_MIN: tl.constexpr = float8_info.min,
-    FP8_MAX: tl.constexpr = float8_info.max,
 ):
     query_token_idx = tl.program_id(0)
     query_head_idx = tl.program_id(1)
@@ -109,9 +105,10 @@ def reduce_segments(
     # safely divide by overall_expsum, returning 0.0 if overall_expsum is 0
     acc = tl.where(overall_expsum == 0.0, 0.0, acc_sum / overall_expsum)
 
-    if USE_FP8:
-        acc = acc * tl.load(out_scale_inv)
-        acc = tl.clamp(acc, FP8_MIN, FP8_MAX)
+    # Remove FP8 operations since float8 is not supported on NPU
+    # if USE_FP8:
+    #     acc = acc * tl.load(out_scale_inv)
+    #     acc = tl.clamp(acc, FP8_MIN, FP8_MAX)
 
     # write result
     output_offset = (

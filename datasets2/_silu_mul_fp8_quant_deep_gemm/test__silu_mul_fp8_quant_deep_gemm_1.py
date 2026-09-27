@@ -1,5 +1,6 @@
 import torch
-from vllm.triton_utils import tl, triton
+import triton
+import triton.language as tl
 from typing import Optional
 
 from _silu_mul_fp8_quant_deep_gemm import persistent_masked_m_silu_mul_quant

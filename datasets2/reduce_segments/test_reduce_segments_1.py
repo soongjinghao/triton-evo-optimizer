@@ -1,6 +1,6 @@
 import torch
 import triton
-from vllm.platforms import current_platform
+import triton.language as tl
 
 from reduce_segments import reduce_segments
 

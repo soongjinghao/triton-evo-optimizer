@@ -1,8 +1,8 @@
 import os
 
 import torch
-
-from vllm.triton_utils import tl, triton
+import triton
+import triton.language as tl
 
 if hasattr(triton.language, "_experimental_make_tensor_descriptor"):
     # For Triton 3.3.x
