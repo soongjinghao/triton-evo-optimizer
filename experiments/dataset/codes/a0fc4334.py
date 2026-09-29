@@ -1,0 +1,136 @@
+import functools
+import json
+import os
+from collections.abc import Callable
+from typing import Any
+import torch
+import torch.nn.functional as F
+import logging
+import triton
+import triton.language as tl
+PAD_SLOT_ID = -1
+logger = logging.getLogger(__name__)
+def is_torch_equal_or_newer(version: str) -> bool:
+    major, minor, *patch = version.split('.')
+    torch_major, torch_minor, torch_patch = torch.__version__.split('.')[:3]
+    return (int(torch_major), int(torch_minor)) >= (int(major), int(minor))
+def direct_register_custom_op(op_name, op_func, **kwargs):
+    pass
+def activation_without_mul(activation: str) -> str:
+    return activation
+
+@triton.jit
+def compute_identity_kernel(
+    top_k: int,
+    hidden_states_ptr: tl.tensor,
+    expert_scales_ptr: tl.tensor,
+    output_ptr: tl.tensor,
+    num_tokens: int,
+    hidden_dim: int,
+    scales_stride: int,
+    BLOCK_B: tl.constexpr,
+    BLOCK_D: tl.constexpr,
+    TOP_K_BLOCK: tl.constexpr,
+) -> None:
+    pid = tl.program_id(0)
+    token_start = pid * BLOCK_B
+    token_offsets = tl.arange(0, BLOCK_B)
+    token_mask = token_offsets < (num_tokens - token_start)
+    
+    # Precompute token_start * scales_stride for reuse
+    token_scales_base = token_start * scales_stride
+    
+    scales_accum = tl.zeros([BLOCK_B], tl.float32)
+    
+    # First loop: accumulate scales over top_k
+    for k_start in range(0, top_k, TOP_K_BLOCK):
+        k_offsets = tl.arange(0, TOP_K_BLOCK)
+        k_mask = k_offsets < (top_k - k_start)
+        
+        # Load scales block: shape [BLOCK_B, TOP_K_BLOCK]
+        scale_ptr = expert_scales_ptr + token_scales_base + k_start
+        scales_block = tl.load(
+            scale_ptr + token_offsets[:, None] * scales_stride + k_offsets[None, :],
+            mask=token_mask[:, None] & k_mask[None, :],
+            other=0.0
+        )
+        # Sum over top_k dimension
+        scales_sum = tl.sum(scales_block, axis=1)
+        scales_accum += scales_sum
+    
+    # Apply token mask to accumulated scales
+    scales_accum = tl.where(token_mask, scales_accum, 0.0)
+    
+    # Precompute token_start * hidden_dim for reuse
+    token_hidden_base = token_start * hidden_dim
+    
+    # Second loop: multiply and store
+    for d_start in range(0, hidden_dim, BLOCK_D):
+        d_offsets = tl.arange(0, BLOCK_D)
+        d_mask = d_offsets < (hidden_dim - d_start)
+        
+        # Load hidden states block: shape [BLOCK_B, BLOCK_D]
+        h_ptr = hidden_states_ptr + token_hidden_base + d_start
+        h = tl.load(
+            h_ptr + token_offsets[:, None] * hidden_dim + d_offsets[None, :],
+            mask=token_mask[:, None] & d_mask[None, :],
+            other=0.0
+        )
+        
+        # Compute result: broadcast scales_accum across hidden dimension
+        result = h * scales_accum[:, None]
+        
+        # Store output
+        out_ptr = output_ptr + token_hidden_base + d_start
+        tl.store(
+            out_ptr + token_offsets[:, None] * hidden_dim + d_offsets[None, :],
+            result,
+            mask=token_mask[:, None] & d_mask[None, :]
+        )
+
+def zero_experts_compute_triton(
+    expert_indices: torch.Tensor,
+    expert_scales: torch.Tensor,
+    num_experts: int,
+    zero_expert_type: str,
+    hidden_states: torch.Tensor,
+) -> torch.Tensor:
+    assert hidden_states.device.type == 'npu', "Hidden states must be on NPU"
+    N = expert_indices.numel()
+    top_k = expert_indices.size(-1)
+    
+    zero_expert_scales = expert_scales.clone()
+    if zero_expert_type == "identity":
+        zero_expert_mask = expert_indices < num_experts
+        zero_expert_scales[zero_expert_mask] = 0.0
+    
+    normal_expert_mask = expert_indices >= num_experts
+    expert_indices_masked = expert_indices.clone()
+    expert_scales_masked = expert_scales.clone()
+    expert_indices_masked[normal_expert_mask] = 0
+    expert_scales_masked[normal_expert_mask] = 0.0
+    
+    output = torch.zeros_like(hidden_states, device='npu')
+    hidden_dim = hidden_states.size(-1)
+    num_tokens = hidden_states.size(0)
+    
+    # Tuned block sizes for better occupancy and memory efficiency
+    BLOCK_B = 32
+    BLOCK_D = 256
+    TOP_K_BLOCK = 8
+    
+    grid = lambda meta: (triton.cdiv(num_tokens, BLOCK_B),)
+    
+    compute_identity_kernel[grid](
+        top_k,
+        hidden_states,
+        zero_expert_scales,
+        output,
+        num_tokens,
+        hidden_dim,
+        zero_expert_scales.stride(0),
+        BLOCK_B=BLOCK_B,
+        BLOCK_D=BLOCK_D,
+        TOP_K_BLOCK=TOP_K_BLOCK,
+    )
+    return output

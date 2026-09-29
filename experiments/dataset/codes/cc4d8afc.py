@@ -1,0 +1,167 @@
+import torch
+import triton
+import triton.language as tl
+
+@triton.jit
+def _rms_norm_kernel(
+    input_ptr,
+    weight_ptr,
+    output_ptr,
+    input_row_stride,
+    output_row_stride,
+    n_cols,
+    eps,
+    BLOCK_SIZE: tl.constexpr,
+    ROWS_PER_PROGRAM: tl.constexpr,
+    IS_FULL_TILE: tl.constexpr,
+):
+    program_id = tl.program_id(0).to(tl.int64)
+    row_base = program_id * ROWS_PER_PROGRAM
+    sum_sq = tl.zeros([1], dtype=tl.float32)
+    for i in range(ROWS_PER_PROGRAM):
+        row_idx = row_base + i
+        row_start_ptr = input_ptr + row_idx * input_row_stride
+        for col_offset in range(0, n_cols, BLOCK_SIZE):
+            col_idx = col_offset + tl.arange(0, BLOCK_SIZE)
+            if IS_FULL_TILE:
+                vals = tl.load(row_start_ptr + col_idx)
+                vals_f32 = vals.to(tl.float32)
+                sq_vals = vals_f32 * vals_f32
+                sum_sq += tl.sum(sq_vals)
+            else:
+                mask = col_idx < n_cols
+                vals = tl.load(row_start_ptr + col_idx, mask=mask, other=0.0)
+                vals_f32 = vals.to(tl.float32)
+                sq_vals = vals_f32 * vals_f32
+                sum_sq += tl.sum(tl.where(mask, sq_vals, 0.0))
+    mean_sq = sum_sq / (ROWS_PER_PROGRAM * n_cols)
+    rms = tl.sqrt(mean_sq + eps)
+    inv_rms = 1.0 / rms
+    for i in range(ROWS_PER_PROGRAM):
+        row_idx = row_base + i
+        row_start_ptr = input_ptr + row_idx * input_row_stride
+        output_row_start_ptr = output_ptr + row_idx * output_row_stride
+        for col_offset in range(0, n_cols, BLOCK_SIZE):
+            col_idx = col_offset + tl.arange(0, BLOCK_SIZE)
+            if IS_FULL_TILE:
+                vals = tl.load(row_start_ptr + col_idx)
+                weight = tl.load(weight_ptr + col_idx)
+                vals_f32 = vals.to(tl.float32)
+                weight_f32 = weight.to(tl.float32)
+                output_f32 = vals_f32 * inv_rms * weight_f32
+                output = output_f32.to(vals.dtype)
+                tl.store(output_row_start_ptr + col_idx, output)
+            else:
+                mask = col_idx < n_cols
+                vals = tl.load(row_start_ptr + col_idx, mask=mask, other=0.0)
+                weight = tl.load(weight_ptr + col_idx, mask=mask, other=1.0)
+                vals_f32 = vals.to(tl.float32)
+                weight_f32 = weight.to(tl.float32)
+                output_f32 = vals_f32 * inv_rms * weight_f32
+                output = output_f32.to(vals.dtype)
+                tl.store(output_row_start_ptr + col_idx, output, mask=mask)
+
+@triton.jit
+def _rms_norm_kernel_tail(
+    input_ptr,
+    weight_ptr,
+    output_ptr,
+    input_row_stride,
+    output_row_stride,
+    n_cols,
+    eps,
+    BLOCK_SIZE: tl.constexpr,
+    IS_FULL_TILE: tl.constexpr,
+):
+    row_idx = tl.program_id(0).to(tl.int64)
+    row_start_ptr = input_ptr + row_idx * input_row_stride
+    output_row_start_ptr = output_ptr + row_idx * output_row_stride
+    sum_sq = tl.zeros([1], dtype=tl.float32)
+    for col_offset in range(0, n_cols, BLOCK_SIZE):
+        col_idx = col_offset + tl.arange(0, BLOCK_SIZE)
+        if IS_FULL_TILE:
+            vals = tl.load(row_start_ptr + col_idx)
+            vals_f32 = vals.to(tl.float32)
+            sq_vals = vals_f32 * vals_f32
+            sum_sq += tl.sum(sq_vals)
+        else:
+            mask = col_idx < n_cols
+            vals = tl.load(row_start_ptr + col_idx, mask=mask, other=0.0)
+            vals_f32 = vals.to(tl.float32)
+            sq_vals = vals_f32 * vals_f32
+            sum_sq += tl.sum(tl.where(mask, sq_vals, 0.0))
+    mean_sq = sum_sq / n_cols
+    rms = tl.sqrt(mean_sq + eps)
+    inv_rms = 1.0 / rms
+    for col_offset in range(0, n_cols, BLOCK_SIZE):
+        col_idx = col_offset + tl.arange(0, BLOCK_SIZE)
+        if IS_FULL_TILE:
+            vals = tl.load(row_start_ptr + col_idx)
+            weight = tl.load(weight_ptr + col_idx)
+            vals_f32 = vals.to(tl.float32)
+            weight_f32 = weight.to(tl.float32)
+            output_f32 = vals_f32 * inv_rms * weight_f32
+            output = output_f32.to(vals.dtype)
+            tl.store(output_row_start_ptr + col_idx, output)
+        else:
+            mask = col_idx < n_cols
+            vals = tl.load(row_start_ptr + col_idx, mask=mask, other=0.0)
+            weight = tl.load(weight_ptr + col_idx, mask=mask, other=1.0)
+            vals_f32 = vals.to(tl.float32)
+            weight_f32 = weight.to(tl.float32)
+            output_f32 = vals_f32 * inv_rms * weight_f32
+            output = output_f32.to(vals.dtype)
+            tl.store(output_row_start_ptr + col_idx, output, mask=mask)
+
+def rms_norm(
+    input: torch.Tensor, weight: torch.Tensor, eps: float = 1e-6
+) -> torch.Tensor:
+    assert weight.dim() == 1, "Weight must be 1-dimensional"
+    assert input.shape[-1] == weight.shape[0], (
+        f"Input last dimension ({input.shape[-1]}) must match "
+        f"weight dimension ({weight.shape[0]})"
+    )
+    original_shape = input.shape
+    input_2d = input.reshape(-1, input.shape[-1])
+    input_2d = input_2d.contiguous()
+    weight = weight.contiguous()
+    n_rows, n_cols = input_2d.shape
+    output = torch.empty_like(input_2d)
+    BLOCK_SIZE = 1024
+    ROWS_PER_PROGRAM = 8
+    IS_FULL_TILE = (n_cols % BLOCK_SIZE == 0)
+    main_rows = (n_rows // ROWS_PER_PROGRAM) * ROWS_PER_PROGRAM
+    tail_rows = n_rows - main_rows
+    if main_rows > 0:
+        grid = (main_rows // ROWS_PER_PROGRAM,)
+        _rms_norm_kernel[grid](
+            input_2d,
+            weight,
+            output,
+            input_2d.stride(0),
+            output.stride(0),
+            n_cols,
+            eps,
+            BLOCK_SIZE=BLOCK_SIZE,
+            ROWS_PER_PROGRAM=ROWS_PER_PROGRAM,
+            IS_FULL_TILE=IS_FULL_TILE,
+        )
+    if tail_rows > 0:
+        tail_grid = (tail_rows,)
+        _rms_norm_kernel_tail[tail_grid](
+            input_2d[main_rows:],
+            weight,
+            output[main_rows:],
+            input_2d.stride(0),
+            output.stride(0),
+            n_cols,
+            eps,
+            BLOCK_SIZE=BLOCK_SIZE,
+            IS_FULL_TILE=IS_FULL_TILE,
+        )
+    return output.reshape(original_shape)
+
+def rms_norm_batch_invariant(
+    input: torch.Tensor, weight: torch.Tensor, eps: float = 1e-6
+) -> torch.Tensor:
+    return rms_norm(input, weight, eps=eps)

@@ -1,0 +1,199 @@
+import os
+import torch
+import triton
+import triton.language as tl
+
+@triton.heuristics({"IS_VARLEN": lambda args: args["cu_seqlens"] is not None})
+@triton.jit
+def merge_16x16_to_64x64_inverse_kernel(
+    A,
+    Ai,
+    cu_seqlens,
+    chunk_indices,
+    T,
+    H: tl.constexpr,
+    BT: tl.constexpr,
+    USE_TMA: tl.constexpr,
+    IS_VARLEN: tl.constexpr,
+    DOT_PRECISION: tl.constexpr,
+):
+    i_t, i_bh = tl.program_id(0), tl.program_id(1)
+    i_b, i_h = i_bh // H, i_bh % H
+    if IS_VARLEN:
+        i_n, i_t = (
+            tl.load(chunk_indices + i_t * 2).to(tl.int32),
+            tl.load(chunk_indices + i_t * 2 + 1).to(tl.int32),
+        )
+        bos, eos = (
+            tl.load(cu_seqlens + i_n).to(tl.int32),
+            tl.load(cu_seqlens + i_n + 1).to(tl.int32),
+        )
+        T = eos - bos
+    else:
+        bos, eos = i_b * T, i_b * T + T
+    o_i = tl.arange(0, 16)
+    m_A = o_i[:, None] > o_i[None, :]
+    m_I = o_i[:, None] == o_i[None, :]
+    A += (bos * H + i_h) * BT
+    Ai += (bos * H + i_h) * BT
+    block_offset = i_block * 16
+    if not USE_TMA:
+        p_A_diag = tl.make_block_ptr(
+            A, (T, BT), (H * BT, 1), (i_t * BT + block_offset, block_offset), (16, 16), (1, 0)
+        )
+        b_Ai_diag = tl.load(p_A_diag, boundary_check=(0, 1)).to(tl.float32)
+    else:
+        desc = tl.make_tensor_descriptor(A, [T, BT], [H * BT, 1], [16, 16])
+        b_Ai_diag = desc.load([i_t * BT + block_offset, block_offset]).to(tl.float32)
+    b_Ai_diag = -tl.where(m_A, b_Ai_diag, 0)
+    start_i = block_offset + 2
+    end_i = min(block_offset + 16, T - i_t * BT)
+    for i in range(start_i, end_i):
+        b_a = -tl.load(A + (i_t * BT + i) * H * BT + o_i + block_offset)
+        b_a += tl.sum(b_a[:, None] * b_Ai_diag, 0)
+        b_Ai_diag = tl.where((o_i == i - block_offset)[:, None], b_a, b_Ai_diag)
+    b_Ai_diag += m_I
+    if not USE_TMA:
+        p_Ai_diag = tl.make_block_ptr(
+            Ai, (T, BT), (H * BT, 1), (i_t * BT + block_offset, block_offset), (16, 16), (1, 0)
+        )
+        tl.store(
+            p_Ai_diag,
+            b_Ai_diag.to(p_Ai_diag.dtype.element_ty, fp_downcast_rounding="rtne"),
+            boundary_check=(0, 1),
+        )
+    else:
+        desc_o = tl.make_tensor_descriptor(Ai, [T, BT], [H * BT, 1], [16, 16])
+        desc_o.store(
+            [i_t * BT + block_offset, block_offset],
+            b_Ai_diag.to(desc_o.dtype, fp_downcast_rounding="rtne")
+        )
+    if i_block == 0:
+        if not USE_TMA:
+            p_A_21 = tl.make_block_ptr(A, (T, BT), (H * BT, 1), (i_t * BT + 16, 0), (16, 16), (1, 0))
+            p_A_31 = tl.make_block_ptr(A, (T, BT), (H * BT, 1), (i_t * BT + 32, 0), (16, 16), (1, 0))
+            p_A_32 = tl.make_block_ptr(A, (T, BT), (H * BT, 1), (i_t * BT + 32, 16), (16, 16), (1, 0))
+            p_A_41 = tl.make_block_ptr(A, (T, BT), (H * BT, 1), (i_t * BT + 48, 0), (16, 16), (1, 0))
+            p_A_42 = tl.make_block_ptr(A, (T, BT), (H * BT, 1), (i_t * BT + 48, 16), (16, 16), (1, 0))
+            p_A_43 = tl.make_block_ptr(A, (T, BT), (H * BT, 1), (i_t * BT + 48, 32), (16, 16), (1, 0))
+            b_A_21 = tl.load(p_A_21, boundary_check=(0, 1)).to(tl.float32)
+            b_A_31 = tl.load(p_A_31, boundary_check=(0, 1)).to(tl.float32)
+            b_A_32 = tl.load(p_A_32, boundary_check=(0, 1)).to(tl.float32)
+            b_A_41 = tl.load(p_A_41, boundary_check=(0, 1)).to(tl.float32)
+            b_A_42 = tl.load(p_A_42, boundary_check=(0, 1)).to(tl.float32)
+            b_A_43 = tl.load(p_A_43, boundary_check=(0, 1)).to(tl.float32)
+        else:
+            b_A_21 = desc.load([i_t * BT + 16, 0]).to(tl.float32)
+            b_A_31 = desc.load([i_t * BT + 32, 0]).to(tl.float32)
+            b_A_32 = desc.load([i_t * BT + 32, 16]).to(tl.float32)
+            b_A_41 = desc.load([i_t * BT + 48, 0]).to(tl.float32)
+            b_A_42 = desc.load([i_t * BT + 48, 16]).to(tl.float32)
+            b_A_43 = desc.load([i_t * BT + 48, 32]).to(tl.float32)
+        if not USE_TMA:
+            p_Ai_11 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT, 0), (16, 16), (1, 0))
+            p_Ai_22 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 16, 16), (16, 16), (1, 0))
+            p_Ai_33 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 32, 32), (16, 16), (1, 0))
+            p_Ai_44 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 48, 48), (16, 16), (1, 0))
+            b_Ai_11 = tl.load(p_Ai_11, boundary_check=(0, 1)).to(tl.float32)
+            b_Ai_22 = tl.load(p_Ai_22, boundary_check=(0, 1)).to(tl.float32)
+            b_Ai_33 = tl.load(p_Ai_33, boundary_check=(0, 1)).to(tl.float32)
+            b_Ai_44 = tl.load(p_Ai_44, boundary_check=(0, 1)).to(tl.float32)
+        else:
+            b_Ai_11 = desc_o.load([i_t * BT, 0]).to(tl.float32)
+            b_Ai_22 = desc_o.load([i_t * BT + 16, 16]).to(tl.float32)
+            b_Ai_33 = desc_o.load([i_t * BT + 32, 32]).to(tl.float32)
+            b_Ai_44 = desc_o.load([i_t * BT + 48, 48]).to(tl.float32)
+        b_Ai_21 = -tl.dot(
+            tl.dot(b_Ai_22, b_A_21, input_precision=DOT_PRECISION),
+            b_Ai_11,
+            input_precision=DOT_PRECISION,
+        )
+        b_Ai_32 = -tl.dot(
+            tl.dot(b_Ai_33, b_A_32, input_precision=DOT_PRECISION),
+            b_Ai_22,
+            input_precision=DOT_PRECISION,
+        )
+        b_Ai_43 = -tl.dot(
+            tl.dot(b_Ai_44, b_A_43, input_precision=DOT_PRECISION),
+            b_Ai_33,
+            input_precision=DOT_PRECISION,
+        )
+        b_Ai_31 = -tl.dot(
+            b_Ai_33,
+            tl.dot(b_A_31, b_Ai_11, input_precision=DOT_PRECISION)
+            + tl.dot(b_A_32, b_Ai_21, input_precision=DOT_PRECISION),
+            input_precision=DOT_PRECISION,
+        )
+        b_Ai_42 = -tl.dot(
+            b_Ai_44,
+            tl.dot(b_A_42, b_Ai_22, input_precision=DOT_PRECISION)
+            + tl.dot(b_A_43, b_Ai_32, input_precision=DOT_PRECISION),
+            input_precision=DOT_PRECISION,
+        )
+        b_Ai_41 = -tl.dot(
+            b_Ai_44,
+            tl.dot(b_A_41, b_Ai_11, input_precision=DOT_PRECISION)
+            + tl.dot(b_A_42, b_Ai_21, input_precision=DOT_PRECISION)
+            + tl.dot(b_A_43, b_Ai_31, input_precision=DOT_PRECISION),
+            input_precision=DOT_PRECISION,
+        )
+        if not USE_TMA:
+            p_Ai_21 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 16, 0), (16, 16), (1, 0))
+            p_Ai_31 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 32, 0), (16, 16), (1, 0))
+            p_Ai_32 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 32, 16), (16, 16), (1, 0))
+            p_Ai_41 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 48, 0), (16, 16), (1, 0))
+            p_Ai_42 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 48, 16), (16, 16), (1, 0))
+            p_Ai_43 = tl.make_block_ptr(Ai, (T, BT), (H * BT, 1), (i_t * BT + 48, 32), (16, 16), (1, 0))
+            tl.store(p_Ai_21, b_Ai_21.to(p_Ai_21.dtype.element_ty, fp_downcast_rounding="rtne"), boundary_check=(0, 1))
+            tl.store(p_Ai_31, b_Ai_31.to(p_Ai_31.dtype.element_ty, fp_downcast_rounding="rtne"), boundary_check=(0, 1))
+            tl.store(p_Ai_32, b_Ai_32.to(p_Ai_32.dtype.element_ty, fp_downcast_rounding="rtne"), boundary_check=(0, 1))
+            tl.store(p_Ai_41, b_Ai_41.to(p_Ai_41.dtype.element_ty, fp_downcast_rounding="rtne"), boundary_check=(0, 1))
+            tl.store(p_Ai_42, b_Ai_42.to(p_Ai_42.dtype.element_ty, fp_downcast_rounding="rtne"), boundary_check=(0, 1))
+            tl.store(p_Ai_43, b_Ai_43.to(p_Ai_43.dtype.element_ty, fp_downcast_rounding="rtne"), boundary_check=(0, 1))
+        else:
+            desc_o.store([i_t * BT + 16, 0], b_Ai_21.to(desc_o.dtype, fp_downcast_rounding="rtne"))
+            desc_o.store([i_t * BT + 32, 0], b_Ai_31.to(desc_o.dtype, fp_downcast_rounding="rtne"))
+            desc_o.store([i_t * BT + 32, 16], b_Ai_32.to(desc_o.dtype, fp_downcast_rounding="rtne"))
+            desc_o.store([i_t * BT + 48, 0], b_Ai_41.to(desc_o.dtype, fp_downcast_rounding="rtne"))
+            desc_o.store([i_t * BT + 48, 16], b_Ai_42.to(desc_o.dtype, fp_downcast_rounding="rtne"))
+            desc_o.store([i_t * BT + 48, 32], b_Ai_43.to(desc_o.dtype, fp_downcast_rounding="rtne"))
+
+def prepare_lens(cu_seqlens: torch.LongTensor) -> torch.LongTensor:
+    return cu_seqlens[1:] - cu_seqlens[:-1]
+
+def prepare_chunk_indices(
+    cu_seqlens: torch.LongTensor, chunk_size: int
+) -> torch.LongTensor:
+    indices = torch.cat(
+        [
+            torch.arange(n)
+            for n in triton.cdiv(prepare_lens(cu_seqlens), chunk_size).tolist()
+        ]
+    )
+    return torch.stack([indices.eq(0).cumsum(0) - 1, indices], 1).to(cu_seqlens)
+
+def solve_tril(
+    A: torch.Tensor,
+    cu_seqlens: torch.Tensor | None = None,
+    output_dtype: torch.dtype = torch.float,
+) -> torch.Tensor:
+    assert A.shape[-1] in [64]
+    output_dtype = A.dtype if output_dtype is None else output_dtype
+    B, T, H, BT = A.shape
+    chunk_indices = (
+        prepare_chunk_indices(cu_seqlens, BT) if cu_seqlens is not None else None
+    )
+    NT = len(chunk_indices) if cu_seqlens is not None else triton.cdiv(T, BT)
+    Ai = torch.zeros_like(A, dtype=output_dtype)
+    merge_16x16_to_64x64_inverse_kernel[NT, B * H](
+        A=A,
+        Ai=Ai,
+        cu_seqlens=cu_seqlens,
+        chunk_indices=chunk_indices,
+        T=T,
+        H=H,
+        BT=BT,
+        USE_TMA=False,
+        DOT_PRECISION="ieee",
+    )
+    return Ai

@@ -31,6 +31,19 @@ from experiments.harness import build_ea, build_executor, make_config
 def stage_manifest(kernel_name: str, repeats: int = 5, device_id: int = 0):
     """重测参考实现 T_base 与各初始种子，产出 T_seed。"""
     common.ensure_dirs()
+
+    # 已有相同 repeats 的结果则直接复用。T_base/T_seed 是纯测量量，
+    # 重跑不改变结果；若每次重启都重测，50 个算子将额外消耗约 4 小时。
+    mf = common.MANIFEST_DIR / f"{kernel_name}.json"
+    if mf.exists():
+        try:
+            prev = json.loads(mf.read_text(encoding="utf-8"))
+            if prev.get("repeats") == repeats and prev.get("t_base_us"):
+                print(f"[Manifest] {kernel_name}: 已完成 (repeats={repeats})，跳过重测")
+                return prev
+        except Exception:
+            pass
+
     config = make_config("b0", kernel_name, log=False)
     executor = build_executor(kernel_name, config)
 
@@ -200,8 +213,29 @@ def stage_remeasure(kernel_name: str, method: str, run_id: int = 0,
         code_path = common.RESULTS_DIR / f"tau_{tag}" / f"{kernel_name}__r{run_id}.py"
     else:
         code_path = common.RESULTS_DIR / method / f"{kernel_name}__r{run_id}.py"
+    # 上游 search 失败时不会产出代码文件（多因 LLM 不可达）。
+    # 此时应跳过复测，而不是抛异常中断整个批次。
     if not code_path.exists():
-        raise FileNotFoundError(f"未找到搜索结果: {code_path}")
+        out_dir = code_path.parent
+        out_dir.mkdir(parents=True, exist_ok=True)
+        record = {
+            "kernel": kernel_name,
+            "method": method,
+            "run_id": run_id,
+            "tau": None if tau is None else (None if tau <= 0 else tau),
+            "t_best_us": None,
+            "success": False,
+            "error": "search_no_output",
+            "repeats": repeats,
+            "device_id": device_id,
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+        }
+        _mp = out_dir / f"{kernel_name}__r{run_id}.remeasure.json"
+        _mp.write_text(json.dumps(record, ensure_ascii=False, indent=2),
+                       encoding="utf-8")
+        print(f"[Remeasure] {method}/{kernel_name}/r{run_id}: "
+              f"跳过（搜索未产出代码）")
+        return record
 
     # 搜索阶段 LLM 大面积失败（假成功）时，不再浪费 NPU 复测，直接标记无效
     out_dir = code_path.parent

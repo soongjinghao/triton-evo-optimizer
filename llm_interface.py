@@ -178,9 +178,29 @@ class LLMInterface:
         chat_prompt = ChatPromptTemplate.from_messages(messages)
         chain = chat_prompt | self.llm
 
+        # 隧道/网络抖动会造成瞬时连接失败。历史上多次因一次抖动导致
+        # 整个算子的搜索作废（表现为 20 秒空跑、n_eval 远低于预算）。
+        # 这里对调用做指数退避重试，让短时断连能够自动恢复。
+        max_retries = int(os.getenv('LLM_MAX_RETRIES', '5'))
+        base_wait = float(os.getenv('LLM_RETRY_WAIT', '20'))
+
         try:
-            response = chain.invoke({})
-            generated_text = response.content
+            last_err = None
+            for attempt in range(max_retries + 1):
+                try:
+                    response = chain.invoke({})
+                    generated_text = response.content
+                    last_err = None
+                    break
+                except Exception as _e:
+                    last_err = _e
+                    if attempt < max_retries:
+                        wait = base_wait * (attempt + 1)
+                        print(f"[LLM] [Call #{call_id:02d}] ⚠️ 连接失败({type(_e).__name__})，"
+                              f"{wait:.0f}s 后重试 ({attempt + 1}/{max_retries})")
+                        time.sleep(wait)
+            if last_err is not None:
+                raise last_err
 
             #相对于官方文件做出的修改：提取API返回的精确Token数
             prompt_tokens = 0

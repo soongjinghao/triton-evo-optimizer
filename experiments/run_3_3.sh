@@ -7,9 +7,14 @@
 set -u
 cd /workspace/Agent
 
-source set_env/set_api_huoshan.sh
-export ENGINE_FLASH=deepseek-v4-flash-ga-260731
-export ENGINE_PRO=deepseek-v4-pro-ga-260813
+# 默认本地 vLLM；ENV=cloud 时切回火山方舟
+if [ "${ENV:-local}" = "cloud" ]; then
+  source set_env/set_api_huoshan.sh
+  export ENGINE_FLASH=deepseek-v4-flash-ga-260731
+  export ENGINE_PRO=deepseek-v4-pro-ga-260813
+else
+  source set_env/set_api_local.sh
+fi
 
 PY=/usr/local/python3.11.15/bin/python3.11
 export PYTHONUNBUFFERED=1   # 确保日志实时落盘，便于 tail -f 观察进度
