@@ -1,0 +1,1896 @@
+[2026-09-30 16:13:48] 3.4 单卡断点续跑开始
+[env] python=/data/Agent/.venv-npu/bin/python devices=0 llm_workers=4 repeats=5
+[2026-09-30 16:13:48] round=1 清理并归档残次任务
+[resume] archived_partial_artifacts=0 path=experiments/archive/partial_3_4_20260930_161348_round1
+[2026-09-30 16:13:48] round=1 开始补跑，完整结果将自动跳过
+[skip] sel_roulette/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_roulette/eye_kernel/r0 已完成
+[skip] sel_roulette/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_roulette/assign_extend_cache_locs/r0 已完成
+[skip] sel_roulette/_pack_seq_kernel/r0 已完成
+[skip] sel_roulette/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_roulette/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_roulette/_selective_scan_update_kernel/r0 已完成
+[skip] sel_roulette/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_roulette/moe_align_block_size_stage/r0 已完成
+[skip] sel_roulette/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_roulette/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_roulette/_act_quant_kernel/r0 已完成
+[skip] sel_roulette/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:13:49] sel_roulette / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12969.06it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_6bzbgboh/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_3ttvk8zl/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] sel_roulette/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] sel_tournament/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_tournament/eye_kernel/r0 已完成
+[skip] sel_tournament/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_tournament/assign_extend_cache_locs/r0 已完成
+[skip] sel_tournament/_pack_seq_kernel/r0 已完成
+[skip] sel_tournament/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_tournament/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_tournament/_selective_scan_update_kernel/r0 已完成
+[skip] sel_tournament/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_tournament/moe_align_block_size_stage/r0 已完成
+[skip] sel_tournament/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_tournament/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_tournament/_act_quant_kernel/r0 已完成
+[skip] sel_tournament/fused_gdn_gating_kernel/r0 已完成
+[skip] sel_tournament/compute_identity_kernel/r0 已完成
+[skip] cross_unconstrained/_set_k_and_s_triton_kernel/r0 已完成
+[skip] cross_unconstrained/eye_kernel/r0 已完成
+[skip] cross_unconstrained/l2norm_fwd_kernel2/r0 已完成
+[skip] cross_unconstrained/assign_extend_cache_locs/r0 已完成
+[skip] cross_unconstrained/_pack_seq_kernel/r0 已完成
+[skip] cross_unconstrained/reshape_and_cache_kernel_flash/r0 已完成
+[skip] cross_unconstrained/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] cross_unconstrained/_selective_scan_update_kernel/r0 已完成
+
+===== [16:14:04] cross_unconstrained / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12915.63it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_fa5bjxz0/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_66b9v0av/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_unconstrained/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_unconstrained/moe_align_block_size_stage/r0 已完成
+[skip] cross_unconstrained/recompute_w_u_fwd_kernel/r0 已完成
+[skip] cross_unconstrained/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] cross_unconstrained/_act_quant_kernel/r0 已完成
+[skip] cross_unconstrained/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:14:15] cross_unconstrained / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 18662.38it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_ym_0rvrj/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_19e00moa/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_unconstrained/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/_set_k_and_s_triton_kernel/r0 已完成
+[skip] cross_protected/eye_kernel/r0 已完成
+[skip] cross_protected/l2norm_fwd_kernel2/r0 已完成
+[skip] cross_protected/assign_extend_cache_locs/r0 已完成
+[skip] cross_protected/_pack_seq_kernel/r0 已完成
+
+===== [16:14:25] cross_protected / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12619.53it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_qc9p6263/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_448dtpjw/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] cross_protected/_selective_scan_update_kernel/r0 已完成
+
+===== [16:14:36] cross_protected / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12739.37it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_mqhug95p/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_c5mq6_gk/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/moe_align_block_size_stage/r0 已完成
+[skip] cross_protected/recompute_w_u_fwd_kernel/r0 已完成
+[skip] cross_protected/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] cross_protected/_act_quant_kernel/r0 已完成
+[skip] cross_protected/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:14:46] cross_protected / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12222.27it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_plvqk63q/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_0g3tvh1v/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_adaptive/eye_kernel/r0 已完成
+[skip] mut_adaptive/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_adaptive/assign_extend_cache_locs/r0 已完成
+[skip] mut_adaptive/_pack_seq_kernel/r0 已完成
+
+===== [16:14:56] mut_adaptive / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12637.20it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_2z5qafaq/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_vifyqv8s/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_adaptive/_selective_scan_update_kernel/r0 已完成
+
+===== [16:15:07] mut_adaptive / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 15401.89it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_bst4l7_8/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_bau_pz3j/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/moe_align_block_size_stage/r0 已完成
+[skip] mut_adaptive/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_adaptive/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_adaptive/_act_quant_kernel/r0 已完成
+[skip] mut_adaptive/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:15:17] mut_adaptive / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12070.18it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_h37cqak9/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_xixzgepp/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_uniform/eye_kernel/r0 已完成
+[skip] mut_uniform/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_uniform/assign_extend_cache_locs/r0 已完成
+[skip] mut_uniform/_pack_seq_kernel/r0 已完成
+
+===== [16:15:28] mut_uniform / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12455.38it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_vgmivgie/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_wy7muv2d/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_uniform/_selective_scan_update_kernel/r0 已完成
+
+===== [16:15:38] mut_uniform / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 11903.73it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_wvl9ob60/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_sci90zfo/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/moe_align_block_size_stage/r0 已完成
+[skip] mut_uniform/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_uniform/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_uniform/_act_quant_kernel/r0 已完成
+[skip] mut_uniform/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:15:48] mut_uniform / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12493.52it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_i9bfuf1n/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_zv53mf09/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_aggressive/eye_kernel/r0 已完成
+[skip] mut_aggressive/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_aggressive/assign_extend_cache_locs/r0 已完成
+[skip] mut_aggressive/_pack_seq_kernel/r0 已完成
+
+===== [16:15:59] mut_aggressive / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12001.11it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_vqdi8huj/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_uk7pego4/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_aggressive/_selective_scan_update_kernel/r0 已完成
+
+===== [16:16:09] mut_aggressive / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12956.65it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_d3oxio65/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_8e3ukxar/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/moe_align_block_size_stage/r0 已完成
+[skip] mut_aggressive/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_aggressive/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_aggressive/_act_quant_kernel/r0 已完成
+[skip] mut_aggressive/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:16:19] mut_aggressive / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 20065.74it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_r669l5lt/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_m8qu7_4f/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[2026-09-30 16:16:31] round=1 完成，重新统计
+[progress] sel_roulette           14/15
+[progress] sel_tournament         15/15
+[progress] cross_unconstrained    13/15
+[progress] cross_protected        12/15
+[progress] mut_adaptive           12/15
+[progress] mut_uniform            12/15
+[progress] mut_aggressive         12/15
+[progress] healthy_total=90/105
+90
+[2026-09-30 16:16:31] 仍有 15 项，30 秒后进入下一轮
+[2026-09-30 16:17:01] round=2 清理并归档残次任务
+[resume] archived_partial_artifacts=0 path=experiments/archive/partial_3_4_20260930_161701_round2
+[2026-09-30 16:17:01] round=2 开始补跑，完整结果将自动跳过
+[skip] sel_roulette/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_roulette/eye_kernel/r0 已完成
+[skip] sel_roulette/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_roulette/assign_extend_cache_locs/r0 已完成
+[skip] sel_roulette/_pack_seq_kernel/r0 已完成
+[skip] sel_roulette/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_roulette/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_roulette/_selective_scan_update_kernel/r0 已完成
+[skip] sel_roulette/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_roulette/moe_align_block_size_stage/r0 已完成
+[skip] sel_roulette/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_roulette/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_roulette/_act_quant_kernel/r0 已完成
+[skip] sel_roulette/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:17:02] sel_roulette / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 14761.36it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0__qi_r9se/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_fh0jhyza/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] sel_roulette/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] sel_tournament/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_tournament/eye_kernel/r0 已完成
+[skip] sel_tournament/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_tournament/assign_extend_cache_locs/r0 已完成
+[skip] sel_tournament/_pack_seq_kernel/r0 已完成
+[skip] sel_tournament/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_tournament/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_tournament/_selective_scan_update_kernel/r0 已完成
+[skip] sel_tournament/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_tournament/moe_align_block_size_stage/r0 已完成
+[skip] sel_tournament/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_tournament/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_tournament/_act_quant_kernel/r0 已完成
+[skip] sel_tournament/fused_gdn_gating_kernel/r0 已完成
+[skip] sel_tournament/compute_identity_kernel/r0 已完成
+[skip] cross_unconstrained/_set_k_and_s_triton_kernel/r0 已完成
+[skip] cross_unconstrained/eye_kernel/r0 已完成
+[skip] cross_unconstrained/l2norm_fwd_kernel2/r0 已完成
+[skip] cross_unconstrained/assign_extend_cache_locs/r0 已完成
+[skip] cross_unconstrained/_pack_seq_kernel/r0 已完成
+[skip] cross_unconstrained/reshape_and_cache_kernel_flash/r0 已完成
+[skip] cross_unconstrained/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] cross_unconstrained/_selective_scan_update_kernel/r0 已完成
+
+===== [16:17:18] cross_unconstrained / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12784.22it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_wv7iyh7d/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ap5k1_g1/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_unconstrained/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_unconstrained/moe_align_block_size_stage/r0 已完成
+[skip] cross_unconstrained/recompute_w_u_fwd_kernel/r0 已完成
+[skip] cross_unconstrained/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] cross_unconstrained/_act_quant_kernel/r0 已完成
+[skip] cross_unconstrained/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:17:28] cross_unconstrained / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 13140.75it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_sooql4or/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_nmteuo7i/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_unconstrained/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/_set_k_and_s_triton_kernel/r0 已完成
+[skip] cross_protected/eye_kernel/r0 已完成
+[skip] cross_protected/l2norm_fwd_kernel2/r0 已完成
+[skip] cross_protected/assign_extend_cache_locs/r0 已完成
+[skip] cross_protected/_pack_seq_kernel/r0 已完成
+
+===== [16:17:39] cross_protected / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 10533.61it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_y0emlyj8/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_7yry76wp/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] cross_protected/_selective_scan_update_kernel/r0 已完成
+
+===== [16:17:50] cross_protected / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12767.23it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_m64jb887/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ryq59ew_/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/moe_align_block_size_stage/r0 已完成
+[skip] cross_protected/recompute_w_u_fwd_kernel/r0 已完成
+[skip] cross_protected/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] cross_protected/_act_quant_kernel/r0 已完成
+[skip] cross_protected/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:18:00] cross_protected / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12494.05it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_41fbkvno/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_rnbly4hk/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_adaptive/eye_kernel/r0 已完成
+[skip] mut_adaptive/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_adaptive/assign_extend_cache_locs/r0 已完成
+[skip] mut_adaptive/_pack_seq_kernel/r0 已完成
+
+===== [16:18:11] mut_adaptive / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 11382.75it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_jxv7tc86/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_jx8y5suu/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_adaptive/_selective_scan_update_kernel/r0 已完成
+
+===== [16:18:21] mut_adaptive / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 18332.65it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_fhsola31/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_wswpx6_1/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/moe_align_block_size_stage/r0 已完成
+[skip] mut_adaptive/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_adaptive/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_adaptive/_act_quant_kernel/r0 已完成
+[skip] mut_adaptive/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:18:31] mut_adaptive / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12730.12it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_ukoxj2oc/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_c29a78x3/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_uniform/eye_kernel/r0 已完成
+[skip] mut_uniform/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_uniform/assign_extend_cache_locs/r0 已完成
+[skip] mut_uniform/_pack_seq_kernel/r0 已完成
+
+===== [16:18:42] mut_uniform / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 11918.97it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_gajusgw9/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_rqe0nbsn/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_uniform/_selective_scan_update_kernel/r0 已完成
+
+===== [16:18:52] mut_uniform / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 13384.07it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_169bsug3/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_su_wxz8q/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/moe_align_block_size_stage/r0 已完成
+[skip] mut_uniform/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_uniform/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_uniform/_act_quant_kernel/r0 已完成
+[skip] mut_uniform/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:19:03] mut_uniform / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12471.02it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_jb7w8yxo/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_0oej7_cp/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_aggressive/eye_kernel/r0 已完成
+[skip] mut_aggressive/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_aggressive/assign_extend_cache_locs/r0 已完成
+[skip] mut_aggressive/_pack_seq_kernel/r0 已完成
+
+===== [16:19:13] mut_aggressive / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 15329.74it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_vcqahqze/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_rvx5cfo5/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_aggressive/_selective_scan_update_kernel/r0 已完成
+
+===== [16:19:23] mut_aggressive / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12079.00it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_4kv5raz8/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_dsdgahc2/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/moe_align_block_size_stage/r0 已完成
+[skip] mut_aggressive/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_aggressive/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_aggressive/_act_quant_kernel/r0 已完成
+[skip] mut_aggressive/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:19:34] mut_aggressive / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12960.03it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_z3j_f99g/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_7amy96pv/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[2026-09-30 16:19:46] round=2 完成，重新统计
+[progress] sel_roulette           14/15
+[progress] sel_tournament         15/15
+[progress] cross_unconstrained    13/15
+[progress] cross_protected        12/15
+[progress] mut_adaptive           12/15
+[progress] mut_uniform            12/15
+[progress] mut_aggressive         12/15
+[progress] healthy_total=90/105
+90
+[2026-09-30 16:19:46] 仍有 15 项，30 秒后进入下一轮
+[2026-09-30 16:20:16] round=3 清理并归档残次任务
+[resume] archived_partial_artifacts=0 path=experiments/archive/partial_3_4_20260930_162016_round3
+[2026-09-30 16:20:16] round=3 开始补跑，完整结果将自动跳过
+[skip] sel_roulette/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_roulette/eye_kernel/r0 已完成
+[skip] sel_roulette/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_roulette/assign_extend_cache_locs/r0 已完成
+[skip] sel_roulette/_pack_seq_kernel/r0 已完成
+[skip] sel_roulette/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_roulette/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_roulette/_selective_scan_update_kernel/r0 已完成
+[skip] sel_roulette/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_roulette/moe_align_block_size_stage/r0 已完成
+[skip] sel_roulette/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_roulette/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_roulette/_act_quant_kernel/r0 已完成
+[skip] sel_roulette/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:20:17] sel_roulette / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12612.04it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_h6qtv847/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_bkh3qnhj/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] sel_roulette/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] sel_tournament/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_tournament/eye_kernel/r0 已完成
+[skip] sel_tournament/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_tournament/assign_extend_cache_locs/r0 已完成
+[skip] sel_tournament/_pack_seq_kernel/r0 已完成
+[skip] sel_tournament/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_tournament/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_tournament/_selective_scan_update_kernel/r0 已完成
+[skip] sel_tournament/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_tournament/moe_align_block_size_stage/r0 已完成
+[skip] sel_tournament/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_tournament/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_tournament/_act_quant_kernel/r0 已完成
+[skip] sel_tournament/fused_gdn_gating_kernel/r0 已完成
+[skip] sel_tournament/compute_identity_kernel/r0 已完成
+[skip] cross_unconstrained/_set_k_and_s_triton_kernel/r0 已完成
+[skip] cross_unconstrained/eye_kernel/r0 已完成
+[skip] cross_unconstrained/l2norm_fwd_kernel2/r0 已完成
+[skip] cross_unconstrained/assign_extend_cache_locs/r0 已完成
+[skip] cross_unconstrained/_pack_seq_kernel/r0 已完成
+[skip] cross_unconstrained/reshape_and_cache_kernel_flash/r0 已完成
+[skip] cross_unconstrained/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] cross_unconstrained/_selective_scan_update_kernel/r0 已完成
+
+===== [16:20:32] cross_unconstrained / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12920.11it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_xmldxlwo/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_tylwoftc/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_unconstrained/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_unconstrained/moe_align_block_size_stage/r0 已完成
+[skip] cross_unconstrained/recompute_w_u_fwd_kernel/r0 已完成
+[skip] cross_unconstrained/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] cross_unconstrained/_act_quant_kernel/r0 已完成
+[skip] cross_unconstrained/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:20:43] cross_unconstrained / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12836.02it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_fdr9fley/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_o8ss40hx/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_unconstrained/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/_set_k_and_s_triton_kernel/r0 已完成
+[skip] cross_protected/eye_kernel/r0 已完成
+[skip] cross_protected/l2norm_fwd_kernel2/r0 已完成
+[skip] cross_protected/assign_extend_cache_locs/r0 已完成
+[skip] cross_protected/_pack_seq_kernel/r0 已完成
+
+===== [16:20:53] cross_protected / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12688.35it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_0v8gr4l6/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_ogdzhq_4/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] cross_protected/_selective_scan_update_kernel/r0 已完成
+
+===== [16:21:03] cross_protected / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12618.46it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_zjpabjcn/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_zdjh1nlv/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] cross_protected/moe_align_block_size_stage/r0 已完成
+[skip] cross_protected/recompute_w_u_fwd_kernel/r0 已完成
+[skip] cross_protected/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] cross_protected/_act_quant_kernel/r0 已完成
+[skip] cross_protected/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:21:14] cross_protected / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12493.00it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_6sju8gvm/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0__svnsh64/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] cross_protected/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_adaptive/eye_kernel/r0 已完成
+[skip] mut_adaptive/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_adaptive/assign_extend_cache_locs/r0 已完成
+[skip] mut_adaptive/_pack_seq_kernel/r0 已完成
+
+===== [16:21:24] mut_adaptive / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12094.70it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_sb4aepln/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_ej8_tiuu/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_adaptive/_selective_scan_update_kernel/r0 已完成
+
+===== [16:21:34] mut_adaptive / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 20548.96it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_2d8gibox/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_5iu889uc/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_adaptive/moe_align_block_size_stage/r0 已完成
+[skip] mut_adaptive/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_adaptive/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_adaptive/_act_quant_kernel/r0 已完成
+[skip] mut_adaptive/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:21:45] mut_adaptive / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 11644.92it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_z9_kjv93/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_nsu59t8y/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_adaptive/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_uniform/eye_kernel/r0 已完成
+[skip] mut_uniform/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_uniform/assign_extend_cache_locs/r0 已完成
+[skip] mut_uniform/_pack_seq_kernel/r0 已完成
+
+===== [16:21:55] mut_uniform / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12493.00it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_ukn728kd/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_nuaay3gv/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_uniform/_selective_scan_update_kernel/r0 已完成
+
+===== [16:22:06] mut_uniform / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 13128.58it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0__iri3x5u/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_217r94k9/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_uniform/moe_align_block_size_stage/r0 已完成
+[skip] mut_uniform/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_uniform/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_uniform/_act_quant_kernel/r0 已完成
+[skip] mut_uniform/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:22:16] mut_uniform / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12627.02it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0__7wjq2jf/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_30rtalz9/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_uniform/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/_set_k_and_s_triton_kernel/r0 已完成
+[skip] mut_aggressive/eye_kernel/r0 已完成
+[skip] mut_aggressive/l2norm_fwd_kernel2/r0 已完成
+[skip] mut_aggressive/assign_extend_cache_locs/r0 已完成
+[skip] mut_aggressive/_pack_seq_kernel/r0 已完成
+
+===== [16:22:26] mut_aggressive / reshape_and_cache_kernel_flash =====
+[harness] 适应度锚点采用 manifest T_seed = 2.7001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /data/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 15551.50it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7039 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_kvsc1e55/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5602 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/data/Agent/.venv-npu/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_p6drqh4l/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/reshape_and_cache_kernel_flash 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] mut_aggressive/_selective_scan_update_kernel/r0 已完成
+
+===== [16:22:37] mut_aggressive / _fwd_kernel_ep_gather =====
+[harness] 适应度锚点采用 manifest T_seed = 4.8601 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /data/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Baseline time: 10.86us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12573.17it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_61hfw_x6/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/data/Agent/.venv-npu/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_u3yn9jd5/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/_fwd_kernel_ep_gather 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[skip] mut_aggressive/moe_align_block_size_stage/r0 已完成
+[skip] mut_aggressive/recompute_w_u_fwd_kernel/r0 已完成
+[skip] mut_aggressive/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] mut_aggressive/_act_quant_kernel/r0 已完成
+[skip] mut_aggressive/fused_gdn_gating_kernel/r0 已完成
+
+===== [16:22:47] mut_aggressive / compute_identity_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 23.8005 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /data/Agent/datasets2/compute_identity_kernel
+       └─ Baseline time: 659.06us (read from JSON)
+       └─ Test file: /data/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 12656.00it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27
+[EA] NPU 评测设备: [0]
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 NPU 校验与去重 (种子数量: 2, 设备: [0])...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_8j0w4swq/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/data/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/data/Agent/.venv-npu/bin/python /tmp/compute_identity_kernel_dev_0_z3ympbs2/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 种子代码未能通过功能/性能测试，已过滤。
+[run] mut_aggressive/compute_identity_kernel 搜索失败: RuntimeError: 【致命错误】：所有传入的种子代码均未能通过正确性/性能压测！
+[2026-09-30 16:22:59] round=3 完成，重新统计
+[progress] sel_roulette           14/15
+[progress] sel_tournament         15/15
+[progress] cross_unconstrained    13/15
+[progress] cross_protected        12/15
+[progress] mut_adaptive           12/15
+[progress] mut_uniform            12/15
+[progress] mut_aggressive         12/15
+[progress] healthy_total=90/105
+90
+[2026-09-30 16:22:59] 仍有 15 项，30 秒后进入下一轮
+
+表7 父代选择策略对比（3.4.1）
+配置                       选择事件数           被选父代平均适应度     GM(S)     算子数
+----------------------------------------------------------------------
+sel_roulette               112              1.1911    1.8130      14
+sel_tournament             120              1.0155    2.0516      15
+
+[analyze] 已写出 /data/Agent/experiments/results/table7_selection.json
+
+表8 交叉策略对比（3.4.2）
+配置                          子代总数       有效子代率        优于主干比例   GM(G_cross)     GM(S)
+------------------------------------------------------------------------------------
+cross_unconstrained           26      100.0%         11.5%        0.9476    1.8357
+cross_protected               18      100.0%         33.3%        1.1174    2.0724
+
+[analyze] 已写出 /data/Agent/experiments/results/table8_crossover.json
+
+表9 三种变异策略总体对比（3.4.3）
+配置                      变异总数       有效变异率       优化成功率   GM(G_mut)     GM(S)
+----------------------------------------------------------------------------
+mut_adaptive              79       97.5%       18.8%      1.0543    1.9193
+mut_uniform               78       98.7%       13.8%      0.9306    2.1540
+mut_aggressive            78      100.0%       32.1%      1.0348    2.0028
+
+补充材料：按变异类型细分
+配置                变异类型                      调用    有效       成功率   GM(G_mut)
+----------------------------------------------------------------------------
+mut_adaptive      arithmetic_and_mask       25    24     23.1%      1.1700
+mut_adaptive      param_tuning              13    13     25.0%      0.9906
+mut_adaptive      structure_rewrite         41    40      0.0%      0.9668
+mut_aggressive    arithmetic_and_mask       19    19     45.5%      1.2332
+mut_aggressive    param_tuning              14    14     44.4%      0.9681
+mut_aggressive    structure_rewrite         45    45      0.0%      0.8765
+mut_uniform       arithmetic_and_mask       34    33     12.5%      0.9646
+mut_uniform       param_tuning              27    27     11.1%      0.9448
+mut_uniform       structure_rewrite         17    17     16.7%      0.8984
+
+[analyze] 已写出 /data/Agent/experiments/results/table9_mutation.json
+生成 3.4 进化策略消融表（表7 / 表8 / 表9）:
+  已生成: /data/Agent/doc/表7_3.4选择策略消融.docx
+  已生成: /data/Agent/doc/表8_3.4交叉策略消融.docx
+  已生成: /data/Agent/doc/表9_3.4变异策略消融.docx
+[progress] sel_roulette           14/15
+[progress] sel_tournament         15/15
+[progress] cross_unconstrained    13/15
+[progress] cross_protected        12/15
+[progress] mut_adaptive           12/15
+[progress] mut_uniform            12/15
+[progress] mut_aggressive         12/15
+[progress] healthy_total=90/105
+90
+[2026-09-30 16:23:30] 3.4 尚未全部完成：90/105

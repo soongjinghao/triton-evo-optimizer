@@ -29,7 +29,9 @@ from pathlib import Path
 AGENT_DIR = Path(__file__).resolve().parent.parent
 
 # 与 main.py / harness.py 保持一致：必须在导入 langchain / transformers 之前设置
-os.environ.setdefault("HF_HOME", "/workspace/user_data/Agent/RAG/.hf_cache")
+_PROJECT_HF_HOME = str(AGENT_DIR / "RAG" / ".hf_cache")
+os.environ["HF_HOME"] = _PROJECT_HF_HOME
+os.environ["HF_HUB_CACHE"] = str(Path(_PROJECT_HF_HOME) / "hub")
 os.environ.setdefault("HF_ENDPOINT", "https://hf-mirror.com")
 os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 

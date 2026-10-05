@@ -1,0 +1,4603 @@
+<?xml version="1.0" encoding="UTF-8"?><w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mo="http://schemas.microsoft.com/office/mac/office/2008/main" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mv="urn:schemas-microsoft-com:mac:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 wp14">
+  <w:body>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="240" w:after="120"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="28"/>
+        </w:rPr>
+        <w:t>3. 实验与结果</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="200" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="24"/>
+        </w:rPr>
+        <w:t>3.0 实验设置与公共协议</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>实验对象为竞赛方提供的 50 个 Triton 算子（官方原始实现，未经人工优化），每个算子提供 2 个初始种子实现与 1 个测试脚本。全部 50 个算子均在当前环境下完成基线重测，参考实现延迟与最快种子延迟由此得到。需要说明的是，其中 3 个算子（reduce_segments、_silu_mul_fp8_quant_deep_gemm、softplus）的官方种子实现在当前软硬件环境下无法通过评测；为使实验覆盖完整，这 3 个算子的初始种子改用同源的历史产物作为可运行起点（该起点与本文方法的输出无关），其影响在 3.1 节单独说明。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>大模型侧使用两个端点：分析类任务（事实提取、策略蓝图生成）使用轻量模型，代码生成类任务使用强模型，两种调用的温度、最大生成长度等参数在各对比方法中保持一致。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>搜索预算统一约定如下。每个算子的候选生成预算与 NPU 评测预算均固定为 13 次，其中第 0 代生成 5 个候选，随后两代各生成 4 个子代；当第 0 代保留种子数导致种群超出设定规模时，按适应度截断以保证各算子的预算一致。初始种子的功能验证与延迟测量不计入搜索预算，由 B0 阶段统一完成。若候选被 AST 静态预检查拒绝，则不占用 NPU 评测名额，系统重新生成候选补齐，由此多消耗的大模型调用次数在各方法中如实记录并单独报告。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>计时协议统一约定如下。搜索过程中的候选评测在两块 NPU 上并发执行；而参考实现延迟 T_base、最快初始种子延迟 T_seed 以及各方法最终候选延迟 T_best，均在脱离搜索进程后以串行、单设备方式重复测量 5 次并取中位数得到，使三者的测量条件完全一致。所有评测均通过 msprof 采集固定核函数的任务执行时间，采集命令与指标集合在各方法中保持相同。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>有效性判定与统计口径统一约定如下。候选只有在通过功能正确性检查、满足接口与数据契约、并获得大于零的实测延迟时才计为有效候选。同一方法若包含多次独立重复，先在每个算子内部对重复结果取中位数，再跨算子对各项比值取几何平均。几何平均仅在参与比较的各方法均产出有效候选的算子子集上计算，并在各表中报告参与统计的算子数。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="200" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="24"/>
+        </w:rPr>
+        <w:t>3.1 整体优化效果</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>首先验证完整 TritonEvo-NPU 是否能够在统一搜索预算下获得更好的最终算子性能。主实验比较同机参考实现 B0、无证据引导进化优化器 B1、无种群交叉的大模型迭代优化 B2 以及完整方法 FULL。B0 不参与搜索，仅在当前实验环境下重新测量参考实现延迟；B1 保留基本进化搜索骨架，包括种群维护、精英保留、锦标赛选择、交叉与变异，但关闭 Profiling 证据、RAG 检索与策略驱动初始化，其第 0 代候选由大模型在无策略蓝图的条件下直接生成；B2 从当前最快有效候选出发进行单轨迹大模型迭代，每次生成一个候选并经 NPU 评测，仅当该候选有效且快于当前候选时才替换当前候选，不维护多父代种群，不执行父代交叉，也不使用性能分级变异；FULL 为本文完整的 TritonEvo-NPU 系统。B1、B2 与 FULL 使用相同的基础代码生成提示模板、AST 静态预检查规则与设备评测流程。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>搜索结束后，每种方法取其最优有效候选，并在与参考实现和最快初始种子相同的串行、单设备复测协议下重新测量最终延迟。若一次搜索未产生优于初始种子的有效候选，则保留最快有效初始种子作为该方法的最终候选。需要说明的是，第 2.1 节中适应度为 0 的约定针对搜索过程中的中间候选，用于候选排序与父代选择；本节上述兜底规则针对搜索结束后的最终候选，因此最终报告的 F 的下界为 1，不构成与式（2）的冲突。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>对每个算子，最终候选的适应度 F(k*) 与最终加速比 S(k*) 均沿用第 2.1 节的定义，其中 T_seed 为最快有效初始种子的实测延迟，T_base 为参考实现在当前环境下重新测得的延迟，T_best 为该方法的最终候选延迟。GM(S) 作为论文最终性能的主要评价指标，GM(F) 用于反映相对于最快初始种子的搜索收益。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表4（a）整体优化效果</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1224"/>
+        <w:gridCol w:w="1224"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>方法</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(F)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(S)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>中位数 F</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>中位数S</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>参与统计算子数</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>大模型调用数</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>B0 参考实现</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>—</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0000</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>—</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0000</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>50</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>—</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>B1 无证据引导进化优化</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0595</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.5236</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>0.9985</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0190</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>50</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>17.02</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>B2 大模型迭代优化</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0814</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.5550</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0001</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0329</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>50</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>13.0</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>FULL TritonEvo-NPU</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.1689</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.6808</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0200</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0951</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>50</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>19.42</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表4（b）按算子规模分组的 GM(S)</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1224"/>
+        <w:gridCol w:w="1224"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>规模分组</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>Kernel 数</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>GM(S) B1</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>GM(S) B2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>GM(S) FULL</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>中位数 S (FULL)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r/>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>短 (&lt;5μs)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>26</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0475</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0544</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.1075</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.0236</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r/>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>中 (5~100μs)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>15</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.5269</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.6372</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.7632</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.4836</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r/>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2608"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>长 (≥100μs)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>9</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>4.4812</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>4.3849</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1587"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>5.1802</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>2.8704</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1224"/>
+          </w:tcPr>
+          <w:p>
+            <w:r/>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:after="40"/>
+      </w:pPr>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>表中大模型调用数以每算子计。FULL 在搜索开始时额外进行 2 次分析调用（事实提取与策略蓝图生成），该开销不计入候选生成预算，因此在成本列中单独体现。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>结果分析：FULL 在全部四项指标上均优于两个对照方法。其 GM(S) 为 1.6808，较 B1（1.5236）高 10.3%，较 B2（1.5550）高 8.1%；中位数 S 为 1.0951，高于 B1 的 1.0190 与 B2 的 1.0329，说明该优势并非由少数极端算子贡献，而是在多数算子上稳定存在。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>值得注意的是，B2 的 GM(S) 略高于 B1，表明在缺少 Profiling 证据、知识库检索与策略驱动初始化的条件下，维护多种群的进化搜索并未显示出相对单轨迹大模型迭代的优势；而引入上述证据引导后，同一进化框架（FULL）显著超越了 B1 与 B2。这说明进化搜索本身的有效性依赖于证据引导所提供的候选质量，证据引导是该方法取得增益的关键，而非种群机制单独起作用。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>按参考实现延迟分组后可见显著的规模相关性：短延迟算子（&lt;5μs，26 个）上三种方法的收益均十分有限（FULL 为 1.1075），中延迟算子（5~100μs，15 个）上 FULL 达到 1.7632，长延迟算子（≥100μs，9 个）上进一步提升至 5.1802。其原因是短延迟算子的绝对执行时间已接近测量噪声水平，可供优化的空间本身很小；而计算密集的算子存在明确的访存与并行度优化空间，Profiling 证据与策略驱动初始化能够更准确地定位瓶颈。因此本方法的收益集中在中长延迟、计算密集的算子上。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="200" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="24"/>
+        </w:rPr>
+        <w:t>3.2 种子相似度阈值敏感性</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>第 2.3.1 节的种子去重机制依赖源码相似度阈值 τ。本节通过敏感性分析在 17 个对阈值敏感的算子上标定该取值，结果为 τ=0.90，3.1 主实验采用该值。实验比较不筛选以及 τ 取 0.70、0.80、0.85、0.90、0.95 共六种设置。为控制敏感性扫描成本，每种设置采用每算子 5 次 NPU 评测的便宜层预算；因此本节 GM(S) 用于六种阈值设置之间的横向比较，不与 3.1 的 13 次完整搜索预算作绝对数值比较。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>对 50 个算子的种子源码相似度统计表明，其取值范围为 0.096 至 1.000，中位数为 0.857；其中相似度低于 0.70 的算子有 20 个，在任何候选 τ 下均不会触发过滤，相似度不低于 0.95 的算子有 13 个，在任何候选 τ 下均会被过滤，这两类共 33 个算子对 τ 不敏感。因此本节的对比实验在其余 17 个对 τ 敏感的算子上进行，而仅依赖相似度分布即可计算的种子保留率仍在全部 50 个算子上报告。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>种子保留率定义为筛选后保留种子数占原始种子数的比例，可在全部算子上按相似度直接统计得到。第 0 代多样性 D_G0 在第 0 代种群的全部个体上计算：对其中所有不同的候选个体两两计算 SequenceMatcher 源码相似度，令 n 为该代不同候选的数目，则</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="80" w:after="80"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:eastAsia="Times New Roman"/>
+          <w:b w:val="0"/>
+          <w:i/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>D_G0 = 1 − (2 / (n(n−1))) · Σ_{i&lt;j} sim(c_i, c_j)</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>D_G0 越大表示第 0 代候选之间的结构差异越明显。有效候选率定义为最终完成编译、功能验证并获得有效延迟的候选数占送交 NPU 评测候选数的比例；被 AST 静态预检查拒绝的候选不进入该分母，其数量另由 AST 通过率单独统计。最终加速比沿用 3.1 的 GM(S)。表中同时给出相邻设置之间实际发生决策变化的算子数 ΔN，用于区分哪些阈值区间真正具有分辨意义。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表5 种子相似度阈值敏感性</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>阈值 τ</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>种子保留率</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="907"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>ΔN</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>第0代多样性 D_G0</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>有效候选率</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(S)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>不筛选</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>100.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="907"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>—</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>0.2800</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>100.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.1315</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>0.70</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>70.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="907"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>30</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>0.2844</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>68.2%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.1664</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>0.80</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>72.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="907"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>0.2773</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>77.3%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.1323</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>0.85</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>75.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="907"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>3</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>0.2682</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>72.6%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.1220</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>0.90</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>78.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="907"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>3</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>0.2942</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>70.3%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.2547</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>0.95</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>86.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="907"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>8</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>0.3045</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>76.5%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:r>
+              <w:t>1.1770</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:after="40"/>
+      </w:pPr>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>在 17 个对 τ 敏感的算子上测得。六种设置均覆盖相同的 17 个算子，因此各行的 GM(S) 具有可比性。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>由表5可见，不设置去重时 GM(S) 为 1.1315；启用去重后，τ=0.70、0.80、0.90 和 0.95 的 GM(S) 高于该基准，而 τ=0.85 略低。τ=0.90 取得六种设置中的最高值 1.2547，较不筛选提升 10.9%。这表明种子去重的收益依赖阈值选择，合理阈值能够减少冗余种子并改善有限预算下的搜索起点。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>从不筛选切换到 τ=0.70 时，有 30 个算子的种子保留决策发生变化；而 τ 在 0.70 至 0.95 之间移动时，决策变化的算子数仅为 2 至 8 个（ΔN 列），说明机制启停造成的结构变化大于相邻阈值微调。在 τ 取 0.70 至 0.95 的区间内，GM(S) 介于 1.1220 与 1.2547 之间。由于每种设置仅执行一轮搜索且采用 5-eval 预算，这些差异仍可能包含采样波动；本文据观测最优值选择 τ=0.90，而不将该单次扫描解释为统计显著性结论。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>需要指出的是，D_G0 的最大值出现在 τ=0.95（0.3045），但该设置下的 GM(S) 并非最高。这说明第 0 代多样性需要与最终加速比结合判断，单一的多样性指标并不直接对应搜索收益。综合 D_G0 与 GM(S)，τ=0.90 在本次扫描中取得最高 GM(S)=1.2547，因此 3.1 主实验采用该取值。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="200" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="24"/>
+        </w:rPr>
+        <w:t>3.3 Profiling 证据与知识库检索策略消融</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>本实验验证硬件证据和知识库检索是否能够提高候选质量。实验固定进化算子和搜索预算，只改变 Profiling 证据的注入与知识库的检索方式，共设置四种配置：A6 关闭 Profiling 证据但保留受约束 RAG；B3 启用 Profiling 但不使用知识库；B4 启用 Profiling 并使用普通语义 Top-k 检索，即仅按查询与知识项的向量语义相似度排序，不使用词法匹配、类别与置信度重排，也不附加 Guard 约束；FULL 启用 Profiling 并采用混合重排加 Guard 的检索方式。四种配置的第 0 代候选数量、进化代数、NPU 评测预算与设备测试协议完全相同。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>主表统一使用同一批 15 个代表性算子和正式 r0 日志，报告有效候选率与最终加速比 GM(S)。有效候选率表示送交 NPU 评测的候选中，最终完成编译、功能验证并获得有效延迟的比例；GM(S) 使用与 3.1 一致的串行复测口径。各配置实际送评测数为 187 至 194，差异来自 AST 拒绝或候选生成不足，因此有效候选率按各配置实际送评测数计算。编译成功率、功能通过率和 AST 拒绝原因仍保留在实验日志中。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表6 Profiling 证据与知识库检索策略消融</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>配置</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>Profiling</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="3061"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>RAG 方式</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>有效候选率</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(S)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>A6</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>关闭</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="3061"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>受约束 RAG（混合重排+Guard）</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>92.23%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>2.2566</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>B3</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>启用</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="3061"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>无 RAG</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>90.00%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>2.2715</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>B4</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>启用</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="3061"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>普通语义 Top-k</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>92.27%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>1.9697</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>FULL</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>启用</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="3061"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>混合重排+Guard</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>87.70%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>2.1550</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:after="40"/>
+      </w:pPr>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>表6显示，在统一的 15 个算子上，A6、B3、B4 与 FULL 的有效候选率分别为 92.23%、90.00%、92.27% 和 87.70%，GM(S) 分别为 2.2566、2.2715、1.9697 和 2.1550。普通语义 Top-k 的 B4 在本次实验中最终性能最低，说明仅依赖向量相似度不足以稳定筛选适用的优化知识；混合重排与 Guard 约束使 FULL 的 GM(S) 较 B4 提高约 9.4%。另一方面，A6 和 B3 的单次 GM(S) 高于 FULL，而 FULL 的有效候选率也不是最高，因此当前结果不能支持&#x201C;每个组件均独立带来单调增益&#x201D;的结论。更合理的解释是，Profiling、RAG 与进化搜索之间存在交互，候选有效率与最终性能也并非严格正相关；本表主要证明检索策略会显著改变搜索结果，组件独立贡献仍需结合更多随机种子复现实验判断。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="200" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="24"/>
+        </w:rPr>
+        <w:t>3.4 进化策略消融</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>本节分别验证父代选择、交叉和变异三个组件。三组实验均使用相同的工作负载、相同的搜索预算与相同的初始种子，并尽量固定其他组件，使观察到的差异能够归因于当前被替换的进化策略。受实验后期设备环境变化影响，三个算子的初始种子在复测阶段无法稳定通过功能与性能验证，因此本节统计按各配置实际完成并复测成功的算子子集给出，各表参与统计的算子数在表后说明中列出。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>3.4.1 轮盘赌与三元锦标赛父代选择</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>选择策略实验比较轮盘赌与三元锦标赛。轮盘赌按适应度比例采样父代，锦标赛则每次随机抽取 3 个候选并取其中适应度最高者。为直接反映选择策略本身的作用，实验记录搜索过程中每次被实际选中父代的适应度，并以全部选择事件的平均值作为被选父代平均适应度，用于衡量不同策略实际施加的选择压力；同时比较两种策略下的最终 GM(S)。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表7 父代选择策略对比</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="2880"/>
+        <w:gridCol w:w="2880"/>
+        <w:gridCol w:w="2880"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2268"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>选择策略</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2494"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>被选父代平均适应度</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2154"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(S)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2268"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>轮盘赌选择</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2494"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>1.1911</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2154"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>1.8130</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2268"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>三元锦标赛选择</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2494"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>1.0155</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2154"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>2.0516</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:after="40"/>
+      </w:pPr>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>由表7可见，轮盘赌选择的被选父代平均适应度为 1.1911，高于三元锦标赛的 1.0155；但最终 GM(S) 反而更低，轮盘赌为 1.8130，三元锦标赛为 2.0516。这说明较高的即时选择压力并不必然转化为更好的最终算子；过度集中于当前高适应度父代会削弱种群多样性，使搜索更容易停留在局部较优区域。三元锦标赛在保持一定随机性的同时提供了稳定选择压力，更适合本文的搜索预算。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>3.4.2 无约束父代交叉与主干保持型保护交叉</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>交叉实验在相同父代集合和相同交叉次数下，对比无约束融合两个父代与主干保持型保护交叉。无约束融合允许在一次交叉中同时重组 Grid、寻址、算术表达式、Mask 与启动配置等多个部分；保护交叉则以实测性能较优的一方为骨架，一次只移植供体父代的一个局部优化，并要求该变换与主干的 shape、stride、dtype、对齐、规约域与 Mask 条件相容。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>对于每个完成完整验证的有效子代，以主干父代延迟 T_backbone 与子代延迟 T_child 计算子代相对主干父代的性能比 G_cross，当 G_cross &gt; 1 时表示交叉后子代更快。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="80" w:after="80"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:eastAsia="Times New Roman"/>
+          <w:b w:val="0"/>
+          <w:i/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>G_cross = T_backbone / T_child</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>实验进一步统计有效子代率、有效子代中优于主干父代的比例，并对所有有效子代的 G_cross 取几何平均。有效子代率表示能够完成编译、功能验证和性能测量的交叉子代占全部交叉子代的比例。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表8 交叉策略对比</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="2160"/>
+        <w:gridCol w:w="2160"/>
+        <w:gridCol w:w="2160"/>
+        <w:gridCol w:w="2160"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2494"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>交叉策略</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>有效子代率</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2381"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>子代优于主干父代比例</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(G_cross)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2494"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>无约束融合两个父代</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>100.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2381"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>11.5%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>0.9476</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2494"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>主干保持型保护交叉</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>100.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2381"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>33.3%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>1.1174</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:after="40"/>
+      </w:pPr>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>由表8可见，保护交叉的有效子代中优于主干父代的比例为 33.3%，高于无约束交叉的 11.5%；保护交叉的 GM(G_cross) 为 1.1174，也高于无约束交叉的 0.9476，最终 GM(S) 分别为 2.0724 与 1.8357。这表明在多处局部优化同时存在时，无约束地重组多个部分容易破坏父代已成立的 shape、stride、对齐与 Mask 条件；而以性能较优父代为骨架、每次只移植一个相容的局部优化，更能在有限预算内稳定产生有效改进。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>3.4.3 自适应、均匀与激进变异</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>变异实验比较自适应变异、均匀变异和激进变异三种策略。三种策略的差异只体现在参数调优、算术与 Mask 优化、结构重写三类变异的采样方式，其他提示、父代集合和设备评测协议保持一致。均匀变异对三类变异等概率采样，不依赖父代实测性能；激进变异以结构重写为主导；自适应变异则依据父代相对参考实现的实测加速水平动态调整三类变异的比例，在较弱候选上更多进行结构探索，在高性能候选附近转向局部精修。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>对于每个完成评测的变异子代，以父代延迟 T_parent 与子代延迟 T_child 计算 G_mut，当 G_mut &gt; 1 时表示该次变异带来性能提升。有效变异率表示能够完成编译、功能验证和性能测量的变异子代占全部变异子代的比例；优化成功率表示有效变异中 G_mut &gt; 1 的比例；平均优化幅度使用有效变异的 GM(G_mut)。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="80" w:after="80"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:eastAsia="Times New Roman"/>
+          <w:b w:val="0"/>
+          <w:i/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>G_mut = T_parent / T_child</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表9 三种变异策略总体对比</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+        <w:gridCol w:w="1728"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>变异策略</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>有效变异率</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>优化成功率</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(G_mut)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(S)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>自适应变异</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>97.5%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>18.8%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>1.0543</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>1.9193</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>均匀变异</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>98.7%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>13.8%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>0.9306</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>2.1540</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1701"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>激进变异</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>100.0%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>32.1%</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1474"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>1.0348</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>2.0028</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:after="40"/>
+      </w:pPr>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>实验日志额外记录每次变异实际采用的类型，以便在补充材料中按参数调优、算术与 Mask 优化、结构重写分别统计调用次数、有效率、优化成功率和 GM(G_mut)。这些细分结果用于解释三种总体变异策略的差异，不再占用正文主表。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>由表9可见，三种变异策略的有效变异率均较高，介于 97.5% 与 100.0% 之间，但优化成功率差异明显：激进变异为 32.1%，自适应变异为 18.8%，均匀变异为 13.8%。这说明在本文的短预算搜索中，变异策略的主要区别不在于能否生成可运行代码，而在于能否把有限的评测次数集中到更可能带来改进的方向上。最终 GM(S) 方面，均匀变异为 2.1540，激进变异为 2.0028，自适应变异为 1.9193；该排序与优化成功率并不完全一致。考虑到每种策略仅执行一轮搜索，本文将其解释为单次采样下的观测差异，尚不足以支持严格的优劣排序。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="200" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="24"/>
+        </w:rPr>
+        <w:t>3.5 代表性算子案例分析</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>在总体实验和消融实验之后，选取少量代表性算子解释具体优化过程。本节不再引入新的主评价指标，而是记录参考实现延迟 T_base、优化前候选延迟 T_before、优化后候选延迟 T_after 及最终加速比 S，并从实际 Profiling 结果中选择与该案例最相关的一个硬件指标进行前后对比，用以说明优化方向与硬件瓶颈之间的对应关系。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表10 代表性算子案例的可测量数据</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="1080"/>
+        <w:gridCol w:w="1080"/>
+        <w:gridCol w:w="1080"/>
+        <w:gridCol w:w="1080"/>
+        <w:gridCol w:w="1080"/>
+        <w:gridCol w:w="1080"/>
+        <w:gridCol w:w="1080"/>
+        <w:gridCol w:w="1080"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1134"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>算子</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>T_base</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1134"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>T_before</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>T_after</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>最终加速比 S</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>主要 Profiling 指标</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>优化前值</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>优化后值</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1134"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>案例1</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1134"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1134"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>案例2</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1134"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1134"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>案例3</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1134"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1814"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1020"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:after="40"/>
+      </w:pPr>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="200" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="24"/>
+        </w:rPr>
+        <w:t>3.6 候选预筛选机制</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>3.6.1 动机</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>真机评测是搜索过程中的主要时间开销，单次评测耗时远高于候选生成的边际成本。在第 3.1 节的预算约束下，每个算子仅有 13 次真机评测机会；若生成的候选中有相当比例并未优于其父代，则有限的评测预算被低效占用。本节在进入真机评测之前增加一个候选预筛选环节：先以较低成本估计子代优于父代的可能性，仅将估计更可能带来改进的候选送交 NPU，从而使评测预算集中在更有价值的候选上。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>3.6.2 训练数据采集</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>预筛选模型的训练数据来自搜索过程本身，不需要额外的实验开销。系统在每次真机评测完成后自动记录一条样本，内容包括：候选与其父代的标识、父代延迟与子代实测延迟、操作类型（初始化、交叉或变异）与具体变异类型、所在代数，以及由父子延迟关系得到的二分类标签，即子代是否优于父代。所有进入评测的候选源码按其标识保存，供事后计算代码差异等结构特征。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>需要强调的是，数据采集环节只做记录，不参与任何搜索决策，也不改变候选的生成、筛选与评测方式，因此不会影响前五节实验的行为与结果。样本规模随 3.1 与 3.2 节实验的推进而累积，模型训练与评估在样本量满足要求后进行。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>3.6.3 模型设计与集成方式</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>预筛选任务定义为二分类：给定候选及其父代信息，预测该候选是否优于其父代。之所以不直接预测执行延迟，是因为延迟为绝对值、在不同算子之间不可比；而&#x201C;是否优于父代&#x201D;这一语义与具体算子无关，具有跨算子的可迁移性。考虑到可获得的样本规模有限，模型采用梯度提升树等小样本下稳定的学习器，输入特征包括候选与父代的代码差异程度、改动所涉及的区域类别、变异或交叉类型、父代在种群中的相对性能位置以及代数信息。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>集成时保持 NPU 评测预算不变，仍为每个算子 13 次。具体做法是扩大候选生成规模，由模型对全部候选按估计的改进概率排序，取排名前 13 的候选送交真机评测，其余候选直接丢弃并记录。因此该机制带来的额外开销是候选池扩大所对应的生成调用增加，而设备评测开销保持不变，与第 3.1 节的预算定义仍然一致。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="80"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>3.6.4 评估指标</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>预筛选机制从三个层面评估。模型质量层面统计精确率、召回率与 AUC，其中精确率反映被判定为可能改进的候选中真正优于父代的比例；预算效率层面统计单位评测所带来的有效改进次数；最终结果层面考察在相同 NPU 预算下 GM(S) 是否得到提升。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:line="360" w:lineRule="auto" w:after="120"/>
+        <w:ind w:firstLine="420"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+          <w:b w:val="0"/>
+          <w:sz w:val="21"/>
+        </w:rPr>
+        <w:t>评估中需特别关注假阴性，即被筛除的候选中实际优于父代的比例——这类误筛会直接损失本可获得的改进。此外，由于同一算子的多个候选之间具有较高相似性，训练与测试集的划分采用留一算子交叉验证，避免随机划分带来的信息泄漏。</w:t>
+      </w:r>
+    </w:p>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:before="160" w:after="200"/>
+        <w:jc w:val="center"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+          <w:b/>
+          <w:sz w:val="19"/>
+        </w:rPr>
+        <w:t>表11 候选预筛选效果</w:t>
+      </w:r>
+    </w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblStyle w:val="TableGrid"/>
+        <w:tblW w:type="auto" w:w="0"/>
+        <w:jc w:val="center"/>
+        <w:tblLook w:firstColumn="1" w:firstRow="1" w:lastColumn="0" w:lastRow="0" w:noHBand="0" w:noVBand="1" w:val="04A0"/>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+        <w:gridCol w:w="1440"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2268"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>配置</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>候选生成数</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>NPU评测数</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>精确率</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>召回率</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="黑体" w:hAnsi="黑体" w:eastAsia="黑体"/>
+                <w:b/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>GM(S)</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2268"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>无预筛选（3.1 FULL）</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>13</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>13</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>—</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>—</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="2268"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>预筛选</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>20</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1361"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>13</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr>
+            <w:tcW w:type="dxa" w:w="1247"/>
+          </w:tcPr>
+          <w:p>
+            <w:pPr>
+              <w:jc w:val="center"/>
+            </w:pPr>
+            <w:r/>
+            <w:r>
+              <w:rPr>
+                <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:eastAsia="宋体"/>
+                <w:b w:val="0"/>
+                <w:sz w:val="19"/>
+              </w:rPr>
+              <w:t>【待填】</w:t>
+            </w:r>
+          </w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+    <w:p>
+      <w:pPr>
+        <w:spacing w:after="40"/>
+      </w:pPr>
+    </w:p>
+    <w:sectPr w:rsidR="00FC693F" w:rsidRPr="0006063C" w:rsidSect="00034616">
+      <w:pgSz w:w="12240" w:h="15840"/>
+      <w:pgMar w:top="1440" w:right="1800" w:bottom="1440" w:left="1800" w:header="720" w:footer="720" w:gutter="0"/>
+      <w:cols w:space="720"/>
+      <w:docGrid w:linePitch="360"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
