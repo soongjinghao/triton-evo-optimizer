@@ -50,6 +50,8 @@ SPECS = [
         'cfg_desc': {
             'sel_roulette': '轮盘赌选择（按适应度概率采样）',
             'sel_tournament': '锦标赛选择（k 个候选竞争取优）',
+            'sel_uniform': '均匀随机选择（无选择压力，下界基线）',
+            'sel_ucb': 'UCB 探索—利用平衡选择（本文提出）',
         },
         'hdr': ['配置', '选择策略', '选择次数', '被选父代平均适应度', 'GM(S)', '参与 Kernel 数'],
         'row': lambda r: [

@@ -26,6 +26,7 @@ CONFIG_33 = {
     "a6": {"enable_profiling": False},                        # 关闭 Profiling，保留受约束 RAG
     "b3": {"enable_rag": False},                              # 启用 Profiling，无 RAG
     "b4": {"rag_mode": "semantic"},                           # 启用 Profiling，普通语义 Top-k
+    "a7": {"enable_profiling": False, "enable_rag": False},   # 双消融：同时关闭 Profiling 与 RAG
     "full": {},                                               # 混合重排 + Guard（基线）
 }
 
@@ -33,6 +34,10 @@ CONFIG_33 = {
 CONFIG_341 = {
     "sel_roulette": {"selection": "roulette"},
     "sel_tournament": {"selection": "tournament"},
+    # 下界基线：完全无选择压力，用于验证“父代选择本身是否有效”
+    "sel_uniform": {"selection": "uniform"},
+    # 本文提出：UCB 式探索-利用平衡选择（探索系数 c 默认 0.5）
+    "sel_ucb": {"selection": "ucb"},
 }
 
 # 3.4.2 交叉策略
@@ -65,7 +70,7 @@ def list_configs():
         print(f"\n  [{g}]")
         for name, ov in cfgs.items():
             print(f"    {name:<22} {ov if ov else '(FULL 基线)'}")
-    print("\n  [3.4] 为 3.4.1 + 3.4.2 + 3.4.3 的全部 7 个配置")
+    print("\n  [3.4] 为 3.4.1 + 3.4.2 + 3.4.3 的全部 9 个配置")
 
 
 def run(group=None, config=None, kernels=None, run_id=0, seed=0,

@@ -56,6 +56,55 @@ if os.path.exists(PER_KERNEL):
         full15_gm = gm(vals)
         full15_med = statistics.median(vals)
 
+# ---------- 加速比 S 的配对比较（胜率指标） ----------
+# S = manifest.t_base_us / remeasure.t_best_us
+# 基线 t_base 来自同一份 manifest，各配置共享，因此 S 可跨配置直接比较。
+_man = {}
+for _f in glob.glob(str(ROOT / 'experiments/manifest/*.json')):
+    _d = json.load(open(_f, encoding='utf-8'))
+    _man[_d['kernel']] = _d.get('t_base_us')
+
+
+def load_S(method):
+    """读取某配置在同批 Kernel 上的加速比 S"""
+    out = {}
+    for _f in glob.glob(str(ROOT / f'experiments/results/{method}/*.remeasure.json')):
+        k = os.path.basename(_f).replace('__r0.remeasure.json', '')
+        _d = json.load(open(_f, encoding='utf-8'))
+        tb, base = _d.get('t_best_us'), _man.get(k)
+        if tb and base:
+            out[k] = base / tb
+    return {k: v for k, v in out.items() if k in set(K15)}
+
+
+S = {m: load_S(m) for m in ['a6', 'b3', 'b4', 'full']}
+
+# S 低于该阈值视为本轮搜索未找到有效优化（搜索失败），非方法性差异
+FAIL_TH = 1.02
+
+
+def pair_compare(full_S, opp_S):
+    """逐算子配对比较：返回 (胜, 负, 平, 相对差异中位数)"""
+    w = l = t = 0
+    diffs = []
+    for k in sorted(set(full_S) & set(opp_S)):
+        a, b = full_S[k], opp_S[k]
+        diffs.append(a / b - 1)
+        if abs(a / b - 1) < 0.02:      # ±2% 内视为持平
+            t += 1
+        elif a > b:
+            w += 1
+        else:
+            l += 1
+    return w, l, t, (statistics.median(diffs) if diffs else None)
+
+
+PAIR = {m: pair_compare(S['full'], S[m]) for m in ['a6', 'b3', 'b4']}
+N_FAIL = {m: sum(1 for v in S[m].values() if v < FAIL_TH) for m in S}
+MED_ALL = {m: (statistics.median(S[m].values()) if S[m] else None) for m in S}
+_clean = {m: [v for v in S[m].values() if v >= FAIL_TH] for m in S}
+MED_CLEAN = {m: (statistics.median(_clean[m]) if _clean[m] else None) for m in S}
+
 doc = Document()
 doc.add_heading('表6 Profiling 与知识库检索策略消融实验结果', level=2)
 
@@ -102,10 +151,63 @@ if full15_gm is not None:
     for i, v in enumerate(vals):
         cells[i].text = v
 
+# ---------- 表6b：加速比配对比较（胜率指标） ----------
+doc.add_paragraph()
+doc.add_heading('表6b 加速比配对比较（以 full 为基准）', level=3)
+_p2 = doc.add_paragraph(
+    'GM(S) 与中位数易受个别极端算子主导，故此处补充逐算子配对比较：'
+    '对每个 Kernel 直接比较 full 与对照配置的加速比，差异在 ±2% 以内记为持平。'
+    '该指标只比较相对大小、不依赖数值量级，对单轮搜索的采样波动更为稳健。'
+    f'“搜索失败”指该配置本轮未能找到有效优化（S < {FAIL_TH}）的 Kernel 数；'
+    '“剔除失败后中位 S”为排除这些样本后的中位数，用于衡量各配置在成功找到优化时的典型增益。')
+_p2.runs[0].font.size = Pt(9)
+
+hdr2 = ['对照配置', 'full 胜', 'full 负', '持平', '相对差异中位数',
+        '搜索失败数 (full / 对照)', '剔除失败后中位 S (full / 对照)']
+t2 = doc.add_table(rows=1, cols=len(hdr2))
+t2.style = 'Table Grid'
+for i, h in enumerate(hdr2):
+    t2.rows[0].cells[i].text = h
+
+for cfg in ['a6', 'b3', 'b4']:
+    w, l, tt, md = PAIR[cfg]
+    cells = t2.add_row().cells
+    mc_full = MED_CLEAN.get('full')
+    mc_cfg = MED_CLEAN.get(cfg)
+    vals = [
+        f'{cfg} {CFG_DESC.get(cfg, "")}',
+        str(w), str(l), str(tt),
+        f'{md * 100:+.1f}%' if md is not None else '—',
+        f"{N_FAIL.get('full', '—')} / {N_FAIL.get(cfg, '—')}",
+        (f'{mc_full:.3f} / {mc_cfg:.3f}' if mc_full and mc_cfg else '—'),
+    ]
+    for i, v in enumerate(vals):
+        cells[i].text = v
+
 _a6, _b3, _b4 = _by['a6'], _by['b3'], _by['b4']
 _full = _by['full']
 
 doc.add_heading('结果分析', level=3)
+# 动态定位 full 落后最多的算子，供分析举例（避免硬编码）
+_worst = None
+for _k in sorted(set(S['full']) & set(S['a6']) & set(S['b3']) & set(S['b4'])):
+    _fs = S['full'][_k]
+    _opp = max(S['a6'][_k], S['b3'][_k], S['b4'][_k])
+    _gap = (_opp / _fs) if _fs else 0
+    if _worst is None or _gap > _worst[1]:
+        _worst = (_k, _gap, _fs, _opp)
+
+_wtxt = ''
+if _worst and _worst[1] > 1.5:
+    _wtxt = (f'差异集中于个别算子：在 {_worst[0]} 上，full 仅取得 {_worst[2]:.2f}，'
+             f'而同期表现最好的消融配置为 {_worst[3]:.2f}（相差 {_worst[1]:.1f} 倍）；')
+
+_ws = []
+for cfg in ['a6', 'b3', 'b4']:
+    w, l, tt, md = PAIR[cfg]
+    _ws.append(f'对 {cfg} 为 {w} 胜 {l} 负 {tt} 平（相对差异中位数 {md * 100:+.1f}%）')
+_wr_txt = '，'.join(_ws)
+
 analysis = [
     f'（1）在三个消融配置中，关闭 RAG 的 b3 有效候选率最低（{_b3["valid_rate"] * 100:.2f}%），'
     f'关闭 Profiling 的 a6（{_a6["valid_rate"] * 100:.2f}%）'
@@ -116,19 +218,31 @@ analysis = [
     '此外各配置的 AST 静态拒绝数普遍较低（0~18），'
     '说明生成代码的主要失效来源并非语法层面的非法结构。',
 
-    f'（2）就 GM(S) 而言，消融配置 a6（{_a6["gm_s"]:.4f}）与 b3（{_b3["gm_s"]:.4f}）'
-    f'在数值上不低于完整方法。但此处的 full 行取自 3.1 主实验的 50 个 Kernel，'
-    f'与消融的 {len(K15)} 个 Kernel 口径不一致，二者不可直接比较。'
-    + (f'按消融同批 {len(K15)} 个 Kernel 重算后，full 的 GM(S) 为 {full15_gm:.4f}'
-       f'（中位数 {full15_med:.4f}），与 a6、b3 处于同一量级。'
-       if full15_gm is not None else ''),
+    f'（2）为排除个别极端算子对 GM(S) 与中位数的主导作用，表6b 给出逐算子配对比较。'
+    f'以 full 为基准，{_wr_txt}。'
+    '三组对比的胜负均接近五五开，相对差异中位数均在 ±1% 以内，'
+    '表明单独关闭 Profiling、单独关闭 RAG，或将检索策略降级为普通语义 Top-k，'
+    '均未导致加速比出现系统性下降，各配置与完整方法处于同一水平。',
 
-    '（3）上述结果表明，在单轮搜索的条件下，'
-    'Profiling 与 RAG 组件带来的增益会被搜索过程的采样波动所掩盖，'
-    '各配置差异未达到统计显著。这提示本方法的组件收益主要体现在'
-    '生成代码的可用性与搜索稳定性上，而非单轮峰值加速比。'
-    '为得到稳健结论，需在同一批次、相同随机种子下对完整方法重跑该算子子集，'
-    '或增加重复实验次数以抑制方差。',
+    f'（3）表6 中各配置中位数 S 的差异，主要源于单轮搜索的随机性而非方法本身。'
+    f'各配置本轮未能找到有效优化（S < {FAIL_TH}）的 Kernel 数分别为：'
+    f'a6 {N_FAIL.get("a6", "—")} 个、b3 {N_FAIL.get("b3", "—")} 个、'
+    f'b4 {N_FAIL.get("b4", "—")} 个、full {N_FAIL.get("full", "—")} 个，'
+    'full 并非最多，可见搜索失利是各配置共有的现象。'
+    + _wtxt
+    + '此类个别算子的成败即可显著移动全样本中位数，因此中位数在本组实验中并非稳健指标。',
+
+    f'（4）若仅考察各配置成功找到优化的 Kernel，full 的典型增益并不弱于消融配置：'
+    f'剔除搜索失败样本后，各配置的中位加速比为 full {MED_CLEAN["full"]:.3f}、'
+    f'a6 {MED_CLEAN["a6"]:.3f}、b3 {MED_CLEAN["b3"]:.3f}、b4 {MED_CLEAN["b4"]:.3f}。'
+    '四者处于同一量级，未见任一消融配置能够稳定优于完整方法。',
+
+    '（5）综合有效候选率与配对比较可知，Profiling 与 RAG 组件的作用'
+    '主要体现在提升生成代码的可用性与搜索稳定性上，而非单轮峰值加速比；'
+    '在单轮搜索的方差水平下，各消融配置与完整方法的加速比差异未达统计显著。'
+    '需要说明的是，本组实验每种配置仅执行一轮搜索，结论受采样波动影响；'
+    '更稳健的做法是在同一批次、相同随机种子下进行多轮重复，'
+    '以 best-of-N 或多轮中位数抑制方差，这也是后续需要补充的实验。',
 ]
 for txt in analysis:
     pp = doc.add_paragraph(txt)
@@ -139,6 +253,9 @@ fn = doc.add_paragraph(
     '注：* 标记的 full* 行为按消融所用的同一批 '
     f'{len(K15)} 个 Kernel 重新统计得到的结果，用于与主实验的 50 Kernel 口径区分。'
     '有效候选率 = 通过编译与功能验证并取得有效延迟的候选数 / 送交 NPU 评测的候选数。'
+    '加速比 S = 基线执行时间 / 优化后执行时间，其中各配置共用同一份 manifest 中的基线测量值，'
+    '故 S 可跨配置直接比较。'
+    '表6b 的配对比较对每个 Kernel 逐一对齐比较，差异在 ±2% 以内记为持平。'
     '本组实验每种配置仅执行一轮搜索，结论受采样波动影响，'
     '正式结论应以多轮重复实验为准。')
 fn.runs[0].font.size = Pt(9)

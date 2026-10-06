@@ -1,0 +1,57 @@
+{
+  "provenance": {
+    "mut_uniform": 133,
+    "mut_aggressive": 127,
+    "mut_adaptive": 132
+  },
+  "gains": [
+    {
+      "config": "mut_uniform",
+      "n": 45,
+      "gm_g": 0.9397834045579506,
+      "ci_lo": 0.9080727673671803,
+      "ci_hi": 0.9656498208608135,
+      "success_rate": 0.2,
+      "sr_lo": 0.10896004402509006,
+      "sr_hi": 0.3382325131392944,
+      "significant": "是"
+    },
+    {
+      "config": "mut_aggressive",
+      "n": 45,
+      "gm_g": 0.9313234890191954,
+      "ci_lo": 0.8974850348656803,
+      "ci_hi": 0.962016061804344,
+      "success_rate": 0.24444444444444444,
+      "sr_lo": 0.14235335025509283,
+      "sr_hi": 0.3867366058479013,
+      "significant": "是"
+    },
+    {
+      "config": "mut_adaptive",
+      "n": 48,
+      "gm_g": 1.0225131447252778,
+      "ci_lo": 0.9578057361606509,
+      "ci_hi": 1.1472139196793947,
+      "success_rate": 0.14583333333333334,
+      "sr_lo": 0.07248157413793963,
+      "sr_hi": 0.27167447042858606,
+      "significant": "否"
+    }
+  ],
+  "gm_s": {
+    "mut_uniform": 2.3847801035992835,
+    "mut_aggressive": 2.2595441642573038,
+    "mut_adaptive": 2.1967927991138607
+  },
+  "friedman": {
+    "chi2": 1.6551724137930977,
+    "p": 0.4371030904024781,
+    "kendall_w": 0.05517241379310325,
+    "significant": false
+  },
+  "leave_one_out_flips": [
+    "moe_align_block_size_stage"
+  ],
+  "n_kernels": 15
+}

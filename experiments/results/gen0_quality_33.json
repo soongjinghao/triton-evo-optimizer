@@ -1,0 +1,49 @@
+{
+ "samples": [
+  {
+   "config": "a6",
+   "kernel": "_act_quant_kernel",
+   "file": "0.py",
+   "success": true,
+   "latency_us": 111.082222,
+   "s0": 1.0005401224329127,
+   "error": "",
+   "repeats": 3,
+   "seconds": 48.1
+  },
+  {
+   "config": "a6",
+   "kernel": "_act_quant_kernel",
+   "file": "1.py",
+   "success": true,
+   "latency_us": 111.162224,
+   "s0": 0.9998200467813598,
+   "error": "",
+   "repeats": 3,
+   "seconds": 49.5
+  },
+  {
+   "config": "a6",
+   "kernel": "_act_quant_kernel",
+   "file": "2.py",
+   "success": false,
+   "latency_us": 0.0,
+   "s0": null,
+   "error": "Performance test failed",
+   "repeats": 3,
+   "seconds": 20.3
+  },
+  {
+   "config": "a6",
+   "kernel": "_act_quant_kernel",
+   "file": "3.py",
+   "success": true,
+   "latency_us": 111.122223,
+   "s0": 1.00017995500324,
+   "error": "",
+   "repeats": 3,
+   "seconds": 49.4
+  }
+ ],
+ "parents": []
+}

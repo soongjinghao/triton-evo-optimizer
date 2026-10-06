@@ -1,0 +1,178 @@
+import torch
+import torch_npu
+import triton
+import triton.language as tl
+
+@triton.jit
+def apply_expert_map(expert_id, expert_map):
+    return tl.load(expert_map + expert_id)
+
+@triton.jit
+def _fwd_kernel_ep_gather(
+    total_token_num,
+    input_tensor,
+    input_tensor_stride0,
+    input_tensor_stride1,
+    recv_topk_ids,
+    recv_topk_ids_stride0,
+    recv_topk_ids_stride1,
+    recv_topk_weight,
+    recv_topk_weight_stride0,
+    recv_topk_weight_stride1,
+    input_index,
+    input_index_stride0,
+    input_index_stride1,
+    output_tensor,
+    output_tensor_stride0,
+    output_tensor_stride1,
+    topk_num: tl.constexpr,
+    expert_map,
+    HAS_EXPERT_MAP: tl.constexpr,
+    BLOCK_D: tl.constexpr,
+    BLOCK_B: tl.constexpr,
+    NUM_D_BLOCKS: tl.constexpr,
+):
+    pid = tl.program_id(0)
+    b_start = pid * BLOCK_B
+    b_idx = b_start + tl.arange(0, BLOCK_B)
+    b_mask = b_idx < total_token_num
+
+    for d_block in range(NUM_D_BLOCKS):
+        off_d = tl.arange(0, BLOCK_D)
+
+        # Vectorized load of all topk_ids for BLOCK_B tokens
+        # Condition: recv_topk_ids_stride1 == 1 and topk_num is compile-time const
+        if recv_topk_ids_stride1 == 1:
+            # Load all expert_ids at once: shape (BLOCK_B, topk_num)
+            expert_ids = tl.load(
+                recv_topk_ids + b_idx[:, None] * recv_topk_ids_stride0 + tl.arange(0, topk_num)[None, :],
+                mask=b_mask[:, None]
+            )
+            # Load all weights at once: shape (BLOCK_B, topk_num)
+            weights = tl.load(
+                recv_topk_weight + b_idx[:, None] * recv_topk_weight_stride0 + tl.arange(0, topk_num)[None, :],
+                mask=b_mask[:, None]
+            )
+            # Load all input_index at once: shape (BLOCK_B, topk_num)
+            source_indices = tl.load(
+                input_index + b_idx[:, None] * input_index_stride0 + tl.arange(0, topk_num)[None, :],
+                mask=b_mask[:, None]
+            )
+
+            # Apply expert_map if needed
+            if HAS_EXPERT_MAP:
+                expert_ids = apply_expert_map(expert_ids, expert_map)
+
+            # Compute valid expert mask
+            valid_expert = expert_ids >= 0
+
+            # Accumulate over topk_num for each token
+            accumulator = tl.zeros([BLOCK_B, BLOCK_D], dtype=tl.float32)
+            for topk_index in range(topk_num):
+                # Gather per-token source indices for this topk_index
+                src_idx = source_indices[:, topk_index]  # (BLOCK_B,)
+                weight = weights[:, topk_index]           # (BLOCK_B,)
+                valid = valid_expert[:, topk_index]       # (BLOCK_B,)
+
+                # Load input slice for each token: shape (BLOCK_B, BLOCK_D)
+                input_slice = tl.load(
+                    input_tensor + src_idx[:, None] * input_tensor_stride0 + d_block * BLOCK_D + off_d[None, :],
+                    mask=(b_mask[:, None] & valid[:, None])
+                )
+                accumulator += input_slice.to(tl.float32) * weight[:, None].to(tl.float32)
+
+            # Store output
+            tl.store(
+                output_tensor + b_idx[:, None] * output_tensor_stride0 + d_block * BLOCK_D + off_d[None, :],
+                accumulator.to(output_tensor.dtype.element_ty),
+                mask=b_mask[:, None]
+            )
+        else:
+            # Fallback to original scalar loop when stride1 != 1
+            for b_offset in range(BLOCK_B):
+                b_token = b_start + b_offset
+                if b_token < total_token_num:
+                    accumulator = tl.zeros([BLOCK_D], dtype=tl.float32)
+                    for topk_index in range(topk_num):
+                        expert_id = tl.load(
+                            recv_topk_ids + b_token * recv_topk_ids_stride0 + topk_index
+                        )
+                        if HAS_EXPERT_MAP:
+                            expert_id = apply_expert_map(expert_id, expert_map)
+                        if expert_id >= 0:
+                            source_token_index = tl.load(
+                                input_index + b_token * input_index_stride0 + topk_index
+                            )
+                            acc_weight = tl.load(
+                                recv_topk_weight + b_token * recv_topk_weight_stride0 + topk_index
+                            )
+                            tmp = tl.load(
+                                input_tensor
+                                + source_token_index * input_tensor_stride0
+                                + d_block * BLOCK_D
+                                + off_d
+                            )
+                            accumulator += tmp.to(tl.float32) * acc_weight
+                    tl.store(
+                        output_tensor
+                        + b_token * output_tensor_stride0
+                        + d_block * BLOCK_D
+                        + off_d,
+                        accumulator.to(output_tensor.dtype.element_ty),
+                    )
+
+@torch.no_grad()
+def ep_gather(
+    input_tensor: torch.Tensor,
+    recv_topk_ids: torch.Tensor,
+    recv_topk_weight: torch.Tensor,
+    input_index: torch.Tensor,
+    expert_map: torch.Tensor | None,
+    output_tensor: torch.Tensor,
+):
+    assert input_tensor.device.type == 'npu', "input_tensor must be on NPU"
+    assert recv_topk_ids.device.type == 'npu', "recv_topk_ids must be on NPU"
+    assert recv_topk_weight.device.type == 'npu', "recv_topk_weight must be on NPU"
+    assert input_index.device.type == 'npu', "input_index must be on NPU"
+    if expert_map is not None:
+        assert expert_map.device.type == 'npu', "expert_map must be on NPU"
+    num_warps = 2
+    num_tokens = output_tensor.shape[0]
+    hidden_size = input_tensor.shape[1]
+    BLOCK_D = min(hidden_size, 1024)
+    BLOCK_D = triton.next_power_of_2(BLOCK_D)
+    BLOCK_B = 4
+    grid = (triton.cdiv(num_tokens, BLOCK_B),)
+    if grid[0] > 40:
+        BLOCK_B = triton.cdiv(num_tokens, 40)
+        grid = (40,)
+    assert hidden_size % BLOCK_D == 0, f"hidden_size {hidden_size} must be divisible by BLOCK_D {BLOCK_D}"
+    assert num_tokens > 0, "Cannot process empty token tensor"
+    assert hidden_size > 0, "Cannot process empty hidden dimension"
+    NUM_D_BLOCKS = triton.cdiv(hidden_size, BLOCK_D)
+    _fwd_kernel_ep_gather[grid](
+        num_tokens,
+        input_tensor,
+        input_tensor.stride(0),
+        input_tensor.stride(1),
+        recv_topk_ids,
+        recv_topk_ids.stride(0),
+        recv_topk_ids.stride(1),
+        recv_topk_weight,
+        recv_topk_weight.stride(0),
+        recv_topk_weight.stride(1),
+        input_index,
+        input_index.stride(0),
+        input_index.stride(1),
+        output_tensor,
+        output_tensor.stride(0),
+        output_tensor.stride(1),
+        topk_num=recv_topk_ids.shape[1],
+        expert_map=expert_map,
+        HAS_EXPERT_MAP=expert_map is not None,
+        num_warps=num_warps,
+        BLOCK_D=BLOCK_D,
+        BLOCK_B=BLOCK_B,
+        NUM_D_BLOCKS=NUM_D_BLOCKS,
+    )
+    return output_tensor

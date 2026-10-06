@@ -1,0 +1,129 @@
+{
+  "kernels": [
+    "_act_quant_kernel",
+    "_dequantize_k_cache_fast_kernel",
+    "_fwd_kernel_ep_gather",
+    "_pack_seq_kernel",
+    "_selective_scan_update_kernel",
+    "_set_k_and_s_triton_kernel",
+    "assign_extend_cache_locs",
+    "chunk_local_cumsum_scalar_kernel",
+    "compute_identity_kernel",
+    "eye_kernel",
+    "fused_gdn_gating_kernel",
+    "l2norm_fwd_kernel2",
+    "moe_align_block_size_stage",
+    "recompute_w_u_fwd_kernel",
+    "reshape_and_cache_kernel_flash"
+  ],
+  "rows": [
+    {
+      "config": "a6",
+      "label": "A6",
+      "desc": "关闭 Profiling 证据，保留受约束 RAG",
+      "n_candidates": 73,
+      "n_valid": 60,
+      "valid_rate": 0.821917808219178,
+      "gm_s0": 0.9132133070773382,
+      "median_s0": 0.9902178877846848,
+      "p_better": 0.35,
+      "gm_best_s0": 1.121357943514882,
+      "n_kernels": 15
+    },
+    {
+      "config": "b3",
+      "label": "B3",
+      "desc": "启用 Profiling，不使用知识库",
+      "n_candidates": 75,
+      "n_valid": 60,
+      "valid_rate": 0.8,
+      "gm_s0": 1.0055961518424235,
+      "median_s0": 0.9891880585169885,
+      "p_better": 0.3333333333333333,
+      "gm_best_s0": 1.3232105452555982,
+      "n_kernels": 15
+    },
+    {
+      "config": "b4",
+      "label": "B4",
+      "desc": "启用 Profiling，普通语义 Top-k 检索",
+      "n_candidates": 74,
+      "n_valid": 66,
+      "valid_rate": 0.8918918918918919,
+      "gm_s0": 0.8153639920026029,
+      "median_s0": 0.9815330956442335,
+      "p_better": 0.3181818181818182,
+      "gm_best_s0": 1.1599272549660267,
+      "n_kernels": 15
+    },
+    {
+      "config": "a7",
+      "label": "A7",
+      "desc": "同时关闭 Profiling 证据与知识库",
+      "n_candidates": 74,
+      "n_valid": 60,
+      "valid_rate": 0.8108108108108109,
+      "gm_s0": 0.8260124234602007,
+      "median_s0": 0.9940396349541638,
+      "p_better": 0.43333333333333335,
+      "gm_best_s0": 1.3098398377094336,
+      "n_kernels": 15
+    },
+    {
+      "config": "full",
+      "label": "FULL",
+      "desc": "全部启用（Profiling + 混合重排 + Guard）",
+      "n_candidates": 74,
+      "n_valid": 54,
+      "valid_rate": 0.7297297297297297,
+      "gm_s0": 0.8972708530469687,
+      "median_s0": 0.9814460564525349,
+      "p_better": 0.3148148148148148,
+      "gm_best_s0": 1.1152789158657521,
+      "n_kernels": 15
+    }
+  ],
+  "pairwise": [
+    {
+      "ref": "full",
+      "other": "a6",
+      "label": "A6",
+      "n_pairs": 15,
+      "full_wins": 9,
+      "W": 55.0,
+      "p": 0.803955078125,
+      "significant": false
+    },
+    {
+      "ref": "full",
+      "other": "b3",
+      "label": "B3",
+      "n_pairs": 15,
+      "full_wins": 6,
+      "W": 41.0,
+      "p": 0.4703377962613965,
+      "significant": false
+    },
+    {
+      "ref": "full",
+      "other": "b4",
+      "label": "B4",
+      "n_pairs": 15,
+      "full_wins": 4,
+      "W": 26.0,
+      "p": 0.17295491798842066,
+      "significant": false
+    },
+    {
+      "ref": "full",
+      "other": "a7",
+      "label": "A7",
+      "n_pairs": 15,
+      "full_wins": 4,
+      "W": 36.0,
+      "p": 0.1876220703125,
+      "significant": false
+    }
+  ],
+  "note": "S0 = T_seed / T_candidate，使用搜索过程中的单次实测延迟（含约 ±15% 抖动）"
+}

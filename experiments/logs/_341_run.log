@@ -1,0 +1,508 @@
+[skip] sel_roulette/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_roulette/eye_kernel/r0 已完成
+[skip] sel_roulette/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_roulette/assign_extend_cache_locs/r0 已完成
+[skip] sel_roulette/_pack_seq_kernel/r0 已完成
+[skip] sel_roulette/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_roulette/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_roulette/_selective_scan_update_kernel/r0 已完成
+[skip] sel_roulette/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_roulette/moe_align_block_size_stage/r0 已完成
+[skip] sel_roulette/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_roulette/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_roulette/_act_quant_kernel/r0 已完成
+[skip] sel_roulette/fused_gdn_gating_kernel/r0 已完成
+[skip] sel_roulette/compute_identity_kernel/r0 已完成
+[skip] sel_tournament/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_tournament/eye_kernel/r0 已完成
+[skip] sel_tournament/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_tournament/assign_extend_cache_locs/r0 已完成
+[skip] sel_tournament/_pack_seq_kernel/r0 已完成
+[skip] sel_tournament/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_tournament/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_tournament/_selective_scan_update_kernel/r0 已完成
+[skip] sel_tournament/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_tournament/moe_align_block_size_stage/r0 已完成
+[skip] sel_tournament/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_tournament/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_tournament/_act_quant_kernel/r0 已完成
+[skip] sel_tournament/fused_gdn_gating_kernel/r0 已完成
+[skip] sel_tournament/compute_identity_kernel/r0 已完成
+
+===== [09:54:53] sel_uniform / _set_k_and_s_triton_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 1.5800 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _set_k_and_s_triton_kernel
+       └─ Working directory: /workspace/Agent/datasets2/_set_k_and_s_triton_kernel
+       └─ Baseline time: 1.64us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/_set_k_and_s_triton_kernel/test__set_k_and_s_triton_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+langchain-openai injected a custom httpx transport to apply `http_socket_options`, which disables httpx's proxy auto-detection (system proxy configuration detected). Set `LANGCHAIN_OPENAI_TCP_KEEPALIVE=0` or pass `http_socket_options=()` to restore default proxy behavior, or supply `openai_proxy` / your own `http_client` / `http_async_client` to take full control.
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[❌ KnowledgeNode] 加载向量库失败: We couldn't connect to 'https://hf-mirror.com' to load the files, and couldn't find them in the cached files.
+Check your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码双卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 3277 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+       └─ Code length: 3258 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_1/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_1_dpvz7pol/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_9h82x944/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.60us
+       └─ Raw speedup: 0.0250
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0250
+       └─ Fitness score: 0.0250 (max 2.0)
+       └─ Competition score: 2.5/200 points
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.72us
+       └─ Raw speedup: -0.0465
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.62% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 1.60us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 51971668, 基准耗时: 1.58us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=1.64 us | 当前耗时=1.60 us (相对基线:+2.50% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=3
+- 管线利用率: Vector=0.8%, Scalar=63.6%, MTE2(读)=17.8%, MTE3(写)=12.2%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (63.6%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=4159 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1091 (p:1039, c:52) | Time=0.81s
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6040 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3175 (p:1509, c:1666) | Time=14.36s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：标量地址计算外提与循环不变式提升**
+   ├─ 瓶颈诊断: 瓶颈假设：Scalar 63.6% 主要来自 `loc_page_index = loc // PAGE_SIZE` 和 `loc_token_offset_in_page = loc % PAGE_SIZE` 的重复计算，以及 `out_k_offsets` 和 `out_s_offset` 中 `loc_page_index * BUF_NUMEL_PER_PAGE` 的冗余乘法。
+   └─ 实施动作: 实施动作与具体代码修改方案：将 `loc // PAGE_SIZE` 和 `loc % PAGE_SIZE` 的结果分别存储在寄存器变量中，并证明 `BUF_NUMEL_PER_PAGE` 和 `S_OFFSET_NBYTES_IN_PAGE` 为编译期常量后，将 `loc_page_index * BUF_NUMEL_PER_PAGE` 和 `S_OFFSET_NBYTES_IN_PAGE // 4` 作为循环不变量外提。修改后代码：`loc_page = loc // PAGE_SIZE; loc_offset = loc % PAGE_SIZE; base_k_offset = loc_page * BUF_NUMEL_PER_PAGE; base_s_offset = loc_page * (BUF_NUMEL_PER_PAGE // 4) + (S_OFFSET_NBYTES_IN_PAGE // 4); out_k_offsets = base_k_offset + loc_offset * NUM_K_ELEMS_PER_TOKEN + tl.arange(0, NUM_K_ELEMS_PER_TOKEN); out_s_offset = base_s_offset + loc_offset`。前提：`PAGE_SIZE`、`BUF_NUMEL_PER_PAGE`、`NUM_K_ELEMS_PER_TOKEN`、`S_OFFSET_NBYTES_IN_PAGE` 均为 `tl.constexpr`；`PAGE_SIZE` 为 2 的幂（当前为 64），可安全使用位运算替代 `//` 和 `%`。避免错误：若 `PAGE_SIZE` 非 2 的幂，则保留原 `//` 和 `%` 写法。
+
+  策略 [2]: **策略B：Grid 方向收拢与数据局部性优化**
+   ├─ 瓶颈诊断: 瓶颈假设：当前 Grid 维度为 1（`num_tokens_to_write`），每个 program 处理一个 token，导致标量地址计算开销占比高（Scalar 63.6%），且 MTE2/MTE3 利用率低（17.8%/12.2%），缺乏数据复用。
+   └─ 实施动作: 实施动作与具体代码修改方案：将 Grid 从 `(num_tokens_to_write,)` 改为 `(num_tokens_to_write // TOKENS_PER_BLOCK,)`，其中 `TOKENS_PER_BLOCK` 为编译期常量（如 4），每个 program 处理连续多个 token。在 kernel 内循环处理 `TOKENS_PER_BLOCK` 个 token，循环内复用 `loc_page_index` 和 `loc_token_offset_in_page` 的计算结果，并合并 `tl.store` 操作（若连续地址可合并）。前提：`num_tokens_to_write` 能被 `TOKENS_PER_BLOCK` 整除；`loc`、`index_k`、`index_k_scale` 连续；`out_k_offsets` 和 `out_s_offset` 在 token 间连续（需证明 `loc` 连续且 `PAGE_SIZE` 整除 `loc` 差值）。避免错误：若 `num_tokens_to_write` 不能被整除，保留尾部 token 的单独处理；若 `loc` 不连续，则回退到单 token 处理。
+
+  策略 [3]: **策略C：Tile 面积预算调整与寄存器压力平衡**
+   ├─ 瓶颈诊断: 瓶颈假设：当前每个 program 处理 1 个 token，`NUM_K_ELEMS_PER_TOKEN=128`，导致寄存器/UB 利用率低，但 Scalar 占比高，说明地址计算开销相对突出。
+   └─ 实施动作: 实施动作与具体代码修改方案：增大每个 program 的工作量，将 `NUM_K_ELEMS_PER_TOKEN` 视为 tile 维度，尝试将其拆分为多个子 tile（如 64），在 kernel 内循环处理 2 个子 tile，每个子 tile 独立计算地址并存储。同时，将 `loc` 的加载提前到循环外，减少重复加载。前提：`NUM_K_ELEMS_PER_TOKEN` 能被子 tile 大小整除；寄存器/UB 容量足够容纳 2 个子 tile 的数据（128 个 float16 约 256 字节，远小于 Ascend NPU 的 UB 容量）。避免错误：若子 tile 大小导致寄存器溢出，则回退到原始 tile 大小；确保 `tl.store` 的 mask 正确覆盖每个子 tile。
+
+  策略 [4]: **策略D：数据布局与访存模式优化**
+   ├─ 瓶颈诊断: 瓶颈假设：当前 `out_k_offsets` 和 `out_s_offset` 的计算涉及 `loc_page_index * BUF_NUMEL_PER_PAGE` 和 `loc_token_offset_in_page * NUM_K_ELEMS_PER_TOKEN`，导致标量乘法密集（Scalar 63.6%）。
+   └─ 实施动作: 实施动作与具体代码修改方案：将 `buf_fp8_ptr` 和 `buf_fp32_ptr` 的访存模式从基于 `loc` 的随机索引改为基于 token_id 的连续索引，前提是 `loc` 是连续递增的（如 0,1,2,...）。若 `loc` 连续，则 `out_k_offsets = token_id * NUM_K_ELEMS_PER_TOKEN + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)`，`out_s_offset = token_id`，消除所有 `loc` 相关的除法/取模和乘法。前提：`loc` 必须严格连续且从 0 开始；`buf` 的布局需相应调整为连续存储。避免错误：若 `loc` 不连续，则保留原随机索引逻辑，通过条件判断分支。
+
+  策略 [5]: **策略E：编译期常量传播与位运算简化**
+   ├─ 瓶颈诊断: 瓶颈假设：`loc // PAGE_SIZE` 和 `loc % PAGE_SIZE` 在 Scalar 中占比较高，且 `PAGE_SIZE=64` 为 2 的幂。
+   └─ 实施动作: 实施动作与具体代码修改方案：将 `loc // PAGE_SIZE` 替换为 `loc >> 6`，`loc % PAGE_SIZE` 替换为 `loc & 63`，前提是 `PAGE_SIZE` 为 2 的幂且编译期已知。同时，将 `S_OFFSET_NBYTES_IN_PAGE // 4` 替换为 `S_OFFSET_NBYTES_IN_PAGE >> 2`，前提是 `S_OFFSET_NBYTES_IN_PAGE` 为 4 的倍数（当前为 `64*128=8192`，可整除）。修改后代码：`loc_page_index = loc >> 6; loc_token_offset_in_page = loc & 63; out_s_offset = (loc_page_index * (BUF_NUMEL_PER_PAGE >> 2)) + (S_OFFSET_NBYTES_IN_PAGE >> 2) + loc_token_offset_in_page`。前提：`PAGE_SIZE` 为 2 的幂（当前 64）；`BUF_NUMEL_PER_PAGE` 和 `S_OFFSET_NBYTES_IN_PAGE` 为 4 的倍数。避免错误：若 `PAGE_SIZE` 非 2 的幂，则保留原 `//` 和 `%` 写法；若 `BUF_NUMEL_PER_PAGE` 或 `S_OFFSET_NBYTES_IN_PAGE` 非 4 的倍数，则保留原除法。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=7345 chars[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=7050 chars
+
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6843 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6894 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=7103 chars
+[LLM] [Call #03] ✅ Complete | Tokens=2691 (p:1836, c:855) | Time=10.63s[LLM] [Call #07] ✅ Complete | Tokens=2628 (p:1775, c:853) | Time=10.62s
+
+[LLM] [Call #05] ✅ Complete | Tokens=2617 (p:1710, c:907) | Time=11.19s
+[LLM] [Call #06] ✅ Complete | Tokens=2683 (p:1723, c:960) | Time=11.64s
+[LLM] [Call #04] ✅ Complete | Tokens=2754 (p:1762, c:992) | Time=11.93s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2721 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_n_hjuupx/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 2715 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_1/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_1_1_zl_wz3/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.60us
+       └─ Raw speedup: 0.0250
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0250
+       └─ Fitness score: 0.0250 (max 2.0)
+       └─ Competition score: 2.5/200 points
+[EA] ❌ 个体 ab037c1d 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2961 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_e5v81k_7/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.66us
+       └─ Raw speedup: -0.0121
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 b81418d7 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3173 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_1/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_1_k438diek/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3237 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_1/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_1_8e0535h6/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.98us
+       └─ Raw speedup: -0.1717
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 452d3d92 评估异常: name '_prof' is not defined
+[❌] [Executor] Performance test failed!
+[EA] ❌ 个体 ab037c1d (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 b81418d7 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 452d3d92 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 1d882c47 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 bf6c327a (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8961 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5644 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8950 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8950 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2264 (p:1411, c:853) | Time=9.14s
+[LLM] [Call #10] ✅ Complete | Tokens=3090 (p:2237, c:853) | Time=9.16s[LLM] [Call #11] ✅ Complete | Tokens=3090 (p:2237, c:853) | Time=9.15s
+
+[LLM] [Call #08] ✅ Complete | Tokens=3146 (p:2240, c:906) | Time=9.61s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2715 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_itt5_g_a/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 2715 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_1/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_1_pfflm3hq/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.78us
+       └─ Raw speedup: -0.0787
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 4ca4068d 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2717 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_1/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_1_u8xb0na3/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.74us
+       └─ Raw speedup: -0.0575
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 bf2a2764 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2936 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_indjs50f/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.68us
+       └─ Raw speedup: -0.0238
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 cda38d71 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.92us
+       └─ Raw speedup: -0.1459
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 581773c9 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 bf2a2764 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 4ca4068d (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 cda38d71 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 581773c9 (crossover): 评估失败, Fitness=0
+[EA] Gen 1 Summary: Best=1.0000, Avg=0.1667
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8734 chars
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8961 chars
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8961 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8730 chars
+[LLM] [Call #15] ✅ Complete | Tokens=3035 (p:2182, c:853) | Time=9.59s
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5308 chars
+[LLM] [Call #12] ✅ Complete | Tokens=3038 (p:2183, c:855) | Time=9.62s
+[LLM] [Call #14] ✅ Complete | Tokens=3146 (p:2240, c:906) | Time=10.20s[LLM] [Call #13] ✅ Complete | Tokens=3146 (p:2240, c:906) | Time=10.20s
+
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5550 chars[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5534 chars
+
+[LLM] [Call #16] ✅ Complete | Tokens=2180 (p:1327, c:853) | Time=9.09s
+[LLM] [Call #18] ✅ Complete | Tokens=2293 (p:1383, c:910) | Time=9.42s
+[LLM] [Call #17] ✅ Complete | Tokens=2308 (p:1387, c:921) | Time=9.50s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2719 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_9wiv8gdq/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 2717 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_1/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_1_b9i2ndhz/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0513
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0513
+       └─ Fitness score: 0.0513 (max 2.0)
+       └─ Competition score: 5.1/200 points
+[EA] ❌ 个体 90851a57 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2938 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_g7sx6_5y/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.28us
+       └─ Raw speedup: -0.2807
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 29492e29 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2977 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_1/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_1_8uz45auv/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.76us
+       └─ Raw speedup: -0.0682
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 477b4bd4 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.82us
+       └─ Raw speedup: -0.0989
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 db85fb81 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 90851a57 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 29492e29 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 477b4bd4 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 db85fb81 (mutation): 评估失败, Fitness=0
+[EA] Gen 2 Summary: Best=1.0000, Avg=0.1667
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0000
+[Search] sel_uniform/_set_k_and_s_triton_kernel/r0: fitness=1.0000 n_eval=13 elapsed=192s
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _set_k_and_s_triton_kernel
+       └─ Working directory: /workspace/Agent/datasets2/_set_k_and_s_triton_kernel
+       └─ Baseline time: 1.64us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/_set_k_and_s_triton_kernel/test__set_k_and_s_triton_kernel_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3258 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_cxz2csse/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0513
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0513
+       └─ Fitness score: 0.0513 (max 2.0)
+       └─ Competition score: 5.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3258 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_hdz049vt/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.96us
+       └─ Raw speedup: -0.1633
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3258 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_6xvalta7/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.58us
+       └─ Raw speedup: 0.0380
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0380
+       └─ Fitness score: 0.0380 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3258 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_qmzcod6u/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.66us
+       └─ Raw speedup: -0.0121
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3258 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/performance/_set_k_and_s_triton_kernel_dev_0/_set_k_and_s_triton_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_set_k_and_s_triton_kernel_dev_0_ax10zzwe/test__set_k_and_s_triton_kernel.py" --kernel-name="_set_k_and_s_triton_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.70us
+       └─ Raw speedup: -0.0353
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[Remeasure] sel_uniform/_set_k_and_s_triton_kernel/r0: T_best=1.660033 us
+
+===== [09:59:36] sel_uniform / eye_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 1.3000 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: eye_kernel
+       └─ Working directory: /workspace/Agent/datasets2/eye_kernel
+       └─ Baseline time: 1.34us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/eye_kernel/test_eye_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[❌ KnowledgeNode] 加载向量库失败: We couldn't connect to 'https://hf-mirror.com' to load the files, and couldn't find them in the cached files.
+Check your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码双卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1454 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_ndvzeld5/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_1/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_1_ip61eu3y/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline

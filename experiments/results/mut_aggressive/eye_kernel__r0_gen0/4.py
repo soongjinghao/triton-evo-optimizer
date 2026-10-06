@@ -33,8 +33,8 @@ def eye_m(n, m, *, dtype=None, layout=torch.strided, device=None, pin_memory=Non
         (n, m), dtype=dtype, device=device, layout=layout, pin_memory=pin_memory
     )
     if m >= 64:
-        BLOCK_i = 8
-        BLOCK_j = 32
+        BLOCK_i = 16
+        BLOCK_j = 64
     else:
         BLOCK_i = 32
         BLOCK_j = 32

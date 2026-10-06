@@ -13,11 +13,9 @@ def eye_kernel(
 ):
     pid_i = tl.program_id(0)
     off_i = pid_i * BLOCK_i + tl.arange(0, BLOCK_i)
-    off_i = tl.multiple_of(off_i, BLOCK_i)
     mask_i = off_i < N
     pid_j = tl.program_id(1)
     off_j = pid_j * BLOCK_j + tl.arange(0, BLOCK_j)
-    off_j = tl.multiple_of(off_j, BLOCK_j)
     mask_j = off_j < M
     val = tl.where(off_i[:, None] == off_j[None, :], 1.0, 0.0)
     mask = mask_i[:, None] & mask_j[None, :]

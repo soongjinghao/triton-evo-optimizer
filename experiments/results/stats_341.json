@@ -1,0 +1,100 @@
+{
+  "n_kernels": 15,
+  "configs": [
+    "sel_roulette",
+    "sel_tournament",
+    "sel_uniform",
+    "sel_ucb"
+  ],
+  "gm_s": {
+    "sel_roulette": 2.228149419276772,
+    "sel_tournament": 2.0515861216139886,
+    "sel_uniform": 1.7407132833247232,
+    "sel_ucb": 1.733805636614302
+  },
+  "friedman": {
+    "chi2": 3.240000000000009,
+    "p": 0.3560812081090687,
+    "kendall_w": 0.0720000000000002
+  },
+  "nemenyi": {
+    "q_crit": 3.6331595749026286,
+    "cd": 1.712687848364322,
+    "mean_ranks": {
+      "sel_roulette": 2.0,
+      "sel_tournament": 2.8,
+      "sel_uniform": 2.6,
+      "sel_ucb": 2.6
+    },
+    "pairs": [
+      {
+        "a": "sel_roulette",
+        "b": "sel_tournament",
+        "mean_rank_a": 2.0,
+        "mean_rank_b": 2.8,
+        "abs_diff_rank": 0.7999999999999998,
+        "q": 1.6970562748477136,
+        "p": 0.6268286089544837,
+        "significant": false
+      },
+      {
+        "a": "sel_roulette",
+        "b": "sel_uniform",
+        "mean_rank_a": 2.0,
+        "mean_rank_b": 2.6,
+        "abs_diff_rank": 0.6000000000000001,
+        "q": 1.2727922061357857,
+        "p": 0.804827360369847,
+        "significant": false
+      },
+      {
+        "a": "sel_roulette",
+        "b": "sel_ucb",
+        "mean_rank_a": 2.0,
+        "mean_rank_b": 2.6,
+        "abs_diff_rank": 0.6000000000000001,
+        "q": 1.2727922061357857,
+        "p": 0.804827360369847,
+        "significant": false
+      },
+      {
+        "a": "sel_tournament",
+        "b": "sel_uniform",
+        "mean_rank_a": 2.8,
+        "mean_rank_b": 2.6,
+        "abs_diff_rank": 0.19999999999999973,
+        "q": 0.42426406871192796,
+        "p": 0.9906229841562505,
+        "significant": false
+      },
+      {
+        "a": "sel_tournament",
+        "b": "sel_ucb",
+        "mean_rank_a": 2.8,
+        "mean_rank_b": 2.6,
+        "abs_diff_rank": 0.19999999999999973,
+        "q": 0.42426406871192796,
+        "p": 0.9906229841562505,
+        "significant": false
+      },
+      {
+        "a": "sel_uniform",
+        "b": "sel_ucb",
+        "mean_rank_a": 2.6,
+        "mean_rank_b": 2.6,
+        "abs_diff_rank": 0.0,
+        "q": 0.0,
+        "p": 1.0,
+        "significant": false
+      }
+    ]
+  },
+  "primary": {
+    "a": "sel_ucb",
+    "b": "sel_roulette",
+    "wins": 6,
+    "losses": 9,
+    "W": 23.0,
+    "p": 0.03533935546875
+  }
+}

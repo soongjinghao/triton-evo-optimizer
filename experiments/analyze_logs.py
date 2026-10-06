@@ -19,6 +19,16 @@ from collections import defaultdict
 from experiments import common
 from experiments.ablation_components import GROUPS
 
+# 统一口径的 15 个算子（以 b3 为准）。
+# 个别配置（如 sel_roulette）历史上多跑过 matmul_kernel_simplified，
+# 若不限定会造成跨配置的样本数不一致，对比不公平。
+K15 = set()
+_b3dir = common.RESULTS_DIR / 'b3'
+if _b3dir.exists():
+    for _f in _b3dir.glob('*__r0.json'):
+        if 'remeasure' not in _f.name:
+            K15.add(_f.name.replace('__r0.json', ''))
+
 
 def load_events(config_name):
     """读取某配置的全部事件（跨 Kernel、跨重复）。"""
@@ -49,6 +59,8 @@ def gm_s_for(config_name):
         try:
             rec = json.loads(f.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
+            continue
+        if K15 and rec.get("kernel") not in K15:
             continue
         if not (rec.get("success") and rec.get("t_best_us")):
             continue
@@ -105,26 +117,38 @@ def analyze_33():
 def analyze_341():
     rows = []
     for cfg in GROUPS["3.4.1"]:
-        evs = load_events(cfg)
+        evs = [e for e in load_events(cfg) if e.get("kernel") in K15]
         fits = [f for e in evs if e.get("event") == "selection"
                 for f in (e.get("parent_fitness") or [])]
         gms, n = gm_s_for(cfg)
+        # 均值会被少数极高适应度父代拉高，故同时给出中位数与零值比例，
+        # 用于判断"选择压力"差异是整体性的还是由尾部样本驱动。
+        sf = sorted(fits)
+        m = len(sf) // 2
+        med = (sf[m] if len(sf) % 2 else (sf[m - 1] + sf[m]) / 2) if sf else None
         rows.append({
             "config": cfg,
             "selection_mode": cfg.replace("sel_", ""),
             "n_selections": len([e for e in evs if e.get("event") == "selection"]),
             "mean_parent_fitness": sum(fits) / len(fits) if fits else None,
+            "median_parent_fitness": med,
+            "zero_parent_ratio": (sum(1 for x in fits if abs(x) < 1e-9) / len(fits)
+                                  if fits else None),
             "gm_s": gms,
             "n_kernels": n,
         })
 
     print("\n表7 父代选择策略对比（3.4.1）")
-    print(f"{'配置':<18}{'选择事件数':>12}{'被选父代平均适应度':>20}{'GM(S)':>10}{'算子数':>8}")
-    print("-" * 70)
+    print(f"{'配置':<18}{'选择事件数':>12}{'平均适应度':>14}{'中位适应度':>14}"
+          f"{'零值占比':>10}{'GM(S)':>10}{'算子数':>8}")
+    print("-" * 86)
     for r in rows:
         mf = f"{r['mean_parent_fitness']:.4f}" if r["mean_parent_fitness"] else "—"
+        md = f"{r['median_parent_fitness']:.4f}" if r["median_parent_fitness"] else "—"
+        zr = f"{r['zero_parent_ratio'] * 100:.1f}%" if r["zero_parent_ratio"] is not None else "—"
         gv = f"{r['gm_s']:.4f}" if r["gm_s"] else "—"
-        print(f"{r['config']:<18}{r['n_selections']:>12}{mf:>20}{gv:>10}{r['n_kernels']:>8}")
+        print(f"{r['config']:<18}{r['n_selections']:>12}{mf:>14}{md:>14}"
+              f"{zr:>10}{gv:>10}{r['n_kernels']:>8}")
     _save("table7_selection.json", rows)
 
 

@@ -2,17 +2,41 @@
   {
     "config": "sel_roulette",
     "selection_mode": "roulette",
-    "n_selections": 112,
-    "mean_parent_fitness": 1.19109959375,
-    "gm_s": 1.812954842106428,
-    "n_kernels": 14
+    "n_selections": 120,
+    "mean_parent_fitness": 1.1820496791666664,
+    "median_parent_fitness": 1.0,
+    "zero_parent_ratio": 0.0,
+    "gm_s": 2.228149419276772,
+    "n_kernels": 15
   },
   {
     "config": "sel_tournament",
     "selection_mode": "tournament",
     "n_selections": 120,
     "mean_parent_fitness": 1.0154992749999996,
-    "gm_s": 2.0515861216139886,
+    "median_parent_fitness": 1.0004505,
+    "zero_parent_ratio": 0.0,
+    "gm_s": 2.045447215054851,
+    "n_kernels": 15
+  },
+  {
+    "config": "sel_uniform",
+    "selection_mode": "uniform",
+    "n_selections": 120,
+    "mean_parent_fitness": 0.5028806958333334,
+    "median_parent_fitness": 0.0,
+    "zero_parent_ratio": 0.525,
+    "gm_s": 2.0569821154345087,
+    "n_kernels": 15
+  },
+  {
+    "config": "sel_ucb",
+    "selection_mode": "ucb",
+    "n_selections": 120,
+    "mean_parent_fitness": 2.487782841666664,
+    "median_parent_fitness": 1.0,
+    "zero_parent_ratio": 0.03333333333333333,
+    "gm_s": 2.4218738662777315,
     "n_kernels": 15
   }
 ]

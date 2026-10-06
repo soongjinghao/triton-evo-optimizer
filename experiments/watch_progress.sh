@@ -8,7 +8,7 @@
 set -u
 cd /workspace/Agent
 PY=/usr/local/python3.11.15/bin/python3.11
-LOG=$(ls -t /tmp/restart33_34*.log 2>/dev/null | head -1)
+LOG=$(find /tmp -maxdepth 1 -name 'restart*.log' -printf '%T@ %p\n' 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)
 AUTO_LOG=/tmp/auto_finish.log
 
 echo "════════ 3.4 进度 $(date +%H:%M:%S) ════════"

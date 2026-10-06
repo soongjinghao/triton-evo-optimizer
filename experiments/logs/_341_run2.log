@@ -1,0 +1,1761 @@
+[skip] sel_roulette/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_roulette/eye_kernel/r0 已完成
+[skip] sel_roulette/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_roulette/assign_extend_cache_locs/r0 已完成
+[skip] sel_roulette/_pack_seq_kernel/r0 已完成
+[skip] sel_roulette/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_roulette/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_roulette/_selective_scan_update_kernel/r0 已完成
+[skip] sel_roulette/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_roulette/moe_align_block_size_stage/r0 已完成
+[skip] sel_roulette/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_roulette/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_roulette/_act_quant_kernel/r0 已完成
+[skip] sel_roulette/fused_gdn_gating_kernel/r0 已完成
+[skip] sel_roulette/compute_identity_kernel/r0 已完成
+[skip] sel_tournament/_set_k_and_s_triton_kernel/r0 已完成
+[skip] sel_tournament/eye_kernel/r0 已完成
+[skip] sel_tournament/l2norm_fwd_kernel2/r0 已完成
+[skip] sel_tournament/assign_extend_cache_locs/r0 已完成
+[skip] sel_tournament/_pack_seq_kernel/r0 已完成
+[skip] sel_tournament/reshape_and_cache_kernel_flash/r0 已完成
+[skip] sel_tournament/_dequantize_k_cache_fast_kernel/r0 已完成
+[skip] sel_tournament/_selective_scan_update_kernel/r0 已完成
+[skip] sel_tournament/_fwd_kernel_ep_gather/r0 已完成
+[skip] sel_tournament/moe_align_block_size_stage/r0 已完成
+[skip] sel_tournament/recompute_w_u_fwd_kernel/r0 已完成
+[skip] sel_tournament/chunk_local_cumsum_scalar_kernel/r0 已完成
+[skip] sel_tournament/_act_quant_kernel/r0 已完成
+[skip] sel_tournament/fused_gdn_gating_kernel/r0 已完成
+[skip] sel_tournament/compute_identity_kernel/r0 已完成
+[skip] sel_uniform/_set_k_and_s_triton_kernel/r0 已完成
+
+===== [10:00:32] sel_uniform / eye_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 1.3000 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: eye_kernel
+       └─ Working directory: /workspace/Agent/datasets2/eye_kernel
+       └─ Baseline time: 1.34us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/eye_kernel/test_eye_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+langchain-openai injected a custom httpx transport to apply `http_socket_options`, which disables httpx's proxy auto-detection (system proxy configuration detected). Set `LANGCHAIN_OPENAI_TCP_KEEPALIVE=0` or pass `http_socket_options=()` to restore default proxy behavior, or supply `openai_proxy` / your own `http_client` / `http_async_client` to take full control.
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[❌ KnowledgeNode] 加载向量库失败: We couldn't connect to 'https://hf-mirror.com' to load the files, and couldn't find them in the cached files.
+Check your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码双卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1454 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_ol0n4u95/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_1/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_1_tfk4dn0o/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.30us
+       └─ Raw speedup: 0.0307
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0307
+       └─ Fitness score: 0.0307 (max 2.0)
+       └─ Competition score: 3.1/200 points
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.62us
+       └─ Raw speedup: -0.1729
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 80.58% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: efea12fd, 基准耗时: 1.30us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=1.34 us | 当前耗时=1.30 us (相对基线:+3.07% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=26.2%, Scalar=54.0%, MTE2(读)=0.3%, MTE3(写)=19.2%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (54.0%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=32.11 GB/s, 向量写=21.64 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=2846 chars
+[LLM] [Call #01] ✅ Complete | Tokens=740 (p:710, c:30) | Time=0.80s
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=4727 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2236 (p:1181, c:1055) | Time=9.34s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略名称：Scalar 地址计算下沉与循环不变量外提**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Scalar 利用率 54.0% 为最大瓶颈，主要来自 `off_ij = off_i[:, None] * M + off_j[None, :]` 中 `off_i[:, None] * M` 的标量乘法（M 为循环不变量）
+   └─ 实施动作: 实施动作与具体代码修改方案：Positive ACTION=NONE。将 `off_i[:, None] * M` 外提为 `base_off = off_i[:, None] * M` 在循环外计算，`off_ij = base_off + off_j[None, :]` 在循环内仅做向量加法。前提：`M` 为编译期常量或循环不变量（当前为函数参数，需证明在 kernel 内不变）。若 `M` 非编译期常量，则保持基线。
+
+  策略 [2]: **策略名称：Grid 维度合并减少标量开销**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Scalar 利用率 54.0% 高，二维 Grid 导致两个 `tl.program_id` 调用和两次地址计算，增加标量指令
+   └─ 实施动作: 实施动作与具体代码修改方案：Positive ACTION=NONE。将二维 Grid 合并为一维 `grid = (triton.cdiv(n, BLOCK_i) * triton.cdiv(m, BLOCK_j),)`，kernel 内用 `pid = tl.program_id(0)`，`pid_i = pid // (triton.cdiv(m, BLOCK_j))`，`pid_j = pid % (triton.cdiv(m, BLOCK_j))`。前提：`triton.cdiv(m, BLOCK_j)` 为编译期常量（当前 `BLOCK_j` 为 constexpr，`m` 为参数，需证明 `triton.cdiv(m, BLOCK_j)` 在编译期可求值）。若不可求值，则保持基线二维 Grid。
+
+  策略 [3]: **策略名称：Tile 面积预算调整提升向量利用率**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Vector 利用率仅 26.2%，当前 tile 大小 (16x64 或 32x32) 可能未充分利用 UB 带宽
+   └─ 实施动作: 实施动作与具体代码修改方案：Positive ACTION=NONE。对 `m >= 64` 分支，将 `BLOCK_i` 从 16 增大到 32，`BLOCK_j` 保持 64，使 tile 面积从 1024 增至 2048，提升向量并行度。前提：需验证增大后 UB 占用不超限且 occupancy 不下降（当前 UB 吞吐读 32.11 GB/s 写 21.64 GB/s，有提升空间）。若 UB 溢出或 occupancy 下降，回退至基线 tile 大小。
+
+  策略 [4]: **策略名称：连续访存优化减少 MTE3 写开销**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：MTE3 写利用率 19.2% 较低，`tl.store` 的 mask 可能导致非连续写，降低写带宽
+   └─ 实施动作: 实施动作与具体代码修改方案：Positive ACTION=NONE。在 `tl.store` 前添加 `off_ij = off_i[:, None] * M + off_j[None, :]` 的连续性检查，若 `M` 为编译期常量且 `off_j` 连续（`tl.arange(0, BLOCK_j)`），则 `off_ij` 在行内连续，可添加 `tl.max_contiguous(tl.multiple_of(off_ij, BLOCK_j), BLOCK_j)` 提示。前提：`M` 为编译期常量且 `BLOCK_j` 整除 `M`（当前 `m >= 64` 时 `BLOCK_j=64`，需 `M % 64 == 0`）。若不满足，则保持基线无 hint 的 `tl.store`。
+
+  策略 [5]: **策略名称：Mask 条件合流减少标量分支**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Scalar 利用率 54.0% 高，`mask = mask_i[:, None] & mask_j[None, :]` 产生两个标量 mask 生成和一次按位与，增加标量指令
+   └─ 实施动作: 实施动作与具体代码修改方案：Positive ACTION=NONE。将 `mask_i` 和 `mask_j` 合并为单一 mask 条件：`mask = (off_i[:, None] < N) & (off_j[None, :] < M)`，避免中间变量和额外按位与。前提：`off_i` 和 `off_j` 均为 `tl.arange` 生成，无间接索引，可证明连续性。若 `N` 或 `M` 非编译期常量导致 mask 生成复杂，则保持基线 `mask_i` 和 `mask_j` 分离写法。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5377 chars[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5468 chars
+
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5339 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5447 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5385 chars
+[LLM] [Call #07] ✅ Complete | Tokens=1794 (p:1346, c:448) | Time=5.85s
+[LLM] [Call #05] ✅ Complete | Tokens=1792 (p:1334, c:458) | Time=5.98s
+[LLM] [Call #03] ✅ Complete | Tokens=1811 (p:1344, c:467) | Time=6.05s
+[LLM] [Call #04] ✅ Complete | Tokens=1852 (p:1367, c:485) | Time=6.22s
+[LLM] [Call #06] ✅ Complete | Tokens=1885 (p:1361, c:524) | Time=6.52s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1381 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_1/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_1_ebbwv__j/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1342 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_8vdht1fu/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.32us
+       └─ Raw speedup: 0.0151
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0151
+       └─ Fitness score: 0.0151 (max 2.0)
+       └─ Competition score: 1.5/200 points
+[EA] ❌ 个体 b8d94c2b 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1402 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_9zb5m2_6/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: -0.4924
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 a2ef773a 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1442 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_1/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_1_dl59gdch/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.50us
+       └─ Raw speedup: -0.1067
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 d9d349ba 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1528 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_eu_9qp5l/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.38us
+       └─ Raw speedup: -0.0290
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 cbe1aa40 评估异常: name '_prof' is not defined
+[❌] [Executor] Performance test failed!
+[EA] ❌ 个体 b8d94c2b (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 a2ef773a (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 d9d349ba (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 cbe1aa40 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 a96c149a (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6120 chars[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4306 chars
+
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6084 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6084 chars
+[LLM] [Call #09] ✅ Complete | Tokens=1524 (p:1076, c:448) | Time=5.20s
+[LLM] [Call #08] ✅ Complete | Tokens=1988 (p:1530, c:458) | Time=5.27s
+[LLM] [Call #10] ✅ Complete | Tokens=1979 (p:1521, c:458) | Time=5.28s
+[LLM] [Call #11] ✅ Complete | Tokens=1979 (p:1521, c:458) | Time=5.28s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_1/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_1_j66r0mzp/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1342 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_c9d0at_c/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 2.66us
+       └─ Raw speedup: -0.4963
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 abdbb545 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_1/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_1_fgkdrwih/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.30us
+       └─ Raw speedup: 0.0307
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0307
+       └─ Fitness score: 0.0307 (max 2.0)
+       └─ Competition score: 3.1/200 points
+[EA] ❌ 个体 9500d1e8 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_c7hz0wcw/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.30us
+       └─ Raw speedup: 0.0307
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0307
+       └─ Fitness score: 0.0307 (max 2.0)
+       └─ Competition score: 3.1/200 points
+[EA] ❌ 个体 a0184d21 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.28us
+       └─ Raw speedup: 0.0469
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0469
+       └─ Fitness score: 0.0469 (max 2.0)
+       └─ Competition score: 4.7/200 points
+[EA] ❌ 个体 0bb41ae8 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 9500d1e8 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 abdbb545 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 a0184d21 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 0bb41ae8 (crossover): 评估失败, Fitness=0
+[EA] Gen 1 Summary: Best=1.0000, Avg=0.1667
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6113 chars
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6126 chars
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6126 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6084 chars
+[LLM] [Call #13] ✅ Complete | Tokens=1989 (p:1531, c:458) | Time=5.02s
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3967 chars
+[LLM] [Call #12] ✅ Complete | Tokens=1986 (p:1528, c:458) | Time=5.03s[LLM] [Call #14] ✅ Complete | Tokens=1989 (p:1531, c:458) | Time=5.03s
+[LLM] [Call #15] ✅ Complete | Tokens=1979 (p:1521, c:458) | Time=5.03s
+
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3990 chars[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3974 chars
+
+[LLM] [Call #18] ✅ Complete | Tokens=1451 (p:993, c:458) | Time=4.83s
+[LLM] [Call #17] ✅ Complete | Tokens=1470 (p:997, c:473) | Time=4.96s
+[LLM] [Call #16] ✅ Complete | Tokens=1496 (p:991, c:505) | Time=5.27s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_1/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_1_i64g9dlm/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_5tlq35o0/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.32us
+       └─ Raw speedup: 0.0151
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0151
+       └─ Fitness score: 0.0151 (max 2.0)
+       └─ Competition score: 1.5/200 points
+[EA] ❌ 个体 6656819c 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1421 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_4_rwm4a8/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.28us
+       └─ Raw speedup: 0.0469
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0469
+       └─ Fitness score: 0.0469 (max 2.0)
+       └─ Competition score: 4.7/200 points
+[EA] ❌ 个体 78fc932e 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1515 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_1/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_1_o88s0gxx/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.48us
+       └─ Raw speedup: -0.0946
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 1d4e9df5 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.36us
+       └─ Raw speedup: -0.0147
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 0bd31fba 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 6656819c (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 78fc932e (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 1d4e9df5 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 0bd31fba (mutation): 评估失败, Fitness=0
+[EA] Gen 2 Summary: Best=1.0000, Avg=0.1667
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0000
+[Search] sel_uniform/eye_kernel/r0: fitness=1.0000 n_eval=13 elapsed=156s
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: eye_kernel
+       └─ Working directory: /workspace/Agent/datasets2/eye_kernel
+       └─ Baseline time: 1.34us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/eye_kernel/test_eye_kernel_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_9tk3_911/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.34us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_jr1mbgnz/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.28us
+       └─ Raw speedup: 0.0469
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0469
+       └─ Fitness score: 0.0469 (max 2.0)
+       └─ Competition score: 4.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_s7x3p01o/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.28us
+       └─ Raw speedup: 0.0469
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0469
+       └─ Fitness score: 0.0469 (max 2.0)
+       └─ Competition score: 4.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_qeku3t8m/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.32us
+       └─ Raw speedup: 0.0151
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0151
+       └─ Fitness score: 0.0151 (max 2.0)
+       └─ Competition score: 1.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/eye_kernel_dev_0_r9n_66o7/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.30us
+       └─ Raw speedup: 0.0307
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0307
+       └─ Fitness score: 0.0307 (max 2.0)
+       └─ Competition score: 3.1/200 points
+[Remeasure] sel_uniform/eye_kernel/r0: T_best=1.300026 us
+
+===== [10:04:33] sel_uniform / l2norm_fwd_kernel2 =====
+[harness] 适应度锚点采用 manifest T_seed = 1.7000 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: l2norm_fwd_kernel2
+       └─ Working directory: /workspace/Agent/datasets2/l2norm_fwd_kernel2
+       └─ Baseline time: 1.66us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/l2norm_fwd_kernel2/test_l2norm_fwd_kernel2_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[❌ KnowledgeNode] 加载向量库失败: We couldn't connect to 'https://hf-mirror.com' to load the files, and couldn't find them in the cached files.
+Check your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码双卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 1305 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+       └─ Code length: 1472 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_1/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_1_abiz5grn/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_kvoirs16/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.74us
+       └─ Raw speedup: -0.0460
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.76us
+       └─ Raw speedup: -0.0568
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 93.99% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 1.74us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 26a39a49, 基准耗时: 1.70us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=1.66 us | 当前耗时=1.74 us (相对基线:-4.60% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=31.2%, Scalar=30.0%, MTE2(读)=26.3%, MTE3(写)=15.1%
+💡 诊断结论: 各管线负载均衡 (主导: Vector 向量 31.2%)，可对比测试网格收拢、独立规约域内的安全打包与 BLOCK_SIZE 微调；不得改变完整计算域。
+- UB吞吐: 向量读=41.09 GB/s, 向量写=36.92 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=2758 chars
+[LLM] [Call #01] ✅ Complete | Tokens=720 (p:688, c:32) | Time=0.66s
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=4639 chars
+[LLM] [Call #02] ✅ Complete | Tokens=1639 (p:1159, c:480) | Time=4.31s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Grid收拢+UB吞吐优化**
+   ├─ 瓶颈诊断: 瓶颈: 网格4个program导致Vector管线仅31.2%利用率，UB写吞吐36.92GB/s偏低
+   └─ 实施动作: 将MBLOCK从32增大至64，grid从(T/32)收拢为(T/64)；同时将tl.sum(tl.where(xmask, square, 0), 1)改为tl.sum(square * xmask.to(tl.float32), 1)减少条件分支；前提: M≥64且M%64==0时无需mask，否则保留xmask；需验证UB占用不超限
+
+  策略 [2]: **循环不变量外提+标量计算**
+   ├─ 瓶颈诊断: 瓶颈: Scalar管线30.0%利用率低，存在冗余标量计算
+   └─ 实施动作: 将eps作为标量常量外提，将tl.rsqrt(square_sum + eps)改为tl.math.rsqrt(square_sum + eps)使用标量加法；前提: eps为编译期常量；需验证Ascend backend支持tl.math.rsqrt
+
+  策略 [3]: **独立规约域打包+BLOCK_SIZE微调**
+   ├─ 瓶颈诊断: 瓶颈: MTE2读26.3%利用率低，访存效率不足
+   └─ 实施动作: 将MBLOCK调整为64，同时将N维度tile为2份各N/2，每份独立计算square_sum后合并；前提: N为2的幂且N≥128；需保持独立规约域不混合，保留xmask
+
+  策略 [4]: **数据布局转置+连续访存**
+   ├─ 瓶颈诊断: 瓶颈: 非连续访存导致MTE2读仅26.3%
+   └─ 实施动作: 将输入X转置为[N, M]布局，kernel按列连续读取；前提: 转置开销可被多次调用摊还，且输出Y需对应转置回原布局；需验证转置后stride连续性
+
+  策略 [5]: **寄存器预算优化+occupancy提升**
+   ├─ 瓶颈诊断: 瓶颈: UB吞吐受限，occupancy可能不足
+   └─ 实施动作: 将MBLOCK从32减至16，增加grid program数至(T/16)；同时将square计算改为tl.fma(xs, xs, 0)减少临时变量；前提: M≥16且寄存器压力降低后occupancy提升；需验证grid增大不导致调度开销反超
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5170 chars[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5104 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5067 chars
+
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5044 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5101 chars
+[LLM] [Call #03] ✅ Complete | Tokens=1747 (p:1292, c:455) | Time=5.79s
+[LLM] [Call #07] ✅ Complete | Tokens=1729 (p:1275, c:454) | Time=5.79s
+[LLM] [Call #04] ✅ Complete | Tokens=1732 (p:1276, c:456) | Time=5.82s
+[LLM] [Call #05] ✅ Complete | Tokens=1862 (p:1266, c:596) | Time=7.04s
+[LLM] [Call #06] ✅ Complete | Tokens=1965 (p:1261, c:704) | Time=7.92s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1301 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_n_j0kwy6/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1282 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_1/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_1_4z5y1axq/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 3.14us
+       └─ Raw speedup: -0.4713
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 2fcead2c 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1303 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_000fcd9d/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: -0.1443
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 a1626345 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1654 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_1/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_1_k9aya33f/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1975 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_1/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_1__cf2_lyn/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.72us
+       └─ Raw speedup: -0.0349
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 a9ff7118 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 2.40us
+       └─ Raw speedup: -0.3083
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 e96a2f5d 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 2fcead2c (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 a1626345 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 a9ff7118 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 2a9936c9 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 e96a2f5d (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5955 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4246 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5947 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5947 chars
+[LLM] [Call #09] ✅ Complete | Tokens=1515 (p:1061, c:454) | Time=5.03s
+[LLM] [Call #10] ✅ Complete | Tokens=1940 (p:1486, c:454) | Time=5.05s
+[LLM] [Call #11] ✅ Complete | Tokens=1940 (p:1486, c:454) | Time=5.04s
+[LLM] [Call #08] ✅ Complete | Tokens=1944 (p:1488, c:456) | Time=5.17s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1280 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_1/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_1_0mg3eads/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1280 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_wakj5ztt/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: -0.1443
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 5fee409f 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1282 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_boyz4xe_/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.86us
+       └─ Raw speedup: -0.1075
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 4b8ae5e4 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1301 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_1/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_1_c098a8gw/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.82us
+       └─ Raw speedup: -0.0879
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 caf6be88 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: -0.1443
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 208620f2 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 5fee409f (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 4b8ae5e4 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 208620f2 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 caf6be88 (crossover): 评估失败, Fitness=0
+[EA] Gen 1 Summary: Best=1.0000, Avg=0.1667
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5945 chars[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5954 chars
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5954 chars
+
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5927 chars
+[LLM] [Call #12] ✅ Complete | Tokens=1940 (p:1486, c:454) | Time=5.11s[LLM] [Call #13] ✅ Complete | Tokens=1944 (p:1488, c:456) | Time=5.11s
+
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3890 chars[LLM] [Call #15] ✅ Complete | Tokens=1935 (p:1481, c:454) | Time=5.11s
+
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3892 chars
+[LLM] [Call #14] ✅ Complete | Tokens=1944 (p:1488, c:456) | Time=5.14s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3897 chars
+[LLM] [Call #16] ✅ Complete | Tokens=1428 (p:972, c:456) | Time=4.77s
+[LLM] [Call #18] ✅ Complete | Tokens=1430 (p:974, c:456) | Time=4.76s
+[LLM] [Call #17] ✅ Complete | Tokens=1442 (p:973, c:469) | Time=4.89s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1282 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_jggkqs2m/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1303 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_1/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_1_ahmde7xe/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.76us
+       └─ Raw speedup: -0.0568
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 6d731f6a 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1301 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_1/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_1_9plf4ne1/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.3942
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 9f3319dd 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1323 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_i2g8oyld/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.68us
+       └─ Raw speedup: -0.0119
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 1119c169 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.66us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 9d9d61a4 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 9f3319dd (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 6d731f6a (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 1119c169 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 9d9d61a4 (mutation): 评估失败, Fitness=0
+[EA] Gen 2 Summary: Best=1.0000, Avg=0.1667
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0000
+[Search] sel_uniform/l2norm_fwd_kernel2/r0: fitness=1.0000 n_eval=13 elapsed=167s
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: l2norm_fwd_kernel2
+       └─ Working directory: /workspace/Agent/datasets2/l2norm_fwd_kernel2
+       └─ Baseline time: 1.66us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/l2norm_fwd_kernel2/test_l2norm_fwd_kernel2_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1305 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_ybif6_gh/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.72us
+       └─ Raw speedup: -0.0349
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1305 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_wlkdwynu/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.66us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1305 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_r8cg6hk8/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.72us
+       └─ Raw speedup: -0.0349
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1305 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_0dtqnmmv/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.82us
+       └─ Raw speedup: -0.0879
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1305 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/l2norm_fwd_kernel2/performance/l2norm_fwd_kernel2_dev_0/l2norm_fwd_kernel2 --application="/usr/local/python3.11.15/bin/python3.11 /tmp/l2norm_fwd_kernel2_dev_0_pd_p3xm0/test_l2norm_fwd_kernel2.py" --kernel-name="l2norm_fwd_kernel2" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.66us
+       └─ Optimized time: 1.68us
+       └─ Raw speedup: -0.0119
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[Remeasure] sel_uniform/l2norm_fwd_kernel2/r0: T_best=1.720034 us
+
+===== [10:08:40] sel_uniform / assign_extend_cache_locs =====
+[harness] 适应度锚点采用 manifest T_seed = 2.1000 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: assign_extend_cache_locs
+       └─ Working directory: /workspace/Agent/datasets2/assign_extend_cache_locs
+       └─ Baseline time: 1.64us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/assign_extend_cache_locs/test_assign_extend_cache_locs_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[❌ KnowledgeNode] 加载向量库失败: We couldn't connect to 'https://hf-mirror.com' to load the files, and couldn't find them in the cached files.
+Check your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码双卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1186 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_1/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_1_3i53jfmh/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline       └─ Code length: 1702 characters
+
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_b550kjst/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.98us
+       └─ Raw speedup: -0.1717
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.12us
+       └─ Raw speedup: -0.2264
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 82.13% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 5bd4a573, 基准耗时: 2.10us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=1.64 us | 当前耗时=1.98 us (相对基线:-17.17% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=11.8%, Scalar=58.5%, MTE2(读)=33.9%, MTE3(写)=8.9%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (58.5%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=1.00 GB/s, 向量写=1.81 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3162 chars
+[LLM] [Call #01] ✅ Complete | Tokens=820 (p:789, c:31) | Time=0.59s
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5043 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2206 (p:1260, c:946) | Time=8.98s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：标量地址计算外提与循环不变load合并**
+   ├─ 瓶颈诊断: 瓶颈诊断：Scalar 58.5% 过高，源于循环内反复计算 `token_pool + load_offset` 和 `out_cache_ptr + save_offset` 以及 `tl.load(start_offset + length_offset)` 等标量操作
+   └─ 实施动作: 实施动作与具体代码修改方案：将 `token_pool` 作为循环不变量外提；将 `start_offset` 和 `end_offset` 的加载合并到循环外，使用 `tl.load(start_offset + pid)` 和 `tl.load(end_offset + pid)` 替代 `length_offset` 的掩码加载；循环内仅保留 `load_offset` 和 `save_offset` 的增量加法。Positive ACTION: NONE
+
+  策略 [2]: **策略B：Grid维度重构与单program工作量均衡**
+   ├─ 瓶颈诊断: 瓶颈诊断：Vector 11.8% 利用率低，MTE2读33.9% 和 MTE3写8.9% 表明访存未饱和，当前grid按batch分配导致小batch时program过少
+   └─ 实施动作: 实施动作与具体代码修改方案：将grid从 `(req_pool_indices_tensor.numel(),)` 改为 `(req_pool_indices_tensor.numel() * tl.cdiv(kv_end - kv_start, BLOCK_SIZE),)`，每个program处理一个BLOCK_SIZE的连续数据；循环外计算 `kv_start` 和 `kv_end`，通过 `pid % num_blocks` 和 `pid // num_blocks` 映射到原始batch和block索引。前提：`kv_end - kv_start` 可计算且为正；需保留mask。Positive ACTION: NONE
+
+  策略 [3]: **策略C：数据布局转置与连续访存优化**
+   ├─ 瓶颈诊断: 瓶颈诊断：MTE2读33.9% 和 MTE3写8.9% 表明访存带宽未充分利用，`token_pool + load_offset` 为间接索引导致非连续访问
+   └─ 实施动作: 实施动作与具体代码修改方案：将 `req_to_token` 的布局从 `[pool_len, ...]` 转置为 `[..., pool_len]`，使 `token_pool` 的访问变为连续；修改 `token_pool = req_to_token + tl.load(req_pool_indices + pid) * pool_len` 为 `token_pool = req_to_token + tl.load(req_pool_indices + pid)`，并调整 `load_offset` 的步长。前提：`req_to_token` 的最后一维为 `pool_len` 且可转置；需验证所有调用点的shape兼容性。Positive ACTION: NONE
+
+  策略 [4]: **策略D：Tile大小自适应与寄存器/UB预算平衡**
+   ├─ 瓶颈诊断: 瓶颈诊断：Vector 11.8% 利用率低，当前BLOCK_SIZE=32可能过小，导致循环次数多且标量开销大
+   └─ 实施动作: 实施动作与具体代码修改方案：将 `BLOCK_SIZE` 改为 `tl.constexpr` 参数，根据 `kv_end - kv_start` 动态选择 `BLOCK_SIZE=64` 或 `128`；同时评估寄存器占用，确保不超限；循环内使用 `tl.load(token_pool + load_offset, mask=mask)` 和 `tl.store(out_cache_ptr + save_offset, data, mask=mask)` 保持不变。前提：`kv_end - kv_start` 在编译期可计算或通过动态分支选择；需保留mask。Positive ACTION: NONE
+
+  策略 [5]: **策略E：标量计算向量化与循环展开**
+   ├─ 瓶颈诊断: 瓶颈诊断：Scalar 58.5% 过高，`tl.sum(end - start, axis=0)` 和 `out_offset` 计算为标量操作，且循环内标量地址计算频繁
+   └─ 实施动作: 实施动作与具体代码修改方案：将 `out_offset` 的计算向量化，使用 `tl.where(length_offset < pid, end - start, 0)` 和 `tl.sum` 在向量单元执行；循环内将 `load_offset` 和 `save_offset` 的增量计算改为向量加法，使用 `tl.arange(0, BLOCK_SIZE) + kv_start + i * BLOCK_SIZE` 直接计算，避免循环内标量累加。前提：`BLOCK_SIZE` 为2的幂；需保留mask。Positive ACTION: NONE
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5729 chars[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5765 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5772 chars[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5719 chars
+
+
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=5713 chars
+[LLM] [Call #05] ✅ Complete | Tokens=1928 (p:1443, c:485) | Time=6.34s
+[LLM] [Call #06] ✅ Complete | Tokens=1919 (p:1429, c:490) | Time=6.38s
+[LLM] [Call #07] ✅ Complete | Tokens=1935 (p:1428, c:507) | Time=6.53s
+[LLM] [Call #03] ✅ Complete | Tokens=1976 (p:1432, c:544) | Time=6.84s
+[LLM] [Call #04] ✅ Complete | Tokens=2040 (p:1441, c:599) | Time=7.37s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...[⚙️] [Executor] Step 1/3: Preparing test environment...
+
+       └─ Code length: 1697 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+       └─ Code length: 1717 characters
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_60bt4x1u/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_1/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_1_0bggb302/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1766 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_1/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_1_f95_4krd/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.10us
+       └─ Raw speedup: -0.2191
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 1167c052 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1834 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_5pm66pd9/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.22us
+       └─ Raw speedup: -0.2613
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 c888cc4f 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2082 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_1/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_1_lq8w809r/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.04us
+       └─ Raw speedup: -0.1961
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 0ed20d21 评估异常: name '_prof' is not defined
+[❌] [Executor] Performance test failed!
+[EA] ❌ 个体 1167c052 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 3a83af2b (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 c888cc4f (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 0ed20d21 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 84417a8c (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6485 chars[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4659 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6486 chars
+
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6486 chars
+[LLM] [Call #09] ✅ Complete | Tokens=1649 (p:1164, c:485) | Time=5.37s
+[LLM] [Call #11] ✅ Complete | Tokens=2111 (p:1621, c:490) | Time=5.43s[LLM] [Call #08] ✅ Complete | Tokens=2111 (p:1621, c:490) | Time=5.44s
+
+[LLM] [Call #10] ✅ Complete | Tokens=2111 (p:1621, c:490) | Time=5.44s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1717 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_1/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_1__nrckzep/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 1695 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_wu976s96/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1717 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_1/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_1_fzwt6num/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.10us
+       └─ Raw speedup: -0.2191
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 427482d5 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1717 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_lo76edkz/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[❌] [Executor] Performance test failed!
+[EA] ❌ 个体 427482d5 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 fccfc809 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 a1a18cff (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 94aac627 (crossover): 评估失败, Fitness=0
+[EA] Gen 1 Summary: Best=1.0000, Avg=0.1667
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6400 chars[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6485 chars
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6485 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6563 chars
+
+[LLM] [Call #15] ✅ Complete | Tokens=2126 (p:1640, c:486) | Time=5.38s
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4284 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2107 (p:1621, c:486) | Time=5.40s
+[LLM] [Call #12] ✅ Complete | Tokens=2086 (p:1600, c:486) | Time=5.40s
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4307 chars
+[LLM] [Call #13] ✅ Complete | Tokens=2111 (p:1621, c:490) | Time=5.43s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4311 chars
+[LLM] [Call #16] ✅ Complete | Tokens=1557 (p:1071, c:486) | Time=5.18s
+[LLM] [Call #18] ✅ Complete | Tokens=1567 (p:1077, c:490) | Time=5.17s
+[LLM] [Call #17] ✅ Complete | Tokens=1577 (p:1076, c:501) | Time=5.27s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1695 characters       └─ Code length: 1697 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_fg5t3o5e/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Rooflinemsprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_1/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_1_dob5ruua/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.06us
+       └─ Raw speedup: -0.2039
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 cb81a94a 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1715 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+[✅] [Executor] Step 3/3: Calculating speedup...msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_1/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_1_3cq5om5z/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Baseline time: 1.64us
+
+       └─ Optimized time: 2.04us
+       └─ Raw speedup: -0.1961
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 e344b81c 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1738 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_yt1w9g_i/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.18us
+       └─ Raw speedup: -0.2477
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 d4e0816f 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 e344b81c (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 cb81a94a (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 806f6531 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 d4e0816f (mutation): 评估失败, Fitness=0
+[EA] Gen 2 Summary: Best=1.0000, Avg=0.1667
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0000
+[Search] sel_uniform/assign_extend_cache_locs/r0: fitness=1.0000 n_eval=13 elapsed=150s
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: assign_extend_cache_locs
+       └─ Working directory: /workspace/Agent/datasets2/assign_extend_cache_locs
+       └─ Baseline time: 1.64us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/assign_extend_cache_locs/test_assign_extend_cache_locs_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_k8l6zm49/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.02us
+       └─ Raw speedup: -0.1881
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_86fanevt/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 1.96us
+       └─ Raw speedup: -0.1633
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_61nr19ex/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.40us
+       └─ Raw speedup: -0.3167
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_jwfqwbhp/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.06us
+       └─ Raw speedup: -0.2039
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/assign_extend_cache_locs/performance/assign_extend_cache_locs_dev_0/assign_extend_cache_locs --application="/usr/local/python3.11.15/bin/python3.11 /tmp/assign_extend_cache_locs_dev_0_sif8r_sr/test_assign_extend_cache_locs.py" --kernel-name="assign_extend_cache_locs" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.64us
+       └─ Optimized time: 2.12us
+       └─ Raw speedup: -0.2264
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[Remeasure] sel_uniform/assign_extend_cache_locs/r0: T_best=2.060041 us
+
+===== [10:12:25] sel_uniform / _pack_seq_kernel =====
+[harness] 适应度锚点采用 manifest T_seed = 2.2800 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _pack_seq_kernel
+       └─ Working directory: /workspace/Agent/datasets2/_pack_seq_kernel
+       └─ Baseline time: 3.08us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/_pack_seq_kernel/test__pack_seq_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[❌ KnowledgeNode] 加载向量库失败: We couldn't connect to 'https://hf-mirror.com' to load the files, and couldn't find them in the cached files.
+Check your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码双卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2558 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+       └─ Code length: 3085 characters
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_5veapskk/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_1/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_1_0l81vkde/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.34us
+       └─ Raw speedup: 0.3162
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3162
+       └─ Fitness score: 0.3162 (max 2.0)
+       └─ Competition score: 31.6/200 points
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.14us
+       └─ Raw speedup: 0.4392
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4392
+       └─ Fitness score: 0.4392 (max 2.0)
+       └─ Competition score: 43.9/200 points
+[EA] 📊 2 个合法种子代码相似度为: 80.77% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 0c3002ea, 基准耗时: 2.28us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=3.08 us | 当前耗时=2.14 us (相对基线:+43.92% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=3
+- 管线利用率: Vector=3.9%, Scalar=34.5%, MTE2(读)=22.4%, MTE3(写)=47.0%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE3 写访存 (47.0%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=0.00 GB/s, 向量写=5.45 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=4048 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1058 (p:1011, c:47) | Time=0.88s
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5929 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2220 (p:1481, c:739) | Time=6.63s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **MTE3写合并与Mask消除**
+   ├─ 瓶颈诊断: MTE3写访存47.0%为瓶颈，向量写仅5.45GB/s，表明大量非连续小写操作
+   └─ 实施动作: 在`t_mask[:, None] & d_mask`中，当`Lmax`为`BLOCK_T`整数倍且`D`为`BLOCK_D`整数倍时，`t_mask`和`d_mask`恒为True，可删除mask；否则保留mask但合并两次`tl.store`为一次条件写入：`tl.store(out_row_ptr, tl.where(valid_row[:, None] & d_mask, x_vals, pad_vals), mask=t_mask[:, None] & d_mask)`，减少MTE3写事务数
+
+  策略 [2]: **Grid维度重排与Tile面积预算**
+   ├─ 瓶颈诊断: Vector利用率仅3.9%，Scalar 34.5%，表明计算与访存失衡；MTE3写瓶颈暗示小tile导致过多写操作
+   └─ 实施动作: 将grid从`(B, cdiv(Lmax, BLOCK_T), cdiv(D, BLOCK_D))`重排为`(B*cdiv(Lmax, BLOCK_T), cdiv(D, BLOCK_D))`，使pid_b和pid_t合并为单维，减少标量计算；同时增大`BLOCK_T`至128、`BLOCK_D`至128（需验证寄存器占用不超过32KB且occupancy≥2），提升写合并效率
+
+  策略 [3]: **循环不变量外提与片上复用**
+   ├─ 瓶颈诊断: MTE2读22.4%表明存在重复读取，`starts_ptr`和`lengths_ptr`在循环内为不变量
+   └─ 实施动作: 将`tl.load(starts_ptr + pid_b_i32)`和`tl.load(lengths_ptr + pid_b_i32)`外提到`off_t`计算之前，并添加`tl.multiple_of`提示（仅当`starts_ptr`和`lengths_ptr`基址64字节对齐时），减少MTE2读事务
+
+  策略 [4]: **连续访存优化与stride提示**
+   ├─ 瓶颈诊断: MTE3写47.0%和向量写5.45GB/s表明访存模式非连续，`out_row_ptr`计算中`pid_b_i32 * Lmax + off_t`可能导致跨步访问
+   └─ 实施动作: 将`out`张量布局从`[B, Lmax, D]`改为`[Lmax, B, D]`（需修改外部reshape逻辑），使`out_row_ptr`变为`off_t * B * D + pid_b_i32 * D + off_d`，实现连续写；同时添加`tl.max_contiguous`提示（仅当`out_ptr`基址和`D*B`步长128字节对齐时）
+
+  策略 [5]: **条件合流与尾界处理**
+   ├─ 瓶颈诊断: 当前两次`tl.store`（pad和valid）导致MTE3写事务翻倍，且`valid_row`和`t_mask`存在冗余计算
+   └─ 实施动作: 合并`valid_row`和`t_mask`为单一条件：`write_mask = (off_t < seq_len) & (off_t < Lmax) & (off_d < D)`；当`Lmax`不是`BLOCK_T`整数倍时保留尾界mask，否则删除`t_mask`；使用`tl.where(write_mask[:, None] & d_mask, x_vals, pad_vals)`单次写入，减少MTE3写操作50%
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6511 chars[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6470 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6423 chars
+
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6477 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6490 chars
+[LLM] [Call #03] ✅ Complete | Tokens=2471 (p:1627, c:844) | Time=10.59s
+[LLM] [Call #07] ✅ Complete | Tokens=2467 (p:1622, c:845) | Time=10.62s
+[LLM] [Call #04] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #06] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #05] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #04] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #05] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #06] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #04] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #06] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #05] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #06] ✅ Complete | Tokens=2489 (p:1619, c:870) | Time=383.72s
+[LLM] [Call #04] ✅ Complete | Tokens=2499 (p:1617, c:882) | Time=383.81s
+[LLM] [Call #05] ✅ Complete | Tokens=2490 (p:1605, c:885) | Time=383.85s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2556 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_1/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_1_b94jnikz/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 2545 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_dmx4cs1q/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.34us
+       └─ Raw speedup: 0.3162
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3162
+       └─ Fitness score: 0.3162 (max 2.0)
+       └─ Competition score: 31.6/200 points
+[EA] ❌ 个体 e30c0ce3 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2611 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_4mz8yh1x/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: 0.3051
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3051
+       └─ Fitness score: 0.3051 (max 2.0)
+       └─ Competition score: 30.5/200 points
+[EA] ❌ 个体 c3d8e0a1 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2698 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_1/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_1_q62qnuy0/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2654 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_jd8cpa58/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.08us
+       └─ Raw speedup: 0.4807
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4807
+       └─ Fitness score: 0.4807 (max 2.0)
+       └─ Competition score: 48.1/200 points
+[EA] ❌ 个体 7563f64a 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.04us
+       └─ Raw speedup: 0.5098
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.5098
+       └─ Fitness score: 0.5098 (max 2.0)
+       └─ Competition score: 51.0/200 points
+[EA] ❌ 个体 b0636ed7 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 e30c0ce3 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 c3d8e0a1 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 d72cd8ea (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 7563f64a (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 b0636ed7 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7887 chars[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8509 chars
+
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8661 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8640 chars
+[LLM] [Call #08] ✅ Complete | Tokens=2681 (p:1971, c:710) | Time=8.03s
+[LLM] [Call #09] ✅ Complete | Tokens=2971 (p:2127, c:844) | Time=9.32s
+[LLM] [Call #11] ✅ Complete | Tokens=3027 (p:2160, c:867) | Time=9.52s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5204 chars
+[LLM] [Call #10] ✅ Complete | Tokens=3038 (p:2165, c:873) | Time=9.55s
+[LLM] [Call #12] ✅ Complete | Tokens=2168 (p:1301, c:867) | Time=7.65s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2543 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_1/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_1_x7jlchsq/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 2129 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_w40uu998/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.28us
+       └─ Raw speedup: 0.3508
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3508
+       └─ Fitness score: 0.3508 (max 2.0)
+       └─ Competition score: 35.1/200 points
+[EA] ❌ 个体 66e1a846 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2636 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_v9c28566/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.34us
+       └─ Raw speedup: 0.3162
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3162
+       └─ Fitness score: 0.3162 (max 2.0)
+       └─ Competition score: 31.6/200 points
+[EA] ❌ 个体 9e84a20e 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2617 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_1/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_1_zx4_15al/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.18us
+       └─ Raw speedup: 0.4128
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4128
+       └─ Fitness score: 0.4128 (max 2.0)
+       └─ Competition score: 41.3/200 points
+[EA] ❌ 个体 11cc18ac 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.06us
+       └─ Raw speedup: 0.4951
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4951
+       └─ Fitness score: 0.4951 (max 2.0)
+       └─ Competition score: 49.5/200 points
+[EA] ❌ 个体 4903ba67 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 66e1a846 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 9e84a20e (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 11cc18ac (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 4903ba67 (mutation): 评估失败, Fitness=0
+[EA] Gen 1 Summary: Best=1.0000, Avg=0.1667
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8600 chars[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5544 chars
+
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8526 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5537 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2236 (p:1386, c:850) | Time=9.49s
+[LLM] [Call #16] ✅ Complete | Tokens=2246 (p:1384, c:862) | Time=9.62s
+[LLM] [Call #15] ✅ Complete | Tokens=2998 (p:2131, c:867) | Time=9.66s
+[LLM] [Call #13] ✅ Complete | Tokens=3023 (p:2150, c:873) | Time=9.72s
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5246 chars
+[LLM] [Call #17] ✅ Complete | Tokens=2184 (p:1311, c:873) | Time=7.69s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2564 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_34tkw5ok/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 2600 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_1/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_1_8uc1tmlr/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.6210
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.6210
+       └─ Fitness score: 0.6210 (max 2.0)
+       └─ Competition score: 62.1/200 points
+[EA] ❌ 个体 d7722443 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.00us
+       └─ Raw speedup: 0.5400
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.5400
+       └─ Fitness score: 0.5400 (max 2.0)
+       └─ Competition score: 54.0/200 points
+       └─ Code length: 2617 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_1/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_1_ktu1jc87/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[EA] ❌ 个体 27d91818 评估异常: name '_prof' is not defined
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2634 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_uk7uv7uw/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.32us
+       └─ Raw speedup: 0.3276
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3276
+       └─ Fitness score: 0.3276 (max 2.0)
+       └─ Competition score: 32.8/200 points
+[EA] ❌ 个体 b22df086 评估异常: name '_prof' is not defined
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 3.08us
+       └─ Optimized time: 2.10us
+       └─ Raw speedup: 0.4666
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4666
+       └─ Fitness score: 0.4666 (max 2.0)
+       └─ Competition score: 46.7/200 points
+[EA] ❌ 个体 a284489c 评估异常: name '_prof' is not defined
+[EA] ❌ 个体 27d91818 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 d7722443 (mutation): 评估失败, Fitness=0
+[EA] ❌ 个体 b22df086 (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 a284489c (mutation): 评估失败, Fitness=0
+[EA] Gen 2 Summary: Best=1.0000, Avg=0.1667
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0000
+[Search] sel_uniform/_pack_seq_kernel/r0: fitness=1.0000 n_eval=13 elapsed=555s
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _pack_seq_kernel
+       └─ Working directory: /workspace/Agent/datasets2/_pack_seq_kernel
+       └─ Baseline time: 3.08us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/_pack_seq_kernel/test__pack_seq_kernel_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3085 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_pack_seq_kernel/performance/_pack_seq_kernel_dev_0/_pack_seq_kernel --application="/usr/local/python3.11.15/bin/python3.11 /tmp/_pack_seq_kernel_dev_0_ww7zb236/test__pack_seq_kernel.py" --kernel-name="_pack_seq_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline

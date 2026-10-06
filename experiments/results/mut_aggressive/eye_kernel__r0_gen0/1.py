@@ -19,8 +19,7 @@ def eye_kernel(
     mask_j = off_j < M
     val = tl.where(off_i[:, None] == off_j[None, :], 1.0, 0.0)
     mask = mask_i[:, None] & mask_j[None, :]
-    row_offset = off_i * M
-    off_ij = row_offset[:, None] + off_j[None, :]
+    off_ij = off_i[:, None] * M + off_j[None, :]
     tl.store(out_ptr + off_ij, val, mask=mask)
 def eye_m(n, m, *, dtype=None, layout=torch.strided, device=None, pin_memory=None):
     logger.debug("GEMS EYE_M")
