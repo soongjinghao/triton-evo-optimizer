@@ -46,6 +46,9 @@ class EvolutionaryAlgorithm:
         self.last_best_fitness = 0.0
         self.seed_execution_time = 0.0
 
+        # 3.4.1：UCB 选择的“历史被选次数”计数（个体 id -> 次数），用于探索项
+        self._ucb_counts = {}
+
         # 3.1 主实验：搜索预算计数与事件日志
         self.eval_count = 0
         self.gen0_snapshot: List[Individual] = []  # 3.2：第 0 代种群快照，用于计算 D_G0
@@ -473,10 +476,22 @@ class EvolutionaryAlgorithm:
               f"(第 0 代种群规模 {len(self.gen0_snapshot)})")
 
     def select_parents(self) -> Tuple[Individual, Individual]:
-        """父代选择：tournament（默认 3 元锦标赛）或 roulette（轮盘赌，供 3.4.1 对比）"""
-        if getattr(self.config, 'selection', 'tournament') == 'roulette':
-            return self._select_parents_roulette()
+        """父代选择（3.4.1 消融，共四种策略）：
 
+        - tournament：三元锦标赛，局部竞争取优（默认）
+        - roulette  ：轮盘赌，按适应度比例加权采样（强选择压力）
+        - uniform   ：均匀随机，完全不给选择压力（下界基线）
+        - ucb       ：UCB 式探索-利用平衡选择（本文提出）
+        """
+        mode = str(getattr(self.config, 'selection', 'tournament') or 'tournament').lower()
+        if mode == 'roulette':
+            return self._select_parents_roulette()
+        if mode == 'uniform':
+            return self._select_parents_uniform()
+        if mode == 'ucb':
+            return self._select_parents_ucb()
+
+        # 默认：三元锦标赛
         tournament_size = min(3, len(self.population))
         cand1 = random.sample(self.population, tournament_size)
         parent1 = max(cand1, key=lambda x: x.fitness)
@@ -525,6 +540,72 @@ class EvolutionaryAlgorithm:
         if parent1 == parent2 and len(self.population) > 1:
             parent2 = _pick()
         self._log_selection(parent1, parent2, "roulette")
+        return parent1, parent2
+
+    def _select_parents_uniform(self) -> Tuple[Individual, Individual]:
+        """3.4.1：均匀随机选择——完全不施加选择压力，作为下界基线。
+
+        作用是回答“父代选择本身是否带来收益”：若各策略均优于 uniform，
+        则说明选择压力确实有效；策略之间的差异则可进一步归因于压力强度。
+        """
+        pop = self.population
+        parent1 = random.choice(pop)
+        parent2 = random.choice(pop)
+        if parent1 == parent2 and len(pop) > 1:
+            parent2 = random.choice([ind for ind in pop if ind != parent1])
+        self._log_selection(parent1, parent2, "uniform")
+        return parent1, parent2
+
+    def _select_parents_ucb(self) -> Tuple[Individual, Individual]:
+        """3.4.1：UCB 式探索-利用平衡选择（本文提出）。
+
+        在选择权重中同时考虑归一化适应度（利用）与“尚未被充分采样”的奖励项（探索）：
+
+            score_i = f_i / f_max + c * sqrt( ln(N + 2) / (1 + n_i) )
+
+        其中 n_i 为该个体历史被选中的次数，N 为累计选择次数，c 为探索系数。
+        轮盘赌只按适应度加权，容易把有限的评测预算过度集中在少数高适应度父代上；
+        uniform 则完全丢弃适应度信息。UCB 通过 n_i 显式补偿“尚未被充分尝试”的个体，
+        在两者之间取得平衡。采样仍按 score 加权随机进行，以保留种群随机性。
+        """
+        pop = self.population
+        fmax = max((max(ind.fitness, 0.0) for ind in pop), default=0.0)
+        if fmax <= 0:
+            # 全部个体均无有效适应度，退化为均匀随机
+            return self._select_parents_uniform()
+
+        c = float(getattr(self.config, 'ucb_c', 0.5) or 0.5)
+        counts = self._ucb_counts
+        n_total = sum(counts.values())
+
+        scores = []
+        for ind in pop:
+            f_norm = max(ind.fitness, 0.0) / fmax
+            bonus = c * float(np.sqrt(np.log(n_total + 2.0) / (1.0 + counts.get(ind.id, 0))))
+            scores.append(max(f_norm + bonus, 0.0))
+
+        def _pick():
+            total = sum(scores)
+            if total <= 0:
+                return random.choice(pop)
+            r = random.random() * total
+            acc = 0.0
+            for ind, s in zip(pop, scores):
+                acc += s
+                if acc >= r:
+                    return ind
+            return pop[-1]
+
+        parent1 = _pick()
+        parent2 = _pick()
+        if parent1 == parent2 and len(pop) > 1:
+            parent2 = _pick()
+
+        # 更新被选次数，供后续各代的探索项使用
+        for p in (parent1, parent2):
+            counts[p.id] = counts.get(p.id, 0) + 1
+
+        self._log_selection(parent1, parent2, "ucb")
         return parent1, parent2
 
     def evolve_generation(self) -> None:
@@ -722,7 +803,19 @@ class EvolutionaryAlgorithm:
             "mutation_type": md.get('mutation_type'),
             "parent_ids": md.get('parents') or ([parent] if parent else []),
             "dominant_parent": md.get('dominant_parent'),
-            "parent_latency": md.get('parent_latency') or md.get('dominant_latency'),
+            # 父代延迟：优先用真实父代耗时；无父代(gen0)时回退到种子基准。
+            # 注意：父代评估失败时其 execution_time 为 None，此处不冒充为种子耗时，
+            # 以免把"相对父代的增益"和"相对种子的增益"混为一谈。
+            "parent_latency": (md.get('parent_latency') or md.get('dominant_latency')
+                               or ((getattr(self, 'seed_execution_time', 0) or None)
+                                   if (ind.generation == 0 or not (md.get('parents') or parent))
+                                   else None)),
+            "parent_eval_ok": bool(md.get('parent_latency') or md.get('dominant_latency')),
+            "parent_latency_source": ("parent" if md.get('parent_latency')
+                                      else "dominant" if md.get('dominant_latency')
+                                      else "seed" if ((ind.generation == 0 or not (md.get('parents') or parent))
+                                                      and getattr(self, 'seed_execution_time', 0))
+                                      else "none"),
             "ast_pass": not md.get('preflight_rejected', False),
             "ast_reason": md.get('syntax_error'),
             "compile_pass": bool(md.get('success', False)),
