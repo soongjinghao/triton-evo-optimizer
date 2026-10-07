@@ -152,7 +152,9 @@ def phase_b(repeats, limit):
     for ki, kernel in enumerate(kernels, 1):
         print(f"\n=== [{ki}/{len(kernels)}] full / {kernel} ===")
         try:
-            ea, cfg = build_ea(kernel, "full", run_id=0, seed=20261006,
+            # seed 必须与原 3.3 消融一致（seed=0），否则 FULL 的第 0 代
+            # 与其他配置不在同一随机条件下，跨配置比较失去可比性。
+            ea, cfg = build_ea(kernel, "full", run_id=0, seed=0,
                                log=False, max_generations=0)
             seed_codes = [common.read_code(p)
                           for p in common.seed_code_paths(kernel)]
