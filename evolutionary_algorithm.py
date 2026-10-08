@@ -11,6 +11,7 @@ import os
 import queue
 import csv
 import difflib
+import re
 from typing import List, Tuple, Optional
 import numpy as np
 from pathlib import Path
@@ -608,6 +609,190 @@ class EvolutionaryAlgorithm:
         self._log_selection(parent1, parent2, "ucb")
         return parent1, parent2
 
+    # ---------------------------------------------------------------- 3.6 预筛选
+    _FILTER_MODEL = None
+
+    @classmethod
+    def _load_filter_model(cls):
+        """惰性加载 3.6 的候选预筛选模型（仅数值特征的逻辑回归）。"""
+        if cls._FILTER_MODEL is None:
+            import joblib
+            p = Path(__file__).resolve().parent / "experiments" / "dataset" / \
+                "candidate_filter_model.joblib"
+            if not p.exists():
+                raise FileNotFoundError(
+                    f"未找到预筛选模型 {p}；请先运行 "
+                    f"experiments/candidate_filter_model_final.py")
+            cls._FILTER_MODEL = joblib.load(p)
+        return cls._FILTER_MODEL
+
+    # ---- 3.6 预筛选：父子代码相对特征（与 candidate_filter_model_final.py 训练口径一致） ----
+    _RE_BLOCK = re.compile(r"BLOCK[A-Z_]*\s*[:=]\s*(\d+)")
+    _RE_WARPS = re.compile(r"num_warps\s*=\s*(\d+)")
+    _RE_STAGES = re.compile(r"num_stages\s*=\s*(\d+)")
+    _RE_TL_CALL = re.compile(r"tl\.[a-z_]+")
+    _RE_MASK = re.compile(r"mask")
+    _RE_TOK = re.compile(r"[A-Za-z_]\w*")
+
+    @staticmethod
+    def _code_struct(code):
+        code = code or ""
+        def _mx(rx):
+            v = [int(x) for x in rx.findall(code)]
+            return float(max(v)) if v else 0.0
+        return dict(
+            block=_mx(EvolutionaryAlgorithm._RE_BLOCK),
+            warps=_mx(EvolutionaryAlgorithm._RE_WARPS),
+            stages=_mx(EvolutionaryAlgorithm._RE_STAGES),
+            ops=float(len(EvolutionaryAlgorithm._RE_TL_CALL.findall(code))),
+            mask=float(len(EvolutionaryAlgorithm._RE_MASK.findall(code))))
+
+    @staticmethod
+    def _ratio(c, p):
+        c = c if c is not None else 0.0
+        p = p if p is not None else 0.0
+        if c <= 0 and p <= 0:
+            return 0.0
+        return float(np.log((c + 1.0) / (p + 1.0)))
+
+    @staticmethod
+    def _jaccard(a, b):
+        a, b = a or "", b or ""
+        if not a or not b:
+            return 0.0
+        sa = set(EvolutionaryAlgorithm._RE_TOK.findall(a))
+        sb = set(EvolutionaryAlgorithm._RE_TOK.findall(b))
+        if not sa or not sb:
+            return 0.0
+        return len(sa & sb) / len(sa | sb)
+
+    @staticmethod
+    def _filter_features(child, config, id2code=None):
+        """构造一条预筛选输入（全部评测前可得，与训练时口径一致）。"""
+        md = child.metadata or {}
+        p_lat = md.get("parent_latency") or md.get("dominant_latency")
+        ch_code = child.code or ""
+        ch = EvolutionaryAlgorithm._code_struct(ch_code)
+        pc_code = None
+        pids = md.get("parents") or []
+        if pids and id2code is not None:
+            pc_code = id2code.get(str(pids[0]))
+        if pc_code is None:
+            pc_code = ch_code  # gen0：父代=子代自身（比值=0、sim=1）
+        pc = EvolutionaryAlgorithm._code_struct(pc_code)
+        return {
+            "log_parent": float(np.log1p(p_lat)) if p_lat and p_lat > 0 else np.nan,
+            "parent_latency": float(p_lat) if p_lat and p_lat > 0 else np.nan,
+            "gen": float(child.generation),
+            "pop_size": float(getattr(config, "population_size", 6)),
+            "tau": float(getattr(config, "seed_diversity_threshold", -1.0)),
+            "operation": md.get("operation") or "none",
+            "mutation_type": md.get("mutation_type") or "none",
+            "r_block": EvolutionaryAlgorithm._ratio(ch["block"], pc["block"]),
+            "r_warps": EvolutionaryAlgorithm._ratio(ch["warps"], pc["warps"]),
+            "r_stages": EvolutionaryAlgorithm._ratio(ch["stages"], pc["stages"]),
+            "sim": EvolutionaryAlgorithm._jaccard(ch_code, pc_code),
+            "r_ops": EvolutionaryAlgorithm._ratio(ch["ops"], pc["ops"]),
+            "r_mask": EvolutionaryAlgorithm._ratio(ch["mask"], pc["mask"]),
+            "ops_abs": float(np.log1p(ch["ops"])),
+            "block_abs": float(np.log1p(ch["block"])),
+        }
+
+    def _filter_select(self, candidates, k, do_select=True):
+        """用预筛选模型给候选池打分；默认返回得分最高的 k 个，同时记录全部打分。
+
+        do_select=False 用于"全评子实验"：不过滤，把候选池全部送评测，
+        这样被模型排在后面的候选也有真值，事后即可算出在线精确率与召回率。
+        """
+        import pandas as pd
+
+        model = self._load_filter_model()
+        cols = ["log_parent", "gen", "pop_size", "tau", "r_block", "r_warps",
+                "r_stages", "sim", "r_ops", "r_mask", "ops_abs", "block_abs",
+                "operation", "mutation_type"]
+        # 父子代码映射：父代代码取 parent_ids[0]，与训练口径一致
+        id2code = {str(getattr(ind, "id", "")): (getattr(ind, "code", "") or "")
+                   for ind in getattr(self, "population", [])}
+        rows = [self._filter_features(c, self.config, id2code) for c in candidates]
+        X = pd.DataFrame(rows)[cols]
+        scores = model.predict_proba(X)[:, 1]
+
+        # 并列时按 candidate_id 兜底，保证同一次实验可复现（np.argsort 默认快排不稳定）
+        order = sorted(range(len(candidates)),
+                       key=lambda i: (-float(scores[i]), candidates[i].id))[:k]
+        keep = set(int(i) for i in order)
+        selected = [candidates[int(i)] for i in order]
+
+        # 打分与选择记录：事后可算出"被选中的候选中真正改进的比例"，
+        # 配合"全评子实验"还能得到被拒绝候选的真值，从而算在线精确率/召回率。
+        self._log_filter([{
+            "kernel": getattr(self.executor, "kernel_name", ""),
+            "run_id": getattr(self.config, "run_id", 0),
+            "gen": self.generation + 1,
+            "candidate_id": candidates[i].id,
+            "operation": rows[i]["operation"],
+            "mutation_type": rows[i]["mutation_type"],
+            "parent_latency": rows[i]["parent_latency"],
+            "score": float(scores[i]),
+            "selected": bool(i in keep),
+        } for i in range(len(candidates))])
+
+        print(f"[EA] 🔍 预筛选：候选池 {len(candidates)} → 送评测 {len(selected)} "
+              f"（最高分 {scores[order[0]]:.3f}，最低 {scores[order[-1]]:.3f}）")
+        return selected if do_select else candidates
+
+    def _log_filter(self, records):
+        """记录每代全部候选的预筛选打分与是否被选中，供事后算在线精确率。"""
+        path = getattr(self.config, "filter_log_path", None)
+        if not path:
+            return
+        try:
+            Path(path).parent.mkdir(parents=True, exist_ok=True)
+            with open(path, "a", encoding="utf-8") as f:
+                for r in records:
+                    r.setdefault("timestamp", time.strftime("%Y-%m-%dT%H:%M:%S"))
+                    f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        except Exception as e:
+            print(f"[EA] 预筛选日志写入失败: {e}")
+
+    def _log_eval(self, ind: "Individual") -> None:
+        """候选评测后，把真实延迟与是否改进追加写入预筛选日志。
+
+        仅当开启候选预筛选（enable_candidate_filter）时记录。配合 fulleval
+        （filter_evaluate_all）模式下同一次运行内既有打分记录又有全评真值，
+        即可事后算出在线精确率与召回率，无需跨运行匹配候选。
+        """
+        if not getattr(self.config, "enable_candidate_filter", False):
+            return
+        path = getattr(self.config, "filter_log_path", None)
+        if not path:
+            return
+        md = ind.metadata or {}
+        latency = md.get("execution_time")
+        if not latency or latency <= 0 or not md.get("success", False):
+            return
+        parent_latency = md.get("parent_latency") or getattr(self, "seed_execution_time", 0)
+        if not parent_latency or parent_latency <= 0:
+            return
+        rec = {
+            "event": "eval",
+            "kernel": getattr(self.executor, "kernel_name", ""),
+            "run_id": getattr(self.config, "run_id", 0),
+            "gen": ind.generation,
+            "candidate_id": ind.id,
+            "child_latency": round(latency, 4),
+            "parent_latency": round(parent_latency, 4),
+            "improved": bool(parent_latency > latency),
+            "label": 1 if parent_latency > latency else 0,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        }
+        try:
+            Path(path).parent.mkdir(parents=True, exist_ok=True)
+            with open(path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        except Exception as e:
+            print(f"[EA] 预筛选真值日志写入失败: {e}")
+
     def evolve_generation(self) -> None:
         """执行一代演化：精英保留 + 并发交叉变异生成子代 + 批量评估"""
         new_population = []
@@ -623,12 +808,20 @@ class EvolutionaryAlgorithm:
             self.population = new_population
             return
 
-        tasks_args = [self.select_parents() for _ in range(needed_children)]
+        # 3.6：启用预筛选时先生成更大的候选池，再由模型挑出 needed_children 个送评测。
+        # NPU 评测次数保持不变（仍是 needed_children 个），
+        # 多出来的只是廉价的 LLM 生成，因此对照的是"预算如何分配"而非"预算多少"。
+        pool_size = int(getattr(self.config, 'candidate_pool_size', 0) or 0)
+        use_filter = (bool(getattr(self.config, 'enable_candidate_filter', False))
+                      and pool_size > needed_children)
+        n_gen = pool_size if use_filter else needed_children
 
-        print(f"[EA] 🚀 并发发射 {needed_children} 个子代变异/交叉 LLM 请求...")
+        tasks_args = [self.select_parents() for _ in range(n_gen)]
+
+        print(f"[EA] 🚀 并发发射 {n_gen} 个子代变异/交叉 LLM 请求...")
         child_candidates: List[Individual] = []
 
-        with ThreadPoolExecutor(max_workers=min(needed_children, MAX_WORKERS)) as thread_pool:
+        with ThreadPoolExecutor(max_workers=min(n_gen, MAX_WORKERS)) as thread_pool:
             futures = [
                 thread_pool.submit(
                     self._process_single_generation_task,
@@ -645,13 +838,23 @@ class EvolutionaryAlgorithm:
                 except Exception as e:
                     print(f"[EA] ❌ 变异线程异常: {e}")
 
-        print(f"[EA] 🧪 批量生成完毕，启动压测评估...")
-        
         for child in child_candidates:
             child.generation = self.generation + 1
-        
+
+        # ---- 3.6 预筛选：模型打分后只保留 top-k 送 NPU ----
+        if use_filter:
+            # filter_evaluate_all：全评子实验专用，记录打分但不过滤
+            do_select = not bool(getattr(self.config, 'filter_evaluate_all', False))
+            child_candidates = self._filter_select(
+                child_candidates, needed_children, do_select=do_select)
+
+        print(f"[EA] 🧪 批量生成完毕，启动压测评估...")
+
         child_candidates = self._evaluate_individuals_batch(child_candidates)
-        
+        # 评测后追加真实延迟与是否改进，供事后算在线精确率/召回率
+        for _c in child_candidates:
+            self._log_eval(_c)
+
         for child in child_candidates:
             if not child.code:
                 child.fitness = 0.0
