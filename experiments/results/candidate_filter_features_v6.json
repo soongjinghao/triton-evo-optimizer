@@ -1,0 +1,113 @@
+{
+  "n_samples": 5449,
+  "n_kernels": 50,
+  "positive_rate": 0.357680308313452,
+  "protocol": "按算子 5 折 GroupKFold；对外指标仅 AUC / PR-AUC / 池内可区分度",
+  "results": [
+    {
+      "auc": 0.6258899100612415,
+      "auc_std": 0.03524122105371327,
+      "pr_auc": 0.46324558072767397,
+      "pr_lift": 1.295138619489531,
+      "distinct_in_pool": 0.4380753535581726,
+      "variant": "A 基线（现最终模型）",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau"
+      ]
+    },
+    {
+      "auc": 0.6122199092700666,
+      "auc_std": 0.028824777974289957,
+      "pr_auc": 0.4506468076722986,
+      "pr_lift": 1.2599150615732966,
+      "distinct_in_pool": 0.4380753535581726,
+      "variant": "B 基线+父代未截断speedup",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup"
+      ]
+    },
+    {
+      "auc": 0.6124320452201667,
+      "auc_std": 0.02883461218786453,
+      "pr_auc": 0.44948707126715187,
+      "pr_lift": 1.2566726789813807,
+      "distinct_in_pool": 0.45246560222587967,
+      "variant": "C B+配置数值父子比",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages"
+      ]
+    },
+    {
+      "auc": 0.6112894964327634,
+      "auc_std": 0.028257228267775124,
+      "pr_auc": 0.44847422046687474,
+      "pr_lift": 1.2538409580933818,
+      "distinct_in_pool": 0.5291322414729693,
+      "variant": "D C+访存/计算数父子比+相似度",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "r_load",
+        "r_store",
+        "r_dot",
+        "r_sum",
+        "r_lines",
+        "sim"
+      ]
+    },
+    {
+      "auc": 0.5479634984867165,
+      "auc_std": 0.03567973130374624,
+      "pr_auc": 0.4134360749103466,
+      "pr_lift": 1.1558815660269262,
+      "distinct_in_pool": 0.5011297780013314,
+      "variant": "E 仅新特征（去掉配置常量）",
+      "numeric_features": [
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "r_load",
+        "r_store",
+        "r_dot",
+        "r_sum",
+        "r_lines",
+        "sim"
+      ]
+    }
+  ],
+  "best_coefficients": {
+    "pop_size": 0.32600771835132847,
+    "log_parent": 0.28164530115968867,
+    "mutation_type_param_tuning": -0.26260064895264557,
+    "gen": -0.24655932988826207,
+    "operation_mutation": -0.2015326361493988,
+    "mutation_type_structure_rewrite": 0.20064772241531215,
+    "mutation_type_none": 0.17060855422220186,
+    "mutation_type_arithmetic_and_mask": -0.13957970961206537,
+    "operation_gen0_plain": 0.12968848790080603,
+    "operation_crossover": 0.09089596070840661,
+    "tau": -0.05813994019568108,
+    "operation_gen0_strategy_guided": -0.04997589438701081
+  }
+}

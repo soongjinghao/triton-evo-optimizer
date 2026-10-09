@@ -1,0 +1,274 @@
+{
+  "lr": [
+    {
+      "auc": 0.6258899100612415,
+      "auc_std": 0.03524122105371327,
+      "pr_auc": 0.46324558072767397,
+      "pr_lift": 1.295138619489531,
+      "distinct_in_pool": 0.4380753535581726,
+      "variant": "A 仅数值(基线)",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau"
+      ]
+    },
+    {
+      "auc": 0.6122199092700666,
+      "auc_std": 0.028824777974289957,
+      "pr_auc": 0.4506468076722986,
+      "pr_lift": 1.2599150615732966,
+      "distinct_in_pool": 0.4380753535581726,
+      "variant": "B +speedup",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup"
+      ]
+    },
+    {
+      "auc": 0.6124320452201667,
+      "auc_std": 0.02883461218786453,
+      "pr_auc": 0.44948707126715187,
+      "pr_lift": 1.2566726789813807,
+      "distinct_in_pool": 0.45246560222587967,
+      "variant": "C +CFG",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages"
+      ]
+    },
+    {
+      "auc": 0.6112894964327634,
+      "auc_std": 0.028257228267775124,
+      "pr_auc": 0.44847422046687474,
+      "pr_lift": 1.2538409580933818,
+      "distinct_in_pool": 0.5291322414729693,
+      "variant": "D +CODE",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "r_load",
+        "r_store",
+        "r_dot",
+        "r_sum",
+        "r_lines",
+        "sim"
+      ]
+    },
+    {
+      "auc": 0.6143844208448326,
+      "auc_std": 0.04347560667076161,
+      "pr_auc": 0.4482146543799533,
+      "pr_lift": 1.2531152651187099,
+      "distinct_in_pool": 0.7161210066059122,
+      "variant": "E +V7",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "r_load",
+        "r_store",
+        "r_dot",
+        "r_sum",
+        "r_lines",
+        "sim",
+        "rel_seed",
+        "r_ops",
+        "r_mask",
+        "ops_abs",
+        "block_abs"
+      ]
+    },
+    {
+      "auc": 0.6139612102112849,
+      "auc_std": 0.03954556919488558,
+      "pr_auc": 0.4437111917557205,
+      "pr_lift": 1.240524517125152,
+      "distinct_in_pool": 0.8223268397712526,
+      "variant": "F +V8",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "r_load",
+        "r_store",
+        "r_dot",
+        "r_sum",
+        "r_lines",
+        "sim",
+        "rel_seed",
+        "r_ops",
+        "r_mask",
+        "ops_abs",
+        "block_abs",
+        "changed_ops",
+        "diff_tokens",
+        "r_compute",
+        "block_changed"
+      ]
+    }
+  ],
+  "gbm": [
+    {
+      "auc": 0.5450529190642885,
+      "auc_std": 0.06948348292005614,
+      "pr_auc": 0.3974518387956446,
+      "pr_lift": 1.1111929551551911,
+      "distinct_in_pool": 0.3699731704968432,
+      "variant": "A 仅数值(基线)",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau"
+      ]
+    },
+    {
+      "auc": 0.5920050283567324,
+      "auc_std": 0.053413723387044414,
+      "pr_auc": 0.43605237008733555,
+      "pr_lift": 1.2191120393052293,
+      "distinct_in_pool": 0.40405854209260167,
+      "variant": "B +speedup",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup"
+      ]
+    },
+    {
+      "auc": 0.5817045693075451,
+      "auc_std": 0.049660075979178625,
+      "pr_auc": 0.4254747652876284,
+      "pr_lift": 1.1895392488723897,
+      "distinct_in_pool": 0.41885995056475006,
+      "variant": "C +CFG",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages"
+      ]
+    },
+    {
+      "auc": 0.5769385594016494,
+      "auc_std": 0.05426097606572964,
+      "pr_auc": 0.4176231068252093,
+      "pr_lift": 1.1675876393486742,
+      "distinct_in_pool": 0.5077509252906124,
+      "variant": "D +CODE",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "r_load",
+        "r_store",
+        "r_dot",
+        "r_sum",
+        "r_lines",
+        "sim"
+      ]
+    },
+    {
+      "auc": 0.6148417729819039,
+      "auc_std": 0.04052280538096557,
+      "pr_auc": 0.44304782488701927,
+      "pr_lift": 1.2386698808667869,
+      "distinct_in_pool": 0.6918776415556145,
+      "variant": "E +V7",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "r_load",
+        "r_store",
+        "r_dot",
+        "r_sum",
+        "r_lines",
+        "sim",
+        "rel_seed",
+        "r_ops",
+        "r_mask",
+        "ops_abs",
+        "block_abs"
+      ]
+    },
+    {
+      "auc": 0.6234128547426416,
+      "auc_std": 0.056181712607509655,
+      "pr_auc": 0.4515574896489663,
+      "pr_lift": 1.2624611396086287,
+      "distinct_in_pool": 0.7555053633660579,
+      "variant": "F +V8",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "log_parent_speedup",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "r_load",
+        "r_store",
+        "r_dot",
+        "r_sum",
+        "r_lines",
+        "sim",
+        "rel_seed",
+        "r_ops",
+        "r_mask",
+        "ops_abs",
+        "block_abs",
+        "changed_ops",
+        "diff_tokens",
+        "r_compute",
+        "block_changed"
+      ]
+    }
+  ],
+  "positive_rate": 0.357680308313452,
+  "protocol": "按算子 5 折 GroupKFold；对外指标仅 AUC / PR-AUC / 池内可区分度"
+}

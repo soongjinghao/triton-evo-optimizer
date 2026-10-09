@@ -1,0 +1,58 @@
+{
+  "variant": "H基础+V7强特征（去 speedup/rel_seed）",
+  "n_samples": 5449,
+  "n_kernels": 50,
+  "positive_rate": 0.357680308313452,
+  "cv_auc": 0.6194571717069731,
+  "cv_auc_std": 0.03215095005899901,
+  "cv_prauc": 0.4564438182681772,
+  "cv_lift": 1.2761223015614662,
+  "cv_p4": 0.65,
+  "cv_p4_random": 0.1,
+  "cv_p13": 0.4461538461538462,
+  "cv_p13_random": 0.23076923076923078,
+  "distinct_in_pool": 0.6792540204517548,
+  "coefficients": {
+    "log_parent": 0.32589108946922835,
+    "pop_size": 0.32437543166312993,
+    "mutation_type_param_tuning": -0.2657648444266622,
+    "gen": -0.24870471018429094,
+    "mutation_type_structure_rewrite": 0.20239343862320439,
+    "operation_mutation": -0.19482821899615038,
+    "mutation_type_none": 0.16186740291997068,
+    "mutation_type_arithmetic_and_mask": -0.13145681319268632,
+    "operation_gen0_plain": 0.1188496438616663,
+    "block_abs": -0.11701103235999055,
+    "operation_crossover": 0.09611154716717991,
+    "r_stages": -0.08955948568351245,
+    "r_warps": 0.07913730794815978,
+    "tau": -0.05731223665884923,
+    "operation_gen0_strategy_guided": -0.05309378810887411,
+    "ops_abs": 0.05060392018193826,
+    "r_block": 0.025657604805546973,
+    "r_mask": -0.018136329289468775,
+    "r_ops": -0.014659793558080008,
+    "sim": 0.014229395061592551
+  },
+  "features": {
+    "numeric": [
+      "log_parent",
+      "gen",
+      "pop_size",
+      "tau",
+      "r_block",
+      "r_warps",
+      "r_stages",
+      "sim",
+      "r_ops",
+      "r_mask",
+      "ops_abs",
+      "block_abs"
+    ],
+    "categorical": [
+      "operation",
+      "mutation_type"
+    ]
+  },
+  "caveat": "预测性模型；类型系数含选择效应，不得作因果解释（见 3.4.3 机制探测）"
+}

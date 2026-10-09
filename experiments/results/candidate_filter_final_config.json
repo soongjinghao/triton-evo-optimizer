@@ -1,0 +1,42 @@
+{
+  "evaluation_scope": "测试折中 operation ∈ {mutation, crossover}（部署时真正启用预筛选的范围）",
+  "protocol": "按算子 5 折 GroupKFold；随机基线 P@13 = 0.3353",
+  "conclusion": "第二轮新增特征（r_ops/r_mask/ops_abs/block_abs）提高可区分度但降低 P@13，未采用",
+  "recommended": {
+    "numeric": [
+      "log_parent",
+      "r_block",
+      "r_warps",
+      "r_stages",
+      "sim"
+    ],
+    "categorical": [
+      "operation",
+      "mutation_type"
+    ],
+    "train_scope": "全量（含 gen0 样本）",
+    "metrics": {
+      "AUC": "0.6690±0.031",
+      "PR-AUC": "0.4937±0.080",
+      "P@13": "0.4861±0.026",
+      "R@13": "0.4554",
+      "池内可区分度": "69.1%"
+    }
+  },
+  "vs_current_model": {
+    "P@13": "0.4822 → 0.4861 (+0.8%)",
+    "R@13": "0.4332 → 0.4554 (+5.1%)",
+    "池内可区分度": "56.7% → 69.1%"
+  },
+  "tried_and_rejected": {
+    "rel_seed (seed_time/parent_latency)": "P@13 全面略降",
+    "parent_speedup (t_base 口径)": "P@13 与 AUC 均降",
+    "r_ops / r_mask": "可区分度 69%→80%，但 P@13 0.4861→0.4756",
+    "ops_abs / block_abs": "同上，P@13 降至 0.4720",
+    "r_lines": "系数≈0，仅制造伪精度",
+    "r_load/r_store/r_dot/r_sum": "无增益",
+    "GBDT 学习器": "明显更差",
+    "gen / pop_size / tau": "部署时恒定，对池内排序零贡献"
+  },
+  "ceiling_note": "两轮共试 20+ 个特征，P@13 始终在 0.47~0.49 区间，说明静态代码特征对『是否真机更快』的预测能力存在上限。"
+}

@@ -133,6 +133,32 @@ def probe_rows(res):
                 "struct": c.get("structure_rewrite", 0) / len(sub) * 100,
                 "arith": c.get("arithmetic_and_mask", 0) / len(sub) * 100,
             }
+    # 按父代配对比较：同一父代上，先把该策略各次变异的对数增益取均值，
+    # 再对两策略之差作配对检验。这样父代质量在差值中被抵消，剩下的是策略差异。
+    import itertools
+    try:
+        from scipy.stats import wilcoxon
+    except Exception:                                     # pragma: no cover
+        wilcoxon = None
+    by_par = collections.defaultdict(lambda: collections.defaultdict(list))
+    for x in S:
+        if x["g_mut"]:
+            by_par[x["parent_id"]][x["strategy"]].append(math.log(x["g_mut"]))
+    pairs, ps, ns = [], [], []
+    for p1, p2 in itertools.combinations(ORDER, 2):
+        dif = [statistics.fmean(m[p1]) - statistics.fmean(m[p2])
+               for m in by_par.values() if p1 in m and p2 in m and m[p1] and m[p2]]
+        lo_d, hi_d = boot(dif, statistics.fmean)
+        p = float(wilcoxon(dif).pvalue) if wilcoxon and len(dif) > 5 else float("nan")
+        pairs.append({"a": p1, "b": p2, "n": len(dif), "delta": statistics.fmean(dif),
+                      "lo": lo_d, "hi": hi_d, "p": p})
+        ps.append(p)
+        ns.append(len(dif))
+    out["_pair"] = {
+        "pairs": pairs, "p_lo": min(ps), "p_hi": max(ps),
+        "n_lo": min(ns), "n_hi": max(ns),
+        "cover_zero": all(x["lo"] <= 0 <= x["hi"] for x in pairs),
+    }
     out["_parents"] = len(res["parents"])
     out["_total"] = len(S)
     out["_kernels"] = len({p["kernel"] for p in res["parents"]})
@@ -223,45 +249,46 @@ def build_texts(R):
         "（端到端实验中约 65% 的变异样本因父代评测失败而无法计算增益）。"
         "每个变异体采用多次测量取中位数，量测抖动约为 ±"
         f"{nz['sd'] / nz['mean'] * 100:.1f}%（由未改动代码的无操作变异样本实测得到）。"
-        "结果如表9a所示。需要说明的是，本探测回答的是“一次变异的策略差异”，"
-        "与表9 的端到端结果互相补充、不可互相替代。"
+        "结果如表9所示。需要说明的是，本探测回答的是“一次变异的策略差异”，"
+        "与端到端实验的结果互相补充、不可互相替代。"
     )
 
     a, u, g = R["adaptive"], R["uniform"], R["aggressive"]
     note = (
-        f"由表9a可见，三种策略的实测类型分布与其名义设定一致：激进变异的结构重写占比最高，为 "
-        f"{g['struct']:.1f}%（名义 60%），均匀变异三类接近均分（{u['param']:.1f}%、"
-        f"{u['arith']:.1f}%、{u['struct']:.1f}%），自适应变异则介于两者之间。"
+        f"由表9可见：激进变异的结构重写占比最高，为 {g['struct']:.1f}%（名义 60%），"
+        f"均匀变异三类接近均分（{u['param']:.1f}%、{u['arith']:.1f}%、{u['struct']:.1f}%），"
+        "自适应变异则介于两者之间。"
         f"三者的源码相似度（{min(x['sim'] for x in (a, u, g)):.3f} 至 "
         f"{max(x['sim'] for x in (a, u, g)):.3f}）与平均改动行数"
         f"（{min(x['lines'] for x in (a, u, g)):.1f} 至 "
         f"{max(x['lines'] for x in (a, u, g)):.1f} 行）彼此接近，"
         "说明三种策略的差别在于“改什么”而非“改多少”。"
     )
-    if st.get("L3(>2.5)"):
-        l1, l3 = st["L1(<1.5)"], st["L3(>2.5)"]
-        note += (
-            "更能说明问题的是自适应变异的分级规则：其变异类型依父代水平而定，"
-            f"在低水平父代（n={l1['n']}）上结构重写占 {l1['struct']:.1f}%，"
-            f"而在高水平父代（n={l3['n']}）上结构重写完全不出现（{l3['struct']:.1f}%）、"
-            f"算术等价化提升到 {l3['arith']:.1f}%，与算法设定完全吻合。"
-        )
+    pr = R["_pair"]
+    rate_txt = "、".join(
+        f"{LABEL[s]} {R[s]['rate']:.1f}%（95% 置信区间 [{R[s]['lo']:.1f}%, {R[s]['hi']:.1f}%]）"
+        for s in ORDER)
+    cover = ("任意两者之差的 95% 自助置信区间均包含 0" if pr["cover_zero"]
+             else "两者之差在部分组合上不包含 0")
     note += (
-        f"在更能反映单次收益的改进率 P(G_mut > 1) 上，自适应变异为 {a['rate']:.1f}%、"
-        f"均匀变异为 {u['rate']:.1f}%、激进变异为 {g['rate']:.1f}%，"
-        "三者的置信区间互相重叠；按父代配对比较，任意两者之差的置信区间均包含 0，"
-        "Wilcoxon 符号秩检验亦不显著（p 介于 0.101 与 0.276 之间）。"
-        "进一步做方差分解：按策略分组时，组间（策略身份）占 "
-        f"{var['strategy']:.1f}%、组内（同一策略内部的采样随机性）占 {var['noise']:.1f}%；"
-        f"另按父代分组作同样的分解，父代身份占 {var['parent']:.1f}%。"
-        "两者为两次独立的单因素分解，占比不可直接相加。"
-        "由此可见，三种策略确实改变了变异的行为，但并未改变单次变异的期望收益；"
-        "决定一次变异是否有效的关键是“对哪个父代变异”，而非“采用哪种变异策略”，"
+        f"在改进率 P(G_mut > 1) 上，三种策略分别为{rate_txt}，"
+        "三者的 95% 置信区间相互重叠。"
+        "按父代配对比较：同一父代上两策略各生成 3 个变异体，"
+        f"取其对数增益均值之差，共 {pr['n_lo']} 至 {pr['n_hi']} 对，"
+        f"{cover}，Wilcoxon 符号秩检验亦不显著"
+        f"（p 介于 {pr['p_lo']:.3f} 与 {pr['p_hi']:.3f} 之间），"
+        "即在一次变异能否带来提升这一点上，三种策略无法区分。"
+        "这并不意味着变异环节不重要：变异增益的方差中，策略身份仅解释 "
+        f"{var['strategy']:.1f}%，而父代身份解释 {var['parent']:.1f}%"
+        "（两者为两次独立的单因素分解，占比不可直接相加），"
+        "决定一次变异是否有效的关键是“对哪个父代变异”而非“采用哪种变异策略”，"
         "这与 3.4.2 中主干保持型保护交叉的结论一致。"
-        "需要说明的是，本文不以端到端加速比作为判别三种变异策略的依据："
-        "该指标经过两代进化与精英保留之后，初始差异已被稀释，"
-        "且在本文的实验规模下三种策略的差异不显著（Friedman 检验 p = 0.4371），"
-        "逐个算子剔除时最优者还会发生变化，因此不足以支撑稳定的排序结论。"
+        "需要说明的是，本文不以端到端加速比作为判别依据："
+        "该指标经过两代进化与精英保留之后初始差异已被稀释，"
+        "三种策略的差异不显著（Friedman 检验 p = 0.4371），"
+        "逐个算子剔除时最优者还会发生变化，不足以支撑稳定的排序结论。"
+        "因此，在固定的 13 次评测预算下，进一步优化的方向不应是设计更复杂的变异算子，"
+        "而应是在有限的评测机会中优先安排那些更可能带来改进的子代。"
     )
     return intro, note
 

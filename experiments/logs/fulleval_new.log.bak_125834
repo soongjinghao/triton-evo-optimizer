@@ -1,0 +1,691 @@
+[local] API_URL=http://127.0.0.1:13000/v1
+[local] MODEL=140aced515cc4236a6141f2b8a77107f
+[配置] fulleval  候选池 20  并发上限 24  算子 15  seed [0]
+
+=== [fulleval] seed 1/1 算子 1/15: _act_quant_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 111.1422 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _act_quant_kernel
+       └─ Working directory: /workspace/Agent/datasets2/_act_quant_kernel
+       └─ Baseline time: 5.18us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/_act_quant_kernel/test__act_quant_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+langchain-openai injected a custom httpx transport to apply `http_socket_options`, which disables httpx's proxy auto-detection (system proxy configuration detected). Set `LANGCHAIN_OPENAI_TCP_KEEPALIVE=0` or pass `http_socket_options=()` to restore default proxy behavior, or supply `openai_proxy` / your own `http_client` / `http_async_client` to take full control.
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[❌ KnowledgeNode] 加载向量库失败: We couldn't connect to 'https://hf-mirror.com' to load the files, and couldn't find them in the cached files.
+Check your internet connection or see how to run the library in offline mode at 'https://huggingface.co/docs/transformers/installation#offline-mode'.
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码双卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3225 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_vlxxdxfp/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 3225 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_nkwj33z1/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.12us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.48us
+       └─ Raw speedup: -0.9535
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 100.00% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 111.12us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: a51c7b80, 基准耗时: 111.14us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=5.18 us | 当前耗时=111.12 us (相对基线:-95.34% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=2
+- 管线利用率: Vector=3.2%, Scalar=95.3%, MTE2(读)=0.3%, MTE3(写)=0.4%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (95.3%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=3.07 GB/s, 向量写=2.44 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3893 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1018 (p:972, c:46) | Time=0.70s
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5774 chars
+[LLM] [Call #02] ✅ Complete | Tokens=1900 (p:1442, c:458) | Time=4.20s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: Strategy_GridConsolidate
+   ├─ 瓶颈诊断: Scalar 95.3% 瓶颈，grid=(M/32, N/128) 导致大量标量地址计算
+   └─ 实施动作: 将 BLOCK_M 从 32 增大到 128，grid 变为 (M/128, N/128)，减少 pid_m 和行地址计算次数；前提 M 能被 128 整除或保留行 mask；若 M<128 则 fallback 到原 BLOCK_M=32
+
+  策略 [2]: Strategy_InvariantHoist
+   ├─ 瓶颈诊断: 循环内 scale 计算依赖 amax，但 amax 每行独立，无循环不变量可外提；Positive ACTION=NONE
+   └─ 实施动作: 保持原代码，仅将 `fp8_max_inv = 1.0 / fp8_max` 移到 kernel 外作为 constexpr 传入，减少标量除法；前提 fp8_max 为编译期常量
+
+  策略 [3]: Strategy_BlockNExpand
+   ├─ 瓶颈诊断: Scalar 高因每行内列循环次数多 (N/128)，地址计算密集
+   └─ 实施动作: 将 BLOCK_N 从 128 增大到 256，减少 pid_n 数量和列地址计算；前提 N 能被 256 整除或保留列 mask；若 group_size=128 则保持 BLOCK_N=128 不冲突
+
+  策略 [4]: Strategy_ScaleStoreMerge
+   ├─ 瓶颈诊断: Scalar 高因 scale 存储有独立地址计算
+   └─ 实施动作: 将 scale 存储与 y 存储合并到同一 tl.store 调用中，使用 `tl.store(s_ptrs, scale, mask=s_mask)` 保持原样，但将 s_ptrs 计算中的 `N // group_size` 作为 constexpr 传入，减少运行时除法
+
+  策略 [5]: Strategy_GridFlatten
+   ├─ 瓶颈诊断: Scalar 95.3% 因二维 grid 导致双重地址计算
+   └─ 实施动作: 将 grid 展平为一维 (M*N/128/32)，kernel 内用 `pid = tl.program_id(0)` 和 `pid_m = pid // (N//128)` 计算，减少标量乘法次数；前提 M 和 N 为编译期已知或整除，否则保留原二维 grid
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6251 chars[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6237 chars
+
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6218 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6249 chars[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6244 chars
+
+[LLM] [Call #06] ✅ Complete | Tokens=2426 (p:1562, c:864) | Time=10.73s
+[LLM] [Call #05] ✅ Complete | Tokens=2427 (p:1554, c:873) | Time=10.81s
+[LLM] [Call #04] ✅ Complete | Tokens=2437 (p:1559, c:878) | Time=10.87s
+[LLM] [Call #07] ✅ Complete | Tokens=2440 (p:1561, c:879) | Time=10.86s
+[LLM] [Call #03] ✅ Complete | Tokens=2448 (p:1562, c:886) | Time=10.92s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2483 characters
+       └─ Code length: 2501 characters[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_6fwxv5az/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Rooflinemsprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_ydfhnm4e/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.14us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2510 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_zn14s581/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.16us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2537 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_au2dk1b_/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.06us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2552 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_qn4mxqyk/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.26us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 110.92us
+       └─ Raw speedup: -0.9533
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 13009b09 (gen0_strategy_guided): 耗时=111.14us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ✅ 个体 07221d1f (gen0_strategy_guided): 耗时=111.16us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9998x, Fitness=0.9998
+[EA] ✅ 个体 ffe46c84 (gen0_strategy_guided): 耗时=111.06us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0007x, Fitness=1.0007
+[EA] ✅ 个体 8663b3fe (gen0_strategy_guided): 耗时=111.26us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9989x, Fitness=0.9989
+[EA] ✅ 个体 a3daddb7 (gen0_strategy_guided): 耗时=110.92us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0020x, Fitness=1.0020
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0020 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 20 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5508 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5515 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8403 chars[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5508 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8403 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8403 chars[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8346 chars
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+[LLM] [Call #21] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8403 chars
+[LLM] [Call #22] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5515 chars
+[LLM] [Call #23] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8304 chars
+[LLM] [Call #24] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+[LLM] [Call #25] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8403 chars
+[LLM] [Call #26] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+[LLM] [Call #27] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8430 chars
+[LLM] [Call #19] ✅ Complete | Tokens=2930 (p:2086, c:844) | Time=18.42s
+[LLM] [Call #28] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5015 chars
+[LLM] [Call #23] ✅ Complete | Tokens=2954 (p:2076, c:878) | Time=19.01s
+[LLM] [Call #08] ✅ Complete | Tokens=2258 (p:1377, c:881) | Time=19.08s
+[LLM] [Call #22] ✅ Complete | Tokens=2269 (p:1378, c:891) | Time=19.60s
+[LLM] [Call #14] ✅ Complete | Tokens=2269 (p:1377, c:892) | Time=19.64s
+[LLM] [Call #09] ✅ Complete | Tokens=2269 (p:1378, c:891) | Time=19.76s
+[LLM] [Call #20] ✅ Complete | Tokens=3003 (p:2107, c:896) | Time=19.83s
+[LLM] [Call #17] ✅ Complete | Tokens=3006 (p:2100, c:906) | Time=19.94s[LLM] [Call #15] ✅ Complete | Tokens=3006 (p:2100, c:906) | Time=19.95s
+[LLM] [Call #10] ✅ Complete | Tokens=3006 (p:2100, c:906) | Time=19.97s[LLM] [Call #29] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5221 chars
+
+
+[LLM] [Call #21] ✅ Complete | Tokens=3006 (p:2100, c:906) | Time=19.96s
+[LLM] [Call #12] ✅ Complete | Tokens=3027 (p:2107, c:920) | Time=20.30s
+[LLM] [Call #18] ✅ Complete | Tokens=3027 (p:2107, c:920) | Time=20.28s[LLM] [Call #16] ✅ Complete | Tokens=3027 (p:2107, c:920) | Time=20.28s[LLM] [Call #30] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5225 chars
+
+
+[LLM] [Call #31] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5232 chars
+[LLM] [Call #13] ✅ Complete | Tokens=3027 (p:2107, c:920) | Time=20.32s[LLM] [Call #11] ✅ Complete | Tokens=3027 (p:2107, c:920) | Time=20.33s
+
+[LLM] [Call #32] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5225 chars
+[LLM] [Call #24] ✅ Complete | Tokens=3027 (p:2107, c:920) | Time=32.30s
+[LLM] [Call #28] ✅ Complete | Tokens=2134 (p:1253, c:881) | Time=13.97s
+[LLM] [Call #25] ✅ Complete | Tokens=3006 (p:2100, c:906) | Time=32.64s
+[LLM] [Call #26] ✅ Complete | Tokens=3027 (p:2107, c:920) | Time=32.68s
+[LLM] [Call #27] ✅ Complete | Tokens=3027 (p:2107, c:920) | Time=32.69s
+[LLM] [Call #29] ✅ Complete | Tokens=2219 (p:1305, c:914) | Time=13.05s
+[LLM] [Call #30] ✅ Complete | Tokens=2248 (p:1306, c:942) | Time=13.13s
+[LLM] [Call #32] ✅ Complete | Tokens=2248 (p:1306, c:942) | Time=13.12s
+[LLM] [Call #31] ✅ Complete | Tokens=2251 (p:1308, c:943) | Time=13.14s
+[EA] 🔍 预筛选：候选池 20 → 送评测 4 （最高分 0.762，最低 0.762）
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动双 NPU 并发评估，共 20 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[🔬] [Executor] Starting evaluation on device 1...
+
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2510 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_1kpdk6qw/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+       └─ Code length: 2556 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_qujgkde0/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.00us
+       └─ Raw speedup: -0.9533
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2560 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_89iiy4ej/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.18us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2579 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_qj4ayk3a/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 8.74us
+       └─ Raw speedup: -0.4073
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2560 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_9a0rq4aj/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.26us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2563 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_4rk6bi39/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 8.60us
+       └─ Raw speedup: -0.3977
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2609 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_wpfwg1s9/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.04us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2609 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_fi_oj5ai/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.16us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2609 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_3165jpx7/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.34us
+       └─ Raw speedup: -0.9535
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2636 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_st2gr_6h/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.64us
+       └─ Raw speedup: -0.9536
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2636 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_uzhho3k6/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.08us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2636 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_d3q9caz9/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.16us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2534 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_4wp7ct5v/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.46us
+       └─ Raw speedup: -0.9535
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2609 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_w0ez_vnh/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.42us
+       └─ Raw speedup: -0.9535
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2636 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1__yzom7na/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.22us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2636 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_yz3morc8/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.32us
+       └─ Raw speedup: -0.9535
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2628 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_di28t00u/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.56us
+       └─ Raw speedup: -0.9536
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2703 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_2s4kzcs9/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.14us
+       └─ Raw speedup: -0.9534
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 1...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2703 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 1...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_1/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_1_wti35toe/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 110.94us
+       └─ Raw speedup: -0.9533
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2679 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_act_quant_kernel/performance/_act_quant_kernel_dev_0/_act_quant_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_act_quant_kernel_dev_0_dgv7e5ty/test__act_quant_kernel.py" --kernel-name="_act_quant_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 111.52us
+       └─ Raw speedup: -0.9536
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.18us
+       └─ Optimized time: 10.16us
+       └─ Raw speedup: -0.4902
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 bc1e7d04 (crossover): 耗时=111.00us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0013x, Fitness=1.0013
+[EA] ✅ 个体 bc214101 (mutation): 耗时=111.18us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9996x, Fitness=0.9996
+[EA] ✅ 个体 240ee45f (mutation): 耗时=8.74us, 相对基线加速比=0.0000x, 相对Seed加速比=12.7162x, Fitness=12.7162
+[EA] ✅ 个体 1e22972a (mutation): 耗时=111.26us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9989x, Fitness=0.9989
+[EA] ✅ 个体 920d70d1 (mutation): 耗时=8.60us, 相对基线加速比=0.0000x, 相对Seed加速比=12.9233x, Fitness=12.9233
+[EA] ✅ 个体 773e38ad (crossover): 耗时=111.16us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9998x, Fitness=0.9998
+[EA] ✅ 个体 cd586704 (crossover): 耗时=111.04us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0009x, Fitness=1.0009
+[EA] ✅ 个体 040f5949 (crossover): 耗时=111.34us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9982x, Fitness=0.9982
+[EA] ✅ 个体 111d0a8a (crossover): 耗时=111.64us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9955x, Fitness=0.9955
+[EA] ✅ 个体 420c4073 (crossover): 耗时=111.08us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0005x, Fitness=1.0005
+[EA] ✅ 个体 dec18861 (crossover): 耗时=111.16us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9998x, Fitness=0.9998
+[EA] ✅ 个体 380ef034 (crossover): 耗时=111.46us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9971x, Fitness=0.9971
+[EA] ✅ 个体 cedc86b6 (mutation): 耗时=111.42us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9975x, Fitness=0.9975
+[EA] ✅ 个体 43e2d367 (crossover): 耗时=111.22us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9993x, Fitness=0.9993
+[EA] ✅ 个体 d9d4e6d7 (crossover): 耗时=111.32us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9984x, Fitness=0.9984
+[EA] ✅ 个体 33f479de (crossover): 耗时=111.56us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9962x, Fitness=0.9962
+[EA] ✅ 个体 179ac8ab (mutation): 耗时=111.14us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ✅ 个体 66863fff (mutation): 耗时=110.94us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0018x, Fitness=1.0018
+[EA] ✅ 个体 f71047c6 (mutation): 耗时=111.52us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9966x, Fitness=0.9966
+[EA] ✅ 个体 13e07f60 (mutation): 耗时=10.16us, 相对基线加速比=0.0000x, 相对Seed加速比=10.9390x, Fitness=10.9390
+[EA] 🎉 找到更优版本! New Best Fitness: 12.9233
+[EA] Gen 1 Summary: Best=12.9233, Avg=2.5256
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 20 个子代变异/交叉 LLM 请求...
+[LLM] [Call #33] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8573 chars
+[LLM] [Call #34] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8489 chars
+[LLM] [Call #35] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8622 chars
+[LLM] [Call #36] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5654 chars
+[LLM] [Call #37] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5473 chars
+[LLM] [Call #38] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8529 chars
+[LLM] [Call #39] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5473 chars
+[LLM] [Call #40] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8628 chars
+[LLM] [Call #41] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8489 chars
+[LLM] [Call #42] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8640 chars
+[LLM] [Call #43] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5525 chars[LLM] [Call #44] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8556 chars
+
+[LLM] [Call #45] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8546 chars[LLM] [Call #46] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8573 chars
+
+[LLM] [Call #47] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8546 chars
+[LLM] [Call #48] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8581 chars[LLM] [Call #49] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8538 chars
+
+[LLM] [Call #50] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5532 chars
+[LLM] [Call #51] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8447 chars
+[LLM] [Call #52] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8680 chars
+[LLM] [Call #37] ✅ Complete | Tokens=2250 (p:1368, c:882) | Time=27.67s[LLM] [Call #39] ✅ Complete | Tokens=2250 (p:1368, c:882) | Time=27.67s
+
+[LLM] [Call #34] ✅ Complete | Tokens=3013 (p:2122, c:891) | Time=28.13s
+[LLM] [Call #53] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5156 chars
+[LLM] [Call #41] ✅ Complete | Tokens=3013 (p:2122, c:891) | Time=28.28s
+[LLM] [Call #54] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5156 chars
+[LLM] [Call #47] ✅ Complete | Tokens=3027 (p:2136, c:891) | Time=28.27s
+[LLM] [Call #38] ✅ Complete | Tokens=3038 (p:2132, c:906) | Time=28.78s
+[LLM] [Call #55] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5198 chars
+[LLM] [Call #45] ✅ Complete | Tokens=3047 (p:2136, c:911) | Time=28.98s
+[LLM] [Call #55] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #48] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #33] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #43] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #40] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #49] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #44] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #36] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #53] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #50] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #35] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #51] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #46] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)[LLM] [Call #52] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+
+[LLM] [Call #42] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #54] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #50] ✅ Complete | Tokens=2274 (p:1383, c:891) | Time=102.84s[LLM] [Call #53] ✅ Complete | Tokens=2180 (p:1289, c:891) | Time=74.77s
+
+[LLM] [Call #54] ✅ Complete | Tokens=2180 (p:1289, c:891) | Time=74.60s
+[LLM] [Call #55] ✅ Complete | Tokens=2200 (p:1299, c:901) | Time=74.20s
+[LLM] [Call #33] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #40] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #35] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #49] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)[LLM] [Call #52] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+
+[LLM] [Call #48] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #51] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #43] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #46] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #44] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #36] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #42] ⚠️ 连接失败(OpenAIConnectionError)，120s 后重试 (2/10)
+[LLM] [Call #51] ✅ Complete | Tokens=2997 (p:2111, c:886) | Time=237.55s
+[LLM] [Call #43] ✅ Complete | Tokens=2294 (p:1381, c:913) | Time=237.95s
+[LLM] [Call #35] ✅ Complete | Tokens=3074 (p:2155, c:919) | Time=238.06s
+[LLM] [Call #44] ✅ Complete | Tokens=3059 (p:2139, c:920) | Time=238.04s
+[LLM] [Call #49] ✅ Complete | Tokens=3054 (p:2134, c:920) | Time=238.03s
+[LLM] [Call #56] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5225 chars
+[LLM] [Call #46] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #33] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #48] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #56] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #36] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #52] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #42] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #40] ⚠️ 连接失败(OpenAIConnectionError)，180s 后重试 (3/10)
+[LLM] [Call #56] ✅ Complete | Tokens=2248 (p:1306, c:942) | Time=69.64s
+[LLM] [Call #52] ✅ Complete | Tokens=3086 (p:2170, c:916) | Time=430.24s
+[LLM] [Call #57] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5209 chars
+[LLM] [Call #33] ✅ Complete | Tokens=3063 (p:2143, c:920) | Time=430.35s
+[LLM] [Call #48] ⚠️ 连接失败(OpenAIConnectionError)，240s 后重试 (4/10)
+[LLM] [Call #36] ⚠️ 连接失败(OpenAIConnectionError)，240s 后重试 (4/10)
+[LLM] [Call #46] ⚠️ 连接失败(OpenAIConnectionError)，240s 后重试 (4/10)
+[LLM] [Call #40] ⚠️ 连接失败(OpenAIConnectionError)，240s 后重试 (4/10)
+[LLM] [Call #42] ⚠️ 连接失败(OpenAIConnectionError)，240s 后重试 (4/10)
+[LLM] [Call #57] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (1/10)
+[LLM] [Call #57] ✅ Complete | Tokens=2244 (p:1302, c:942) | Time=69.88s
+[LLM] [Call #48] ⚠️ 连接失败(OpenAIConnectionError)，300s 后重试 (5/10)
+[LLM] [Call #42] ⚠️ 连接失败(OpenAIConnectionError)，300s 后重试 (5/10)
+[LLM] [Call #46] ⚠️ 连接失败(OpenAIConnectionError)，300s 后重试 (5/10)
+[LLM] [Call #40] ⚠️ 连接失败(OpenAIConnectionError)，300s 后重试 (5/10)
+[LLM] [Call #36] ⚠️ 连接失败(OpenAIConnectionError)，300s 后重试 (5/10)
+[LLM] [Call #40] ⚠️ 连接失败(OpenAIConnectionError)，360s 后重试 (6/10)
+[LLM] [Call #42] ⚠️ 连接失败(OpenAIConnectionError)，360s 后重试 (6/10)
+[LLM] [Call #48] ⚠️ 连接失败(OpenAIConnectionError)，360s 后重试 (6/10)
+[LLM] [Call #36] ⚠️ 连接失败(OpenAIConnectionError)，360s 后重试 (6/10)
+[LLM] [Call #46] ⚠️ 连接失败(OpenAIConnectionError)，360s 后重试 (6/10)

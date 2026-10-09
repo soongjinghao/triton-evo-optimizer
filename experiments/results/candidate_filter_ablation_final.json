@@ -1,0 +1,210 @@
+{
+  "positive_rate": 0.357680308313452,
+  "protocol": "按算子 5 折 GroupKFold；指标 AUC / PR-AUC / PR-AUC÷P(lift) / 池内可区分度",
+  "results": [
+    {
+      "auc": 0.6258899100612415,
+      "auc_std": 0.03524122105371327,
+      "pr_auc": 0.46324558072767397,
+      "pr_lift": 1.295138619489531,
+      "distinct_in_pool": 0.4380753535581726,
+      "variant": "仅数值特征（基线）",
+      "model": "lr",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau"
+      ]
+    },
+    {
+      "auc": 0.5450529190642885,
+      "auc_std": 0.06948348292005614,
+      "pr_auc": 0.3974518387956446,
+      "pr_lift": 1.1111929551551911,
+      "distinct_in_pool": 0.3699731704968432,
+      "variant": "仅数值特征（基线）",
+      "model": "gbm",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau"
+      ]
+    },
+    {
+      "auc": 0.6255311992097469,
+      "auc_std": 0.033748781240140434,
+      "pr_auc": 0.46243301325083486,
+      "pr_lift": 1.2928668492579782,
+      "distinct_in_pool": 0.4523465546068321,
+      "variant": "+ 配置数值父子比（r_block/r_warps/r_stages）",
+      "model": "lr",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "r_block",
+        "r_warps",
+        "r_stages"
+      ]
+    },
+    {
+      "auc": 0.5406914893189348,
+      "auc_std": 0.06879734174704316,
+      "pr_auc": 0.3907895060237718,
+      "pr_lift": 1.0925664537319304,
+      "distinct_in_pool": 0.39077208757331566,
+      "variant": "+ 配置数值父子比（r_block/r_warps/r_stages）",
+      "model": "gbm",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "r_block",
+        "r_warps",
+        "r_stages"
+      ]
+    },
+    {
+      "auc": 0.6244465436079707,
+      "auc_std": 0.033185269076935114,
+      "pr_auc": 0.4620154358553899,
+      "pr_lift": 1.2916993894181732,
+      "distinct_in_pool": 0.5054452145000516,
+      "variant": "+ 代码 token Jaccard 相似度 sim",
+      "model": "lr",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "sim"
+      ]
+    },
+    {
+      "auc": 0.5516757891750234,
+      "auc_std": 0.06524623660545385,
+      "pr_auc": 0.3983821171420939,
+      "pr_lift": 1.1137938205783837,
+      "distinct_in_pool": 0.46029583639469057,
+      "variant": "+ 代码 token Jaccard 相似度 sim",
+      "model": "gbm",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "sim"
+      ]
+    },
+    {
+      "auc": 0.6240093424279722,
+      "auc_std": 0.033627410428831654,
+      "pr_auc": 0.4613956394064146,
+      "pr_lift": 1.2899665670218332,
+      "distinct_in_pool": 0.5079299701161213,
+      "variant": "+ 算子与 mask 调用数父子比（r_ops/r_mask）",
+      "model": "lr",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "sim",
+        "r_ops",
+        "r_mask"
+      ]
+    },
+    {
+      "auc": 0.5548328278059843,
+      "auc_std": 0.062284362074519074,
+      "pr_auc": 0.39956238841826536,
+      "pr_lift": 1.117093614413098,
+      "distinct_in_pool": 0.4634557406719315,
+      "variant": "+ 算子与 mask 调用数父子比（r_ops/r_mask）",
+      "model": "gbm",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "sim",
+        "r_ops",
+        "r_mask"
+      ]
+    },
+    {
+      "auc": 0.6194571717069731,
+      "auc_std": 0.03215095005899901,
+      "pr_auc": 0.4564438182681772,
+      "pr_lift": 1.276122301561466,
+      "distinct_in_pool": 0.6787218908421806,
+      "variant": "+ 子代算子/块规模绝对值（增强父子特征，最终模型）",
+      "model": "lr",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "sim",
+        "r_ops",
+        "r_mask",
+        "ops_abs",
+        "block_abs"
+      ]
+    },
+    {
+      "auc": 0.5587058334197034,
+      "auc_std": 0.059111797387349056,
+      "pr_auc": 0.3939177753960073,
+      "pr_lift": 1.1013124464509203,
+      "distinct_in_pool": 0.6231794826158896,
+      "variant": "+ 子代算子/块规模绝对值（增强父子特征，最终模型）",
+      "model": "gbm",
+      "numeric_features": [
+        "log_parent",
+        "gen",
+        "pop_size",
+        "tau",
+        "r_block",
+        "r_warps",
+        "r_stages",
+        "sim",
+        "r_ops",
+        "r_mask",
+        "ops_abs",
+        "block_abs"
+      ]
+    }
+  ],
+  "random_baseline": {
+    "auc": 0.4970300518637002,
+    "pr_auc": 0.35356140313851003,
+    "pr_lift": 0.9884843949213655,
+    "distinct_in_pool": 1.0
+  },
+  "no_prefilter": {
+    "auc": null,
+    "pr_auc": 0.357680308313452,
+    "pr_lift": 1.0,
+    "distinct_in_pool": null
+  }
+}

@@ -9,7 +9,8 @@
 
 评估协议：
     按 kernel 做 GroupKFold，避免同一算子的样本同时出现在训练集与测试集。
-    除 AUC、PR-AUC 外，重点报告 Precision@K，因为每个算子的 NPU 评测预算为 13。
+    对外指标仅三项：AUC、PR-AUC（以 PR-AUC ÷ 正样本率 的 lift 呈现）、
+    池内可区分度；正样本率（≈0.358）作为统一基准写于表注。
 """
 
 import json
@@ -165,19 +166,18 @@ def build_variant(name):
     return ColumnTransformer(cols)
 
 
-def precision_at_k(df_eval, scores, k):
-    """按 kernel 组内取分数最高的至多 k 个候选，统计其中真正例比例。"""
-    tmp = df_eval.copy()
-    tmp["score"] = scores
-    hits, selected, possible = 0, 0, 0
-    for _, g in tmp.groupby("kernel"):
-        top = g.nlargest(min(k, len(g)), "score")
-        hits += int(top["y"].sum())
-        selected += len(top)
-        possible += int(g["y"].sum())
-    precision = hits / selected if selected else 0.0
-    recall = hits / possible if possible else 0.0
-    return precision, recall, selected
+def tie_rate(scores):
+    """不同分值数 / 样本数——衡量模型能否区分候选（1.0 = 完全可区分）。"""
+    return len(set(np.round(np.asarray(scores), 9))) / max(len(scores), 1)
+
+
+def distinct_in_pool(df_eval):
+    """同一(算子,代)池内的可区分度——20 选 13 真正面对的粒度。"""
+    vals = []
+    for _, sub in df_eval.groupby(["kernel", "gen"]):
+        if len(sub) >= 5:
+            vals.append(tie_rate(sub["score"].to_numpy()))
+    return float(np.mean(vals)) if vals else np.nan
 
 
 def main():
@@ -186,6 +186,7 @@ def main():
                 "mutation_type", "strategy_text", "profile_text"]]
     y = df["y"].to_numpy()
     groups = df["kernel"].to_numpy()
+    base_rate = float(y.mean())
 
     variants = ["全部特征", "仅数值特征", "仅策略文本", "仅 Profiling 文本",
                 "数值+策略"]
@@ -198,39 +199,25 @@ def main():
                           if vname != "全部特征" else models.items()):
             pipe = Pipeline([("prep", build_variant(vname)), ("clf", clf)])
             key = name if vname == "全部特征" else f"{name}（{vname}）"
-            run_fold(pipe, X, y, groups, df, results, key, variant=vname)
+            run_fold(pipe, X, y, groups, df, results, key, variant=vname,
+                     positive_rate=base_rate)
             continue
 
-    # 随机基线：多次种子，给出均值与标准差
-    rng_base = np.random.default_rng(0)
-    rand_stats = {}
-    base_pos = float(y.mean())
-    for k in (4, 8, 13):
-        ps = []
-        for _ in range(200):
-            hits = selected = 0
-            for _, g in df.groupby("kernel"):
-                n = len(g)
-                take = min(k, n)
-                idx = rng_base.choice(n, size=take, replace=False)
-                hits += int(g["y"].to_numpy()[idx].sum())
-                selected += take
-            ps.append(hits / selected)
-        rand_stats[k] = {
-            "mean": float(np.mean(ps)),
-            "std": float(np.std(ps)),
-        }
-    print("\n[随机基线]")
-    for k, s in rand_stats.items():
-        print(f"    Precision@{k:<2}={s['mean']:.4f} ± {s['std']:.4f}")
+    # 随机基线（理论值）：AUC=0.5，PR-AUC=正样本率，lift=1.0
+    rand_stats = {
+        "auc": 0.5,
+        "pr_auc": base_rate,
+        "pr_lift": 1.0,
+        "distinct_in_pool": 1.0,
+    }
+    print(f"\n[随机基线] AUC=0.5000  PR-AUC={base_rate:.4f}  lift=1.000")
 
-    base_rate = base_pos
     payload = {
         "n_samples": int(len(df)),
         "n_kernels": int(df["kernel"].nunique()),
         "positive_rate": round(base_rate, 4),
         "budget": BUDGET,
-        "protocol": "按 kernel 的 GroupKFold 5 折，无 NPU、无 LLM 调用的离线评估",
+        "protocol": "按 kernel 的 GroupKFold 5 折；对外指标仅 AUC / PR-AUC / 池内可区分度",
         "models": results,
         "random_baseline": rand_stats,
         "full_eval_baseline": {
@@ -245,36 +232,34 @@ def main():
 
     lines = ["# 表11 候选预筛选模型离线评估结果", ""]
     lines.append(f"- 样本数：{len(df)}；算子数：{df['kernel'].nunique()}")
-    lines.append(f"- 正样本比例：{base_rate:.1%}")
+    lines.append(f"- 正样本比例（基准）：{base_rate:.1%}")
     lines.append(f"- 评估协议：{payload['protocol']}")
+    lines.append("- PR-AUC/P(lift) = PR-AUC ÷ 正样本率，表示比随机基线强多少倍")
     lines.append("")
-    lines.append("| 配置 | 模型 | AUC | PR-AUC | P@4 | P@8 | P@13 | R@13 |")
-    lines.append("|---|---|---:|---:|---:|---:|---:|---:|")
+    lines.append("| 配置 | 模型 | AUC | PR-AUC | PR-AUC/P(lift) | 池内可区分度 |")
+    lines.append("|---|---|---:|---:|---:|---:|")
     for key, r in results.items():
-        p = r["precision_at_k"]
         lines.append(
             f"| {r.get('variant', '全部特征')} | {r['model']} | {r['auc']:.4f} | "
-            f"{r['pr_auc']:.4f} | {p[4]:.4f} | {p[8]:.4f} | {p[13]:.4f} | "
-            f"{r['recall_at_k'][13]:.4f} |")
+            f"{r['pr_auc']:.4f} | {r['pr_lift']:.3f} | "
+            f"{r['distinct_in_pool']:.1%} |")
     lines.append(
-        f"| — | 随机排序基线 | — | — | {rand_stats[4]['mean']:.4f} | "
-        f"{rand_stats[8]['mean']:.4f} | {rand_stats[13]['mean']:.4f} | "
-        f"{rand_stats[13]['mean'] / base_rate:.4f} |")
+        f"| — | 随机排序基线 | {rand_stats['auc']:.4f} | "
+        f"{rand_stats['pr_auc']:.4f} | {rand_stats['pr_lift']:.3f} | "
+        f"{rand_stats['distinct_in_pool']:.1%} |")
     lines.append(
-        f"| — | 无预筛选（3.1 FULL） | — | — | {base_rate:.4f} | "
-        f"{base_rate:.4f} | {base_rate:.4f} | 1.0000 |")
+        f"| — | 无预筛选（3.1 FULL） | — | {base_rate:.4f} | 1.000 | — |")
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print(f"\n[输出] {OUT_JSON}")
     print(f"[输出] {OUT_MD}")
 
 
-def run_fold(pipe, X, y, groups, df, results, key, variant="全部特征"):
+def run_fold(pipe, X, y, groups, df, results, key, variant="全部特征",
+             positive_rate=None):
     """按 kernel 分组交叉验证，并把结果写入 results[key]。"""
     cv = GroupKFold(n_splits=5)
-    aucs, aps = [], []
-    pk = {4: [], 8: [], 13: []}
-    rk = {4: [], 8: [], 13: []}
+    aucs, aps, dips = [], [], []
 
     for train_idx, test_idx in cv.split(X, y, groups):
         pipe.fit(X.iloc[train_idx], y[train_idx])
@@ -284,29 +269,26 @@ def run_fold(pipe, X, y, groups, df, results, key, variant="全部特征"):
             continue
         aucs.append(roc_auc_score(y_test, scores))
         aps.append(average_precision_score(y_test, scores))
-        df_eval = df.iloc[test_idx][["kernel", "y"]].copy()
-        for k in (4, 8, 13):
-            p, r, _ = precision_at_k(df_eval, scores, k)
-            pk[k].append(p)
-            rk[k].append(r)
+        df_eval = df.iloc[test_idx][["kernel", "gen"]].copy()
+        df_eval["score"] = scores
+        dips.append(distinct_in_pool(df_eval))
 
     if not aucs:
         return
+    pr_auc = float(np.mean(aps))
     results[key] = {
         "variant": variant,
         "model": key.split("（")[0],
         "auc": float(np.mean(aucs)),
         "auc_std": float(np.std(aucs)),
         "auc_folds": [round(float(v), 4) for v in aucs],
-        "pr_auc": float(np.mean(aps)),
-        "precision_at_k": {k: float(np.mean(v)) for k, v in pk.items()},
-        "recall_at_k": {k: float(np.mean(v)) for k, v in rk.items()},
+        "pr_auc": pr_auc,
+        "pr_lift": (pr_auc / positive_rate) if positive_rate else None,
+        "distinct_in_pool": float(np.nanmean(dips)),
     }
     print(f"\n[{key}] AUC={np.mean(aucs):.4f}±{np.std(aucs):.4f}  "
-          f"PR-AUC={np.mean(aps):.4f}")
-    for k in (4, 8, 13):
-        print(f"    Precision@{k:<2}={np.mean(pk[k]):.4f}  "
-              f"Recall@{k:<2}={np.mean(rk[k]):.4f}")
+          f"PR-AUC={pr_auc:.4f}  lift={results[key]['pr_lift']:.3f}"
+          f"  池内可区分度={results[key]['distinct_in_pool']:.1%}")
 
 
 if __name__ == "__main__":
