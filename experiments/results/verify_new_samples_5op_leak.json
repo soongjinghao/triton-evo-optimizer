@@ -1,0 +1,29 @@
+{
+  "samples": "experiments/dataset/samples_new_5op.jsonl",
+  "n_samples": 200,
+  "pool_id_rate": 1.0,
+  "evaluated": 200,
+  "child_code_ok": 200,
+  "child_sha_bad": 0,
+  "ref_source": {
+    "reference_parent_id": 200
+  },
+  "ref_latency_checked": 89,
+  "ref_latency_bad": 0,
+  "ref_code_missing": 0,
+  "parent_sha_bad": 0,
+  "label_inconsistent": 0,
+  "n_pools": 10,
+  "n_full_pools": 10,
+  "expect_pool": 20,
+  "expected_full_pools": 0,
+  "latency_check_rate": 0.445,
+  "leaked_kernels": [
+    "compute_identity_kernel",
+    "eye_kernel",
+    "fused_gdn_gating_kernel",
+    "moe_align_block_size_stage",
+    "reshape_and_cache_kernel_flash"
+  ],
+  "pass": false
+}

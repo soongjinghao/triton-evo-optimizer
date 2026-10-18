@@ -3,9 +3,36 @@
   "config": "baseline",
   "seed": 0,
   "run_id": 900,
-  "seconds": 254.8,
+  "seconds": 358.4,
+  "filter_model": null,
+  "candidate_filter_mode": "model",
+  "provenance": {
+    "fix_tag": "20261017-backbone-v5",
+    "git_commit": "1e6df8479bb70df439891a03208d4f15382bf849",
+    "config": "baseline",
+    "params": {
+      "eval_budget": 13
+    },
+    "model_path": null,
+    "model_sha256": null,
+    "dataset_snapshot": null,
+    "dataset_sha256": null,
+    "dataset_sha256_matches_meta": false
+  },
   "success": true,
-  "t_best_us": 4.940099,
+  "t_best_us": 4.720094,
   "error": "",
-  "S": 2.1700405194308856
+  "S": 2.271186760263673,
+  "audit": {
+    "npu_calls": 13,
+    "eval_budget": 13,
+    "budget_ok": true,
+    "static_rejected": 0,
+    "ast_rejected": 0,
+    "compile_failed": 0,
+    "llm_tokens": 44610,
+    "llm_tokens_missing": false,
+    "remeasure_repeats": 5,
+    "wallclock_s": 358.4
+  }
 }

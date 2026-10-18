@@ -2,11 +2,9 @@ import torch
 import torch_npu
 import triton
 import triton.language as tl
-
 @triton.jit
 def apply_expert_map(expert_id, expert_map):
     return tl.load(expert_map + expert_id)
-
 @triton.jit
 def _fwd_kernel_ep_gather(
     total_token_num,
@@ -31,19 +29,17 @@ def _fwd_kernel_ep_gather(
     BLOCK_D: tl.constexpr,
     BLOCK_B: tl.constexpr,
     NUM_D_BLOCKS: tl.constexpr,
-    HIDDEN_SIZE: tl.constexpr,
-    CAN_MERGE_D: tl.constexpr,
 ):
     pid = tl.program_id(0)
     b_start = pid * BLOCK_B
     b_idx = b_start + tl.arange(0, BLOCK_B)
     b_mask = b_idx < total_token_num
-    if CAN_MERGE_D:
-        off_d = tl.arange(0, BLOCK_D * NUM_D_BLOCKS)
+    for d_block in range(NUM_D_BLOCKS):
+        off_d = tl.arange(0, BLOCK_D)
         for b_offset in range(BLOCK_B):
             b_token = b_start + b_offset
             if b_token < total_token_num:
-                accumulator = tl.zeros([BLOCK_D * NUM_D_BLOCKS], dtype=tl.float32)
+                accumulator = tl.zeros([BLOCK_D], dtype=tl.float32)
                 for topk_index in range(0, topk_num):
                     expert_id = tl.load(
                         recv_topk_ids + b_token * recv_topk_ids_stride0 + topk_index
@@ -60,48 +56,17 @@ def _fwd_kernel_ep_gather(
                         tmp = tl.load(
                             input_tensor
                             + source_token_index * input_tensor_stride0
+                            + d_block * BLOCK_D
                             + off_d
                         )
                         accumulator += tmp.to(tl.float32) * acc_weight
                 tl.store(
-                    output_tensor + b_token * output_tensor_stride0 + off_d,
+                    output_tensor
+                    + b_token * output_tensor_stride0
+                    + d_block * BLOCK_D
+                    + off_d,
                     accumulator.to(output_tensor.dtype.element_ty),
                 )
-    else:
-        for d_block in range(NUM_D_BLOCKS):
-            off_d = tl.arange(0, BLOCK_D)
-            for b_offset in range(BLOCK_B):
-                b_token = b_start + b_offset
-                if b_token < total_token_num:
-                    accumulator = tl.zeros([BLOCK_D], dtype=tl.float32)
-                    for topk_index in range(0, topk_num):
-                        expert_id = tl.load(
-                            recv_topk_ids + b_token * recv_topk_ids_stride0 + topk_index
-                        )
-                        if HAS_EXPERT_MAP:
-                            expert_id = apply_expert_map(expert_id, expert_map)
-                        if expert_id >= 0:
-                            source_token_index = tl.load(
-                                input_index + b_token * input_index_stride0 + topk_index
-                            )
-                            acc_weight = tl.load(
-                                recv_topk_weight + b_token * recv_topk_weight_stride0 + topk_index
-                            )
-                            tmp = tl.load(
-                                input_tensor
-                                + source_token_index * input_tensor_stride0
-                                + d_block * BLOCK_D
-                                + off_d
-                            )
-                            accumulator += tmp.to(tl.float32) * acc_weight
-                    tl.store(
-                        output_tensor
-                        + b_token * output_tensor_stride0
-                        + d_block * BLOCK_D
-                        + off_d,
-                        accumulator.to(output_tensor.dtype.element_ty),
-                    )
-
 @torch.no_grad()
 def ep_gather(
     input_tensor: torch.Tensor,
@@ -132,7 +97,6 @@ def ep_gather(
     assert num_tokens > 0, "Cannot process empty token tensor"
     assert hidden_size > 0, "Cannot process empty hidden dimension"
     NUM_D_BLOCKS = triton.cdiv(hidden_size, BLOCK_D)
-    CAN_MERGE_D = (output_tensor.stride(1) == 1) and (hidden_size <= 1024) and (BLOCK_D * NUM_D_BLOCKS == hidden_size)
     _fwd_kernel_ep_gather[grid](
         num_tokens,
         input_tensor,
@@ -157,7 +121,5 @@ def ep_gather(
         BLOCK_D=BLOCK_D,
         BLOCK_B=BLOCK_B,
         NUM_D_BLOCKS=NUM_D_BLOCKS,
-        HIDDEN_SIZE=hidden_size,
-        CAN_MERGE_D=CAN_MERGE_D,
     )
     return output_tensor

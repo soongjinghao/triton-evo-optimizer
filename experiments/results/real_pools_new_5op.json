@@ -1,0 +1,143 @@
+{
+  "config": "fulleval",
+  "k": 4,
+  "n_pools": 10,
+  "pool_sizes": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+  ],
+  "n_raw": 200,
+  "n_scored": 200,
+  "n_dropped": 0,
+  "parent_code_missing": 0,
+  "ref_parent_source": {
+    "reference_parent_id": 200
+  },
+  "tau_default": 0.9,
+  "tau_imputed": 0,
+  "n_complete_pools": 10,
+  "n_partial_pools": 0,
+  "base": "old",
+  "run_ids": [
+    "905"
+  ],
+  "complete_pools": {
+    "models": {
+      "old": {
+        "p_at_k": 0.225,
+        "random_baseline": 0.21999999999999997,
+        "pool_auc": 0.591938783348097
+      },
+      "new": {
+        "p_at_k": 0.2,
+        "random_baseline": 0.21999999999999997,
+        "pool_auc": 0.5296560198153336
+      },
+      "gen12": {
+        "p_at_k": 0.25,
+        "random_baseline": 0.21999999999999997,
+        "pool_auc": 0.5417540420726695
+      }
+    },
+    "tests": {
+      "new": {
+        "bootstrap": {
+          "mean_diff": -0.025,
+          "ci95": [
+            -0.1,
+            0.05
+          ],
+          "n_pools": 10,
+          "n_clusters": 5
+        },
+        "signflip": {
+          "obs": -0.025,
+          "p_value": 1.0,
+          "n_clusters": 5,
+          "n_perm": 32,
+          "exact": true,
+          "min_p": 0.0625
+        }
+      },
+      "gen12": {
+        "bootstrap": {
+          "mean_diff": 0.025,
+          "ci95": [
+            0.0,
+            0.075
+          ],
+          "n_pools": 10,
+          "n_clusters": 5
+        },
+        "signflip": {
+          "obs": 0.025,
+          "p_value": 1.0,
+          "n_clusters": 5,
+          "n_perm": 32,
+          "exact": true,
+          "min_p": 0.0625
+        }
+      }
+    },
+    "latency_gain": {
+      "old": {
+        "best_latency_mean": 10.1162022,
+        "regret_vs_oracle": 0.3040058000000001,
+        "ratio_vs_oracle": 1.0297773239034687,
+        "ratio_geomean": 1.0295992360048276
+      },
+      "new": {
+        "best_latency_mean": 10.1682036,
+        "regret_vs_oracle": 0.3560072000000002,
+        "ratio_vs_oracle": 1.0379977993104235,
+        "ratio_geomean": 1.0375394811080634
+      },
+      "gen12": {
+        "best_latency_mean": 10.0662013,
+        "regret_vs_oracle": 0.25400490000000003,
+        "ratio_vs_oracle": 1.0289135626460268,
+        "ratio_geomean": 1.0284812032196762
+      },
+      "random": {
+        "best_latency_mean": 10.137862823633336,
+        "regret_vs_oracle": 0.32566642363333353,
+        "ratio_vs_oracle": 1.0333620196651538,
+        "ratio_geomean": 1.0332798580163645
+      },
+      "oracle": {
+        "best_latency_mean": 9.812196400000001,
+        "regret_vs_oracle": 0.0,
+        "ratio_vs_oracle": 1.0,
+        "ratio_geomean": 1.0
+      }
+    },
+    "latency_tests": {
+      "new": {
+        "obs": 0.008220475406954942,
+        "p_value": 0.5,
+        "n_clusters": 5,
+        "n_perm": 32,
+        "exact": true,
+        "min_p": 0.0625
+      },
+      "gen12": {
+        "obs": -0.0008637612574418973,
+        "p_value": 1.0,
+        "n_clusters": 5,
+        "n_perm": 32,
+        "exact": true,
+        "min_p": 0.0625
+      }
+    }
+  },
+  "partial_pools": {},
+  "oracle_complete": 0.825
+}

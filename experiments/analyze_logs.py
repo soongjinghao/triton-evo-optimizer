@@ -19,15 +19,29 @@ from collections import defaultdict
 from experiments import common
 from experiments.ablation_components import GROUPS
 
-# 统一口径的 15 个算子（以 b3 为准）。
+# 统一口径的 15 个算子。
 # 个别配置（如 sel_roulette）历史上多跑过 matmul_kernel_simplified，
 # 若不限定会造成跨配置的样本数不一致，对比不公平。
-K15 = set()
-_b3dir = common.RESULTS_DIR / 'b3'
-if _b3dir.exists():
-    for _f in _b3dir.glob('*__r0.json'):
-        if 'remeasure' not in _f.name:
-            K15.add(_f.name.replace('__r0.json', ''))
+#
+# 【修改】优先读固定划分 experiments/splits/dev15.json。
+# 旧实现是从 results/b3/ glob 出来的 set：顺序不定（影响 DEVS[:3] 这类切片）、
+# 目录变动即为空（会静默统计 0 个算子）。仅在划分文件缺失时回退到旧行为。
+def _load_k15() -> set:
+    try:
+        from experiments.splits import load_split
+        return set(load_split("dev15")["test_kernels"])
+    except Exception:
+        pass
+    out = set()
+    _b3dir = common.RESULTS_DIR / 'b3'
+    if _b3dir.exists():
+        for _f in _b3dir.glob('*__r0.json'):
+            if 'remeasure' not in _f.name:
+                out.add(_f.name.replace('__r0.json', ''))
+    return out
+
+
+K15 = _load_k15()
 
 
 def load_events(config_name):

@@ -1568,7 +1568,10 @@ class EvolutionaryAlgorithm:
             md['tiered_remeasure_n'] = len(samples)
             md['tiered_remeasure_samples'] = [round(v, 4) for v in samples]
             md['latency_uncertain'] = bool(abs(med - pl) / pl <= margin)
-            c.fitness = (pl / med) if med > 0 else c.fitness
+            # 【修复】评审指出：这里原来用**父代延迟**重算 fitness，与进化过程中
+            # 按初始种子计算的适应度口径不一致，会悄悄改变选择行为。
+            # 分级复测只负责稳定**标签与延迟记录**，不改动 fitness。
+            md['tiered_remeasure_median'] = med
         self.stats['tiered_remeasure_calls'] = \
             self.stats.get('tiered_remeasure_calls', 0) + extra
         return extra

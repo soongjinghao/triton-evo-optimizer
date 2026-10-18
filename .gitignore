@@ -26,3 +26,9 @@ RAG/knowledge/
 #原始项目种子
 #datasets2/
 
+
+# ---- v8.2 冻结：生成产物不入库（体积大/可再生，靠 provenance 里的哈希定位）----
+experiments/dataset/codes/
+experiments/dataset/samples*.jsonl
+experiments/results/*.log
+experiments/results/**/*.tmp*

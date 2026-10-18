@@ -1,0 +1,654 @@
+========================================================================================
+同一源码复测诊断（固定输入与启动配置）
+  样本 experiments/dataset/samples_new_5op.jsonl：200 条；复测次数 10
+========================================================================================
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: eye_kernel
+       └─ Working directory: /workspace/Agent/datasets2/eye_kernel
+       └─ Baseline time: 1.34us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/eye_kernel/test_eye_kernel_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_kodg6rys/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.26us
+       └─ Raw speedup: 0.0635
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0635
+       └─ Fitness score: 0.0635 (max 2.0)
+       └─ Competition score: 6.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_dtumsago/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.36us
+       └─ Raw speedup: -0.0147
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_py_ass7b/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.34us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_2yosbyoh/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.38us
+       └─ Raw speedup: -0.0290
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_dcq0wbz7/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.34us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0__r56moya/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.32us
+       └─ Raw speedup: 0.0151
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0151
+       └─ Fitness score: 0.0151 (max 2.0)
+       └─ Competition score: 1.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_j5euyfig/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.30us
+       └─ Raw speedup: 0.0307
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0307
+       └─ Fitness score: 0.0307 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_9k9yx7ck/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.36us
+       └─ Raw speedup: -0.0147
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_5njvl5tv/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.30us
+       └─ Raw speedup: 0.0307
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0307
+       └─ Fitness score: 0.0307 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1482 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_gwcsd3pe/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.34us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+  eye_kernel  sha=ba92741d082e  候选 06a69915
+    池内实测 [1.3, 1.32, 1.34, 1.36, 1.46, 1.54]  相对极差 18.5%
+    复测 10 次：中位 1.3400 us，相对极差 9.5%，CV 2.54%
+    → 复测极差 ≠ 池内极差：需核对启动配置
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: moe_align_block_size_stage
+       └─ Working directory: /workspace/Agent/datasets2/moe_align_block_size_stage
+       └─ Baseline time: 6.50us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/moe_align_block_size_stage/test_moe_align_block_size_stage_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_tt9kjtd7/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 12.64us
+       └─ Raw speedup: -0.4858
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_hjsoj00o/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 15.34us
+       └─ Raw speedup: -0.5763
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_88h_ll3c/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 15.06us
+       └─ Raw speedup: -0.5684
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_c3dn0xnd/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 13.98us
+       └─ Raw speedup: -0.5351
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_ci2s0431/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 15.10us
+       └─ Raw speedup: -0.5695
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_ksz11e7y/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 14.54us
+       └─ Raw speedup: -0.5530
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_ntdg5q3x/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 14.94us
+       └─ Raw speedup: -0.5649
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_4v20ps4l/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 13.22us
+       └─ Raw speedup: -0.5083
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_wu0_25v8/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 14.96us
+       └─ Raw speedup: -0.5655
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3831 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_lhhts3yy/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 6.50us
+       └─ Optimized time: 15.42us
+       └─ Raw speedup: -0.5785
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+  moe_align_block_size_stage  sha=ee89398a550a  候选 d87db9c5
+    池内实测 [13.3403, 13.6403, 14.1003, 14.3003, 14.3603, 14.5403, 14.6403, 15.4803, 15.8003]  相对极差 18.4%
+    复测 10 次：中位 14.9503 us，相对极差 22.0%，CV 6.16%
+    → 复测极差 ≠ 池内极差：需核对启动配置
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_kernel_flash
+       └─ Working directory: /workspace/Agent/datasets2/reshape_and_cache_kernel_flash
+       └─ Baseline time: 2.28us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_7u2reh4r/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 2.46us
+       └─ Raw speedup: -0.0732
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_swzsd_im/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 3.10us
+       └─ Raw speedup: -0.2645
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_z2at3xhd/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 3.02us
+       └─ Raw speedup: -0.2450
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_x5zycq99/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 2.70us
+       └─ Raw speedup: -0.1556
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_fr76rmd_/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 2.66us
+       └─ Raw speedup: -0.1429
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_swo3f6sr/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.1679
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_qawmz9s8/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 2.46us
+       └─ Raw speedup: -0.0732
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_fpsn8jwn/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 2.92us
+       └─ Raw speedup: -0.2192
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_crz0gugo/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 2.66us
+       └─ Raw speedup: -0.1429
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4400 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_kernel_flash/performance/reshape_and_cache_kernel_flash_dev_0/reshape_and_cache_kernel_flash --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_kernel_flash_dev_0_z2crzu57/test_reshape_and_cache_kernel_flash.py" --kernel-name="reshape_and_cache_kernel_flash" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.28us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: -0.2297
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+  reshape_and_cache_kernel_flash  sha=cd13ee3b4c4d  候选 589d0195
+    池内实测 [2.5601, 2.5801, 2.6201, 2.7601, 2.7801, 2.8401, 2.9201, 3.0201]  相对极差 18.0%
+    复测 10 次：中位 2.7201 us，相对极差 26.0%，CV 7.68%
+    → 复测极差 ≠ 池内极差：需核对启动配置
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: eye_kernel
+       └─ Working directory: /workspace/Agent/datasets2/eye_kernel
+       └─ Baseline time: 1.34us (read from JSON)
+       └─ Test file: /workspace/Agent/datasets2/eye_kernel/test_eye_kernel_1.py
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_cnrwepz7/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.34us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_uga0nle1/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.26us
+       └─ Raw speedup: 0.0635
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0635
+       └─ Fitness score: 0.0635 (max 2.0)
+       └─ Competition score: 6.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_eahvfxjf/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.36us
+       └─ Raw speedup: -0.0147
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0__rbmkmh6/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.28us
+       └─ Raw speedup: 0.0469
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0469
+       └─ Fitness score: 0.0469 (max 2.0)
+       └─ Competition score: 4.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_tdflzk96/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.38us
+       └─ Raw speedup: -0.0290
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_kyz_hvy1/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.48us
+       └─ Raw speedup: -0.0946
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_zszd511e/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.32us
+       └─ Raw speedup: 0.0151
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0151
+       └─ Fitness score: 0.0151 (max 2.0)
+       └─ Competition score: 1.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_f18z7ynw/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.34us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_vo0pay8q/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.34us
+       └─ Raw speedup: -0.0000
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1378 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/eye_kernel/performance/eye_kernel_dev_0/eye_kernel --application="/usr/local/python3.11.15/bin/python /tmp/eye_kernel_dev_0_y47xtqhw/test_eye_kernel.py" --kernel-name="eye_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.34us
+       └─ Optimized time: 1.30us
+       └─ Raw speedup: 0.0307
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0307
+       └─ Fitness score: 0.0307 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+  eye_kernel  sha=a778015b381f  候选 d4c1b6c0
+    池内实测 [1.28, 1.3, 1.34, 1.36, 1.38, 1.5]  相对极差 17.2%
+    复测 10 次：中位 1.3400 us，相对极差 17.5%，CV 4.33%
+    → 复测极差 ≈ 池内极差：可归因为测量波动
+
+----------------------------------------------------------------------------------------
+结论：1/4 组的复测波动与池内极差一致 → 测量噪声；
+      3/4 组不一致 → 需核对外部启动配置/输入。
+----------------------------------------------------------------------------------------
+✅ JSON: experiments/results/remeasure_same_code.json

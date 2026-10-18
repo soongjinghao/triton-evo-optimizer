@@ -62,8 +62,11 @@ def act_quant(
     y_flat = y.view(-1, N)
     s = x.new_empty(*x.size()[:-1], N // block_size, dtype=torch.float32)
     s_flat = s.view(-1, N // block_size)
-    BLOCK_M = 32
     BLOCK_N = block_size
+    if M >= 128 and N >= 128:
+        BLOCK_M = 128
+    else:
+        BLOCK_M = 32
     grid = (triton.cdiv(M, BLOCK_M), triton.cdiv(N, block_size))
     round_scale = scale_fmt is not None
     _act_quant_kernel[grid](

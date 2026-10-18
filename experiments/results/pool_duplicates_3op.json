@@ -1,0 +1,356 @@
+{
+  "samples": "experiments/dataset/samples_new_3op.jsonl",
+  "n_samples": 120,
+  "n_pools": 6,
+  "near_thresh": 0.99,
+  "spread_thresh": 0.1,
+  "summary": {
+    "n_candidates": 120,
+    "n_distinct": 57,
+    "dup_rate": 0.525,
+    "same_as_parent": 24,
+    "near_dup": 102,
+    "beat_best_parent": 12
+  },
+  "per_pool": [
+    {
+      "pool": "compute_identity_kernel|mfull|r905|g1",
+      "n": 20,
+      "n_distinct": 8,
+      "dup_rate": 0.6,
+      "max_multiplicity": 6,
+      "same_as_parent": 0,
+      "near_dup": 19,
+      "near_dup_rate": 0.95,
+      "n_multi_measured": 3,
+      "n_spread_bad": 1,
+      "max_spread": 0.1048988628791299,
+      "beat_best_parent": 0,
+      "beat_seed": 11,
+      "worst_spreads": [
+        {
+          "spread": 0.1049,
+          "sha": "598a837ae0af",
+          "latencies": [
+            23.2605,
+            24.8005,
+            25.7005,
+            23.8805,
+            25.3205,
+            23.6205
+          ]
+        },
+        {
+          "spread": 0.0809,
+          "sha": "ccdcc0682593",
+          "latencies": [
+            23.8805,
+            23.9405,
+            24.6805,
+            25.6405,
+            23.7205
+          ]
+        },
+        {
+          "spread": 0.0434,
+          "sha": "9ea7bf31be21",
+          "latencies": [
+            23.5405,
+            23.2205,
+            23.2005,
+            22.5605
+          ]
+        }
+      ]
+    },
+    {
+      "pool": "compute_identity_kernel|mfull|r905|g2",
+      "n": 20,
+      "n_distinct": 12,
+      "dup_rate": 0.4,
+      "max_multiplicity": 3,
+      "same_as_parent": 5,
+      "near_dup": 20,
+      "near_dup_rate": 1.0,
+      "n_multi_measured": 6,
+      "n_spread_bad": 1,
+      "max_spread": 0.1026725049071419,
+      "beat_best_parent": 3,
+      "beat_seed": 12,
+      "worst_spreads": [
+        {
+          "spread": 0.1027,
+          "sha": "a8e1c12aa9d9",
+          "latencies": [
+            23.1805,
+            25.5605
+          ]
+        },
+        {
+          "spread": 0.0732,
+          "sha": "fac40e69c9bd",
+          "latencies": [
+            24.2205,
+            23.2205,
+            24.9205
+          ]
+        },
+        {
+          "spread": 0.0626,
+          "sha": "9ea7bf31be21",
+          "latencies": [
+            23.4205,
+            22.0404,
+            22.4004
+          ]
+        },
+        {
+          "spread": 0.0472,
+          "sha": "b3f459792da1",
+          "latencies": [
+            23.2805,
+            24.3805
+          ]
+        },
+        {
+          "spread": 0.0394,
+          "sha": "598a837ae0af",
+          "latencies": [
+            23.3405,
+            24.2605
+          ]
+        }
+      ]
+    },
+    {
+      "pool": "eye_kernel|mfull|r905|g1",
+      "n": 20,
+      "n_distinct": 8,
+      "dup_rate": 0.6,
+      "max_multiplicity": 7,
+      "same_as_parent": 7,
+      "near_dup": 15,
+      "near_dup_rate": 0.75,
+      "n_multi_measured": 3,
+      "n_spread_bad": 2,
+      "max_spread": 0.17187499999999997,
+      "beat_best_parent": 0,
+      "beat_seed": 2,
+      "worst_spreads": [
+        {
+          "spread": 0.1719,
+          "sha": "a778015b381f",
+          "latencies": [
+            1.36,
+            1.28,
+            1.36,
+            1.5,
+            1.38,
+            1.38
+          ]
+        },
+        {
+          "spread": 0.1667,
+          "sha": "ba92741d082e",
+          "latencies": [
+            1.32,
+            1.32,
+            1.34,
+            1.34,
+            1.54,
+            1.34,
+            1.46
+          ]
+        },
+        {
+          "spread": 0.0299,
+          "sha": "90f4095627db",
+          "latencies": [
+            1.38,
+            1.34
+          ]
+        }
+      ]
+    },
+    {
+      "pool": "eye_kernel|mfull|r905|g2",
+      "n": 20,
+      "n_distinct": 11,
+      "dup_rate": 0.44999999999999996,
+      "max_multiplicity": 5,
+      "same_as_parent": 8,
+      "near_dup": 16,
+      "near_dup_rate": 0.8,
+      "n_multi_measured": 4,
+      "n_spread_bad": 0,
+      "max_spread": 0.09523809523809515,
+      "beat_best_parent": 0,
+      "beat_seed": 2,
+      "worst_spreads": [
+        {
+          "spread": 0.0952,
+          "sha": "2f59545bc6b5",
+          "latencies": [
+            1.38,
+            1.26,
+            1.36,
+            1.36,
+            1.3
+          ]
+        },
+        {
+          "spread": 0.0462,
+          "sha": "ba92741d082e",
+          "latencies": [
+            1.32,
+            1.3,
+            1.36,
+            1.36
+          ]
+        },
+        {
+          "spread": 0.0313,
+          "sha": "6e4a01075d64",
+          "latencies": [
+            1.32,
+            1.28
+          ]
+        },
+        {
+          "spread": 0.0308,
+          "sha": "a778015b381f",
+          "latencies": [
+            1.3,
+            1.34
+          ]
+        }
+      ]
+    },
+    {
+      "pool": "moe_align_block_size_stage|mfull|r905|g1",
+      "n": 20,
+      "n_distinct": 9,
+      "dup_rate": 0.55,
+      "max_multiplicity": 5,
+      "same_as_parent": 2,
+      "near_dup": 16,
+      "near_dup_rate": 0.8,
+      "n_multi_measured": 5,
+      "n_spread_bad": 3,
+      "max_spread": 0.1844036490933488,
+      "beat_best_parent": 7,
+      "beat_seed": 15,
+      "worst_spreads": [
+        {
+          "spread": 0.1844,
+          "sha": "ee89398a550a",
+          "latencies": [
+            13.6403,
+            14.3603,
+            14.6403,
+            15.8003,
+            13.3403
+          ]
+        },
+        {
+          "spread": 0.1612,
+          "sha": "3f5aacd72079",
+          "latencies": [
+            16.2803,
+            14.0203
+          ]
+        },
+        {
+          "spread": 0.1026,
+          "sha": "ea0ce029d14f",
+          "latencies": [
+            15.4803,
+            14.0403,
+            14.4603,
+            14.8003,
+            14.6803
+          ]
+        },
+        {
+          "spread": 0.0957,
+          "sha": "eb6e9b099fbb",
+          "latencies": [
+            15.1203,
+            13.8003
+          ]
+        },
+        {
+          "spread": 0.0611,
+          "sha": "3f7b3ca828c2",
+          "latencies": [
+            14.9403,
+            14.0803
+          ]
+        }
+      ]
+    },
+    {
+      "pool": "moe_align_block_size_stage|mfull|r905|g2",
+      "n": 20,
+      "n_distinct": 9,
+      "dup_rate": 0.55,
+      "max_multiplicity": 5,
+      "same_as_parent": 2,
+      "near_dup": 16,
+      "near_dup_rate": 0.8,
+      "n_multi_measured": 5,
+      "n_spread_bad": 4,
+      "max_spread": 0.14780962723316962,
+      "beat_best_parent": 2,
+      "beat_seed": 14,
+      "worst_spreads": [
+        {
+          "spread": 0.1478,
+          "sha": "4014fbf8136b",
+          "latencies": [
+            15.2203,
+            13.2603
+          ]
+        },
+        {
+          "spread": 0.132,
+          "sha": "ea0ce029d14f",
+          "latencies": [
+            14.8603,
+            14.9803,
+            13.9403,
+            15.7803
+          ]
+        },
+        {
+          "spread": 0.117,
+          "sha": "3f5aacd72079",
+          "latencies": [
+            15.6603,
+            15.2003,
+            14.0203
+          ]
+        },
+        {
+          "spread": 0.1059,
+          "sha": "3f7b3ca828c2",
+          "latencies": [
+            13.2203,
+            14.6203
+          ]
+        },
+        {
+          "spread": 0.0979,
+          "sha": "ee89398a550a",
+          "latencies": [
+            14.3003,
+            14.5403,
+            14.1003,
+            14.3003,
+            15.4803
+          ]
+        }
+      ]
+    }
+  ]
+}

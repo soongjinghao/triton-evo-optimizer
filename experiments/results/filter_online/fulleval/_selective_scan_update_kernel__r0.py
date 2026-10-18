@@ -30,7 +30,6 @@ else:
 )
 @triton.jit
 def _selective_scan_update_kernel(
-    # Pointers to matrices
     state_ptr,
     x_ptr,
     dt_ptr,
@@ -48,7 +47,6 @@ def _selective_scan_update_kernel(
     dim,
     dstate,
     nheads_ngroups_ratio,
-    # Strides
     stride_state_batch,
     stride_state_head,
     stride_state_dim,
@@ -78,7 +76,6 @@ def _selective_scan_update_kernel(
     stride_out_batch,
     stride_out_head,
     stride_out_dim,
-    # Meta-parameters
     DT_SOFTPLUS: tl.constexpr,
     TIE_HDIM: tl.constexpr,
     BLOCK_SIZE_M: tl.constexpr,
@@ -88,9 +85,12 @@ def _selective_scan_update_kernel(
     HAS_STATE_BATCH_INDICES: tl.constexpr,
     BLOCK_SIZE_DSTATE: tl.constexpr,
 ):
-    pid_m = tl.program_id(axis=0)
-    pid_b = tl.program_id(axis=1)
-    pid_h = tl.program_id(axis=2)
+    pid = tl.program_id(axis=0)
+    num_pid_m = tl.cdiv(dim, BLOCK_SIZE_M)
+    pid_m = pid % num_pid_m
+    pid_bh = pid // num_pid_m
+    pid_b = pid_bh // nheads
+    pid_h = pid_bh % nheads
     if HAS_STATE_BATCH_INDICES:
         state_batch_indices_ptr += pid_b
         state_batch_idx = tl.load(state_batch_indices_ptr).to(tl.int64)
@@ -110,7 +110,7 @@ def _selective_scan_update_kernel(
     offs_m = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
     offs_n = tl.arange(0, BLOCK_SIZE_DSTATE)
     state_ptrs = state_ptr + (
-        offs_m[:, None] * stride_state_dim + offs_n[None, :] * stride_state_dstate
+        offs_m[:, None] * stride_state_dstate + offs_n[None, :] * stride_state_dim
     )
     x_ptrs = x_ptr + offs_m * stride_x_dim
     dt_ptrs = dt_ptr + offs_m * stride_dt_dim
@@ -150,7 +150,7 @@ def _selective_scan_update_kernel(
         if DT_SOFTPLUS:
             dt = softplus(dt)
         A = tl.load(A_ptr).to(tl.float32)
-        dA = tl.exp(A * dt)  # scalar, not a matrix
+        dA = tl.exp(A * dt)
     B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     if HAS_D:
@@ -222,15 +222,18 @@ def selective_state_update(
     if state_batch_indices is not None:
         assert state_batch_indices.shape == (batch,)
     assert out.shape == x.shape
-    if dim <= 64:
-        BLOCK_SIZE_M = 64
-    elif dim <= 128:
-        BLOCK_SIZE_M = 32
-    else:
-        BLOCK_SIZE_M = 16
-    grid = lambda META: (triton.cdiv(dim, META["BLOCK_SIZE_M"]), batch, nheads)
+    state = state.transpose(-1, -2).contiguous()
+    grid = lambda META: (triton.cdiv(dim, META["BLOCK_SIZE_M"]) * batch * nheads,)
     z_strides = (z.stride(0), z.stride(1), z.stride(2)) if z is not None else (0, 0, 0)
-    num_warps = 4
+    BLOCK_SIZE_M, num_warps = (
+        (32, 4)
+        if dstate <= 16
+        else (
+            (16, 4)
+            if dstate <= 32
+            else ((8, 4) if dstate <= 64 else ((4, 4) if dstate <= 128 else ((4, 8))))
+        )
+    )
     tie_hdim = (
         A.stride(-1) == 0
         and A.stride(-2) == 0

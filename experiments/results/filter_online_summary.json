@@ -1,0 +1,96 @@
+{
+  "seeds": [
+    0
+  ],
+  "kernels": [
+    "_act_quant_kernel",
+    "_dequantize_k_cache_fast_kernel",
+    "_fwd_kernel_ep_gather"
+  ],
+  "usable_kernels": [
+    "_act_quant_kernel",
+    "_dequantize_k_cache_fast_kernel",
+    "_fwd_kernel_ep_gather"
+  ],
+  "split": "dev15",
+  "split_version": "20261016",
+  "per_kernel": {
+    "baseline": {
+      "_act_quant_kernel": [
+        12.458612405858988
+      ],
+      "_dequantize_k_cache_fast_kernel": [
+        1.6250000710213148
+      ],
+      "_fwd_kernel_ep_gather": [
+        2.118577277410075
+      ]
+    },
+    "predictor": {
+      "_act_quant_kernel": [
+        12.772934602803272
+      ],
+      "_dequantize_k_cache_fast_kernel": [
+        1.07518797557793
+      ],
+      "_fwd_kernel_ep_gather": [
+        2.271186760263673
+      ]
+    },
+    "random": {
+      "_act_quant_kernel": [
+        12.375555266672444
+      ],
+      "_dequantize_k_cache_fast_kernel": [
+        1.702380428015147
+      ],
+      "_fwd_kernel_ep_gather": [
+        2.3612335083151414
+      ]
+    }
+  },
+  "summary": [
+    {
+      "config": "baseline",
+      "label": "无预筛选",
+      "gm_s": 3.5004385367549715,
+      "median_s": 2.118577277410075,
+      "n_kernel": 3,
+      "npu_per_kernel": 13,
+      "seconds_per_kernel": 332.2,
+      "tokens_per_kernel": 33790
+    },
+    {
+      "config": "predictor",
+      "label": "模型筛选",
+      "gm_s": 3.1478158059197106,
+      "median_s": 2.271186760263673,
+      "n_kernel": 3,
+      "npu_per_kernel": 13,
+      "seconds_per_kernel": 452.3,
+      "tokens_per_kernel": 37127
+    },
+    {
+      "config": "random",
+      "label": "随机筛选",
+      "gm_s": 3.6777884939132237,
+      "median_s": 2.3612335083151414,
+      "n_kernel": 3,
+      "npu_per_kernel": 13,
+      "seconds_per_kernel": 431.8,
+      "tokens_per_kernel": 33501
+    }
+  ],
+  "pairwise": {
+    "predictor_minus_random": [
+      0.3973793361308271,
+      -0.627192452437217,
+      -0.0900467480514684
+    ],
+    "predictor_minus_baseline": [
+      0.31432219694428376,
+      -0.5498120954433847,
+      0.152609482853598
+    ]
+  }
+}

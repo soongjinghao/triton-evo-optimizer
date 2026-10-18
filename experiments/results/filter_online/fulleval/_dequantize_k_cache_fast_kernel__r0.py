@@ -54,19 +54,20 @@ def _dequantize_k_cache_fast_kernel(
 ):
     token_id = tl.program_id(0)
     raw_block_id = tl.program_id(1)
-    if raw_block_id < NUM_NOPE_BLOCKS:
-        offs_q = raw_block_id * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
-        mask = offs_q < DIM_NOPE
+    is_nope = raw_block_id & 4
+    effective_block_id = raw_block_id & 3
+    offs_q = effective_block_id * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
+    mask = offs_q < (DIM_NOPE if is_nope else DIM_ROPE)
+    if is_nope:
         ptr_q = input_nope_q_ptr + token_id * input_nope_q_stride_0 + offs_q
-        ptr_s = input_nope_s_ptr + token_id * input_nope_s_stride_0 + raw_block_id
+        ptr_s = input_nope_s_ptr + token_id * input_nope_s_stride_0 + effective_block_id
         y_q = tl.load(ptr_q, mask=mask, other=0.0).to(tl.float32)
         y_s = tl.load(ptr_s)
         y = (y_q * y_s).to(output_ptr.dtype.element_ty)
         dst_ptr = output_ptr + token_id * output_stride_0 + offs_q
         tl.store(dst_ptr, y, mask=mask)
     else:
-        offs = (raw_block_id - NUM_NOPE_BLOCKS) * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
-        mask = offs < DIM_ROPE
+        offs = offs_q
         src_ptr = input_rope_ptr + token_id * input_rope_stride_0 + offs
         dst_ptr = output_ptr + token_id * output_stride_0 + DIM_NOPE + offs
         data = tl.load(src_ptr, mask=mask).to(tl.bfloat16)

@@ -1,6 +1,7 @@
 import torch
 import triton
 import triton.language as tl
+
 def _dequantize_k_cache_fast(quant_k_cache, group_size: int = 128):
     num_tokens, dim_quant = quant_k_cache.shape
     dim_nope = 512
@@ -20,7 +21,7 @@ def _dequantize_k_cache_fast(quant_k_cache, group_size: int = 128):
         torch.float32
     )
     input_rope = quant_k_cache[:, dim_nope + num_tiles * 4 : dim_nope + num_tiles * 4 + dim_rope].view(torch.bfloat16)
-    _dequantize_k_cache_fast_kernel[(triton.cdiv(num_tokens, 1), 1)](
+    _dequantize_k_cache_fast_kernel[(triton.cdiv(num_tokens, 1), num_blocks_per_token)](
         output,
         input_nope_q,
         input_nope_s,
@@ -33,10 +34,9 @@ def _dequantize_k_cache_fast(quant_k_cache, group_size: int = 128):
         GROUP_SIZE=group_size,
         DIM_NOPE=dim_nope,
         DIM_ROPE=dim_rope,
-        num_warps=2,
-        num_stages=2,
     )
     return output
+
 @triton.jit
 def _dequantize_k_cache_fast_kernel(
     output_ptr,
@@ -53,22 +53,27 @@ def _dequantize_k_cache_fast_kernel(
     DIM_ROPE: tl.constexpr,
 ):
     token_id = tl.program_id(0)
-    for block_id in range(5):
-        if block_id < NUM_NOPE_BLOCKS:
-            offs_q = block_id * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
-            mask = offs_q < DIM_NOPE
-            ptr_q = input_nope_q_ptr + token_id * input_nope_q_stride_0 + offs_q
-            ptr_s = input_nope_s_ptr + token_id * input_nope_s_stride_0 + block_id
-            y_q = tl.load(ptr_q, mask=mask, other=0.0).to(tl.float32)
-            y_s = tl.load(ptr_s)
-            y = (y_q * y_s).to(output_ptr.dtype.element_ty)
-            dst_ptr = output_ptr + token_id * output_stride_0 + offs_q
-            tl.store(dst_ptr, y, mask=mask)
-        else:
-            effective_block_id = block_id - NUM_NOPE_BLOCKS
-            offs = effective_block_id * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
-            mask = offs < DIM_ROPE
-            src_ptr = input_rope_ptr + token_id * input_rope_stride_0 + offs
-            dst_ptr = output_ptr + token_id * output_stride_0 + DIM_NOPE + offs
-            data = tl.load(src_ptr, mask=mask).to(tl.bfloat16)
-            tl.store(dst_ptr, data, mask=mask)
+    raw_block_id = tl.program_id(1)
+    base_q = token_id * input_nope_q_stride_0
+    base_s = token_id * input_nope_s_stride_0
+    base_rope = token_id * input_rope_stride_0
+    base_out = token_id * output_stride_0
+    if raw_block_id < NUM_NOPE_BLOCKS:
+        effective_block_id = raw_block_id
+        offs_q = effective_block_id * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
+        mask = offs_q < DIM_NOPE
+        ptr_q = input_nope_q_ptr + base_q + offs_q
+        ptr_s = input_nope_s_ptr + base_s + effective_block_id
+        y_q = tl.load(ptr_q, mask=mask, other=0.0).to(tl.float32)
+        y_s = tl.load(ptr_s)
+        y = (y_q * y_s).to(output_ptr.dtype.element_ty)
+        dst_ptr = output_ptr + base_out + offs_q
+        tl.store(dst_ptr, y, mask=mask)
+    else:
+        effective_block_id = raw_block_id - NUM_NOPE_BLOCKS
+        offs = effective_block_id * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
+        mask = offs < DIM_ROPE
+        src_ptr = input_rope_ptr + base_rope + offs
+        dst_ptr = output_ptr + base_out + DIM_NOPE + offs
+        data = tl.load(src_ptr, mask=mask).to(tl.bfloat16)
+        tl.store(dst_ptr, data, mask=mask)

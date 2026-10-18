@@ -1,0 +1,40 @@
+============================================================================================
+V1 / V2 同预算对照（0 NPU）
+  V1: config=fulleval run_id=905  V2: config=fulleval_v2 run_id=906
+  分母 = 生成阶段的全部候选（含评测失败），共 3 个算子
+============================================================================================
+
+【A】有效多样性与失败情况
+  指标                               V1           V2           变化
+  候选池数                              6            6           +0
+  生成候选总数                          120          120           +0
+  评测成功                            120          110          -10
+  成功率                          100.0%        91.7%        -8.3%
+  不同源码数                            57           71          +14
+  每池不同源码                         9.50        11.83        +2.33
+  池内重复率                         52.5%        40.8%       -11.7%
+  失败候选                              0           10          +10
+
+  失败类型分布：V1 —   V2 {'other': 10}
+    ℹ️ 全部归为 other：这批日志是**修复前**记录的（只有一句 'Performance test failed'）。
+       现在 executor 已把失败分为 timeout / accuracy / compile / device / resource，新运行才会带类型。
+
+【B】逐池不同源码数（按 kernel × gen 对齐；两次运行 pool_id 不同）
+  kernel / gen                                           V1     V2
+  ('compute_identity_kernel', 1)                          8     11
+  ('compute_identity_kernel', 2)                         12     10
+  ('eye_kernel', 1)                                       8     17
+  ('eye_kernel', 2)                                      11     19
+  ('moe_align_block_size_stage', 1)                       9      8
+  ('moe_align_block_size_stage', 2)                       9      6
+
+【C】成本与收益（逐算子）
+  kernel                                  V1 S      V2 S  V1 NPU  V2 NPU     V1 tok     V2 tok
+  eye_kernel                             1.191     1.227      45      45      78958      78871
+  compute_identity_kernel               23.086    29.431      45      45     140851     142137
+  moe_align_block_size_stage             1.039     1.026      45      45     150363     145838
+
+  NPU 调用数 V1=[45]  V2=[45] ✅ 同预算
+  ⚠️ V1/V2 用了不同随机种子，且 V2 同时改了去重/交叉/变异，不能据此判断是哪一项带来收益。
+
+✅ JSON: experiments/results/compare_v1_v2.json

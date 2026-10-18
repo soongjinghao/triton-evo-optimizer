@@ -1,0 +1,21 @@
+{
+  "samples": "experiments/dataset/samples_new_1op.jsonl",
+  "n_samples": 40,
+  "pool_id_rate": 1.0,
+  "evaluated": 40,
+  "child_code_ok": 40,
+  "child_sha_bad": 0,
+  "ref_source": {
+    "reference_parent_id": 40
+  },
+  "ref_latency_checked": 16,
+  "ref_latency_bad": 0,
+  "ref_code_missing": 0,
+  "parent_sha_bad": 0,
+  "label_inconsistent": 0,
+  "n_pools": 2,
+  "n_full_pools": 2,
+  "expect_pool": 20,
+  "leaked_kernels": [],
+  "pass": true
+}

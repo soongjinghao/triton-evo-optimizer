@@ -1,0 +1,68 @@
+{
+  "samples": "experiments/dataset/samples_frozen_20261016.jsonl",
+  "n_raw": 7431,
+  "n_kernels_raw": 50,
+  "holdout_kernels": [
+    "_act_quant_kernel",
+    "_dequantize_k_cache_fast_kernel",
+    "_fwd_kernel_ep_gather",
+    "_pack_seq_kernel",
+    "_selective_scan_update_kernel",
+    "_set_k_and_s_triton_kernel",
+    "assign_extend_cache_locs",
+    "chunk_local_cumsum_scalar_kernel",
+    "compute_identity_kernel",
+    "eye_kernel",
+    "fused_gdn_gating_kernel",
+    "l2norm_fwd_kernel2",
+    "moe_align_block_size_stage",
+    "recompute_w_u_fwd_kernel",
+    "reshape_and_cache_kernel_flash"
+  ],
+  "holdout_in_samples": [
+    "_act_quant_kernel",
+    "_dequantize_k_cache_fast_kernel",
+    "_fwd_kernel_ep_gather",
+    "_pack_seq_kernel",
+    "_selective_scan_update_kernel",
+    "_set_k_and_s_triton_kernel",
+    "assign_extend_cache_locs",
+    "chunk_local_cumsum_scalar_kernel",
+    "compute_identity_kernel",
+    "eye_kernel",
+    "fused_gdn_gating_kernel",
+    "l2norm_fwd_kernel2",
+    "moe_align_block_size_stage",
+    "recompute_w_u_fwd_kernel",
+    "reshape_and_cache_kernel_flash"
+  ],
+  "recoverability": {
+    "no_parent": 2480,
+    "code_missing": 1842,
+    "code_ok": 3109
+  },
+  "by_operation": {
+    "gen0_strategy_guided": {
+      "no_parent": 2206
+    },
+    "mutation": {
+      "code_missing": 1805,
+      "code_ok": 1756
+    },
+    "crossover": {
+      "code_ok": 1353,
+      "code_missing": 37
+    },
+    "gen0_plain": {
+      "no_parent": 274
+    }
+  },
+  "label_rate": 0.3794913201453371,
+  "gen0": 2480,
+  "n_keep": 1012,
+  "drop_reasons": {
+    "gen0_never_filtered_online": 2480,
+    "parent_code_unrecoverable": 448,
+    "holdout_kernel_leak": 3491
+  }
+}

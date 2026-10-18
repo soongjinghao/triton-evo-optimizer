@@ -1,0 +1,83 @@
+========================================================================================
+历史训练样本审计（0 NPU）
+  样本文件: experiments/dataset/samples_frozen_20261016.jsonl
+  划分文件: experiments/splits/dev15.json
+========================================================================================
+
+原始样本 7431 条，算子 50 个，代码库 12026 条
+
+【Q1】划分隔离
+  dev15 测试算子 15 个，其中出现在样本里: 15 个
+  ⚠️  这些算子**必须从训练集剔除**，否则离线评估的 AUC 是泄漏后的乐观值。
+      ['_act_quant_kernel', '_dequantize_k_cache_fast_kernel', '_fwd_kernel_ep_gather', '_pack_seq_kernel', '_selective_scan_update_kernel', '_set_k_and_s_triton_kernel', 'assign_extend_cache_locs', 'chunk_local_cumsum_scalar_kernel', 'compute_identity_kernel', 'eye_kernel', 'fused_gdn_gating_kernel', 'l2norm_fwd_kernel2', 'moe_align_block_size_stage', 'recompute_w_u_fwd_kernel', 'reshape_and_cache_kernel_flash']
+
+【Q2】父子关系可恢复性（决定 8 个代码特征是不是噪声）
+  code_ok          3109  ( 41.8%)
+  code_missing     1842  ( 24.8%)
+  no_parent        2480  ( 33.4%)
+
+  按 operation 拆解：
+    operation                 code_ok   code_missing  no_parent      缺失率
+    mutation                     1756           1805          0    50.7%
+    gen0_strategy_guided            0              0       2206   100.0%
+    crossover                    1353             37          0     2.7%
+    gen0_plain                      0              0        274   100.0%
+
+  ⚠️  1842 条样本有 parent_ids 但父代代码不在库中：
+      这 8 个特征会退化为常数（r_*=0、sim=1），与 gen0 无法区分。
+      它们不是『数据缺失』而是『特征错误』，必须剔除，不能靠 imputer 兜底。
+
+【Q3】标签口径
+  parent_latency 无效: 0 / 7431 (0.0%)
+  child_latency  无效: 0 / 7431 (0.0%)
+  label=1 占比: 37.9%  (#1=2820, #0=4611)
+  按 operation：
+    mutation                 n= 3561  label=1  35.3%
+    gen0_strategy_guided     n= 2206  label=1  33.9%
+    crossover                n= 1390  label=1  50.8%
+    gen0_plain               n=  274  label=1  39.4%
+
+【Q4】gen0 样本
+  gen0 样本 2480 条（33.4%），全部无 parent_ids
+  在线默认 enable_candidate_filter_gen0=False，即**从不筛选 gen0**；
+  且 gen0 没有真实父代，代码特征天然退化为常数。
+  → 默认从训练集剔除；如确要保留请加 --keep-gen0。
+
+【Q5】参考父代一致性（参考父代 ID ↔ 源码 ↔ 延迟 ↔ 标签是否指向同一对象）
+  参考父代来源: {'parent_ids[0]': 4951}
+  ℹ️  本快照没有 reference_parent_id / backbone_id 字段（v8.1 才加入），
+     所以这里只能退回 parent_ids[0]，与旧口径一致 —— 也就是说
+     现有 7431 条**无法**验证『取错父代』到底占多少。
+     只有用修复后的采集链路重新采数据，这项核对才有意义。
+  按**参考父代**核对：可核对 2452 条，延迟不一致（>1%）923 条 (37.6%)
+  按**旧口径 parent_ids[0]** 核对：可核对 2452 条，不一致 923 条 (37.6%)
+     例: _trtllm_prefill_attn_kvfp8_dequant 子=2e17f237 父=d562c043（来源 parent_ids[0]）：记录的 parent_latency=2.7001 vs 父代自身 child_latency=2.5601
+     例: assign_extend_cache_locs 子=0910eadf 父=c139e66f（来源 parent_ids[0]）：记录的 parent_latency=2.0600 vs 父代自身 child_latency=2.0200
+     例: assign_extend_cache_locs 子=7ca55652 父=c139e66f（来源 parent_ids[0]）：记录的 parent_latency=2.0600 vs 父代自身 child_latency=2.0200
+  参考父代源码不在库中: 42 / 2452
+  父代源码哈希对不上: —（旧快照无 parent_code_sha256）
+  标签与 (parent_latency > child_latency) 不自洽: 0 / 2452
+  ⚠️  仍有延迟不一致：参考父代口径尚未完全统一（交叉主干父代 /
+     评测基线不同源）。新数据必须让 reference_parent_id 与
+     parent_latency 指向同一位已评测父代，做到 100% 可核验。
+
+【Q6】源码完整性
+  子代源码缺失: 112 / 7431 (1.5%)
+  带 child_code_sha256 的样本: 0 / 7431（旧快照无此字段，需重新采集后才有）
+
+【Q7】候选池标识（决定 P@k 能不能算成真实 20 选 4）
+  带 pool_id 的样本: 0 / 7431
+  ⚠️  旧快照无 pool_id。若退化为按 (kernel, gen) 分组：
+     组数 684，组内条数 中位 1，最小 1，最大 237
+     线上实际是每代约 20 选 4；中位数远大于 20 说明分组把多批候选
+     并成了假池 —— 此时的 P@4 / 随机基线 / 新旧对比全部失真。
+
+【清洗结果】
+  原始 7431 → 保留 1012（13.6%），覆盖算子 35 个
+    剔除 holdout_kernel_leak                3491
+    剔除 gen0_never_filtered_online         2480
+    剔除 parent_code_unrecoverable           448
+  保留集 label=1 占比 26.1%
+
+✅ 清洗后样本已写出: experiments/dataset/samples_clean_v7.jsonl
+✅ 审计报告已写出: experiments/results/audit_v8.json

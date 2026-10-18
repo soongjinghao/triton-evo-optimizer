@@ -1,0 +1,35 @@
+
+  ⚠️  本快照无真实候选池标识（pool_id），P@k 只能按 (kernel, gen) 近似分组。
+     这类分组可能把多次运行的候选并成假池，P@k/随机基线/模型对比都会失真。
+     真实 20 选 4 请用 experiments/eval_real_pools.py（读在线日志里的真实池）。
+====================================================================================
+候选预筛选模型重训（0 NPU）
+  训练集 /workspace/Agent/experiments/dataset/samples_clean_v7.jsonl: 1012 条 / 35 个算子   正样本率 26.1%
+  留出算子 15 个（训练集中出现 0 个）
+====================================================================================
+
+[1] GroupKFold CV AUC（5 折，按算子分组）= 0.6548
+[2] 留出集 2097 条 / 15 个算子   正样本率 38.0%
+
+[3] 新旧模型在**同一批留出行**上的对比（15 个算子，从未参与训练）
+                      AUC      P@4       随机基线       增益
+    旧 dev15        0.6395   0.5583     0.3973  +0.1610
+    新 v7           0.6719   0.4750     0.3973  +0.0777
+    （P@4 按真实候选池分组，共 30 个池）
+
+    配对检验（30 个池，同一批池逐池配对）：新 − 旧 = -0.0833，置换检验 p = 0.0396 → 差异显著
+
+[4] 系数（前 10，按绝对值）
+    mutation_type_arithmetic_and_mask      -0.4612
+    gen                                    -0.3527
+    operation_mutation                     -0.2827
+    operation_crossover                    +0.2544
+    mutation_type_none                     +0.2544
+    log_parent                             +0.2288
+    block_abs                              -0.1931
+    r_warps                                -0.1020
+    mutation_type_param_tuning             +0.0997
+    r_mask                                 +0.0919
+
+✅ 模型: /tmp/subset_all.joblib
+✅ 报告: /workspace/Agent/experiments/results/candidate_filter_v7.json

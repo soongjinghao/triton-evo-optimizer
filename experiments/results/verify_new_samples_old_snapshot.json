@@ -1,0 +1,22 @@
+{
+  "samples": "experiments/dataset/samples_frozen_20261016.jsonl",
+  "n_samples": 7431,
+  "pool_id_rate": 0.0,
+  "evaluated": 7431,
+  "child_code_ok": 7319,
+  "child_sha_bad": 0,
+  "ref_source": {
+    "none": 2480,
+    "parent_ids[0]": 4951
+  },
+  "ref_latency_checked": 2452,
+  "ref_latency_bad": 923,
+  "ref_code_missing": 1842,
+  "parent_sha_bad": 0,
+  "label_inconsistent": 0,
+  "n_pools": 0,
+  "n_full_pools": 0,
+  "expect_pool": 20,
+  "leaked_kernels": [],
+  "pass": false
+}

@@ -1,0 +1,108 @@
+{
+  "config": "fulleval",
+  "k": 4,
+  "n_pools": 30,
+  "pool_sizes": [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20
+  ],
+  "n_raw": 600,
+  "n_scored": 368,
+  "n_dropped": 232,
+  "parent_code_missing": 0,
+  "ref_parent_source": {
+    "dominant_parent": 236,
+    "parent_ids[0]": 132
+  },
+  "tau_default": 0.9,
+  "tau_imputed": 368,
+  "n_complete_pools": 0,
+  "n_partial_pools": 30,
+  "base": "old",
+  "complete_pools": {},
+  "partial_pools": {
+    "models": {
+      "old": {
+        "p_at_k": 0.15,
+        "random_baseline": 0.16560254560254561,
+        "pool_auc": 0.44894621783208744
+      },
+      "new": {
+        "p_at_k": 0.16666666666666666,
+        "random_baseline": 0.16560254560254561,
+        "pool_auc": 0.4487182955932955
+      },
+      "gen12": {
+        "p_at_k": 0.16666666666666666,
+        "random_baseline": 0.16560254560254561,
+        "pool_auc": 0.4641817270893358
+      }
+    },
+    "tests": {
+      "new": {
+        "bootstrap": {
+          "mean_diff": 0.016666666666666666,
+          "ci95": [
+            -0.05,
+            0.09166666666666666
+          ],
+          "n_pools": 30,
+          "n_clusters": 15
+        },
+        "signflip": {
+          "obs": 0.016666666666666666,
+          "p_value": 0.828125,
+          "n_clusters": 15,
+          "n_perm": 32768,
+          "exact": true
+        }
+      },
+      "gen12": {
+        "bootstrap": {
+          "mean_diff": 0.016666666666666666,
+          "ci95": [
+            -0.03333333333333333,
+            0.06666666666666667
+          ],
+          "n_pools": 30,
+          "n_clusters": 15
+        },
+        "signflip": {
+          "obs": 0.016666666666666666,
+          "p_value": 0.765625,
+          "n_clusters": 15,
+          "n_perm": 32768,
+          "exact": true
+        }
+      }
+    }
+  }
+}

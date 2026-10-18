@@ -2,26 +2,26 @@ from typing import Optional, Tuple
 import torch
 import triton
 import triton.language as tl
-
 @triton.jit
 def _act_quant_kernel(
     X_ptr,
     Y_ptr,
     S_ptr,
     M,
-    N,
+    N: tl.constexpr,
     group_size: tl.constexpr,
     round_scale: tl.constexpr,
     BLOCK_M: tl.constexpr,
     BLOCK_N: tl.constexpr,
-    num_col_blocks: tl.constexpr,
+    fp8_min: tl.constexpr,
+    fp8_max: tl.constexpr,
+    fp8_max_inv: tl.constexpr,
+    N_div_gs: tl.constexpr,
 ):
     pid = tl.program_id(0)
+    num_col_blocks = tl.cdiv(N, group_size)
     pid_m = pid // num_col_blocks
     pid_n = pid % num_col_blocks
-    fp8_min = -448.0
-    fp8_max = 448.0
-    fp8_max_inv = 1.0 / fp8_max
     row_start = pid_m * BLOCK_M
     col_start = pid_n * group_size
     rows = row_start + tl.arange(0, BLOCK_M)
@@ -41,15 +41,14 @@ def _act_quant_kernel(
     else:
         scale = amax * fp8_max_inv
     scale_broadcast = scale[:, None]
-    y = x * (1.0 / scale_broadcast)
+    y = x * tl.where(scale_broadcast != 0.0, 1.0 / scale_broadcast, 0.0)
     y = tl.minimum(tl.maximum(y, fp8_min), fp8_max)
     y_ptrs = Y_ptr + rows[:, None] * N + cols[None, :]
     tl.store(y_ptrs, y, mask=mask)
     s_cols = pid_n
-    s_ptrs = S_ptr + rows * (N // group_size) + s_cols
+    s_ptrs = S_ptr + rows * N_div_gs + s_cols
     s_mask = row_mask
     tl.store(s_ptrs, scale, mask=s_mask)
-
 def act_quant(
     x: torch.Tensor, block_size: int = 128, scale_fmt: Optional[str] = None
 ) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -67,9 +66,12 @@ def act_quant(
     BLOCK_M = 32
     BLOCK_N = block_size
     num_col_blocks = triton.cdiv(N, block_size)
-    num_row_blocks = triton.cdiv(M, BLOCK_M)
-    grid = (num_row_blocks * num_col_blocks,)
+    grid = (triton.cdiv(M, BLOCK_M) * num_col_blocks,)
     round_scale = scale_fmt is not None
+    fp8_min = -448.0
+    fp8_max = 448.0
+    fp8_max_inv = 1.0 / fp8_max
+    N_div_gs = N // block_size
     _act_quant_kernel[grid](
         x_flat,
         y_flat,
@@ -80,7 +82,11 @@ def act_quant(
         round_scale=round_scale,
         BLOCK_M=BLOCK_M,
         BLOCK_N=BLOCK_N,
-        num_col_blocks=num_col_blocks,
+        fp8_min=fp8_min,
+        fp8_max=fp8_max,
+        fp8_max_inv=fp8_max_inv,
+        N_div_gs=N_div_gs,
+        num_warps=4,
         num_stages=0 if round_scale else 2,
     )
     return y, s

@@ -1,0 +1,104 @@
+{
+  "v1": {
+    "config": "fulleval",
+    "run_id": "905",
+    "n_candidates": 120,
+    "n_pools": 6,
+    "n_success": 120,
+    "success_rate": 1.0,
+    "n_distinct": 57,
+    "distinct_per_pool": 9.5,
+    "dup_rate": 0.525,
+    "fail_by_kind": {},
+    "n_failed": 0
+  },
+  "v2": {
+    "config": "fulleval_v2",
+    "run_id": "906",
+    "n_candidates": 120,
+    "n_pools": 6,
+    "n_success": 110,
+    "success_rate": 0.9166666666666666,
+    "n_distinct": 71,
+    "distinct_per_pool": 11.833333333333334,
+    "dup_rate": 0.4083333333333333,
+    "fail_by_kind": {
+      "other": 10
+    },
+    "n_failed": 10
+  },
+  "v1_runs": {
+    "eye_kernel": {
+      "npu_calls": 45,
+      "eval_budget": 45,
+      "budget_ok": true,
+      "t_best_us": 1.360027,
+      "S": 1.19117635164596,
+      "seconds": 774.0,
+      "llm_tokens": 78958
+    },
+    "compute_identity_kernel": {
+      "npu_calls": 45,
+      "eval_budget": 45,
+      "budget_ok": true,
+      "t_best_us": 22.820456,
+      "S": 23.08589127228658,
+      "seconds": 1415.7,
+      "llm_tokens": 140851
+    },
+    "moe_align_block_size_stage": {
+      "npu_calls": 45,
+      "eval_budget": 45,
+      "budget_ok": true,
+      "t_best_us": 14.460289,
+      "S": 1.0387275800642712,
+      "seconds": 848.3,
+      "llm_tokens": 150363
+    }
+  },
+  "v2_runs": {
+    "eye_kernel": {
+      "npu_calls": 45,
+      "eval_budget": 45,
+      "budget_ok": true,
+      "t_best_us": 1.320026,
+      "S": 1.227272796141894,
+      "seconds": 865.6,
+      "llm_tokens": 78871
+    },
+    "compute_identity_kernel": {
+      "npu_calls": 45,
+      "eval_budget": 45,
+      "budget_ok": true,
+      "t_best_us": 17.900358,
+      "S": 29.43128656979933,
+      "seconds": 1507.1,
+      "llm_tokens": 142137
+    },
+    "moe_align_block_size_stage": {
+      "npu_calls": 45,
+      "eval_budget": 45,
+      "budget_ok": true,
+      "t_best_us": 14.640293,
+      "S": 1.025956311120276,
+      "seconds": 1142.8,
+      "llm_tokens": 145838
+    }
+  },
+  "per_pool_v1": {
+    "('compute_identity_kernel', 1)": 20,
+    "('compute_identity_kernel', 2)": 20,
+    "('eye_kernel', 1)": 20,
+    "('eye_kernel', 2)": 20,
+    "('moe_align_block_size_stage', 1)": 20,
+    "('moe_align_block_size_stage', 2)": 20
+  },
+  "per_pool_v2": {
+    "('compute_identity_kernel', 1)": 20,
+    "('compute_identity_kernel', 2)": 20,
+    "('eye_kernel', 1)": 20,
+    "('eye_kernel', 2)": 20,
+    "('moe_align_block_size_stage', 1)": 20,
+    "('moe_align_block_size_stage', 2)": 20
+  }
+}

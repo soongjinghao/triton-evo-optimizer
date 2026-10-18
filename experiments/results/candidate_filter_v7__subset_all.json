@@ -1,0 +1,42 @@
+{
+  "train_samples": "/workspace/Agent/experiments/dataset/samples_clean_v7.jsonl",
+  "train_sha256": "abd5f7fc82844d5670b7405e4d08f5b04e3dc883d852f784e0853d2d81be7903",
+  "split": "/workspace/Agent/experiments/splits/dev15.json",
+  "split_sha256": "f266310ef34fbf429024a98491af53be1383114e7fce961e72f0c7e1ee37c2b7",
+  "n_train": 1012,
+  "n_train_kernels": 35,
+  "positive_rate_train": 0.2608695652173913,
+  "feature_impl": "experiments/candidate_filter_features_shared",
+  "cv_auc_groupkfold": 0.6548193249835516,
+  "cv_folds": 5,
+  "class_weight": "balanced",
+  "holdout": {
+    "n_kernels": 15,
+    "n_rows": 2097,
+    "positive_rate": 0.3795898903195041,
+    "new_auc": 0.6719140475629493,
+    "new_p_at_4": 0.475,
+    "random_baseline": 0.3973058661622401,
+    "old_auc": 0.6394940691157556,
+    "old_p_at_4": 0.5583333333333333,
+    "paired_perm_test": {
+      "n_pools": 30,
+      "mean_diff": -0.08333333333333333,
+      "p_value": 0.03959802009899505
+    }
+  },
+  "coefficients": {
+    "mutation_type_arithmetic_and_mask": -0.46119807635864113,
+    "gen": -0.3526615027643676,
+    "operation_mutation": -0.28271068555047274,
+    "operation_crossover": 0.25439136625623315,
+    "mutation_type_none": 0.25439136625623315,
+    "log_parent": 0.22884169680756086,
+    "block_abs": -0.19312841359272762,
+    "r_warps": -0.102020442078448,
+    "mutation_type_param_tuning": 0.09965205143194088,
+    "r_mask": 0.09186094973205958
+  },
+  "model_out": "/tmp/subset_all.joblib",
+  "model_sha256": "f6a8c0ecb180c630172cf126df3060f64a4e6dbe3dc0af9609683155a315c9c5"
+}
