@@ -19,6 +19,56 @@ from llm_interface import LLMInterface
 from RAG.knowledge_node import TritonKnowledgeNode
 
 
+# ---------------------------------------------------------------- V2 目标表
+# 【背景】V1 的变异只给"类型"、交叉只说"嫁接一个基因"，模型自由发挥。
+# 新采集的全池数据显示：池内重复率 52.5%，20% 的子代源码与参考父代完全相同。
+# V2 的核心是**把改动范围收敛到一个明确的位置**，让 20 次生成落在 20 个不同方向上。
+MUTATION_TARGETS = {
+    'param_tuning': [
+        "BLOCK_SIZE（沿后端支持的 2 的幂上下各探一档，不得破坏完整覆盖）",
+        "num_warps（在 1/2/4/8 之间换一个取值）",
+        "num_stages（在 1~4 之间换一个取值）",
+        "program 数上限 / grid 的常量上限（不改映射语义）",
+    ],
+    'arithmetic_and_mask': [
+        "一处可证明的除法改倒数乘法（dtype 与舍入行为必须一致）",
+        "一处可证明冗余的 Mask 谓词（需 constexpr/断言/索引范围三重证明）",
+        "一处 load/store 的向量化宽度（不得越界）",
+        "一处 tl.where / 选择指令的等价化简（不得改变数值结果）",
+    ],
+    'structure_rewrite': [
+        "program_id 的解码方式（1D↔2D，保持每个输出元素的唯一映射）",
+        "任务打包方式（一个 program 处理多个 tile，保持尾块 Mask）",
+        "循环结构（串行循环 → 展开 / 合并，保持规约域独立）",
+        "中间结果的寄存器驻留方式（减少重复 load，保持数值等价）",
+    ],
+}
+
+# V2 的正确性护栏（评审 v8.2 决策 3）
+# 实测：开启 V2 后 10/120 候选评测失败（V1 只有 1/120），且集中在
+# compute_identity_kernel 的 Gen2（7 个）—— 失败类型是"性能/正确性测试失败"，
+# 即输出映射或边界被改坏。因此 V2 必须显式写死这些不可越过的边界，
+# 而不是靠"多加一次预编译"兜底（编译通过不等于算得对）。
+V2_CORRECTNESS_GUARD = (
+    "\n🛡️【V2 正确性护栏】（优先级高于性能）：\n"
+    "1. 保持每个输出元素的**唯一映射**：必须被**且仅被**一个 program 写入；"
+    "不得出现覆盖、漏写或重复写入。\n"
+    "2. 索引边界：所有 load/store 必须保持原有的越界保护；"
+    "不得因为改变了 tile 划分而丢掉尾块 Mask。\n"
+    "3. 输出 shape / dtype / layout / 返回值数量必须与父代完全一致。\n"
+    "4. 规约域必须保持独立；不得把两个独立的规约合并。\n"
+    "5. 若上述任一条无法从代码上证明成立，**放弃本次改动**，"
+    "改为一个更保守的等价改写。\n"
+)
+
+CROSSOVER_SLOTS = [
+    "Launch 配置（BLOCK_SIZE / num_warps / num_stages）",
+    "索引与 program_id 解码（保持输出映射不变）",
+    "访存方式与 Mask（保持边界安全）",
+    "计算主体（算术表达式 / 指令选择）",
+]
+
+
 @dataclass
 class Individual:
     code: str
@@ -550,6 +600,76 @@ class GeneticOperators:
         return Individual(code=sanitized_code, generation=0, metadata=metadata,
                           model_used=self.llm.current_model)
 
+    @staticmethod
+    def _mutation_tier_speedup(individual: Individual):
+        """取用于"性能分级变异"的加速比，返回 (speedup, source)。
+
+        优先级：
+          self     —— 个体自身已评测（普通变异），用它自己的 speedup
+          backbone —— 个体是未评测的交叉产物，用继承的主干父代的 speedup
+          none     —— 都拿不到，退回 0.0（保守档），并把来源记进 metadata 便于审计
+
+        注意：加速比的定义与 adaptive 分档阈值（2.5 / 1.5）必须与"个体自身已评测"
+        时完全一致，不能因为换了来源就换一套口径。
+        """
+        md = getattr(individual, "metadata", None) or {}
+        v = md.get("speedup")
+        try:
+            v = float(v) if v is not None else None
+        except (TypeError, ValueError):
+            v = None
+        if v is not None and v > 0:
+            return v, "self"
+        bv = md.get("backbone_speedup")
+        try:
+            bv = float(bv) if bv is not None else None
+        except (TypeError, ValueError):
+            bv = None
+        if bv is not None and bv > 0:
+            return bv, "backbone"
+        return 0.0, "none"
+
+    @staticmethod
+    def _backbone_of(individual: Individual):
+        """求个体的"主干父代"——一个**已被评测过**、可作为比较基线的真实个体。
+
+        返回 (backbone_id, backbone_latency, backbone_code_id, lineage)。
+
+        规则：
+          * 个体自身已被评测 → 主干就是它自己（普通变异）。
+          * 个体是交叉产物且尚未评测（execution_time 为 None）→ 沿用它自己记录的
+            backbone_id / backbone_latency / backbone_code_id，也就是那次交叉的
+            dominant 父代。这样"交叉 → 变异"链上的孙代仍能拿到真实基线，
+            而不是退化成 pop_best 猜测。
+          * 再往上若仍取不到，才回退到个体自身 id，延迟留 None。
+        """
+        md = getattr(individual, "metadata", None) or {}
+        prev_lineage = list(md.get("lineage") or [])
+        if not prev_lineage and md.get("operation"):
+            prev_lineage = [md["operation"]]
+        lineage = prev_lineage + ["mutation"]
+
+        lat = md.get("execution_time")
+        try:
+            lat = float(lat) if lat is not None else None
+        except (TypeError, ValueError):
+            lat = None
+        if lat is not None and lat > 0:
+            # 自身已评测：主干就是自己
+            return individual.id, lat, individual.id, lineage
+
+        # 自身未评测：继承它记录的主干（交叉的 dominant），拿不到再退到 direct parent
+        bb_id = md.get("backbone_id") or md.get("dominant_parent") or \
+            (md.get("parents") or [None])[0] or md.get("parent")
+        bb_lat = md.get("backbone_latency") or md.get("dominant_latency") or \
+            md.get("parent_latency")
+        try:
+            bb_lat = float(bb_lat) if bb_lat is not None else None
+        except (TypeError, ValueError):
+            bb_lat = None
+        bb_code_id = md.get("backbone_code_id") or bb_id or individual.id
+        return (bb_id or individual.id), bb_lat, bb_code_id, lineage
+
     def mutate(self, individual: Individual) -> Individual:
         """对个体进行变异操作，支持超参调优、算术降级和结构重构三种变异类型"""
         if random.random() < 0.2 and hasattr(self.config, 'available_models') and len(self.config.available_models) > 1:
@@ -561,7 +681,14 @@ class GeneticOperators:
             self._switch_model_for_purpose('generation')
 
         ret_count = self._get_return_count_ast(individual.code)
-        speedup = individual.metadata.get('speedup', 0.0)
+        # 【修复】性能分级必须按**已评测主干父代**的真实性能来定，
+        # 而不是直接读 individual 自己的 speedup。
+        # 场景：交叉产出 C（未评测）后立刻对 C 变异。C.metadata 里没有 speedup，
+        # 旧实现取默认值 0.0 → 落入 else 分支，即"结构重写 0.50"这一档。
+        # 可 C 继承的主干父代可能已经有 2.5x 的加速比，本该走保守的参数/算术档。
+        # 结果是性能越好的血统越容易被激进重写，与论文里"按性能分级变异"的定义相悖。
+        # 现在：优先用主干父代（backbone）的实测加速比，拿不到才退回自身。
+        speedup, speedup_source = self._mutation_tier_speedup(individual)
 
         mode = getattr(self.config, 'mutation_mode', 'adaptive')
         if mode == 'uniform':
@@ -615,6 +742,20 @@ class GeneticOperators:
             'structure_rewrite': "允许重构 Grid 与 program_id 解码，但必须保持完整计算域、边界安全、规约域和输出布局。",
         }[code_mutation_type]
 
+        # ---- V2：目标明确的变异（评审 v8.2 阶段 5）----
+        # V1 只给出"变异类型"，模型自由发挥 → 实测池内重复率 52.5%，
+        # 20% 的子代与父代源码完全相同。V2 在类型之内再指定**唯一改动目标**，
+        # 让每次生成有明确方向，降低"换个说法又生成同一份代码"的概率。
+        mutation_target = None
+        target_prompt = ""
+        if getattr(self.config, 'genetic_v2', False):
+            mutation_target = random.choice(MUTATION_TARGETS[code_mutation_type])
+            target_prompt = (
+                f"\n🎯【本次唯一改动目标】：{mutation_target}\n"
+                "- 只允许围绕上面这一个目标做修改，改完即止；\n"
+                "- 若该目标在当前代码上无法安全落地，输出一份**确实不同**的"
+                "等价改写，禁止原样返回父代代码。\n")
+
         prompt_parts = [
             "你是华为 Ascend NPU 的 Triton 高性能内核专家。",
             f"【任务】请阅读下方已跑通的 Triton 代码及其【硬件 Profiling 实测诊断】，进行【{code_mutation_type} 局部定向变异擦亮】，直接输出优化后的完整 Python 代码。\n",
@@ -622,6 +763,8 @@ class GeneticOperators:
             f"{profiling_context}",
             "",
             type_instructions[code_mutation_type],
+            target_prompt,
+            V2_CORRECTNESS_GUARD if mutation_target else "",
             "\n🔒【本次变异硬边界】：",
             f"1. {mutation_hardline}",
             f"2. 外层 Wrapper 函数名、签名、输出 shape/dtype/layout 与 Return 数量（当前必须恰好返回 {ret_count} 个变量）必须一致。",
@@ -632,12 +775,41 @@ class GeneticOperators:
             "```python"
         ]
 
+        # ------------------------------------------------------------------
+        # 主干父代（backbone）继承
+        # ------------------------------------------------------------------
+        # 场景：交叉产出 C（未评测）后立刻对 C 变异得到 D。
+        # 旧实现把 D 的父代记成 C，而 C 的 execution_time 是 None、代码也不在
+        # 种群索引里，于是 D 只能靠事后回退（pop_best）猜一个基线，父子代码特征
+        # 还会退化成"子代 vs 子代自身"。
+        # 正确做法：D 应直接继承 C 的主干父代（即交叉时的 dominant，一个已被
+        # 评测过的真实个体）的 ID / 实测延迟 / 代码引用，并显式记录操作链
+        # crossover → mutation，而不是事后推测。
+        bb_id, bb_lat, bb_code_id, lineage = self._backbone_of(individual)
+
         metadata = {
+            # 直接前驱（用于血缘追溯），但**不作为**比较基线
             'parent': individual.id,
-            'parent_latency': individual.metadata.get('execution_time'),
+            # parents[0] 恒为主干父代，与训练侧 parent_ids[0] 口径一致
+            'parents': [bb_id],
+            'parent_latency': bb_lat,
+            # 主干父代显式记录：resolve_parent_latency 与 _filter_features 都读它
+            'backbone_id': bb_id,
+            'backbone_latency': bb_lat,
+            'backbone_code_id': bb_code_id,
+            # 主干性能继续往下传：保证"交叉 → 变异 → 再变异"链上分级口径不丢
+            'backbone_speedup': (individual.metadata or {}).get('backbone_speedup'),
+            # 本次分档实际用的加速比与来源，落盘便于审计分级是否被误用
+            'mutation_tier_speedup': speedup,
+            'mutation_tier_source': speedup_source,
+            # 操作链：crossover → mutation 这类复合操作要能看出来
+            'lineage': lineage,
             'operation': 'mutation',
             'mutation_type': code_mutation_type,
-            'mutation_weights': dict(zip(mutation_types, weights))
+            'mutation_weights': dict(zip(mutation_types, weights)),
+            # V2：本次实际指定的改动目标（便于事后统计"目标 → 是否真的改了"）
+            'mutation_target': mutation_target,
+            'genetic_v2': bool(getattr(self.config, 'genetic_v2', False)),
         }
 
         response = self.llm.generate(
@@ -690,6 +862,23 @@ class GeneticOperators:
                 "4. 【Profiling 使用】：主干父代的 Profiling 决定当前瓶颈；供体 Profiling 只用于解释被移植基因，不得驱动无关重写。",
             ]
 
+        # ---- V2：结构化交叉 ----
+        # V1 只说"嫁接一个基因"，未规定嫁接哪一类片段，实测大量交叉产物
+        # 与主干父代源码完全相同。V2 明确"结构位"：Launch 配置 / 索引与寻址 /
+        # 访存与 Mask / 计算主体，每次只重组一个结构位，并要求产物必须不同于主干。
+        v2 = bool(getattr(self.config, 'genetic_v2', False))
+        CROSSOVER_SLOT = random.choice(CROSSOVER_SLOTS) if v2 else None
+        if v2:
+            crossover_brief = list(crossover_brief) + [
+                "\n🧩【结构化交叉（V2）】：按**结构位**重组，一次只动一个位置：",
+                f"  本次结构位 = {CROSSOVER_SLOT}，",
+                "  1. 主干父代提供完整骨架；仅把供体在该结构位上的写法替换进来。",
+                "  2. 其余结构位一律保持主干原样。",
+                "  3. 产物必须与主干父代**确有差异**（至少一处实质改动）；"
+                "若该结构位上两者本就相同，改选下一个结构位，不要原样返回主干。",
+                V2_CORRECTNESS_GUARD,
+            ]
+
         prompt_parts = [
             self.EXPERT_PREFIX,
             *crossover_brief,
@@ -708,12 +897,31 @@ class GeneticOperators:
         ]
 
         metadata = {
-            'parents': [parent1.id, parent2.id],
+            # 【修复】旧实现写 [parent1.id, parent2.id]，顺序取决于入参，
+            # 而预测特征与训练侧都取 parent_ids[0] 当主干父代 —— 于是
+            # parent_ids[0] 未必是 dominant_parent，比较基线可能指到供体上。
+            # 这里统一以 dominant（骨架来源）为 parents[0]。
+            'parents': [dominant.id, donor.id],
             'dominant_parent': dominant.id,
             'dominant_latency': dominant.metadata.get('execution_time'),
+            # 【修复】交叉子代旧实现只写 dominant_latency，不写 parent_latency。
+            # 交叉的"父代基线"就是主干父代（骨架来源），两者本应同值；缺这个字段会让
+            # 下游出现两条读取路径（parent_latency / dominant_latency），主干父代未被
+            # 评测时双双为 None，父代基线彻底丢失。这里统一补上。
+            'parent_latency': dominant.metadata.get('execution_time'),
+            # 主干父代显式记录：供"交叉 → 变异"链上的孙代继承
+            'backbone_id': dominant.id,
+            'backbone_latency': dominant.metadata.get('execution_time'),
+            'backbone_code_id': dominant.id,
+            # 主干父代的性能也一并继承：交叉产物本身未评测、没有 speedup，
+            # 变异分级若直接读它会得到 0.0，从而把高性能血统误判进激进重写档
+            'backbone_speedup': dominant.metadata.get('speedup', dominant.fitness),
+            'lineage': ['crossover'],
             'operation': 'crossover',
             'dominant_fitness': dominant.fitness,
-            'donor_fitness': donor.fitness
+            'donor_fitness': donor.fitness,
+            'crossover_slot': CROSSOVER_SLOT,
+            'genetic_v2': v2,
         }
 
         response = self.llm.generate(
