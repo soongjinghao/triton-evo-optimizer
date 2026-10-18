@@ -57,6 +57,41 @@ def load_pools(config, run_id, kernels):
     return pools
 
 
+def load_pools_from_filter(config, run_id, kernels, codes_dir):
+    """从**筛选日志**还原完整候选池（含未被选去评测的候选）。
+
+    eval 日志只记录真正送评的候选（预算 13 时每池只评 4 个），
+    但筛选日志对**池内全部 20 个**候选都记了一条（带 candidate_id / score / selected）。
+    因此要统计"生成了多少种不同源码"，必须以筛选日志为准，否则会严重低估重复率。
+    """
+    import hashlib
+    pools = collections.defaultdict(list)
+    pat = str(LOGS / f"filter_scores__{config}__*__r{run_id}.jsonl")
+    for p in sorted(glob.glob(pat)):
+        for line in open(p, encoding="utf-8"):
+            if not line.strip():
+                continue
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            # 筛选日志里同时混着 eval 行，只取**无 event** 的筛选/入选记录
+            if r.get("event") is not None or r.get("gen", 0) < 1:
+                continue
+            if kernels and r.get("kernel") not in kernels:
+                continue
+            cid = str(r.get("candidate_id") or "")
+            fp = r.get("pool_id") or f"{r.get('kernel')}|r{run_id}|g{r.get('gen')}"
+            f = Path(codes_dir) / f"{cid}.py"
+            sha = None
+            if f.exists():
+                sha = hashlib.sha256(f.read_bytes()).hexdigest()
+            r["_sha"] = sha
+            r["_from_filter_log"] = True
+            pools[fp].append(r)
+    return pools
+
+
 def fail_kind(r):
     err = (r.get("error") or "").lower()
     for kw, kind in (("timeout", "timeout"),
@@ -78,14 +113,17 @@ def pool_stats(pools):
     per_pool = []
     fails = collections.Counter()
     for members in pools.values():
+        from_filter = bool(members and members[0].get("_from_filter_log"))
         n += len(members)
-        ok += sum(1 for r in members if r.get("correctness_pass"))
-        hs = [str(r.get("child_code_sha256") or "") for r in members]
+        # 筛选日志没有评测结果，"成功"只能理解为"被选中送评"
+        ok += sum(1 for r in members
+                  if (r.get("selected") if from_filter else r.get("correctness_pass")))
+        hs = [str(r.get("child_code_sha256") or r.get("_sha") or "") for r in members]
         d = len({h for h in hs if h})
         distinct += d
         per_pool.append(d)
         for r in members:
-            if not r.get("correctness_pass"):
+            if not from_filter and not r.get("correctness_pass"):
                 fails[fail_kind(r)] += 1
     return dict(n_candidates=n, n_pools=len(pools), n_success=ok,
                 success_rate=ok / max(1, n),
@@ -123,11 +161,23 @@ def main():
     ap.add_argument("--v1-results", default=str(ROOT / "experiments/results/filter_online/fulleval"))
     ap.add_argument("--v2-results", default=str(ROOT / "experiments/results/filter_online/fulleval_v2"))
     ap.add_argument("--kernels", nargs="*", default=None)
+    ap.add_argument("--pool-source", choices=("auto", "filter", "eval"), default="auto",
+                    help="候选池来源：filter=筛选日志（池内全部 20 个，推荐）；"
+                         "eval=评测日志（只含送评的）；auto=优先 filter")
+    ap.add_argument("--codes-dir", default=str(ROOT / "experiments/dataset/codes"))
     ap.add_argument("--json-out", default=None)
     a = ap.parse_args()
+    ks = set(a.kernels) if a.kernels else None
 
-    p1 = load_pools(a.v1_config, a.v1_run_id, set(a.kernels) if a.kernels else None)
-    p2 = load_pools(a.v2_config, a.v2_run_id, set(a.kernels) if a.kernels else None)
+    def _load(cfg, run_id):
+        if a.pool_source in ("auto", "filter"):
+            pf = load_pools_from_filter(cfg, run_id, ks, a.codes_dir)
+            if pf:
+                return pf, "filter(池内全部生成候选)"
+        return load_pools(cfg, run_id, ks), "eval(仅送评候选)"
+
+    p1, src1 = _load(a.v1_config, a.v1_run_id)
+    p2, src2 = _load(a.v2_config, a.v2_run_id)
     if not p1 or not p2:
         print("❌ 找不到指定 run_id 的候选池事件。")
         return 1
@@ -137,16 +187,19 @@ def main():
     print("=" * 92)
     print("V1 / V2 同预算对照（0 NPU）")
     print(f"  V1: config={a.v1_config} run_id={a.v1_run_id}  V2: config={a.v2_config} run_id={a.v2_run_id}")
-    print(f"  分母 = 生成阶段的全部候选（含评测失败），共 {len(kernels)} 个算子")
+    print(f"  分母 = {src1} / {src2}，共 {len(kernels)} 个算子")
     print("=" * 92)
 
     print(f"\n【A】有效多样性与失败情况")
     print(f"  {'指标':22s} {'V1':>12s} {'V2':>12s} {'变化':>12s}")
+    _f = "filter" in src1
     rows = [("n_pools", "候选池数", "d"), ("n_candidates", "生成候选总数", "d"),
-            ("n_success", "评测成功", "d"), ("success_rate", "成功率", "p"),
+            ("n_success", "被选中送评" if _f else "评测成功", "d"),
+            ("success_rate", "入选率" if _f else "成功率", "p"),
             ("n_distinct", "不同源码数", "d"),
             ("distinct_per_pool", "每池不同源码", "f"),
-            ("dup_rate", "池内重复率", "p"), ("n_failed", "失败候选", "d")]
+            ("dup_rate", "池内重复率", "p"),
+            ("n_failed", "未入选（非失败）" if _f else "失败候选", "d")]
     for key, label, fmt in rows:
         v1, v2 = s1[key], s2[key]
         if fmt == "p":
@@ -156,8 +209,10 @@ def main():
         else:
             print(f"  {label:22s} {v1:>12d} {v2:>12d} {v2 - v1:>+12d}")
 
-    print(f"\n  失败类型分布：V1 {s1['fail_by_kind'] or '—'}   V2 {s2['fail_by_kind'] or '—'}")
-    if s2["n_failed"] and set(s2["fail_by_kind"]) <= {"other"}:
+    if not _f:
+        print(f"\n  失败类型分布：V1 {s1['fail_by_kind'] or '—'}   "
+              f"V2 {s2['fail_by_kind'] or '—'}")
+    if (not _f) and s2["n_failed"] and set(s2["fail_by_kind"]) <= {"other"}:
         print("    ℹ️ 全部归为 other：这批日志是**修复前**记录的（只有一句 "
               "'Performance test failed'）。")
         print("       现在 executor 已把失败分为 timeout / accuracy / compile / "
@@ -176,8 +231,10 @@ def main():
     print(f"  {'kernel / gen':50s} {'V1':>6s} {'V2':>6s}")
     g1, g2 = by_gen(p1), by_gen(p2)
     for k in sorted(set(g1) | set(g2)):
-        d1 = len({r.get("child_code_sha256") for r in g1.get(k, []) if r.get("child_code_sha256")})
-        d2 = len({r.get("child_code_sha256") for r in g2.get(k, []) if r.get("child_code_sha256")})
+        f = lambda g, kk: len({r.get("child_code_sha256") or r.get("_sha")
+                               for r in g.get(kk, [])
+                               if (r.get("child_code_sha256") or r.get("_sha"))})
+        d1, d2 = f(g1, k), f(g2, k)
         print(f"  {str(k)[:50]:50s} {d1:>6d} {d2:>6d}")
 
     r1 = run_stats(a.v1_results, kernels, a.v1_seed or a.v1_run_id[-1])
