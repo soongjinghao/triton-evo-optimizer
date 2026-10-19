@@ -14,6 +14,11 @@ set -u
 cd /workspace/Agent
 source set_env/set_api_local.sh
 export EA_NUM_DEVICES=1
+# 【重要】LLM 并发必须显式固定：本地 vLLM / SSH 隧道扛不住 8 路并发，
+# 实测 8 并发时整批请求同时 OpenAIConnectionError。
+# 并发数会改变 random 的取数顺序（多线程共享 RNG），因此 V1/V2 必须用同一个值，
+# 否则两次运行不可比。这里统一锁 2。
+export EA_MAX_WORKERS=${EA_MAX_WORKERS:-2}
 
 PY=python
 KERNELS="eye_kernel compute_identity_kernel moe_align_block_size_stage"

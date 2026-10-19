@@ -1,0 +1,42 @@
+{
+  "kernel": "compute_identity_kernel",
+  "config": "full_v1",
+  "seed": 1,
+  "run_id": 901,
+  "seconds": 450.1,
+  "filter_model": null,
+  "candidate_filter_mode": "model",
+  "provenance": {
+    "fix_tag": "20261018-v82-research-baseline",
+    "git_commit": "3027eae2722abd34455f9b560012613b2f6b5a41",
+    "config": "full_v1",
+    "params": {
+      "eval_budget": 13
+    },
+    "model_path": null,
+    "model_sha256": null,
+    "dataset_snapshot": null,
+    "dataset_sha256": null,
+    "dataset_sha256_matches_meta": false
+  },
+  "success": true,
+  "t_best_us": 24.100483,
+  "error": "",
+  "S": 21.859751358510117,
+  "audit": {
+    "npu_calls": 13,
+    "eval_budget": 13,
+    "budget_ok": true,
+    "static_rejected": 0,
+    "ast_rejected": 0,
+    "compile_failed": 0,
+    "llm_tokens": 73535,
+    "llm_tokens_missing": false,
+    "remeasure_repeats": 5,
+    "wallclock_s": 450.1
+  },
+  "acceptance": {
+    "passed": true,
+    "problems": []
+  }
+}

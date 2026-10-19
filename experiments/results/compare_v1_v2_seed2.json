@@ -1,0 +1,106 @@
+{
+  "v1": {
+    "config": "full_v1",
+    "run_id": "902",
+    "n_candidates": 40,
+    "n_pools": 6,
+    "n_success": 38,
+    "success_rate": 0.95,
+    "n_distinct": 32,
+    "distinct_per_pool": 5.333333333333333,
+    "dup_rate": 0.19999999999999996,
+    "fail_by_kind": {
+      "other": 2
+    },
+    "n_failed": 2
+  },
+  "v2": {
+    "config": "full_v2",
+    "run_id": "902",
+    "n_candidates": 24,
+    "n_pools": 6,
+    "n_success": 21,
+    "success_rate": 0.875,
+    "n_distinct": 22,
+    "distinct_per_pool": 3.6666666666666665,
+    "dup_rate": 0.08333333333333337,
+    "fail_by_kind": {
+      "other": 3
+    },
+    "n_failed": 3
+  },
+  "v1_runs": {
+    "eye_kernel": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 1.620032,
+      "S": 1.0,
+      "seconds": 257.0,
+      "llm_tokens": 41578
+    },
+    "compute_identity_kernel": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 24.040482,
+      "S": 21.914309621579132,
+      "seconds": 490.4,
+      "llm_tokens": 80848
+    },
+    "moe_align_block_size_stage": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 15.180304,
+      "S": 0.9894598289994719,
+      "seconds": 340.7,
+      "llm_tokens": 44660
+    }
+  },
+  "v2_runs": {
+    "eye_kernel": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 1.360027,
+      "S": 1.19117635164596,
+      "seconds": 336.5,
+      "llm_tokens": 23446
+    },
+    "compute_identity_kernel": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 23.460468,
+      "S": 22.45609789199431,
+      "seconds": 542.1,
+      "llm_tokens": 42154
+    },
+    "moe_align_block_size_stage": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 14.720294,
+      "S": 1.0203805032698394,
+      "seconds": 459.2,
+      "llm_tokens": 40891
+    }
+  },
+  "per_pool_v1": {
+    "('compute_identity_kernel', 1)": 8,
+    "('compute_identity_kernel', 2)": 8,
+    "('eye_kernel', 1)": 8,
+    "('eye_kernel', 2)": 8,
+    "('moe_align_block_size_stage', 1)": 4,
+    "('moe_align_block_size_stage', 2)": 4
+  },
+  "per_pool_v2": {
+    "('compute_identity_kernel', 1)": 4,
+    "('compute_identity_kernel', 2)": 4,
+    "('eye_kernel', 1)": 4,
+    "('eye_kernel', 2)": 4,
+    "('moe_align_block_size_stage', 1)": 4,
+    "('moe_align_block_size_stage', 2)": 4
+  }
+}

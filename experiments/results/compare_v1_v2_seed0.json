@@ -1,0 +1,102 @@
+{
+  "v1": {
+    "config": "full_v1",
+    "run_id": "900",
+    "n_candidates": 47,
+    "n_pools": 6,
+    "n_success": 47,
+    "success_rate": 1.0,
+    "n_distinct": 27,
+    "distinct_per_pool": 4.5,
+    "dup_rate": 0.42553191489361697,
+    "fail_by_kind": {},
+    "n_failed": 0
+  },
+  "v2": {
+    "config": "full_v2",
+    "run_id": "900",
+    "n_candidates": 24,
+    "n_pools": 6,
+    "n_success": 24,
+    "success_rate": 1.0,
+    "n_distinct": 22,
+    "distinct_per_pool": 3.6666666666666665,
+    "dup_rate": 0.08333333333333337,
+    "fail_by_kind": {},
+    "n_failed": 0
+  },
+  "v1_runs": {
+    "eye_kernel": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 1.620032,
+      "S": 1.0,
+      "seconds": 274.1,
+      "llm_tokens": 31853
+    },
+    "compute_identity_kernel": {
+      "npu_calls": 12,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 23.240465,
+      "S": 22.668675777356434,
+      "seconds": 461.2,
+      "llm_tokens": 76529
+    },
+    "moe_align_block_size_stage": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 15.0003,
+      "S": 1.0013333733325334,
+      "seconds": 311.7,
+      "llm_tokens": 66218
+    }
+  },
+  "v2_runs": {
+    "eye_kernel": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 1.340027,
+      "S": 1.2089547449417062,
+      "seconds": 319.5,
+      "llm_tokens": 22750
+    },
+    "compute_identity_kernel": {
+      "npu_calls": 12,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 22.360447,
+      "S": 23.560824432534822,
+      "seconds": 592.9,
+      "llm_tokens": 49023
+    },
+    "moe_align_block_size_stage": {
+      "npu_calls": 13,
+      "eval_budget": 13,
+      "budget_ok": true,
+      "t_best_us": 14.340287,
+      "S": 1.0474198319740742,
+      "seconds": 428.9,
+      "llm_tokens": 45276
+    }
+  },
+  "per_pool_v1": {
+    "('compute_identity_kernel', 1)": 8,
+    "('compute_identity_kernel', 2)": 8,
+    "('eye_kernel', 1)": 7,
+    "('eye_kernel', 2)": 8,
+    "('moe_align_block_size_stage', 1)": 8,
+    "('moe_align_block_size_stage', 2)": 8
+  },
+  "per_pool_v2": {
+    "('compute_identity_kernel', 1)": 4,
+    "('compute_identity_kernel', 2)": 4,
+    "('eye_kernel', 1)": 4,
+    "('eye_kernel', 2)": 4,
+    "('moe_align_block_size_stage', 1)": 4,
+    "('moe_align_block_size_stage', 2)": 4
+  }
+}
