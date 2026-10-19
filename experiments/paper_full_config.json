@@ -1,0 +1,69 @@
+{
+  "protocol": "TritonEvo-NPU PAPER-FULL",
+  "version": 1,
+  "status": "frozen_v1_after_acceptance",
+  "algorithm": {
+    "method": "paper_full",
+    "selection": "ucb",
+    "ucb_c": 0.5,
+    "population_size": 6,
+    "elite_count": 2,
+    "max_generations": 2,
+    "seed_diversity_threshold": 0.9,
+    "crossover_mode": "protected",
+    "mutation_mode": "adaptive",
+    "enable_candidate_dedup": false,
+    "genetic_v2": false
+  },
+  "evidence_guidance": {
+    "enable_profiling": true,
+    "enable_rag": true,
+    "rag_mode": "hybrid",
+    "require_rag_index": true,
+    "rag_index_files": [
+      "RAG/knowledge/index.faiss",
+      "RAG/knowledge/index.pkl"
+    ],
+    "rag_index_sha256": "3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397"
+  },
+  "baseline_protocol": {
+    "source": "experiments/manifest/<kernel>.json",
+    "field": "t_base_us",
+    "executor_and_final_S_share_reference": true,
+    "measurement": "same msprof test command; five serial measurements; median",
+    "manifest_sha256_recorded_per_result": true,
+    "missing_or_invalid_manifest": "fail closed for PAPER/B1/B2"
+  },
+  "evaluation": {
+    "gen0_candidates": 5,
+    "children_per_generation": 4,
+    "eval_budget": 13,
+    "remeasure_repeats": 5,
+    "tiered_remeasure": false,
+    "pre_compile_check": false,
+    "compile_gate_pool": false,
+    "enable_candidate_filter": false
+  },
+  "acceptance_environment": {
+    "EA_NUM_DEVICES": 1,
+    "EA_MAX_WORKERS": 2,
+    "seeds": [
+      1
+    ],
+    "kernels": [
+      "eye_kernel",
+      "compute_identity_kernel",
+      "moe_align_block_size_stage"
+    ]
+  },
+  "freeze_record": {
+    "commit_hash": "Recorded in post-commit acceptance result provenance",
+    "llm_model_id": "Recorded from actual LLM call history per result",
+    "source_test_manifest_sha256": "Recorded per result provenance"
+  },
+  "notes": [
+    "The strict PAPER-FULL configuration fails closed if the FAISS index is missing, incomplete, unloadable, or has no ACTION/Guard documents.",
+    "The LLM endpoint and credentials are provided by the execution environment and must not be included in result artifacts; record the non-secret model identifier with each run.",
+    "paper_full_v2 and paper_full_v2_tournament are diagnostic generation-strategy comparisons and are not the PAPER-FULL default."
+  ]
+}

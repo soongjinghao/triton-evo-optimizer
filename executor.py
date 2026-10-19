@@ -161,7 +161,7 @@ class TritonExecutor:
         print(f"\n[{ICONS['rocket']}] [Executor] Initializing Triton executor...")
         print(f"       └─ Operator name: {kernel_name}")
         print(f"       └─ Working directory: {self.work_dir}")
-        print(f"       └─ Baseline time: {baseline_time:.2f}us (read from JSON)")
+        print(f"       └─ Reference baseline: {baseline_time:.2f}us")
         print(f"       └─ Test file: {self.test_code_path}")
 
     def _find_latest_opprof_dir(self, result_dir: Path) -> Optional[Path]:

@@ -22,6 +22,7 @@ Evidence-aware + Guard-aware Hybrid RAG Retriever
 """
 
 import os
+import hashlib
 
 # ============================================================
 # 限制 CPU BLAS / OpenMP 线程数
@@ -38,12 +39,18 @@ import re
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
 
-os.environ["HF_HOME"] = "/workspace/user_data/Agent/RAG/.hf_cache"
+HF_CACHE_HOME = (
+    os.getenv("TRITONEVO_HF_HOME")
+    or os.getenv("HF_HOME")
+    or "/workspace/user_data/Agent/RAG/.hf_cache"
+)
+os.environ["HF_HOME"] = HF_CACHE_HOME
+os.environ["HF_HUB_CACHE"] = str(Path(HF_CACHE_HOME) / "hub")
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 os.environ["HF_DATASETS_OFFLINE"] = "1"
 os.environ["HF_HUB_OFFLINE"] = "1"
-os.environ["TRANSFORMERS_CACHE"] = "/workspace/user_data/Agent/RAG/.hf_cache"
+os.environ["TRANSFORMERS_CACHE"] = HF_CACHE_HOME
 
 try:
     from langchain_community.vectorstores import FAISS
@@ -369,10 +376,13 @@ class TritonKnowledgeNode:
         positive_top_k: int = 3,
         guard_top_k: int = 3,
         retrieval_mode: str = "hybrid",   # hybrid=混合重排+Guard | semantic=普通语义Top-k
+        require_index: bool = False,
     ):
         self.knowledge_dir = self._resolve_knowledge_dir(knowledge_dir)
         self.embedding_model = embedding_model
+        self.require_index = bool(require_index)
         self.vectorstore = None
+        self.index_sha256 = None
 
         self.broad_top_k = max(5, int(broad_top_k))
         self.positive_top_k = max(1, int(positive_top_k))
@@ -412,7 +422,11 @@ class TritonKnowledgeNode:
 
     def _find_local_model_path(self):
         """查找项目 RAG/.hf_cache 中的本地 snapshot。"""
-        hf_cache = self.knowledge_dir.parent / ".hf_cache" / "hub"
+        hf_cache = Path(os.getenv(
+            "HF_HUB_CACHE",
+            str(Path(os.getenv("HF_HOME", self.knowledge_dir.parent / ".hf_cache"))
+                / "hub"),
+        ))
 
         if not hf_cache.exists():
             return
@@ -440,17 +454,19 @@ class TritonKnowledgeNode:
     def _load_vectorstore(self):
         """加载本地 FAISS，并建立 ACTION -> Document 快速索引。"""
         if FAISS is None or HuggingFaceEmbeddings is None:
-            print(
-                "[⚠️ KnowledgeNode] LangChain/FAISS 未安装，"
-                "节点将退化为默认保守规则。"
-            )
+            message = "LangChain/FAISS 未安装，无法挂载本地 RAG 索引。"
+            if self.require_index:
+                raise RuntimeError(message)
+            print(f"[⚠️ KnowledgeNode] {message} 节点将退化为默认保守规则。")
             return
 
-        if not (self.knowledge_dir / "index.faiss").exists():
-            print(
-                f"[⚠️ KnowledgeNode] 未在 {self.knowledge_dir} 找到索引，"
-                "节点将使用默认保守规则。"
-            )
+        index_files = [self.knowledge_dir / name for name in ("index.faiss", "index.pkl")]
+        missing = [p.name for p in index_files if not p.is_file()]
+        if missing:
+            message = f"RAG 索引不完整：{self.knowledge_dir} 缺少 {', '.join(missing)}。"
+            if self.require_index:
+                raise RuntimeError(message)
+            print(f"[⚠️ KnowledgeNode] {message} 节点将使用默认保守规则。")
             return
 
         try:
@@ -468,12 +484,23 @@ class TritonKnowledgeNode:
             )
 
             self._build_action_lookup()
+            if self.require_index and not self.action_docs:
+                raise RuntimeError(
+                    f"RAG 索引 {self.knowledge_dir} 未包含可用 ACTION/Guard 知识卡。")
+            digest = hashlib.sha256()
+            for path in index_files:
+                digest.update(path.name.encode("utf-8"))
+                digest.update(path.read_bytes())
+            self.index_sha256 = digest.hexdigest()
 
             print(
                 "[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！"
-                f" ACTION={len(self.action_docs)}"
+                f" ACTION={len(self.action_docs)} SHA256={self.index_sha256}"
             )
         except Exception as exc:
+            if self.require_index:
+                raise RuntimeError(
+                    f"无法挂载必需的 RAG 索引 {self.knowledge_dir}: {exc}") from exc
             print(f"[❌ KnowledgeNode] 加载向量库失败: {exc}")
             self.vectorstore = None
             self.action_docs = {}

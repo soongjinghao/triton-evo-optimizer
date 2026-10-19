@@ -387,6 +387,8 @@ def test_provenance():
     prov_a = fe._build_provenance("predictor", cfg_a, str(MODEL))
     assert prov_a["fix_tag"] == fe.FIX_TAG
     assert prov_a["model_sha256"], "未记录模型哈希"
+    assert prov_a["source_sha256"]["experiments/common.py"]
+    assert prov_a["source_sha256"]["experiments/tests/test_parent_latency.py"]
 
     # 完全一致 → 可复用
     assert fe._provenance_mismatch(prov_a, prov_a) == []
@@ -482,8 +484,9 @@ def test_result_recovery():
     d = _TMP_ROOT / "rec"
     d.mkdir(parents=True, exist_ok=True)
     good = {"kernel": "k", "config": "predictor", "seed": 0, "run_id": 900,
-            "success": True, "t_best_us": 1.0,
-            "audit": {"npu_calls": 13}}
+            "success": True, "t_best_us": 1.0, "S": 1.2,
+            "audit": {"npu_calls": 13, "eval_budget": 13, "budget_ok": True},
+            "acceptance": {"passed": True, "problems": []}}
 
     p = d / "empty.json"
     p.write_text("", encoding="utf-8")
@@ -498,6 +501,24 @@ def test_result_recovery():
     bad["audit"] = {}
     p.write_text(json.dumps(bad), encoding="utf-8")
     assert fe._load_existing(p) is None, "audit 不完整被误判为已完成"
+
+    p = d / "noacceptance.json"
+    bad = dict(good)
+    bad.pop("acceptance")
+    p.write_text(json.dumps(bad), encoding="utf-8")
+    assert fe._load_existing(p) is None, "缺少硬性验收记录被误判为已完成"
+
+    p = d / "failed_acceptance.json"
+    bad = dict(good)
+    bad["acceptance"] = {"passed": False}
+    p.write_text(json.dumps(bad), encoding="utf-8")
+    assert fe._load_existing(p) is None, "验收失败结果被误判为已完成"
+
+    p = d / "bad_score.json"
+    bad = dict(good)
+    bad["S"] = float("nan")
+    p.write_text(json.dumps(bad), encoding="utf-8")
+    assert fe._load_existing(p) is None, "非法 S 被误判为已完成"
 
     p = d / "good.json"
     p.write_text(json.dumps(good), encoding="utf-8")

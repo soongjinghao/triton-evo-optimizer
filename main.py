@@ -17,9 +17,15 @@ Parameter description:
 All LLM configurations please modify the llm_models list in config.py
 """
 
-#相对于官方文件做出的修改：重定向HF_HOME缓存路径并开启离线模式，避免网络问题
+#相对于官方文件做出的修改：统一HF缓存路径并开启离线模式，避免网络问题
 import os
-os.environ["HF_HOME"] = "/workspace/user_data/Agent/RAG/.hf_cache"
+_HF_HOME = (
+    os.getenv("TRITONEVO_HF_HOME")
+    or os.getenv("HF_HOME")
+    or "/workspace/user_data/Agent/RAG/.hf_cache"
+)
+os.environ["HF_HOME"] = _HF_HOME
+os.environ["HF_HUB_CACHE"] = os.path.join(_HF_HOME, "hub")
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 

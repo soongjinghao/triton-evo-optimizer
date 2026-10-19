@@ -9,6 +9,7 @@ import re
 import ast
 from dataclasses import dataclass, field
 import hashlib
+import math
 import random
 import time
 import threading
@@ -126,6 +127,7 @@ class GeneticOperators:
         self.knowledge_node = TritonKnowledgeNode(
             knowledge_dir="RAG/knowledge",
             retrieval_mode=getattr(config, "rag_mode", "hybrid"),
+            require_index=getattr(config, "require_rag_index", False),
         )
         self.total_prompt_tokens = 0
         self.total_completion_tokens = 0
@@ -613,21 +615,54 @@ class GeneticOperators:
         时完全一致，不能因为换了来源就换一套口径。
         """
         md = getattr(individual, "metadata", None) or {}
+        evaluated = (
+            md.get("evaluated") is True
+            or ("execution_time" in md and md.get("execution_time") is not None)
+        )
         v = md.get("speedup")
         try:
             v = float(v) if v is not None else None
         except (TypeError, ValueError):
             v = None
-        if v is not None and v > 0:
-            return v, "self"
+        if evaluated:
+            if v is not None and math.isfinite(v):
+                return v, "self"
+            return 0.0, "self"
         bv = md.get("backbone_speedup")
         try:
             bv = float(bv) if bv is not None else None
         except (TypeError, ValueError):
             bv = None
-        if bv is not None and bv > 0:
+        if bv is not None and math.isfinite(bv):
             return bv, "backbone"
         return 0.0, "none"
+
+    @staticmethod
+    def _select_crossover_parents(parent1: Individual, parent2: Individual):
+        """选择交叉主干；优先比较两个已测个体的真实延迟，否则比较统一适应度。"""
+        def measured_latency(individual):
+            metadata = getattr(individual, "metadata", None) or {}
+            if metadata.get("success") is False:
+                return None
+            try:
+                latency = float(metadata["execution_time"])
+            except (KeyError, TypeError, ValueError):
+                return None
+            return latency if math.isfinite(latency) and latency > 0 else None
+
+        latency1 = measured_latency(parent1)
+        latency2 = measured_latency(parent2)
+        if latency1 is not None and latency2 is not None:
+            return (parent1, parent2) if latency1 <= latency2 else (parent2, parent1)
+
+        def fitness(individual):
+            try:
+                value = float(individual.fitness)
+            except (TypeError, ValueError):
+                return 0.0
+            return value if math.isfinite(value) else 0.0
+
+        return (parent1, parent2) if fitness(parent1) >= fitness(parent2) else (parent2, parent1)
 
     @staticmethod
     def _backbone_of(individual: Individual):
@@ -832,11 +867,8 @@ class GeneticOperators:
         )
 
     def crossover(self, parent1: Individual, parent2: Individual) -> Individual:
-        """交叉操作：以加速比更高的父代为骨架，嫁接另一父代的高效指令或超参"""
-        sp1 = parent1.metadata.get('speedup', parent1.fitness)
-        sp2 = parent2.metadata.get('speedup', parent2.fitness)
-
-        dominant, donor = (parent1, parent2) if sp1 >= sp2 else (parent2, parent1)
+        """以实测更快的父代为骨架；未同时测得时使用统一适应度。"""
+        dominant, donor = self._select_crossover_parents(parent1, parent2)
         dom_sp = dominant.metadata.get('speedup', dominant.fitness)
         don_sp = donor.metadata.get('speedup', donor.fitness)
 

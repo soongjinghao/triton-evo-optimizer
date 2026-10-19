@@ -20,7 +20,7 @@
 - **🧠 初始化导流**：从种子代码出发，结合rag检索结果，完成初始化不同方向生成策略发掘，提升父代质量
 - **📚 RAG增强**: 基于知识库的优化策略检索，为初始化导流提供知识参考
 - **🚀 并行请求**: llm并行请求，减少模型请求时间，提高优化效率
-- **🎯 双卡测评**: 利用机器中的两张卡进行npu测评，提高优化效率
+- **🎯 并行测评**: 支持按配置使用多个NPU；本次 PAPER-FULL 验收固定为单卡
 - **🛡️ AST门禁**: 基于抽象语法树的代码安全检查，防止非法代码进入测评，提高测试效率
 
 ## 📁 项目结构
@@ -58,7 +58,7 @@
 ├── .gitignore                      # Git忽略文件
 ├── config.py                       # 配置模块（进化参数、LLM配置）
 ├── evolutionary_algorithm.py       # 进化算法核心（种群管理、世代迭代）
-├── executor.py                     # Triton执行器（NPU评估、双卡并行）
+├── executor.py                     # Triton执行器（NPU评估、按配置并行）
 ├── genetic_operators.py            # 遗传算子（变异、交叉、策略分析、代码清洗）
 ├── llm_interface.py                # LLM接口（模型调用、Token统计、重试机制）
 ├── main.py                         # 命令行入口
@@ -67,6 +67,22 @@
 ```
 
 ## 🚀 快速开始
+
+### PAPER-FULL 冻结验收（研究配置）
+
+论文主方案配置见 `experiments/paper_full_config.json`。正式真机搜索要求本地 Guard-RAG
+索引存在且哈希匹配；索引缺失或加载失败会直接终止，不会静默退化为默认规则。
+小规模验收脚本依次验证 UCB/Tournament、V1/V2 和 B1/B2，默认使用 3 个算子和
+seed 1，以保留此前 seed 0 开发记录（仅作流程/正确性 smoke，不作为统计证据）：
+
+```bash
+bash experiments/run_paper_acceptance.sh
+```
+
+该脚本固定 `EA_NUM_DEVICES=1`、`EA_MAX_WORKERS=2`，并验证预算、5 次最终复测、
+RAG 与参考 manifest 指纹、实际 LLM 模型标识。正式 PAPER/B1/B2 配置均要求执行器评测和
+最终 `S` 使用同一份 `experiments/manifest/<kernel>.json` 中位数基线；缺失时拒绝启动。
+扩展到 50 算子前，应检查 Git 工作区、冻结 commit、RAG/manifest/测试源码哈希和运行环境。
 
 ### 1.申请机器
 
@@ -143,7 +159,9 @@ python main.py --input-dir ./datasets --output-dir ./output --debug
 | `max_generations` | int | 2 | 最大进化代数 |
 | `crossover_rate` | float | 0.8 | 交叉概率 |
 | `mutation_rate` | float | 0.5 | 变异概率 |
-| `elite_ratio` | float | 0.34 | 精英保留比例 |
+| `elite_ratio` | float | 0.3333 | 精英保留比例（种群 6 时保留 2 个） |
+| `selection` | str | `ucb` | 父代选择策略；PAPER-FULL 使用 UCB，Tournament 用于对照 |
+| `ucb_c` | float | 0.5 | UCB 式选择的探索系数 |
 | `llm_temperature` | float | 0.2 | 生成温度 |
 | `max_llm_tokens` | int | 16888 | 最大 Token 数 |
 | `model_switch_prob` | float | 0.2 | 变异时模型切换概率 |
@@ -162,10 +180,10 @@ python main.py --input-dir ./datasets --output-dir ./output --debug
     └─ 根据策略蓝图生成多个候选算子                   
                                                              
   Step 4: NPU压测                             
-    └─ 双卡并行测试 → 计算加速比和Fitness               
+    └─ 按设备配置进行NPU评测 → 计算加速比和Fitness
                                                              
   Step 5: 进化迭代                         
-    ├─ 选择: 锦标赛选择                                       
+    ├─ 选择: UCB 式探索-利用父代选择（c=0.5）
     ├─ 交叉: 基于speedup选择主干父代，嫁接指令/超参           
     ├─ 变异: 根据speedup和世代锁定结构，仅做微调
     └─ Step 4                
@@ -186,7 +204,7 @@ python main.py --input-dir ./datasets --output-dir ./output --debug
 
 ### 交叉策略
 
-- **主干父代选择**: 基于相对Baseline的 `speedup` 选择
+- **父代选择**: PAPER-FULL 使用 UCB 式探索-利用选择；保护交叉的主干仍按父代性能确定
 - **嫁接规则**: 仅允许移植供体父代的局部指令优化和超参配置
 - **骨架保护**: 100% 保留主干父代的 Grid 映射、指针偏移算式和片上布局
 
@@ -201,7 +219,7 @@ python main.py --input-dir ./datasets --output-dir ./output --debug
 对官方主文件修改的说明（相应修改部分已做注释说明）：
 
 1. **`executor.py`**
-   - **增加了里面的一点参数，以实现双卡测评**
+   - **增加了设备数参数，以配置并行NPU测评**
 
 2. **`set_env/`**
    - **配置了自己的apiKey和apiUrl**

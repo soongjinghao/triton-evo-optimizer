@@ -1,6 +1,8 @@
 """3.1 主实验公共模块：路径、事件日志、Kernel 装载、执行器构造。"""
 
 import json
+import hashlib
+import math
 import time
 import random
 import os
@@ -65,6 +67,29 @@ def find_test_file(kernel_name: str) -> Path:
     if p.exists():
         return p
     raise ValueError(f"未找到测试文件: {kernel_name}")
+
+
+def read_reference_manifest(kernel_name: str):
+    """读取并校验该算子的正式参考计时记录；没有记录时返回 None。"""
+    path = MANIFEST_DIR / f"{kernel_name}.json"
+    if not path.is_file():
+        return None
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+        baseline = float(manifest["t_base_us"])
+    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
+        raise RuntimeError(f"参考计时 manifest 无法读取或缺少有效 t_base_us: {path}: {exc}") from exc
+    if not math.isfinite(baseline) or baseline <= 0:
+        raise RuntimeError(f"参考计时 manifest 的 t_base_us 必须为有限正数: {path}")
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    return {
+        "path": str(path.resolve()),
+        "sha256": digest,
+        "t_base_us": baseline,
+        "t_seed_us": manifest.get("t_seed_us"),
+        "repeats": manifest.get("repeats"),
+        "device_id": manifest.get("device_id"),
+    }
 
 
 class ExpLogger:

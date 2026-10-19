@@ -32,7 +32,7 @@ class EAConfig:
     # Genetic operation parameters
     crossover_rate: float = 0.8          # Crossover probability
     mutation_rate: float = 0.5          # Mutation probability
-    elite_ratio: float = 0.34            # Elite preservation ratio
+    elite_ratio: float = 2 / 6           # PAPER-FULL: retain 2 elites in a population of 6
 
     # ==================== Large Model Configuration (Key) ====================
     # 仅配置两类模型：Flash 用于快速分析，Pro 用于复杂生成和代码修复
@@ -65,9 +65,11 @@ class EAConfig:
     enable_strategy_init: bool = True  # 是否启用策略驱动的第 0 代初始化
     enable_crossover: bool = True      # 是否执行父代交叉（B2 关闭）
     mutation_mode: str = "adaptive"    # adaptive | uniform | aggressive
-    selection: str = "tournament"      # tournament | roulette
+    selection: str = "ucb"             # ucb | tournament | roulette | uniform
+    ucb_c: float = 0.5                 # UCB-inspired exploration coefficient
     crossover_mode: str = "protected"  # protected | unconstrained
     rag_mode: str = "hybrid"        # hybrid(混合重排+Guard) | semantic(普通语义Top-k)
+    require_rag_index: bool = False    # PAPER-FULL enables this to prevent silent fallback
 
     # 统一搜索预算（3.1）
     gen0_candidates: int = 5           # 第 0 代生成的候选数
@@ -169,6 +171,9 @@ class EAConfig:
         print(f"         Crossover rate: {self.crossover_rate}")
         print(f"         Mutation rate: {self.mutation_rate}")
         print(f"         Elite ratio: {self.elite_ratio}")
+        print(f"         Parent selection: {self.selection}")
+        if self.selection == "ucb":
+            print(f"         UCB exploration coefficient: {self.ucb_c}")
         print(f"[Config] Large Model Configuration:")
         print(f"         Flash model: {self.flash_model}")
         print(f"         Pro model: {self.pro_model}")

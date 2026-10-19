@@ -337,6 +337,14 @@ def test_mutation_tier_uses_backbone_speedup():
     v, s = GeneticOperators._mutation_tier_speedup(p)
     assert (v, s) == (3.0, "self"), (v, s)
 
+    # 已评测信号即使被截断为 0，也必须覆盖祖先的正向 backbone 信号。
+    failed_but_evaluated = _ind("P0", lat=10.0, operation="mutation")
+    failed_but_evaluated.metadata.update({
+        "evaluated": True, "speedup": 0.0, "backbone_speedup": 3.0,
+    })
+    v, s = GeneticOperators._mutation_tier_speedup(failed_but_evaluated)
+    assert (v, s) == (0.0, "self"), (v, s)
+
     # 未评测的交叉产物：必须用继承的 backbone_speedup
     c = _ind("C", lat=None, success=False, operation="crossover")
     c.metadata.update({"backbone_id": "A", "backbone_speedup": 3.0})
@@ -347,6 +355,31 @@ def test_mutation_tier_uses_backbone_speedup():
     d = _ind("D", lat=None, success=False, operation="crossover")
     v, s = GeneticOperators._mutation_tier_speedup(d)
     assert (v, s) == (0.0, "none"), (v, s)
+    return None
+
+
+def test_crossover_uses_measured_latency_when_speedup_is_clipped():
+    """负改进值截断为零时，交叉仍按实测延迟选择更快的主干父代。"""
+    from genetic_operators import GeneticOperators
+
+    slower = _ind("SLOW", lat=20.0, operation="mutation")
+    faster = _ind("FAST", lat=10.0, operation="mutation")
+    slower.fitness = faster.fitness = 0.95
+    slower.metadata["speedup"] = 0.0
+    faster.metadata["speedup"] = 0.0
+    dominant, donor = GeneticOperators._select_crossover_parents(slower, faster)
+    assert dominant is faster
+    assert donor is slower
+
+    # 缺少两侧实测时间时，按共同的 seed-relative fitness 稳定回退。
+    unevaluated_a = _ind("UA", lat=None, success=False, operation="crossover")
+    unevaluated_b = _ind("UB", lat=None, success=False, operation="crossover")
+    unevaluated_a.fitness = 0.8
+    unevaluated_b.fitness = 1.1
+    dominant, donor = GeneticOperators._select_crossover_parents(
+        unevaluated_a, unevaluated_b)
+    assert dominant is unevaluated_b
+    assert donor is unevaluated_a
     return None
 
 
@@ -986,6 +1019,7 @@ def main():
         ("feature_parity_online", test_filter_features_equals_shared_compute),
         ("feature_parity_training", test_training_add_pc_features_uses_shared_impl),
         ("mutation_tier_backbone", test_mutation_tier_uses_backbone_speedup),
+        ("crossover_measured_latency", test_crossover_uses_measured_latency_when_speedup_is_clipped),
         ("batch_aborted_unknown", test_batch_aborted_is_unknown_not_fail),
         ("compile_failed_counter", test_compile_failed_counter_only_when_confirmed),
         ("gate_off_by_default", test_pre_compile_check_off_by_default),

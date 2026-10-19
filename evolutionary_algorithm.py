@@ -688,18 +688,29 @@ class EvolutionaryAlgorithm:
 
         self.best_individual = max(self.population, key=lambda x: x.fitness)
         self.gen0_snapshot = list(self.population)  # 3.2：冻结第 0 代种群
+        self.stats["best_updates"] = self.stats.get("best_updates", 0) + 1
+        self.logger.log({
+            "event": "best_update",
+            "method": getattr(self.config, "method", "full"),
+            "kernel": self.executor.kernel_name,
+            "run_id": getattr(self.config, "run_id", 0),
+            "gen": 0,
+            "candidate_id": self.best_individual.id,
+            "fitness": float(self.best_individual.fitness),
+            "execution_time": self.best_individual.metadata.get("execution_time"),
+        })
         print(f"\n[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: {self.best_individual.fitness:.4f} "
               f"(第 0 代种群规模 {len(self.gen0_snapshot)})")
 
     def select_parents(self) -> Tuple[Individual, Individual]:
         """父代选择（3.4.1 消融，共四种策略）：
 
-        - tournament：三元锦标赛，局部竞争取优（默认）
+        - tournament：三元锦标赛，局部竞争取优
         - roulette  ：轮盘赌，按适应度比例加权采样（强选择压力）
         - uniform   ：均匀随机，完全不给选择压力（下界基线）
         - ucb       ：UCB 式探索-利用平衡选择（本文提出）
         """
-        mode = str(getattr(self.config, 'selection', 'tournament') or 'tournament').lower()
+        mode = str(getattr(self.config, 'selection', 'ucb') or 'ucb').lower()
         if mode == 'roulette':
             return self._select_parents_roulette()
         if mode == 'uniform':
@@ -785,6 +796,9 @@ class EvolutionaryAlgorithm:
         在两者之间取得平衡。采样仍按 score 加权随机进行，以保留种群随机性。
         """
         pop = self.population
+        if len(pop) < 2:
+            raise RuntimeError(
+                "UCB parent selection requires at least two distinct individuals")
         fmax = max((max(ind.fitness, 0.0) for ind in pop), default=0.0)
         if fmax <= 0:
             # 全部个体均无有效适应度，退化为均匀随机
@@ -800,22 +814,25 @@ class EvolutionaryAlgorithm:
             bonus = c * float(np.sqrt(np.log(n_total + 2.0) / (1.0 + counts.get(ind.id, 0))))
             scores.append(max(f_norm + bonus, 0.0))
 
-        def _pick():
-            total = sum(scores)
+        def _pick(weights, eligible):
+            total = sum(weights)
             if total <= 0:
-                return random.choice(pop)
+                return random.choice(eligible)
             r = random.random() * total
             acc = 0.0
-            for ind, s in zip(pop, scores):
+            for ind, s in zip(pop, weights):
                 acc += s
                 if acc >= r:
                     return ind
-            return pop[-1]
+            return eligible[-1]
 
-        parent1 = _pick()
-        parent2 = _pick()
-        if parent1 == parent2 and len(pop) > 1:
-            parent2 = _pick()
+        parent1 = _pick(scores, pop)
+        remaining = [ind for ind in pop if ind != parent1]
+        parent2_weights = [
+            score if ind != parent1 else 0.0
+            for ind, score in zip(pop, scores)
+        ]
+        parent2 = _pick(parent2_weights, remaining)
 
         # 更新被选次数，供后续各代的探索项使用
         for p in (parent1, parent2):
@@ -1321,6 +1338,17 @@ class EvolutionaryAlgorithm:
 
         if self.best_individual is None or current_best.fitness > self.best_individual.fitness:
             self.best_individual = current_best
+            self.stats["best_updates"] = self.stats.get("best_updates", 0) + 1
+            self.logger.log({
+                "event": "best_update",
+                "method": getattr(self.config, "method", "full"),
+                "kernel": self.executor.kernel_name,
+                "run_id": getattr(self.config, "run_id", 0),
+                "gen": self.generation,
+                "candidate_id": current_best.id,
+                "fitness": float(current_best.fitness),
+                "execution_time": current_best.metadata.get("execution_time"),
+            })
             print(f"[EA] 🎉 找到更优版本! New Best Fitness: {current_best.fitness:.4f}")
             self._save_individual_code(self.best_individual, prefix="best_")
 
@@ -2045,6 +2073,7 @@ class EvolutionaryAlgorithm:
 
     def run(self, seed_codes: List[str]) -> Individual:
         """运行完整的进化流程：初始化种群 -> 迭代演化 -> 返回最优个体"""
+        self._ucb_counts.clear()
         if getattr(self.config, 'method', 'full') == 'b2':
             return self.run_hill_climb(seed_codes)
 

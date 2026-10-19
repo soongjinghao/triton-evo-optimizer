@@ -161,7 +161,7 @@ def setup():
     cfg = {
         "population_size": 6, "gen0_candidates": 5, "max_generations": 2,
         "children_per_generation": 4, "eval_budget": 13,
-        "seed_diversity_threshold": 0.90, "selection": "tournament",
+        "seed_diversity_threshold": 0.90, "selection": "ucb", "ucb_c": 0.5,
         "crossover_mode": "protected", "mutation_mode": "adaptive",
         "enable_profiling": True, "enable_rag": True,
         "enable_strategy_init": True, "remeasure_repeats": 5,
@@ -173,7 +173,7 @@ def setup():
         "dataset_snapshot": DATASET_SNAPSHOT,
         "dev_kernels(15)": DEVS,
         "git_commit": git_commit(),
-        "note": "冻结主方法配置；UCB 暂不采用；预测模型按排除开发集训练，防泄漏；"
+        "note": "PAPER-FULL 父代选择采用 UCB(c=0.5)；预测模型按排除开发集训练，防泄漏；"
                 "第 0 代不启用候选预筛选",
     }
     CONFIG_JSON.write_text(json.dumps(cfg, ensure_ascii=False, indent=2),

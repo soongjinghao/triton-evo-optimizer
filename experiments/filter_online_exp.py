@@ -53,9 +53,11 @@ predictor / filtered / random / fulleval **必须**显式传 --model-path。
 """
 import argparse
 import hashlib
+import importlib.metadata
 import json
 import math
 import os
+import platform
 import sys
 import time
 from pathlib import Path
@@ -63,7 +65,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from experiments.harness import build_ea                       # noqa: E402
+from experiments.harness import build_ea, reference_measurement  # noqa: E402
 from experiments import common                                  # noqa: E402
 from experiments.analyze_logs import K15                        # noqa: E402
 
@@ -73,6 +75,34 @@ LOGS_DIR = ROOT / "experiments" / "logs"
 POOL = 20          # 每代生成的候选池规模
 TOPK = 4           # 每代送 NPU 评测的个数
 RUN_BASE = 900     # 独立 run_id，避免与既有实验冲突
+
+PAPER_FULL_CONFIG = {
+    "method": "paper_full",
+    "population_size": 6,
+    "elite_ratio": 2 / 6,
+    "max_generations": 2,
+    "gen0_candidates": 5,
+    "children_per_generation": 4,
+    "eval_budget": 13,
+    "seed_diversity_threshold": 0.90,
+    "selection": "ucb",
+    "ucb_c": 0.5,
+    "crossover_mode": "protected",
+    "mutation_mode": "adaptive",
+    "enable_profiling": True,
+    "enable_rag": True,
+    "enable_strategy_init": True,
+    "enable_crossover": True,
+    "enable_candidate_filter": False,
+    "enable_candidate_dedup": False,
+    "genetic_v2": False,
+    "require_rag_index": True,
+    "pre_compile_check": False,
+    "compile_gate_pool": False,
+    "tiered_remeasure": False,
+    "collect_data": False,
+    "require_manifest_baseline": True,
+}
 
 CONFIGS = {
     "baseline": dict(eval_budget=13),
@@ -102,14 +132,57 @@ CONFIGS = {
     #   FULL-V2    ：V2 生成机制，去重开，Predictor 关    → 继续验证候选质量
     #   FULL-V2-P  ：V2 + Predictor                    → 预测模型证明有效后再验证
     # 编译门保持独立开关（pre_compile_check），未经验证不默认打开。
-    "full_v1": dict(eval_budget=13),
+    "full_v1": dict(eval_budget=13, selection="tournament"),
     "full_v2": dict(eval_budget=13,
-                    enable_candidate_dedup=True, genetic_v2=True),
+                    enable_candidate_dedup=True, genetic_v2=True,
+                    selection="tournament"),
     "full_v2_p": dict(eval_budget=13,
                       enable_candidate_dedup=True, genetic_v2=True,
                       enable_candidate_filter=True,
                       candidate_pool_size=POOL,
-                      candidate_filter_mode="model"),
+                      candidate_filter_mode="model",
+                      selection="tournament"),
+    # New paper protocol; legacy full_v1/full_v2 records remain explicitly
+    # tournament-based and are not reused as PAPER-FULL results.
+    "paper_full": dict(PAPER_FULL_CONFIG),
+    "paper_tournament": {
+        **PAPER_FULL_CONFIG,
+        "method": "paper_tournament",
+        "selection": "tournament",
+        "ucb_c": 0.5,
+    },
+    "paper_full_v2": {
+        **PAPER_FULL_CONFIG,
+        "method": "paper_full",
+        "enable_candidate_dedup": True,
+        "genetic_v2": True,
+    },
+    "paper_full_v2_tournament": {
+        **PAPER_FULL_CONFIG,
+        "method": "paper_tournament",
+        "selection": "tournament",
+        "enable_candidate_dedup": True,
+        "genetic_v2": True,
+    },
+    "paper_b1": {
+        **PAPER_FULL_CONFIG,
+        "method": "paper_b1",
+        "enable_profiling": False,
+        "enable_rag": False,
+        "enable_strategy_init": False,
+        "require_rag_index": False,
+    },
+    "paper_b2": {
+        **PAPER_FULL_CONFIG,
+        "method": "b2",
+        "selection": "tournament",
+        "enable_profiling": False,
+        "enable_rag": False,
+        "enable_strategy_init": False,
+        "enable_crossover": False,
+        "mutation_mode": "uniform",
+        "require_rag_index": False,
+    },
     # 兼容旧命名
     "filtered": dict(eval_budget=13, enable_candidate_filter=True,
                      candidate_pool_size=POOL, candidate_filter_mode="model"),
@@ -130,7 +203,7 @@ def _read_model_meta(model_path):
 
 # 结果 JSON 必须齐备的字段；缺任一即视为"未完成"，恢复运行时重跑而不是直接复用。
 REQUIRED_FIELDS = ("kernel", "config", "seed", "run_id", "success",
-                   "t_best_us", "audit")
+                   "t_best_us", "S", "audit")
 
 
 def _load_existing(out_json, force=False, provenance=None):
@@ -168,12 +241,21 @@ def _load_existing(out_json, force=False, provenance=None):
               f"（非 True），重跑")
         return None
     _acc = rec.get("acceptance")
-    if isinstance(_acc, dict) and _acc.get("passed") is False:
-        print(f"  [恢复] {out_json.name} 上次硬性验收未通过，重跑")
+    if not isinstance(_acc, dict) or _acc.get("passed") is not True:
+        print(f"  [恢复] {out_json.name} 缺少通过的硬性验收记录，重跑")
+        return None
+    try:
+        score = float(rec["S"])
+        if not math.isfinite(score) or score <= 0:
+            raise ValueError
+    except (TypeError, ValueError):
+        print(f"  [恢复] {out_json.name} 的 S 不是有限正数，重跑")
         return None
     audit = rec.get("audit")
-    if not isinstance(audit, dict) or "npu_calls" not in audit:
-        print(f"  [恢复] {out_json.name} audit 不完整（无 npu_calls），重跑")
+    if (not isinstance(audit, dict)
+            or audit.get("budget_ok") is not True
+            or "npu_calls" not in audit):
+        print(f"  [恢复] {out_json.name} audit 不完整或预算未通过，重跑")
         return None
     if provenance:
         bad = _provenance_mismatch(rec.get("provenance"), provenance)
@@ -253,7 +335,7 @@ def _check_model_isolation(model_path, kernel):
 
 # 本次修复代的标识。任何会改变结果语义的代码改动都应递增它，
 # 使"修复前"的旧结果在恢复时自动失效，不会被当成新实验复用。
-FIX_TAG = "20261018-v82-research-baseline"
+FIX_TAG = "20261019-paper-freeze-v1"
 
 
 def _git_commit():
@@ -281,6 +363,24 @@ def _sha256_file(p):
     return h.hexdigest()
 
 
+def _runtime_environment():
+    packages = {}
+    for package in (
+            "torch", "torch-npu", "triton", "langchain-openai",
+            "transformers", "faiss-cpu", "sentence-transformers"):
+        try:
+            packages[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            packages[package] = None
+    return {
+        "python": platform.python_version(),
+        "platform": platform.platform(),
+        "packages": packages,
+        "npu_devices_configured": os.getenv("EA_NUM_DEVICES"),
+        "llm_workers_configured": os.getenv("EA_MAX_WORKERS"),
+    }
+
+
 DATASET_DIR = ROOT / "experiments" / "dataset"
 
 
@@ -304,7 +404,45 @@ def _resolve_dataset_path(ds):
     return None
 
 
-def _build_provenance(cfg_name, cfg, model_path):
+def _rag_index_sha256(required=False):
+    index_dir = ROOT / "RAG" / "knowledge"
+    files = [index_dir / "index.faiss", index_dir / "index.pkl"]
+    missing = [p.name for p in files if not p.is_file()]
+    if required and missing:
+        raise RuntimeError(
+            f"PAPER-FULL 要求固定 RAG 索引；{index_dir} 缺少 {', '.join(missing)}。"
+            "请先构建/安装知识库索引，再启动真机验收。")
+    if missing:
+        return None
+    h = hashlib.sha256()
+    for p in files:
+        h.update(p.name.encode("utf-8"))
+        with p.open("rb") as f:
+            for block in iter(lambda: f.read(1024 * 1024), b""):
+                h.update(block)
+    return h.hexdigest()
+
+
+_FINGERPRINT_FILES = (
+    "config.py",
+    "main.py",
+    "evolutionary_algorithm.py",
+    "genetic_operators.py",
+    "executor.py",
+    "RAG/knowledge_node.py",
+    "experiments/common.py",
+    "experiments/harness.py",
+    "experiments/filter_online_exp.py",
+    "experiments/paper_full_config.json",
+    "experiments/run_paper_acceptance.sh",
+    "experiments/tests/test_parent_latency.py",
+    "experiments/tests/test_filter_budget.py",
+    "experiments/tests/test_paper_protocol.py",
+    "baseline/baseline.json",
+)
+
+
+def _build_provenance(cfg_name, cfg, model_path, kernel=None):
     """本次运行的版本指纹：代码版本 / 模型版本 / 数据版本 / 筛选配置。
 
     【修改】恢复实验时逐项比对，全部匹配才允许复用。否则会把"修复前"的
@@ -323,6 +461,23 @@ def _build_provenance(cfg_name, cfg, model_path):
     # 实际哈希与 meta 记录是否一致：不一致说明模型不是用这份数据训的
     ds_declared = meta.get("dataset_sha256")
     ds_ok = bool(ds_hash and ds_declared and ds_hash == ds_declared)
+    rag_hash = _rag_index_sha256(required=cfg.get("require_rag_index", False))
+    source_hashes = {
+        rel: _sha256_file(ROOT / rel)
+        for rel in _FINGERPRINT_FILES
+    }
+    reference = None
+    input_hashes = {}
+    if kernel:
+        reference = reference_measurement(
+            kernel,
+            "./baseline/baseline.json",
+            require_manifest=cfg.get("require_manifest_baseline", False))
+        input_paths = [*common.seed_code_paths(kernel), common.find_test_file(kernel)]
+        input_hashes = {
+            str(path.resolve()): _sha256_file(path)
+            for path in input_paths
+        }
     if ds_path and ds_declared and not ds_ok:
         print(f"  ⚠️ 数据快照哈希与模型 meta 记录不一致：{ds_path.name} "
               f"实际 {str(ds_hash)[:12]} vs 记录 {str(ds_declared)[:12]}")
@@ -338,6 +493,15 @@ def _build_provenance(cfg_name, cfg, model_path):
         "dataset_snapshot": str(ds_path) if ds_path else None,
         "dataset_sha256": ds_hash,
         "dataset_sha256_matches_meta": ds_ok,
+        "rag_index_sha256": rag_hash,
+        "source_sha256": source_hashes,
+        "reference_baseline_us": reference["baseline_us"] if reference else None,
+        "reference_baseline_source": reference["source"] if reference else None,
+        "reference_manifest_path": reference["manifest_path"] if reference else None,
+        "reference_manifest_sha256": reference["manifest_sha256"] if reference else None,
+        "baseline_json_sha256": reference.get("baseline_json_sha256") if reference else None,
+        "experiment_input_sha256": input_hashes,
+        "runtime_environment": _runtime_environment(),
     }
 
 
@@ -348,7 +512,11 @@ def _provenance_mismatch(old, new):
     bad = []
     for k in ("fix_tag", "git_commit", "config", "model_path",
               "model_sha256", "dataset_snapshot", "dataset_sha256",
-              "dataset_sha256_matches_meta"):
+              "dataset_sha256_matches_meta", "rag_index_sha256",
+              "source_sha256", "reference_baseline_us",
+              "reference_baseline_source", "reference_manifest_path",
+              "reference_manifest_sha256", "baseline_json_sha256",
+              "experiment_input_sha256", "runtime_environment"):
         if old.get(k) != new.get(k):
             bad.append(f"{k}: {old.get(k)!r} → {new.get(k)!r}")
     op = old.get("params") or {}
@@ -382,6 +550,7 @@ def _sum_llm_tokens(log_path):
 
 def run_one(kernel, cfg_name, seed, model_path=None, force=False):
     cfg = dict(CONFIGS[cfg_name])
+    ea_method = cfg.pop("method", "full")
     run_id = RUN_BASE + seed
     out_dir = OUT_DIR / cfg_name
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -396,7 +565,7 @@ def run_one(kernel, cfg_name, seed, model_path=None, force=False):
         meta = _check_model_isolation(model_path, kernel)
 
     # ---- 步骤 1：构造版本指纹，恢复旧结果时逐项比对 ----
-    prov = _build_provenance(cfg_name, cfg, model_path)
+    prov = _build_provenance(cfg_name, cfg, model_path, kernel=kernel)
     reused = _load_existing(out_json, force=force, provenance=prov)
     if reused is not None:
         print(f"  [复用] 已有结果 {out_json.name}")
@@ -415,8 +584,13 @@ def run_one(kernel, cfg_name, seed, model_path=None, force=False):
     overrides.setdefault("candidate_filter_mode", "model")
 
     ea, config = build_ea(
-        kernel, "full", run_id=run_id, seed=seed, log=True,
+        kernel, ea_method, run_id=run_id, seed=seed, log=True,
         log_path=str(log_path), filter_log_path=str(score_path), **overrides)
+    if (prov.get("reference_baseline_us") is not None
+            and config.reference_baseline_us != prov["reference_baseline_us"]):
+        raise RuntimeError(
+            "搜索执行器参考基线与结果 provenance 不一致："
+            f"{config.reference_baseline_us} != {prov['reference_baseline_us']}")
 
     seed_codes = [common.read_code(p) for p in common.seed_code_paths(kernel)]
     t0 = time.time()
@@ -437,6 +611,15 @@ def run_one(kernel, cfg_name, seed, model_path=None, force=False):
     rec["candidate_filter_mode"] = cfg.get("candidate_filter_mode", "model")
     # 版本指纹：恢复实验时逐项比对，防止复用修复前的旧结果
     rec["provenance"] = prov
+    rec["rag_index_sha256"] = prov.get("rag_index_sha256")
+    rec["reference_baseline_us"] = prov.get("reference_baseline_us")
+    rec["reference_baseline_source"] = prov.get("reference_baseline_source")
+    rec["reference_manifest_sha256"] = prov.get("reference_manifest_sha256")
+    llm_history = getattr(ea.genetic_ops.llm, "call_history", [])
+    rec["llm_model_ids"] = sorted({
+        str(call["model"]) for call in llm_history
+        if isinstance(call, dict) and call.get("model")
+    })
 
     # 最终最优候选用与 3.1 一致的重复测量口径复测（5 次取中位数，不计入搜索预算）
     if best and best.code:
@@ -444,11 +627,9 @@ def run_one(kernel, cfg_name, seed, model_path=None, force=False):
         (out_dir / f"{kernel}__r{seed}.py").write_text(best.code, encoding="utf-8")
         rec.update({"success": bool(res.success), "t_best_us": res.execution_time,
                     "error": (res.error or "")[:200]})
-        m = common.MANIFEST_DIR / f"{kernel}.json"
-        if m.exists():
-            man = json.loads(m.read_text(encoding="utf-8"))
-            if man.get("t_base_us") and res.execution_time:
-                rec["S"] = man["t_base_us"] / res.execution_time
+        reference_baseline = prov.get("reference_baseline_us")
+        if reference_baseline and res.execution_time:
+            rec["S"] = reference_baseline / res.execution_time
     else:
         rec.update({"success": False, "t_best_us": None,
                     "error": "no_best_candidate（搜索没有产出可用候选）"})
@@ -482,6 +663,10 @@ def run_one(kernel, cfg_name, seed, model_path=None, force=False):
     _tb = rec.get("t_best_us")
     if not (isinstance(_tb, (int, float)) and math.isfinite(_tb) and _tb > 0):
         problems.append(f"t_best_us 不是有限正数（{_tb!r}）")
+    _score = rec.get("S")
+    if not (isinstance(_score, (int, float)) and math.isfinite(_score)
+            and _score > 0):
+        problems.append(f"S 不是有限正数（{_score!r}）")
     _miss = [k for k in REQUIRED_FIELDS if rec.get(k) is None and k != "t_best_us"]
     if _miss:
         problems.append(f"结果字段缺失/为空 {_miss}")
@@ -507,8 +692,8 @@ def run_one(kernel, cfg_name, seed, model_path=None, force=False):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True,
-                    help="配置名，需在 CONFIGS 中：baseline / filtered / predictor / "
-                         "random / fulleval（phase2 的 predictor_foldN 由 run_phase 注入）")
+                    help="配置名，含 baseline / filtered / predictor / random / fulleval、"
+                         "full_v1/full_v2 与 paper_full/paper_tournament/paper_full_v2/paper_b1/paper_b2")
     ap.add_argument("--kernels", nargs="+", default=None)
     ap.add_argument("--seeds", type=int, nargs="+", default=(0, 1))
     ap.add_argument("--limit", type=int, default=0)
