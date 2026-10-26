@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: _state_passing_fwd_kernel ===
+  [复用] 已有结果 _state_passing_fwd_kernel__r11.json
+  完成: 2.700054 us  S=1.0592591851866666  用时 416.7s
+
+=== [paper_b1] seed 2/3 算子 1/1: _state_passing_fwd_kernel ===
+  [复用] 已有结果 _state_passing_fwd_kernel__r12.json
+  完成: 2.580052 us  S=1.1085268824039205  用时 413.6s
+
+=== [paper_b1] seed 3/3 算子 1/1: _state_passing_fwd_kernel ===
+  [复用] 已有结果 _state_passing_fwd_kernel__r13.json
+  完成: 2.600052 us  S=1.0999999230784616  用时 425.4s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

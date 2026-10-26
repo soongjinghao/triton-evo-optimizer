@@ -1,0 +1,1575 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: experts_combine_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 1.6200 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: experts_combine_kernel
+       └─ Working directory: /workspace/Agent/datasets2/experts_combine_kernel
+       └─ Reference baseline: 1.62us
+       └─ Test file: /workspace/Agent/datasets2/experts_combine_kernel/test_experts_combine_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 9270.19it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2127 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_onehapou/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.58us
+       └─ Raw speedup: 0.0253
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0253
+       └─ Fitness score: 0.0253 (max 2.0)
+       └─ Competition score: 2.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2144 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_9mlprrdy/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.58us
+       └─ Raw speedup: 0.0253
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0253
+       └─ Fitness score: 0.0253 (max 2.0)
+       └─ Competition score: 2.5/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.60% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 1.58us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 3819813e, 基准耗时: 1.62us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=1.62 us | 当前耗时=1.58 us (相对基线:+2.53% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=12.2%, Scalar=29.6%, MTE2(读)=41.2%, MTE3(写)=17.1%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE2 读访存 (41.2%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=27.68 GB/s, 向量写=16.51 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3605 chars
+[LLM] [Call #01] ✅ Complete | Tokens=962 (p:900, c:62) | Time=0.94s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 分组规约(tl.sum axis=0), MTE2读访存主瓶颈(41.2%), 动态stride间接索引(combine_k_offsets[:,None]*hidden_dim)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 分组规约(tl.sum axis=0), MTE2读访存主瓶颈(41.2%), 动态stride间接索引(combine_k_offsets[:, None]*hidden_dim)'
+[✅ RAG Positive] ACTION_INDEPENDENT_AXIS_PACKING, ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS, ACTION_GROUP_PACK_RESHAPE_REDUCE
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_RANDOM_GATHER_OCCUPANCY*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 分组规约(tl.sum axis=0), MTE2读访存主瓶颈(41.2%), 动态stride间接索引(combine_k_offsets[:, None]*hidden_dim)
+
+【高置信候选优化动作】
+
+[P1] ACTION_INDEPENDENT_AXIS_PACKING
+#### ⚛️ `ACTION_INDEPENDENT_AXIS_PACKING`：独立 Head / Row / Group 向量化打包
+
+* **检索锚点**：Head独立规约, Row独立规约, Group独立规约, 单head program过小, Token/Group/Head打包, 二维grid, 可共享另一维arange。
+* **Profiling 锚点**：launch-bound 或 MTE 共享参数重复读取。
+* **结构判据**：head/row/group 间逻辑独立且 store 地址不冲突，每个独立域单独 program 太轻。
+* **优化动作**：增加 `BLOCK_H/BLOCK_M/GROUPS_PER_BLOCK`，把独立轴加入向量维，一次 program 同时处理多个独立域。
+* **必须前提**：二维寄存器 tensor 可控；不混合独立规约域；局部域 mask 正确；wrapper launch contract 可证明。
+* **禁用条件**：打包导致 tile 面积爆炸；不同域存在依赖/原子冲突；使用全局 flatten mask 误覆盖下一个逻辑域。
+* **正式平台证据**：`_correct_attn_cp_out_kernel` 正式 `avg=1.79`。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_TILE_AREA_BUDGET`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：A。
+
+[P2] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+[P3] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G4] ACTION_GUARD_RANDOM_GATHER_OCCUPANCY（强制联动）
+#### ⚛️ `ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`：Random Gather 不宜过度扩大单 Program Tile
+
+* **检索锚点**：间接索引, random gather, block_table, token_indices, 大BLOCK, occupancy不足, MTE2读延迟, 单program工作量过大。
+* **核心规则**：random gather 依赖更多并发 program 隐藏访存延迟；不要仅为减少 grid 把 BLOCK 从百级扩大到千级。
+* **正式失败证据**：`_convert_req_index_to_global_index_kernel` 将 random-gather 单 program tile 过度扩大，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=11318 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3600 (p:2828, c:772) | Time=7.01s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A: 独立轴打包(ACTION_INDEPENDENT_AXIS_PACKING)**
+   ├─ 瓶颈诊断: MTE2读访存41.2%主瓶颈，单program仅处理1个token，combine_k_offsets[:,None]*hidden_dim导致非连续跨步读取
+   └─ 实施动作: 将grid从(bs,)改为(bs//BLOCK_M,)，新增BLOCK_M: tl.constexpr=4，每个program加载BLOCK_M个token的moe_hidden_states和mlp_hidden_states；moe_x加载形状从(combine_k,BLOCK_SIZE)变为(BLOCK_M,combine_k,BLOCK_SIZE)，沿axis=1规约后与mlp_x逐行相加；store时按行偏移写回；mask扩展为offsets<hidden_dim；需证明BLOCK_M整除bs且store地址不冲突
+
+  策略 [2]: **策略B: 微小program收拢(ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS)**
+   ├─ 瓶颈诊断: 海量微小program(bs个)，launch调度开销大，MTE2重复读取共享参数
+   └─ 实施动作: 将grid从(bs,)改为(triton.cdiv(bs,4),)，每个program内部循环处理4个token；循环内计算pid_base=pid*4，对i in range(4)分别计算start_index_mlp和start_index_rmoe，加载、规约、相加、存储；使用tl.where(i<remaining)处理尾部；需证明循环内寄存器压力可控且无写冲突
+
+  策略 [3]: **策略C: 连续行多group打包规约(ACTION_GROUP_PACK_RESHAPE_REDUCE)**
+   ├─ 瓶颈诊断: combine_k维度独立规约，每个program仅处理1个token的combine_k个group，MTE2读非连续
+   └─ 实施动作: 将grid从(bs,)改为(bs,)，但内部将combine_k视为group_size，使用tl.view将moe_x重塑为(combine_k//4,4,BLOCK_SIZE)或直接沿axis=0规约；若combine_k%4==0，一次加载4个连续group，用tl.sum(moe_x.reshape(combine_k//4,4,BLOCK_SIZE),axis=1)并行规约；需证明combine_k是4的倍数且group间连续
+
+  策略 [4]: **策略D: 二维grid与连续加载重构**
+   ├─ 瓶颈诊断: MTE2读访存41.2%，combine_k_offsets[:,None]*hidden_dim导致跨步访问，单program规约后写回
+   └─ 实施动作: 将grid从(bs,)改为(bs,hidden_dim//BLOCK_SIZE)，每个program处理1个token的1个BLOCK_SIZE块；加载moe_x时使用连续偏移：moe_hidden_states+pid_token*hidden_dim*combine_k+pid_col*BLOCK_SIZE+offsets，沿axis=0规约后与mlp_x相加；需证明hidden_dim整除BLOCK_SIZE且wrapper支持2D grid
+
+  策略 [5]: **策略E: 寄存器tile与mask优化**
+   ├─ 瓶颈诊断: MTE2读41.2%，BLOCK_SIZE=next_power_of_2(hidden_dim)导致padding lane，mask开销大
+   └─ 实施动作: 保持grid为(bs,)，但将BLOCK_SIZE设为hidden_dim(非2次幂)，删除mask；加载moe_x时使用tl.load(...,mask=None)和tl.store(...,mask=None)；需证明hidden_dim在编译期已知且所有testcase中hidden_dim整除BLOCK_SIZE；若无法证明则保留原mask但使用tl.max_contiguous优化连续加载
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10529 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10423 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10473 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10454 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10432 chars
+[LLM] [Call #07] ✅ Complete | Tokens=3250 (p:2608, c:642) | Time=14.96s
+[LLM] [Call #03] ✅ Complete | Tokens=3346 (p:2632, c:714) | Time=15.75s
+[LLM] [Call #06] ✅ Complete | Tokens=3330 (p:2613, c:717) | Time=15.75s
+[LLM] [Call #05] ✅ Complete | Tokens=3364 (p:2618, c:746) | Time=16.01s
+[EA] retry 1/3: candidate rejected by AST gate, regenerating
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10473 chars
+[LLM] [Call #04] ✅ Complete | Tokens=3365 (p:2605, c:760) | Time=16.32s
+[LLM] [Call #08] ✅ Complete | Tokens=3372 (p:2618, c:754) | Time=6.52s
+[EA] retry 2/3: candidate rejected by AST gate, regenerating
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10473 chars
+[LLM] [Call #09] ✅ Complete | Tokens=3719 (p:2618, c:1101) | Time=9.58s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2095 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_k_dz0180/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2309 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_zday0_qe/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 2.00us
+       └─ Raw speedup: -0.1900
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2354 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_ob6lipoy/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.68us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2540 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_aeas0x6j/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3808 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_ap6a9lv3/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.60us
+       └─ Raw speedup: 0.0125
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0125
+       └─ Fitness score: 0.0125 (max 2.0)
+       └─ Competition score: 1.2/200 points
+[EA] ✅ 个体 e5d740a1 (gen0_strategy_guided): 耗时=1.56us, 相对基线加速比=0.0385x, 相对Seed加速比=1.0385x, Fitness=1.0385
+[EA] ✅ 个体 842f9b26 (gen0_strategy_guided): 耗时=2.00us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8100x, Fitness=0.8100
+[EA] ✅ 个体 b3f68d36 (gen0_strategy_guided): 耗时=1.68us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9643x, Fitness=0.9643
+[EA] ❌ 个体 08aea003 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 c44f2055 (gen0_strategy_guided): 耗时=1.60us, 相对基线加速比=0.0125x, 相对Seed加速比=1.0125x, Fitness=1.0125
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0385 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8019 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8355 chars
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8019 chars
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7854 chars
+[LLM] [Call #11] ✅ Complete | Tokens=2730 (p:2088, c:642) | Time=7.12s
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4693 chars
+[LLM] [Call #13] ✅ Complete | Tokens=2614 (p:1963, c:651) | Time=7.19s
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4733 chars
+[LLM] [Call #12] ✅ Complete | Tokens=2719 (p:2004, c:715) | Time=8.07s
+[LLM] [Call #10] ✅ Complete | Tokens=2719 (p:2004, c:715) | Time=8.10s
+[LLM] [Call #14] ✅ Complete | Tokens=1815 (p:1173, c:642) | Time=6.15s
+[LLM] [Call #15] ✅ Complete | Tokens=1843 (p:1183, c:660) | Time=6.36s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2327 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_uile61pg/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2329 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_n9_faz14/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.54us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2093 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_2c23orsy/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.48us
+       └─ Raw speedup: 0.0946
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0946
+       └─ Fitness score: 0.0946 (max 2.0)
+       └─ Competition score: 9.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2142 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_bit9rnbu/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+[EA] ✅ 个体 ed708a5d (crossover): 耗时=1.56us, 相对基线加速比=0.0385x, 相对Seed加速比=1.0385x, Fitness=1.0385
+[EA] ✅ 个体 ebd726f3 (crossover): 耗时=1.54us, 相对基线加速比=0.0519x, 相对Seed加速比=1.0519x, Fitness=1.0519
+[EA] ✅ 个体 019e06e8 (mutation): 耗时=1.48us, 相对基线加速比=0.0946x, 相对Seed加速比=1.0946x, Fitness=1.0946
+[EA] ✅ 个体 1c173bd6 (mutation): 耗时=1.56us, 相对基线加速比=0.0385x, 相对Seed加速比=1.0385x, Fitness=1.0385
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0946
+[EA] Gen 1 Summary: Best=1.0946, Avg=1.0457
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8355 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5366 chars
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8605 chars
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7873 chars
+[LLM] [Call #19] ✅ Complete | Tokens=2683 (p:1968, c:715) | Time=7.89s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4943 chars
+[LLM] [Call #17] ✅ Complete | Tokens=2089 (p:1341, c:748) | Time=8.39s
+[LLM] [Call #16] ✅ Complete | Tokens=2945 (p:2088, c:857) | Time=9.42s
+[LLM] [Call #18] ✅ Complete | Tokens=3017 (p:2151, c:866) | Time=9.51s
+[LLM] [Call #20] ✅ Complete | Tokens=1928 (p:1235, c:693) | Time=6.27s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2438 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_t7s4sy0z/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.54us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2847 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_v7jxhg3u/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.66us
+       └─ Raw speedup: -0.0241
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2871 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_8857xp9u/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2262 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_76zoaclv/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.72us
+       └─ Raw speedup: -0.0581
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 35108aeb (mutation): 耗时=1.54us, 相对基线加速比=0.0519x, 相对Seed加速比=1.0519x, Fitness=1.0519
+[EA] ✅ 个体 44f72ce9 (crossover): 耗时=1.66us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9759x, Fitness=0.9759
+[EA] ✅ 个体 2999aabd (crossover): 耗时=1.56us, 相对基线加速比=0.0385x, 相对Seed加速比=1.0385x, Fitness=1.0385
+[EA] ✅ 个体 f3d3af11 (mutation): 耗时=1.72us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9419x, Fitness=0.9419
+[EA] Gen 2 Summary: Best=1.0946, Avg=1.0258
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0946
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2093 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_zg8anmgd/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.58us
+       └─ Raw speedup: 0.0253
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0253
+       └─ Fitness score: 0.0253 (max 2.0)
+       └─ Competition score: 2.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2093 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_agcykmzu/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.48us
+       └─ Raw speedup: 0.0946
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0946
+       └─ Fitness score: 0.0946 (max 2.0)
+       └─ Competition score: 9.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2093 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_cwze0uxr/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.70us
+       └─ Raw speedup: -0.0471
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2093 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_2qpc_g8y/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.52us
+       └─ Raw speedup: 0.0658
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0658
+       └─ Fitness score: 0.0658 (max 2.0)
+       └─ Competition score: 6.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2093 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_ekc6xb91/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.44us
+       └─ Raw speedup: 0.1250
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1250
+       └─ Fitness score: 0.1250 (max 2.0)
+       └─ Competition score: 12.5/200 points
+  完成: 1.52003 us  S=1.0657894909968881  用时 345.5s
+
+=== [paper_full] seed 2/3 算子 1/1: experts_combine_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 1.6200 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: experts_combine_kernel
+       └─ Working directory: /workspace/Agent/datasets2/experts_combine_kernel
+       └─ Reference baseline: 1.62us
+       └─ Test file: /workspace/Agent/datasets2/experts_combine_kernel/test_experts_combine_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8493.40it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2127 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_awi1xmp7/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.60us
+       └─ Raw speedup: 0.0125
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0125
+       └─ Fitness score: 0.0125 (max 2.0)
+       └─ Competition score: 1.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2144 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_rgradbvq/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.66us
+       └─ Raw speedup: -0.0241
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.60% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 1.60us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 3bf518e2, 基准耗时: 1.62us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=1.62 us | 当前耗时=1.60 us (相对基线:+1.25% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=12.4%, Scalar=31.7%, MTE2(读)=39.1%, MTE3(写)=15.5%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE2 读访存 (39.1%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=28.06 GB/s, 向量写=16.74 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3605 chars
+[LLM] [Call #01] ✅ Complete | Tokens=957 (p:900, c:57) | Time=0.84s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,一维Grid每Token独立program,MTE2读访存主导(39.1%),整行规约(tl.sum axis=0),重复metadata load(combine_k_offsets[:,None]*hidden_dim)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, MTE2读访存主导(39.1%), 整行规约(tl.sum axis=0), 行级全宽规约, 重复metadata load(combine_k_offsets[:, None]*hidden_dim)'
+[✅ RAG Positive] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION, ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS, ACTION_INDEPENDENT_AXIS_PACKING
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每Token独立program, MTE2读访存主导(39.1%), 整行规约(tl.sum axis=0), 行级全宽规约, 重复metadata load(combine_k_offsets[:, None]*hidden_dim)
+
+【高置信候选优化动作】
+
+[P1] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION
+#### ⚛️ `ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`：行级规约按 n_cols 建立整行 / 分块 Fast Path
+
+* **检索锚点**：行级全宽规约, RMSNorm, Softmax, LogSoftmax, n_cols动态, 非2次幂列数, 尾块mask, 完整规约域, 持久化多行循环, Vector规约占比高。
+* **Profiling 锚点**：Vector 主瓶颈；MTE2 读流量来自同一行多趟扫描。
+* **结构判据**：每个 row 独立，核心是 `max/sum/sumsq` 规约；不同 testcase 的 n_cols 跨小/中/大尺寸。
+* **优化动作**：小中 n_cols 用 `next_power_of_2(n_cols)` 整行一次 load+reduce；大 n_cols 用中等 BLOCK 分块；对整除/full tile 单独走无 mask fast path。
+* **必须前提**：整行 tile 可放入寄存器/UB；完整规约域不能截断；局部逻辑宽度必须有独立 mask 证明。
+* **禁用条件**：超大 n_cols 强行整行驻留；为了去 mask 漏算尾元素；只使用 flatten 后总长度 mask 代替局部 Row/Head/Group 边界。
+* **正式平台证据**：`_rms_norm_kernel` 正式 `avg=2.00`；`_log_softmax_kernel` 正式 `avg=1.10, min=0.97, max=1.27`。
+* **可信度**：A(RMSNorm), B(LogSoftmax)。
+
+[P2] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+[P3] ACTION_INDEPENDENT_AXIS_PACKING
+#### ⚛️ `ACTION_INDEPENDENT_AXIS_PACKING`：独立 Head / Row / Group 向量化打包
+
+* **检索锚点**：Head独立规约, Row独立规约, Group独立规约, 单head program过小, Token/Group/Head打包, 二维grid, 可共享另一维arange。
+* **Profiling 锚点**：launch-bound 或 MTE 共享参数重复读取。
+* **结构判据**：head/row/group 间逻辑独立且 store 地址不冲突，每个独立域单独 program 太轻。
+* **优化动作**：增加 `BLOCK_H/BLOCK_M/GROUPS_PER_BLOCK`，把独立轴加入向量维，一次 program 同时处理多个独立域。
+* **必须前提**：二维寄存器 tensor 可控；不混合独立规约域；局部域 mask 正确；wrapper launch contract 可证明。
+* **禁用条件**：打包导致 tile 面积爆炸；不同域存在依赖/原子冲突；使用全局 flatten mask 误覆盖下一个逻辑域。
+* **正式平台证据**：`_correct_attn_cp_out_kernel` 正式 `avg=1.79`。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_TILE_AREA_BUDGET`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=10091 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3267 (p:2522, c:745) | Time=6.78s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：行级规约分块与无Mask快速路径**
+   ├─ 瓶颈诊断: MTE2读访存39.1%为主瓶颈，Vector利用率仅12.4%，每行重复加载`combine_k_offsets[:, None]*hidden_dim`
+   └─ 实施动作: 实施`ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`：当`hidden_dim <= 2048`时，使用`next_power_of_2(hidden_dim)`整行一次加载并规约，删除`mask[None,:]`；当`hidden_dim > 2048`时，将`BLOCK_SIZE`设为1024并分块规约，保留mask；对`combine_k`整除`BLOCK_SIZE`的case走无mask快速路径；需证明`combine_k`为constexpr且`hidden_dim`整除时padding不越界。
+
+  策略 [2]: **策略B：独立Token/Expert打包合并**
+   ├─ 瓶颈诊断: 单program仅处理一个token，MTE2重复读取`moe_hidden_states`的metadata，launch开销大
+   └─ 实施动作: 实施`ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：将grid从`(bs,)`改为`(bs // BLOCK_M,)`，每个program处理`BLOCK_M=4`个token；内部循环加载`moe_hidden_states`时复用`combine_k_offsets`的arange；需证明`BLOCK_M`整除`bs`且无写冲突，寄存器压力可控。
+
+  策略 [3]: **策略C：独立Expert轴向量化打包**
+   ├─ 瓶颈诊断: `combine_k`维度独立但每个program仅处理一个token，MTE读流量重复
+   └─ 实施动作: 实施`ACTION_INDEPENDENT_AXIS_PACKING`：将`combine_k`维度打包进program内部，使用`tl.arange(0, BLOCK_K)`加载`moe_hidden_states`的`[BLOCK_K, BLOCK_SIZE]`块，然后`tl.sum(axis=0)`；需证明`combine_k`为constexpr且`BLOCK_K`整除`combine_k`，store地址不冲突。
+
+  策略 [4]: **策略D：Grid收拢与持久化多行循环**
+   ├─ 瓶颈诊断: 海量微小program导致launch调度开销，MTE2读访存主导
+   └─ 实施动作: 实施`ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：grid改为`(bs // 4,)`，每个program处理4个token；使用持久化循环`for _ in range(4):`，每次加载不同token的`moe_hidden_states`和`mlp_hidden_states`；需证明4个token的寄存器压力不超过UB容量，且store地址不重叠。
+
+  策略 [5]: **策略E：Metadata加载优化与行级规约融合**
+   ├─ 瓶颈诊断: 重复加载`combine_k_offsets[:, None]*hidden_dim`，Vector利用率低
+   └─ 实施动作: 实施`ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`：将`combine_k_offsets`的arange提升为constexpr，使用`tl.arange(0, combine_k)[:, None] * hidden_dim + tl.arange(0, BLOCK_SIZE)[None, :]`直接计算偏移；当`hidden_dim`为2的幂时，用位运算`offsets << log2_hidden_dim`替代乘法；需证明`hidden_dim`为constexpr且2的幂，否则保留乘法。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10514 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10420 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10416 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10388 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10490 chars
+[LLM] [Call #05] ✅ Complete | Tokens=3308 (p:2604, c:704) | Time=16.40s
+[LLM] [Call #06] ✅ Complete | Tokens=3319 (p:2597, c:722) | Time=16.56s
+[LLM] [Call #04] ✅ Complete | Tokens=3346 (p:2605, c:741) | Time=16.75s
+[LLM] [Call #07] ✅ Complete | Tokens=3400 (p:2622, c:778) | Time=17.06s
+[LLM] [Call #03] ✅ Complete | Tokens=3614 (p:2628, c:986) | Time=18.83s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_2e8rm51v/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_19xdvzmn/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 2.92us
+       └─ Raw speedup: -0.4452
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2438 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_p__295f3/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 2.68us
+       └─ Raw speedup: -0.3955
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2479 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_v8e8p27p/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3312 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_0ypn47q6/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 8eea15b0 (gen0_strategy_guided): 耗时=1.56us, 相对基线加速比=0.0385x, 相对Seed加速比=1.0385x, Fitness=1.0385
+[EA] ✅ 个体 9a7ab9a3 (gen0_strategy_guided): 耗时=2.92us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5548x, Fitness=0.5548
+[EA] ✅ 个体 15c5a9e9 (gen0_strategy_guided): 耗时=2.68us, 相对基线加速比=0.0000x, 相对Seed加速比=0.6045x, Fitness=0.6045
+[EA] ❌ 个体 1ecc6134 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 92f52559 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0385 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8106 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7968 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7841 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7830 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2643 (p:1992, c:651) | Time=7.16s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4710 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2656 (p:1960, c:696) | Time=7.81s
+[LLM] [Call #08] ✅ Complete | Tokens=2730 (p:2026, c:704) | Time=7.89s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4848 chars
+[LLM] [Call #11] ✅ Complete | Tokens=2790 (p:1957, c:833) | Time=9.27s
+[LLM] [Call #12] ✅ Complete | Tokens=1828 (p:1177, c:651) | Time=6.33s
+[LLM] [Call #13] ✅ Complete | Tokens=1916 (p:1212, c:704) | Time=6.59s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2313 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_rxqprgio/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: -0.3864
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2623 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_b7govxwm/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.58us
+       └─ Raw speedup: 0.0253
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0253
+       └─ Fitness score: 0.0253 (max 2.0)
+       └─ Competition score: 2.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2119 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_zo8isbej/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.52us
+       └─ Raw speedup: 0.0658
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0658
+       └─ Fitness score: 0.0658 (max 2.0)
+       └─ Competition score: 6.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_tuivodns/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.70us
+       └─ Raw speedup: -0.0471
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 313bf3c5 (crossover): 耗时=2.64us, 相对基线加速比=0.0000x, 相对Seed加速比=0.6136x, Fitness=0.6136
+[EA] ✅ 个体 51e03c29 (crossover): 耗时=1.58us, 相对基线加速比=0.0253x, 相对Seed加速比=1.0253x, Fitness=1.0253
+[EA] ✅ 个体 13aa7724 (mutation): 耗时=1.52us, 相对基线加速比=0.0658x, 相对Seed加速比=1.0658x, Fitness=1.0658
+[EA] ✅ 个体 4a7a6016 (mutation): 耗时=1.70us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9529x, Fitness=0.9529
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0658
+[EA] Gen 1 Summary: Best=1.0658, Avg=0.9494
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5602 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7920 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7920 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8288 chars
+[LLM] [Call #15] ✅ Complete | Tokens=2684 (p:1980, c:704) | Time=7.51s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4848 chars
+[LLM] [Call #16] ✅ Complete | Tokens=2684 (p:1980, c:704) | Time=7.53s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4848 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2233 (p:1400, c:833) | Time=9.08s
+[LLM] [Call #17] ✅ Complete | Tokens=2905 (p:2072, c:833) | Time=9.07s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5216 chars
+[LLM] [Call #18] ✅ Complete | Tokens=1916 (p:1212, c:704) | Time=7.57s
+[LLM] [Call #19] ✅ Complete | Tokens=1916 (p:1212, c:704) | Time=7.56s
+[LLM] [Call #20] ✅ Complete | Tokens=2137 (p:1304, c:833) | Time=8.18s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2623 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0__poqso1l/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.68us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_b1ejg9cs/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.46us
+       └─ Raw speedup: 0.1096
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1096
+       └─ Fitness score: 0.1096 (max 2.0)
+       └─ Competition score: 11.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_fbs6v9kp/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.52us
+       └─ Raw speedup: 0.0658
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0658
+       └─ Fitness score: 0.0658 (max 2.0)
+       └─ Competition score: 6.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2625 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_jcmsuxyn/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.58us
+       └─ Raw speedup: 0.0253
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0253
+       └─ Fitness score: 0.0253 (max 2.0)
+       └─ Competition score: 2.5/200 points
+[EA] ✅ 个体 648008f9 (mutation): 耗时=1.68us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9643x, Fitness=0.9643
+[EA] ✅ 个体 0fda13ce (mutation): 耗时=1.46us, 相对基线加速比=0.1096x, 相对Seed加速比=1.1096x, Fitness=1.1096
+[EA] ✅ 个体 81a8f71a (mutation): 耗时=1.52us, 相对基线加速比=0.0658x, 相对Seed加速比=1.0658x, Fitness=1.0658
+[EA] ✅ 个体 607af25d (mutation): 耗时=1.58us, 相对基线加速比=0.0253x, 相对Seed加速比=1.0253x, Fitness=1.0253
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1096
+[EA] Gen 2 Summary: Best=1.1096, Avg=1.0449
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1096
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_81gf45tj/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.54us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_fuin4ue0/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.60us
+       └─ Raw speedup: 0.0125
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0125
+       └─ Fitness score: 0.0125 (max 2.0)
+       └─ Competition score: 1.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_jf_h1x_1/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.64us
+       └─ Raw speedup: -0.0122
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_y2r8nihe/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.54us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_ofe3y_mz/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.48us
+       └─ Raw speedup: 0.0946
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0946
+       └─ Fitness score: 0.0946 (max 2.0)
+       └─ Competition score: 9.5/200 points
+  完成: 1.540031 us  S=1.0519476555991405  用时 313.9s
+
+=== [paper_full] seed 3/3 算子 1/1: experts_combine_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 1.6200 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: experts_combine_kernel
+       └─ Working directory: /workspace/Agent/datasets2/experts_combine_kernel
+       └─ Reference baseline: 1.62us
+       └─ Test file: /workspace/Agent/datasets2/experts_combine_kernel/test_experts_combine_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8296.53it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2127 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0__zxtkr77/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2144 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_ofzwz0e0/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.54us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.60% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 1.54us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 8474f5f7, 基准耗时: 1.62us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=1.62 us | 当前耗时=1.54 us (相对基线:+5.19% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=12.4%, Scalar=32.2%, MTE2(读)=38.9%, MTE3(写)=14.8%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE2 读访存 (38.9%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=28.25 GB/s, 向量写=16.85 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3621 chars
+[LLM] [Call #01] ✅ Complete | Tokens=952 (p:904, c:48) | Time=0.78s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,一维Grid每Token独立program,MTE2读访存主导(38.9%),tl.sum整行规约,重复metadata load(combine_k_offsets)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, MTE2读访存主导(38.9%), tl.sum整行规约, 行级全宽规约, 重复metadata load(combine_k_offsets)'
+[✅ RAG Positive] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION, ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS, ACTION_INDEPENDENT_AXIS_PACKING
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每Token独立program, MTE2读访存主导(38.9%), tl.sum整行规约, 行级全宽规约, 重复metadata load(combine_k_offsets)
+
+【高置信候选优化动作】
+
+[P1] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION
+#### ⚛️ `ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`：行级规约按 n_cols 建立整行 / 分块 Fast Path
+
+* **检索锚点**：行级全宽规约, RMSNorm, Softmax, LogSoftmax, n_cols动态, 非2次幂列数, 尾块mask, 完整规约域, 持久化多行循环, Vector规约占比高。
+* **Profiling 锚点**：Vector 主瓶颈；MTE2 读流量来自同一行多趟扫描。
+* **结构判据**：每个 row 独立，核心是 `max/sum/sumsq` 规约；不同 testcase 的 n_cols 跨小/中/大尺寸。
+* **优化动作**：小中 n_cols 用 `next_power_of_2(n_cols)` 整行一次 load+reduce；大 n_cols 用中等 BLOCK 分块；对整除/full tile 单独走无 mask fast path。
+* **必须前提**：整行 tile 可放入寄存器/UB；完整规约域不能截断；局部逻辑宽度必须有独立 mask 证明。
+* **禁用条件**：超大 n_cols 强行整行驻留；为了去 mask 漏算尾元素；只使用 flatten 后总长度 mask 代替局部 Row/Head/Group 边界。
+* **正式平台证据**：`_rms_norm_kernel` 正式 `avg=2.00`；`_log_softmax_kernel` 正式 `avg=1.10, min=0.97, max=1.27`。
+* **可信度**：A(RMSNorm), B(LogSoftmax)。
+
+[P2] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+[P3] ACTION_INDEPENDENT_AXIS_PACKING
+#### ⚛️ `ACTION_INDEPENDENT_AXIS_PACKING`：独立 Head / Row / Group 向量化打包
+
+* **检索锚点**：Head独立规约, Row独立规约, Group独立规约, 单head program过小, Token/Group/Head打包, 二维grid, 可共享另一维arange。
+* **Profiling 锚点**：launch-bound 或 MTE 共享参数重复读取。
+* **结构判据**：head/row/group 间逻辑独立且 store 地址不冲突，每个独立域单独 program 太轻。
+* **优化动作**：增加 `BLOCK_H/BLOCK_M/GROUPS_PER_BLOCK`，把独立轴加入向量维，一次 program 同时处理多个独立域。
+* **必须前提**：二维寄存器 tensor 可控；不混合独立规约域；局部域 mask 正确；wrapper launch contract 可证明。
+* **禁用条件**：打包导致 tile 面积爆炸；不同域存在依赖/原子冲突；使用全局 flatten mask 误覆盖下一个逻辑域。
+* **正式平台证据**：`_correct_attn_cp_out_kernel` 正式 `avg=1.79`。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_TILE_AREA_BUDGET`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=10078 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3221 (p:2518, c:703) | Time=6.46s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略一：Grid Consolidation + 行级规约分块**
+   ├─ 瓶颈诊断: 瓶颈：MTE2读访存38.9%，单program极轻（仅1行），launch开销大
+   └─ 实施动作: 实施：将grid从(bs,)改为(bs//4,)，每个program处理4行；对combine_k>1时采用`BLOCK_SIZE=next_power_of_2(hidden_dim)`整行load+sum，combine_k=1时直接load单行；增加`ROW_BLOCK=4`循环，使用`tl.arange(0, BLOCK_SIZE)`和`mask = offsets < hidden_dim`；前提：hidden_dim≤4096且combine_k≤8；禁用：hidden_dim>4096时需分块
+
+  策略 [2]: **策略二：独立轴打包 + 向量化读合并**
+   ├─ 瓶颈诊断: 瓶颈：MTE2读访存主导，combine_k维度的重复load
+   └─ 实施动作: 实施：将grid保持(bs,)，但将combine_k维度打包进向量维：`offsets = tl.arange(0, BLOCK_SIZE * combine_k)`，`mask = (offsets % BLOCK_SIZE) < hidden_dim`，一次load所有combine_k行后reshape为(combine_k, BLOCK_SIZE)再sum；前提：combine_k*BLOCK_SIZE≤UB寄存器容量(≤4096)；禁用：combine_k>8或hidden_dim>2048时寄存器溢出
+
+  策略 [3]: **策略三：持久化多行循环 + 共享参数缓存**
+   ├─ 瓶颈诊断: 瓶颈：Scalar32.2%用于重复计算combine_k_offsets和地址偏移
+   └─ 实施动作: 实施：grid改为(bs//2,)，每个program处理2行；在循环外预计算`base_offset_mlp = pid*2*hidden_dim`和`base_offset_moe = pid*2*hidden_dim*combine_k`，循环内用`tl.arange(0, combine_k)[:, None] * hidden_dim + offsets[None, :]`；前提：hidden_dim≤2048且combine_k≤4；禁用：combine_k>4时寄存器压力过大
+
+  策略 [4]: **策略四：Mask消除 + 对齐访存**
+   ├─ 瓶颈诊断: 瓶颈：MTE2读访存38.9%因mask导致非对齐访问
+   └─ 实施动作: 实施：当hidden_dim是2的幂且整除BLOCK_SIZE时，删除所有mask；`offsets = tl.arange(0, BLOCK_SIZE)`，`tl.load(..., mask=None)`；前提：hidden_dim==BLOCK_SIZE且hidden_dim%16==0；禁用：非2次幂hidden_dim或动态shape时保留mask；必须保留fallback路径
+
+  策略 [5]: **策略五：分块规约 + 写合并**
+   ├─ 瓶颈诊断: 瓶颈：MTE3写14.8%低效，单行写回
+   └─ 实施动作: 实施：当hidden_dim>2048时，将行内分块为`BLOCK=1024`，每个program处理1行但分2次load+reduce；使用`tl.sum(moe_x, axis=0)`后累加部分和，最后一次性store完整行；前提：hidden_dim≤8192且combine_k≤4；禁用：hidden_dim≤2048时使用此策略（增加开销）
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10485 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10466 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10466 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10396 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10367 chars
+[LLM] [Call #04] ✅ Complete | Tokens=3357 (p:2616, c:741) | Time=16.23s
+[LLM] [Call #03] ✅ Complete | Tokens=3417 (p:2621, c:796) | Time=16.73s
+[LLM] [Call #07] ✅ Complete | Tokens=3547 (p:2591, c:956) | Time=18.30s
+[LLM] [Call #05] ✅ Complete | Tokens=3577 (p:2616, c:961) | Time=18.37s
+[LLM] [Call #06] ✅ Complete | Tokens=3614 (p:2599, c:1015) | Time=18.78s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2451 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_h1w5l3er/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_l5eep_oa/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: -0.4336
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3200 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_5x_j_ne4/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3017 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_mw1ti_v1/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 2.52us
+       └─ Raw speedup: -0.3571
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3331 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_u2vs5re7/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 个体 c94fdcde (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 a004660b (gen0_strategy_guided): 耗时=2.86us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5664x, Fitness=0.5664
+[EA] ✅ 个体 c4783b91 (gen0_strategy_guided): 耗时=1.56us, 相对基线加速比=0.0385x, 相对Seed加速比=1.0385x, Fitness=1.0385
+[EA] ✅ 个体 47eb942c (gen0_strategy_guided): 耗时=2.52us, 相对基线加速比=0.0000x, 相对Seed加速比=0.6429x, Fitness=0.6429
+[EA] ❌ 个体 73ca331d (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0385 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8499 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9359 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8226 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8226 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2707 (p:2056, c:651) | Time=7.20s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4717 chars
+[LLM] [Call #11] ✅ Complete | Tokens=2851 (p:2056, c:795) | Time=8.77s
+[LLM] [Call #09] ✅ Complete | Tokens=3293 (p:2339, c:954) | Time=10.40s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5779 chars
+[LLM] [Call #08] ✅ Complete | Tokens=3115 (p:2124, c:991) | Time=10.88s
+[LLM] [Call #12] ✅ Complete | Tokens=1830 (p:1179, c:651) | Time=6.53s
+[LLM] [Call #13] ✅ Complete | Tokens=2398 (p:1444, c:954) | Time=8.46s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2684 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_iys82_9_/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 2.76us
+       └─ Raw speedup: -0.4130
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3317 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_fym43awy/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2117 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_dvyhw_9v/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.52us
+       └─ Raw speedup: 0.0658
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0658
+       └─ Fitness score: 0.0658 (max 2.0)
+       └─ Competition score: 6.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3190 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_mrp_70kx/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.52us
+       └─ Raw speedup: 0.0658
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0658
+       └─ Fitness score: 0.0658 (max 2.0)
+       └─ Competition score: 6.6/200 points
+[EA] ✅ 个体 6d566329 (crossover): 耗时=2.76us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5870x, Fitness=0.5870
+[EA] ❌ 个体 33759650 (crossover): 评估失败, Fitness=0
+[EA] ✅ 个体 a7f26a8d (mutation): 耗时=1.52us, 相对基线加速比=0.0658x, 相对Seed加速比=1.0658x, Fitness=1.0658
+[EA] ✅ 个体 92ad9f8b (mutation): 耗时=1.52us, 相对基线加速比=0.0658x, 相对Seed加速比=1.0658x, Fitness=1.0658
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0658
+[EA] Gen 1 Summary: Best=1.0658, Avg=0.7928
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8713 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9597 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8713 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8729 chars
+[LLM] [Call #16] ✅ Complete | Tokens=3132 (p:2178, c:954) | Time=9.85s
+[LLM] [Call #14] ✅ Complete | Tokens=3132 (p:2178, c:954) | Time=9.87s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5786 chars
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5786 chars
+[LLM] [Call #17] ✅ Complete | Tokens=3136 (p:2182, c:954) | Time=9.87s
+[LLM] [Call #15] ✅ Complete | Tokens=3390 (p:2399, c:991) | Time=10.47s
+[LLM] [Call #18] ✅ Complete | Tokens=2400 (p:1446, c:954) | Time=8.97s
+[LLM] [Call #19] ✅ Complete | Tokens=2400 (p:1446, c:954) | Time=8.99s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3190 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_ni1mimmm/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.62us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3315 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_zvlt7mc4/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3188 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_e6g0qq4e/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.56us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3188 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_w12fwpo9/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.42us
+       └─ Raw speedup: 0.1408
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1408
+       └─ Fitness score: 0.1408 (max 2.0)
+       └─ Competition score: 14.1/200 points
+[EA] ✅ 个体 f705a798 (crossover): 耗时=1.62us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ❌ 个体 f1ca9e2e (crossover): 评估失败, Fitness=0
+[EA] ✅ 个体 cc57daee (mutation): 耗时=1.56us, 相对基线加速比=0.0385x, 相对Seed加速比=1.0385x, Fitness=1.0385
+[EA] ✅ 个体 d63ae52b (mutation): 耗时=1.42us, 相对基线加速比=0.1408x, 相对Seed加速比=1.1408x, Fitness=1.1408
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1408
+[EA] Gen 2 Summary: Best=1.1408, Avg=0.8851
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1408
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3188 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_uxmpecjs/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.64us
+       └─ Raw speedup: -0.0122
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3188 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_ni5a1c0y/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.46us
+       └─ Raw speedup: 0.1096
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1096
+       └─ Fitness score: 0.1096 (max 2.0)
+       └─ Competition score: 11.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3188 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_qzyo5k7b/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.58us
+       └─ Raw speedup: 0.0253
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0253
+       └─ Fitness score: 0.0253 (max 2.0)
+       └─ Competition score: 2.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3188 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_33ta0upy/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.46us
+       └─ Raw speedup: 0.1096
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1096
+       └─ Fitness score: 0.1096 (max 2.0)
+       └─ Competition score: 11.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3188 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/experts_combine_kernel/performance/experts_combine_kernel_dev_0/experts_combine_kernel --application="/usr/local/python3.11.15/bin/python /tmp/experts_combine_kernel_dev_0_iyqn6tok/test_experts_combine_kernel.py" --kernel-name="experts_combine_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 1.62us
+       └─ Optimized time: 1.54us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+  完成: 1.540031 us  S=1.0519476555991405  用时 306.4s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.34 小时
+============================================================

@@ -1,0 +1,18 @@
+[配置] paper_b2  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b2] seed 1/3 算子 1/1: _dequantize_k_cache_fast_kernel ===
+  [复用] 已有结果 _dequantize_k_cache_fast_kernel__r11.json
+  完成: 2.300046 us  S=1.2521740869530436  用时 407.6s
+
+=== [paper_b2] seed 2/3 算子 1/1: _dequantize_k_cache_fast_kernel ===
+  [复用] 已有结果 _dequantize_k_cache_fast_kernel__r12.json
+  完成: 1.620032 us  S=1.7777784636352862  用时 388.7s
+
+=== [paper_b2] seed 3/3 算子 1/1: _dequantize_k_cache_fast_kernel ===
+  [复用] 已有结果 _dequantize_k_cache_fast_kernel__r13.json
+  完成: 1.640033 us  S=1.7560975907192111  用时 390.3s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

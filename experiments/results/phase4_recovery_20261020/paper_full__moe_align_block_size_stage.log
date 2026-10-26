@@ -1,0 +1,1513 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: moe_align_block_size_stage ===
+  [恢复] moe_align_block_size_stage__r11.json 版本不匹配，重跑：
+           - runtime_environment: {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '2'} → {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '5'}
+  [恢复] 旧结果已备份为 moe_align_block_size_stage__r11.json.old
+[harness] 适应度锚点采用 manifest T_seed = 14.6403 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: moe_align_block_size_stage
+       └─ Working directory: /workspace/Agent/datasets2/moe_align_block_size_stage
+       └─ Reference baseline: 14.96us
+       └─ Test file: /workspace/Agent/datasets2/moe_align_block_size_stage/test_moe_align_block_size_stage_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8037.88it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3854 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_dbm1iu5c/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.24us
+       └─ Raw speedup: 0.1299
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1299
+       └─ Fitness score: 0.1299 (max 2.0)
+       └─ Competition score: 13.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3846 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_tz7fozgq/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.00us
+       └─ Raw speedup: 0.0686
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0686
+       └─ Fitness score: 0.0686 (max 2.0)
+       └─ Competition score: 6.9/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.66% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 13.24us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 6a5b15e1, 基准耗时: 14.64us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=14.96 us | 当前耗时=13.24 us (相对基线:+12.99% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=0.1%, Scalar=48.7%, MTE2(读)=0.3%, MTE3(写)=49.1%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE3 写访存 (49.1%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5344 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1369 (p:1335, c:34) | Time=1.09s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 多program独立处理, 标量地址计算, MTE3写访存主导, 重复metadata load'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 多program独立处理, 标量地址计算, MTE3写访存主导, 重复metadata load'
+[✅ RAG Positive] ACTION_PREFIX_METADATA_PRECOMPUTE, ACTION_CONTIGUOUS_INNER_STRIDE_STRIP, ACTION_CONSTEXPR_MODE_SPECIALIZATION
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL, ACTION_GUARD_ALIAS_INPLACE_SEMANTICS
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 多program独立处理, 标量地址计算, MTE3写访存主导, 重复metadata load
+
+【高置信候选优化动作】
+
+[P1] ACTION_PREFIX_METADATA_PRECOMPUTE
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+[P2] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+[P3] ACTION_CONSTEXPR_MODE_SPECIALIZATION
+#### ⚛️ `ACTION_CONSTEXPR_MODE_SPECIALIZATION`：Shape / Stride / Mode 编译期特化
+
+* **检索锚点**：动态shape, 动态stride, constexpr机会, 编译期分支, HAS_*模式, full tile模式, 重复标量地址计算, Scalar标量占比高。
+* **Profiling 锚点**：Scalar 主瓶颈；分支和地址生成开销高。
+* **结构判据**：n_cols/chunk_size/stride/布尔模式在一次 kernel 编译实例内固定，但仍作为运行时变量参与地址和分支。
+* **优化动作**：将真实稳定参数设为 `tl.constexpr`，派生 `IS_FULL_TILE/NEEDS_MASK/HAS_*` 等编译期 flag，删除不可达逻辑。
+* **必须前提**：稳定性来自 wrapper/API 契约，而不是单个公开 testcase；shape/stride 组合数量可控。
+* **禁用条件**：高度动态 workload 中过度 constexpr 导致编译/缓存爆炸；把公开 testcase 的特定 shape/stride 当作全局契约硬编码。
+* **正式平台证据**：`_state_passing_fwd_kernel` 正式 `avg=1.48, min=0.43, max=2.00`，说明收益高度 shape-dependent。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：B。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_ALIAS_INPLACE_SEMANTICS
+#### ⚛️ `ACTION_GUARD_ALIAS_INPLACE_SEMANTICS`：原地更新必须保留 Alias / 读写顺序语义
+
+* **检索锚点**：in-place copy, cache relocation, cache update, src/tgt alias, 原地写, scatter copy, KV cache, overwrite hazard。
+* **核心规则**：当输入和输出可能指向同一底层存储时，数学结果相同不意味着访存顺序等价。优化必须保持原实现要求的 read-before-write 关系。
+* **必须检查**：
+  - src/tgt 是否可能 alias。
+  - 某次 store 是否可能覆盖后续尚未 load 的 source。
+  - wrapper 是否依赖传入 tensor 被原地修改，而不是返回一个新 tensor。
+* **严禁模式**：
+  - 将“全部 source load 后统一 store”改为 `load one -> store one`，却没有证明 src/tgt 不重叠。
+  - 创建新 tensor 代替调用者期待被修改的 cache tensor。
+  - 为减少临时值而破坏原有 copy/relocation 顺序。
+* **风险案例**：KV-cache relocation/copy 类 kernel 对 alias 极其敏感；正式平台中 `copy_all_layer_kv_cache_tiled` 出现大量 accuracy failure，因此任何改变读写覆盖关系的重构都必须先满足本 Guard。该正式失败不能单独归因于 alias，但足以作为高风险条件。
+* **可信度**：Guard/B+。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=11342 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3410 (p:2834, c:576) | Time=5.60s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略：MTE3写合并与连续化**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：MTE3写访存49.1%主导，标量地址计算48.7%
+   └─ 实施动作: 实施动作与具体代码修改方案：在stage1/stage4中，将逐元素store改为tl.store(..., mask=mask)批量写入，利用tl.arange(0, tokens_per_thread)生成连续地址；前提：tokens_per_thread固定且numel对齐；禁用条件：numel非对齐时保留原逐元素fallback。
+
+  策略 [2]: **策略：标量地址计算前置化**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：标量48.7%因重复计算off_c/off_t偏移
+   └─ 实施动作: 实施动作与具体代码修改方案：在stage1/stage4中，将off_c=(pid+1)*num_experts和off_t=pid*num_experts提取为tl.constexpr编译期常量，删除运行时乘法；前提：num_experts为编译期常量；禁用条件：num_experts动态变化时保留原计算。
+
+  策略 [3]: **策略：Grid粒度与任务打包优化**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：MTE3写49.1%因海量微小program
+   └─ 实施动作: 实施动作与具体代码修改方案：将stage1/stage4的grid从(num_experts,)合并为(num_experts//4,)，每个program处理4个expert的tokens_per_thread*4个token，减少launch开销和MTE3竞争；前提：num_experts%4==0；禁用条件：num_experts<4时保留原grid。
+
+  策略 [4]: **策略：编译期特化与分支消除**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：标量48.7%因运行时边界检查
+   └─ 实施动作: 实施动作与具体代码修改方案：将numel和tokens_per_thread改为tl.constexpr，在stage1/stage4中删除if start_idx+i<numel分支，直接使用tl.store(..., mask=(start_idx+tl.arange(0,tokens_per_thread)<numel))；前提：numel和tokens_per_thread在编译期固定；禁用条件：动态shape时保留原分支。
+
+  策略 [5]: **策略：累积扫描向量化**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：MTE3写49.1%因stage2/stage3逐元素标量累加
+   └─ 实施动作: 实施动作与具体代码修改方案：在stage2中，将for i循环改为tl.associative_scan(tokens_cnts_ptr[i*num_experts+pid], axis=0)向量化前缀和；前提：num_experts为2的幂且≤1024；禁用条件：非2的幂时保留原串行累加。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11820 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11802 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11828 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11856 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11797 chars
+[LLM] [Call #04] ✅ Complete | Tokens=4133 (p:2950, c:1183) | Time=21.97s
+[LLM] [Call #06] ✅ Complete | Tokens=4241 (p:2964, c:1277) | Time=22.91s
+[LLM] [Call #03] ✅ Complete | Tokens=4339 (p:2955, c:1384) | Time=23.99s
+[LLM] [Call #07] ✅ Complete | Tokens=4506 (p:2949, c:1557) | Time=25.48s
+[LLM] [Call #05] ✅ Complete | Tokens=4926 (p:2957, c:1969) | Time=28.94s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3737 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_8iaougj5/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.22us
+       └─ Raw speedup: 0.0520
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0520
+       └─ Fitness score: 0.0520 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4080 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_evalws3k/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4403 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_dgi21cbm/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.10us
+       └─ Raw speedup: 0.0610
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0610
+       └─ Fitness score: 0.0610 (max 2.0)
+       └─ Competition score: 6.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5054 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_eu1zsb8e/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.94us
+       └─ Raw speedup: 0.0732
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0732
+       └─ Fitness score: 0.0732 (max 2.0)
+       └─ Competition score: 7.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6675 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_mguu2fx2/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 30.80us
+       └─ Raw speedup: -0.5143
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 98f86cea (gen0_strategy_guided): 耗时=14.22us, 相对基线加速比=0.0520x, 相对Seed加速比=1.0295x, Fitness=1.0295
+[EA] ❌ 个体 bf67615f (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 80e4e1e8 (gen0_strategy_guided): 耗时=14.10us, 相对基线加速比=0.0610x, 相对Seed加速比=1.0383x, Fitness=1.0383
+[EA] ✅ 个体 264c9ed8 (gen0_strategy_guided): 耗时=13.94us, 相对基线加速比=0.0732x, 相对Seed加速比=1.0502x, Fitness=1.0502
+[EA] ✅ 个体 2edcd0e8 (gen0_strategy_guided): 耗时=30.80us, 相对基线加速比=0.0000x, 相对Seed加速比=0.4753x, Fitness=0.4753
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0502 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11460 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13845 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11893 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11565 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4074 (p:2891, c:1183) | Time=17.51s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6335 chars
+[LLM] [Call #08] ✅ Complete | Tokens=4142 (p:2865, c:1277) | Time=18.62s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6679 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4268 (p:2973, c:1295) | Time=18.78s
+[LLM] [Call #09] ✅ Complete | Tokens=5369 (p:3461, c:1908) | Time=25.12s
+[LLM] [Call #12] ✅ Complete | Tokens=2749 (p:1583, c:1166) | Time=11.70s
+[LLM] [Call #13] ✅ Complete | Tokens=3006 (p:1669, c:1337) | Time=12.84s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4165 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_ja2f4nrf/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 15.04us
+       └─ Raw speedup: -0.0053
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6660 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_bt0h7znx/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 33.38us
+       └─ Raw speedup: -0.5518
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3775 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_39rxiru1/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.24us
+       └─ Raw speedup: 0.0506
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0506
+       └─ Fitness score: 0.0506 (max 2.0)
+       └─ Competition score: 5.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4237 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_yhi71vqv/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 90f3845f (crossover): 耗时=15.04us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9734x, Fitness=0.9734
+[EA] ✅ 个体 7a307a98 (crossover): 耗时=33.38us, 相对基线加速比=0.0000x, 相对Seed加速比=0.4386x, Fitness=0.4386
+[EA] ✅ 个体 28963566 (mutation): 耗时=14.24us, 相对基线加速比=0.0506x, 相对Seed加速比=1.0281x, Fitness=1.0281
+[EA] ❌ 个体 47530493 (mutation): 评估失败, Fitness=0
+[EA] Gen 1 Summary: Best=1.0502, Avg=0.7548
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11893 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7163 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11893 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14273 chars
+[LLM] [Call #14] ✅ Complete | Tokens=4268 (p:2973, c:1295) | Time=13.38s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6779 chars
+[LLM] [Call #15] ✅ Complete | Tokens=3085 (p:1790, c:1295) | Time=13.39s
+[LLM] [Call #17] ✅ Complete | Tokens=4863 (p:3568, c:1295) | Time=13.40s
+[LLM] [Call #16] ✅ Complete | Tokens=4415 (p:2973, c:1442) | Time=14.78s
+[LLM] [Call #18] ✅ Complete | Tokens=3049 (p:1694, c:1355) | Time=11.76s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4165 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_zeahd9su/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 15.32us
+       └─ Raw speedup: -0.0235
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4165 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_womzceza/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.40us
+       └─ Raw speedup: 0.0389
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0389
+       └─ Fitness score: 0.0389 (max 2.0)
+       └─ Competition score: 3.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_sfu4p8t0/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.78us
+       └─ Raw speedup: 0.0122
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0122
+       └─ Fitness score: 0.0122 (max 2.0)
+       └─ Competition score: 1.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4337 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_088950g5/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.68us
+       └─ Raw speedup: 0.0191
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0191
+       └─ Fitness score: 0.0191 (max 2.0)
+       └─ Competition score: 1.9/200 points
+[EA] ✅ 个体 06beb674 (mutation): 耗时=15.32us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9556x, Fitness=0.9556
+[EA] ✅ 个体 b73986b7 (crossover): 耗时=14.40us, 相对基线加速比=0.0389x, 相对Seed加速比=1.0167x, Fitness=1.0167
+[EA] ✅ 个体 05d06cb1 (crossover): 耗时=14.78us, 相对基线加速比=0.0122x, 相对Seed加速比=0.9905x, Fitness=0.9905
+[EA] ✅ 个体 5014e456 (mutation): 耗时=14.68us, 相对基线加速比=0.0191x, 相对Seed加速比=0.9973x, Fitness=0.9973
+[EA] Gen 2 Summary: Best=1.0502, Avg=1.0081
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0502
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5054 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_5islvlfs/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.66us
+       └─ Raw speedup: 0.0952
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0952
+       └─ Fitness score: 0.0952 (max 2.0)
+       └─ Competition score: 9.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5054 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_5nf9nyok/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.72us
+       └─ Raw speedup: 0.0163
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0163
+       └─ Fitness score: 0.0163 (max 2.0)
+       └─ Competition score: 1.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5054 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_zsvyha8e/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.44us
+       └─ Raw speedup: 0.0360
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0360
+       └─ Fitness score: 0.0360 (max 2.0)
+       └─ Competition score: 3.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5054 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_2e90rru_/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.52us
+       └─ Raw speedup: 0.0303
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0303
+       └─ Fitness score: 0.0303 (max 2.0)
+       └─ Competition score: 3.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5054 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_7h2fjscp/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.16us
+       └─ Raw speedup: 0.0565
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0565
+       └─ Fitness score: 0.0565 (max 2.0)
+       └─ Competition score: 5.6/200 points
+  完成: 14.440289 us  S=1.0360110521333747  用时 331.0s
+
+=== [paper_full] seed 2/3 算子 1/1: moe_align_block_size_stage ===
+  [恢复] moe_align_block_size_stage__r12.json 版本不匹配，重跑：
+           - runtime_environment: {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '2'} → {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '5'}
+  [恢复] 旧结果已备份为 moe_align_block_size_stage__r12.json.old
+[harness] 适应度锚点采用 manifest T_seed = 14.6403 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: moe_align_block_size_stage
+       └─ Working directory: /workspace/Agent/datasets2/moe_align_block_size_stage
+       └─ Reference baseline: 14.96us
+       └─ Test file: /workspace/Agent/datasets2/moe_align_block_size_stage/test_moe_align_block_size_stage_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 3663.60it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3854 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0__ojwibmi/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.90us
+       └─ Raw speedup: 0.0763
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0763
+       └─ Fitness score: 0.0763 (max 2.0)
+       └─ Competition score: 7.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3846 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_q8ns3xr2/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.60us
+       └─ Raw speedup: 0.0247
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0247
+       └─ Fitness score: 0.0247 (max 2.0)
+       └─ Competition score: 2.5/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.66% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 13.90us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: a9482dc1, 基准耗时: 14.64us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=14.96 us | 当前耗时=13.90 us (相对基线:+7.63% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=0.1%, Scalar=48.5%, MTE2(读)=0.3%, MTE3(写)=46.9%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (48.5%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5344 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1373 (p:1335, c:38) | Time=0.74s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 多stage串行依赖, Scalar标量主导(48.5%), 重复标量地址计算, 动态边界mask'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 多stage串行依赖, Scalar标量主导(48.5%), 重复标量地址计算, 动态边界mask'
+[✅ RAG Positive] ACTION_CONSTEXPR_MODE_SPECIALIZATION, ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 多stage串行依赖, Scalar标量主导(48.5%), 重复标量地址计算, 动态边界mask
+
+【高置信候选优化动作】
+
+[P1] ACTION_CONSTEXPR_MODE_SPECIALIZATION
+#### ⚛️ `ACTION_CONSTEXPR_MODE_SPECIALIZATION`：Shape / Stride / Mode 编译期特化
+
+* **检索锚点**：动态shape, 动态stride, constexpr机会, 编译期分支, HAS_*模式, full tile模式, 重复标量地址计算, Scalar标量占比高。
+* **Profiling 锚点**：Scalar 主瓶颈；分支和地址生成开销高。
+* **结构判据**：n_cols/chunk_size/stride/布尔模式在一次 kernel 编译实例内固定，但仍作为运行时变量参与地址和分支。
+* **优化动作**：将真实稳定参数设为 `tl.constexpr`，派生 `IS_FULL_TILE/NEEDS_MASK/HAS_*` 等编译期 flag，删除不可达逻辑。
+* **必须前提**：稳定性来自 wrapper/API 契约，而不是单个公开 testcase；shape/stride 组合数量可控。
+* **禁用条件**：高度动态 workload 中过度 constexpr 导致编译/缓存爆炸；把公开 testcase 的特定 shape/stride 当作全局契约硬编码。
+* **正式平台证据**：`_state_passing_fwd_kernel` 正式 `avg=1.48, min=0.43, max=2.00`，说明收益高度 shape-dependent。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：B。
+
+[P2] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9776 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3396 (p:2443, c:953) | Time=8.57s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Stage1/4 标量地址计算消除
+   ├─ 瓶颈诊断: Scalar 标量主导 (48.5%)，重复标量地址计算
+   └─ 实施动作: P1: ACTION_CONSTEXPR_MODE_SPECIALIZATION + P2: ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+
+  策略 [2]: **Stage2 循环展开与地址预计算
+   ├─ 瓶颈诊断: Scalar 标量主导 (48.5%)，多 stage 串行依赖
+   └─ 实施动作: P1: ACTION_CONSTEXPR_MODE_SPECIALIZATION
+
+  策略 [3]: **Stage3 循环合并与标量消除
+   ├─ 瓶颈诊断: Scalar 标量主导 (48.5%)，多 stage 串行依赖
+   └─ 实施动作: P1: ACTION_CONSTEXPR_MODE_SPECIALIZATION
+
+  策略 [4]: **Stage4 双循环地址优化与 Mask 简化
+   ├─ 瓶颈诊断: Scalar 标量主导 (48.5%)，动态边界 mask
+   └─ 实施动作: P1: ACTION_CONSTEXPR_MODE_SPECIALIZATION + P2: ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+
+  策略 [5]: **Stage1/4 循环边界编译期确定与 Mask 删除
+   ├─ 瓶颈诊断: Scalar 标量主导 (48.5%)，动态边界 mask
+   └─ 实施动作: P1: ACTION_CONSTEXPR_MODE_SPECIALIZATION
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10486 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10353 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10404 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10550 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10420 chars
+[LLM] [Call #04] ✅ Complete | Tokens=3770 (p:2588, c:1182) | Time=20.83s
+[LLM] [Call #03] ✅ Complete | Tokens=3811 (p:2621, c:1190) | Time=20.89s
+[LLM] [Call #05] ✅ Complete | Tokens=3790 (p:2601, c:1189) | Time=20.89s
+[LLM] [Call #06] ✅ Complete | Tokens=3829 (p:2637, c:1192) | Time=20.91s
+[LLM] [Call #07] ✅ Complete | Tokens=3989 (p:2605, c:1384) | Time=22.54s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3754 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_x2y33g1h/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.90us
+       └─ Raw speedup: 0.0040
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0040
+       └─ Fitness score: 0.0040 (max 2.0)
+       └─ Competition score: 0.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3867 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_bs2ro6ss/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.20us
+       └─ Raw speedup: 0.0535
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0535
+       └─ Fitness score: 0.0535 (max 2.0)
+       └─ Competition score: 5.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3761 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_q79ebcpm/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.14us
+       └─ Raw speedup: 0.0580
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0580
+       └─ Fitness score: 0.0580 (max 2.0)
+       └─ Competition score: 5.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3881 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_t599rs1s/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.76us
+       └─ Raw speedup: 0.0872
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0872
+       └─ Fitness score: 0.0872 (max 2.0)
+       └─ Competition score: 8.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4619 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_3mjkqvnv/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 16.02us
+       └─ Raw speedup: -0.0662
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 6b589b02 (gen0_strategy_guided): 耗时=14.90us, 相对基线加速比=0.0040x, 相对Seed加速比=0.9826x, Fitness=0.9826
+[EA] ✅ 个体 585451d2 (gen0_strategy_guided): 耗时=14.20us, 相对基线加速比=0.0535x, 相对Seed加速比=1.0310x, Fitness=1.0310
+[EA] ✅ 个体 7e8421ec (gen0_strategy_guided): 耗时=14.14us, 相对基线加速比=0.0580x, 相对Seed加速比=1.0354x, Fitness=1.0354
+[EA] ✅ 个体 89e2df61 (gen0_strategy_guided): 耗时=13.76us, 相对基线加速比=0.0872x, 相对Seed加速比=1.0640x, Fitness=1.0640
+[EA] ✅ 个体 a4c513fe (gen0_strategy_guided): 耗时=16.02us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9139x, Fitness=0.9139
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0640 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11196 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11046 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11152 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11815 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4105 (p:2953, c:1152) | Time=12.48s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6345 chars
+[LLM] [Call #09] ✅ Complete | Tokens=3950 (p:2761, c:1189) | Time=12.99s
+[LLM] [Call #08] ✅ Complete | Tokens=4000 (p:2799, c:1201) | Time=13.17s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6486 chars
+[LLM] [Call #10] ✅ Complete | Tokens=3992 (p:2788, c:1204) | Time=13.17s
+[LLM] [Call #12] ✅ Complete | Tokens=2738 (p:1586, c:1152) | Time=10.69s
+[LLM] [Call #13] ✅ Complete | Tokens=2822 (p:1621, c:1201) | Time=10.83s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3761 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_q2p4p7g7/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 15.22us
+       └─ Raw speedup: -0.0171
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3811 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_rslxy0uy/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.04us
+       └─ Raw speedup: 0.0655
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0655
+       └─ Fitness score: 0.0655 (max 2.0)
+       └─ Competition score: 6.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3754 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0__ze29lxh/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.80us
+       └─ Raw speedup: 0.0841
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0841
+       └─ Fitness score: 0.0841 (max 2.0)
+       └─ Competition score: 8.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3895 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_7i9xo1sq/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.06us
+       └─ Raw speedup: 0.1455
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1455
+       └─ Fitness score: 0.1455 (max 2.0)
+       └─ Competition score: 14.5/200 points
+[EA] ✅ 个体 bb0b0e1c (crossover): 耗时=15.22us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9619x, Fitness=0.9619
+[EA] ✅ 个体 1fdd7965 (crossover): 耗时=14.04us, 相对基线加速比=0.0655x, 相对Seed加速比=1.0427x, Fitness=1.0427
+[EA] ✅ 个体 2a1b5e23 (mutation): 耗时=13.80us, 相对基线加速比=0.0841x, 相对Seed加速比=1.0609x, Fitness=1.0609
+[EA] ✅ 个体 8ed0cfb0 (mutation): 耗时=13.06us, 相对基线加速比=0.1455x, 相对Seed加速比=1.1210x, Fitness=1.1210
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1210
+[EA] Gen 1 Summary: Best=1.1210, Avg=1.0476
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6809 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11225 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11225 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11140 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2876 (p:1702, c:1174) | Time=12.22s
+[LLM] [Call #15] ✅ Complete | Tokens=4005 (p:2806, c:1199) | Time=12.47s
+[LLM] [Call #17] ✅ Complete | Tokens=3984 (p:2785, c:1199) | Time=12.47s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6496 chars
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6496 chars
+[LLM] [Call #16] ✅ Complete | Tokens=4007 (p:2806, c:1201) | Time=12.49s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6486 chars
+[LLM] [Call #18] ✅ Complete | Tokens=2823 (p:1624, c:1199) | Time=12.24s
+[LLM] [Call #19] ✅ Complete | Tokens=2823 (p:1624, c:1199) | Time=12.25s
+[LLM] [Call #20] ✅ Complete | Tokens=2822 (p:1621, c:1201) | Time=12.25s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3811 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_cwce6rgq/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 15.06us
+       └─ Raw speedup: -0.0066
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3905 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_n_1v7qrt/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.28us
+       └─ Raw speedup: 0.0476
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0476
+       └─ Fitness score: 0.0476 (max 2.0)
+       └─ Competition score: 4.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3905 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_a0vywrsv/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.64us
+       └─ Raw speedup: 0.0219
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0219
+       └─ Fitness score: 0.0219 (max 2.0)
+       └─ Competition score: 2.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3900 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_2123hsp1/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.46us
+       └─ Raw speedup: 0.0346
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0346
+       └─ Fitness score: 0.0346 (max 2.0)
+       └─ Competition score: 3.5/200 points
+[EA] ✅ 个体 17bb387a (mutation): 耗时=15.06us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9721x, Fitness=0.9721
+[EA] ✅ 个体 f0b50a65 (mutation): 耗时=14.28us, 相对基线加速比=0.0476x, 相对Seed加速比=1.0252x, Fitness=1.0252
+[EA] ✅ 个体 ec4f49a4 (mutation): 耗时=14.64us, 相对基线加速比=0.0219x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ✅ 个体 212abd79 (mutation): 耗时=14.46us, 相对基线加速比=0.0346x, 相对Seed加速比=1.0124x, Fitness=1.0124
+[EA] Gen 2 Summary: Best=1.1210, Avg=1.0325
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1210
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3895 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_p5he4eep/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.90us
+       └─ Raw speedup: 0.0763
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0763
+       └─ Fitness score: 0.0763 (max 2.0)
+       └─ Competition score: 7.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3895 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_vxlejxah/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.66us
+       └─ Raw speedup: 0.0205
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0205
+       └─ Fitness score: 0.0205 (max 2.0)
+       └─ Competition score: 2.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3895 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_k72rum2c/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.22us
+       └─ Raw speedup: 0.0520
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0520
+       └─ Fitness score: 0.0520 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3895 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_acilm0jt/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 15.28us
+       └─ Raw speedup: -0.0209
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3895 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0__gbiyora/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.74us
+       └─ Raw speedup: 0.0888
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0888
+       └─ Fitness score: 0.0888 (max 2.0)
+       └─ Competition score: 8.9/200 points
+  完成: 14.220284 us  S=1.052039396681529  用时 335.0s
+
+=== [paper_full] seed 3/3 算子 1/1: moe_align_block_size_stage ===
+  [恢复] moe_align_block_size_stage__r13.json 版本不匹配，重跑：
+           - runtime_environment: {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '2'} → {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '5'}
+  [恢复] 旧结果已备份为 moe_align_block_size_stage__r13.json.old
+[harness] 适应度锚点采用 manifest T_seed = 14.6403 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: moe_align_block_size_stage
+       └─ Working directory: /workspace/Agent/datasets2/moe_align_block_size_stage
+       └─ Reference baseline: 14.96us
+       └─ Test file: /workspace/Agent/datasets2/moe_align_block_size_stage/test_moe_align_block_size_stage_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8235.04it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3854 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_7gv9ab6k/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.24us
+       └─ Raw speedup: 0.1299
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1299
+       └─ Fitness score: 0.1299 (max 2.0)
+       └─ Competition score: 13.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3846 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_rbdmpdgc/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.78us
+       └─ Raw speedup: 0.0122
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0122
+       └─ Fitness score: 0.0122 (max 2.0)
+       └─ Competition score: 1.2/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.66% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 13.24us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: fa6c274f, 基准耗时: 14.64us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=14.96 us | 当前耗时=13.24 us (相对基线:+12.99% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=0.1%, Scalar=49.5%, MTE2(读)=0.3%, MTE3(写)=47.6%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (49.5%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5345 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1366 (p:1335, c:31) | Time=0.74s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 多program内循环, 标量地址计算, 重复metadata load, 标量主导'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 多program内循环, 标量地址计算, 重复metadata load, 标量主导'
+[✅ RAG Positive] ACTION_PREFIX_METADATA_PRECOMPUTE, ACTION_CONTIGUOUS_INNER_STRIDE_STRIP, ACTION_CONSTEXPR_MODE_SPECIALIZATION
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 多program内循环, 标量地址计算, 重复metadata load, 标量主导
+
+【高置信候选优化动作】
+
+[P1] ACTION_PREFIX_METADATA_PRECOMPUTE
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+[P2] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+[P3] ACTION_CONSTEXPR_MODE_SPECIALIZATION
+#### ⚛️ `ACTION_CONSTEXPR_MODE_SPECIALIZATION`：Shape / Stride / Mode 编译期特化
+
+* **检索锚点**：动态shape, 动态stride, constexpr机会, 编译期分支, HAS_*模式, full tile模式, 重复标量地址计算, Scalar标量占比高。
+* **Profiling 锚点**：Scalar 主瓶颈；分支和地址生成开销高。
+* **结构判据**：n_cols/chunk_size/stride/布尔模式在一次 kernel 编译实例内固定，但仍作为运行时变量参与地址和分支。
+* **优化动作**：将真实稳定参数设为 `tl.constexpr`，派生 `IS_FULL_TILE/NEEDS_MASK/HAS_*` 等编译期 flag，删除不可达逻辑。
+* **必须前提**：稳定性来自 wrapper/API 契约，而不是单个公开 testcase；shape/stride 组合数量可控。
+* **禁用条件**：高度动态 workload 中过度 constexpr 导致编译/缓存爆炸；把公开 testcase 的特定 shape/stride 当作全局契约硬编码。
+* **正式平台证据**：`_state_passing_fwd_kernel` 正式 `avg=1.48, min=0.43, max=2.00`，说明收益高度 shape-dependent。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：B。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=10533 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3306 (p:2632, c:674) | Time=6.12s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Stage1标量循环向量化**
+   ├─ 瓶颈诊断: Scalar 49.5%主瓶颈，Stage1内`tokens_per_thread`循环标量累加
+   └─ 实施动作: 将Stage1内`for i in range(tokens_per_thread)`改为`tl.load`向量化读取`topk_ids_ptr[start_idx:start_idx+tokens_per_thread]`，使用`tl.atomic_add`批量更新`tokens_cnts_ptr`；前提：`tokens_per_thread`为编译期常量或可整除；禁用条件：`numel`非对齐时需保留尾界标量回退
+
+  策略 [2]: **Stage2前缀和并行化**
+   ├─ 瓶颈诊断: Scalar主导，Stage2单program串行前缀和
+   └─ 实施动作: 将Stage2 grid从`(num_experts,)`改为`(num_experts*num_experts,)`，每个program处理单个`tokens_cnts_ptr[i*num_experts+pid]`的累加，使用`tl.associative_scan`或双缓冲乒乓实现并行前缀和；前提：`num_experts`为2的幂且≥4；禁用条件：`num_experts`过小(<4)时保留原串行实现
+
+  策略 [3]: **Stage3标量循环展开**
+   ├─ 瓶颈诊断: Scalar 49.5%主瓶颈，Stage3单program循环`num_experts`次
+   └─ 实施动作: 将Stage3内`for i in range(1, num_experts+1)`循环展开为`tl.load`向量化读取`tokens_cnts_ptr[off_cnt:off_cnt+num_experts]`，使用`tl.cumsum`计算前缀和，再`tl.store`写回`cumsum_ptr`；前提：`num_experts`为编译期常量且≤128；禁用条件：`num_experts`过大导致寄存器溢出时保留原串行
+
+  策略 [4]: **Stage4元数据预计算**
+   ├─ 瓶颈诊断: Scalar主导，Stage4内重复`tl.load(cumsum_ptr+pid)`和`tl.load(cumsum_ptr+pid+1)`
+   └─ 实施动作: 应用`ACTION_PREFIX_METADATA_PRECOMPUTE`：在wrapper中预计算`cumsum`数组，Stage4每个program直接通过`pid`索引`start_idx`和`end_idx`，删除循环内重复`tl.load`；前提：`cumsum`在kernel生命周期内不变；禁用条件：`cumsum`被其他kernel修改时保留原实现
+
+  策略 [5]: **Stage4访存连续性优化**
+   ├─ 瓶颈诊断: MTE2/MTE3利用率低(0.3%/47.6%)，Stage4内`topk_ids_ptr`和`sorted_token_ids_ptr`非连续访问
+   └─ 实施动作: 应用`ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：将`topk_ids_ptr`和`sorted_token_ids_ptr`的连续轴stride=1证明后，删除`offs * stride`乘法，直接`base + offs`；前提：输入tensor最内层stride=1且base对齐16B；禁用条件：非连续输入或dtype-view时保留原寻址
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11064 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11039 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11065 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11058 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11072 chars
+[LLM] [Call #06] ✅ Complete | Tokens=3947 (p:2764, c:1183) | Time=15.09s
+[LLM] [Call #07] ✅ Complete | Tokens=3951 (p:2768, c:1183) | Time=15.10s
+[LLM] [Call #03] ✅ Complete | Tokens=4059 (p:2766, c:1293) | Time=16.14s
+[LLM] [Call #05] ✅ Complete | Tokens=4064 (p:2766, c:1298) | Time=16.27s
+[LLM] [Call #04] ✅ Complete | Tokens=4280 (p:2759, c:1521) | Time=18.13s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3737 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_gg6zlr_n/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.90us
+       └─ Raw speedup: 0.0040
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0040
+       └─ Fitness score: 0.0040 (max 2.0)
+       └─ Competition score: 0.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3752 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_2curgedk/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.66us
+       └─ Raw speedup: 0.0205
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0205
+       └─ Fitness score: 0.0205 (max 2.0)
+       └─ Competition score: 2.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4161 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_z368gl64/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4134 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_nces7b16/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.22us
+       └─ Raw speedup: 0.0520
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0520
+       └─ Fitness score: 0.0520 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4900 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_t9650i14/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 15.08us
+       └─ Raw speedup: -0.0080
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 84594b82 (gen0_strategy_guided): 耗时=14.90us, 相对基线加速比=0.0040x, 相对Seed加速比=0.9826x, Fitness=0.9826
+[EA] ✅ 个体 50e35db8 (gen0_strategy_guided): 耗时=14.66us, 相对基线加速比=0.0205x, 相对Seed加速比=0.9986x, Fitness=0.9986
+[EA] ❌ 个体 0fcf5746 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 4766ba77 (gen0_strategy_guided): 耗时=14.22us, 相对基线加速比=0.0520x, 相对Seed加速比=1.0295x, Fitness=1.0295
+[EA] ✅ 个体 2e3b0ade (gen0_strategy_guided): 耗时=15.08us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9708x, Fitness=0.9708
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0295 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10952 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11023 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11023 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11826 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4122 (p:2956, c:1166) | Time=12.62s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6365 chars
+[LLM] [Call #08] ✅ Complete | Tokens=3904 (p:2738, c:1166) | Time=12.67s
+[LLM] [Call #09] ✅ Complete | Tokens=3938 (p:2755, c:1183) | Time=12.76s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6328 chars
+[LLM] [Call #10] ✅ Complete | Tokens=3938 (p:2755, c:1183) | Time=12.77s
+[LLM] [Call #13] ✅ Complete | Tokens=2735 (p:1582, c:1153) | Time=10.54s
+[LLM] [Call #12] ✅ Complete | Tokens=2770 (p:1591, c:1179) | Time=10.86s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3767 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_c3ww40c6/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.22us
+       └─ Raw speedup: 0.1316
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1316
+       └─ Fitness score: 0.1316 (max 2.0)
+       └─ Competition score: 13.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3737 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_7q1ea13h/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.58us
+       └─ Raw speedup: 0.0261
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0261
+       └─ Fitness score: 0.0261 (max 2.0)
+       └─ Competition score: 2.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3742 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_4wl4mzmj/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.90us
+       └─ Raw speedup: 0.0763
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0763
+       └─ Fitness score: 0.0763 (max 2.0)
+       └─ Competition score: 7.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_da2ztz72/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.10us
+       └─ Raw speedup: 0.0610
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0610
+       └─ Fitness score: 0.0610 (max 2.0)
+       └─ Competition score: 6.1/200 points
+[EA] ✅ 个体 03518b3f (crossover): 耗时=13.22us, 相对基线加速比=0.1316x, 相对Seed加速比=1.1074x, Fitness=1.1074
+[EA] ✅ 个体 329e05e6 (crossover): 耗时=14.58us, 相对基线加速比=0.0261x, 相对Seed加速比=1.0041x, Fitness=1.0041
+[EA] ✅ 个体 3500fc0e (mutation): 耗时=13.90us, 相对基线加速比=0.0763x, 相对Seed加速比=1.0532x, Fitness=1.0532
+[EA] ✅ 个体 14fe78ec (mutation): 耗时=14.10us, 相对基线加速比=0.0610x, 相对Seed加速比=1.0383x, Fitness=1.0383
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1074
+[EA] Gen 1 Summary: Best=1.1074, Avg=1.0388
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10990 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10922 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10990 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11091 chars
+[LLM] [Call #15] ✅ Complete | Tokens=3883 (p:2730, c:1153) | Time=12.25s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6328 chars
+[LLM] [Call #16] ✅ Complete | Tokens=3926 (p:2747, c:1179) | Time=12.64s
+[LLM] [Call #14] ✅ Complete | Tokens=3926 (p:2747, c:1179) | Time=12.66s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6403 chars
+[LLM] [Call #17] ✅ Complete | Tokens=3981 (p:2772, c:1209) | Time=13.05s
+[LLM] [Call #18] ✅ Complete | Tokens=2735 (p:1582, c:1153) | Time=10.55s
+[LLM] [Call #19] ✅ Complete | Tokens=2779 (p:1600, c:1179) | Time=10.57s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_yvga9tau/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 15.00us
+       └─ Raw speedup: -0.0027
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_rb22zl8j/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.72us
+       └─ Raw speedup: 0.0904
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0904
+       └─ Fitness score: 0.0904 (max 2.0)
+       └─ Competition score: 9.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3737 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_49w1h0pn/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.80us
+       └─ Raw speedup: 0.0841
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0841
+       └─ Fitness score: 0.0841 (max 2.0)
+       └─ Competition score: 8.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_fui2mb8i/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 12.52us
+       └─ Raw speedup: 0.1949
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1949
+       └─ Fitness score: 0.1949 (max 2.0)
+       └─ Competition score: 19.5/200 points
+[EA] ✅ 个体 18e7c01a (crossover): 耗时=15.00us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9760x, Fitness=0.9760
+[EA] ✅ 个体 048d74f1 (crossover): 耗时=13.72us, 相对基线加速比=0.0904x, 相对Seed加速比=1.0671x, Fitness=1.0671
+[EA] ✅ 个体 bee62de8 (mutation): 耗时=13.80us, 相对基线加速比=0.0841x, 相对Seed加速比=1.0609x, Fitness=1.0609
+[EA] ✅ 个体 6275ebbd (mutation): 耗时=12.52us, 相对基线加速比=0.1949x, 相对Seed加速比=1.1693x, Fitness=1.1693
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1693
+[EA] Gen 2 Summary: Best=1.1693, Avg=1.0723
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1693
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_vdey0jqp/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.26us
+       └─ Raw speedup: 0.0491
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0491
+       └─ Fitness score: 0.0491 (max 2.0)
+       └─ Competition score: 4.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_z2vsxuu8/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 15.46us
+       └─ Raw speedup: -0.0323
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_t4b2gycp/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 12.96us
+       └─ Raw speedup: 0.1543
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1543
+       └─ Fitness score: 0.1543 (max 2.0)
+       └─ Competition score: 15.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_mdx4ipgz/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 14.06us
+       └─ Raw speedup: 0.0640
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0640
+       └─ Fitness score: 0.0640 (max 2.0)
+       └─ Competition score: 6.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3805 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/moe_align_block_size_stage/performance/moe_align_block_size_stage_dev_0/moe_align_block_size_stage --application="/usr/local/python3.11.15/bin/python /tmp/moe_align_block_size_stage_dev_0_2gqdd1jh/test_moe_align_block_size_stage.py" --kernel-name="moe_align_block_size_stage" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 14.96us
+       └─ Optimized time: 13.40us
+       └─ Raw speedup: 0.1164
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1164
+       └─ Fitness score: 0.1164 (max 2.0)
+       └─ Competition score: 11.6/200 points
+  完成: 14.060281 us  S=1.0640113807113811  用时 316.4s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.34 小时
+============================================================

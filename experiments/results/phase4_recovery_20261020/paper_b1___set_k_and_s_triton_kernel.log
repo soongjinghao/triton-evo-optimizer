@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: _set_k_and_s_triton_kernel ===
+  [复用] 已有结果 _set_k_and_s_triton_kernel__r11.json
+  完成: 1.620032 us  S=1.0123460524236558  用时 312.9s
+
+=== [paper_b1] seed 2/3 算子 1/1: _set_k_and_s_triton_kernel ===
+  [复用] 已有结果 _set_k_and_s_triton_kernel__r12.json
+  完成: 1.780036 us  S=0.921348219923642  用时 317.7s
+
+=== [paper_b1] seed 3/3 算子 1/1: _set_k_and_s_triton_kernel ===
+  [复用] 已有结果 _set_k_and_s_triton_kernel__r13.json
+  完成: 1.620032 us  S=1.0123460524236558  用时 308.7s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

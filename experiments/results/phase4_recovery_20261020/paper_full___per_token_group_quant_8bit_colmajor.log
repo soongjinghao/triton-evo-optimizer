@@ -1,0 +1,1485 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: _per_token_group_quant_8bit_colmajor ===
+[harness] 适应度锚点采用 manifest T_seed = 3.0801 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _per_token_group_quant_8bit_colmajor
+       └─ Working directory: /workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor
+       └─ Reference baseline: 5.70us
+       └─ Test file: /workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/test__per_token_group_quant_8bit_colmajor_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 9520.01it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4328 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_s5hh_1uk/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 5.60us
+       └─ Raw speedup: 0.0179
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0179
+       └─ Fitness score: 0.0179 (max 2.0)
+       └─ Competition score: 1.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3803 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_y_nzdnq8/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: 0.9257
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9257
+       └─ Fitness score: 0.9257 (max 2.0)
+       └─ Competition score: 92.6/200 points
+[EA] 📊 2 个合法种子代码相似度为: 11.46% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: e37d55ae, 基准耗时: 3.08us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=5.70 us | 当前耗时=2.96 us (相对基线:+92.57% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=8
+- 管线利用率: Vector=30.7%, Scalar=29.8%, MTE2(读)=10.0%, MTE3(写)=30.0%
+💡 诊断结论: 各管线负载均衡 (主导: Vector 向量 30.7%)，可对比测试网格收拢、独立规约域内的安全打包与 BLOCK_SIZE 微调；不得改变完整计算域。
+- UB吞吐: 向量读=24.84 GB/s, 向量写=17.65 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5263 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1364 (p:1315, c:49) | Time=0.80s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 分组规约, 二维Grid, 尾组mask, 负载均衡(Vector=30.7%, Scalar=29.8%, MTE3=30.0%)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 分组规约, 二维Grid, 尾组mask, 负载均衡(Vector=30.7%, Scalar=29.8%, MTE3=30.0%)'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 分组规约, 二维Grid, 尾组mask, 负载均衡(Vector=30.7%, Scalar=29.8%, MTE3=30.0%)
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=8950 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2842 (p:2236, c:606) | Time=5.60s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Grid Consolidation with UB Load Hoist**
+   ├─ 瓶颈诊断: 瓶颈诊断: Vector=30.7%低利用率, 海量微小program (M*num_groups_per_row)导致launch开销大
+   └─ 实施动作: 实施动作: 将pid_m和pid_g合并为一维pid, 通过pid // num_groups_per_row和pid % num_groups_per_row重建二维映射; 将eps和BIT8_MAX等循环不变量外提至寄存器; 保持BLOCK_M=32, BLOCK=group_size; 需证明M*num_groups_per_row不溢出int32且grid维度不变; 若M%BLOCK_M!=0保留m_mask
+
+  策略 [2]: **Scale Precompute with UB Write Bypass**
+   ├─ 瓶颈诊断: 瓶颈诊断: MTE3写=30.0%饱和, y_s存储重复计算log2/exp2
+   └─ 实施动作: 实施动作: 将y_s计算从kernel内移到wrapper中预计算为log2_scale, kernel内仅做tl.exp2(tl.ceil(log2_scale)); 减少UB写带宽占用; 需证明SCALE_UE8M0分支可分离且精度一致; 若scale_ue8m0=False则保持原逻辑
+
+  策略 [3]: **BLOCK_SIZE Micro-Tuning for Vector Balance**
+   ├─ 瓶颈诊断: 瓶颈诊断: Vector=30.7%与Scalar=29.8%接近, 当前BLOCK=next_power_of_2(group_size)可能过大
+   └─ 实施动作: 实施动作: 将BLOCK调整为group_size本身(非2的幂时使用mask); 同时将BLOCK_M从32/16/8调整为16/8/4以保持num_elements≈1024; 需证明group_size≤256且mask开销小于padding浪费; 若group_size>256则回退到2的幂
+
+  策略 [4]: **Independent Reduction Domain Packing**
+   ├─ 瓶颈诊断: 瓶颈诊断: 每个program处理单行单组, 独立规约域未利用Vector SIMD
+   └─ 实施动作: 实施动作: 将BLOCK_M翻倍(64/32/16), 每个program处理2行同一组, 使用tl.max(tl.abs(y), axis=1)保持独立规约; 需证明M%BLOCK_M=0或mask正确; 若M<BLOCK_M则回退到原BLOCK_M
+
+  策略 [5]: **MTE3 Write Coalescing with Stride Alignment**
+   ├─ 瓶颈诊断: 瓶颈诊断: MTE3写=30.0%饱和, y_q和y_s写模式非连续
+   └─ 实施动作: 实施动作: 将y_s存储从每行独立改为按pid_g连续写, 使用tl.store(y_s_ptrs + pid_m)合并写; 需证明y_s_col_stride≥BLOCK_M且地址对齐; 若y_s_col_stride非对齐则保留原写模式
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9562 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9468 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9512 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9450 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9443 chars
+[LLM] [Call #06] ✅ Complete | Tokens=3711 (p:2362, c:1349) | Time=21.67s
+[LLM] [Call #05] ✅ Complete | Tokens=3771 (p:2378, c:1393) | Time=22.13s
+[LLM] [Call #03] ✅ Complete | Tokens=3785 (p:2390, c:1395) | Time=22.16s
+[LLM] [Call #07] ✅ Complete | Tokens=3768 (p:2360, c:1408) | Time=22.23s
+[LLM] [Call #04] ✅ Complete | Tokens=3837 (p:2367, c:1470) | Time=22.78s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3803 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0__iv7ywj8/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.26us
+       └─ Raw speedup: 0.7485
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7485
+       └─ Fitness score: 0.7485 (max 2.0)
+       └─ Competition score: 74.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3959 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_lop2uxc9/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.26us
+       └─ Raw speedup: 0.7485
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7485
+       └─ Fitness score: 0.7485 (max 2.0)
+       └─ Competition score: 74.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3933 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_6nof8yn8/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.04us
+       └─ Raw speedup: 0.8750
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8750
+       └─ Fitness score: 0.8750 (max 2.0)
+       └─ Competition score: 87.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4004 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_zdkudfq6/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.90us
+       └─ Raw speedup: 0.9655
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9655
+       └─ Fitness score: 0.9655 (max 2.0)
+       └─ Competition score: 96.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4162 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_dgjmxuyi/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.06us
+       └─ Raw speedup: 0.8627
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8627
+       └─ Fitness score: 0.8627 (max 2.0)
+       └─ Competition score: 86.3/200 points
+[EA] ✅ 个体 977d7d78 (gen0_strategy_guided): 耗时=3.26us, 相对基线加速比=0.7485x, 相对Seed加速比=0.9448x, Fitness=0.9448
+[EA] ✅ 个体 d8fb3269 (gen0_strategy_guided): 耗时=3.26us, 相对基线加速比=0.7485x, 相对Seed加速比=0.9448x, Fitness=0.9448
+[EA] ✅ 个体 0a270c39 (gen0_strategy_guided): 耗时=3.04us, 相对基线加速比=0.8750x, 相对Seed加速比=1.0132x, Fitness=1.0132
+[EA] ✅ 个体 451a5260 (gen0_strategy_guided): 耗时=2.90us, 相对基线加速比=0.9655x, 相对Seed加速比=1.0621x, Fitness=1.0621
+[EA] ✅ 个体 ead9e77b (gen0_strategy_guided): 耗时=3.06us, 相对基线加速比=0.8627x, 相对Seed加速比=1.0065x, Fitness=1.0065
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0621 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11320 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11376 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11320 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11027 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4105 (p:2756, c:1349) | Time=14.44s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6398 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4297 (p:2830, c:1467) | Time=15.78s
+[LLM] [Call #08] ✅ Complete | Tokens=4297 (p:2830, c:1467) | Time=15.79s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6746 chars
+[LLM] [Call #09] ✅ Complete | Tokens=4329 (p:2844, c:1485) | Time=15.92s
+[LLM] [Call #12] ✅ Complete | Tokens=2958 (p:1599, c:1359) | Time=12.57s
+[LLM] [Call #13] ✅ Complete | Tokens=3185 (p:1686, c:1499) | Time=13.36s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4150 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_bn5u8fmd/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.08us
+       └─ Raw speedup: 0.8506
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8506
+       └─ Fitness score: 0.8506 (max 2.0)
+       └─ Competition score: 85.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4216 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_jmzzuiq7/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.94us
+       └─ Raw speedup: 0.9388
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9388
+       └─ Fitness score: 0.9388 (max 2.0)
+       └─ Competition score: 93.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3816 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_qwndorp_/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.14us
+       └─ Raw speedup: 0.8153
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8153
+       └─ Fitness score: 0.8153 (max 2.0)
+       └─ Competition score: 81.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4232 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_hf4p48j0/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: 0.9128
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9128
+       └─ Fitness score: 0.9128 (max 2.0)
+       └─ Competition score: 91.3/200 points
+[EA] ✅ 个体 0f3c8314 (crossover): 耗时=3.08us, 相对基线加速比=0.8506x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ✅ 个体 b781e4d8 (crossover): 耗时=2.94us, 相对基线加速比=0.9388x, 相对Seed加速比=1.0476x, Fitness=1.0476
+[EA] ✅ 个体 a2b9aa3c (mutation): 耗时=3.14us, 相对基线加速比=0.8153x, 相对Seed加速比=0.9809x, Fitness=0.9809
+[EA] ✅ 个体 9b3f7732 (mutation): 耗时=2.98us, 相对基线加速比=0.9128x, 相对Seed加速比=1.0336x, Fitness=1.0336
+[EA] Gen 1 Summary: Best=1.0621, Avg=1.0229
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11158 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6821 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11438 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11442 chars
+[LLM] [Call #14] ✅ Complete | Tokens=4184 (p:2789, c:1395) | Time=14.86s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6545 chars
+[LLM] [Call #15] ✅ Complete | Tokens=3115 (p:1705, c:1410) | Time=14.98s
+[LLM] [Call #17] ✅ Complete | Tokens=4327 (p:2860, c:1467) | Time=15.76s
+[LLM] [Call #16] ✅ Complete | Tokens=4372 (p:2859, c:1513) | Time=16.16s
+[LLM] [Call #18] ✅ Complete | Tokens=3031 (p:1636, c:1395) | Time=12.11s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3973 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_ecqhl7bc/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: 0.9930
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9930
+       └─ Fitness score: 0.9930 (max 2.0)
+       └─ Competition score: 99.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4148 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_0ndked4v/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.00us
+       └─ Raw speedup: 0.9000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9000
+       └─ Fitness score: 0.9000 (max 2.0)
+       └─ Competition score: 90.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4279 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_rwpj8_pw/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.10us
+       └─ Raw speedup: 0.8387
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8387
+       └─ Fitness score: 0.8387 (max 2.0)
+       └─ Competition score: 83.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3931 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_w34oqrhr/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.00us
+       └─ Raw speedup: 0.9000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9000
+       └─ Fitness score: 0.9000 (max 2.0)
+       └─ Competition score: 90.0/200 points
+[EA] ✅ 个体 c4b2aecf (mutation): 耗时=2.86us, 相对基线加速比=0.9930x, 相对Seed加速比=1.0769x, Fitness=1.0769
+[EA] ✅ 个体 7b18c06e (crossover): 耗时=3.00us, 相对基线加速比=0.9000x, 相对Seed加速比=1.0267x, Fitness=1.0267
+[EA] ✅ 个体 01b302f9 (crossover): 耗时=3.10us, 相对基线加速比=0.8387x, 相对Seed加速比=0.9935x, Fitness=0.9935
+[EA] ✅ 个体 8074cab0 (mutation): 耗时=3.00us, 相对基线加速比=0.9000x, 相对Seed加速比=1.0267x, Fitness=1.0267
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0769
+[EA] Gen 2 Summary: Best=1.0769, Avg=1.0389
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0769
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3973 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_ch8zz75w/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: 1.0357
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0357
+       └─ Fitness score: 1.0357 (max 2.0)
+       └─ Competition score: 103.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3973 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_y659kr1w/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.92us
+       └─ Raw speedup: 0.9521
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9521
+       └─ Fitness score: 0.9521 (max 2.0)
+       └─ Competition score: 95.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3973 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_l8y45uf3/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.88us
+       └─ Raw speedup: 0.9792
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9792
+       └─ Fitness score: 0.9792 (max 2.0)
+       └─ Competition score: 97.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3973 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_rhdx065n/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.88us
+       └─ Raw speedup: 0.9792
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9792
+       └─ Fitness score: 0.9792 (max 2.0)
+       └─ Competition score: 97.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3973 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_3rzj4goo/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.88us
+       └─ Raw speedup: 0.9792
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9792
+       └─ Fitness score: 0.9792 (max 2.0)
+       └─ Competition score: 97.9/200 points
+  完成: 2.880058 us  S=1.9791663917879432  用时 375.2s
+
+=== [paper_full] seed 2/3 算子 1/1: _per_token_group_quant_8bit_colmajor ===
+[harness] 适应度锚点采用 manifest T_seed = 3.0801 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _per_token_group_quant_8bit_colmajor
+       └─ Working directory: /workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor
+       └─ Reference baseline: 5.70us
+       └─ Test file: /workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/test__per_token_group_quant_8bit_colmajor_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 6840.06it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4328 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_5gtacckg/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 5.62us
+       └─ Raw speedup: 0.0142
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0142
+       └─ Fitness score: 0.0142 (max 2.0)
+       └─ Competition score: 1.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3803 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_4q15yxsz/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.94us
+       └─ Raw speedup: 0.9388
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9388
+       └─ Fitness score: 0.9388 (max 2.0)
+       └─ Competition score: 93.9/200 points
+[EA] 📊 2 个合法种子代码相似度为: 11.46% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: dc409a3e, 基准耗时: 3.08us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=5.70 us | 当前耗时=2.94 us (相对基线:+93.88% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=8
+- 管线利用率: Vector=32.3%, Scalar=30.8%, MTE2(读)=9.6%, MTE3(写)=33.7%
+💡 诊断结论: 各管线负载均衡 (主导: MTE3 写访存 33.7%)，可对比测试网格收拢、独立规约域内的安全打包与 BLOCK_SIZE 微调；不得改变完整计算域。
+- UB吞吐: 向量读=26.20 GB/s, 向量写=18.61 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5261 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1343 (p:1314, c:29) | Time=0.62s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,分组规约,尾组mask,动态stride,MTE3写访存主导'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 分组规约, 尾组mask, 动态stride, MTE3写访存主导'
+[✅ RAG Positive] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_DTYPE_VIEW_STRIDE, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 分组规约, 尾组mask, 动态stride, MTE3写访存主导
+
+【高置信候选优化动作】
+
+[P1] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_DTYPE_VIEW_STRIDE
+#### ⚛️ `ACTION_GUARD_DTYPE_VIEW_STRIDE`：不同 dtype / subview 的 stride 不可复用
+
+* **检索锚点**：多dtype view, fp8/fp32/bf16混合, 动态stride, subview, scale区域, rope区域, 地址偏移。
+* **核心规则**：stride 单位是当前 view 的“元素”；dtype/view 改变后必须分别获取并传递 `.stride()`。来自同一底层 tensor 不代表不同 view 的元素 stride 相同。
+* **严禁模式**：使用 q-view 的 `stride_0` 构造 fp32 scale view 或 bf16 rope view 的 row offset。
+* **正式失败证据**：`_dequantize_k_cache_fast_kernel_v3` 将 q view 的行 stride 复用于 fp32 scale / bf16 rope，三个 testcase 全部 accuracy fail。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9402 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3032 (p:2349, c:683) | Time=6.22s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：Grid收拢+连续轴stride剥离**
+   ├─ 瓶颈诊断: 瓶颈：MTE3写访存33.7%主导，Scalar标量30.8%偏高，grid过碎导致launch开销
+   └─ 实施动作: 实施：将BLOCK_M从32/16/8提升至64/32/16，减少pid_m数量；在kernel内将`y_row_stride`和`y_q_row_stride`剥离内层连续轴乘法，改为`base + m_offsets * stride + g_start + col_offsets`；前提：y.is_contiguous()保证最内层stride=1；需Guard G1证明对齐，Guard G2检查dtype一致性
+
+  策略 [2]: **策略B：独立规约域安全打包**
+   ├─ 瓶颈诊断: 瓶颈：Vector 32.3%利用率低，每个program处理单行group，MTE3写未饱和
+   └─ 实施动作: 实施：在kernel内循环处理2个连续group（pid_g*2和pid_g*2+1），共享m_offsets加载，分别计算absmax和scale，合并写y_s_ptrs；前提：group_size*2 ≤ BLOCK且N%group_size==0；需Guard G3确保工作量增加不导致occupancy下降；禁用条件：尾组mask或非对齐group_size
+
+  策略 [3]: **策略C：BLOCK_SIZE微调+尾组mask优化**
+   ├─ 瓶颈诊断: 瓶颈：BLOCK=next_power_of_2(group_size)可能过大导致无效计算，MTE3写33.7%未饱和
+   └─ 实施动作: 实施：将BLOCK固定为group_size（非power-of-2），删除REQUIRES_N_MASK分支中col_mask计算，使用tl.load/store的mask参数直接处理；前提：group_size≤256且MTE3支持非对齐访存；需Guard G1证明base对齐；禁用条件：group_size非2的幂时需保留mask
+
+  策略 [4]: **策略D：动态stride剥离+标量计算简化**
+   ├─ 瓶颈诊断: 瓶颈：Scalar 30.8%偏高，地址计算中`m_offsets * y_row_stride`重复乘法
+   └─ 实施动作: 实施：在wrapper中预计算`y_base = y_ptr + pid_m * BLOCK_M * y_row_stride`，kernel接收base指针，内层地址简化为`base + g_start + col_offsets`；前提：y_row_stride在kernel内为常量；需Guard G2确保y_q_row_stride独立计算；禁用条件：非连续输入或动态stride
+
+  策略 [5]: **策略E：MTE3写合并+UB吞吐优化**
+   ├─ 瓶颈诊断: 瓶颈：MTE3写33.7%主导但UB写吞吐18.61 GB/s低于读26.20 GB/s，写未饱和
+   └─ 实施动作: 实施：将y_s存储从标量写改为向量写，使用`tl.store(y_s_ptrs, y_s[:, None])`合并为2D写；将y_q存储按BLOCK_M行合并为连续块写；前提：y_s_col_stride==1且y_q_row_stride==BLOCK；需Guard G1证明对齐；禁用条件：非连续stride或mask存在时
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9992 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9952 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9963 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9977 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9940 chars
+[LLM] [Call #05] ✅ Complete | Tokens=3812 (p:2490, c:1322) | Time=22.26s
+[LLM] [Call #04] ✅ Complete | Tokens=3837 (p:2488, c:1349) | Time=22.53s
+[LLM] [Call #07] ✅ Complete | Tokens=3840 (p:2485, c:1355) | Time=22.56s
+[LLM] [Call #03] ✅ Complete | Tokens=3863 (p:2498, c:1365) | Time=22.66s
+[LLM] [Call #06] ✅ Complete | Tokens=3887 (p:2494, c:1393) | Time=22.88s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3726 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_kz99uj72/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.00us
+       └─ Raw speedup: 0.9000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9000
+       └─ Fitness score: 0.9000 (max 2.0)
+       └─ Competition score: 90.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3802 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_4dlhmp4l/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.02us
+       └─ Raw speedup: 0.8874
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8874
+       └─ Fitness score: 0.8874 (max 2.0)
+       └─ Competition score: 88.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3829 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_7l42gw_w/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3847 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_1y1e9pd6/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.88us
+       └─ Raw speedup: 0.9792
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9792
+       └─ Fitness score: 0.9792 (max 2.0)
+       └─ Competition score: 97.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3910 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0__10qqa38/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 6.48us
+       └─ Raw speedup: -0.1204
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 3ab0ce7d (gen0_strategy_guided): 耗时=3.00us, 相对基线加速比=0.9000x, 相对Seed加速比=1.0267x, Fitness=1.0267
+[EA] ✅ 个体 2d40b2ca (gen0_strategy_guided): 耗时=3.02us, 相对基线加速比=0.8874x, 相对Seed加速比=1.0199x, Fitness=1.0199
+[EA] ❌ 个体 e3bf22fd (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 104fc474 (gen0_strategy_guided): 耗时=2.88us, 相对基线加速比=0.9792x, 相对Seed加速比=1.0694x, Fitness=1.0694
+[EA] ✅ 个体 2cd494b5 (gen0_strategy_guided): 耗时=6.48us, 相对基线加速比=0.0000x, 相对Seed加速比=0.4753x, Fitness=0.4753
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0694 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10958 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11003 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11005 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10987 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4095 (p:2746, c:1349) | Time=18.33s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6391 chars
+[LLM] [Call #08] ✅ Complete | Tokens=4088 (p:2739, c:1349) | Time=18.36s
+[LLM] [Call #10] ✅ Complete | Tokens=4116 (p:2751, c:1365) | Time=18.52s
+[LLM] [Call #09] ✅ Complete | Tokens=4115 (p:2750, c:1365) | Time=18.53s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6436 chars
+[LLM] [Call #12] ✅ Complete | Tokens=2982 (p:1597, c:1385) | Time=12.71s
+[LLM] [Call #13] ✅ Complete | Tokens=3010 (p:1609, c:1401) | Time=12.66s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3800 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_b5s6kmk3/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.84us
+       └─ Raw speedup: 1.0070
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0070
+       └─ Fitness score: 1.0070 (max 2.0)
+       └─ Competition score: 100.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3845 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_g98ordyq/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.06us
+       └─ Raw speedup: 0.8627
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8627
+       └─ Fitness score: 0.8627 (max 2.0)
+       └─ Competition score: 86.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3905 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_rnh6tsbl/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: 0.9128
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9128
+       └─ Fitness score: 0.9128 (max 2.0)
+       └─ Competition score: 91.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3950 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_v3uhh4jf/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: 0.9930
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9930
+       └─ Fitness score: 0.9930 (max 2.0)
+       └─ Competition score: 99.3/200 points
+[EA] ✅ 个体 e1d04a64 (crossover): 耗时=2.84us, 相对基线加速比=1.0070x, 相对Seed加速比=1.0845x, Fitness=1.0845
+[EA] ✅ 个体 227280f2 (crossover): 耗时=3.06us, 相对基线加速比=0.8627x, 相对Seed加速比=1.0065x, Fitness=1.0065
+[EA] ✅ 个体 119f8329 (mutation): 耗时=2.98us, 相对基线加速比=0.9128x, 相对Seed加速比=1.0336x, Fitness=1.0336
+[EA] ✅ 个体 b4ad99c2 (mutation): 耗时=2.86us, 相对基线加速比=0.9930x, 相对Seed加速比=1.0769x, Fitness=1.0769
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0845
+[EA] Gen 1 Summary: Best=1.0845, Avg=1.0496
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6755 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11179 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11179 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11050 chars
+[LLM] [Call #15] ✅ Complete | Tokens=4159 (p:2794, c:1365) | Time=14.40s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6436 chars
+[LLM] [Call #16] ✅ Complete | Tokens=4159 (p:2794, c:1365) | Time=14.42s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6436 chars
+[LLM] [Call #17] ✅ Complete | Tokens=4127 (p:2762, c:1365) | Time=14.42s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6436 chars
+[LLM] [Call #14] ✅ Complete | Tokens=3073 (p:1688, c:1385) | Time=15.07s
+[LLM] [Call #18] ✅ Complete | Tokens=3010 (p:1609, c:1401) | Time=14.30s
+[LLM] [Call #20] ✅ Complete | Tokens=3010 (p:1609, c:1401) | Time=14.28s
+[LLM] [Call #19] ✅ Complete | Tokens=3019 (p:1609, c:1410) | Time=14.40s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3907 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_m4x1o1cy/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.06us
+       └─ Raw speedup: 0.8627
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8627
+       └─ Fitness score: 0.8627 (max 2.0)
+       └─ Competition score: 86.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3952 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_3j2upvtk/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: 0.9930
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9930
+       └─ Fitness score: 0.9930 (max 2.0)
+       └─ Competition score: 99.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3950 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_9ubr5ejv/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.82us
+       └─ Raw speedup: 1.0213
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0213
+       └─ Fitness score: 1.0213 (max 2.0)
+       └─ Competition score: 102.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3982 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_19205d2n/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: 0.9128
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9128
+       └─ Fitness score: 0.9128 (max 2.0)
+       └─ Competition score: 91.3/200 points
+[EA] ✅ 个体 06e198dc (mutation): 耗时=3.06us, 相对基线加速比=0.8627x, 相对Seed加速比=1.0065x, Fitness=1.0065
+[EA] ✅ 个体 fe959d68 (mutation): 耗时=2.86us, 相对基线加速比=0.9930x, 相对Seed加速比=1.0769x, Fitness=1.0769
+[EA] ✅ 个体 35bdadfd (mutation): 耗时=2.82us, 相对基线加速比=1.0213x, 相对Seed加速比=1.0922x, Fitness=1.0922
+[EA] ✅ 个体 0a2b3a89 (mutation): 耗时=2.98us, 相对基线加速比=0.9128x, 相对Seed加速比=1.0336x, Fitness=1.0336
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0922
+[EA] Gen 2 Summary: Best=1.0922, Avg=1.0618
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0922
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3950 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_0xhtvckb/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: 0.9257
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9257
+       └─ Fitness score: 0.9257 (max 2.0)
+       └─ Competition score: 92.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3950 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_1p4lqf4d/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.88us
+       └─ Raw speedup: 0.9792
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9792
+       └─ Fitness score: 0.9792 (max 2.0)
+       └─ Competition score: 97.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3950 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_h307nuos/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.82us
+       └─ Raw speedup: 1.0213
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0213
+       └─ Fitness score: 1.0213 (max 2.0)
+       └─ Competition score: 102.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3950 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_jnhksykz/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.88us
+       └─ Raw speedup: 0.9792
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9792
+       └─ Fitness score: 0.9792 (max 2.0)
+       └─ Competition score: 97.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3950 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0__q_f8nf9/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: 0.9257
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9257
+       └─ Fitness score: 0.9257 (max 2.0)
+       └─ Competition score: 92.6/200 points
+  完成: 2.880058 us  S=1.9791663917879432  用时 354.2s
+
+=== [paper_full] seed 3/3 算子 1/1: _per_token_group_quant_8bit_colmajor ===
+[harness] 适应度锚点采用 manifest T_seed = 3.0801 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _per_token_group_quant_8bit_colmajor
+       └─ Working directory: /workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor
+       └─ Reference baseline: 5.70us
+       └─ Test file: /workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/test__per_token_group_quant_8bit_colmajor_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 5041.74it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4328 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_p3g1yenp/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 5.52us
+       └─ Raw speedup: 0.0326
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0326
+       └─ Fitness score: 0.0326 (max 2.0)
+       └─ Competition score: 3.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3803 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_uo_39pep/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.04us
+       └─ Raw speedup: 0.8750
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8750
+       └─ Fitness score: 0.8750 (max 2.0)
+       └─ Competition score: 87.5/200 points
+[EA] 📊 2 个合法种子代码相似度为: 11.46% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 6626f501, 基准耗时: 3.08us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=5.70 us | 当前耗时=3.04 us (相对基线:+87.50% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=8
+- 管线利用率: Vector=31.1%, Scalar=29.2%, MTE2(读)=15.4%, MTE3(写)=29.7%
+💡 诊断结论: 各管线负载均衡 (主导: Vector 向量 31.1%)，可对比测试网格收拢、独立规约域内的安全打包与 BLOCK_SIZE 微调；不得改变完整计算域。
+- UB吞吐: 向量读=25.16 GB/s, 向量写=17.87 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5263 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1365 (p:1315, c:50) | Time=0.84s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 分组规约(per-group absmax), 二维Grid(pid_m, pid_g), 尾组mask(REQUIRES_N_MASK), Vector主导(31.1%)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 分组规约(per-group absmax), 二维Grid(pid_m, pid_g), 尾组mask(REQUIRES_N_MASK), Vector主导(31.1%)'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 分组规约(per-group absmax), 二维Grid(pid_m, pid_g), 尾组mask(REQUIRES_N_MASK), Vector主导(31.1%)
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=8970 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2806 (p:2241, c:565) | Time=5.27s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Grid Consolidation with Mask Fusion**
+   ├─ 瓶颈诊断: 瓶颈诊断: Vector 31.1%主导但MTE2读仅15.4%, 大量微小program导致launch开销
+   └─ 实施动作: 实施动作: 将grid从(pid_m, pid_g)合并为1D grid = (triton.cdiv(M, BLOCK_M) * num_groups_per_row), 内部用pid = tl.program_id(0); pid_m = pid // num_groups_per_row; pid_g = pid % num_groups_per_row; 保持mask逻辑不变, 仅当M*num_groups_per_row < 1024时启用
+
+  策略 [2]: **BLOCK_SIZE Adaptive Tiling**
+   ├─ 瓶颈诊断: 瓶颈诊断: UB吞吐向量读25.16 GB/s偏低, BLOCK=next_power_of_2(group_size)可能过大
+   └─ 实施动作: 实施动作: 将BLOCK改为min(group_size, 128), 当group_size>128时使用两轮col_offsets = tl.arange(0, 128) + g_start + 128*iter; 仅当group_size>128且N%128==0时启用, 否则回退基线
+
+  策略 [3]: **Scale Store Hoisting**
+   ├─ 瓶颈诊断: 瓶颈诊断: MTE3写29.7%较高, y_s存储与y_q存储可分离
+   └─ 实施动作: 实施动作: 将tl.store(y_s_ptrs, y_s)移到循环外(若存在), 或使用tl.store(y_s_ptrs, y_s, mask=m_mask)独立写; 仅当BLOCK_M*num_groups_per_row>256时启用, 否则保持原位
+
+  策略 [4]: **Reduction Axis Optimization**
+   ├─ 瓶颈诊断: 瓶颈诊断: tl.max(tl.abs(y), axis=1)在axis=1上规约, 可改为axis=0以利用连续内存
+   └─ 实施动作: 实施动作: 交换m_offsets和col_offsets维度, 使in_ptrs = y_ptr + m_offsets * y_row_stride + g_start + col_offsets[:, None]; 仅当y_row_stride==N且group_size==BLOCK时启用, 否则回退
+
+  策略 [5]: **Mask Elimination via Padding**
+   ├─ 瓶颈诊断: 瓶颈诊断: REQUIRES_M_MASK和REQUIRES_N_MASK分支导致代码膨胀
+   └─ 实施动作: 实施动作: 在wrapper中将M和N向上对齐到BLOCK_M和group_size的倍数, 填充0; 设置REQUIRES_M_MASK=False, REQUIRES_N_MASK=False; 仅当M%BLOCK_M<=4且N%group_size<=4时启用, 否则保留mask
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9583 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9502 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9449 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9507 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9482 chars
+[LLM] [Call #05] ✅ Complete | Tokens=3711 (p:2362, c:1349) | Time=21.50s
+[LLM] [Call #03] ✅ Complete | Tokens=4006 (p:2395, c:1611) | Time=24.11s
+[LLM] [Call #07] ✅ Complete | Tokens=4349 (p:2370, c:1979) | Time=27.74s
+[LLM] [Call #06] ✅ Complete | Tokens=4357 (p:2376, c:1981) | Time=27.78s
+[LLM] [Call #04] ✅ Complete | Tokens=4634 (p:2375, c:2259) | Time=30.07s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3802 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_zniqpen2/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: 0.9257
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9257
+       └─ Fitness score: 0.9257 (max 2.0)
+       └─ Competition score: 92.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4793 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_3r5vq1ct/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: 0.9128
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9128
+       └─ Fitness score: 0.9128 (max 2.0)
+       └─ Competition score: 91.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5641 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_r32nu96b/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.12us
+       └─ Raw speedup: 0.8269
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8269
+       └─ Fitness score: 0.8269 (max 2.0)
+       └─ Competition score: 82.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5952 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_m2aiyi8z/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.02us
+       └─ Raw speedup: 0.8874
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8874
+       └─ Fitness score: 0.8874 (max 2.0)
+       └─ Competition score: 88.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6460 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_y6bmmb3i/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.08us
+       └─ Raw speedup: 0.8506
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8506
+       └─ Fitness score: 0.8506 (max 2.0)
+       └─ Competition score: 85.1/200 points
+[EA] ✅ 个体 40d2c2d4 (gen0_strategy_guided): 耗时=2.96us, 相对基线加速比=0.9257x, 相对Seed加速比=1.0405x, Fitness=1.0405
+[EA] ✅ 个体 810948c1 (gen0_strategy_guided): 耗时=2.98us, 相对基线加速比=0.9128x, 相对Seed加速比=1.0336x, Fitness=1.0336
+[EA] ✅ 个体 b17626e5 (gen0_strategy_guided): 耗时=3.12us, 相对基线加速比=0.8269x, 相对Seed加速比=0.9872x, Fitness=0.9872
+[EA] ✅ 个体 feb6b051 (gen0_strategy_guided): 耗时=3.02us, 相对基线加速比=0.8874x, 相对Seed加速比=1.0199x, Fitness=1.0199
+[EA] ✅ 个体 a2864d0b (gen0_strategy_guided): 耗时=3.08us, 相对基线加速比=0.8506x, 相对Seed加速比=1.0000x, Fitness=1.0000
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0405 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14606 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=15211 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13698 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12707 chars
+[LLM] [Call #10] ✅ Complete | Tokens=5035 (p:3424, c:1611) | Time=22.25s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7389 chars
+[LLM] [Call #08] ✅ Complete | Tokens=5262 (p:3651, c:1611) | Time=22.29s
+[LLM] [Call #11] ✅ Complete | Tokens=5065 (p:3176, c:1889) | Time=25.13s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=8131 chars
+[LLM] [Call #13] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #09] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #12] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #12] ✅ Complete | Tokens=3468 (p:1847, c:1621) | Time=50.06s
+[LLM] [Call #13] ✅ Complete | Tokens=3957 (p:2032, c:1925) | Time=49.88s
+[LLM] [Call #09] ⚠️ 连接失败(OpenAIConnectionError)，40s 后重试 (2/5)
+[LLM] [Call #09] ⚠️ 连接失败(OpenAIConnectionError)，60s 后重试 (3/5)
+[LLM] [Call #09] ⚠️ 连接失败(OpenAIConnectionError)，80s 后重试 (4/5)
+[LLM] [Call #09] ✅ Complete | Tokens=6061 (p:3802, c:2259) | Time=334.49s
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=9047 chars
+[LLM] [Call #14] ✅ Complete | Tokens=4556 (p:2261, c:2295) | Time=19.97s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4791 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_pd4td9f9/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.10us
+       └─ Raw speedup: 0.8387
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8387
+       └─ Fitness score: 0.8387 (max 2.0)
+       └─ Competition score: 83.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4807 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_kcl6jayh/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: 0.9930
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9930
+       └─ Fitness score: 0.9930 (max 2.0)
+       └─ Competition score: 99.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5647 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_nkbqanqf/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.10us
+       └─ Raw speedup: 0.8387
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8387
+       └─ Fitness score: 0.8387 (max 2.0)
+       └─ Competition score: 83.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6561 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_cylmfp63/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: 0.9930
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9930
+       └─ Fitness score: 0.9930 (max 2.0)
+       └─ Competition score: 99.3/200 points
+[EA] ✅ 个体 1a95d6d3 (crossover): 耗时=3.10us, 相对基线加速比=0.8387x, 相对Seed加速比=0.9935x, Fitness=0.9935
+[EA] ✅ 个体 19362cce (mutation): 耗时=2.86us, 相对基线加速比=0.9930x, 相对Seed加速比=1.0769x, Fitness=1.0769
+[EA] ✅ 个体 2dd78555 (mutation): 耗时=3.10us, 相对基线加速比=0.8387x, 相对Seed加速比=0.9935x, Fitness=0.9935
+[EA] ✅ 个体 60b6de18 (mutation): 耗时=2.86us, 相对基线加速比=0.9930x, 相对Seed加速比=1.0769x, Fitness=1.0769
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0769
+[EA] Gen 1 Summary: Best=1.0769, Avg=1.0358
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11951 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=15573 chars[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14727 chars
+
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13818 chars
+[LLM] [Call #15] ✅ Complete | Tokens=4598 (p:2987, c:1611) | Time=21.02s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7382 chars
+[LLM] [Call #18] ✅ Complete | Tokens=5075 (p:3454, c:1621) | Time=21.10s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7398 chars
+[LLM] [Call #16] ✅ Complete | Tokens=6192 (p:3893, c:2299) | Time=28.14s
+[LLM] [Call #21] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=9166 chars
+[LLM] [Call #17] ✅ Complete | Tokens=5996 (p:3681, c:2315) | Time=28.61s
+[LLM] [Call #22] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=9184 chars
+[LLM] [Call #19] ✅ Complete | Tokens=3218 (p:1845, c:1373) | Time=14.60s
+[LLM] [Call #20] ✅ Complete | Tokens=3232 (p:1849, c:1383) | Time=14.62s
+[LLM] [Call #21] ✅ Complete | Tokens=4590 (p:2291, c:2299) | Time=21.66s
+[LLM] [Call #22] ✅ Complete | Tokens=4611 (p:2296, c:2315) | Time=21.52s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3885 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0__5h55kmj/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.18us
+       └─ Raw speedup: 0.7925
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7925
+       └─ Fitness score: 0.7925 (max 2.0)
+       └─ Competition score: 79.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3901 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_rlk4z7hq/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: 0.9128
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9128
+       └─ Fitness score: 0.9128 (max 2.0)
+       └─ Competition score: 91.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6577 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_vp4zv2si/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.92us
+       └─ Raw speedup: 0.9521
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9521
+       └─ Fitness score: 0.9521 (max 2.0)
+       └─ Competition score: 95.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6593 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_7bcvmyrx/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.06us
+       └─ Raw speedup: 0.8627
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8627
+       └─ Fitness score: 0.8627 (max 2.0)
+       └─ Competition score: 86.3/200 points
+[EA] ✅ 个体 666a9eac (mutation): 耗时=3.18us, 相对基线加速比=0.7925x, 相对Seed加速比=0.9686x, Fitness=0.9686
+[EA] ✅ 个体 0e16401e (mutation): 耗时=2.98us, 相对基线加速比=0.9128x, 相对Seed加速比=1.0336x, Fitness=1.0336
+[EA] ✅ 个体 d1c6fa8c (mutation): 耗时=2.92us, 相对基线加速比=0.9521x, 相对Seed加速比=1.0548x, Fitness=1.0548
+[EA] ✅ 个体 3ef85532 (mutation): 耗时=3.06us, 相对基线加速比=0.8627x, 相对Seed加速比=1.0065x, Fitness=1.0065
+[EA] Gen 2 Summary: Best=1.0769, Avg=1.0362
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0769
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4807 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_vu78a291/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: 0.9257
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9257
+       └─ Fitness score: 0.9257 (max 2.0)
+       └─ Competition score: 92.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4807 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_xmwp2mej/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.22us
+       └─ Raw speedup: 0.7702
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7702
+       └─ Fitness score: 0.7702 (max 2.0)
+       └─ Competition score: 77.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4807 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_lkm0eei8/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.82us
+       └─ Raw speedup: 1.0213
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0213
+       └─ Fitness score: 1.0213 (max 2.0)
+       └─ Competition score: 102.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4807 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_mzf_dfos/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 2.90us
+       └─ Raw speedup: 0.9655
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9655
+       └─ Fitness score: 0.9655 (max 2.0)
+       └─ Competition score: 96.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4807 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_per_token_group_quant_8bit_colmajor/performance/_per_token_group_quant_8bit_colmajor_dev_0/_per_token_group_quant_8bit_colmajor --application="/usr/local/python3.11.15/bin/python /tmp/_per_token_group_quant_8bit_colmajor_dev_0_pni99ld7/test__per_token_group_quant_8bit_colmajor.py" --kernel-name="_per_token_group_quant_8bit_colmajor" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 5.70us
+       └─ Optimized time: 3.14us
+       └─ Raw speedup: 0.8153
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8153
+       └─ Fitness score: 0.8153 (max 2.0)
+       └─ Competition score: 81.5/200 points
+  完成: 2.960059 us  S=1.9256758057863035  用时 728.7s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.48 小时
+============================================================

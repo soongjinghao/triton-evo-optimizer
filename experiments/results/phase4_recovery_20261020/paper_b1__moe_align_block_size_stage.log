@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: moe_align_block_size_stage ===
+  [复用] 已有结果 moe_align_block_size_stage__r11.json
+  完成: 14.080281 us  S=1.0625000310718231  用时 305.9s
+
+=== [paper_b1] seed 2/3 算子 1/1: moe_align_block_size_stage ===
+  [复用] 已有结果 moe_align_block_size_stage__r12.json
+  完成: 13.940279 us  S=1.0731707019637124  用时 307.5s
+
+=== [paper_b1] seed 3/3 算子 1/1: moe_align_block_size_stage ===
+  [复用] 已有结果 moe_align_block_size_stage__r13.json
+  完成: 14.560291 us  S=1.0274725278498897  用时 390.9s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

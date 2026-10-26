@@ -1,0 +1,1579 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: reshape_and_cache_flash_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 2.8401 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_flash_kernel
+       └─ Working directory: /workspace/Agent/datasets2/reshape_and_cache_flash_kernel
+       └─ Reference baseline: 2.84us
+       └─ Test file: /workspace/Agent/datasets2/reshape_and_cache_flash_kernel/test_reshape_and_cache_flash_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7547.54it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2230 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_tus73h29/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: 0.0365
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0365
+       └─ Fitness score: 0.0365 (max 2.0)
+       └─ Competition score: 3.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2048 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_4pmj8jh2/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 136.34us
+       └─ Raw speedup: -0.9792
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 69.42% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 4050cde1, 基准耗时: 2.84us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.84 us | 当前耗时=2.74 us (相对基线:+3.65% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=16
+- 管线利用率: Vector=7.0%, Scalar=60.4%, MTE2(读)=23.7%, MTE3(写)=14.1%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (60.4%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=0.00 GB/s, 向量写=23.03 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3686 chars
+[LLM] [Call #01] ✅ Complete | Tokens=955 (p:920, c:35) | Time=0.80s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 标量地址计算, 重复不变量load, 尾块mask'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 标量地址计算, 重复不变量load, 尾块mask'
+[✅ RAG Positive] ACTION_ALIGNED_MASKLESS_FASTPATH, ACTION_CONSTEXPR_MODE_SPECIALIZATION, ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 标量地址计算, 重复不变量load, 尾块mask
+
+【高置信候选优化动作】
+
+[P1] ACTION_ALIGNED_MASKLESS_FASTPATH
+#### ⚛️ `ACTION_ALIGNED_MASKLESS_FASTPATH`：完整覆盖且证明充分时的无 Mask Fast Path
+
+* **检索锚点**：尾块mask, 完整覆盖, full tile, n_cols整除, chunk完整, mask可证明冗余, 非2次幂逻辑组, 无效Token, alignment证明。
+* **Profiling 锚点**：Vector/Scalar predicate 开销；MTE 搬运存在谓词。
+* **结构判据**：某些 shape 可以从 `n % BLOCK == 0 / chunk完整 / grid边界` 严格证明 load/store 不越界。
+* **优化动作**：wrapper 或 constexpr 分支选择独立 unmasked kernel/path；通用尾块继续使用 mask。
+* **必须前提**：边界完整性、局部逻辑域与对齐条件逐项可证明。
+* **禁用条件**：证明不足时绝不删 mask；contiguous 不等于任意动态行首对齐；全局 tensor 边界不能代替 Head/Group/Row 局部域边界。
+* **正式平台证据**：`_chunk_cumsum_fwd_kernel` aligned/full path 正式 `avg=2.00`；RMSNorm full-row path 同样高分。
+* **强制联动 Guard**：`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_MASK_COVERAGE_PROOF`。
+* **可信度**：A。
+
+[P2] ACTION_CONSTEXPR_MODE_SPECIALIZATION
+#### ⚛️ `ACTION_CONSTEXPR_MODE_SPECIALIZATION`：Shape / Stride / Mode 编译期特化
+
+* **检索锚点**：动态shape, 动态stride, constexpr机会, 编译期分支, HAS_*模式, full tile模式, 重复标量地址计算, Scalar标量占比高。
+* **Profiling 锚点**：Scalar 主瓶颈；分支和地址生成开销高。
+* **结构判据**：n_cols/chunk_size/stride/布尔模式在一次 kernel 编译实例内固定，但仍作为运行时变量参与地址和分支。
+* **优化动作**：将真实稳定参数设为 `tl.constexpr`，派生 `IS_FULL_TILE/NEEDS_MASK/HAS_*` 等编译期 flag，删除不可达逻辑。
+* **必须前提**：稳定性来自 wrapper/API 契约，而不是单个公开 testcase；shape/stride 组合数量可控。
+* **禁用条件**：高度动态 workload 中过度 constexpr 导致编译/缓存爆炸；把公开 testcase 的特定 shape/stride 当作全局契约硬编码。
+* **正式平台证据**：`_state_passing_fwd_kernel` 正式 `avg=1.48, min=0.43, max=2.00`，说明收益高度 shape-dependent。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：B。
+
+[P3] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G3] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9817 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3186 (p:2453, c:733) | Time=6.81s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **STRIDE_ELIMINATION_AND_CONSTEXPR_SPEC**
+   ├─ 瓶颈诊断: Scalar 60.4% 主瓶颈，标量地址计算重复
+   └─ 实施动作: Positive: [P2] ACTION_CONSTEXPR_MODE_SPECIALIZATION + [P3] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP；将 `key_stride`、`value_stride`、`block_stride` 改为 `tl.constexpr`，利用 `key.stride(0) == n` 且 `key_cache.stride(0) == block_size * n` 的连续性证明，将 `key_ptr = key + token_idx * key_stride + offset` 简化为 `key_ptr = key + token_idx * n + offset`，删除 `key_stride` 乘法；同理简化 `value_ptr` 和 `cache_offset` 计算。
+
+  策略 [2]: **MASK_ELIMINATION_FOR_ALIGNED_CHUNK**
+   ├─ 瓶颈诊断: Vector 7.0% 低利用率，mask 开销
+   └─ 实施动作: Positive: [P1] ACTION_ALIGNED_MASKLESS_FASTPATH；当 `n % CHUNK_ELEMENTS == 0` 时（由 `n = num_heads * head_size` 且 `head_size` 为 128 的倍数可证明），`num_chunks` 为整数且 `chunk_mask` 全为 True，添加 `IS_FULL: tl.constexpr` 分支，在 `IS_FULL` 为 True 时使用无 mask 的 `tl.load`/`tl.store`，保留通用 masked fallback。
+
+  策略 [3]: **GRID_CONSOLIDATION_FOR_SERIAL_LOOP**
+   ├─ 瓶颈诊断: Scalar 60.4% 含循环开销，单 program 工作量小
+   └─ 实施动作: 无 Positive ACTION（Grid 方向需结合工作量判断，当前单 program 循环次数少）；将 `grid = (num_tokens,)` 改为 `grid = (triton.cdiv(num_tokens, 4),)`，每个 program 处理 4 个 token，内部循环展开为 4 组独立的 `slot_idx` 加载和 chunk 循环，减少 launch 调度开销和标量循环控制开销。
+
+  策略 [4]: **CHUNK_SIZE_TUNING_FOR_UB_UTILIZATION**
+   ├─ 瓶颈诊断: UB 写吞吐 23.03 GB/s 但 Vector 仅 7.0%，chunk 粒度不匹配
+   └─ 实施动作: 无 Positive ACTION（需验证 shape 稳定性）；将 `CHUNK_ELEMENTS` 从 4096 调整为 `head_size`（128）的倍数如 512，使每个 chunk 的 load/store 向量化更充分，同时保持 `num_chunks` 为整数，减少标量循环次数和 mask 开销。
+
+  策略 [5]: **SLOT_MAPPING_PREFETCH_AND_ALIGNMENT**
+   ├─ 瓶颈诊断: Scalar 60.4% 含条件分支和地址计算
+   └─ 实施动作: 无 Positive ACTION（Guard 限制 alignment hint）；将 `slot_idx = tl.load(slot_mapping + token_idx)` 提前到 program 开头，利用 `slot_mapping` 的连续性和 `token_idx` 的线性访问模式，通过 `tl.max_contiguous` 提示编译器连续访问（需证明 `slot_mapping` 是连续 tensor 且 `token_idx` 步长为 1），减少标量地址生成开销。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10564 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10453 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10391 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10356 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10421 chars
+[LLM] [Call #03] ✅ Complete | Tokens=3296 (p:2641, c:655) | Time=9.78s
+[LLM] [Call #06] ✅ Complete | Tokens=3235 (p:2589, c:646) | Time=9.79s
+[LLM] [Call #05] ✅ Complete | Tokens=3284 (p:2597, c:687) | Time=9.94s
+[LLM] [Call #04] ✅ Complete | Tokens=3348 (p:2613, c:735) | Time=10.30s
+[LLM] [Call #07] ✅ Complete | Tokens=3252 (p:2605, c:647) | Time=11.04s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2242 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_2yi4ersc/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: -0.0070
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2222 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_akr4xseo/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.70us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2429 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_1mzgejc9/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2562 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_d83tsaq3/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 1.22us
+       └─ Raw speedup: 1.3279
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3279
+       └─ Fitness score: 1.3279 (max 2.0)
+       └─ Competition score: 132.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2220 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_1k1b84c_/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: 0.0365
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0365
+       └─ Fitness score: 0.0365 (max 2.0)
+       └─ Competition score: 3.6/200 points
+[EA] ✅ 个体 97322acf (gen0_strategy_guided): 耗时=2.86us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9930x, Fitness=0.9930
+[EA] ✅ 个体 02478f63 (gen0_strategy_guided): 耗时=2.70us, 相对基线加速比=0.0519x, 相对Seed加速比=1.0519x, Fitness=1.0519
+[EA] ❌ 个体 cd3bb882 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 8b396a00 (gen0_strategy_guided): 耗时=1.22us, 相对基线加速比=1.3279x, 相对Seed加速比=2.3279x, Fitness=2.3279
+[EA] ✅ 个体 44b48170 (gen0_strategy_guided): 耗时=2.74us, 相对基线加速比=0.0365x, 相对Seed加速比=1.0365x, Fitness=1.0365
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 2.3279 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7806 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7566 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7806 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8103 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2537 (p:1891, c:646) | Time=7.25s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4815 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2598 (p:1951, c:647) | Time=7.27s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4832 chars
+[LLM] [Call #08] ✅ Complete | Tokens=2598 (p:1951, c:647) | Time=7.28s
+[LLM] [Call #11] ✅ Complete | Tokens=2763 (p:2025, c:738) | Time=8.45s
+[LLM] [Call #12] ✅ Complete | Tokens=1849 (p:1203, c:646) | Time=6.22s
+[LLM] [Call #13] ✅ Complete | Tokens=1870 (p:1208, c:662) | Time=6.36s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2218 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_9pkn1ipw/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 3.02us
+       └─ Raw speedup: -0.0596
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2566 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_6v_v6ldj/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.70us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2217 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_udbw3cd6/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 3.16us
+       └─ Raw speedup: -0.1013
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2261 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_ztmtxgsr/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: -0.0405
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 05b80ba7 (crossover): 耗时=3.02us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9404x, Fitness=0.9404
+[EA] ✅ 个体 132670ff (crossover): 耗时=2.70us, 相对基线加速比=0.0519x, 相对Seed加速比=1.0519x, Fitness=1.0519
+[EA] ✅ 个体 1c3d88e6 (mutation): 耗时=3.16us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8987x, Fitness=0.8987
+[EA] ✅ 个体 85159820 (mutation): 耗时=2.96us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9595x, Fitness=0.9595
+[EA] Gen 1 Summary: Best=2.3279, Avg=1.2050
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8064 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5474 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8103 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8451 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2754 (p:2016, c:738) | Time=7.76s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5180 chars
+[LLM] [Call #17] ✅ Complete | Tokens=2850 (p:2112, c:738) | Time=7.77s
+[LLM] [Call #16] ✅ Complete | Tokens=2763 (p:2025, c:738) | Time=7.78s
+[LLM] [Call #15] ✅ Complete | Tokens=2170 (p:1368, c:802) | Time=8.45s
+[LLM] [Call #18] ✅ Complete | Tokens=2048 (p:1295, c:753) | Time=6.65s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2568 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_txkp5yz2/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: -0.0470
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2566 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_nbwrt8we/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: -0.0470
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2883 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_54bjlmqf/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2609 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_9tctg3hb/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 3.00us
+       └─ Raw speedup: -0.0533
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 e4e3a372 (crossover): 耗时=2.98us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9530x, Fitness=0.9530
+[EA] ✅ 个体 ec78b354 (crossover): 耗时=2.98us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9530x, Fitness=0.9530
+[EA] ❌ 个体 ef5aefd2 (mutation): 评估失败, Fitness=0
+[EA] ✅ 个体 e2deb5fd (mutation): 耗时=3.00us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9467x, Fitness=0.9467
+[EA] Gen 2 Summary: Best=2.3279, Avg=1.0387
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 2.3279
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2562 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_jucdedsu/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 1.24us
+       └─ Raw speedup: 1.2903
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.2903
+       └─ Fitness score: 1.2903 (max 2.0)
+       └─ Competition score: 129.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2562 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_25vx4ex7/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 1.22us
+       └─ Raw speedup: 1.3279
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3279
+       └─ Fitness score: 1.3279 (max 2.0)
+       └─ Competition score: 132.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2562 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_sh1x18i3/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 1.18us
+       └─ Raw speedup: 1.4068
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.4068
+       └─ Fitness score: 1.4068 (max 2.0)
+       └─ Competition score: 140.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2562 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_ftxoff5g/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 1.12us
+       └─ Raw speedup: 1.5357
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.5357
+       └─ Fitness score: 1.5357 (max 2.0)
+       └─ Competition score: 153.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2562 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0__oxpjevz/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 1.20us
+       └─ Raw speedup: 1.3667
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3667
+       └─ Fitness score: 1.3667 (max 2.0)
+       └─ Competition score: 136.7/200 points
+  完成: 1.200024 us  S=2.36666683333  用时 306.5s
+
+=== [paper_full] seed 2/3 算子 1/1: reshape_and_cache_flash_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 2.8401 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_flash_kernel
+       └─ Working directory: /workspace/Agent/datasets2/reshape_and_cache_flash_kernel
+       └─ Reference baseline: 2.84us
+       └─ Test file: /workspace/Agent/datasets2/reshape_and_cache_flash_kernel/test_reshape_and_cache_flash_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8502.61it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2230 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_7gf53wsb/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: 0.0365
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0365
+       └─ Fitness score: 0.0365 (max 2.0)
+       └─ Competition score: 3.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2048 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_z4vhac1c/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 135.48us
+       └─ Raw speedup: -0.9790
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 69.42% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 6d3e3533, 基准耗时: 2.84us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.84 us | 当前耗时=2.74 us (相对基线:+3.65% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=16
+- 管线利用率: Vector=7.1%, Scalar=61.5%, MTE2(读)=22.6%, MTE3(写)=14.5%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (61.5%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=0.00 GB/s, 向量写=23.19 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3686 chars
+[LLM] [Call #01] ✅ Complete | Tokens=970 (p:920, c:50) | Time=0.75s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 循环分块CHUNK_ELEMENTS=4096, Scalar标量主瓶颈61.5%, 动态slot_mapping间接索引'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 循环分块CHUNK_ELEMENTS=4096, Scalar标量主瓶颈61.5%, 动态slot_mapping间接索引'
+[✅ RAG Positive] ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_INDEPENDENT_AXIS_PACKING, ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_RANDOM_GATHER_OCCUPANCY*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每Token独立program, 循环分块CHUNK_ELEMENTS=4096, Scalar标量主瓶颈61.5%, 动态slot_mapping间接索引
+
+【高置信候选优化动作】
+
+[P1] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P2] ACTION_INDEPENDENT_AXIS_PACKING
+#### ⚛️ `ACTION_INDEPENDENT_AXIS_PACKING`：独立 Head / Row / Group 向量化打包
+
+* **检索锚点**：Head独立规约, Row独立规约, Group独立规约, 单head program过小, Token/Group/Head打包, 二维grid, 可共享另一维arange。
+* **Profiling 锚点**：launch-bound 或 MTE 共享参数重复读取。
+* **结构判据**：head/row/group 间逻辑独立且 store 地址不冲突，每个独立域单独 program 太轻。
+* **优化动作**：增加 `BLOCK_H/BLOCK_M/GROUPS_PER_BLOCK`，把独立轴加入向量维，一次 program 同时处理多个独立域。
+* **必须前提**：二维寄存器 tensor 可控；不混合独立规约域；局部域 mask 正确；wrapper launch contract 可证明。
+* **禁用条件**：打包导致 tile 面积爆炸；不同域存在依赖/原子冲突；使用全局 flatten mask 误覆盖下一个逻辑域。
+* **正式平台证据**：`_correct_attn_cp_out_kernel` 正式 `avg=1.79`。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_TILE_AREA_BUDGET`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：A。
+
+[P3] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G4] ACTION_GUARD_RANDOM_GATHER_OCCUPANCY（强制联动）
+#### ⚛️ `ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`：Random Gather 不宜过度扩大单 Program Tile
+
+* **检索锚点**：间接索引, random gather, block_table, token_indices, 大BLOCK, occupancy不足, MTE2读延迟, 单program工作量过大。
+* **核心规则**：random gather 依赖更多并发 program 隐藏访存延迟；不要仅为减少 grid 把 BLOCK 从百级扩大到千级。
+* **正式失败证据**：`_convert_req_index_to_global_index_kernel` 将 random-gather 单 program tile 过度扩大，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=11369 chars
+[LLM] [Call #02] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #02] ✅ Complete | Tokens=3717 (p:2841, c:876) | Time=36.92s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Strategy: Grid Consolidation + Group Packing**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar标量主瓶颈61.5%，海量微小program，每个token独立program
+   └─ 实施动作: 实施动作: 采用[P3] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS和[P1] ACTION_GROUP_PACK_RESHAPE_REDUCE。将grid从(num_tokens,)改为(num_tokens // TOKENS_PER_BLOCK,)，每个program处理TOKENS_PER_BLOCK个连续token。同时将CHUNK_ELEMENTS从4096改为4096 * TOKENS_PER_BLOCK，一次加载多个token的连续数据。修改kernel: `token_base = tl.program_id(0) * TOKENS_PER_BLOCK`，内层循环处理TOKENS_PER_BLOCK个token，共享chunk循环。前提: TOKENS_PER_BLOCK为编译期常量，连续token的slot_mapping无冲突，key/value stride连续可证明。
+
+  策略 [2]: **Strategy: Independent Axis Packing (Head Dimension)**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar标量主瓶颈61.5%，n=num_heads*head_size被展平为一维，导致标量地址计算开销大
+   └─ 实施动作: 实施动作: 采用[P2] ACTION_INDEPENDENT_AXIS_PACKING。将kernel改为二维grid: `(num_tokens, num_heads)`，每个program处理一个token的一个head。修改kernel: `token_idx = tl.program_id(0); head_idx = tl.program_id(1)`，chunk循环处理head_size元素。前提: wrapper launch contract支持二维grid，head间独立无写冲突，head_size <= CHUNK_ELEMENTS。
+
+  策略 [3]: **Strategy: Mask Simplification + Alignment**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar标量主瓶颈61.5%，chunk_mask计算和动态偏移增加标量开销
+   └─ 实施动作: 实施动作: 无Positive ACTION，基于evidence-only。当n是CHUNK_ELEMENTS整数倍时，删除chunk_mask；当n是2的幂时，用位运算替代取模。修改kernel: 添加`IS_ALIGNED: tl.constexpr`，当`IS_ALIGNED`为True时，`tl.load(key_ptr + chunk_i)`无mask；当`IS_POW2: tl.constexpr`为True时，`block_offset = slot_idx & (block_size - 1)`。前提: 从shape/stride证明n % CHUNK_ELEMENTS == 0，block_size是2的幂。
+
+  策略 [4]: **Strategy: Stride Multiplication Elimination**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar标量主瓶颈61.5%，`token_idx * key_stride + offset`等标量乘法频繁
+   └─ 实施动作: 实施动作: 无Positive ACTION，基于evidence-only。当key_stride和value_stride恒为1时，简化地址计算。修改kernel: 添加`CONTIGUOUS: tl.constexpr`，当`CONTIGUOUS`为True时，`key_ptr = key + token_idx * n + offset`。前提: 从wrapper/stride证明key.stride(0) == n且value.stride(0) == n，且n为编译期常量。
+
+  策略 [5]: **Strategy: Loop Unrolling + Static Chunking**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar标量主瓶颈61.5%，动态循环`num_chunks = tl.cdiv(n, CHUNK_ELEMENTS)`和循环控制增加标量开销
+   └─ 实施动作: 实施动作: 无Positive ACTION，基于evidence-only。当n是CHUNK_ELEMENTS整数倍且较小(如n <= 16384)时，完全展开循环。修改kernel: 添加`UNROLL: tl.constexpr`，当`UNROLL`为True时，用静态`tl.static_range`展开循环，每个chunk独立加载/存储。前提: n为编译期常量且n % CHUNK_ELEMENTS == 0，n <= 4*CHUNK_ELEMENTS，寄存器压力可接受。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10753 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10634 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10645 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10591 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10603 chars
+[LLM] [Call #04] ✅ Complete | Tokens=3339 (p:2658, c:681) | Time=15.97s
+[LLM] [Call #06] ✅ Complete | Tokens=3367 (p:2647, c:720) | Time=16.36s
+[LLM] [Call #03] ✅ Complete | Tokens=3422 (p:2688, c:734) | Time=16.48s
+[LLM] [Call #05] ✅ Complete | Tokens=3469 (p:2661, c:808) | Time=17.15s
+[LLM] [Call #07] ✅ Complete | Tokens=3548 (p:2650, c:898) | Time=17.86s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2347 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_rjiipv21/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 9.86us
+       └─ Raw speedup: -0.7120
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2483 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_e3cvm7lp/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.82us
+       └─ Raw speedup: 0.0071
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0071
+       └─ Fitness score: 0.0071 (max 2.0)
+       └─ Competition score: 0.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2563 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_sdkz9rs8/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2756 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_yklrlelv/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.94us
+       └─ Raw speedup: -0.0340
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3169 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_0soz3p7w/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 3.00us
+       └─ Raw speedup: -0.0533
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 e841d1bf (gen0_strategy_guided): 耗时=9.86us, 相对基线加速比=0.0000x, 相对Seed加速比=0.2880x, Fitness=0.2880
+[EA] ✅ 个体 5dd2685f (gen0_strategy_guided): 耗时=2.82us, 相对基线加速比=0.0071x, 相对Seed加速比=1.0071x, Fitness=1.0071
+[EA] ❌ 个体 027bfb71 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 21336edb (gen0_strategy_guided): 耗时=2.94us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9660x, Fitness=0.9660
+[EA] ✅ 个体 ab508b8a (gen0_strategy_guided): 耗时=3.00us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9467x, Fitness=0.9467
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0071 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8801 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8602 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7933 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9077 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2630 (p:1983, c:647) | Time=7.44s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4809 chars
+[LLM] [Call #12] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #09] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #11] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #08] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #12] ✅ Complete | Tokens=1877 (p:1202, c:675) | Time=29.93s
+[LLM] [Call #09] ⚠️ 连接失败(OpenAIConnectionError)，40s 后重试 (2/5)
+[LLM] [Call #08] ⚠️ 连接失败(OpenAIConnectionError)，40s 后重试 (2/5)
+[LLM] [Call #11] ⚠️ 连接失败(OpenAIConnectionError)，40s 后重试 (2/5)
+[LLM] [Call #09] ✅ Complete | Tokens=2958 (p:2150, c:808) | Time=88.52s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5345 chars
+[LLM] [Call #08] ✅ Complete | Tokens=3147 (p:2200, c:947) | Time=90.06s
+[LLM] [Call #11] ✅ Complete | Tokens=3300 (p:2269, c:1031) | Time=90.91s
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6293 chars
+[LLM] [Call #13] ✅ Complete | Tokens=2144 (p:1336, c:808) | Time=7.69s
+[LLM] [Call #14] ✅ Complete | Tokens=2604 (p:1573, c:1031) | Time=9.13s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2261 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_nm60l0c8/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.90us
+       └─ Raw speedup: -0.0207
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3396 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_cnidlw4k/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.70us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2754 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_pj3kgnjx/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.72us
+       └─ Raw speedup: 0.0441
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0441
+       └─ Fitness score: 0.0441 (max 2.0)
+       └─ Competition score: 4.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_c0cn4hva/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.68us
+       └─ Raw speedup: 0.0597
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0597
+       └─ Fitness score: 0.0597 (max 2.0)
+       └─ Competition score: 6.0/200 points
+[EA] ✅ 个体 37503b15 (mutation): 耗时=2.90us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9793x, Fitness=0.9793
+[EA] ✅ 个体 68d5c56b (crossover): 耗时=2.70us, 相对基线加速比=0.0519x, 相对Seed加速比=1.0519x, Fitness=1.0519
+[EA] ✅ 个体 e028e8d6 (mutation): 耗时=2.72us, 相对基线加速比=0.0441x, 相对Seed加速比=1.0441x, Fitness=1.0441
+[EA] ✅ 个体 abe0812d (mutation): 耗时=2.68us, 相对基线加速比=0.0597x, 相对Seed加速比=1.0597x, Fitness=1.0597
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0597
+[EA] Gen 1 Summary: Best=1.0597, Avg=1.0237
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9290 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6355 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9027 chars
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8109 chars
+[LLM] [Call #18] ✅ Complete | Tokens=2775 (p:2027, c:748) | Time=8.73s
+[LLM] [Call #16] ✅ Complete | Tokens=2535 (p:1588, c:947) | Time=10.60s
+[LLM] [Call #17] ✅ Complete | Tokens=3203 (p:2256, c:947) | Time=10.61s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5987 chars
+[LLM] [Call #15] ✅ Complete | Tokens=3353 (p:2322, c:1031) | Time=11.56s
+[LLM] [Call #19] ✅ Complete | Tokens=2443 (p:1496, c:947) | Time=8.40s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2507 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_cpexgu71/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.78us
+       └─ Raw speedup: 0.0216
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0216
+       └─ Fitness score: 0.0216 (max 2.0)
+       └─ Competition score: 2.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_k1d0yxuc/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: -0.0470
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_cd_2084w/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.92us
+       └─ Raw speedup: -0.0274
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3396 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_7xj8c617/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.78us
+       └─ Raw speedup: 0.0216
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0216
+       └─ Fitness score: 0.0216 (max 2.0)
+       └─ Competition score: 2.2/200 points
+[EA] ✅ 个体 c258a807 (crossover): 耗时=2.78us, 相对基线加速比=0.0216x, 相对Seed加速比=1.0216x, Fitness=1.0216
+[EA] ✅ 个体 b29f62bd (mutation): 耗时=2.98us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9530x, Fitness=0.9530
+[EA] ✅ 个体 3e1eeae7 (crossover): 耗时=2.92us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9726x, Fitness=0.9726
+[EA] ✅ 个体 fb15864a (mutation): 耗时=2.78us, 相对基线加速比=0.0216x, 相对Seed加速比=1.0216x, Fitness=1.0216
+[EA] Gen 2 Summary: Best=1.0597, Avg=1.0134
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0597
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_ynthk725/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: -0.0070
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_3qs8d1ia/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: -0.0070
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_90me09q3/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: -0.0470
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_psyq6lwi/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: -0.0070
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_n914fxnn/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: -0.0070
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+  完成: 2.860057 us  S=0.9930071323753338  用时 440.9s
+
+=== [paper_full] seed 3/3 算子 1/1: reshape_and_cache_flash_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 2.8401 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: reshape_and_cache_flash_kernel
+       └─ Working directory: /workspace/Agent/datasets2/reshape_and_cache_flash_kernel
+       └─ Reference baseline: 2.84us
+       └─ Test file: /workspace/Agent/datasets2/reshape_and_cache_flash_kernel/test_reshape_and_cache_flash_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8431.60it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2230 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_zgv0fut4/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.82us
+       └─ Raw speedup: 0.0071
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0071
+       └─ Fitness score: 0.0071 (max 2.0)
+       └─ Competition score: 0.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2048 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_0n0v49z8/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 134.94us
+       └─ Raw speedup: -0.9790
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 69.42% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: c8773969, 基准耗时: 2.84us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.84 us | 当前耗时=2.82 us (相对基线:+0.71% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=16
+- 管线利用率: Vector=6.6%, Scalar=63.4%, MTE2(读)=22.0%, MTE3(写)=13.7%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (63.4%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=0.00 GB/s, 向量写=21.43 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3686 chars
+[LLM] [Call #01] ✅ Complete | Tokens=950 (p:920, c:30) | Time=0.62s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,一维Grid每Token独立program,program内循环,标量地址计算,重复metadata load'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每Token独立program, program内循环, 标量地址计算, 重复metadata load'
+[✅ RAG Positive] ACTION_PREFIX_METADATA_PRECOMPUTE, ACTION_CONTIGUOUS_INNER_STRIDE_STRIP, ACTION_CONSTEXPR_MODE_SPECIALIZATION
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL, ACTION_GUARD_LAUNCH_CONTRACT
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每Token独立program, program内循环, 标量地址计算, 重复metadata load
+
+【高置信候选优化动作】
+
+[P1] ACTION_PREFIX_METADATA_PRECOMPUTE
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+[P2] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+[P3] ACTION_CONSTEXPR_MODE_SPECIALIZATION
+#### ⚛️ `ACTION_CONSTEXPR_MODE_SPECIALIZATION`：Shape / Stride / Mode 编译期特化
+
+* **检索锚点**：动态shape, 动态stride, constexpr机会, 编译期分支, HAS_*模式, full tile模式, 重复标量地址计算, Scalar标量占比高。
+* **Profiling 锚点**：Scalar 主瓶颈；分支和地址生成开销高。
+* **结构判据**：n_cols/chunk_size/stride/布尔模式在一次 kernel 编译实例内固定，但仍作为运行时变量参与地址和分支。
+* **优化动作**：将真实稳定参数设为 `tl.constexpr`，派生 `IS_FULL_TILE/NEEDS_MASK/HAS_*` 等编译期 flag，删除不可达逻辑。
+* **必须前提**：稳定性来自 wrapper/API 契约，而不是单个公开 testcase；shape/stride 组合数量可控。
+* **禁用条件**：高度动态 workload 中过度 constexpr 导致编译/缓存爆炸；把公开 testcase 的特定 shape/stride 当作全局契约硬编码。
+* **正式平台证据**：`_state_passing_fwd_kernel` 正式 `avg=1.48, min=0.43, max=2.00`，说明收益高度 shape-dependent。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：B。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_LAUNCH_CONTRACT
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9805 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3741 (p:2450, c:1291) | Time=11.34s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略一：标量地址计算前置化与连续轴剥离**
+   ├─ 瓶颈诊断: Scalar 63.4% 主瓶颈，MTE2读22.0%含重复metadata load，向量读0.00 GB/s
+   └─ 实施动作: **Positive ACTION: [P1] ACTION_PREFIX_METADATA_PRECOMPUTE + [P2] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP**。wrapper中预计算`slot_idx`、`block_idx`、`block_offset`、`base_cache_offset`、`key_base = key + token_idx * key_stride`、`value_base = value + token_idx * value_stride`，传入kernel；kernel内`tl.load(slot_mapping + token_idx)`改为直接使用预计算值；删除`key_ptr = key + token_idx * key_stride + offset`和`value_ptr = value + token_idx * value_stride + offset`的标量乘法；因`n = num_heads * head_size`且`CHUNK_ELEMENTS=4096`，`offset + chunk_i`为连续轴，`tl.load(key_ptr + chunk_i)`改为`tl.load(key_base + offset + chunk_i)`，删除`key_stride`、`value_stride`参数。前提：`key.stride(0)`和`value.stride(0)`在wrapper中可预计算；`n`为编译期常量；`CHUNK_ELEMENTS`固定。禁用条件：wrapper不允许新增预计算；`slot_mapping`动态变化需每次重新计算。
+
+  策略 [2]: **策略二：编译期Shape/Mode特化**
+   ├─ 瓶颈诊断: Scalar 63.4%含动态分支和地址生成，`n`、`block_size`、`num_heads`、`head_size`在编译实例内固定
+   └─ 实施动作: **Positive ACTION: [P3] ACTION_CONSTEXPR_MODE_SPECIALIZATION**。将`n`、`block_size`、`num_heads`、`head_size`、`block_stride`、`key_stride`、`value_stride`设为`tl.constexpr`；派生`IS_FULL_TILE = (n % CHUNK_ELEMENTS == 0)`编译期flag，当`IS_FULL_TILE`为True时删除`chunk_mask`和`mask=chunk_mask`；`num_chunks = tl.cdiv(n, CHUNK_ELEMENTS)`改为编译期常量。前提：wrapper中这些参数在每次kernel launch时固定；shape组合数量可控。禁用条件：高度动态workload导致编译缓存爆炸；不能仅凭公开testcase的shape硬编码。
+
+  策略 [3]: **策略三：Grid粒度收拢与持久化循环**
+   ├─ 瓶颈诊断: 海量微小program（每个token一个program），Scalar 63.4%含重复launch开销，向量读0.00 GB/s
+   └─ 实施动作: **Positive ACTION: NONE**（无对应Positive ACTION，基于Profiling独立推导）。将grid从`(num_tokens,)`改为`(num_tokens // TOKENS_PER_PROGRAM + 1,)`，kernel内增加外层循环`for token_offset in range(0, TOKENS_PER_PROGRAM): token_idx = pid * TOKENS_PER_PROGRAM + token_offset`，当`token_idx >= num_tokens`时break；每个program处理多个token，减少launch次数和重复标量计算。前提：`TOKENS_PER_PROGRAM`选择需保证单program工作量不超资源限制；`slot_mapping`为连续内存可随机访问。禁用条件：`slot_mapping`非连续或随机gather重时过度收拢导致occupancy下降；`num_tokens`极小。
+
+  策略 [4]: **策略四：向量读带宽优化与MTE2利用率提升**
+   ├─ 瓶颈诊断: 向量读0.00 GB/s（异常低），MTE2读22.0%未吃满，向量写21.43 GB/s
+   └─ 实施动作: **Positive ACTION: NONE**（无对应Positive ACTION，基于Profiling独立推导）。将`CHUNK_ELEMENTS`从4096调整为512或1024，增加chunk数量但减少每个chunk的tile大小，提升向量读带宽利用率；同时将`tl.load`和`tl.store`的`mask`改为`tl.max_contiguous`提示（仅当`n % CHUNK_ELEMENTS == 0`时），否则保留mask。前提：`n`较大时小tile可提升cache命中率；`CHUNK_ELEMENTS`调整后不增加过多循环开销。禁用条件：`n`较小（如<512）时小tile增加循环次数反而降低性能；不能使用未验证的`cache=` hint。
+
+  策略 [5]: **策略五：对齐提示与连续访存优化**
+   ├─ 瓶颈诊断: MTE2读22.0%和MTE3写13.7%未吃满，向量读0.00 GB/s，存在连续轴访存机会
+   └─ 实施动作: **Positive ACTION: NONE**（无对应Positive ACTION，基于Profiling独立推导）。在`tl.load(key_ptr + chunk_i, mask=chunk_mask)`和`tl.store(key_cache + cache_offset + chunk_i, k, mask=chunk_mask)`中添加`tl.multiple_of`和`tl.max_contiguous`提示，但仅当满足Guard条件：`key`和`key_cache`的base地址16字节对齐（通过wrapper中`key.data_ptr() % 16 == 0`和`key_cache.data_ptr() % 16 == 0`证明）；`n`为16的倍数；`block_stride`为16的倍数；`key_stride`为16的倍数。具体：`tl.load(key_ptr + chunk_i, mask=chunk_mask, tl.multiple_of(16), tl.max_contiguous(CHUNK_ELEMENTS))`。前提：所有对齐条件可证明。禁用条件：不能仅凭常见shape假定对齐；`slot_mapping`引入的间接索引破坏对齐时不能使用。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10919 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10611 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10640 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10511 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10720 chars
+[LLM] [Call #03] ✅ Complete | Tokens=3306 (p:2729, c:577) | Time=14.28s
+[LLM] [Call #06] ✅ Complete | Tokens=3274 (p:2627, c:647) | Time=14.96s
+[LLM] [Call #07] ✅ Complete | Tokens=3339 (p:2680, c:659) | Time=15.06s
+[LLM] [Call #05] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #04] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #05] ✅ Complete | Tokens=3407 (p:2660, c:747) | Time=44.39s
+[LLM] [Call #04] ✅ Complete | Tokens=3455 (p:2652, c:803) | Time=44.89s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1973 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_p70sy7k5/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: 0.0365
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0365
+       └─ Fitness score: 0.0365 (max 2.0)
+       └─ Competition score: 3.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2223 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_df92ql4n/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.60us
+       └─ Raw speedup: 0.0923
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0923
+       └─ Fitness score: 0.0923 (max 2.0)
+       └─ Competition score: 9.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2245 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_6fhy88i1/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.62us
+       └─ Raw speedup: 0.0840
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0840
+       └─ Fitness score: 0.0840 (max 2.0)
+       └─ Competition score: 8.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2633 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_1sb74nws/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2797 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_ksyfh68x/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.76us
+       └─ Raw speedup: 0.0290
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0290
+       └─ Fitness score: 0.0290 (max 2.0)
+       └─ Competition score: 2.9/200 points
+[EA] ✅ 个体 5d46627b (gen0_strategy_guided): 耗时=2.74us, 相对基线加速比=0.0365x, 相对Seed加速比=1.0365x, Fitness=1.0365
+[EA] ✅ 个体 d9abca0b (gen0_strategy_guided): 耗时=2.60us, 相对基线加速比=0.0923x, 相对Seed加速比=1.0923x, Fitness=1.0923
+[EA] ✅ 个体 6ae5eeea (gen0_strategy_guided): 耗时=2.62us, 相对基线加速比=0.0840x, 相对Seed加速比=1.0840x, Fitness=1.0840
+[EA] ❌ 个体 19848a52 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 a212014f (gen0_strategy_guided): 耗时=2.76us, 相对基线加速比=0.0290x, 相对Seed加速比=1.0290x, Fitness=1.0290
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0923 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7827 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7555 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5176 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7578 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2507 (p:1888, c:619) | Time=6.75s
+[LLM] [Call #11] ✅ Complete | Tokens=2553 (p:1894, c:659) | Time=7.14s
+[LLM] [Call #08] ✅ Complete | Tokens=2615 (p:1956, c:659) | Time=7.15s
+[LLM] [Call #10] ✅ Complete | Tokens=1969 (p:1294, c:675) | Time=7.27s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2110 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_z5dawnum/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.60us
+       └─ Raw speedup: 0.0923
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0923
+       └─ Fitness score: 0.0923 (max 2.0)
+       └─ Competition score: 9.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2240 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_0ffwz7cs/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.70us
+       └─ Raw speedup: 0.0519
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0519
+       └─ Fitness score: 0.0519 (max 2.0)
+       └─ Competition score: 5.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2240 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_bfqij8ha/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 3.08us
+       └─ Raw speedup: -0.0779
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2263 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_1rh9y45x/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: 0.0143
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0143
+       └─ Fitness score: 0.0143 (max 2.0)
+       └─ Competition score: 1.4/200 points
+[EA] ✅ 个体 49b55077 (crossover): 耗时=2.60us, 相对基线加速比=0.0923x, 相对Seed加速比=1.0923x, Fitness=1.0923
+[EA] ✅ 个体 a7376c30 (crossover): 耗时=2.70us, 相对基线加速比=0.0519x, 相对Seed加速比=1.0519x, Fitness=1.0519
+[EA] ✅ 个体 ab4624ad (crossover): 耗时=3.08us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9221x, Fitness=0.9221
+[EA] ✅ 个体 154a6b7c (mutation): 耗时=2.80us, 相对基线加速比=0.0143x, 相对Seed加速比=1.0143x, Fitness=1.0143
+[EA] Gen 1 Summary: Best=1.0923, Avg=1.0428
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7870 chars
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7870 chars
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7870 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7720 chars
+[LLM] [Call #15] ✅ Complete | Tokens=2589 (p:1930, c:659) | Time=7.21s
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4838 chars
+[LLM] [Call #13] ✅ Complete | Tokens=2626 (p:1967, c:659) | Time=7.23s
+[LLM] [Call #12] ✅ Complete | Tokens=2626 (p:1967, c:659) | Time=7.23s
+[LLM] [Call #14] ✅ Complete | Tokens=2654 (p:1967, c:687) | Time=7.64s
+[LLM] [Call #16] ✅ Complete | Tokens=1868 (p:1209, c:659) | Time=5.85s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2240 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_1jslmusm/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.72us
+       └─ Raw speedup: 0.0441
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0441
+       └─ Fitness score: 0.0441 (max 2.0)
+       └─ Competition score: 4.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2240 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_qd11k469/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 3.08us
+       └─ Raw speedup: -0.0779
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2283 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_uw32s_2d/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 3.10us
+       └─ Raw speedup: -0.0839
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2240 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0__vfgpt2v/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 3.18us
+       └─ Raw speedup: -0.1069
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 1adda3ab (crossover): 耗时=2.72us, 相对基线加速比=0.0441x, 相对Seed加速比=1.0441x, Fitness=1.0441
+[EA] ✅ 个体 386fd7fc (crossover): 耗时=3.08us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9221x, Fitness=0.9221
+[EA] ✅ 个体 541faf09 (crossover): 耗时=3.10us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9161x, Fitness=0.9161
+[EA] ✅ 个体 28e47763 (mutation): 耗时=3.18us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8931x, Fitness=0.8931
+[EA] Gen 2 Summary: Best=1.0923, Avg=0.9933
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0923
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2223 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_vzme_66i/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: 0.0143
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0143
+       └─ Fitness score: 0.0143 (max 2.0)
+       └─ Competition score: 1.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2223 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_9w4_y9_8/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.72us
+       └─ Raw speedup: 0.0441
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0441
+       └─ Fitness score: 0.0441 (max 2.0)
+       └─ Competition score: 4.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2223 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_ndxm5_sl/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.94us
+       └─ Raw speedup: -0.0340
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2223 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_9spspt1b/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: 0.0365
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0365
+       └─ Fitness score: 0.0365 (max 2.0)
+       └─ Competition score: 3.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2223 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/performance/reshape_and_cache_flash_kernel_dev_0/reshape_and_cache_flash_kernel --application="/usr/local/python3.11.15/bin/python /tmp/reshape_and_cache_flash_kernel_dev_0_ebgbdfvj/test_reshape_and_cache_flash_kernel.py" --kernel-name="reshape_and_cache_flash_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.84us
+       └─ Optimized time: 2.84us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+  完成: 2.800056 us  S=1.014285785712857  用时 349.5s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.38 小时
+============================================================

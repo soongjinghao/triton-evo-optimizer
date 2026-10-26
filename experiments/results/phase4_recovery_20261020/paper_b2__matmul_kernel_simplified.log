@@ -1,0 +1,18 @@
+[配置] paper_b2  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b2] seed 1/3 算子 1/1: matmul_kernel_simplified ===
+  [复用] 已有结果 matmul_kernel_simplified__r11.json
+  完成: 2.660053 us  S=1.015037670302058  用时 404.8s
+
+=== [paper_b2] seed 2/3 算子 1/1: matmul_kernel_simplified ===
+  [复用] 已有结果 matmul_kernel_simplified__r12.json
+  完成: 2.660053 us  S=1.015037670302058  用时 411.0s
+
+=== [paper_b2] seed 3/3 算子 1/1: matmul_kernel_simplified ===
+  [复用] 已有结果 matmul_kernel_simplified__r13.json
+  完成: 2.660053 us  S=1.015037670302058  用时 411.0s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

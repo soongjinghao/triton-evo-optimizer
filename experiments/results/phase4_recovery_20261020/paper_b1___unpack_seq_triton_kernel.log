@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: _unpack_seq_triton_kernel ===
+  [复用] 已有结果 _unpack_seq_triton_kernel__r11.json
+  完成: 2.400048 us  S=50.81666699999334  用时 342.0s
+
+=== [paper_b1] seed 2/3 算子 1/1: _unpack_seq_triton_kernel ===
+  [复用] 已有结果 _unpack_seq_triton_kernel__r12.json
+  完成: 2.340047 us  S=52.11965400694943  用时 342.8s
+
+=== [paper_b1] seed 3/3 算子 1/1: _unpack_seq_triton_kernel ===
+  [复用] 已有结果 _unpack_seq_triton_kernel__r13.json
+  完成: 2.380048 us  S=51.243689202906836  用时 341.8s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

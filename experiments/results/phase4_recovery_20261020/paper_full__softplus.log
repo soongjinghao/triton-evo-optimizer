@@ -1,0 +1,1571 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: softplus ===
+[harness] 适应度锚点采用 manifest T_seed = 2.1400 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: softplus
+       └─ Working directory: /workspace/Agent/datasets2/softplus
+       └─ Reference baseline: 2.14us
+       └─ Test file: /workspace/Agent/datasets2/softplus/test_softplus_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7454.95it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1736 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_j2tlq5my/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.98us
+       └─ Raw speedup: 0.0808
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0808
+       └─ Fitness score: 0.0808 (max 2.0)
+       └─ Competition score: 8.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1023 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_chm8jbgr/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.18us
+       └─ Raw speedup: -0.0183
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 60.82% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: ca22066c, 基准耗时: 2.14us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.14 us | 当前耗时=1.98 us (相对基线:+8.08% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=1
+- 管线利用率: Vector=12.3%, Scalar=32.5%, MTE2(读)=17.0%, MTE3(写)=10.3%
+💡 诊断结论: 各管线负载均衡 (主导: Scalar 标量 32.5%)，可对比测试网格收拢、独立规约域内的安全打包与 BLOCK_SIZE 微调；不得改变完整计算域。
+- UB吞吐: 向量读=24.69 GB/s, 向量写=22.17 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3117 chars
+[LLM] [Call #01] ✅ Complete | Tokens=815 (p:778, c:37) | Time=0.70s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,一维Grid,尾块Mask,标量主导(Scalar=32.5%),重复标量计算(beta除法)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid, 尾块Mask, 标量主导(Scalar=32.5%), 重复标量计算(beta除法)'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid, 尾块Mask, 标量主导(Scalar=32.5%), 重复标量计算(beta除法)
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6828 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2437 (p:1706, c:731) | Time=7.20s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Strategy: 标量计算下沉与UB吞吐提升**
+   ├─ 瓶颈诊断: 瓶颈假设: Scalar管线32.5%主导，beta除法重复计算，UB读写吞吐仅~23GB/s
+   └─ 实施动作: Positive ACTION: NONE
+
+  策略 [2]: **Strategy: 尾块Mask证明与BLOCK_SIZE微调**
+   ├─ 瓶颈诊断: 瓶颈假设: Vector管线仅12.3%，Mask开销未验证，BLOCK_SIZE=1024可能非最优
+   └─ 实施动作: Positive ACTION: NONE
+
+  策略 [3]: **Strategy: 网格收拢与独立规约域打包**
+   ├─ 瓶颈诊断: 瓶颈假设: 海量微小program（Grid过细），launch调度开销未优化
+   └─ 实施动作: Positive ACTION: NONE
+
+  策略 [4]: **Strategy: 条件分支消除与快速路径融合**
+   ├─ 瓶颈诊断: 瓶颈假设: Scalar管线32.5%含beta判断和threshold分支，default kernel与general kernel分离
+   └─ 实施动作: Positive ACTION: NONE
+
+  策略 [5]: **Strategy: 数据布局对齐与连续访存优化**
+   ├─ 瓶颈诊断: 瓶颈假设: MTE2读17.0%和MTE3写10.3%偏低，UB吞吐仅~23GB/s
+   └─ 实施动作: Positive ACTION: NONE
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=7474 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=7409 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=7391 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=7437 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=7406 chars
+[LLM] [Call #06] ✅ Complete | Tokens=2335 (p:1859, c:476) | Time=10.32s
+[LLM] [Call #03] ✅ Complete | Tokens=2401 (p:1868, c:533) | Time=10.85s
+[LLM] [Call #04] ✅ Complete | Tokens=2391 (p:1852, c:539) | Time=10.98s
+[LLM] [Call #07] ✅ Complete | Tokens=2390 (p:1851, c:539) | Time=10.97s
+[LLM] [Call #05] ✅ Complete | Tokens=2715 (p:1847, c:868) | Time=13.77s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1469 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_a9uo28uo/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.16us
+       └─ Raw speedup: -0.0093
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1621 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_ni2im6yt/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.10us
+       └─ Raw speedup: 0.0190
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0190
+       └─ Fitness score: 0.0190 (max 2.0)
+       └─ Competition score: 1.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1660 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_ug10a_1b/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.98us
+       └─ Raw speedup: 0.0808
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0808
+       └─ Fitness score: 0.0808 (max 2.0)
+       └─ Competition score: 8.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1660 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_ny5u3ut_/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.22us
+       └─ Raw speedup: -0.0360
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2455 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_ep6ngiwg/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.10us
+       └─ Raw speedup: 0.0190
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0190
+       └─ Fitness score: 0.0190 (max 2.0)
+       └─ Competition score: 1.9/200 points
+[EA] ✅ 个体 4fc6cef0 (gen0_strategy_guided): 耗时=2.16us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9907x, Fitness=0.9907
+[EA] ✅ 个体 2f906967 (gen0_strategy_guided): 耗时=2.10us, 相对基线加速比=0.0190x, 相对Seed加速比=1.0190x, Fitness=1.0190
+[EA] ✅ 个体 676e8b6e (gen0_strategy_guided): 耗时=1.98us, 相对基线加速比=0.0808x, 相对Seed加速比=1.0808x, Fitness=1.0808
+[EA] ✅ 个体 e89f2976 (gen0_strategy_guided): 耗时=2.22us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9640x, Fitness=0.9640
+[EA] ✅ 个体 d3b31dfa (gen0_strategy_guided): 耗时=2.10us, 相对基线加速比=0.0190x, 相对Seed加速比=1.0190x, Fitness=1.0190
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0808 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7462 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7460 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7462 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6667 chars
+[LLM] [Call #11] ✅ Complete | Tokens=2205 (p:1666, c:539) | Time=6.17s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4253 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2404 (p:1865, c:539) | Time=6.19s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4269 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2733 (p:1865, c:868) | Time=9.63s
+[LLM] [Call #08] ✅ Complete | Tokens=2733 (p:1865, c:868) | Time=9.65s
+[LLM] [Call #12] ✅ Complete | Tokens=1616 (p:1063, c:553) | Time=5.55s
+[LLM] [Call #13] ✅ Complete | Tokens=1632 (p:1067, c:565) | Time=5.66s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2454 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_tdzi25q4/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.18us
+       └─ Raw speedup: -0.0183
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2454 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_8exsohge/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.22us
+       └─ Raw speedup: -0.0360
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1685 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_60mkmnjt/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.14us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1713 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_65wk_4_k/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.1263
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1263
+       └─ Fitness score: 0.1263 (max 2.0)
+       └─ Competition score: 12.6/200 points
+[EA] ✅ 个体 9abbde1c (crossover): 耗时=2.18us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9817x, Fitness=0.9817
+[EA] ✅ 个体 b4e08cd1 (crossover): 耗时=2.22us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9640x, Fitness=0.9640
+[EA] ✅ 个体 506bfd04 (mutation): 耗时=2.14us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ✅ 个体 6b8c5ca0 (mutation): 耗时=1.90us, 相对基线加速比=0.1263x, 相对Seed加速比=1.1263x, Fitness=1.1263
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1263
+[EA] Gen 1 Summary: Best=1.1263, Avg=1.0286
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6632 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4607 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7427 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7461 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2191 (p:1658, c:533) | Time=6.10s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4235 chars
+[LLM] [Call #15] ✅ Complete | Tokens=1701 (p:1151, c:550) | Time=6.46s
+[LLM] [Call #17] ✅ Complete | Tokens=2733 (p:1865, c:868) | Time=9.63s
+[LLM] [Call #16] ✅ Complete | Tokens=2740 (p:1856, c:884) | Time=9.78s
+[LLM] [Call #18] ✅ Complete | Tokens=1617 (p:1058, c:559) | Time=5.53s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1693 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_s6yrta08/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.32us
+       └─ Raw speedup: -0.0776
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2450 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_aykrt5o6/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.22us
+       └─ Raw speedup: -0.0360
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2488 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_7l4m37k7/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: -0.0932
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1675 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_ugzhtg5v/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.1263
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1263
+       └─ Fitness score: 0.1263 (max 2.0)
+       └─ Competition score: 12.6/200 points
+[EA] ✅ 个体 eeb4866b (mutation): 耗时=2.32us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9224x, Fitness=0.9224
+[EA] ✅ 个体 4e881158 (crossover): 耗时=2.22us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9640x, Fitness=0.9640
+[EA] ✅ 个体 c20e5ebe (crossover): 耗时=2.36us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9068x, Fitness=0.9068
+[EA] ✅ 个体 ccaf86bd (mutation): 耗时=1.90us, 相对基线加速比=0.1263x, 相对Seed加速比=1.1263x, Fitness=1.1263
+[EA] Gen 2 Summary: Best=1.1263, Avg=1.0211
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1263
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1713 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_u2yjdfyo/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.30us
+       └─ Raw speedup: -0.0696
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1713 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_j9gzva90/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.12us
+       └─ Raw speedup: 0.0094
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0094
+       └─ Fitness score: 0.0094 (max 2.0)
+       └─ Competition score: 0.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1713 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_qqn5abw_/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.22us
+       └─ Raw speedup: -0.0360
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1713 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_8do3aof6/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.26us
+       └─ Raw speedup: -0.0531
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1713 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_o0dhb059/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.14us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+  完成: 2.220044 us  S=0.9639642277360267  用时 328.3s
+
+=== [paper_full] seed 2/3 算子 1/1: softplus ===
+[harness] 适应度锚点采用 manifest T_seed = 2.1400 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: softplus
+       └─ Working directory: /workspace/Agent/datasets2/softplus
+       └─ Reference baseline: 2.14us
+       └─ Test file: /workspace/Agent/datasets2/softplus/test_softplus_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8619.76it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1736 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_7n_4aj7p/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.00us
+       └─ Raw speedup: 0.0700
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0700
+       └─ Fitness score: 0.0700 (max 2.0)
+       └─ Competition score: 7.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1023 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_eg8cya0z/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.32us
+       └─ Raw speedup: -0.0776
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 60.82% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: dba8d5cd, 基准耗时: 2.14us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.14 us | 当前耗时=2.00 us (相对基线:+7.00% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=1
+- 管线利用率: Vector=12.2%, Scalar=34.2%, MTE2(读)=16.4%, MTE3(写)=9.5%
+💡 诊断结论: 各管线负载均衡 (主导: Scalar 标量 34.2%)，可对比测试网格收拢、独立规约域内的安全打包与 BLOCK_SIZE 微调；不得改变完整计算域。
+- UB吞吐: 向量读=24.60 GB/s, 向量写=22.09 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3116 chars
+[LLM] [Call #01] ✅ Complete | Tokens=820 (p:778, c:42) | Time=0.66s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,一维Grid每Block独立program,尾块Mask动态边界,标量主导Scalar=34.2%,重复标量除法/取模计算'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每Block独立program, 尾块Mask动态边界, 标量主导Scalar=34.2%, 重复标量除法/取模计算'
+[✅ RAG Positive] ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_INDEPENDENT_AXIS_PACKING
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每Block独立program, 尾块Mask动态边界, 标量主导Scalar=34.2%, 重复标量除法/取模计算
+
+【高置信候选优化动作】
+
+[P1] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P2] ACTION_INDEPENDENT_AXIS_PACKING
+#### ⚛️ `ACTION_INDEPENDENT_AXIS_PACKING`：独立 Head / Row / Group 向量化打包
+
+* **检索锚点**：Head独立规约, Row独立规约, Group独立规约, 单head program过小, Token/Group/Head打包, 二维grid, 可共享另一维arange。
+* **Profiling 锚点**：launch-bound 或 MTE 共享参数重复读取。
+* **结构判据**：head/row/group 间逻辑独立且 store 地址不冲突，每个独立域单独 program 太轻。
+* **优化动作**：增加 `BLOCK_H/BLOCK_M/GROUPS_PER_BLOCK`，把独立轴加入向量维，一次 program 同时处理多个独立域。
+* **必须前提**：二维寄存器 tensor 可控；不混合独立规约域；局部域 mask 正确；wrapper launch contract 可证明。
+* **禁用条件**：打包导致 tile 面积爆炸；不同域存在依赖/原子冲突；使用全局 flatten mask 误覆盖下一个逻辑域。
+* **正式平台证据**：`_correct_attn_cp_out_kernel` 正式 `avg=1.79`。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_TILE_AREA_BUDGET`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9453 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3135 (p:2362, c:773) | Time=7.05s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **GRID_CONSOLIDATE_SOFTMAX
+   ├─ 瓶颈诊断: 现有瓶颈诊断: Scalar 标量管线利用率34.2%主导，Vector仅12.2%，说明每个program工作量过小导致标量地址计算/调度开销占比过高
+   └─ 实施动作: 实施动作与具体代码修改方案: 采用ACTION_GROUP_PACK_RESHAPE_REDUCE，将BLOCK_SIZE从1024提升至4096，使每个program处理4倍连续元素，减少program数量4倍；修改grid = lambda meta: (triton.cdiv(N, meta['BLOCK_SIZE']),) 中BLOCK_SIZE=4096；前提：N必须能被4096整除或尾块mask正确覆盖；禁用条件：N<4096时回退原BLOCK_SIZE=1024**
+
+  策略 [2]: **MASK_ELIMINATION_ALIGNED
+   ├─ 瓶颈诊断: 现有瓶颈诊断: 尾块mask导致标量条件判断和地址计算开销占Scalar 34.2%
+   └─ 实施动作: 实施动作与具体代码修改方案: 采用ACTION_GUARD_MASK_COVERAGE_PROOF，当N是BLOCK_SIZE整数倍时走无mask fast path；在softplus_kernel内添加if tl.constexpr(N % BLOCK_SIZE == 0): 分支，直接tl.load(x_ptr + offsets)和tl.store(out_ptr + offsets, out)无mask；否则保留原mask路径；前提：必须从wrapper证明N是BLOCK_SIZE的编译期常量倍数**
+
+  策略 [3]: **BETA_MUL_FUSE
+   ├─ 瓶颈诊断: 现有瓶颈诊断: 重复标量除法beta和乘法beta在Scalar管线造成34.2%利用率
+   └─ 实施动作: 实施动作与具体代码修改方案: 将soft_z = tl.where(z > threshold, z, tl.log(1 + tl.exp(z)))和out = (soft_z / beta).to(x.dtype)合并为out = tl.where(x_fp * beta > threshold, x_fp, tl.log(1 + tl.exp(x_fp * beta)) / beta).to(x.dtype)；前提：beta!=0且threshold非负；禁用条件：beta为动态运行时变量时保持原写法**
+
+  策略 [4]: **UB_THROUGHPUT_BALANCE
+   ├─ 瓶颈诊断: 现有瓶颈诊断: UB向量读24.60 GB/s高于向量写22.09 GB/s，写带宽瓶颈限制整体吞吐
+   └─ 实施动作: 实施动作与具体代码修改方案: 采用ACTION_INDEPENDENT_AXIS_PACKING，将BLOCK_SIZE从1024调整为2048，使每个program处理更大连续块，减少store次数和写带宽压力；修改grid = lambda meta: (triton.cdiv(N, meta['BLOCK_SIZE']),) 中BLOCK_SIZE=2048；前提：UB工作集2048*4=8KB在可接受范围；禁用条件：N<2048时回退原BLOCK_SIZE**
+
+  策略 [5]: **SCALAR_DIV_OPTIMIZATION
+   ├─ 瓶颈诊断: 现有瓶颈诊断: Scalar管线34.2%利用率中，beta除法/乘法占主导
+   └─ 实施动作: 实施动作与具体代码修改方案: 当beta是2的幂时，用tl.math.lgamma或位运算替代浮点除法；在softplus_kernel内添加if tl.constexpr (beta & (beta - 1)) == 0: 分支，将out = (soft_z / beta).to(x.dtype)替换为out = (soft_z * tl.math.rcp(beta)).to(x.dtype)；前提：beta必须是编译期常量且为2的幂；禁用条件：beta非2的幂或动态变量时保持原除法**
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10017 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9999 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9989 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9982 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9983 chars
+[LLM] [Call #03] ✅ Complete | Tokens=3074 (p:2504, c:570) | Time=13.98s
+[LLM] [Call #06] ✅ Complete | Tokens=3065 (p:2495, c:570) | Time=13.98s
+[LLM] [Call #07] ✅ Complete | Tokens=3086 (p:2495, c:591) | Time=14.18s
+[LLM] [Call #05] ✅ Complete | Tokens=3094 (p:2497, c:597) | Time=14.24s
+[LLM] [Call #04] ✅ Complete | Tokens=3240 (p:2499, c:741) | Time=15.52s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1752 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_c6c_vcf8/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.92us
+       └─ Raw speedup: 0.1146
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1146
+       └─ Fitness score: 0.1146 (max 2.0)
+       └─ Competition score: 11.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1751 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_rnat5hzs/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.08us
+       └─ Raw speedup: 0.0288
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0288
+       └─ Fitness score: 0.0288 (max 2.0)
+       └─ Competition score: 2.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1812 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_1s3b1om1/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.06us
+       └─ Raw speedup: 0.0388
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0388
+       └─ Fitness score: 0.0388 (max 2.0)
+       └─ Competition score: 3.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1812 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_9h7v77mg/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.22us
+       └─ Raw speedup: -0.0360
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2337 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0__t9aa262/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 b4b53ff4 (gen0_strategy_guided): 耗时=1.92us, 相对基线加速比=0.1146x, 相对Seed加速比=1.1146x, Fitness=1.1146
+[EA] ✅ 个体 0515aab2 (gen0_strategy_guided): 耗时=2.08us, 相对基线加速比=0.0288x, 相对Seed加速比=1.0288x, Fitness=1.0288
+[EA] ✅ 个体 38fd3260 (gen0_strategy_guided): 耗时=2.06us, 相对基线加速比=0.0388x, 相对Seed加速比=1.0388x, Fitness=1.0388
+[EA] ✅ 个体 6ea0ca1a (gen0_strategy_guided): 耗时=2.22us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9640x, Fitness=0.9640
+[EA] ❌ 个体 49cd3516 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.1146 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6757 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6759 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6850 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6750 chars
+[LLM] [Call #11] ✅ Complete | Tokens=2221 (p:1687, c:534) | Time=6.09s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4227 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2228 (p:1689, c:539) | Time=6.12s
+[LLM] [Call #10] ✅ Complete | Tokens=2282 (p:1712, c:570) | Time=6.55s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4337 chars
+[LLM] [Call #08] ✅ Complete | Tokens=2259 (p:1689, c:570) | Time=6.57s
+[LLM] [Call #12] ✅ Complete | Tokens=1590 (p:1056, c:534) | Time=5.19s
+[LLM] [Call #13] ✅ Complete | Tokens=1654 (p:1084, c:570) | Time=5.37s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1659 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_w0msfcuk/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.08us
+       └─ Raw speedup: 0.0288
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0288
+       └─ Fitness score: 0.0288 (max 2.0)
+       └─ Competition score: 2.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1750 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_p14hroax/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.12us
+       └─ Raw speedup: 0.0094
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0094
+       └─ Fitness score: 0.0094 (max 2.0)
+       └─ Competition score: 0.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1640 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_9lopmk1n/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.06us
+       └─ Raw speedup: 0.0388
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0388
+       └─ Fitness score: 0.0388 (max 2.0)
+       └─ Competition score: 3.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1750 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_lx277esn/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.16us
+       └─ Raw speedup: -0.0093
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 e58ff74b (crossover): 耗时=2.08us, 相对基线加速比=0.0288x, 相对Seed加速比=1.0288x, Fitness=1.0288
+[EA] ✅ 个体 59348b1e (crossover): 耗时=2.12us, 相对基线加速比=0.0094x, 相对Seed加速比=1.0094x, Fitness=1.0094
+[EA] ✅ 个体 bfc23bcf (mutation): 耗时=2.06us, 相对基线加速比=0.0388x, 相对Seed加速比=1.0388x, Fitness=1.0388
+[EA] ✅ 个体 e28c8565 (mutation): 耗时=2.16us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9907x, Fitness=0.9907
+[EA] Gen 1 Summary: Best=1.1146, Avg=1.0369
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4607 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6850 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6850 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6850 chars
+[LLM] [Call #14] ✅ Complete | Tokens=1695 (p:1151, c:544) | Time=5.95s
+[LLM] [Call #15] ✅ Complete | Tokens=2282 (p:1712, c:570) | Time=6.17s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4337 chars
+[LLM] [Call #17] ✅ Complete | Tokens=2282 (p:1712, c:570) | Time=6.18s
+[LLM] [Call #16] ✅ Complete | Tokens=2282 (p:1712, c:570) | Time=6.19s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4337 chars
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4337 chars
+[LLM] [Call #20] ✅ Complete | Tokens=1634 (p:1084, c:550) | Time=5.73s
+[LLM] [Call #18] ✅ Complete | Tokens=1654 (p:1084, c:570) | Time=5.91s
+[LLM] [Call #19] ✅ Complete | Tokens=1654 (p:1084, c:570) | Time=5.90s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1672 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_8ojztltm/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.88us
+       └─ Raw speedup: 0.1383
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1383
+       └─ Fitness score: 0.1383 (max 2.0)
+       └─ Competition score: 13.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1693 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_4a91p4yb/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.24us
+       └─ Raw speedup: -0.0446
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1750 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_76glfn6r/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.08us
+       └─ Raw speedup: 0.0288
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0288
+       └─ Fitness score: 0.0288 (max 2.0)
+       └─ Competition score: 2.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1750 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_0iv0cj1w/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.12us
+       └─ Raw speedup: 0.0094
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0094
+       └─ Fitness score: 0.0094 (max 2.0)
+       └─ Competition score: 0.9/200 points
+[EA] ✅ 个体 668b4666 (mutation): 耗时=1.88us, 相对基线加速比=0.1383x, 相对Seed加速比=1.1383x, Fitness=1.1383
+[EA] ✅ 个体 e3930716 (mutation): 耗时=2.24us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9554x, Fitness=0.9554
+[EA] ✅ 个体 254b312e (mutation): 耗时=2.08us, 相对基线加速比=0.0288x, 相对Seed加速比=1.0288x, Fitness=1.0288
+[EA] ✅ 个体 68879da1 (mutation): 耗时=2.12us, 相对基线加速比=0.0094x, 相对Seed加速比=1.0094x, Fitness=1.0094
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1383
+[EA] Gen 2 Summary: Best=1.1383, Avg=1.0476
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1383
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1672 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_1mrni7pm/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.18us
+       └─ Raw speedup: -0.0183
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1672 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_p8fou0wl/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.14us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1672 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_qcvnxn1n/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.00us
+       └─ Raw speedup: 0.0700
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0700
+       └─ Fitness score: 0.0700 (max 2.0)
+       └─ Competition score: 7.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1672 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_2iofri3j/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.50us
+       └─ Raw speedup: -0.1440
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1672 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_4blanwxu/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.92us
+       └─ Raw speedup: 0.1146
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1146
+       └─ Fitness score: 0.1146 (max 2.0)
+       └─ Competition score: 11.5/200 points
+  完成: 2.140043 us  S=1.0  用时 309.8s
+
+=== [paper_full] seed 3/3 算子 1/1: softplus ===
+[harness] 适应度锚点采用 manifest T_seed = 2.1400 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: softplus
+       └─ Working directory: /workspace/Agent/datasets2/softplus
+       └─ Reference baseline: 2.14us
+       └─ Test file: /workspace/Agent/datasets2/softplus/test_softplus_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8237.32it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1736 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_mshk56ay/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: -0.0932
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1023 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_v0zb6aka/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.16us
+       └─ Raw speedup: -0.0093
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 69.59% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 6ff75a3f, 基准耗时: 2.14us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.14 us | 当前耗时=2.16 us (相对基线:-0.93% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=1
+- 管线利用率: Vector=15.6%, Scalar=31.2%, MTE2(读)=16.4%, MTE3(写)=9.6%
+💡 诊断结论: 各管线负载均衡 (主导: Scalar 标量 31.2%)，可对比测试网格收拢、独立规约域内的安全打包与 BLOCK_SIZE 微调；不得改变完整计算域。
+- UB吞吐: 向量读=32.16 GB/s, 向量写=27.85 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=2456 chars
+[LLM] [Call #01] ✅ Complete | Tokens=651 (p:613, c:38) | Time=0.94s
+[🔍 RAG Retriever] Raw Query: '一维Grid,每Program单BLOCK循环,外部Grid固定/直接JIT入口,尾块Mask动态边界,标量主导(Scalar=31.2%)'
+[🔍 RAG Retriever] Normalized: '一维Grid, 每Program单BLOCK循环, 外部Grid固定/直接JIT入口, 尾块Mask动态边界, 标量主导(Scalar=31.2%)'
+[✅ RAG Positive] ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_GRID_EXPAND_LONG_SERIAL_LOOP
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+一维Grid, 每Program单BLOCK循环, 外部Grid固定/直接JIT入口, 尾块Mask动态边界, 标量主导(Scalar=31.2%)
+
+【高置信候选优化动作】
+
+[P1] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P2] ACTION_GRID_EXPAND_LONG_SERIAL_LOOP
+#### ⚛️ `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP`：单 Program 串行循环过长时扩展 Grid
+
+* **检索锚点**：单program长串行循环, grid覆盖维度不足, Token/Sequence串行循环, 持久化循环过长, program数量偏少, Scalar循环控制占比高。
+* **Profiling 锚点**：Scalar 比例偏高，且必须有证据证明循环真实执行多次并形成单 program latency。
+* **结构判据**：循环迭代之间独立，grid 当前没有覆盖该独立维；每个 program 内循环确实较长，而不是 `tl.cdiv(..., BLOCK)` 后实际只有一次迭代。
+* **优化动作**：在 wrapper launch contract 允许时，把独立循环维映射到已有/新增 PID，使 program 数增加，缩短单 program 串行工作。
+* **必须前提**：
+  - 必须证明实际迭代次数 > 1 且足够长。
+  - 新增 program 工作量不能小到 launch-bound。
+  - 输出映射完整唯一、无写冲突。
+  - wrapper/test 的真实 grid rank 与 axis 语义允许对应变换。
+  - 若引入 atomic/reduction，必须额外证明并行语义等价。
+* **禁用条件**：
+  - 原本就是海量微小 program。
+  - 仅因代码中出现 `for/range` 就判定为“长循环”。
+  - wrapper grid 不变却凭空使用新的 `program_id(axis)`。
+  - 通过 atomic 重构语义但未证明初始化与累计次数。
+* **正式反证据**：`moe_align_block_size_stage` 的激进并行重构在本地获得很高收益，但正式平台多个版本/多 testcase 出现系统性 runtime error；由于候选同时改变 grid/atomic/阶段结构，不能把失败单独归因于 Grid Expansion，但该案例证明此 ACTION 必须联动 Launch/Atomic/Backend Guard。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_ATOMIC_REDUCTION_EQUIVALENCE`。
+* **可信度**：C（条件性候选，等待更干净的正式独立正证据）。
+
+---
+
+## 3. 访存 / 布局 / 地址计算类
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9242 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3072 (p:2309, c:763) | Time=6.90s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **GRID_CONSOLIDATE_TINY_PROGRAMS**
+   ├─ 瓶颈诊断: 瓶颈诊断: Profiling显示Scalar=31.2%主导, Vector=15.6%低效, 当前BLOCK_SIZE=1024导致program数过多, 标量地址计算/循环控制开销占比高
+   └─ 实施动作: 实施动作: 将BLOCK_SIZE从1024提升至4096, 减少program数, 降低标量启动开销; 修改`grid = lambda meta: (triton.cdiv(N, meta['BLOCK_SIZE']),)`中BLOCK_SIZE=4096; 前提: N较大时有效, 需确保UB吞吐不饱和(当前读32.16GB/s写27.85GB/s, 提升BLOCK_SIZE后仍可容纳)
+
+  策略 [2]: **MASK_SIMPLIFY_FULL_TILE**
+   ├─ 瓶颈诊断: 瓶颈诊断: 当前每个program都执行mask检查, 但大量tile为完整覆盖, mask计算占Scalar开销
+   └─ 实施动作: 实施动作: 添加`is_full = block_start + BLOCK_SIZE <= N`条件, 完整tile走无mask的`tl.load(x_ptr + offsets)`和`tl.store(out_ptr + offsets, out)`; 前提: N对齐BLOCK_SIZE时生效, 尾块保留原mask路径; 禁止: 删除尾块mask或缩小覆盖范围
+
+  策略 [3]: **ALIGNMENT_HINT_ADD**
+   ├─ 瓶颈诊断: 瓶颈诊断: MTE2读=16.4%和MTE3写=9.6%利用率偏低, 缺乏对齐提示导致访存效率低
+   └─ 实施动作: 实施动作: 在`tl.load`和`tl.store`添加`tl.max_contiguous(tl.arange(0, BLOCK_SIZE), BLOCK_SIZE)`和`tl.multiple_of(tl.arange(0, BLOCK_SIZE), 16)`; 前提: x_ptr和out_ptr必须16字节对齐, N>=BLOCK_SIZE; 禁止: 未验证对齐时添加, 或使用非2的幂的alignment hint
+
+  策略 [4]: **DATA_TYPE_OPTIMIZE**
+   ├─ 瓶颈诊断: 瓶颈诊断: 当前将x转为float32计算后转回原dtype, 若x为float16可减少类型转换开销
+   └─ 实施动作: 实施动作: 添加`DTYPE: tl.constexpr`参数, 当`DTYPE == tl.float16`时使用`tl.math.fast_softplus`或`tl.log(1 + tl.exp(x_fp))`直接计算, 跳过`x.to(tl.float32)`和`out.to(x.dtype)`; 前提: 输入为float16且beta/threshold为float16; 禁止: 改变数学语义或精度, 未验证fast_softplus可用性
+
+  策略 [5]: **LOOP_UNROLL_PARTIAL**
+   ├─ 瓶颈诊断: 瓶颈诊断: 当前单program内无循环, 但BLOCK_SIZE提升后可能引入隐式循环; Scalar=31.2%表明标量控制流开销高
+   └─ 实施动作: 实施动作: 保持BLOCK_SIZE=1024但添加`UNROLL_FACTOR: tl.constexpr=4`, 将`offsets = block_start + tl.arange(0, BLOCK_SIZE)`改为`offsets = block_start + tl.arange(0, BLOCK_SIZE * UNROLL_FACTOR)`, 使用`tl.view`分割为4个独立块并行计算; 前提: BLOCK_SIZE*UNROLL_FACTOR<=4096且UB可容纳; 禁止: 使用3D及以上tl.view, 混合独立规约域
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9340 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9280 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9296 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9313 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9378 chars
+[LLM] [Call #03] ✅ Complete | Tokens=2654 (p:2335, c:319) | Time=10.68s
+[LLM] [Call #05] ✅ Complete | Tokens=2643 (p:2324, c:319) | Time=10.68s
+[LLM] [Call #07] ✅ Complete | Tokens=2702 (p:2344, c:358) | Time=11.05s
+[LLM] [Call #04] ✅ Complete | Tokens=2736 (p:2320, c:416) | Time=11.54s
+[LLM] [Call #06] ✅ Complete | Tokens=2788 (p:2328, c:460) | Time=11.95s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 998 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_acxnmgun/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.26us
+       └─ Raw speedup: -0.0531
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 999 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_a86_p0dg/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.38us
+       └─ Raw speedup: -0.1008
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1100 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_7e7m6fqk/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.54us
+       └─ Raw speedup: -0.1575
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1340 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_vpvq2sta/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.32us
+       └─ Raw speedup: -0.0776
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1495 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_dvp2v91c/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.22us
+       └─ Raw speedup: -0.0360
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 f4edb797 (gen0_strategy_guided): 耗时=2.26us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9469x, Fitness=0.9469
+[EA] ✅ 个体 19923034 (gen0_strategy_guided): 耗时=2.38us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8992x, Fitness=0.8992
+[EA] ✅ 个体 3b0ee08b (gen0_strategy_guided): 耗时=2.54us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8425x, Fitness=0.8425
+[EA] ✅ 个体 d1c44a23 (gen0_strategy_guided): 耗时=2.32us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9224x, Fitness=0.9224
+[EA] ✅ 个体 a25dca75 (gen0_strategy_guided): 耗时=2.22us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9640x, Fitness=0.9640
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5841 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5790 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5346 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5346 chars
+[LLM] [Call #11] ✅ Complete | Tokens=1655 (p:1336, c:319) | Time=3.86s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3593 chars
+[LLM] [Call #10] ✅ Complete | Tokens=1655 (p:1336, c:319) | Time=3.87s
+[LLM] [Call #09] ✅ Complete | Tokens=1805 (p:1447, c:358) | Time=4.39s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3688 chars
+[LLM] [Call #08] ✅ Complete | Tokens=1920 (p:1460, c:460) | Time=5.53s
+[LLM] [Call #12] ✅ Complete | Tokens=1231 (p:898, c:333) | Time=3.43s
+[LLM] [Call #13] ✅ Complete | Tokens=1241 (p:922, c:319) | Time=3.13s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 995 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_6scyztq6/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.98us
+       └─ Raw speedup: 0.0808
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0808
+       └─ Fitness score: 0.0808 (max 2.0)
+       └─ Competition score: 8.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1488 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_dvmd7pnu/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.60us
+       └─ Raw speedup: -0.1769
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1025 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_wey52ru6/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.08us
+       └─ Raw speedup: 0.0288
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0288
+       └─ Fitness score: 0.0288 (max 2.0)
+       └─ Competition score: 2.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 998 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_rkfo138d/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: -0.1894
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 230151bb (crossover): 耗时=1.98us, 相对基线加速比=0.0808x, 相对Seed加速比=1.0808x, Fitness=1.0808
+[EA] ✅ 个体 8b7d8847 (crossover): 耗时=2.60us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8231x, Fitness=0.8231
+[EA] ✅ 个体 9d51ec95 (mutation): 耗时=2.08us, 相对基线加速比=0.0288x, 相对Seed加速比=1.0288x, Fitness=1.0288
+[EA] ✅ 个体 bca40d4f (mutation): 耗时=2.64us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8106x, Fitness=0.8106
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0808
+[EA] Gen 1 Summary: Best=1.0808, Avg=0.9512
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5377 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5870 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5841 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=5840 chars
+[LLM] [Call #15] ✅ Complete | Tokens=1800 (p:1467, c:333) | Time=3.90s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3616 chars
+[LLM] [Call #14] ✅ Complete | Tokens=1677 (p:1344, c:333) | Time=3.92s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=3623 chars
+[LLM] [Call #16] ✅ Complete | Tokens=1920 (p:1460, c:460) | Time=5.43s
+[LLM] [Call #17] ✅ Complete | Tokens=1920 (p:1460, c:460) | Time=5.43s
+[LLM] [Call #18] ✅ Complete | Tokens=1237 (p:904, c:333) | Time=3.44s
+[LLM] [Call #19] ✅ Complete | Tokens=1238 (p:905, c:333) | Time=3.42s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1491 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_g4gla0qo/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.42us
+       └─ Raw speedup: -0.1157
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1491 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_088vvfop/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.58us
+       └─ Raw speedup: -0.1705
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1028 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_d8upo_jx/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.48us
+       └─ Raw speedup: -0.1371
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1028 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_hcubi9dv/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.78us
+       └─ Raw speedup: -0.2302
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 1ce08830 (crossover): 耗时=2.42us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8843x, Fitness=0.8843
+[EA] ✅ 个体 3db471da (crossover): 耗时=2.58us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8295x, Fitness=0.8295
+[EA] ✅ 个体 cc025821 (mutation): 耗时=2.48us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8629x, Fitness=0.8629
+[EA] ✅ 个体 c6fc44f4 (mutation): 耗时=2.78us, 相对基线加速比=0.0000x, 相对Seed加速比=0.7698x, Fitness=0.7698
+[EA] Gen 2 Summary: Best=1.0808, Avg=0.9093
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0808
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 995 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_5xn_hcxl/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.02us
+       └─ Raw speedup: 0.0594
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0594
+       └─ Fitness score: 0.0594 (max 2.0)
+       └─ Competition score: 5.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 995 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_7uyrz494/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.16us
+       └─ Raw speedup: -0.0093
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 995 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_ss9gyfe5/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.16us
+       └─ Raw speedup: -0.0093
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 995 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_ln1abmoj/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 2.30us
+       └─ Raw speedup: -0.0696
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 995 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/softplus/performance/softplus_dev_0/softplus --application="/usr/local/python3.11.15/bin/python /tmp/softplus_dev_0_ija94hfq/test_softplus.py" --kernel-name="softplus" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.14us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: 0.1031
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1031
+       └─ Fitness score: 0.1031 (max 2.0)
+       └─ Competition score: 10.3/200 points
+  完成: 2.160043 us  S=0.9907409250649177  用时 314.3s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.34 小时
+============================================================

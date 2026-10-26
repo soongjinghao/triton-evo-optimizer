@@ -1,0 +1,18 @@
+[配置] paper_b2  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b2] seed 1/3 算子 1/1: chunk_local_cumsum_scalar_kernel ===
+  [复用] 已有结果 chunk_local_cumsum_scalar_kernel__r11.json
+  完成: 13.620273 us  S=3.2687222201786996  用时 516.1s
+
+=== [paper_b2] seed 2/3 算子 1/1: chunk_local_cumsum_scalar_kernel ===
+  [复用] 已有结果 chunk_local_cumsum_scalar_kernel__r12.json
+  完成: 13.620273 us  S=3.2687222201786996  用时 594.5s
+
+=== [paper_b2] seed 3/3 算子 1/1: chunk_local_cumsum_scalar_kernel ===
+  [复用] 已有结果 chunk_local_cumsum_scalar_kernel__r13.json
+  完成: 13.420268 us  S=3.317436656257535  用时 559.4s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

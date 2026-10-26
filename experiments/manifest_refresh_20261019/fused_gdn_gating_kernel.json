@@ -1,0 +1,23 @@
+{
+  "kernel": "fused_gdn_gating_kernel",
+  "t_base_us": 201.624039,
+  "t_seed_us": 10.720215,
+  "seed_similarity": 0.18588090853284223,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "fused_gdn_gating_kernel.py": {
+      "path": "/workspace/Agent/datasets2/fused_gdn_gating_kernel/fused_gdn_gating_kernel.py",
+      "latency_us": 201.624039,
+      "success": true,
+      "error": null
+    },
+    "fused_gdn_gating_kernel_1.py": {
+      "path": "/workspace/Agent/datasets2/fused_gdn_gating_kernel/fused_gdn_gating_kernel_1.py",
+      "latency_us": 10.720215,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-10-19T13:57:05"
+}

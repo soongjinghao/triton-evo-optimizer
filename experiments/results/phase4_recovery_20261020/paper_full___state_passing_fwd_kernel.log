@@ -1,0 +1,1540 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: _state_passing_fwd_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 2.6201 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _state_passing_fwd_kernel
+       └─ Working directory: /workspace/Agent/datasets2/_state_passing_fwd_kernel
+       └─ Reference baseline: 2.86us
+       └─ Test file: /workspace/Agent/datasets2/_state_passing_fwd_kernel/test__state_passing_fwd_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 10287.61it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7874 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_z5_qf2r8/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: -0.0338
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10187 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0__ldgsglm/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.56us
+       └─ Raw speedup: 0.1172
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1172
+       └─ Fitness score: 0.1172 (max 2.0)
+       └─ Competition score: 11.7/200 points
+[EA] 📊 2 个合法种子代码相似度为: 7.54% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: dd446a01, 基准耗时: 2.62us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.86 us | 当前耗时=2.56 us (相对基线:+11.72% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=6
+- 管线利用率: Vector=10.7%, Scalar=48.5%, MTE2(读)=39.9%, MTE3(写)=49.8%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE3 写访存 (49.8%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=1.70 GB/s, 向量写=1.70 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=11662 chars
+[LLM] [Call #01] ✅ Complete | Tokens=2967 (p:2914, c:53) | Time=1.05s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 二维Grid(pid_m,pid_b,pid_h), program内NCHUNKS循环, MTE3写访存49.8%主瓶颈, 标量48.5%高占比'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维Grid(pid_m, pid_b, pid_h), program内NCHUNKS循环, MTE3写访存49.8%主瓶颈, 标量48.5%高占比'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维Grid(pid_m, pid_b, pid_h), program内NCHUNKS循环, MTE3写访存49.8%主瓶颈, 标量48.5%高占比
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=16171 chars
+[LLM] [Call #02] ✅ Complete | Tokens=4900 (p:4042, c:858) | Time=8.20s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：MTE3写合并与标量地址预计算**
+   ├─ 瓶颈诊断: MTE3写访存49.8%主瓶颈，标量48.5%高占比
+   └─ 实施动作: 将循环内`out_ptrs`和`final_ptrs`的地址计算外提到循环前，使用`tl.arange`预计算`offs * STRIDE_OUT_DIM`并复用；将`states_ptrs`的`STRIDE_STATES_CHUNK`增量合并到基址偏移中，减少循环内标量乘法；对`out_ptrs`和`final_ptrs`的`tl.store`使用`tl.multiple_of`（仅当`STRIDE_OUT_DIM==1`且`out_base%16==0`可证明时），否则保持基线mask。
+
+  策略 [2]: **策略B：Grid收拢与循环展开**
+   ├─ 瓶颈诊断: 当前grid=(dim/256, batch, nheads)产生大量微小program，MTE3写延迟被调度开销放大
+   └─ 实施动作: 将`pid_m`和`pid_h`合并为`pid_mh = tl.program_id(0)`，内部解算`pid_m = pid_mh % (dim/BLOCK_SIZE)`和`pid_h = pid_mh // (dim/BLOCK_SIZE)`，grid变为`(triton.cdiv(dim, block_size)*nheads, batch, 1)`；保持`NCHUNKS`循环不变，仅当`dim%BLOCK_SIZE==0`且`nheads`整除时启用，否则回退原3D grid。
+
+  策略 [3]: **策略C：dA加载预取与标量条件外提**
+   ├─ 瓶颈诊断: 标量48.5%高占比，`NEEDS_CONT_SEQ`分支内`tl.load`和`tl.where`频繁
+   └─ 实施动作: 将`dA = tl.load(tl.multiple_of(dA_ptr, 16), cache_modifier=".ca")`提前到循环顶部，使用`tl.max_contiguous(dA_ptr, 16)`替代`tl.multiple_of`（仅当`dA_ptr%16==0`可证明时）；将`NEEDS_CONT_SEQ`和`NEEDS_SEQ_MASK`分支内的`seq_end_idx`和`seq_start_idx`计算外提到循环外，使用`tl.arange`预计算`seq_base + seq_end_idx * STRIDE_SEQ_SEQLEN`的指针数组。
+
+  策略 [4]: **策略D：MTE3写合并与tile大小调整**
+   ├─ 瓶颈诊断: MTE3写访存49.8%，`tl.store`在循环内每chunk执行一次
+   └─ 实施动作: 将`BLOCK_SIZE`从256增大到512（当`dim>=512`且`dim%512==0`时），减少写操作次数；对`out_ptrs`和`final_ptrs`的`tl.store`使用`tl.max_contiguous(ptr, BLOCK_SIZE)`（仅当`STRIDE_OUT_DIM==1`且`out_base%16==0`可证明时），否则保持基线mask；调整`num_warps`为4（当`BLOCK_SIZE=512`时）。
+
+  策略 [5]: **策略E：标量条件分支向量化与写延迟隐藏**
+   ├─ 瓶颈诊断: 标量48.5%高占比，`NEEDS_CONT_SEQ`和`NEEDS_SEQ_MASK`分支内大量标量操作
+   └─ 实施动作: 将`scale_mask = tl.full((), True, dtype=tl.int1)`替换为`scale_mask = tl.full((BLOCK_SIZE,), True, dtype=tl.int1)`，使`tl.where(scale_mask, tl.exp(dA), 0.0)`变为向量操作；将`state = scale * state + new_state`拆分为`state = tl.where(scale_mask, scale * state + new_state, state)`，避免标量广播；仅当`NEEDS_CONT_SEQ`或`NEEDS_SEQ_MASK`为真时启用，否则保持基线标量写法。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16679 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16705 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16744 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16667 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16778 chars
+[LLM] [Call #03] ✅ Complete | Tokens=7176 (p:4169, c:3007) | Time=43.84s
+[LLM] [Call #07] ✅ Complete | Tokens=7315 (p:4194, c:3121) | Time=44.93s
+[LLM] [Call #04] ✅ Complete | Tokens=7301 (p:4176, c:3125) | Time=44.99s
+[LLM] [Call #05] ✅ Complete | Tokens=7332 (p:4186, c:3146) | Time=45.16s
+[LLM] [Call #06] ✅ Complete | Tokens=7336 (p:4166, c:3170) | Time=45.35s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10120 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_2ykpl21o/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.70us
+       └─ Raw speedup: 0.0593
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0593
+       └─ Fitness score: 0.0593 (max 2.0)
+       └─ Competition score: 5.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10554 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_fnlk1x47/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.46us
+       └─ Raw speedup: 0.1626
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1626
+       └─ Fitness score: 0.1626 (max 2.0)
+       └─ Competition score: 16.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10458 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_y00owj3q/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.46us
+       └─ Raw speedup: 0.1626
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1626
+       └─ Fitness score: 0.1626 (max 2.0)
+       └─ Competition score: 16.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10480 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_ub9m6vxo/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.58us
+       └─ Raw speedup: 0.1085
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1085
+       └─ Fitness score: 0.1085 (max 2.0)
+       └─ Competition score: 10.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_lab56qpi/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: 0.2119
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2119
+       └─ Fitness score: 0.2119 (max 2.0)
+       └─ Competition score: 21.2/200 points
+[EA] ✅ 个体 3be6a419 (gen0_strategy_guided): 耗时=2.70us, 相对基线加速比=0.0593x, 相对Seed加速比=0.9704x, Fitness=0.9704
+[EA] ✅ 个体 0635406d (gen0_strategy_guided): 耗时=2.46us, 相对基线加速比=0.1626x, 相对Seed加速比=1.0650x, Fitness=1.0650
+[EA] ✅ 个体 6d06ec59 (gen0_strategy_guided): 耗时=2.46us, 相对基线加速比=0.1626x, 相对Seed加速比=1.0650x, Fitness=1.0650
+[EA] ✅ 个体 162e8f3a (gen0_strategy_guided): 耗时=2.58us, 相对基线加速比=0.1085x, 相对Seed加速比=1.0155x, Fitness=1.0155
+[EA] ✅ 个体 8e5cfed6 (gen0_strategy_guided): 耗时=2.36us, 相对基线加速比=0.2119x, 相对Seed加速比=1.1102x, Fitness=1.1102
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.1102 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=24458 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=24097 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=24458 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=24707 chars
+[LLM] [Call #09] ✅ Complete | Tokens=9149 (p:6024, c:3125) | Time=37.66s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=13054 chars
+[LLM] [Call #10] ✅ Complete | Tokens=9378 (p:6114, c:3264) | Time=39.25s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=13430 chars
+[LLM] [Call #08] ✅ Complete | Tokens=9378 (p:6114, c:3264) | Time=39.28s
+[LLM] [Call #11] ✅ Complete | Tokens=9485 (p:6176, c:3309) | Time=40.06s
+[LLM] [Call #12] ✅ Complete | Tokens=6388 (p:3263, c:3125) | Time=28.62s
+[LLM] [Call #13] ✅ Complete | Tokens=6621 (p:3357, c:3264) | Time=29.23s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10816 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_fv79ypeq/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.34us
+       └─ Raw speedup: 0.2222
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2222
+       └─ Fitness score: 0.2222 (max 2.0)
+       └─ Competition score: 22.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 11065 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_f9n_634r/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.72us
+       └─ Raw speedup: 0.0515
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0515
+       └─ Fitness score: 0.0515 (max 2.0)
+       └─ Competition score: 5.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10456 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_iusj8nnw/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.32us
+       └─ Raw speedup: 0.2328
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2328
+       └─ Fitness score: 0.2328 (max 2.0)
+       └─ Competition score: 23.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10816 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_n67yiaj1/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.44us
+       └─ Raw speedup: 0.1721
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1721
+       └─ Fitness score: 0.1721 (max 2.0)
+       └─ Competition score: 17.2/200 points
+[EA] ✅ 个体 46210888 (crossover): 耗时=2.34us, 相对基线加速比=0.2222x, 相对Seed加速比=1.1197x, Fitness=1.1197
+[EA] ✅ 个体 f27ba1be (crossover): 耗时=2.72us, 相对基线加速比=0.0515x, 相对Seed加速比=0.9632x, Fitness=0.9632
+[EA] ✅ 个体 53a21d0a (mutation): 耗时=2.32us, 相对基线加速比=0.2328x, 相对Seed加速比=1.1293x, Fitness=1.1293
+[EA] ✅ 个体 e79a45e2 (mutation): 耗时=2.44us, 相对基线加速比=0.1721x, 相对Seed加速比=1.0738x, Fitness=1.0738
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1293
+[EA] Gen 1 Summary: Best=1.1293, Avg=1.0769
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=24781 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=13741 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=24892 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=25292 chars
+[LLM] [Call #15] ✅ Complete | Tokens=6590 (p:3435, c:3155) | Time=39.04s
+[LLM] [Call #16] ✅ Complete | Tokens=9462 (p:6223, c:3239) | Time=39.86s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=13504 chars
+[LLM] [Call #14] ✅ Complete | Tokens=9479 (p:6195, c:3284) | Time=40.51s
+[LLM] [Call #17] ✅ Complete | Tokens=9632 (p:6323, c:3309) | Time=40.76s
+[LLM] [Call #18] ✅ Complete | Tokens=6615 (p:3376, c:3239) | Time=28.01s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10635 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_y8q221qx/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.48us
+       └─ Raw speedup: 0.1532
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1532
+       └─ Fitness score: 0.1532 (max 2.0)
+       └─ Competition score: 15.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 11139 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_n6sny3hd/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: 0.0214
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0214
+       └─ Fitness score: 0.0214 (max 2.0)
+       └─ Competition score: 2.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 11065 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_2a0cche0/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: 0.2119
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2119
+       └─ Fitness score: 0.2119 (max 2.0)
+       └─ Competition score: 21.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10890 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_eb2140w9/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.34us
+       └─ Raw speedup: 0.2222
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2222
+       └─ Fitness score: 0.2222 (max 2.0)
+       └─ Competition score: 22.2/200 points
+[EA] ✅ 个体 64bff9c9 (mutation): 耗时=2.48us, 相对基线加速比=0.1532x, 相对Seed加速比=1.0565x, Fitness=1.0565
+[EA] ✅ 个体 e0a3fd33 (crossover): 耗时=2.80us, 相对基线加速比=0.0214x, 相对Seed加速比=0.9357x, Fitness=0.9357
+[EA] ✅ 个体 3b4dff7c (crossover): 耗时=2.36us, 相对基线加速比=0.2119x, 相对Seed加速比=1.1102x, Fitness=1.1102
+[EA] ✅ 个体 6e010f6f (mutation): 耗时=2.34us, 相对基线加速比=0.2222x, 相对Seed加速比=1.1197x, Fitness=1.1197
+[EA] Gen 2 Summary: Best=1.1293, Avg=1.0785
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1293
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10456 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_z7t55ii4/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.54us
+       └─ Raw speedup: 0.1260
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1260
+       └─ Fitness score: 0.1260 (max 2.0)
+       └─ Competition score: 12.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10456 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_yis1p689/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: 0.0438
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0438
+       └─ Fitness score: 0.0438 (max 2.0)
+       └─ Competition score: 4.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10456 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_q2sldjv1/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.34us
+       └─ Raw speedup: 0.2222
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2222
+       └─ Fitness score: 0.2222 (max 2.0)
+       └─ Competition score: 22.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10456 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_yjivujj7/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: 0.2119
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2119
+       └─ Fitness score: 0.2119 (max 2.0)
+       └─ Competition score: 21.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10456 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_eeuo8bcl/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.62us
+       └─ Raw speedup: 0.0916
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0916
+       └─ Fitness score: 0.0916 (max 2.0)
+       └─ Competition score: 9.2/200 points
+  完成: 2.540051 us  S=1.12598408457153  用时 466.9s
+
+=== [paper_full] seed 2/3 算子 1/1: _state_passing_fwd_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 2.6201 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _state_passing_fwd_kernel
+       └─ Working directory: /workspace/Agent/datasets2/_state_passing_fwd_kernel
+       └─ Reference baseline: 2.86us
+       └─ Test file: /workspace/Agent/datasets2/_state_passing_fwd_kernel/test__state_passing_fwd_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7929.37it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7874 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_l59refi3/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 3.08us
+       └─ Raw speedup: -0.0714
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10187 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_sbb8fd8o/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.46us
+       └─ Raw speedup: 0.1626
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1626
+       └─ Fitness score: 0.1626 (max 2.0)
+       └─ Competition score: 16.3/200 points
+[EA] 📊 2 个合法种子代码相似度为: 7.54% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: ca1887c4, 基准耗时: 2.62us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.86 us | 当前耗时=2.46 us (相对基线:+16.26% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=6
+- 管线利用率: Vector=10.4%, Scalar=48.2%, MTE2(读)=36.9%, MTE3(写)=41.1%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (48.2%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=1.67 GB/s, 向量写=1.67 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=11663 chars
+[LLM] [Call #01] ✅ Complete | Tokens=2959 (p:2915, c:44) | Time=0.93s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 标量占比48.2%主导, 循环内重复标量地址计算, 动态stride间接索引, 条件分支内重载initstates'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 标量占比48.2%主导, 循环内重复标量地址计算, 动态stride间接索引, 条件分支内重载initstates'
+[✅ RAG Positive] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_RANDOM_GATHER_OCCUPANCY*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 标量占比48.2%主导, 循环内重复标量地址计算, 动态stride间接索引, 条件分支内重载initstates
+
+【高置信候选优化动作】
+
+[P1] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_RANDOM_GATHER_OCCUPANCY（强制联动）
+#### ⚛️ `ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`：Random Gather 不宜过度扩大单 Program Tile
+
+* **检索锚点**：间接索引, random gather, block_table, token_indices, 大BLOCK, occupancy不足, MTE2读延迟, 单program工作量过大。
+* **核心规则**：random gather 依赖更多并发 program 隐藏访存延迟；不要仅为减少 grid 把 BLOCK 从百级扩大到千级。
+* **正式失败证据**：`_convert_req_index_to_global_index_kernel` 将 random-gather 单 program tile 过度扩大，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=15935 chars
+[LLM] [Call #02] ✅ Complete | Tokens=5142 (p:3983, c:1159) | Time=10.41s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A: 连续内轴stride剥离+标量地址计算简化**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar 48.2%高占比, 循环内重复 `offs * STRIDE_STATES_DIM` 等标量乘法
+   └─ 实施动作: 实施动作: 采用 `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP` (Positive), 将 `offs * STRIDE_STATES_DIM` 简化为 `base + offs` (前提: wrapper证明states.stride(3)==1, out.stride(3)==1, final_states.stride(2)==1, initstates.stride(2)==1), 同时将 `states_ptrs = states_base + offs` 等指针计算外提至循环前, 删除 `tl.multiple_of(states_ptrs, 16)` 并替换为 `tl.multiple_of(states_base, 16)` (需Guard对齐证明), 循环内仅做 `states_ptrs += STRIDE_STATES_CHUNK` 增量更新
+
+  策略 [2]: **策略B: 循环不变量外提+标量计算合并**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar 48.2%, 循环内重复计算 `seq_end_idx`, `seq_start_idx`, `min((c+1)*CHUNK_SIZE, SEQLEN)-1` 等标量
+   └─ 实施动作: 实施动作: Positive=NONE, 将 `seq_end_idx = min((c+1)*CHUNK_SIZE, SEQLEN)-1` 和 `seq_start_idx = min(c*CHUNK_SIZE, SEQLEN)` 外提为循环前常量数组(若NCHUNKS小)或使用 `c*CHUNK_SIZE` 直接计算(需证明CHUNK_SIZE为2的幂), 合并 `seq_idx_chunk_end` 和 `seq_idx_chunk_start` 的两次load为一次连续load(需证明STRIDE_SEQ_SEQLEN==1), 将 `dA_ptr - (CHUNK_SIZE-1)*STRIDE_DA_CSIZE` 外提为循环前常量
+
+  策略 [3]: **策略C: 条件分支扁平化+标量控制流优化**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar 48.2%, `NEEDS_CONT_SEQ`/`NEEDS_SEQ_MASK` 条件分支内重复计算和重载initstates
+   └─ 实施动作: 实施动作: Positive=NONE, 将 `NEEDS_CONT_SEQ` 和 `NEEDS_SEQ_MASK` 分支内的 `seq_idx_chunk_end` load和比较外提至循环顶部统一计算(使用 `tl.where` 选择分支), 将 `if seq_changed:` 内的 `tl.load(initstates_ptr + seq_idx_chunk_end * STRIDE_INIT_BATCH + ...)` 改为预计算指针数组(若NCHUNKS小)或使用 `tl.atomic_rmw` 替代(需Guard), 删除 `logical_chunk_idx` 的累加和 `chunk_offsets` 的load(若CHUNK_META_NUM==0)
+
+  策略 [4]: **策略D: 任务粒度重划分+Grid维度合并**
+   ├─ 瓶颈诊断: 瓶颈诊断: Vector 10.4%低利用率, MTE2/MTE3未饱和, 3D Grid (dim,batch,head) 导致小tile
+   └─ 实施动作: 实施动作: Positive=NONE, 将Grid从 `(cdiv(dim,block_size), batch, nheads)` 改为 `(cdiv(dim,block_size)*batch, nheads)` 合并batch维度, 循环内使用 `pid_m = tl.program_id(0) % cdiv(dim,block_size)` 和 `pid_b = tl.program_id(0) // cdiv(dim,block_size)` 重映射(需Guard: 保持2D launch契约), 将 `BLOCK_SIZE` 从 `min(256, next_power_of_2(dim))` 增大至 `min(512, next_power_of_2(dim))` (需证明dim>=128且occupancy不下降), 合并 `states_ptrs` 和 `out_ptrs` 的连续load/store为向量化操作
+
+  策略 [5]: **策略E: 访存连续性增强+MTE打包优化**
+   ├─ 瓶颈诊断: 瓶颈诊断: MTE2 36.9%/MTE3 41.1%未饱和, 非连续访存导致带宽浪费
+   └─ 实施动作: 实施动作: Positive=NONE, 将 `tl.load(states_ptrs)` 和 `tl.store(out_ptrs, state)` 改为 `tl.load(states_ptrs, mask=mask)` 统一处理(删除IS_FULL_TILE分支), 将 `dA = tl.load(tl.multiple_of(dA_ptr, 16), cache_modifier=".ca")` 改为 `tl.load(dA_ptr, mask=mask, other=0.0)` (需证明dA_ptr对齐且mask覆盖完整), 将 `seq_idx_chunk_end` 的load改为连续块load(若STRIDE_SEQ_SEQLEN==1且BLOCK_SIZE整除SEQLEN), 将 `initstates_ptr + seq_idx_chunk_end * STRIDE_INIT_BATCH` 的随机gather改为预取(需Guard: 不扩大单program tile)
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16647 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16598 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16594 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16671 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=16670 chars
+[LLM] [Call #07] ✅ Complete | Tokens=6969 (p:4167, c:2802) | Time=41.39s
+[LLM] [Call #03] ✅ Complete | Tokens=7053 (p:4161, c:2892) | Time=42.26s
+[LLM] [Call #05] ✅ Complete | Tokens=7155 (p:4148, c:3007) | Time=43.37s
+[LLM] [Call #06] ✅ Complete | Tokens=7222 (p:4167, c:3055) | Time=43.77s
+[LLM] [Call #04] ✅ Complete | Tokens=7529 (p:4149, c:3380) | Time=46.53s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 9258 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_kuln0rpc/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 9816 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_6a55vm2i/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.42us
+       └─ Raw speedup: 0.1818
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1818
+       └─ Fitness score: 0.1818 (max 2.0)
+       └─ Competition score: 18.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10120 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_9u5f3vjj/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.32us
+       └─ Raw speedup: 0.2328
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2328
+       └─ Fitness score: 0.2328 (max 2.0)
+       └─ Competition score: 23.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10257 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_x0h_rs0p/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.68us
+       └─ Raw speedup: 0.0672
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0672
+       └─ Fitness score: 0.0672 (max 2.0)
+       └─ Competition score: 6.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 11548 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_dmg482xm/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.68us
+       └─ Raw speedup: 0.0672
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0672
+       └─ Fitness score: 0.0672 (max 2.0)
+       └─ Competition score: 6.7/200 points
+[EA] ❌ 个体 b62bb178 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 993c5999 (gen0_strategy_guided): 耗时=2.42us, 相对基线加速比=0.1818x, 相对Seed加速比=1.0826x, Fitness=1.0826
+[EA] ✅ 个体 6a658726 (gen0_strategy_guided): 耗时=2.32us, 相对基线加速比=0.2328x, 相对Seed加速比=1.1293x, Fitness=1.1293
+[EA] ✅ 个体 0579db16 (gen0_strategy_guided): 耗时=2.68us, 相对基线加速比=0.0672x, 相对Seed加速比=0.9776x, Fitness=0.9776
+[EA] ✅ 个体 c026d1ab (gen0_strategy_guided): 耗时=2.68us, 相对基线加速比=0.0672x, 相对Seed加速比=0.9776x, Fitness=0.9776
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.1293 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23896 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23896 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23760 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23754 chars
+[LLM] [Call #11] ✅ Complete | Tokens=8900 (p:5938, c:2962) | Time=37.94s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12704 chars
+[LLM] [Call #10] ✅ Complete | Tokens=8947 (p:5940, c:3007) | Time=38.70s
+[LLM] [Call #09] ✅ Complete | Tokens=9029 (p:5974, c:3055) | Time=39.23s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12846 chars
+[LLM] [Call #08] ✅ Complete | Tokens=9029 (p:5974, c:3055) | Time=39.27s
+[LLM] [Call #12] ✅ Complete | Tokens=6207 (p:3176, c:3031) | Time=27.73s
+[LLM] [Call #13] ✅ Complete | Tokens=6251 (p:3211, c:3040) | Time=27.32s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10118 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_wfp4herm/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.52us
+       └─ Raw speedup: 0.1349
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1349
+       └─ Fitness score: 0.1349 (max 2.0)
+       └─ Competition score: 13.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10255 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_ylfxcf4v/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.52us
+       └─ Raw speedup: 0.1349
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1349
+       └─ Fitness score: 0.1349 (max 2.0)
+       └─ Competition score: 13.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10304 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_gl2tkm7w/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10184 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_kf5kn9_q/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: 0.0833
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0833
+       └─ Fitness score: 0.0833 (max 2.0)
+       └─ Competition score: 8.3/200 points
+[EA] ✅ 个体 e9d393a2 (crossover): 耗时=2.52us, 相对基线加速比=0.1349x, 相对Seed加速比=1.0397x, Fitness=1.0397
+[EA] ✅ 个体 3ae2b193 (crossover): 耗时=2.52us, 相对基线加速比=0.1349x, 相对Seed加速比=1.0397x, Fitness=1.0397
+[EA] ❌ 个体 236d5fb9 (mutation): 评估失败, Fitness=0
+[EA] ✅ 个体 f36514b6 (mutation): 耗时=2.64us, 相对基线加速比=0.0833x, 相对Seed加速比=0.9924x, Fitness=0.9924
+[EA] Gen 1 Summary: Best=1.1293, Avg=0.8806
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12850 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23822 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23822 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23760 chars
+[LLM] [Call #14] ✅ Complete | Tokens=6104 (p:3212, c:2892) | Time=30.72s
+[LLM] [Call #15] ✅ Complete | Tokens=8947 (p:5955, c:2992) | Time=31.71s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12636 chars
+[LLM] [Call #17] ✅ Complete | Tokens=8947 (p:5940, c:3007) | Time=31.84s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12709 chars
+[LLM] [Call #16] ✅ Complete | Tokens=8995 (p:5955, c:3040) | Time=32.60s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12773 chars
+[LLM] [Call #18] ✅ Complete | Tokens=6227 (p:3159, c:3068) | Time=30.83s
+[LLM] [Call #20] ✅ Complete | Tokens=6233 (p:3193, c:3040) | Time=30.11s
+[LLM] [Call #19] ✅ Complete | Tokens=6635 (p:3177, c:3458) | Time=33.96s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 9814 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_y4jva7vr/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.40us
+       └─ Raw speedup: 0.1917
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1917
+       └─ Fitness score: 0.1917 (max 2.0)
+       └─ Competition score: 19.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 9968 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0__2cn5svx/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 3.18us
+       └─ Raw speedup: -0.1006
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10184 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_ychw34p9/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.46us
+       └─ Raw speedup: 0.1626
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1626
+       └─ Fitness score: 0.1626 (max 2.0)
+       └─ Competition score: 16.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 11457 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_m3uqs027/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 124c7a61 (mutation): 耗时=2.40us, 相对基线加速比=0.1917x, 相对Seed加速比=1.0917x, Fitness=1.0917
+[EA] ✅ 个体 6962c2d7 (mutation): 耗时=3.18us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8239x, Fitness=0.8239
+[EA] ✅ 个体 6101a363 (mutation): 耗时=2.46us, 相对基线加速比=0.1626x, 相对Seed加速比=1.0650x, Fitness=1.0650
+[EA] ❌ 个体 1a953034 (mutation): 评估失败, Fitness=0
+[EA] Gen 2 Summary: Best=1.1293, Avg=0.8654
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1293
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10120 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_6lhh2jra/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.66us
+       └─ Raw speedup: 0.0752
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0752
+       └─ Fitness score: 0.0752 (max 2.0)
+       └─ Competition score: 7.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10120 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_2r0pufnp/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.48us
+       └─ Raw speedup: 0.1532
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1532
+       └─ Fitness score: 0.1532 (max 2.0)
+       └─ Competition score: 15.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10120 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_bctne8km/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.52us
+       └─ Raw speedup: 0.1349
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1349
+       └─ Fitness score: 0.1349 (max 2.0)
+       └─ Competition score: 13.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10120 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_catrl__h/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.58us
+       └─ Raw speedup: 0.1085
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1085
+       └─ Fitness score: 0.1085 (max 2.0)
+       └─ Competition score: 10.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10120 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_pwf2ori7/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.78us
+       └─ Raw speedup: 0.0288
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0288
+       └─ Fitness score: 0.0288 (max 2.0)
+       └─ Competition score: 2.9/200 points
+  完成: 2.580052 us  S=1.1085268824039205  用时 450.3s
+
+=== [paper_full] seed 3/3 算子 1/1: _state_passing_fwd_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 2.6201 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _state_passing_fwd_kernel
+       └─ Working directory: /workspace/Agent/datasets2/_state_passing_fwd_kernel
+       └─ Reference baseline: 2.86us
+       └─ Test file: /workspace/Agent/datasets2/_state_passing_fwd_kernel/test__state_passing_fwd_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8103.28it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7874 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_i8anw6ps/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.90us
+       └─ Raw speedup: -0.0138
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10187 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_yinye12z/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: 0.0214
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0214
+       └─ Fitness score: 0.0214 (max 2.0)
+       └─ Competition score: 2.1/200 points
+[EA] 📊 2 个合法种子代码相似度为: 7.54% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 70c4be2f, 基准耗时: 2.62us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.86 us | 当前耗时=2.80 us (相对基线:+2.14% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=6
+- 管线利用率: Vector=9.5%, Scalar=43.6%, MTE2(读)=35.4%, MTE3(写)=41.3%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (43.6%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=1.50 GB/s, 向量写=1.50 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=11661 chars
+[LLM] [Call #01] ✅ Complete | Tokens=2965 (p:2914, c:51) | Time=0.95s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,一维dim分块grid,program内NCHUNKS长串行循环,标量地址计算主导(Scalar=43.6%),MTE2读受限(35.4%)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维dim分块grid, program内NCHUNKS长串行循环, 单program长串行循环, 标量地址计算主导(Scalar=43.6%), MTE2读受限(35.4%)'
+[⛔ RAG Conflict Filter] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS -> 显式冲突: 单program长串行循环
+[✅ RAG Positive] ACTION_GRID_EXPAND_LONG_SERIAL_LOOP, ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维dim分块grid, program内NCHUNKS长串行循环, 单program长串行循环, 标量地址计算主导(Scalar=43.6%), MTE2读受限(35.4%)
+
+【高置信候选优化动作】
+
+[P1] ACTION_GRID_EXPAND_LONG_SERIAL_LOOP
+#### ⚛️ `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP`：单 Program 串行循环过长时扩展 Grid
+
+* **检索锚点**：单program长串行循环, grid覆盖维度不足, Token/Sequence串行循环, 持久化循环过长, program数量偏少, Scalar循环控制占比高。
+* **Profiling 锚点**：Scalar 比例偏高，且必须有证据证明循环真实执行多次并形成单 program latency。
+* **结构判据**：循环迭代之间独立，grid 当前没有覆盖该独立维；每个 program 内循环确实较长，而不是 `tl.cdiv(..., BLOCK)` 后实际只有一次迭代。
+* **优化动作**：在 wrapper launch contract 允许时，把独立循环维映射到已有/新增 PID，使 program 数增加，缩短单 program 串行工作。
+* **必须前提**：
+  - 必须证明实际迭代次数 > 1 且足够长。
+  - 新增 program 工作量不能小到 launch-bound。
+  - 输出映射完整唯一、无写冲突。
+  - wrapper/test 的真实 grid rank 与 axis 语义允许对应变换。
+  - 若引入 atomic/reduction，必须额外证明并行语义等价。
+* **禁用条件**：
+  - 原本就是海量微小 program。
+  - 仅因代码中出现 `for/range` 就判定为“长循环”。
+  - wrapper grid 不变却凭空使用新的 `program_id(axis)`。
+  - 通过 atomic 重构语义但未证明初始化与累计次数。
+* **正式反证据**：`moe_align_block_size_stage` 的激进并行重构在本地获得很高收益，但正式平台多个版本/多 testcase 出现系统性 runtime error；由于候选同时改变 grid/atomic/阶段结构，不能把失败单独归因于 Grid Expansion，但该案例证明此 ACTION 必须联动 Launch/Atomic/Backend Guard。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_ATOMIC_REDUCTION_EQUIVALENCE`。
+* **可信度**：C（条件性候选，等待更干净的正式独立正证据）。
+
+---
+
+## 3. 访存 / 布局 / 地址计算类
+
+[P2] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P3] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G4] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=19968 chars
+[LLM] [Call #02] ✅ Complete | Tokens=5561 (p:4991, c:570) | Time=5.61s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: Strategy_GridExpand
+   ├─ 瓶颈诊断: 瓶颈: Scalar=43.6% 标量地址计算主导, NCHUNKS长串行循环
+   └─ 实施动作: 实施动作: 将NCHUNKS维映射到新增program_id(3), 每个program处理1个chunk, 消除内层for c循环; 需修改wrapper grid为(triton.cdiv(dim,BLOCK_SIZE), batch, nheads, nchunks), 保持输出写唯一性通过chunk索引偏移; 前提: nchunks>1且launch contract允许4D grid; 禁用: nchunks=1时退化回基线.
+
+  策略 [2]: Strategy_ContiguousStrideStrip
+   ├─ 瓶颈诊断: 瓶颈: Scalar标量地址计算重复, STRIDE_STATES_DIM等动态stride乘法
+   └─ 实施动作: 实施动作: 证明states/out/final_states的dim维stride==1, 将`offs * STRIDE_STATES_DIM`替换为`offs`, 基地址`states_base + offs`; 前提: wrapper传入的stride(3)必须恒为1; 禁用: 非连续dim或不同dtype subview.
+
+  策略 [3]: Strategy_MaskSimplify
+   ├─ 瓶颈诊断: 瓶颈: IS_FULL_TILE分支导致代码膨胀, Scalar控制流开销
+   └─ 实施动作: 实施动作: 删除IS_FULL_TILE条件分支, 统一使用mask=offs<DIM; 前提: dim%BLOCK_SIZE!=0时mask开销小于分支开销; 禁用: 若dim%BLOCK_SIZE==0且mask可证明全true则保留无mask路径.
+
+  策略 [4]: Strategy_GroupPackReshapeReduce
+   ├─ 瓶颈诊断: 瓶颈: MTE2读受限35.4%, 单program内逐chunk串行加载
+   └─ 实施动作: 实施动作: 将连续2个chunk的states加载合并为一次`tl.load(states_ptrs + tl.arange(0,2*BLOCK_SIZE))`, 使用tl.view重塑为(2,BLOCK_SIZE)并行处理; 前提: STRIDE_STATES_CHUNK==BLOCK_SIZE且2*BLOCK_SIZE不超UB容量; 禁用: chunk间不连续或尾chunk不足2个.
+
+  策略 [5]: Strategy_AlignmentProof
+   ├─ 瓶颈诊断: 瓶颈: Scalar地址计算中alignment hint未充分利用
+   └─ 实施动作: 实施动作: 对states_ptrs/out_ptrs/final_ptrs添加`tl.multiple_of(ptr, 16)`; 前提: 证明base地址16对齐且offs*stride偏移保持16对齐(当stride==1且offs是16倍数); 禁用: 动态stride非1或base未对齐时不得添加.
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=18414 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=18381 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=18321 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=18399 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=18348 chars
+[LLM] [Call #05] ✅ Complete | Tokens=7327 (p:4580, c:2747) | Time=40.76s
+[LLM] [Call #04] ✅ Complete | Tokens=7582 (p:4595, c:2987) | Time=43.10s
+[LLM] [Call #07] ✅ Complete | Tokens=7594 (p:4587, c:3007) | Time=43.26s
+[LLM] [Call #03] ✅ Complete | Tokens=7853 (p:4603, c:3250) | Time=45.45s
+[LLM] [Call #06] ✅ Complete | Tokens=8842 (p:4599, c:4243) | Time=53.79s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 9081 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_6l1sqx8i/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.56us
+       └─ Raw speedup: 0.1172
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1172
+       └─ Fitness score: 0.1172 (max 2.0)
+       └─ Competition score: 11.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10064 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_g5tt2pbv/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.46us
+       └─ Raw speedup: 0.1626
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1626
+       └─ Fitness score: 0.1626 (max 2.0)
+       └─ Competition score: 16.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10120 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_9u5jn4z4/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.62us
+       └─ Raw speedup: 0.0916
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0916
+       └─ Fitness score: 0.0916 (max 2.0)
+       └─ Competition score: 9.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10686 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_ar51ym9s/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 14611 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_hssf58wd/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 b3bdc89d (gen0_strategy_guided): 耗时=2.56us, 相对基线加速比=0.1172x, 相对Seed加速比=1.0234x, Fitness=1.0234
+[EA] ✅ 个体 96d00590 (gen0_strategy_guided): 耗时=2.46us, 相对基线加速比=0.1626x, 相对Seed加速比=1.0650x, Fitness=1.0650
+[EA] ✅ 个体 40dbf6aa (gen0_strategy_guided): 耗时=2.62us, 相对基线加速比=0.0916x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ❌ 个体 0a29457c (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 80268f38 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0650 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=22718 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=21309 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=22662 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=22662 chars
+[LLM] [Call #09] ✅ Complete | Tokens=8319 (p:5327, c:2992) | Time=36.28s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12644 chars
+[LLM] [Call #10] ✅ Complete | Tokens=8672 (p:5665, c:3007) | Time=36.79s
+[LLM] [Call #08] ✅ Complete | Tokens=8686 (p:5679, c:3007) | Time=36.81s
+[LLM] [Call #11] ✅ Complete | Tokens=8672 (p:5665, c:3007) | Time=36.80s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12709 chars
+[LLM] [Call #12] ✅ Complete | Tokens=6153 (p:3161, c:2992) | Time=26.97s
+[LLM] [Call #13] ✅ Complete | Tokens=6182 (p:3177, c:3005) | Time=26.80s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10118 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_1x0gvwfk/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10118 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_ds203gmf/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: 0.0833
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0833
+       └─ Fitness score: 0.0833 (max 2.0)
+       └─ Competition score: 8.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_3kwep7q1/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.44us
+       └─ Raw speedup: 0.1721
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1721
+       └─ Fitness score: 0.1721 (max 2.0)
+       └─ Competition score: 17.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10114 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_f2p8kmb6/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: 0.0833
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0833
+       └─ Fitness score: 0.0833 (max 2.0)
+       └─ Competition score: 8.3/200 points
+[EA] ✅ 个体 0bb54cfa (crossover): 耗时=2.86us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9161x, Fitness=0.9161
+[EA] ✅ 个体 a4b02766 (crossover): 耗时=2.64us, 相对基线加速比=0.0833x, 相对Seed加速比=0.9924x, Fitness=0.9924
+[EA] ✅ 个体 9835ffee (mutation): 耗时=2.44us, 相对基线加速比=0.1721x, 相对Seed加速比=1.0738x, Fitness=1.0738
+[EA] ✅ 个体 2926bed5 (mutation): 耗时=2.64us, 相对基线加速比=0.0833x, 相对Seed加速比=0.9924x, Fitness=0.9924
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0738
+[EA] Gen 1 Summary: Best=1.0738, Avg=1.0105
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23682 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23687 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=23753 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=22713 chars
+[LLM] [Call #15] ✅ Complete | Tokens=8913 (p:5921, c:2992) | Time=37.01s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12637 chars
+[LLM] [Call #14] ✅ Complete | Tokens=8912 (p:5920, c:2992) | Time=37.05s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=12644 chars
+[LLM] [Call #16] ✅ Complete | Tokens=8943 (p:5938, c:3005) | Time=37.13s
+[LLM] [Call #17] ✅ Complete | Tokens=8685 (p:5678, c:3007) | Time=37.14s
+[LLM] [Call #19] ✅ Complete | Tokens=6153 (p:3161, c:2992) | Time=26.69s
+[LLM] [Call #18] ✅ Complete | Tokens=6187 (p:3159, c:3028) | Time=27.00s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10114 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_dfb3vwn3/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: 0.0833
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0833
+       └─ Fitness score: 0.0833 (max 2.0)
+       └─ Competition score: 8.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10118 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_7vqlgf5t/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.48us
+       └─ Raw speedup: 0.1532
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1532
+       └─ Fitness score: 0.1532 (max 2.0)
+       └─ Competition score: 15.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_f3uzrl78/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.66us
+       └─ Raw speedup: 0.0752
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0752
+       └─ Fitness score: 0.0752 (max 2.0)
+       └─ Competition score: 7.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10152 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_t6_vuc13/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.58us
+       └─ Raw speedup: 0.1085
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1085
+       └─ Fitness score: 0.1085 (max 2.0)
+       └─ Competition score: 10.9/200 points
+[EA] ✅ 个体 73982599 (crossover): 耗时=2.64us, 相对基线加速比=0.0833x, 相对Seed加速比=0.9924x, Fitness=0.9924
+[EA] ✅ 个体 d3bc9241 (crossover): 耗时=2.48us, 相对基线加速比=0.1532x, 相对Seed加速比=1.0565x, Fitness=1.0565
+[EA] ✅ 个体 58203f7f (mutation): 耗时=2.66us, 相对基线加速比=0.0752x, 相对Seed加速比=0.9850x, Fitness=0.9850
+[EA] ✅ 个体 3d118789 (mutation): 耗时=2.58us, 相对基线加速比=0.1085x, 相对Seed加速比=1.0155x, Fitness=1.0155
+[EA] Gen 2 Summary: Best=1.0738, Avg=1.0314
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0738
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_yutm48op/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.50us
+       └─ Raw speedup: 0.1440
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1440
+       └─ Fitness score: 0.1440 (max 2.0)
+       └─ Competition score: 14.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_rpdqezyw/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.62us
+       └─ Raw speedup: 0.0916
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0916
+       └─ Fitness score: 0.0916 (max 2.0)
+       └─ Competition score: 9.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_v0qfyq_3/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.54us
+       └─ Raw speedup: 0.1260
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1260
+       └─ Fitness score: 0.1260 (max 2.0)
+       └─ Competition score: 12.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_tsi_kbu2/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: 0.2119
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2119
+       └─ Fitness score: 0.2119 (max 2.0)
+       └─ Competition score: 21.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_state_passing_fwd_kernel/performance/_state_passing_fwd_kernel_dev_0/_state_passing_fwd_kernel --application="/usr/local/python3.11.15/bin/python /tmp/_state_passing_fwd_kernel_dev_0_5w4z4g96/test__state_passing_fwd_kernel.py" --kernel-name="_state_passing_fwd_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.86us
+       └─ Optimized time: 2.58us
+       └─ Raw speedup: 0.1085
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1085
+       └─ Fitness score: 0.1085 (max 2.0)
+       └─ Competition score: 10.9/200 points
+  完成: 2.540051 us  S=1.12598408457153  用时 444.4s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.45 小时
+============================================================

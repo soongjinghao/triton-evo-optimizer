@@ -1,0 +1,1576 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: fused_qkvzba_split_reshape_cat_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 4.0201 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: fused_qkvzba_split_reshape_cat_kernel
+       └─ Working directory: /workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel
+       └─ Reference baseline: 4.02us
+       └─ Test file: /workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/test_fused_qkvzba_split_reshape_cat_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 10725.96it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3693 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_50t5jsac/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.88us
+       └─ Raw speedup: 0.0361
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0361
+       └─ Fitness score: 0.0361 (max 2.0)
+       └─ Competition score: 3.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4407 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_8cnbnu6c/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 5.08us
+       └─ Raw speedup: -0.2087
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 54.27% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 295f1f90, 基准耗时: 4.02us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=4.02 us | 当前耗时=3.88 us (相对基线:+3.61% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=32
+- 管线利用率: Vector=0.4%, Scalar=57.9%, MTE2(读)=27.0%, MTE3(写)=26.4%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (57.9%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5098 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1324 (p:1273, c:51) | Time=0.90s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,二维Grid(bs×num_heads_qk),无循环单program,标量地址计算主导(Scalar=57.9%),连续轴访存(HEAD_QK/HEAD_V)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维Grid(bs×num_heads_qk), 无循环单program, 标量地址计算主导(Scalar=57.9%), 连续轴访存(HEAD_QK/HEAD_V)'
+[✅ RAG Positive] ACTION_PREFIX_METADATA_PRECOMPUTE, ACTION_CONTIGUOUS_INNER_STRIDE_STRIP, ACTION_GROUP_PACK_RESHAPE_REDUCE
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维Grid(bs×num_heads_qk), 无循环单program, 标量地址计算主导(Scalar=57.9%), 连续轴访存(HEAD_QK/HEAD_V)
+
+【高置信候选优化动作】
+
+[P1] ACTION_PREFIX_METADATA_PRECOMPUTE
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+[P2] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+[P3] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=12251 chars
+[LLM] [Call #02] ✅ Complete | Tokens=4021 (p:3062, c:959) | Time=8.80s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略一：Prefix元数据预计算与标量循环消除**
+   ├─ 瓶颈诊断: 瓶颈诊断：Scalar=57.9%，每个program重复计算`base_ptr`和`blk_*_st_ptr`中的`i_bs * NUM_HEADS_QK * QKVZ_DIM_T`等乘法，且`NUM_HEADS_V_PER_QK`为编译期常量。
+   └─ 实施动作: 实施动作：采用`ACTION_PREFIX_METADATA_PRECOMPUTE`。在wrapper中预计算每个`i_bs`的`mixed_qkvz_base`、`mixed_qkv_base`、`z_base`、`b_base`、`a_base`和`mixed_ba_base`，传入kernel作为指针数组。kernel内`base_ptr = mixed_qkvz_base + i_qk * QKVZ_DIM_T`，删除`i_bs * NUM_HEADS_QK * QKVZ_DIM_T`重复乘法。前提：`batch*seq_len`足够大，预计算成本可摊销；wrapper允许修改。禁用条件：batch=1时收益小。
+
+  策略 [2]: **策略二：连续轴动态stride剥离与地址计算简化**
+   ├─ 瓶颈诊断: 瓶颈诊断：Scalar=57.9%，`tl.arange(0, HEAD_QK)`等连续轴地址计算中`base_ptr + tl.arange(...)`隐含stride=1，但编译器可能保留动态乘法。
+   └─ 实施动作: 实施动作：采用`ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`。所有`tl.load/store`的基地址指针直接使用`base_ptr`，利用`tl.arange`的连续特性，编译器自动生成连续地址。前提：所有load/store的最内层轴stride=1（由`mixed_qkvz`等tensor的contiguous性证明）。禁用条件：非连续输入或subview。
+
+  策略 [3]: **策略三：多Group打包规约与program合并**
+   ├─ 瓶颈诊断: 瓶颈诊断：Scalar=57.9%且Vector=0.4%，每个program处理一个`i_qk`，但`NUM_HEADS_V_PER_QK`可能较小，导致海量微小program。
+   └─ 实施动作: 实施动作：采用`ACTION_GROUP_PACK_RESHAPE_REDUCE`。将`i_qk`维度与`NUM_HEADS_V_PER_QK`合并，让一个program处理`K`个`i_qk`（K为编译期常量），连续加载`K * HEAD_QK`等元素，并行计算并写回。前提：`K * HEAD_QK`等连续块大小在寄存器/UB可接受范围；`NUM_HEADS_QK`能被K整除或尾部有mask。禁用条件：K过大导致occupancy下降；尾部处理不完整。
+
+  策略 [4]: **策略四：Grid维度重映射与标量地址计算外提**
+   ├─ 瓶颈诊断: 瓶颈诊断：Scalar=57.9%，`i_bs`和`i_qk`的乘法组合重复出现。
+   └─ 实施动作: 实施动作：不采用Positive ACTION（无对应项），基于evidence-only。将grid从`(batch*seq_len, num_heads_qk)`展平为`(batch*seq_len * num_heads_qk,)`，kernel内`pid = tl.program_id(0)`，`i_bs = pid // num_heads_qk`，`i_qk = pid % num_heads_qk`。将`i_bs * NUM_HEADS_QK * QKVZ_DIM_T`等公共子表达式外提为`base_offset = i_bs * NUM_HEADS_QK * QKVZ_DIM_T`，减少重复计算。前提：grid展平不改变输出覆盖；wrapper允许修改grid。禁用条件：grid展平导致PID语义变化未验证。
+
+  策略 [5]: **策略五：Mask覆盖证明与尾块简化**
+   ├─ 瓶颈诊断: 瓶颈诊断：Vector=0.4%，当前无mask，但若`HEAD_QK`等不是2的幂，编译器可能插入冗余mask。
+   └─ 实施动作: 实施动作：采用`ACTION_GUARD_MASK_COVERAGE_PROOF`（作为Guard，非Positive）。证明所有`HEAD_QK`、`HEAD_V`、`NUM_HEADS_V_PER_QK`等为2的幂或整除，从而删除所有隐式mask。若不能证明，保留基线。前提：从wrapper契约或shape约束证明所有维度对齐。禁用条件：任何维度非2的幂且不能整除时，不得删除mask。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12151 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12014 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12033 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12120 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11960 chars
+[LLM] [Call #07] ✅ Complete | Tokens=4311 (p:2990, c:1321) | Time=23.75s
+[LLM] [Call #06] ✅ Complete | Tokens=4370 (p:3030, c:1340) | Time=23.93s
+[LLM] [Call #04] ✅ Complete | Tokens=4396 (p:3003, c:1393) | Time=24.45s
+[LLM] [Call #03] ✅ Complete | Tokens=4842 (p:3037, c:1805) | Time=28.10s
+[LLM] [Call #05] ✅ Complete | Tokens=5177 (p:3008, c:2169) | Time=31.12s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3669 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_4v4ex_ta/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.04us
+       └─ Raw speedup: -0.0050
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3779 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_l5qta7f4/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.06us
+       └─ Raw speedup: -0.0099
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3860 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_murgsmg3/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.62us
+       └─ Raw speedup: -0.1299
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5193 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_a3p4znbf/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6545 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_a7hwrxsg/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.24us
+       └─ Raw speedup: -0.0519
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 85d4554f (gen0_strategy_guided): 耗时=4.04us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9950x, Fitness=0.9950
+[EA] ✅ 个体 87897a67 (gen0_strategy_guided): 耗时=4.06us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9901x, Fitness=0.9901
+[EA] ✅ 个体 60f27fae (gen0_strategy_guided): 耗时=4.62us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8701x, Fitness=0.8701
+[EA] ❌ 个体 267f7a89 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 f81f3472 (gen0_strategy_guided): 耗时=4.24us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9481x, Fitness=0.9481
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13481 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10397 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13481 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13294 chars
+[LLM] [Call #09] ✅ Complete | Tokens=3819 (p:2599, c:1220) | Time=16.99s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6032 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4710 (p:3370, c:1340) | Time=18.31s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6392 chars
+[LLM] [Call #08] ✅ Complete | Tokens=5529 (p:3370, c:2159) | Time=26.48s
+[LLM] [Call #11] ✅ Complete | Tokens=5482 (p:3323, c:2159) | Time=26.48s
+[LLM] [Call #12] ✅ Complete | Tokens=2728 (p:1508, c:1220) | Time=12.23s
+[LLM] [Call #13] ✅ Complete | Tokens=2938 (p:1598, c:1340) | Time=12.85s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6314 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_lyqzrxhp/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.14us
+       └─ Raw speedup: -0.0290
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6314 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_3y8_w7xn/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.66us
+       └─ Raw speedup: 0.0984
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0984
+       └─ Fitness score: 0.0984 (max 2.0)
+       └─ Competition score: 9.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3432 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_frn07v31/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.28us
+       └─ Raw speedup: -0.0607
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3776 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_uet_v2ev/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.86us
+       └─ Raw speedup: 0.0415
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0415
+       └─ Fitness score: 0.0415 (max 2.0)
+       └─ Competition score: 4.1/200 points
+[EA] ✅ 个体 521a925f (crossover): 耗时=4.14us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9710x, Fitness=0.9710
+[EA] ✅ 个体 3a6e0c68 (crossover): 耗时=3.66us, 相对基线加速比=0.0984x, 相对Seed加速比=1.0984x, Fitness=1.0984
+[EA] ✅ 个体 776dc036 (mutation): 耗时=4.28us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9393x, Fitness=0.9393
+[EA] ✅ 个体 b1c48758 (mutation): 耗时=3.86us, 相对基线加速比=0.0415x, 相对Seed加速比=1.0415x, Fitness=1.0415
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0984
+[EA] Gen 1 Summary: Best=1.0984, Avg=1.0075
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10630 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=9253 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13294 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13294 chars
+[LLM] [Call #14] ✅ Complete | Tokens=3978 (p:2657, c:1321) | Time=18.47s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6282 chars
+[LLM] [Call #16] ✅ Complete | Tokens=4741 (p:3323, c:1418) | Time=19.62s
+[LLM] [Call #17] ✅ Complete | Tokens=5482 (p:3323, c:2159) | Time=26.92s
+[LLM] [Call #15] ✅ Complete | Tokens=4473 (p:2313, c:2160) | Time=26.95s
+[LLM] [Call #18] ✅ Complete | Tokens=2891 (p:1570, c:1321) | Time=12.83s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4163 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_ix9dx34u/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.92us
+       └─ Raw speedup: 0.0255
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0255
+       └─ Fitness score: 0.0255 (max 2.0)
+       └─ Competition score: 2.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6314 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_9icx3bvu/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.86us
+       └─ Raw speedup: 0.0415
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0415
+       └─ Fitness score: 0.0415 (max 2.0)
+       └─ Competition score: 4.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6321 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_cx8rlk5a/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.94us
+       └─ Raw speedup: 0.0203
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0203
+       └─ Fitness score: 0.0203 (max 2.0)
+       └─ Competition score: 2.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3666 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_ug3bbg7d/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.00us
+       └─ Raw speedup: 0.0050
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0050
+       └─ Fitness score: 0.0050 (max 2.0)
+       └─ Competition score: 0.5/200 points
+[EA] ✅ 个体 6588050c (crossover): 耗时=3.92us, 相对基线加速比=0.0255x, 相对Seed加速比=1.0255x, Fitness=1.0255
+[EA] ✅ 个体 c5a8cd28 (crossover): 耗时=3.86us, 相对基线加速比=0.0415x, 相对Seed加速比=1.0415x, Fitness=1.0415
+[EA] ✅ 个体 cc05850d (mutation): 耗时=3.94us, 相对基线加速比=0.0203x, 相对Seed加速比=1.0203x, Fitness=1.0203
+[EA] ✅ 个体 9e1e9ab9 (mutation): 耗时=4.00us, 相对基线加速比=0.0050x, 相对Seed加速比=1.0050x, Fitness=1.0050
+[EA] Gen 2 Summary: Best=1.0984, Avg=1.0387
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0984
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6314 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0__dj9nw4e/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.58us
+       └─ Raw speedup: 0.1229
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1229
+       └─ Fitness score: 0.1229 (max 2.0)
+       └─ Competition score: 12.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6314 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_y8kotnph/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.98us
+       └─ Raw speedup: 0.0101
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0101
+       └─ Fitness score: 0.0101 (max 2.0)
+       └─ Competition score: 1.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6314 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_jjb67sw0/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.98us
+       └─ Raw speedup: 0.0101
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0101
+       └─ Fitness score: 0.0101 (max 2.0)
+       └─ Competition score: 1.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6314 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_5e8ighfu/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.56us
+       └─ Raw speedup: 0.1292
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1292
+       └─ Fitness score: 0.1292 (max 2.0)
+       └─ Competition score: 12.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6314 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_devn8fj9/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.22us
+       └─ Raw speedup: -0.0474
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+  完成: 3.98008 us  S=1.0100503004964725  用时 364.0s
+
+=== [paper_full] seed 2/3 算子 1/1: fused_qkvzba_split_reshape_cat_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 4.0201 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: fused_qkvzba_split_reshape_cat_kernel
+       └─ Working directory: /workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel
+       └─ Reference baseline: 4.02us
+       └─ Test file: /workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/test_fused_qkvzba_split_reshape_cat_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 9521.54it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3693 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_aw4b142f/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.86us
+       └─ Raw speedup: 0.0415
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0415
+       └─ Fitness score: 0.0415 (max 2.0)
+       └─ Competition score: 4.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4407 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_md4twc7k/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.66us
+       └─ Raw speedup: -0.1373
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 54.27% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: d3d984ba, 基准耗时: 4.02us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=4.02 us | 当前耗时=3.86 us (相对基线:+4.15% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=32
+- 管线利用率: Vector=0.5%, Scalar=61.7%, MTE2(读)=17.8%, MTE3(写)=22.8%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (61.7%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5098 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1318 (p:1273, c:45) | Time=0.81s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,二维Grid(bs×num_heads_qk),标量地址计算主导(61.7% Scalar),连续轴tl.arange访存,无规约结构'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维Grid(bs×num_heads_qk), 标量地址计算主导(61.7% Scalar), 连续轴tl.arange访存, 无规约结构'
+[✅ RAG Positive] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维Grid(bs×num_heads_qk), 标量地址计算主导(61.7% Scalar), 连续轴tl.arange访存, 无规约结构
+
+【高置信候选优化动作】
+
+[P1] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9662 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3001 (p:2414, c:587) | Time=5.49s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: Strategy_contiguous_inner_stride_strip
+   ├─ 瓶颈诊断: Scalar标量占比61.7%，最内层连续轴stride=1可证明，地址计算重复
+   └─ 实施动作: 采用ACTION_CONTIGUOUS_INNER_STRIDE_STRIP：删除所有`base_ptr + tl.arange(0, end)`中的动态stride乘法，直接使用`base_ptr + tl.arange(0, end)`；基地址保留外层stride乘法；需证明所有tl.arange(0, end)对应的最内层stride==1且base对齐16B；禁用条件：非连续输入或subview导致stride!=1
+
+  策略 [2]: Strategy_grid_consolidate_tiny_programs
+   ├─ 瓶颈诊断: 当前grid=(batch*seq_len, num_heads_qk)，每个program仅处理单头单样本，工作量极小，launch开销占比高
+   └─ 实施动作: 采用ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS：将grid合并为(batch*seq_len, num_heads_qk//4)，每个program内循环处理4个i_qk；需证明num_heads_qk%4==0且无写冲突；禁用条件：num_heads_qk<4或存在random gather
+
+  策略 [3]: Strategy_scalar_address_compute_hoist
+   ├─ 瓶颈诊断: Scalar标量占比61.7%，地址计算中重复计算不变基地址和stride乘法
+   └─ 实施动作: 采用NONE（无Positive ACTION），基于Profiling独立推导：将`i_bs * NUM_HEADS_QK * QKVZ_DIM_T`等不变表达式外提为循环前计算，使用`tl.static_assert`验证常量性；需证明所有stride为编译期常量；禁用条件：动态stride或shape
+
+  策略 [4]: Strategy_load_store_merge_contiguous
+   ├─ 瓶颈诊断: 连续轴tl.arange访存，MTE2/MTE3带宽未吃满，存在多个独立load/store
+   └─ 实施动作: 采用NONE（无Positive ACTION），基于Profiling独立推导：合并连续内存区域的load/store为更大块，如将q_vals和k_vals合并为`tl.load(base_ptr + tl.arange(0, k_end))`再split；需证明合并区域连续且无padding；禁用条件：非连续内存布局或dtype不一致
+
+  策略 [5]: Strategy_guard_alignment_proof
+   ├─ 瓶颈诊断: 当前代码未显式证明对齐，存在alignment风险
+   └─ 实施动作: 采用ACTION_GUARD_ALIGNMENT_PROOF：在kernel入口添加`tl.static_assert`验证base_ptr%16==0，所有stride为编译期常量且最内层stride==1；仅当所有动态偏移可证明16B对齐时才添加`tl.multiple_of`；禁用条件：任意gather、subview或dtype-view导致对齐不可证明
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10288 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10270 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10226 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10249 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10233 chars
+[LLM] [Call #03] ✅ Complete | Tokens=3893 (p:2572, c:1321) | Time=23.40s
+[LLM] [Call #07] ✅ Complete | Tokens=3879 (p:2558, c:1321) | Time=23.39s
+[LLM] [Call #06] ✅ Complete | Tokens=3951 (p:2562, c:1389) | Time=24.08s
+[LLM] [Call #04] ✅ Complete | Tokens=3965 (p:2567, c:1398) | Time=24.17s
+[LLM] [Call #05] ✅ Complete | Tokens=3968 (p:2556, c:1412) | Time=24.28s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3669 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_nt1euk7h/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.00us
+       └─ Raw speedup: 0.0050
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0050
+       └─ Fitness score: 0.0050 (max 2.0)
+       └─ Competition score: 0.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3666 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0__i44ebi1/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.18us
+       └─ Raw speedup: -0.0383
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3832 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_7vm6xb5s/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4030 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_zwp9gl_4/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.74us
+       └─ Raw speedup: 0.0749
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0749
+       └─ Fitness score: 0.0749 (max 2.0)
+       └─ Competition score: 7.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3886 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_fo6ow0sa/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.30us
+       └─ Raw speedup: -0.0651
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 f4974a31 (gen0_strategy_guided): 耗时=4.00us, 相对基线加速比=0.0050x, 相对Seed加速比=1.0050x, Fitness=1.0050
+[EA] ✅ 个体 3f8fb94a (gen0_strategy_guided): 耗时=4.18us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9617x, Fitness=0.9617
+[EA] ❌ 个体 606bb805 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 63960f2e (gen0_strategy_guided): 耗时=3.74us, 相对基线加速比=0.0749x, 相对Seed加速比=1.0749x, Fitness=1.0749
+[EA] ✅ 个体 d23d56cb (gen0_strategy_guided): 耗时=4.30us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9349x, Fitness=0.9349
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0749 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10630 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11010 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11010 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10850 chars
+[LLM] [Call #08] ✅ Complete | Tokens=3978 (p:2657, c:1321) | Time=18.23s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6259 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4150 (p:2752, c:1398) | Time=19.18s
+[LLM] [Call #09] ✅ Complete | Tokens=4150 (p:2752, c:1398) | Time=19.19s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6623 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4124 (p:2712, c:1412) | Time=19.31s
+[LLM] [Call #12] ✅ Complete | Tokens=2896 (p:1564, c:1332) | Time=12.46s
+[LLM] [Call #13] ✅ Complete | Tokens=2977 (p:1655, c:1322) | Time=12.01s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4033 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_zo29wvxz/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.44us
+       └─ Raw speedup: 0.1686
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1686
+       └─ Fitness score: 0.1686 (max 2.0)
+       └─ Competition score: 16.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3886 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_k8o52fmp/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.00us
+       └─ Raw speedup: 0.0050
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0050
+       └─ Fitness score: 0.0050 (max 2.0)
+       └─ Competition score: 0.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3689 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_wndzvuyl/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.08us
+       └─ Raw speedup: -0.0147
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3673 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_bmm3tc4c/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.30us
+       └─ Raw speedup: -0.0651
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 2e1979b9 (crossover): 耗时=3.44us, 相对基线加速比=0.1686x, 相对Seed加速比=1.1686x, Fitness=1.1686
+[EA] ✅ 个体 dff2b3c0 (crossover): 耗时=4.00us, 相对基线加速比=0.0050x, 相对Seed加速比=1.0050x, Fitness=1.0050
+[EA] ✅ 个体 25a2f8f6 (mutation): 耗时=4.08us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9853x, Fitness=0.9853
+[EA] ✅ 个体 8335458d (mutation): 耗时=4.30us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9349x, Fitness=0.9349
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1686
+[EA] Gen 1 Summary: Best=1.1686, Avg=1.0289
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6970 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11014 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11014 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11230 chars
+[LLM] [Call #14] ✅ Complete | Tokens=3064 (p:1742, c:1322) | Time=13.64s
+[LLM] [Call #15] ✅ Complete | Tokens=4151 (p:2753, c:1398) | Time=14.39s
+[LLM] [Call #16] ✅ Complete | Tokens=4151 (p:2753, c:1398) | Time=14.39s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6630 chars
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6623 chars
+[LLM] [Call #17] ✅ Complete | Tokens=4296 (p:2807, c:1489) | Time=15.53s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6843 chars
+[LLM] [Call #19] ✅ Complete | Tokens=2981 (p:1655, c:1326) | Time=13.63s
+[LLM] [Call #18] ✅ Complete | Tokens=3055 (p:1657, c:1398) | Time=14.28s
+[LLM] [Call #20] ✅ Complete | Tokens=3219 (p:1710, c:1509) | Time=14.75s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3670 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_3vyb34i1/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.32us
+       └─ Raw speedup: -0.0694
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3698 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_z1i7n23y/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.80us
+       └─ Raw speedup: 0.0579
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0579
+       └─ Fitness score: 0.0579 (max 2.0)
+       └─ Competition score: 5.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4030 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_gyisjsgh/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.66us
+       └─ Raw speedup: 0.0984
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0984
+       └─ Fitness score: 0.0984 (max 2.0)
+       └─ Competition score: 9.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4307 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_12q7ikxy/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.02us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 07587c2a (mutation): 耗时=4.32us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9306x, Fitness=0.9306
+[EA] ✅ 个体 a1116128 (mutation): 耗时=3.80us, 相对基线加速比=0.0579x, 相对Seed加速比=1.0579x, Fitness=1.0579
+[EA] ✅ 个体 6c0439c4 (mutation): 耗时=3.66us, 相对基线加速比=0.0984x, 相对Seed加速比=1.0984x, Fitness=1.0984
+[EA] ✅ 个体 4d20b2c2 (mutation): 耗时=4.02us, 相对基线加速比=0.0000x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] Gen 2 Summary: Best=1.1686, Avg=1.0550
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1686
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4033 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_d1r0bsdx/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.86us
+       └─ Raw speedup: 0.0415
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0415
+       └─ Fitness score: 0.0415 (max 2.0)
+       └─ Competition score: 4.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4033 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_k2exciy6/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.10us
+       └─ Raw speedup: -0.0195
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4033 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0__bkjz9lb/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.48us
+       └─ Raw speedup: 0.1552
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1552
+       └─ Fitness score: 0.1552 (max 2.0)
+       └─ Competition score: 15.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4033 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_zgp7whs9/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.68us
+       └─ Raw speedup: 0.0924
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0924
+       └─ Fitness score: 0.0924 (max 2.0)
+       └─ Competition score: 9.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4033 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_5vciyq1g/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.84us
+       └─ Raw speedup: 0.0469
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0469
+       └─ Fitness score: 0.0469 (max 2.0)
+       └─ Competition score: 4.7/200 points
+  完成: 3.840077 us  S=1.0468751017232207  用时 350.3s
+
+=== [paper_full] seed 3/3 算子 1/1: fused_qkvzba_split_reshape_cat_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 4.0201 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: fused_qkvzba_split_reshape_cat_kernel
+       └─ Working directory: /workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel
+       └─ Reference baseline: 4.02us
+       └─ Test file: /workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/test_fused_qkvzba_split_reshape_cat_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7846.64it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3693 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_tg0fv307/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.08us
+       └─ Raw speedup: -0.0147
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4407 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0__n2xzqja/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.54us
+       └─ Raw speedup: -0.1145
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 54.27% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 0020153a, 基准耗时: 4.02us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=4.02 us | 当前耗时=4.08 us (相对基线:-1.47% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=32
+- 管线利用率: Vector=0.4%, Scalar=61.7%, MTE2(读)=18.6%, MTE3(写)=21.7%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (61.7%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5098 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1326 (p:1273, c:53) | Time=0.91s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 二维Grid(bs×num_heads_qk), 每program独立处理单head, 标量地址计算主导(Scalar=61.7%), 连续轴访存(tl.arange)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维Grid(bs×num_heads_qk), 每program独立处理单head, 标量地址计算主导(Scalar=61.7%), 连续轴访存(tl.arange)'
+[✅ RAG Positive] ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_INDEPENDENT_AXIS_PACKING, ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维Grid(bs×num_heads_qk), 每program独立处理单head, 标量地址计算主导(Scalar=61.7%), 连续轴访存(tl.arange)
+
+【高置信候选优化动作】
+
+[P1] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P2] ACTION_INDEPENDENT_AXIS_PACKING
+#### ⚛️ `ACTION_INDEPENDENT_AXIS_PACKING`：独立 Head / Row / Group 向量化打包
+
+* **检索锚点**：Head独立规约, Row独立规约, Group独立规约, 单head program过小, Token/Group/Head打包, 二维grid, 可共享另一维arange。
+* **Profiling 锚点**：launch-bound 或 MTE 共享参数重复读取。
+* **结构判据**：head/row/group 间逻辑独立且 store 地址不冲突，每个独立域单独 program 太轻。
+* **优化动作**：增加 `BLOCK_H/BLOCK_M/GROUPS_PER_BLOCK`，把独立轴加入向量维，一次 program 同时处理多个独立域。
+* **必须前提**：二维寄存器 tensor 可控；不混合独立规约域；局部域 mask 正确；wrapper launch contract 可证明。
+* **禁用条件**：打包导致 tile 面积爆炸；不同域存在依赖/原子冲突；使用全局 flatten mask 误覆盖下一个逻辑域。
+* **正式平台证据**：`_correct_attn_cp_out_kernel` 正式 `avg=1.79`。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_TILE_AREA_BUDGET`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：A。
+
+[P3] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G4] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=12944 chars
+[LLM] [Call #02] ✅ Complete | Tokens=4137 (p:3235, c:902) | Time=8.31s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: Strategy-A: Scalar地址计算消除
+   ├─ 瓶颈诊断: 瓶颈: Scalar=61.7%, 每program独立处理单head, 大量重复stride乘法
+   └─ 实施动作: 实施动作: ACTION_CONTIGUOUS_INNER_STRIDE_STRIP; 将`base_ptr = mixed_qkvz + i_bs * NUM_HEADS_QK * QKVZ_DIM_T + i_qk * QKVZ_DIM_T`改为`base_ptr = mixed_qkvz + i_bs * (NUM_HEADS_QK * QKVZ_DIM_T) + i_qk * QKVZ_DIM_T`并证明`QKVZ_DIM_T`为编译期常量; 所有`tl.arange`基地址直接使用`base_ptr + offset`而非动态stride乘法; 前提: wrapper传入的`NUM_HEADS_QK`等为constexpr, stride连续性由shape证明; 禁用: 非constexpr维度或动态stride无法证明时保留原写法
+
+  策略 [2]: Strategy-B: 独立Head打包规约
+   ├─ 瓶颈诊断: 瓶颈: 二维grid(bs×num_heads_qk)导致海量微小program, Scalar启动开销高
+   └─ 实施动作: 实施动作: ACTION_INDEPENDENT_AXIS_PACKING; 将grid改为`(batch * seq_len,)`, 单program内循环处理`BLOCK_HEADS=4`个连续head; 使用`tl.arange(0, BLOCK_HEADS * HEAD_QK)`一次加载多个head的Q/K/V/Z, 通过`tl.reshape`分离各head数据; 前提: `num_heads_qk % BLOCK_HEADS == 0`或尾部正确mask; 禁用: 跨head依赖、寄存器压力超限、未证明store地址不冲突
+
+  策略 [3]: Strategy-C: 连续Row多Group打包
+   ├─ 瓶颈诊断: 瓶颈: 单program仅处理单head, Vector=0.4%极低, 计算密度不足
+   └─ 实施动作: 实施动作: ACTION_GROUP_PACK_RESHAPE_REDUCE; 将grid改为`(batch * seq_len // BLOCK_BS, num_heads_qk)`, 单program处理`BLOCK_BS=4`个连续batch; 使用`tl.arange(0, BLOCK_BS * HEAD_QK)`连续加载, 通过`tl.view((BLOCK_BS, HEAD_QK))`分离各batch; 前提: `batch % BLOCK_BS == 0`或尾部mask; 禁用: 跨batch混合规约、使用3D tl.view、固定K导致occupancy下降
+
+  策略 [4]: Strategy-D: 输出布局融合写回
+   ├─ 瓶颈诊断: 瓶颈: 5次独立store操作(3次mixed_qkv+1次z+2次ba), MTE3写=21.7%但分散
+   └─ 实施动作: 实施动作: 将`mixed_qkv`、`z`、`b`、`a`的store合并为单次连续store; 预分配连续输出tensor`out` shape为`(batch, num_heads_qk, QKVZ_DIM_T + BA_DIM_T)`, 单program加载`mixed_qkvz`和`mixed_ba`后, 按布局重组数据并一次`tl.store(out_ptr + tl.arange(0, total_dim), combined_vals)`; 前提: 输出shape可证明连续且无依赖; 禁用: 改变输出接口、未证明store覆盖完整、引入3D view
+
+  策略 [5]: Strategy-E: 编译期常量折叠与mask简化
+   ├─ 瓶颈诊断: 瓶颈: Scalar=61.7%含大量动态边界检查, 但所有维度均为constexpr
+   └─ 实施动作: 实施动作: 将`q_end: tl.constexpr = HEAD_QK`等边界全部声明为constexpr; 删除所有`tl.arange`的mask参数(因`HEAD_QK`等为2的幂且整除); 将`NUM_HEADS_V_PER_QK`的除法替换为`>>`移位(证明为2的幂); 前提: 所有shape为constexpr且2的幂; 禁用: 非2的幂除法、未证明整除、隐藏testcase中shape非2的幂时保留mask
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12135 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12031 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12044 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12045 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11970 chars
+[LLM] [Call #07] ✅ Complete | Tokens=4313 (p:2992, c:1321) | Time=24.09s
+[LLM] [Call #03] ✅ Complete | Tokens=4502 (p:3033, c:1469) | Time=25.65s
+[LLM] [Call #05] ✅ Complete | Tokens=4582 (p:3011, c:1571) | Time=26.68s
+[LLM] [Call #04] ✅ Complete | Tokens=4638 (p:3007, c:1631) | Time=27.24s
+[LLM] [Call #06] ✅ Complete | Tokens=4745 (p:3011, c:1734) | Time=28.13s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3669 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_la5x8tu0/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.62us
+       └─ Raw speedup: 0.1105
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1105
+       └─ Fitness score: 0.1105 (max 2.0)
+       └─ Competition score: 11.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3978 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_nd8dhto2/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.90us
+       └─ Raw speedup: 0.0308
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0308
+       └─ Fitness score: 0.0308 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4292 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_l52vhm7o/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4697 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_9zavtmba/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 2.84us
+       └─ Raw speedup: 0.4155
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4155
+       └─ Fitness score: 0.4155 (max 2.0)
+       └─ Competition score: 41.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4925 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_freyb7pa/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 a3124516 (gen0_strategy_guided): 耗时=3.62us, 相对基线加速比=0.1105x, 相对Seed加速比=1.1105x, Fitness=1.1105
+[EA] ✅ 个体 bd14731f (gen0_strategy_guided): 耗时=3.90us, 相对基线加速比=0.0308x, 相对Seed加速比=1.0308x, Fitness=1.0308
+[EA] ❌ 个体 25305d4b (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 49dcb301 (gen0_strategy_guided): 耗时=2.84us, 相对基线加速比=0.4155x, 相对Seed加速比=1.4155x, Fitness=1.4155
+[EA] ❌ 个体 f7cabc34 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.4155 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10708 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11440 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11703 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11703 chars
+[LLM] [Call #09] ✅ Complete | Tokens=4181 (p:2860, c:1321) | Time=14.23s
+[LLM] [Call #08] ✅ Complete | Tokens=3998 (p:2677, c:1321) | Time=14.25s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6266 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4548 (p:2925, c:1623) | Time=17.30s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7237 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4548 (p:2925, c:1623) | Time=17.31s
+[LLM] [Call #12] ✅ Complete | Tokens=2887 (p:1566, c:1321) | Time=12.51s
+[LLM] [Call #13] ✅ Complete | Tokens=3446 (p:1809, c:1637) | Time=14.67s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3666 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0__g1vrg1s/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.86us
+       └─ Raw speedup: 0.0415
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0415
+       └─ Fitness score: 0.0415 (max 2.0)
+       └─ Competition score: 4.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4647 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_e62xlhyk/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.00us
+       └─ Raw speedup: 0.3400
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3400
+       └─ Fitness score: 0.3400 (max 2.0)
+       └─ Competition score: 34.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3666 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_x_5jaozt/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.12us
+       └─ Raw speedup: -0.0243
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4710 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_abhxhph6/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 4.46us
+       └─ Raw speedup: -0.0987
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 c567bde7 (crossover): 耗时=3.86us, 相对基线加速比=0.0415x, 相对Seed加速比=1.0415x, Fitness=1.0415
+[EA] ✅ 个体 8850af3c (crossover): 耗时=3.00us, 相对基线加速比=0.3400x, 相对Seed加速比=1.3400x, Fitness=1.3400
+[EA] ✅ 个体 44f9ef0f (mutation): 耗时=4.12us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9757x, Fitness=0.9757
+[EA] ✅ 个体 7c37419e (mutation): 耗时=4.46us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9013x, Fitness=0.9013
+[EA] Gen 1 Summary: Best=1.4155, Avg=1.1308
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11625 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11625 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12682 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11765 chars
+[LLM] [Call #17] ✅ Complete | Tokens=4262 (p:2941, c:1321) | Time=14.09s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6259 chars
+[LLM] [Call #15] ✅ Complete | Tokens=4529 (p:2906, c:1623) | Time=17.23s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7244 chars
+[LLM] [Call #14] ✅ Complete | Tokens=4529 (p:2906, c:1623) | Time=17.25s
+[LLM] [Call #16] ✅ Complete | Tokens=4807 (p:3170, c:1637) | Time=17.39s
+[LLM] [Call #18] ✅ Complete | Tokens=2896 (p:1564, c:1332) | Time=12.74s
+[LLM] [Call #19] ✅ Complete | Tokens=3434 (p:1811, c:1623) | Time=14.51s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4647 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_w4zzo5nh/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 2.88us
+       └─ Raw speedup: 0.3958
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3958
+       └─ Fitness score: 0.3958 (max 2.0)
+       └─ Competition score: 39.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_jb1c1aow/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.98us
+       └─ Raw speedup: 0.0101
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0101
+       └─ Fitness score: 0.0101 (max 2.0)
+       └─ Competition score: 1.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3694 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_ou_s7q09/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 3.92us
+       └─ Raw speedup: 0.0255
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0255
+       └─ Fitness score: 0.0255 (max 2.0)
+       └─ Competition score: 2.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4644 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_54wxq2tw/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 2.86us
+       └─ Raw speedup: 0.4056
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4056
+       └─ Fitness score: 0.4056 (max 2.0)
+       └─ Competition score: 40.6/200 points
+[EA] ✅ 个体 580164ca (crossover): 耗时=2.88us, 相对基线加速比=0.3958x, 相对Seed加速比=1.3958x, Fitness=1.3958
+[EA] ✅ 个体 502f469d (crossover): 耗时=3.98us, 相对基线加速比=0.0101x, 相对Seed加速比=1.0101x, Fitness=1.0101
+[EA] ✅ 个体 0dbf1be3 (mutation): 耗时=3.92us, 相对基线加速比=0.0255x, 相对Seed加速比=1.0255x, Fitness=1.0255
+[EA] ✅ 个体 f0dc0acc (mutation): 耗时=2.86us, 相对基线加速比=0.4056x, 相对Seed加速比=1.4056x, Fitness=1.4056
+[EA] Gen 2 Summary: Best=1.4155, Avg=1.2654
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.4155
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4697 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_q9s2unaa/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 2.94us
+       └─ Raw speedup: 0.3673
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3673
+       └─ Fitness score: 0.3673 (max 2.0)
+       └─ Competition score: 36.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4697 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_jv1j6m50/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 2.76us
+       └─ Raw speedup: 0.4565
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4565
+       └─ Fitness score: 0.4565 (max 2.0)
+       └─ Competition score: 45.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4697 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_trzr0kaw/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 2.94us
+       └─ Raw speedup: 0.3673
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3673
+       └─ Fitness score: 0.3673 (max 2.0)
+       └─ Competition score: 36.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4697 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_ldylm4cs/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 2.82us
+       └─ Raw speedup: 0.4255
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4255
+       └─ Fitness score: 0.4255 (max 2.0)
+       └─ Competition score: 42.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4697 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/fused_qkvzba_split_reshape_cat_kernel/performance/fused_qkvzba_split_reshape_cat_kernel_dev_0/fused_qkvzba_split_reshape_cat_kernel --application="/usr/local/python3.11.15/bin/python /tmp/fused_qkvzba_split_reshape_cat_kernel_dev_0_apfhpbsh/test_fused_qkvzba_split_reshape_cat_kernel.py" --kernel-name="fused_qkvzba_split_reshape_cat_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 4.02us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: 0.4672
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4672
+       └─ Fitness score: 0.4672 (max 2.0)
+       └─ Competition score: 46.7/200 points
+  完成: 2.820056 us  S=1.4255323298544427  用时 347.5s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.36 小时
+============================================================

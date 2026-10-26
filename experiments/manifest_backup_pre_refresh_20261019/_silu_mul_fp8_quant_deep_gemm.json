@@ -1,0 +1,23 @@
+{
+  "kernel": "_silu_mul_fp8_quant_deep_gemm",
+  "t_base_us": 3.320066,
+  "t_seed_us": 3.320066,
+  "seed_similarity": 0.989441416893733,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "_silu_mul_fp8_quant_deep_gemm.py": {
+      "path": "/workspace/Agent/datasets2/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm.py",
+      "latency_us": 3.320066,
+      "success": true,
+      "error": null
+    },
+    "_silu_mul_fp8_quant_deep_gemm_1.py": {
+      "path": "/workspace/Agent/datasets2/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm_1.py",
+      "latency_us": 3.320066,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-09-26T11:21:07"
+}

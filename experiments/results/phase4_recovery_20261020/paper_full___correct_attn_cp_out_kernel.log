@@ -1,0 +1,18 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: _correct_attn_cp_out_kernel ===
+  [复用] 已有结果 _correct_attn_cp_out_kernel__r11.json
+  完成: 4.220084 us  S=1.6777253722911678  用时 412.8s
+
+=== [paper_full] seed 2/3 算子 1/1: _correct_attn_cp_out_kernel ===
+  [复用] 已有结果 _correct_attn_cp_out_kernel__r12.json
+  完成: 5.120102 us  S=1.3828126861535182  用时 427.8s
+
+=== [paper_full] seed 3/3 算子 1/1: _correct_attn_cp_out_kernel ===
+  [复用] 已有结果 _correct_attn_cp_out_kernel__r13.json
+  完成: 4.080081 us  S=1.7352944708695737  用时 384.1s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

@@ -1,0 +1,1462 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: rwkv_mm_sparsity_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 10.4202 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: rwkv_mm_sparsity_kernel
+       └─ Working directory: /workspace/Agent/datasets2/rwkv_mm_sparsity_kernel
+       └─ Reference baseline: 10.54us
+       └─ Test file: /workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/test_rwkv_mm_sparsity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7249.34it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1616 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_qvgbs27s/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 10.74us
+       └─ Raw speedup: -0.0186
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2538 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_957593uj/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 10.88us
+       └─ Raw speedup: -0.0313
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 56.91% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: a8185656, 基准耗时: 10.42us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=10.54 us | 当前耗时=10.74 us (相对基线:-1.86% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=32
+- 管线利用率: Vector=39.8%, Scalar=18.4%, MTE2(读)=54.5%, MTE3(写)=2.3%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE2 读访存 (54.5%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=126.70 GB/s, 向量写=89.79 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3095 chars
+[LLM] [Call #01] ✅ Complete | Tokens=802 (p:773, c:29) | Time=0.92s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,一维Grid,program内循环,MTE2读访存主导,重复metadata load'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid, program内循环, MTE2读访存主导, 重复metadata load'
+[✅ RAG Positive] ACTION_INVARIANT_LOAD_HOIST, ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS, ACTION_PREFIX_METADATA_PRECOMPUTE
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_DTYPE_VIEW_STRIDE
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid, program内循环, MTE2读访存主导, 重复metadata load
+
+【高置信候选优化动作】
+
+[P1] ACTION_INVARIANT_LOAD_HOIST
+#### ⚛️ `ACTION_INVARIANT_LOAD_HOIST`：公共 Weight / Scale / Metadata 片上复用
+
+* **检索锚点**：不变量加载, weight重复加载, scale重复加载, 循环内公共参数load, 持久化多行循环, MTE2读访存占比高。
+* **Profiling 锚点**：MTE2 读访存主瓶颈。
+* **结构判据**：循环/多行处理中某个 vector/scalar 参数与迭代行无关，却每次从 global memory 重读。
+* **优化动作**：进入循环前 load 一次并寄存器复用；必要时配合少量 row packing 摊薄 load。
+* **必须前提**：公共参数片上驻留成本可控。
+* **禁用条件**：参数本身随迭代变化；预加载过大导致 spilling。
+* **正式平台证据**：RMSNorm 的 weight hoist + 多 rows/program 出现在正式 2x 方案。
+* **可信度**：A（组合证据）。
+
+[P2] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+[P3] ACTION_PREFIX_METADATA_PRECOMPUTE
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_DTYPE_VIEW_STRIDE
+#### ⚛️ `ACTION_GUARD_DTYPE_VIEW_STRIDE`：不同 dtype / subview 的 stride 不可复用
+
+* **检索锚点**：多dtype view, fp8/fp32/bf16混合, 动态stride, subview, scale区域, rope区域, 地址偏移。
+* **核心规则**：stride 单位是当前 view 的“元素”；dtype/view 改变后必须分别获取并传递 `.stride()`。来自同一底层 tensor 不代表不同 view 的元素 stride 相同。
+* **严禁模式**：使用 q-view 的 `stride_0` 构造 fp32 scale view 或 bf16 rope view 的 row offset。
+* **正式失败证据**：`_dequantize_k_cache_fast_kernel_v3` 将 q view 的行 stride 复用于 fp32 scale / bf16 rope，三个 testcase 全部 accuracy fail。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=8826 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2968 (p:2205, c:763) | Time=7.46s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略一：不变量加载提升 + 循环分块合并**
+   ├─ 瓶颈诊断: MTE2读访存54.5%主瓶颈，k_ptr在循环内重复加载
+   └─ 实施动作: 将`k = tl.load(k_ptr + k_offset, mask=k_mask, other=0.0)`提升到循环外，改为`k = tl.load(k_ptr + tl.arange(0, k_size), mask=tl.arange(0, k_size) < k_size, other=0.0)`一次性加载整个k向量；循环内直接索引`k[i * blk_size + tl.arange(0, blk_size)]`；同时将`blk_size`从512增大到1024减少循环次数
+
+  策略 [2]: **策略二：网格收拢微小程序**
+   ├─ 瓶颈诊断: 当前grid=(cdiv(v_cols,16))产生大量微小program，每个仅处理16列，MTE2读访存重复
+   └─ 实施动作: 将`block_size`从16增大到64，grid变为(cdiv(v_cols,64))；循环内`col_idx = pid * block_size + tl.arange(0, block_size)`改为`col_idx = pid * 64 + tl.arange(0, 64)`；对应调整`col_mask`和`v_ptr_block`计算
+
+  策略 [3]: **策略三：元数据预计算 + 循环展开**
+   ├─ 瓶颈诊断: Scalar标量18.4%伴随MTE2读访存，`tl.cdiv(k_size, blk_size)`循环边界重复计算
+   └─ 实施动作: 在wrapper中预计算`num_blks = triton.cdiv(k_size, blk_size)`作为constexpr传入kernel；循环改为`for i in range(0, num_blks, 2):`展开2次迭代，每次加载2个blk的k和v数据，减少循环控制开销
+
+  策略 [4]: **策略四：数据布局转置 + 连续访存优化**
+   ├─ 瓶颈诊断: MTE2读访存54.5%因v_ptr_block非连续访问（stride=v_cols），向量读126.70GB/s未达峰值
+   └─ 实施动作: 将v矩阵转置为v_T（shape v_cols×k_size），kernel改为按行连续加载v_T；`v_ptr_block = v_T_ptr + col_idx[:, None] * k_size + k_offset[None, :]`实现连续访存；对应调整`tl.sum`轴为axis=1
+
+  策略 [5]: **策略五：持久化多行处理 + 寄存器复用**
+   ├─ 瓶颈诊断: 当前单program仅处理1行（col_idx），MTE2读访存重复加载k向量
+   └─ 实施动作: 每个program处理4行（col_idx = pid*4*block_size + tl.arange(0, block_size)），循环内一次性加载k向量并复用；`acc`扩展为(4, block_size)矩阵；`v_ptr_block`计算增加行维度；最终`tl.store`分4次写入
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9452 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9406 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9369 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9384 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9380 chars
+[LLM] [Call #04] ✅ Complete | Tokens=2898 (p:2351, c:547) | Time=12.14s
+[LLM] [Call #06] ✅ Complete | Tokens=2895 (p:2346, c:549) | Time=12.17s
+[LLM] [Call #03] ✅ Complete | Tokens=2929 (p:2363, c:566) | Time=12.36s
+[LLM] [Call #07] ✅ Complete | Tokens=3043 (p:2345, c:698) | Time=13.40s
+[LLM] [Call #05] ✅ Complete | Tokens=3167 (p:2342, c:825) | Time=14.47s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1666 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_9yanfilt/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1649 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_kjfkeg4v/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.42us
+       └─ Raw speedup: 0.9446
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9446
+       └─ Fitness score: 0.9446 (max 2.0)
+       └─ Competition score: 94.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1711 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_n17eimqn/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2261 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_gum2bvwe/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2479 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_huf1dftv/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 11.16us
+       └─ Raw speedup: -0.0556
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 ed78b809 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 3a78d1d7 (gen0_strategy_guided): 耗时=5.42us, 相对基线加速比=0.9446x, 相对Seed加速比=1.9225x, Fitness=1.9225
+[EA] ❌ 个体 1fb52723 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 6e8a8f89 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 b06a9da3 (gen0_strategy_guided): 耗时=11.16us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9337x, Fitness=0.9337
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.9225 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7364 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6412 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8347 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7472 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2169 (p:1603, c:566) | Time=7.01s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4307 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2856 (p:2086, c:770) | Time=8.98s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4888 chars
+[LLM] [Call #08] ✅ Complete | Tokens=2635 (p:1841, c:794) | Time=9.29s
+[LLM] [Call #11] ✅ Complete | Tokens=2692 (p:1868, c:824) | Time=9.67s
+[LLM] [Call #12] ✅ Complete | Tokens=1642 (p:1076, c:566) | Time=5.75s
+[LLM] [Call #13] ✅ Complete | Tokens=2007 (p:1222, c:785) | Time=7.24s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2346 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_w1s27j5w/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 10.62us
+       └─ Raw speedup: -0.0075
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_ik3kiek7/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.38us
+       └─ Raw speedup: 0.9591
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9591
+       └─ Fitness score: 0.9591 (max 2.0)
+       └─ Competition score: 95.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1709 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_ze2lfm9j/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2317 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0__d9msbmd/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 15.12us
+       └─ Raw speedup: -0.3029
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 e2f27dad (crossover): 耗时=10.62us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9812x, Fitness=0.9812
+[EA] ✅ 个体 72129a62 (crossover): 耗时=5.38us, 相对基线加速比=0.9591x, 相对Seed加速比=1.9368x, Fitness=1.9368
+[EA] ❌ 个体 09a9954d (mutation): 评估失败, Fitness=0
+[EA] ✅ 个体 c505f18b (mutation): 耗时=15.12us, 相对基线加速比=0.0000x, 相对Seed加速比=0.6892x, Fitness=0.6892
+[EA] 🎉 找到更优版本! New Best Fitness: 1.9368
+[EA] Gen 1 Summary: Best=1.9368, Avg=1.0883
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6732 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5444 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7472 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7590 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2232 (p:1683, c:549) | Time=6.18s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4261 chars
+[LLM] [Call #17] ✅ Complete | Tokens=2721 (p:1897, c:824) | Time=8.96s
+[LLM] [Call #15] ✅ Complete | Tokens=2185 (p:1361, c:824) | Time=8.98s
+[LLM] [Call #16] ✅ Complete | Tokens=2692 (p:1868, c:824) | Time=8.98s
+[LLM] [Call #18] ✅ Complete | Tokens=1629 (p:1065, c:564) | Time=5.40s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_xr7ax8_5/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.38us
+       └─ Raw speedup: 0.9591
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9591
+       └─ Fitness score: 0.9591 (max 2.0)
+       └─ Competition score: 95.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_h_txrwxt/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_105vq3b8/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.82us
+       └─ Raw speedup: 0.8110
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8110
+       └─ Fitness score: 0.8110 (max 2.0)
+       └─ Competition score: 81.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1690 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_ivlesns_/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.56us
+       └─ Raw speedup: 0.8957
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8957
+       └─ Fitness score: 0.8957 (max 2.0)
+       └─ Competition score: 89.6/200 points
+[EA] ✅ 个体 4374b09e (crossover): 耗时=5.38us, 相对基线加速比=0.9591x, 相对Seed加速比=1.9368x, Fitness=1.9368
+[EA] ❌ 个体 62077a75 (mutation): 评估失败, Fitness=0
+[EA] ✅ 个体 9a5f884d (crossover): 耗时=5.82us, 相对基线加速比=0.8110x, 相对Seed加速比=1.7904x, Fitness=1.7904
+[EA] ✅ 个体 378bac59 (mutation): 耗时=5.56us, 相对基线加速比=0.8957x, 相对Seed加速比=1.8741x, Fitness=1.8741
+[EA] Gen 2 Summary: Best=1.9368, Avg=1.5768
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.9368
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_4p8tgs35/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.46us
+       └─ Raw speedup: 0.9304
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9304
+       └─ Fitness score: 0.9304 (max 2.0)
+       └─ Competition score: 93.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_03enfe5m/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.48us
+       └─ Raw speedup: 0.9234
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9234
+       └─ Fitness score: 0.9234 (max 2.0)
+       └─ Competition score: 92.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_f294eyzd/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.48us
+       └─ Raw speedup: 0.9234
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9234
+       └─ Fitness score: 0.9234 (max 2.0)
+       └─ Competition score: 92.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_q0_5_yj_/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.72us
+       └─ Raw speedup: 0.8427
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8427
+       └─ Fitness score: 0.8427 (max 2.0)
+       └─ Competition score: 84.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2399 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_y5ct811h/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.42us
+       └─ Raw speedup: 0.9446
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9446
+       └─ Fitness score: 0.9446 (max 2.0)
+       └─ Competition score: 94.5/200 points
+  完成: 5.48011 us  S=1.923357560340942  用时 332.7s
+
+=== [paper_full] seed 2/3 算子 1/1: rwkv_mm_sparsity_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 10.4202 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: rwkv_mm_sparsity_kernel
+       └─ Working directory: /workspace/Agent/datasets2/rwkv_mm_sparsity_kernel
+       └─ Reference baseline: 10.54us
+       └─ Test file: /workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/test_rwkv_mm_sparsity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7688.42it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1616 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_safaf9ke/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 10.90us
+       └─ Raw speedup: -0.0330
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2538 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_1xifm3j2/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 11.04us
+       └─ Raw speedup: -0.0453
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 56.91% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 22f23739, 基准耗时: 10.42us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=10.54 us | 当前耗时=10.90 us (相对基线:-3.30% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=32
+- 管线利用率: Vector=39.1%, Scalar=17.4%, MTE2(读)=56.8%, MTE3(写)=2.0%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE2 读访存 (56.8%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=124.34 GB/s, 向量写=88.11 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3095 chars
+[LLM] [Call #01] ✅ Complete | Tokens=826 (p:773, c:53) | Time=0.87s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,一维Grid每列独立program,program内循环tl.cdiv(k_size,blk_size)次,MTE2读访存56.8%主瓶颈,向量读124.34GB/s'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每列独立program, program内循环tl.cdiv(k_size, blk_size)次, MTE2读访存56.8%主瓶颈, 向量读124.34GB/s'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每列独立program, program内循环tl.cdiv(k_size, blk_size)次, MTE2读访存56.8%主瓶颈, 向量读124.34GB/s
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5882 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2328 (p:1469, c:859) | Time=7.65s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Grid收拢与MTE2读合并**
+   ├─ 瓶颈诊断: MTE2读访存56.8%主瓶颈，向量读124.34GB/s，单program循环tl.cdiv(k_size, blk_size)次
+   └─ 实施动作: 将grid从(v_cols/block_size)收拢为(v_cols/(block_size*4))，每个program处理4个col_idx块，循环内合并4路v_ptr_block加载为连续大块：`v_ptr_block = v_ptr + k_offset[:, None] * v_cols + (col_idx_base + tl.arange(0, block_size*4))[None, :]`，`v = tl.load(v_ptr_block, mask=k_mask[:, None] & (col_idx_base + tl.arange(0, block_size*4))[None, :] < v_cols & k_nonzero_mask[:, None], other=0.0)`，`acc = tl.sum(k[:, None].to(tl.float32) * v.to(tl.float32), axis=0).reshape(4, block_size)`，前提：v_cols能被block_size*4整除或保留mask，block_size=16时寄存器压力可控
+
+  策略 [2]: **循环不变量外提与片上复用**
+   ├─ 瓶颈诊断: 循环内k_ptr加载每次迭代重复，MTE2读56.8%
+   └─ 实施动作: 将k_ptr的加载外提至循环前：`k_full = tl.load(k_ptr + tl.arange(0, k_size), mask=tl.arange(0, k_size) < k_size, other=0.0)`，循环内直接索引`k = k_full[i * blk_size + tl.arange(0, blk_size)]`，前提：k_size <= 2048（UB容量约256KB，float32每元素4B，k_size=2048时8KB），否则保留原循环内加载
+
+  策略 [3]: **Mask优化与连续性证明**
+   ├─ 瓶颈诊断: 当前mask包含k_nonzero_mask[:, None]导致非连续加载，MTE2利用率低
+   └─ 实施动作: 删除k_nonzero_mask条件，改为循环内先判断k非零再跳过整个迭代：`k = tl.load(k_ptr + k_offset, mask=k_mask, other=0.0)`，`if tl.sum(k != 0) > 0:`，前提：k稀疏度>50%时收益明显，否则保留原mask；同时证明col_idx步长为block_size且v_cols为block_size倍数时删除col_mask，`tl.store(out_ptr, acc)`无mask
+
+  策略 [4]: **数据布局转置与连续访存**
+   ├─ 瓶颈诊断: v_ptr_block加载为stride v_cols的非连续访问，MTE2读56.8%
+   └─ 实施动作: 将v矩阵转置为v_T (v_cols, k_size)，kernel改为按k维度连续加载：`v_T_ptr_block = v_T_ptr + col_idx[:, None] * k_size + k_offset[None, :]`，`v = tl.load(v_T_ptr_block, mask=col_mask[:, None] & k_mask[None, :] & k_nonzero_mask[None, :], other=0.0)`，`acc += tl.sum(k[None, :].to(tl.float32) * v.to(tl.float32), axis=1)`，前提：外部调用处v可转置或预转置，v_cols*k_size内存翻倍但访存连续
+
+  策略 [5]: **持久化kernel与流水线预取**
+   ├─ 瓶颈诊断: MTE2读56.8%但Vector仅39.1%，存在计算与访存重叠空间
+   └─ 实施动作: 改为持久化kernel：grid=num_sms，每个program循环处理多个col_idx块，使用tl.atomic_add输出；循环内双缓冲预取：`v_next = tl.load(v_ptr_block_next, mask=..., other=0.0)`与`acc += tl.sum(...)`重叠，前提：v_cols > num_sms*block_size*4，否则回退原grid方案；需证明无写冲突（每个col_idx唯一输出）
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6734 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6431 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6442 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6543 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6426 chars
+[LLM] [Call #05] ✅ Complete | Tokens=2148 (p:1610, c:538) | Time=7.13s
+[LLM] [Call #03] ✅ Complete | Tokens=2232 (p:1683, c:549) | Time=7.24s
+[LLM] [Call #06] ✅ Complete | Tokens=2182 (p:1635, c:547) | Time=7.22s
+[LLM] [Call #04] ✅ Complete | Tokens=2171 (p:1607, c:564) | Time=7.38s
+[LLM] [Call #07] ✅ Complete | Tokens=2872 (p:1606, c:1266) | Time=13.68s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1660 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_7cawu9lf/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 11.68us
+       └─ Raw speedup: -0.0976
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1656 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_kqe4x5bl/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1645 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_at6kl3il/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.38us
+       └─ Raw speedup: 0.9591
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9591
+       └─ Fitness score: 0.9591 (max 2.0)
+       └─ Competition score: 95.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_e6r75gxc/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4200 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_kruyg3ng/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 11.04us
+       └─ Raw speedup: -0.0453
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 4a0c3e3b (gen0_strategy_guided): 耗时=11.68us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8921x, Fitness=0.8921
+[EA] ❌ 个体 aa38033e (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 9b7f305e (gen0_strategy_guided): 耗时=5.38us, 相对基线加速比=0.9591x, 相对Seed加速比=1.9368x, Fitness=1.9368
+[EA] ❌ 个体 de272579 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 da40db04 (gen0_strategy_guided): 耗时=11.04us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9438x, Fitness=0.9438
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.9368 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9014 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6780 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9066 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7607 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2242 (p:1695, c:547) | Time=6.27s
+[LLM] [Call #10] ✅ Complete | Tokens=2813 (p:2266, c:547) | Time=6.27s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4234 chars
+[LLM] [Call #11] ✅ Complete | Tokens=2466 (p:1901, c:565) | Time=6.62s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4327 chars
+[LLM] [Call #12] ✅ Complete | Tokens=1635 (p:1058, c:577) | Time=6.11s
+[LLM] [Call #13] ✅ Complete | Tokens=1646 (p:1081, c:565) | Time=5.83s
+[LLM] [Call #08] ✅ Complete | Tokens=3485 (p:2253, c:1232) | Time=13.16s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1645 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0__5dpxari/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.66us
+       └─ Raw speedup: 0.8622
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8622
+       └─ Fitness score: 0.8622 (max 2.0)
+       └─ Competition score: 86.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1743 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_g3cdnght/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.44us
+       └─ Raw speedup: 0.9375
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9375
+       └─ Fitness score: 0.9375 (max 2.0)
+       └─ Competition score: 93.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1738 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_3ee9uxb6/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 9.62us
+       └─ Raw speedup: 0.0956
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0956
+       └─ Fitness score: 0.0956 (max 2.0)
+       └─ Competition score: 9.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4045 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_55zmx122/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 11.70us
+       └─ Raw speedup: -0.0991
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 5cd90a9a (crossover): 耗时=5.66us, 相对基线加速比=0.8622x, 相对Seed加速比=1.8410x, Fitness=1.8410
+[EA] ✅ 个体 271124bc (mutation): 耗时=5.44us, 相对基线加速比=0.9375x, 相对Seed加速比=1.9154x, Fitness=1.9154
+[EA] ✅ 个体 d1186c25 (mutation): 耗时=9.62us, 相对基线加速比=0.0956x, 相对Seed加速比=1.0832x, Fitness=1.0832
+[EA] ✅ 个体 30353bba (crossover): 耗时=11.70us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8906x, Fitness=0.8906
+[EA] Gen 1 Summary: Best=1.9368, Avg=1.4445
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4711 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6857 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9164 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6832 chars
+[LLM] [Call #15] ✅ Complete | Tokens=2261 (p:1714, c:547) | Time=6.07s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4234 chars
+[LLM] [Call #17] ✅ Complete | Tokens=2255 (p:1708, c:547) | Time=6.08s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4234 chars
+[LLM] [Call #16] ✅ Complete | Tokens=2851 (p:2291, c:560) | Time=6.19s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4301 chars
+[LLM] [Call #14] ✅ Complete | Tokens=1754 (p:1177, c:577) | Time=6.70s
+[LLM] [Call #18] ✅ Complete | Tokens=1605 (p:1058, c:547) | Time=5.78s
+[LLM] [Call #20] ✅ Complete | Tokens=1635 (p:1075, c:560) | Time=5.77s
+[LLM] [Call #19] ✅ Complete | Tokens=1635 (p:1058, c:577) | Time=6.01s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1743 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_a2mt72n7/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.70us
+       └─ Raw speedup: 0.8491
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8491
+       └─ Fitness score: 0.8491 (max 2.0)
+       └─ Competition score: 84.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1645 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_7c4ni4mz/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.54us
+       └─ Raw speedup: 0.9025
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9025
+       └─ Fitness score: 0.9025 (max 2.0)
+       └─ Competition score: 90.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1712 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_ucjza458/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.24us
+       └─ Raw speedup: 0.6891
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.6891
+       └─ Fitness score: 0.6891 (max 2.0)
+       └─ Competition score: 68.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1743 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_6j7_dlip/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.70us
+       └─ Raw speedup: 0.8491
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8491
+       └─ Fitness score: 0.8491 (max 2.0)
+       └─ Competition score: 84.9/200 points
+[EA] ✅ 个体 43550e23 (mutation): 耗时=5.70us, 相对基线加速比=0.8491x, 相对Seed加速比=1.8281x, Fitness=1.8281
+[EA] ✅ 个体 60d96ce2 (mutation): 耗时=5.54us, 相对基线加速比=0.9025x, 相对Seed加速比=1.8809x, Fitness=1.8809
+[EA] ✅ 个体 b15d008a (mutation): 耗时=6.24us, 相对基线加速比=0.6891x, 相对Seed加速比=1.6699x, Fitness=1.6699
+[EA] ✅ 个体 1bc03130 (mutation): 耗时=5.70us, 相对基线加速比=0.8491x, 相对Seed加速比=1.8281x, Fitness=1.8281
+[EA] Gen 2 Summary: Best=1.9368, Avg=1.8432
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.9368
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1645 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_t8gl0oc4/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.46us
+       └─ Raw speedup: 0.9304
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9304
+       └─ Fitness score: 0.9304 (max 2.0)
+       └─ Competition score: 93.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1645 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_g0sj6fbp/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.58us
+       └─ Raw speedup: 0.8889
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8889
+       └─ Fitness score: 0.8889 (max 2.0)
+       └─ Competition score: 88.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1645 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_ebmkghzf/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.46us
+       └─ Raw speedup: 0.9304
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9304
+       └─ Fitness score: 0.9304 (max 2.0)
+       └─ Competition score: 93.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1645 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_b4tmkktv/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.62us
+       └─ Raw speedup: 0.8754
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8754
+       └─ Fitness score: 0.8754 (max 2.0)
+       └─ Competition score: 87.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1645 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_qw007jhc/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.42us
+       └─ Raw speedup: 0.9446
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9446
+       └─ Fitness score: 0.9446 (max 2.0)
+       └─ Competition score: 94.5/200 points
+  完成: 5.460109 us  S=1.9304030377415542  用时 348.7s
+
+=== [paper_full] seed 3/3 算子 1/1: rwkv_mm_sparsity_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 10.4202 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: rwkv_mm_sparsity_kernel
+       └─ Working directory: /workspace/Agent/datasets2/rwkv_mm_sparsity_kernel
+       └─ Reference baseline: 10.54us
+       └─ Test file: /workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/test_rwkv_mm_sparsity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8518.18it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1616 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_4h5kb_s1/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 11.06us
+       └─ Raw speedup: -0.0470
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2538 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_nl_sfzkb/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 10.66us
+       └─ Raw speedup: -0.0113
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 41.26% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: f2d73707, 基准耗时: 10.42us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=10.54 us | 当前耗时=10.66 us (相对基线:-1.13% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=8
+- 管线利用率: Vector=66.7%, Scalar=27.5%, MTE2(读)=59.1%, MTE3(写)=1.7%
+⚠️ 诊断结论: 当前主瓶颈为 [Vector 向量 (66.7%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask） | Vector 算术受限（评估倒数代除与 exp/log、exp2/log2 等价实现；必须保持 dtype、特殊值和误差要求）
+- UB吞吐: 向量读=194.74 GB/s, 向量写=119.00 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=4078 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1054 (p:1018, c:36) | Time=1.25s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 一维Grid每列独立program, program内循环, Vector主导(66.7%), 动态stride访存'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid每列独立program, program内循环, Vector主导(66.7%), 动态stride访存'
+[✅ RAG Positive] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS, ACTION_GRID_EXPAND_LONG_SERIAL_LOOP
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid每列独立program, program内循环, Vector主导(66.7%), 动态stride访存
+
+【高置信候选优化动作】
+
+[P1] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+[P2] ACTION_GRID_EXPAND_LONG_SERIAL_LOOP
+#### ⚛️ `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP`：单 Program 串行循环过长时扩展 Grid
+
+* **检索锚点**：单program长串行循环, grid覆盖维度不足, Token/Sequence串行循环, 持久化循环过长, program数量偏少, Scalar循环控制占比高。
+* **Profiling 锚点**：Scalar 比例偏高，且必须有证据证明循环真实执行多次并形成单 program latency。
+* **结构判据**：循环迭代之间独立，grid 当前没有覆盖该独立维；每个 program 内循环确实较长，而不是 `tl.cdiv(..., BLOCK)` 后实际只有一次迭代。
+* **优化动作**：在 wrapper launch contract 允许时，把独立循环维映射到已有/新增 PID，使 program 数增加，缩短单 program 串行工作。
+* **必须前提**：
+  - 必须证明实际迭代次数 > 1 且足够长。
+  - 新增 program 工作量不能小到 launch-bound。
+  - 输出映射完整唯一、无写冲突。
+  - wrapper/test 的真实 grid rank 与 axis 语义允许对应变换。
+  - 若引入 atomic/reduction，必须额外证明并行语义等价。
+* **禁用条件**：
+  - 原本就是海量微小 program。
+  - 仅因代码中出现 `for/range` 就判定为“长循环”。
+  - wrapper grid 不变却凭空使用新的 `program_id(axis)`。
+  - 通过 atomic 重构语义但未证明初始化与累计次数。
+* **正式反证据**：`moe_align_block_size_stage` 的激进并行重构在本地获得很高收益，但正式平台多个版本/多 testcase 出现系统性 runtime error；由于候选同时改变 grid/atomic/阶段结构，不能把失败单独归因于 Grid Expansion，但该案例证明此 ACTION 必须联动 Launch/Atomic/Backend Guard。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_ATOMIC_REDUCTION_EQUIVALENCE`。
+* **可信度**：C（条件性候选，等待更干净的正式独立正证据）。
+
+---
+
+## 3. 访存 / 布局 / 地址计算类
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9218 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3101 (p:2303, c:798) | Time=7.25s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A: Grid Consolidate + Vector 算术优化**
+   ├─ 瓶颈诊断: 瓶颈: Vector 66.7% 算术受限, 海量微小program (grid=8)
+   └─ 实施动作: 实施: 将grid从8合并为1, 每个program处理全部v_cols, 用循环累加col_idx; 将 `tl.where(k_nonzero_mask[:, None] & col_mask[None, :], k_broadcast.to(tl.float32) * v_block.to(tl.float32), 0.0)` 替换为 `tl.fma(k_broadcast.to(tl.float32), v_block.to(tl.float32), 0.0)` 并利用 `k_nonzero_mask` 做mask; 前提: v_cols≤512, 合并后寄存器压力适中, 无写冲突; 禁用: v_cols>1024或k_size>2048时回退原grid.
+
+  策略 [2]: **策略B: Grid Expand + MTE读优化**
+   ├─ 瓶颈诊断: 瓶颈: MTE2读59.1%, 单program长循环 (k_size/blk_size=8次迭代)
+   └─ 实施动作: 实施: 将grid扩展为2D (v_cols/block_size, k_size/blk_size), 每个program处理一个k_block和一个v_col_block; 消除内层循环, 直接加载k_block和对应v_block; 前提: k_size%blk_size==0, 无写冲突; 禁用: k_size非blk_size整数倍或v_cols<64时回退原实现.
+
+  策略 [3]: **策略C: 访存连续性优化 + Mask删除**
+   ├─ 瓶颈诊断: 瓶颈: MTE3写1.7%低效, 动态stride访存
+   └─ 实施动作: 实施: 证明v_ptr行跨度对齐 (v_cols*4字节为128字节倍数), 在`tl.load(v_ptr + k_offset[:, None] * v_cols + col_idx[None, :])` 添加 `tl.multiple_of(v_cols*4)`; 证明col_idx连续且col_mask全覆盖 (v_cols%block_size==0), 删除col_mask; 前提: v_cols%block_size==0且v_cols*4%128==0; 禁用: 不满足对齐或整除条件时保留原mask.
+
+  策略 [4]: **策略D: 倒数代除 + exp/log等价实现**
+   ├─ 瓶颈诊断: 瓶颈: Vector 66.7% 算术受限, 存在除法/指数运算
+   └─ 实施动作: 实施: 将 `tl.sum(weighted_v, axis=0)` 中的除法 (隐含在加权求和) 替换为 `tl.fast_divide` 或 `tl.math.fdiv`; 若存在exp/log, 使用 `tl.math.exp2`/`tl.math.log2` 等价实现; 前提: 保持dtype和特殊值要求 (NaN/Inf处理); 禁用: 输入包含负零或需要精确IEEE754语义时回退原实现.
+
+  策略 [5]: **策略E: 数据布局转置 + 向量化加载**
+   ├─ 瓶颈诊断: 瓶颈: MTE2读59.1%, 非连续访存 (v_ptr + k_offset * v_cols)
+   └─ 实施动作: 实施: 将v矩阵转置为(v_cols, k_size), 加载时变为连续行访问; 修改kernel: `v_block = tl.load(v_transposed_ptr + col_idx * k_size + k_offset, mask=k_mask & col_mask, other=0.0)`; 前提: 转置开销可接受 (仅一次预处理), k_size%blk_size==0; 禁用: k_size>4096或v_cols>1024时转置内存开销过大, 回退原布局.
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9844 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9694 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9739 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9687 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9739 chars
+[LLM] [Call #05] ✅ Complete | Tokens=3255 (p:2434, c:821) | Time=16.16s
+[LLM] [Call #06] ✅ Complete | Tokens=3242 (p:2421, c:821) | Time=16.16s
+[LLM] [Call #04] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #07] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #03] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #03] ✅ Complete | Tokens=3289 (p:2461, c:828) | Time=46.46s
+[LLM] [Call #04] ⚠️ 连接失败(OpenAIConnectionError)，40s 后重试 (2/5)
+[LLM] [Call #07] ⚠️ 连接失败(OpenAIConnectionError)，40s 后重试 (2/5)
+[LLM] [Call #07] ✅ Complete | Tokens=3319 (p:2434, c:885) | Time=97.06s
+[LLM] [Call #04] ✅ Complete | Tokens=3668 (p:2423, c:1245) | Time=100.06s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2518 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_sekf0vsm/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 10.98us
+       └─ Raw speedup: -0.0401
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2518 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_3fw7cyiy/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 10.82us
+       └─ Raw speedup: -0.0259
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2512 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_c0a7l9i5/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 12.46us
+       └─ Raw speedup: -0.1541
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2751 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_fym7i335/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 9.36us
+       └─ Raw speedup: 0.1261
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1261
+       └─ Fitness score: 0.1261 (max 2.0)
+       └─ Competition score: 12.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3898 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_a4d7y1lj/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.14us
+       └─ Raw speedup: 0.7166
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7166
+       └─ Fitness score: 0.7166 (max 2.0)
+       └─ Competition score: 71.7/200 points
+[EA] ✅ 个体 e1d27165 (gen0_strategy_guided): 耗时=10.98us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9490x, Fitness=0.9490
+[EA] ✅ 个体 c3ba4be3 (gen0_strategy_guided): 耗时=10.82us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9630x, Fitness=0.9630
+[EA] ✅ 个体 0515b748 (gen0_strategy_guided): 耗时=12.46us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8363x, Fitness=0.8363
+[EA] ✅ 个体 5fd6966d (gen0_strategy_guided): 耗时=9.36us, 相对基线加速比=0.1261x, 相对Seed加速比=1.1132x, Fitness=1.1132
+[EA] ✅ 个体 bcd47e31 (gen0_strategy_guided): 耗时=6.14us, 相对基线加速比=0.7166x, 相对Seed加速比=1.6971x, Fitness=1.6971
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.6971 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9892 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5809 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8584 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6878 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2699 (p:2146, c:553) | Time=6.28s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4275 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2057 (p:1452, c:605) | Time=6.90s
+[LLM] [Call #08] ✅ Complete | Tokens=3438 (p:2473, c:965) | Time=10.50s
+[LLM] [Call #11] ✅ Complete | Tokens=2684 (p:1719, c:965) | Time=10.50s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5634 chars
+[LLM] [Call #12] ✅ Complete | Tokens=1621 (p:1068, c:553) | Time=5.67s
+[LLM] [Call #13] ✅ Complete | Tokens=2373 (p:1408, c:965) | Time=8.44s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1897 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_ldnq273y/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 9.24us
+       └─ Raw speedup: 0.1407
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1407
+       └─ Fitness score: 0.1407 (max 2.0)
+       └─ Competition score: 14.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_ccps0em6/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.14us
+       └─ Raw speedup: 0.7166
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7166
+       └─ Fitness score: 0.7166 (max 2.0)
+       └─ Competition score: 71.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1677 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_v5tjuxa8/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 12.72us
+       └─ Raw speedup: -0.1714
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_hs_6py8x/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.08us
+       └─ Raw speedup: 0.7336
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7336
+       └─ Fitness score: 0.7336 (max 2.0)
+       └─ Competition score: 73.4/200 points
+[EA] ✅ 个体 6e7ae127 (mutation): 耗时=9.24us, 相对基线加速比=0.1407x, 相对Seed加速比=1.1277x, Fitness=1.1277
+[EA] ✅ 个体 f273c596 (mutation): 耗时=6.14us, 相对基线加速比=0.7166x, 相对Seed加速比=1.6971x, Fitness=1.6971
+[EA] ✅ 个体 7ebb0eb6 (mutation): 耗时=12.72us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8192x, Fitness=0.8192
+[EA] ✅ 个体 319b7f60 (mutation): 耗时=6.08us, 相对基线加速比=0.7336x, 相对Seed加速比=1.7138x, Fitness=1.7138
+[EA] 🎉 找到更优版本! New Best Fitness: 1.7138
+[EA] Gen 1 Summary: Best=1.7138, Avg=1.3613
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9267 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9500 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=9500 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8200 chars
+[LLM] [Call #15] ✅ Complete | Tokens=3340 (p:2375, c:965) | Time=10.34s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5634 chars
+[LLM] [Call #14] ✅ Complete | Tokens=3281 (p:2316, c:965) | Time=10.37s
+[LLM] [Call #16] ✅ Complete | Tokens=3340 (p:2375, c:965) | Time=10.37s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5634 chars
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5634 chars
+[LLM] [Call #17] ✅ Complete | Tokens=3039 (p:2050, c:989) | Time=10.91s
+[LLM] [Call #21] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5660 chars
+[LLM] [Call #18] ✅ Complete | Tokens=2373 (p:1408, c:965) | Time=9.87s
+[LLM] [Call #19] ✅ Complete | Tokens=2373 (p:1408, c:965) | Time=9.85s
+[LLM] [Call #20] ✅ Complete | Tokens=2373 (p:1408, c:965) | Time=9.86s
+[LLM] [Call #21] ✅ Complete | Tokens=2404 (p:1415, c:989) | Time=9.73s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_kvd5pwt1/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.32us
+       └─ Raw speedup: 0.6677
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.6677
+       └─ Fitness score: 0.6677 (max 2.0)
+       └─ Competition score: 66.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_nvzb83bo/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.92us
+       └─ Raw speedup: 0.7804
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7804
+       └─ Fitness score: 0.7804 (max 2.0)
+       └─ Competition score: 78.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_vbaws26o/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.42us
+       └─ Raw speedup: 0.6417
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.6417
+       └─ Fitness score: 0.6417 (max 2.0)
+       └─ Competition score: 64.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3072 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_n0be475j/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.20us
+       └─ Raw speedup: 0.7000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7000
+       └─ Fitness score: 0.7000 (max 2.0)
+       └─ Competition score: 70.0/200 points
+[EA] ✅ 个体 497dbb8a (mutation): 耗时=6.32us, 相对基线加速比=0.6677x, 相对Seed加速比=1.6487x, Fitness=1.6487
+[EA] ✅ 个体 332aabac (mutation): 耗时=5.92us, 相对基线加速比=0.7804x, 相对Seed加速比=1.7601x, Fitness=1.7601
+[EA] ✅ 个体 1295fe27 (mutation): 耗时=6.42us, 相对基线加速比=0.6417x, 相对Seed加速比=1.6231x, Fitness=1.6231
+[EA] ✅ 个体 1138c5ea (mutation): 耗时=6.20us, 相对基线加速比=0.7000x, 相对Seed加速比=1.6806x, Fitness=1.6806
+[EA] 🎉 找到更优版本! New Best Fitness: 1.7601
+[EA] Gen 2 Summary: Best=1.7601, Avg=1.6872
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.7601
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_fhs4t9c5/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.36us
+       └─ Raw speedup: 0.6572
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.6572
+       └─ Fitness score: 0.6572 (max 2.0)
+       └─ Competition score: 65.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_p6_a9pew/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.92us
+       └─ Raw speedup: 0.7804
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7804
+       └─ Fitness score: 0.7804 (max 2.0)
+       └─ Competition score: 78.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_jfr8ndb9/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.12us
+       └─ Raw speedup: 0.7222
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7222
+       └─ Fitness score: 0.7222 (max 2.0)
+       └─ Competition score: 72.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_bwa1e0qj/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 6.26us
+       └─ Raw speedup: 0.6837
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.6837
+       └─ Fitness score: 0.6837 (max 2.0)
+       └─ Competition score: 68.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3046 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/performance/rwkv_mm_sparsity_kernel_dev_0/rwkv_mm_sparsity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_mm_sparsity_kernel_dev_0_eupx2v4c/test_rwkv_mm_sparsity_kernel.py" --kernel-name="rwkv_mm_sparsity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.54us
+       └─ Optimized time: 5.82us
+       └─ Raw speedup: 0.8110
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.8110
+       └─ Fitness score: 0.8110 (max 2.0)
+       └─ Competition score: 81.1/200 points
+  完成: 6.120122 us  S=1.7222223674626091  用时 452.9s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.40 小时
+============================================================

@@ -1,0 +1,18 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: _chunk_cumsum_fwd_kernel ===
+  [复用] 已有结果 _chunk_cumsum_fwd_kernel__r11.json
+  完成: 5.660113 us  S=6.367491603082836  用时 392.9s
+
+=== [paper_full] seed 2/3 算子 1/1: _chunk_cumsum_fwd_kernel ===
+  [复用] 已有结果 _chunk_cumsum_fwd_kernel__r12.json
+  完成: 5.620112 us  S=6.412812057837994  用时 390.9s
+
+=== [paper_full] seed 3/3 算子 1/1: _chunk_cumsum_fwd_kernel ===
+  [复用] 已有结果 _chunk_cumsum_fwd_kernel__r13.json
+  完成: 4.820096 us  S=7.4771792926945855  用时 472.9s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

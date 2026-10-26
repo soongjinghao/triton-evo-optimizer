@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: compute_identity_kernel ===
+  [复用] 已有结果 compute_identity_kernel__r11.json
+  完成: 23.44047 us  S=25.701362899293404  用时 491.9s
+
+=== [paper_b1] seed 2/3 算子 1/1: compute_identity_kernel ===
+  [复用] 已有结果 compute_identity_kernel__r12.json
+  完成: 23.340467 us  S=25.811481235572536  用时 481.0s
+
+=== [paper_b1] seed 3/3 算子 1/1: compute_identity_kernel ===
+  [复用] 已有结果 compute_identity_kernel__r13.json
+  完成: 23.720474 us  S=25.397975858323914  用时 493.1s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

@@ -1,0 +1,18 @@
+[配置] paper_b2  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b2] seed 1/3 算子 1/1: post_reorder_triton_kernel_for_cutlass_moe ===
+  [复用] 已有结果 post_reorder_triton_kernel_for_cutlass_moe__r11.json
+  完成: 2.800056 us  S=0.9571429999971429  用时 387.5s
+
+=== [paper_b2] seed 2/3 算子 1/1: post_reorder_triton_kernel_for_cutlass_moe ===
+  [复用] 已有结果 post_reorder_triton_kernel_for_cutlass_moe__r12.json
+  完成: 2.680054 us  S=1.0  用时 394.4s
+
+=== [paper_b2] seed 3/3 算子 1/1: post_reorder_triton_kernel_for_cutlass_moe ===
+  [复用] 已有结果 post_reorder_triton_kernel_for_cutlass_moe__r13.json
+  完成: 2.820056 us  S=0.9503548865696284  用时 388.5s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

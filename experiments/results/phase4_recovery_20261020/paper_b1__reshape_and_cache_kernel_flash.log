@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: reshape_and_cache_kernel_flash ===
+  [复用] 已有结果 reshape_and_cache_kernel_flash__r11.json
+  完成: 2.620052 us  S=1.0152672542377021  用时 411.9s
+
+=== [paper_b1] seed 2/3 算子 1/1: reshape_and_cache_kernel_flash ===
+  [复用] 已有结果 reshape_and_cache_kernel_flash__r12.json
+  完成: 2.700054 us  S=0.9851851111125925  用时 406.6s
+
+=== [paper_b1] seed 3/3 算子 1/1: reshape_and_cache_kernel_flash ===
+  [复用] 已有结果 reshape_and_cache_kernel_flash__r13.json
+  完成: 2.760055 us  S=0.9637681133165825  用时 419.2s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

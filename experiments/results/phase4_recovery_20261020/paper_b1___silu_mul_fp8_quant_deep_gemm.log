@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: _silu_mul_fp8_quant_deep_gemm ===
+  [复用] 已有结果 _silu_mul_fp8_quant_deep_gemm__r11.json
+  完成: 3.240065 us  S=1.0  用时 327.4s
+
+=== [paper_b1] seed 2/3 算子 1/1: _silu_mul_fp8_quant_deep_gemm ===
+  [复用] 已有结果 _silu_mul_fp8_quant_deep_gemm__r12.json
+  完成: 3.420069 us  S=0.947368313329351  用时 333.9s
+
+=== [paper_b1] seed 3/3 算子 1/1: _silu_mul_fp8_quant_deep_gemm ===
+  [复用] 已有结果 _silu_mul_fp8_quant_deep_gemm__r13.json
+  完成: 3.280066 us  S=0.9878048185615776  用时 328.6s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

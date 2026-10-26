@@ -1,0 +1,18 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: _convert_req_index_to_global_index_kernel ===
+  [复用] 已有结果 _convert_req_index_to_global_index_kernel__r11.json
+  完成: 48.440968 us  S=1.509083447713101  用时 584.6s
+
+=== [paper_full] seed 2/3 算子 1/1: _convert_req_index_to_global_index_kernel ===
+  [复用] 已有结果 _convert_req_index_to_global_index_kernel__r12.json
+  完成: 51.261024 us  S=1.4260632600706533  用时 653.3s
+
+=== [paper_full] seed 3/3 算子 1/1: _convert_req_index_to_global_index_kernel ===
+  [复用] 已有结果 _convert_req_index_to_global_index_kernel__r13.json
+  完成: 44.040882 us  S=1.6598546550452824  用时 668.5s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

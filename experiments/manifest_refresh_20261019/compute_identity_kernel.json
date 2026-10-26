@@ -1,0 +1,23 @@
+{
+  "kernel": "compute_identity_kernel",
+  "t_base_us": 602.452026,
+  "t_seed_us": 24.440489,
+  "seed_similarity": 0.38070059484467944,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "compute_identity_kernel.py": {
+      "path": "/workspace/Agent/datasets2/compute_identity_kernel/compute_identity_kernel.py",
+      "latency_us": 602.452026,
+      "success": true,
+      "error": null
+    },
+    "compute_identity_kernel_1.py": {
+      "path": "/workspace/Agent/datasets2/compute_identity_kernel/compute_identity_kernel_1.py",
+      "latency_us": 24.440489,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-10-19T13:40:16"
+}

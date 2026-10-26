@@ -1,0 +1,18 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: _copy_page_indices_kernel ===
+  [复用] 已有结果 _copy_page_indices_kernel__r11.json
+  完成: 1.620032 us  S=1.0493829751511081  用时 288.8s
+
+=== [paper_full] seed 2/3 算子 1/1: _copy_page_indices_kernel ===
+  [复用] 已有结果 _copy_page_indices_kernel__r12.json
+  完成: 1.600032 us  S=1.0625  用时 292.5s
+
+=== [paper_full] seed 3/3 算子 1/1: _copy_page_indices_kernel ===
+  [复用] 已有结果 _copy_page_indices_kernel__r13.json
+  完成: 1.600032 us  S=1.0625  用时 290.4s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

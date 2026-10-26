@@ -1,0 +1,1500 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: _fwd_kernel_ep_gather ===
+[harness] 适应度锚点采用 manifest T_seed = 4.9401 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /workspace/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Reference baseline: 10.76us
+       └─ Test file: /workspace/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8727.38it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_g3glbype/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 10.92us
+       └─ Raw speedup: -0.0147
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_p4xhbmbh/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.26us
+       └─ Raw speedup: 1.0456
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0456
+       └─ Fitness score: 1.0456 (max 2.0)
+       └─ Competition score: 104.6/200 points
+[EA] 📊 2 个合法种子代码相似度为: 77.24% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: a00c2838, 基准耗时: 4.94us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=10.76 us | 当前耗时=5.26 us (相对基线:+104.56% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=32
+- 管线利用率: Vector=11.3%, Scalar=60.3%, MTE2(读)=34.7%, MTE3(写)=18.1%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (60.3%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=17.19 GB/s, 向量写=12.90 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6202 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1594 (p:1549, c:45) | Time=0.74s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 单program内多token循环, 标量地址计算主导(Scalar=60.3%), 动态间接索引访存, 分组规约累加'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 单program内多token循环, 标量地址计算主导(Scalar=60.3%), 动态间接索引访存, 分组规约累加'
+[✅ RAG Positive] ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS, ACTION_PREFIX_METADATA_PRECOMPUTE
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_RANDOM_GATHER_OCCUPANCY*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 单program内多token循环, 标量地址计算主导(Scalar=60.3%), 动态间接索引访存, 分组规约累加
+
+【高置信候选优化动作】
+
+[P1] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P2] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+[P3] ACTION_PREFIX_METADATA_PRECOMPUTE
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G4] ACTION_GUARD_RANDOM_GATHER_OCCUPANCY（强制联动）
+#### ⚛️ `ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`：Random Gather 不宜过度扩大单 Program Tile
+
+* **检索锚点**：间接索引, random gather, block_table, token_indices, 大BLOCK, occupancy不足, MTE2读延迟, 单program工作量过大。
+* **核心规则**：random gather 依赖更多并发 program 隐藏访存延迟；不要仅为减少 grid 把 BLOCK 从百级扩大到千级。
+* **正式失败证据**：`_convert_req_index_to_global_index_kernel` 将 random-gather 单 program tile 过度扩大，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=13894 chars
+[LLM] [Call #02] ✅ Complete | Tokens=5254 (p:3472, c:1782) | Time=15.59s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Strategy A: Grid Consolidation + Inner Loop Vectorization**
+   ├─ 瓶颈诊断: 现有瓶颈诊断: Scalar=60.3% 主瓶颈，单program仅处理4个token，每个token内串行循环topk_num次，标量地址计算和循环开销巨大
+   └─ 实施动作: 实施动作与具体代码修改方案: 采用ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS，将BLOCK_B增大至32（前提：grid[0] > 40时保持40上限），同时将内层b_offset循环和topk循环合并为向量化操作：`for d_block in range(NUM_D_BLOCKS): off_d = tl.arange(0, BLOCK_D); accumulator = tl.zeros([BLOCK_D], dtype=tl.float32); for topk_index in range(0, topk_num): expert_id = tl.load(recv_topk_ids + b_idx * recv_topk_ids_stride0 + topk_index, mask=b_mask); source_token_index = tl.load(input_index + b_idx * input_index_stride0 + topk_index, mask=b_mask); acc_weight = tl.load(recv_topk_weight + b_idx * recv_topk_weight_stride0 + topk_index, mask=b_mask); tmp = tl.load(input_tensor + source_token_index * input_tensor_stride0 + d_block * BLOCK_D + off_d, mask=b_mask); accumulator += tmp.to(tl.float32) * acc_weight; tl.store(output_tensor + b_idx * output_tensor_stride0 + d_block * BLOCK_D + off_d, accumulator.to(output_tensor.dtype.element_ty), mask=b_mask)`
+
+  策略 [2]: **Strategy B: Prefix Metadata Precompute + Loop Unrolling**
+   ├─ 瓶颈诊断: 现有瓶颈诊断: Scalar=60.3% 主瓶颈，每个program重复计算source_token_index和expert_id的标量加载，且内层topk循环无法向量化
+   └─ 实施动作: 实施动作与具体代码修改方案: 采用ACTION_PREFIX_METADATA_PRECOMPUTE，在wrapper中预计算所有token的expert_id、source_token_index和acc_weight的连续数组（shape: [num_tokens, topk_num]），kernel内直接向量化加载：`for d_block in range(NUM_D_BLOCKS): off_d = tl.arange(0, BLOCK_D); accumulator = tl.zeros([BLOCK_D], dtype=tl.float32); for topk_index in range(0, topk_num): expert_id = tl.load(precomputed_expert_ids + b_idx * topk_num + topk_index, mask=b_mask); source_token_index = tl.load(precomputed_source_indices + b_idx * topk_num + topk_index, mask=b_mask); acc_weight = tl.load(precomputed_weights + b_idx * topk_num + topk_index, mask=b_mask); tmp = tl.load(input_tensor + source_token_index * input_tensor_stride0 + d_block * BLOCK_D + off_d, mask=b_mask); accumulator += tmp.to(tl.float32) * acc_weight; tl.store(output_tensor + b_idx * output_tensor_stride0 + d_block * BLOCK_D + off_d, accumulator.to(output_tensor.dtype.element_ty), mask=b_mask)`
+
+  策略 [3]: **Strategy C: Group Pack Reshape Reduce for Topk**
+   ├─ 瓶颈诊断: 现有瓶颈诊断: Scalar=60.3% 主瓶颈，每个token独立处理topk_num个expert，但多个token的topk计算可并行化
+   └─ 实施动作: 实施动作与具体代码修改方案: 采用ACTION_GROUP_PACK_RESHAPE_REDUCE，将BLOCK_B个token的topk计算打包为二维规约：`for d_block in range(NUM_D_BLOCKS): off_d = tl.arange(0, BLOCK_D); accumulator = tl.zeros([BLOCK_B, BLOCK_D], dtype=tl.float32); for topk_index in range(0, topk_num): expert_id = tl.load(recv_topk_ids + b_idx * recv_topk_ids_stride0 + topk_index, mask=b_mask); source_token_index = tl.load(input_index + b_idx * input_index_stride0 + topk_index, mask=b_mask); acc_weight = tl.load(recv_topk_weight + b_idx * recv_topk_weight_stride0 + topk_index, mask=b_mask); tmp = tl.load(input_tensor + source_token_index * input_tensor_stride0 + d_block * BLOCK_D + off_d, mask=b_mask[:, None] & (tl.arange(0, BLOCK_D)[None, :] < BLOCK_D)); accumulator += tmp.to(tl.float32) * acc_weight[:, None]; tl.store(output_tensor + b_idx * output_tensor_stride0 + d_block * BLOCK_D + off_d, accumulator.to(output_tensor.dtype.element_ty), mask=b_mask[:, None])`
+
+  策略 [4]: **Strategy D: Scalar-to-Vector Address Computation**
+   ├─ 瓶颈诊断: 现有瓶颈诊断: Scalar=60.3% 主瓶颈，标量地址计算（如`b_token * recv_topk_ids_stride0 + topk_index`）占主导
+   └─ 实施动作: 实施动作与具体代码修改方案: 将标量地址计算全部向量化，利用tl.arange和广播：`for d_block in range(NUM_D_BLOCKS): off_d = tl.arange(0, BLOCK_D); b_offsets = b_idx[:, None] * recv_topk_ids_stride0 + tl.arange(0, topk_num)[None, :]; expert_ids = tl.load(recv_topk_ids + b_offsets, mask=b_mask[:, None]); source_indices = tl.load(input_index + b_offsets, mask=b_mask[:, None]); weights = tl.load(recv_topk_weight + b_offsets, mask=b_mask[:, None]); accumulator = tl.zeros([BLOCK_B, BLOCK_D], dtype=tl.float32); for k in range(topk_num): tmp = tl.load(input_tensor + source_indices[:, k] * input_tensor_stride0 + d_block * BLOCK_D + off_d, mask=b_mask[:, None]); accumulator += tmp.to(tl.float32) * weights[:, k, None]; tl.store(output_tensor + b_idx * output_tensor_stride0 + d_block * BLOCK_D + off_d, accumulator.to(output_tensor.dtype.element_ty), mask=b_mask[:, None])`
+
+  策略 [5]: **Strategy E: Persistent Loop + Dynamic Grid Tuning**
+   ├─ 瓶颈诊断: 现有瓶颈诊断: Scalar=60.3% 主瓶颈，当前grid固定40个program，但token数变化时负载不均
+   └─ 实施动作: 实施动作与具体代码修改方案: 采用持久化循环，grid固定为40个program，每个program循环处理多个token块：`pid = tl.program_id(0); tokens_per_program = tl.cdiv(total_token_num, 40); for batch in range(tokens_per_program): b_start = pid * tokens_per_program + batch * BLOCK_B; b_idx = b_start + tl.arange(0, BLOCK_B); b_mask = b_idx < total_token_num; for d_block in range(NUM_D_BLOCKS): off_d = tl.arange(0, BLOCK_D); accumulator = tl.zeros([BLOCK_B, BLOCK_D], dtype=tl.float32); for topk_index in range(0, topk_num): expert_id = tl.load(recv_topk_ids + b_idx * recv_topk_ids_stride0 + topk_index, mask=b_mask); source_token_index = tl.load(input_index + b_idx * input_index_stride0 + topk_index, mask=b_mask); acc_weight = tl.load(recv_topk_weight + b_idx * recv_topk_weight_stride0 + topk_index, mask=b_mask); tmp = tl.load(input_tensor + source_token_index * input_tensor_stride0 + d_block * BLOCK_D + off_d, mask=b_mask[:, None]); accumulator += tmp.to(tl.float32) * acc_weight[:, None]; tl.store(output_tensor + b_idx * output_tensor_stride0 + d_block * BLOCK_D + off_d, accumulator.to(output_tensor.dtype.element_ty), mask=b_mask[:, None])`
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13771 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13801 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13788 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13718 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13961 chars
+[LLM] [Call #06] ✅ Complete | Tokens=4674 (p:3429, c:1245) | Time=23.12s
+[LLM] [Call #03] ✅ Complete | Tokens=4744 (p:3442, c:1302) | Time=23.67s
+[LLM] [Call #07] ✅ Complete | Tokens=4793 (p:3490, c:1303) | Time=23.66s
+[LLM] [Call #05] ✅ Complete | Tokens=4766 (p:3447, c:1319) | Time=23.83s
+[LLM] [Call #04] ✅ Complete | Tokens=4789 (p:3450, c:1339) | Time=23.99s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4072 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_w_b4jhtm/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4475 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_46mamtt2/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4662 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_xpq2lj_j/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4490 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_4bntwk03/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4675 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ndqnth8a/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ❌ 个体 1b8624e8 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 21e8b062 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 60facb4e (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 904b0b61 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 99f59ab1 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11144 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11563 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11328 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12285 chars
+[LLM] [Call #08] ✅ Complete | Tokens=3917 (p:2786, c:1131) | Time=16.56s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6594 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4077 (p:2832, c:1245) | Time=17.85s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6686 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4373 (p:3071, c:1302) | Time=18.54s
+[LLM] [Call #09] ✅ Complete | Tokens=4209 (p:2890, c:1319) | Time=18.69s
+[LLM] [Call #12] ✅ Complete | Tokens=2779 (p:1648, c:1131) | Time=10.63s
+[LLM] [Call #13] ✅ Complete | Tokens=2933 (p:1671, c:1262) | Time=11.36s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4473 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_6dpavyfg/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 99.94us
+       └─ Raw speedup: -0.8923
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4489 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_zgfsdibe/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3992 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_urov65ej/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 9.58us
+       └─ Raw speedup: 0.1232
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1232
+       └─ Fitness score: 0.1232 (max 2.0)
+       └─ Competition score: 12.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4118 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_vrob_y3z/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 1434912d (crossover): 耗时=99.94us, 相对基线加速比=0.0000x, 相对Seed加速比=0.0494x, Fitness=0.0494
+[EA] ❌ 个体 880ee7c1 (crossover): 评估失败, Fitness=0
+[EA] ✅ 个体 dfa416af (mutation): 耗时=9.58us, 相对基线加速比=0.1232x, 相对Seed加速比=0.5157x, Fitness=0.5157
+[EA] ❌ 个体 543006c8 (mutation): 评估失败, Fitness=0
+[EA] Gen 1 Summary: Best=1.0000, Avg=0.2608
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12101 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7693 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12578 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12101 chars
+[LLM] [Call #17] ✅ Complete | Tokens=4286 (p:3025, c:1261) | Time=13.11s
+[LLM] [Call #14] ✅ Complete | Tokens=4286 (p:3025, c:1261) | Time=13.13s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7196 chars
+[LLM] [Call #16] ✅ Complete | Tokens=4446 (p:3144, c:1302) | Time=13.60s
+[LLM] [Call #15] ✅ Complete | Tokens=3326 (p:1923, c:1403) | Time=14.49s
+[LLM] [Call #18] ✅ Complete | Tokens=3077 (p:1799, c:1278) | Time=11.34s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_29d1uv5q/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.64us
+       └─ Raw speedup: 1.3190
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3190
+       └─ Fitness score: 1.3190 (max 2.0)
+       └─ Competition score: 131.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4473 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_pqlxele6/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 99.76us
+       └─ Raw speedup: -0.8921
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4904 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_t_i7nkmc/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4628 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_vgakhnkj/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.02us
+       └─ Raw speedup: 1.1434
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.1434
+       └─ Fitness score: 1.1434 (max 2.0)
+       └─ Competition score: 114.3/200 points
+[EA] ✅ 个体 786ec337 (crossover): 耗时=4.64us, 相对基线加速比=1.3190x, 相对Seed加速比=1.0647x, Fitness=1.0647
+[EA] ✅ 个体 806f172c (crossover): 耗时=99.76us, 相对基线加速比=0.0000x, 相对Seed加速比=0.0495x, Fitness=0.0495
+[EA] ❌ 个体 21cfbf92 (mutation): 评估失败, Fitness=0
+[EA] ✅ 个体 c0c6b212 (mutation): 耗时=5.02us, 相对基线加速比=1.1434x, 相对Seed加速比=0.9841x, Fitness=0.9841
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0647
+[EA] Gen 2 Summary: Best=1.0647, Avg=0.6023
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0647
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_5l3t4lva/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.22us
+       └─ Raw speedup: 1.0613
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0613
+       └─ Fitness score: 1.0613 (max 2.0)
+       └─ Competition score: 106.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_40vqa5af/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.90us
+       └─ Raw speedup: 1.1959
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.1959
+       └─ Fitness score: 1.1959 (max 2.0)
+       └─ Competition score: 119.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_q7t6xu7w/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.38us
+       └─ Raw speedup: 1.4566
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.4566
+       └─ Fitness score: 1.4566 (max 2.0)
+       └─ Competition score: 145.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_qacik7pq/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.20us
+       └─ Raw speedup: 1.0692
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0692
+       └─ Fitness score: 1.0692 (max 2.0)
+       └─ Competition score: 106.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_9v1o_6ai/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.48us
+       └─ Raw speedup: 1.4018
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.4018
+       └─ Fitness score: 1.4018 (max 2.0)
+       └─ Competition score: 140.2/200 points
+  完成: 4.900098 us  S=2.195918326531429  用时 334.8s
+
+=== [paper_full] seed 2/3 算子 1/1: _fwd_kernel_ep_gather ===
+[harness] 适应度锚点采用 manifest T_seed = 4.9401 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /workspace/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Reference baseline: 10.76us
+       └─ Test file: /workspace/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7999.67it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_922jact_/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 10.88us
+       └─ Raw speedup: -0.0110
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_0iyk1ayu/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.38us
+       └─ Raw speedup: 1.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0000
+       └─ Fitness score: 1.0000 (max 2.0)
+       └─ Competition score: 100.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 77.24% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: de3479a7, 基准耗时: 4.94us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=10.76 us | 当前耗时=5.38 us (相对基线:+100.00% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=32
+- 管线利用率: Vector=10.9%, Scalar=59.8%, MTE2(读)=35.4%, MTE3(写)=17.6%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (59.8%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=16.60 GB/s, 向量写=12.45 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6279 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1639 (p:1569, c:70) | Time=1.00s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 标量地址计算主导(Scalar=59.8%), 分组规约(每token内topk_num循环累加), 动态间接索引(load input_index+source_token_index), 重复metadata load(每token每topk加载expert_id/weight/index)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 标量地址计算主导(Scalar=59.8%), 分组规约(每token内topk_num循环累加), 动态间接索引(load input_index+source_token_index), 重复metadata load(每token每topk加载expert_id/weight/index)'
+[✅ RAG Positive] ACTION_PREFIX_METADATA_PRECOMPUTE, ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_INDEPENDENT_AXIS_PACKING
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_RANDOM_GATHER_OCCUPANCY*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 标量地址计算主导(Scalar=59.8%), 分组规约(每token内topk_num循环累加), 动态间接索引(load input_index+source_token_index), 重复metadata load(每token每topk加载expert_id/weight/index)
+
+【高置信候选优化动作】
+
+[P1] ACTION_PREFIX_METADATA_PRECOMPUTE
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+[P2] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P3] ACTION_INDEPENDENT_AXIS_PACKING
+#### ⚛️ `ACTION_INDEPENDENT_AXIS_PACKING`：独立 Head / Row / Group 向量化打包
+
+* **检索锚点**：Head独立规约, Row独立规约, Group独立规约, 单head program过小, Token/Group/Head打包, 二维grid, 可共享另一维arange。
+* **Profiling 锚点**：launch-bound 或 MTE 共享参数重复读取。
+* **结构判据**：head/row/group 间逻辑独立且 store 地址不冲突，每个独立域单独 program 太轻。
+* **优化动作**：增加 `BLOCK_H/BLOCK_M/GROUPS_PER_BLOCK`，把独立轴加入向量维，一次 program 同时处理多个独立域。
+* **必须前提**：二维寄存器 tensor 可控；不混合独立规约域；局部域 mask 正确；wrapper launch contract 可证明。
+* **禁用条件**：打包导致 tile 面积爆炸；不同域存在依赖/原子冲突；使用全局 flatten mask 误覆盖下一个逻辑域。
+* **正式平台证据**：`_correct_attn_cp_out_kernel` 正式 `avg=1.79`。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_TILE_AREA_BUDGET`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G4] ACTION_GUARD_RANDOM_GATHER_OCCUPANCY（强制联动）
+#### ⚛️ `ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`：Random Gather 不宜过度扩大单 Program Tile
+
+* **检索锚点**：间接索引, random gather, block_table, token_indices, 大BLOCK, occupancy不足, MTE2读延迟, 单program工作量过大。
+* **核心规则**：random gather 依赖更多并发 program 隐藏访存延迟；不要仅为减少 grid 把 BLOCK 从百级扩大到千级。
+* **正式失败证据**：`_convert_req_index_to_global_index_kernel` 将 random-gather 单 program tile 过度扩大，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=13904 chars
+[LLM] [Call #02] ✅ Complete | Tokens=4309 (p:3475, c:834) | Time=8.10s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A: 元数据预计算与标量循环消除**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar=59.8%主瓶颈, 每token每topk重复标量load(expert_id/weight/index)和标量地址计算
+   └─ 实施动作: 实施动作: 采用[P1]ACTION_PREFIX_METADATA_PRECOMPUTE, 在wrapper中预计算每个token的topk有效索引列表并存储为连续tensor, kernel内将内层`for topk_index`循环替换为`tl.load`预计算后的连续索引数组, 删除`apply_expert_map`函数调用和`if expert_id>=0`标量分支, 将`b_offset`循环展开为向量化load, 前提: topk_num编译期常量且预计算成本可摊销, 禁用: 预计算tensor过大或wrapper不允许新增前置阶段
+
+  策略 [2]: **策略B: 独立Token维度向量化打包**
+   ├─ 瓶颈诊断: 瓶颈诊断: Vector=10.9%利用率低, 单program处理4个token但内层串行循环导致标量占比高
+   └─ 实施动作: 实施动作: 采用[P3]ACTION_INDEPENDENT_AXIS_PACKING, 将BLOCK_B从4增大到32, 将`b_offset`循环改为向量化`tl.load`同时加载所有token的topk元数据, 使用`tl.where`处理mask, 前提: BLOCK_B*topk_num*3个标量load可向量化且寄存器压力可控, 禁用: 当BLOCK_B*topk_num>128时回退原实现
+
+  策略 [3]: **策略C: 隐藏维度分块与连续访存优化**
+   ├─ 瓶颈诊断: 瓶颈诊断: MTE2读=35.4%, MTE3写=17.6%, 内存搬运受限, 间接索引导致非连续访存
+   └─ 实施动作: 实施动作: 采用[P2]ACTION_GROUP_PACK_RESHAPE_REDUCE思想, 将`NUM_D_BLOCKS`循环与`BLOCK_D`合并为连续加载`BLOCK_D*NUM_D_BLOCKS`个元素, 使用`tl.view`重塑为2D, 前提: `input_tensor`行连续且`hidden_size%BLOCK_D==0`, 禁用: 当`NUM_D_BLOCKS*BLOCK_D`超过UB容量时保持原分块
+
+  策略 [4]: **策略D: Grid粒度自适应与随机Gather保护**
+   ├─ 瓶颈诊断: 瓶颈诊断: 当前grid动态调整(40上限), 但单program工作量不均衡导致occupancy不足
+   └─ 实施动作: 实施动作: 采用[G1]ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL和[G4]ACTION_GUARD_RANDOM_GATHER_OCCUPANCY, 固定BLOCK_B=1, grid=num_tokens, 每个program处理1个token, 利用更多program隐藏random gather访存延迟, 前提: num_tokens>40且每个program工作量适中, 禁用: 当num_tokens<40时回退原grid策略
+
+  策略 [5]: **策略E: 标量地址计算向量化与Mask证明**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar=59.8%中大量stride乘法地址计算, 间接索引重复计算
+   └─ 实施动作: 实施动作: 采用[G3]ACTION_GUARD_MASK_COVERAGE_PROOF, 将`b_token*stride`地址计算改为`tl.arange(0,BLOCK_B)*stride`向量化, 使用`tl.multiple_of`声明对齐(当stride%16==0可证明时), 删除`b_mask`中冗余的`b_idx<total_token_num`标量检查, 前提: stride对齐可证明且BLOCK_B覆盖范围完整, 禁用: 当stride不对齐或存在尾块时保留原mask
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13119 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13029 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13034 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13065 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=13062 chars
+[LLM] [Call #07] ✅ Complete | Tokens=4586 (p:3265, c:1321) | Time=24.03s
+[LLM] [Call #03] ✅ Complete | Tokens=4741 (p:3279, c:1462) | Time=25.43s
+[LLM] [Call #04] ✅ Complete | Tokens=5040 (p:3257, c:1783) | Time=28.65s
+[LLM] [Call #06] ✅ Complete | Tokens=5234 (p:3266, c:1968) | Time=30.28s
+[LLM] [Call #05] ✅ Complete | Tokens=5473 (p:3258, c:2215) | Time=32.36s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4556 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_x5lqiwma/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5064 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_dypkzfqc/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6348 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ozmsfc75/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7499 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_x8g1cq8b/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 9.50us
+       └─ Raw speedup: 0.1326
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1326
+       └─ Fitness score: 0.1326 (max 2.0)
+       └─ Competition score: 13.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 8785 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_g9xq9b5w/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.80us
+       └─ Raw speedup: 1.2417
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.2417
+       └─ Fitness score: 1.2417 (max 2.0)
+       └─ Competition score: 124.2/200 points
+[EA] ❌ 个体 f33ae9f4 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 82a600f5 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ❌ 个体 ba0d3721 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 f28c9d82 (gen0_strategy_guided): 耗时=9.50us, 相对基线加速比=0.1326x, 相对Seed加速比=0.5200x, Fitness=0.5200
+[EA] ✅ 个体 2ec2bdde (gen0_strategy_guided): 耗时=4.80us, 相对基线加速比=1.2417x, 相对Seed加速比=1.0292x, Fitness=1.0292
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0292 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12178 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=19432 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=19432 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12443 chars
+[LLM] [Call #08] ✅ Complete | Tokens=4305 (p:3044, c:1261) | Time=13.43s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7173 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4431 (p:3110, c:1321) | Time=14.16s
+[LLM] [Call #12] ✅ Complete | Tokens=3110 (p:1793, c:1317) | Time=13.26s
+[LLM] [Call #09] ✅ Complete | Tokens=8476 (p:4858, c:3618) | Time=35.80s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=18077 chars
+[LLM] [Call #10] ✅ Complete | Tokens=8487 (p:4858, c:3629) | Time=35.87s
+[LLM] [Call #13] ✅ Complete | Tokens=8131 (p:4519, c:3612) | Time=30.92s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4555 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ozuqejae/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4432 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_la98u298/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 15525 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_mlkdfbu6/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 9.54us
+       └─ Raw speedup: 0.1279
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1279
+       └─ Fitness score: 0.1279 (max 2.0)
+       └─ Competition score: 12.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 14060 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ts36gkpy/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 12.34us
+       └─ Raw speedup: -0.1280
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 b78fe52a (crossover): 评估失败, Fitness=0
+[EA] ❌ 个体 78b90e64 (mutation): 评估失败, Fitness=0
+[EA] ✅ 个体 7d0ea397 (crossover): 耗时=9.54us, 相对基线加速比=0.1279x, 相对Seed加速比=0.5178x, Fitness=0.5178
+[EA] ✅ 个体 5213b9b8 (mutation): 耗时=12.34us, 相对基线加速比=0.0000x, 相对Seed加速比=0.4003x, Fitness=0.4003
+[EA] Gen 1 Summary: Best=1.0292, Avg=0.4912
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7770 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=25995 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=25995 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=16197 chars
+[LLM] [Call #14] ✅ Complete | Tokens=3203 (p:1942, c:1261) | Time=13.08s
+[LLM] [Call #17] ✅ Complete | Tokens=6294 (p:4049, c:2245) | Time=22.62s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=10979 chars
+[LLM] [Call #15] ✅ Complete | Tokens=10110 (p:6498, c:3612) | Time=36.04s
+[LLM] [Call #16] ✅ Complete | Tokens=10110 (p:6498, c:3612) | Time=36.04s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=16649 chars
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=16649 chars
+[LLM] [Call #18] ✅ Complete | Tokens=4989 (p:2744, c:2245) | Time=22.49s
+[LLM] [Call #19] ✅ Complete | Tokens=7774 (p:4162, c:3612) | Time=33.33s
+[LLM] [Call #20] ✅ Complete | Tokens=7774 (p:4162, c:3612) | Time=33.32s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_emffh9xk/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.58us
+       └─ Raw speedup: 1.3493
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3493
+       └─ Fitness score: 1.3493 (max 2.0)
+       └─ Competition score: 134.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 8387 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_5qwp7ykc/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 14060 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_rzorh3po/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 9.66us
+       └─ Raw speedup: 0.1139
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1139
+       └─ Fitness score: 0.1139 (max 2.0)
+       └─ Competition score: 11.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 14060 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_tv2onqek/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 11.68us
+       └─ Raw speedup: -0.0788
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 66a110d1 (mutation): 耗时=4.58us, 相对基线加速比=1.3493x, 相对Seed加速比=1.0786x, Fitness=1.0786
+[EA] ❌ 个体 bdf312b1 (mutation): 评估失败, Fitness=0
+[EA] ✅ 个体 83e34b27 (mutation): 耗时=9.66us, 相对基线加速比=0.1139x, 相对Seed加速比=0.5114x, Fitness=0.5114
+[EA] ✅ 个体 e3d42bb4 (mutation): 耗时=11.68us, 相对基线加速比=0.0000x, 相对Seed加速比=0.4229x, Fitness=0.4229
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0786
+[EA] Gen 2 Summary: Best=1.0786, Avg=0.6737
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0786
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ojdicjqs/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.48us
+       └─ Raw speedup: 0.9635
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9635
+       └─ Fitness score: 0.9635 (max 2.0)
+       └─ Competition score: 96.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_qb6g7f9x/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.56us
+       └─ Raw speedup: 1.3596
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3596
+       └─ Fitness score: 1.3596 (max 2.0)
+       └─ Competition score: 136.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_kvxhl4yi/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.64us
+       └─ Raw speedup: 1.3190
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3190
+       └─ Fitness score: 1.3190 (max 2.0)
+       └─ Competition score: 131.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ntvzetql/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.58us
+       └─ Raw speedup: 1.3493
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3493
+       └─ Fitness score: 1.3493 (max 2.0)
+       └─ Competition score: 134.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4581 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_n7fhjsko/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.52us
+       └─ Raw speedup: 1.3805
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3805
+       └─ Fitness score: 1.3805 (max 2.0)
+       └─ Competition score: 138.1/200 points
+  完成: 4.580091 us  S=2.3493452422670202  用时 434.1s
+
+=== [paper_full] seed 3/3 算子 1/1: _fwd_kernel_ep_gather ===
+[harness] 适应度锚点采用 manifest T_seed = 4.9401 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: _fwd_kernel_ep_gather
+       └─ Working directory: /workspace/Agent/datasets2/_fwd_kernel_ep_gather
+       └─ Reference baseline: 10.76us
+       └─ Test file: /workspace/Agent/datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8284.53it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4417 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_v6sv90js/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 9.42us
+       └─ Raw speedup: 0.1423
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1423
+       └─ Fitness score: 0.1423 (max 2.0)
+       └─ Competition score: 14.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_jyqso8d9/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.54us
+       └─ Raw speedup: 1.3700
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.3700
+       └─ Fitness score: 1.3700 (max 2.0)
+       └─ Competition score: 137.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 77.24% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 7283fe2e, 基准耗时: 4.94us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=10.76 us | 当前耗时=4.54 us (相对基线:+137.00% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=32
+- 管线利用率: Vector=12.1%, Scalar=57.5%, MTE2(读)=38.0%, MTE3(写)=18.9%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (57.5%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=18.38 GB/s, 向量写=13.79 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6279 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1602 (p:1569, c:33) | Time=1.58s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,每Token独立program内循环,标量地址计算主导,Scalar瓶颈57.5%,重复metadata load'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 每Token独立program内循环, 标量地址计算主导, Scalar瓶颈57.5%, Scalar标量主瓶颈, 重复metadata load'
+[✅ RAG Positive] ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_PREFIX_METADATA_PRECOMPUTE
+[🛡️ RAG Guard] ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 每Token独立program内循环, 标量地址计算主导, Scalar瓶颈57.5%, Scalar标量主瓶颈, 重复metadata load
+
+【高置信候选优化动作】
+
+[P1] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P2] ACTION_PREFIX_METADATA_PRECOMPUTE
+#### ⚛️ `ACTION_PREFIX_METADATA_PRECOMPUTE`：重复 Prefix / 元数据扫描前置化
+
+* **检索锚点**：重复元数据扫描, lengths/offsets前缀扫描, 每个program重复标量load, 持久化循环恢复起始位置, Scalar标量地址计算占比高, 间接索引元数据重复读取。
+* **Profiling 锚点**：Scalar 标量主瓶颈；MTE2(读)伴随大量标量 metadata load。
+* **结构判据**：kernel 内存在 `for i in range(pid)`、`for i in range(batch_idx)` 或类似循环，仅用于累加 `lengths / offsets / starts`，而同一 prefix 被大量 program 重复计算。
+* **优化动作**：wrapper/前置阶段一次性生成 `cum_lengths / starts / offsets`；主 kernel 每个 program O(1) 读取 start/end，删除重复 prefix loop。
+* **必须前提**：前置结果能被多个 program 复用；额外前置 kernel/同步成本可摊销；wrapper 修改在任务契约中允许。
+* **禁用条件**：prefix 只被极少 program 使用；端到端口径下前置成本高于原循环；wrapper/launch contract 不允许新增前置阶段。
+* **正式平台证据**：`_unpack_seq_triton_kernel` 正式 `avg_speedup=2.00`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=11732 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3840 (p:2932, c:908) | Time=8.22s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：Grid Consolidation + Group Packing**
+   ├─ 瓶颈诊断: Scalar 57.5% 主瓶颈，BLOCK_B=4 导致海量微小program，每个program内标量地址计算和循环开销占比高
+   └─ 实施动作: 将 BLOCK_B 增大至 8-16（确保 grid[0]≤40 逻辑不变），同时将 NUM_D_BLOCKS 循环外提为持久化循环，减少 program 数量；修改 `_fwd_kernel_ep_gather` 中 `for b_offset in range(BLOCK_B)` 为 `tl.arange(0, BLOCK_B)` 向量化加载 `recv_topk_ids` 和 `recv_topk_weight`，利用 `tl.multiple_of` 和 `tl.max_contiguous` 优化连续访存（前提：stride1==1 可证明）
+
+  策略 [2]: **策略B：Metadata Precompute + Scalar Loop Vectorization**
+   ├─ 瓶颈诊断: Scalar 57.5% 主瓶颈，每个token内 `for topk_index in range(topk_num)` 循环中重复标量 load `recv_topk_ids`、`input_index`、`recv_topk_weight`
+   └─ 实施动作: 在 wrapper 中预计算 `expert_id`、`source_token_index`、`acc_weight` 为连续 tensor（shape `[total_token_num, topk_num]`），kernel 内用 `tl.load` 向量化加载整行 topk_num 个值，删除内层标量循环；修改 `_fwd_kernel_ep_gather` 中 `for topk_index` 循环为 `tl.arange(0, topk_num)` 向量化 load 和累加，前提：topk_num 为编译期常量且 ≤32
+
+  策略 [3]: **策略C：Hidden Dimension Tiling + Register Accumulation**
+   ├─ 瓶颈诊断: Vector 12.1% 利用率低，NUM_D_BLOCKS 循环导致重复加载 input_tensor 和 output_tensor 的地址计算
+   └─ 实施动作: 将 BLOCK_D 增大至 2048（前提：hidden_size≥2048 且 UB 容量允许），减少 NUM_D_BLOCKS 迭代次数；在 `for d_block` 循环内使用 `tl.view` 将 `[BLOCK_D]` 展平为 `[2, BLOCK_D//2]` 进行双缓冲累加，减少标量地址计算；前提：BLOCK_D 为 2 的幂且 hidden_size 整除 BLOCK_D
+
+  策略 [4]: **策略D：Expert Map Inline + Branch Elimination**
+   ├─ 瓶颈诊断: Scalar 57.5% 主瓶颈，`HAS_EXPERT_MAP` 条件分支在每个 topk 迭代中执行，且 `apply_expert_map` 函数调用引入额外标量 load
+   └─ 实施动作: 将 `apply_expert_map` 内联到主 kernel，使用 `tl.where` 条件选择替代 `if HAS_EXPERT_MAP` 分支；修改 `_fwd_kernel_ep_gather` 中 `if HAS_EXPERT_MAP: expert_id = apply_expert_map(expert_id, expert_map)` 为 `expert_id = tl.where(HAS_EXPERT_MAP, tl.load(expert_map + expert_id), expert_id)`，前提：expert_map 指针在编译期已知非空或空
+
+  策略 [5]: **策略E：Mask Coverage Proof + Stride Simplification**
+   ├─ 瓶颈诊断: MTE2(读) 38.0% 和 MTE3(写) 18.9% 受限，当前使用 `b_mask = b_idx < total_token_num` 但未在 load/store 中使用
+   └─ 实施动作: 证明 `total_token_num` 整除 BLOCK_B 时删除所有 mask（前提：grid 计算保证 `b_start + BLOCK_B ≤ total_token_num`）；在 wrapper 中验证 `input_tensor_stride1==1` 和 `output_tensor_stride1==1` 时，kernel 内使用 `tl.multiple_of(input_tensor, BLOCK_D)` 和 `tl.max_contiguous(off_d, BLOCK_D)` 优化连续访存；保留通用 fallback 路径当 stride≠1 或非整除时使用 mask
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12332 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12393 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12272 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12371 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12389 chars
+[LLM] [Call #06] ✅ Complete | Tokens=4325 (p:3092, c:1233) | Time=22.38s
+[LLM] [Call #03] ✅ Complete | Tokens=4414 (p:3083, c:1331) | Time=23.39s
+[LLM] [Call #05] ✅ Complete | Tokens=4501 (p:3068, c:1433) | Time=24.38s
+[LLM] [Call #07] ✅ Complete | Tokens=4582 (p:3097, c:1485) | Time=24.81s
+[EA] retry 1/3: candidate rejected by AST gate, regenerating
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=12389 chars
+[LLM] [Call #04] ✅ Complete | Tokens=4710 (p:3098, c:1612) | Time=26.10s
+[LLM] [Call #08] ✅ Complete | Tokens=4650 (p:3097, c:1553) | Time=13.43s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4466 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_62664zvj/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4560 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_5lf3xdrh/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 7.26us
+       └─ Raw speedup: 0.4821
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4821
+       └─ Fitness score: 0.4821 (max 2.0)
+       └─ Competition score: 48.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5173 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_d8pf6jzp/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.12us
+       └─ Raw speedup: 1.1016
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.1016
+       └─ Fitness score: 1.1016 (max 2.0)
+       └─ Competition score: 110.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5935 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_eje0dlgd/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5637 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_qgku9sem/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.52us
+       └─ Raw speedup: 0.9493
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9493
+       └─ Fitness score: 0.9493 (max 2.0)
+       └─ Competition score: 94.9/200 points
+[EA] ❌ 个体 3228caf0 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 b8f0e1e8 (gen0_strategy_guided): 耗时=7.26us, 相对基线加速比=0.4821x, 相对Seed加速比=0.6804x, Fitness=0.6804
+[EA] ✅ 个体 72366613 (gen0_strategy_guided): 耗时=5.12us, 相对基线加速比=1.1016x, 相对Seed加速比=0.9648x, Fitness=0.9648
+[EA] ❌ 个体 40af58a8 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 e3eb921b (gen0_strategy_guided): 耗时=5.52us, 相对基线加速比=0.9493x, 相对Seed加速比=0.8949x, Fitness=0.8949
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12736 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11941 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12973 chars
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12973 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4525 (p:3243, c:1282) | Time=14.01s
+[LLM] [Call #12] ✅ Complete | Tokens=4525 (p:3243, c:1282) | Time=14.01s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7245 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4316 (p:2985, c:1331) | Time=14.65s
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7145 chars
+[LLM] [Call #09] ✅ Complete | Tokens=4536 (p:3184, c:1352) | Time=14.99s
+[LLM] [Call #13] ✅ Complete | Tokens=3093 (p:1811, c:1282) | Time=12.01s
+[LLM] [Call #14] ✅ Complete | Tokens=3117 (p:1786, c:1331) | Time=12.21s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4635 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_zg1j2pat/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.32us
+       └─ Raw speedup: 1.0226
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0226
+       └─ Fitness score: 1.0226 (max 2.0)
+       └─ Competition score: 102.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4618 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_ve7fuhhe/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 7.74us
+       └─ Raw speedup: 0.3902
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3902
+       └─ Fitness score: 0.3902 (max 2.0)
+       └─ Competition score: 39.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4643 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_hseqdpqy/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.36us
+       └─ Raw speedup: 1.0075
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.0075
+       └─ Fitness score: 1.0075 (max 2.0)
+       └─ Competition score: 100.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4553 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_5t8vmu1l/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 7.34us
+       └─ Raw speedup: 0.4659
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.4659
+       └─ Fitness score: 0.4659 (max 2.0)
+       └─ Competition score: 46.6/200 points
+[EA] ✅ 个体 80a4e530 (crossover): 耗时=5.32us, 相对基线加速比=1.0226x, 相对Seed加速比=0.9286x, Fitness=0.9286
+[EA] ✅ 个体 545ede98 (crossover): 耗时=7.74us, 相对基线加速比=0.3902x, 相对Seed加速比=0.6382x, Fitness=0.6382
+[EA] ✅ 个体 a2290c11 (mutation): 耗时=5.36us, 相对基线加速比=1.0075x, 相对Seed加速比=0.9216x, Fitness=0.9216
+[EA] ✅ 个体 492aad7c (mutation): 耗时=7.34us, 相对基线加速比=0.4659x, 相对Seed加速比=0.6730x, Fitness=0.6730
+[EA] Gen 1 Summary: Best=1.0000, Avg=0.8544
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12732 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12738 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12642 chars
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12795 chars
+[LLM] [Call #16] ✅ Complete | Tokens=4536 (p:3184, c:1352) | Time=14.08s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7210 chars
+[LLM] [Call #17] ✅ Complete | Tokens=4512 (p:3160, c:1352) | Time=14.10s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7217 chars
+[LLM] [Call #15] ✅ Complete | Tokens=4535 (p:3183, c:1352) | Time=14.14s
+[LLM] [Call #18] ✅ Complete | Tokens=4550 (p:3198, c:1352) | Time=14.13s
+[LLM] [Call #19] ✅ Complete | Tokens=3154 (p:1802, c:1352) | Time=12.31s
+[LLM] [Call #20] ✅ Complete | Tokens=3156 (p:1804, c:1352) | Time=12.30s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4618 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_fsp_jfu1/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 7.14us
+       └─ Raw speedup: 0.5070
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.5070
+       └─ Fitness score: 0.5070 (max 2.0)
+       └─ Competition score: 50.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4615 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_sko4p8yk/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 8.32us
+       └─ Raw speedup: 0.2933
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2933
+       └─ Fitness score: 0.2933 (max 2.0)
+       └─ Competition score: 29.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4618 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_7e8mvf94/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 6.30us
+       └─ Raw speedup: 0.7079
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.7079
+       └─ Fitness score: 0.7079 (max 2.0)
+       └─ Competition score: 70.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4615 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_m_rcqqe0/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 7.72us
+       └─ Raw speedup: 0.3938
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.3938
+       └─ Fitness score: 0.3938 (max 2.0)
+       └─ Competition score: 39.4/200 points
+[EA] ✅ 个体 2e76e330 (crossover): 耗时=7.14us, 相对基线加速比=0.5070x, 相对Seed加速比=0.6919x, Fitness=0.6919
+[EA] ✅ 个体 6853c62f (crossover): 耗时=8.32us, 相对基线加速比=0.2933x, 相对Seed加速比=0.5937x, Fitness=0.5937
+[EA] ✅ 个体 c83f3b07 (mutation): 耗时=6.30us, 相对基线加速比=0.7079x, 相对Seed加速比=0.7841x, Fitness=0.7841
+[EA] ✅ 个体 33632df8 (mutation): 耗时=7.72us, 相对基线加速比=0.3938x, 相对Seed加速比=0.6399x, Fitness=0.6399
+[EA] Gen 2 Summary: Best=1.0000, Avg=0.7791
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0000
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_gce25tvc/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.78us
+       └─ Raw speedup: 1.2510
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.2510
+       └─ Fitness score: 1.2510 (max 2.0)
+       └─ Competition score: 125.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_7zxavimy/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.46us
+       └─ Raw speedup: 1.4126
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.4126
+       └─ Fitness score: 1.4126 (max 2.0)
+       └─ Competition score: 141.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_588zjzwy/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.70us
+       └─ Raw speedup: 1.2894
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.2894
+       └─ Fitness score: 1.2894 (max 2.0)
+       └─ Competition score: 128.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0_r4c00sbo/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 4.92us
+       └─ Raw speedup: 1.1870
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 1.1870
+       └─ Fitness score: 1.1870 (max 2.0)
+       └─ Competition score: 118.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5749 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/_fwd_kernel_ep_gather/performance/_fwd_kernel_ep_gather_dev_0/_fwd_kernel_ep_gather --application="/usr/local/python3.11.15/bin/python /tmp/_fwd_kernel_ep_gather_dev_0__zvg8vv0/test__fwd_kernel_ep_gather.py" --kernel-name="_fwd_kernel_ep_gather" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 10.76us
+       └─ Optimized time: 5.52us
+       └─ Raw speedup: 0.9493
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.9493
+       └─ Fitness score: 0.9493 (max 2.0)
+       └─ Competition score: 94.9/200 points
+  完成: 4.780096 us  S=2.2510457948961693  用时 395.4s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.41 小时
+============================================================

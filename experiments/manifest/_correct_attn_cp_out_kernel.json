@@ -1,23 +1,23 @@
 {
   "kernel": "_correct_attn_cp_out_kernel",
-  "t_base_us": 7.560151,
-  "t_seed_us": 7.120142,
+  "t_base_us": 7.080142,
+  "t_seed_us": 7.080142,
   "seed_similarity": 0.9159882774340605,
   "repeats": 5,
   "device_id": 0,
   "seeds": {
     "_correct_attn_cp_out_kernel.py": {
       "path": "/workspace/Agent/datasets2/_correct_attn_cp_out_kernel/_correct_attn_cp_out_kernel.py",
-      "latency_us": 7.560151,
+      "latency_us": 7.080142,
       "success": true,
       "error": null
     },
     "_correct_attn_cp_out_kernel_1.py": {
       "path": "/workspace/Agent/datasets2/_correct_attn_cp_out_kernel/_correct_attn_cp_out_kernel_1.py",
-      "latency_us": 7.120142,
+      "latency_us": 7.420148,
       "success": true,
       "error": null
     }
   },
-  "created_at": "2026-09-27T07:36:29"
+  "created_at": "2026-10-19T12:23:47"
 }

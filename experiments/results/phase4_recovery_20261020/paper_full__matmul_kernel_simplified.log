@@ -1,0 +1,1498 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: matmul_kernel_simplified ===
+[harness] 适应度锚点采用 manifest T_seed = 2.6001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: matmul_kernel_simplified
+       └─ Working directory: /workspace/Agent/datasets2/matmul_kernel_simplified
+       └─ Reference baseline: 2.70us
+       └─ Test file: /workspace/Agent/datasets2/matmul_kernel_simplified/test_matmul_kernel_simplified_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8252.39it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6333 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_vvfgqilz/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.60us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5021 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_dqxkob8r/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.92us
+       └─ Raw speedup: -0.0753
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 86.75% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 02cb5975, 基准耗时: 2.60us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.70 us | 当前耗时=2.60 us (相对基线:+3.85% | 相对种子:1.00x)
+- 网格结构: 算子类型=cube | Block Dim=1
+- 管线利用率: Vector=0.0%, Scalar=0.0%, MTE2(读)=0.0%, MTE3(写)=0.0%
+💡 诊断结论: Profiling 硬件计数器未捕获（极短内核），优先采用低风险参数微调、公共子表达式消除和地址不变量外提；对 Stride 简化与对齐声明必须先证明。
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6565 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1676 (p:1640, c:36) | Time=0.81s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 一维Grid, 每Tile独立program, 循环内mask动态边界, 极短内核Profiling未捕获'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid, 每Tile独立program, 循环内mask动态边界, 极短内核Profiling未捕获'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_TINY_KERNEL_AUTOTUNE*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL, ACTION_GUARD_LAUNCH_CONTRACT
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid, 每Tile独立program, 循环内mask动态边界, 极短内核Profiling未捕获
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_TINY_KERNEL_AUTOTUNE（强制联动）
+#### ⚛️ `ACTION_GUARD_TINY_KERNEL_AUTOTUNE`：极短 Kernel 不把 Autotune 当核心优化
+
+* **检索锚点**：极短内核, Profiling计数器未捕获, 单program元素量小, num_warps/num_stages, autotune多配置, Launch调度开销。
+* **核心规则**：1~3us 级简单 load/store/index kernel 优先低风险地址简化、参数离线选择与结构证明，不要堆大量在线 autotune config。
+* **反证据**：`_set_k_and_s_triton_kernel` 正式 `avg=0.09`；`_copy_page_indices_kernel` 正式 `avg=0.22`。这些 tiny kernel 的主要问题并不因扩大 autotune 搜索而自然解决。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_LAUNCH_CONTRACT
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=10697 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3398 (p:2673, c:725) | Time=6.85s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Strategy: 循环不变量外提与地址简化**
+   ├─ 瓶颈诊断: 瓶颈诊断: 极短内核(2.60us)下循环内mask计算和地址偏移重复，Profiling未捕获管线利用率
+   └─ 实施动作: 实施动作: 将`offs_am[:, None] < M`和`offs_bn[None, :] < N`外提到循环外作为常量，循环内仅保留`k_remaining`动态mask；`a_ptrs`和`b_ptrs`的初始地址计算合并为`a_ptr + pid_m * BLOCK_SIZE_M * stride_am`形式
+
+  策略 [2]: **Strategy: 参数离线选择与Grid收拢**
+   ├─ 瓶颈诊断: 瓶颈诊断: 1D Grid下program数量过多(小M/N)，Launch调度开销占比高
+   └─ 实施动作: 实施动作: 当M*N<阈值(如4096)时，将Grid收拢为单program，循环内串行处理所有tile；使用`tl.program_id(0)==0`条件判断，其余program直接返回
+
+  策略 [3]: **Strategy: 公共子表达式消除与地址不变量外提**
+   ├─ 瓶颈诊断: 瓶颈诊断: 循环内`offs_am[:, None] * stride_am + offs_k[None, :] * stride_ak`重复计算
+   └─ 实施动作: 实施动作: 将`offs_am * stride_am`和`offs_bn * stride_bn`外提到循环外，循环内仅累加`BLOCK_SIZE_K * stride_ak/bk`；将`offs_cm * stride_cm + offs_cn * stride_cn`合并为`pid_m * BLOCK_SIZE_M * stride_cm + pid_n * BLOCK_SIZE_N * stride_cn + tl.arange`形式
+
+  策略 [4]: **Strategy: 对齐声明与mask简化**
+   ├─ 瓶颈诊断: 瓶颈诊断: 极短内核下未利用对齐信息，mask计算开销占比高
+   └─ 实施动作: 实施动作: 当M/N/BLOCK_SIZE均为2的幂且整除时，删除所有mask；添加`tl.multiple_of`和`tl.max_contiguous`声明于`a_ptr/b_ptr/c_ptr`的load/store
+
+  策略 [5]: **Strategy: 数据类型专用参数微调**
+   ├─ 瓶颈诊断: 瓶颈诊断: 当前配置对所有dtype统一，未针对float32小shape优化
+   └─ 实施动作: 实施动作: 对float32小shape(M<=64,N<=64)使用`BLOCK_SIZE_M=32, BLOCK_SIZE_N=32, BLOCK_SIZE_K=32, num_warps=4`；对bfloat16/float16保持原配置
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11347 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11279 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11434 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11287 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11277 chars
+[LLM] [Call #07] ✅ Complete | Tokens=4459 (p:2819, c:1640) | Time=25.58s
+[LLM] [Call #06] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #05] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #03] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #04] ⚠️ 连接失败(OpenAIConnectionError)，20s 后重试 (1/5)
+[LLM] [Call #06] ✅ Complete | Tokens=4556 (p:2821, c:1735) | Time=65.82s
+[LLM] [Call #05] ✅ Complete | Tokens=4704 (p:2858, c:1846) | Time=67.05s
+[LLM] [Call #03] ✅ Complete | Tokens=4837 (p:2836, c:2001) | Time=68.37s
+[LLM] [Call #04] ✅ Complete | Tokens=5150 (p:2819, c:2331) | Time=71.13s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4939 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_yv9918q1/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.58us
+       └─ Raw speedup: 0.0465
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0465
+       └─ Fitness score: 0.0465 (max 2.0)
+       └─ Competition score: 4.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5255 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_rf2_gvab/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5470 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_ovuwbsrh/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.62us
+       └─ Raw speedup: 0.0305
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0305
+       └─ Fitness score: 0.0305 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5943 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_73l4djki/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 7213 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0__z0v55bi/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 3.08us
+       └─ Raw speedup: -0.1234
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 db46c42e (gen0_strategy_guided): 耗时=2.58us, 相对基线加速比=0.0465x, 相对Seed加速比=1.0078x, Fitness=1.0078
+[EA] ✅ 个体 11823e36 (gen0_strategy_guided): 耗时=2.80us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9286x, Fitness=0.9286
+[EA] ✅ 个体 6ea1554b (gen0_strategy_guided): 耗时=2.62us, 相对基线加速比=0.0305x, 相对Seed加速比=0.9924x, Fitness=0.9924
+[EA] ❌ 个体 da6186fb (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 dedaf38a (gen0_strategy_guided): 耗时=3.08us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8442x, Fitness=0.8442
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0078 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=8101 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13329 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=15383 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13354 chars
+[LLM] [Call #10] ✅ Complete | Tokens=5265 (p:3845, c:1420) | Time=15.07s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6816 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4847 (p:3338, c:1509) | Time=16.18s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7102 chars
+[LLM] [Call #09] ✅ Complete | Tokens=4844 (p:3332, c:1512) | Time=16.20s
+[LLM] [Call #08] ✅ Complete | Tokens=3746 (p:2025, c:1721) | Time=18.32s
+[LLM] [Call #12] ✅ Complete | Tokens=3124 (p:1704, c:1420) | Time=13.31s
+[LLM] [Call #13] ✅ Complete | Tokens=3284 (p:1775, c:1509) | Time=13.95s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4478 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_s0o47v5e/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5173 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_z388ftqh/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.96us
+       └─ Raw speedup: -0.0878
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4217 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_zzpk5rzt/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 3.06us
+       └─ Raw speedup: -0.1176
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4501 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_f5qe84ac/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.70us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 d125e6b4 (crossover): 耗时=2.80us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9286x, Fitness=0.9286
+[EA] ✅ 个体 348b4bb7 (mutation): 耗时=2.96us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8784x, Fitness=0.8784
+[EA] ✅ 个体 380d1259 (mutation): 耗时=3.06us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8497x, Fitness=0.8497
+[EA] ✅ 个体 255065ec (mutation): 耗时=2.70us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9630x, Fitness=0.9630
+[EA] Gen 1 Summary: Best=1.0078, Avg=0.9379
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=8094 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11975 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12898 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12003 chars
+[LLM] [Call #14] ✅ Complete | Tokens=3508 (p:2023, c:1485) | Time=20.72s
+[LLM] [Call #17] ✅ Complete | Tokens=4509 (p:3000, c:1509) | Time=20.98s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7102 chars
+[LLM] [Call #15] ✅ Complete | Tokens=4505 (p:2993, c:1512) | Time=21.02s
+[LLM] [Call #16] ✅ Complete | Tokens=4736 (p:3224, c:1512) | Time=21.10s
+[LLM] [Call #18] ✅ Complete | Tokens=3284 (p:1775, c:1509) | Time=12.95s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4402 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_d7ti8sre/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.94us
+       └─ Raw speedup: -0.0816
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4475 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_greeinmi/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.90us
+       └─ Raw speedup: -0.0690
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4478 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_aj4fyjqu/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.84us
+       └─ Raw speedup: -0.0493
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4501 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_bw8gog16/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.0146
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 b3a19ac3 (mutation): 耗时=2.94us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8844x, Fitness=0.8844
+[EA] ✅ 个体 e35f7192 (crossover): 耗时=2.90us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8966x, Fitness=0.8966
+[EA] ✅ 个体 b5126e60 (crossover): 耗时=2.84us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9155x, Fitness=0.9155
+[EA] ✅ 个体 0800162a (mutation): 耗时=2.74us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9489x, Fitness=0.9489
+[EA] Gen 2 Summary: Best=1.0078, Avg=0.9422
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0078
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4939 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_c1vjx27j/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.90us
+       └─ Raw speedup: -0.0690
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4939 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_uw57t523/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.58us
+       └─ Raw speedup: 0.0465
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0465
+       └─ Fitness score: 0.0465 (max 2.0)
+       └─ Competition score: 4.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4939 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_iu6p17jc/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.0146
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4939 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_zr6d119v/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.0146
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4939 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_nmqt7l9k/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.0146
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+  完成: 2.740055 us  S=0.9854013879283446  用时 382.3s
+
+=== [paper_full] seed 2/3 算子 1/1: matmul_kernel_simplified ===
+[harness] 适应度锚点采用 manifest T_seed = 2.6001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: matmul_kernel_simplified
+       └─ Working directory: /workspace/Agent/datasets2/matmul_kernel_simplified
+       └─ Reference baseline: 2.70us
+       └─ Test file: /workspace/Agent/datasets2/matmul_kernel_simplified/test_matmul_kernel_simplified_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7849.12it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6333 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_ecv6i0h0/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5021 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_9l0q9mii/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.66us
+       └─ Raw speedup: 0.0150
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0150
+       └─ Fitness score: 0.0150 (max 2.0)
+       └─ Competition score: 1.5/200 points
+[EA] 📊 2 个合法种子代码相似度为: 88.44% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 3c16d069, 基准耗时: 2.60us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.70 us | 当前耗时=2.66 us (相对基线:+1.50% | 相对种子:1.00x)
+- 网格结构: 算子类型=cube | Block Dim=1
+- 管线利用率: Vector=0.0%, Scalar=0.0%, MTE2(读)=0.0%, MTE3(写)=0.0%
+💡 诊断结论: Profiling 硬件计数器未捕获（极短内核），优先采用低风险参数微调、公共子表达式消除和地址不变量外提；对 Stride 简化与对齐声明必须先证明。
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6320 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1618 (p:1579, c:39) | Time=0.73s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 二维Grid与Swizzle分组, 尾块Mask动态边界, 极短内核Profiling未捕获, 整数地址计算'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维Grid与Swizzle分组, 尾块Mask动态边界, 极短内核Profiling未捕获, 整数地址计算'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_TINY_KERNEL_AUTOTUNE*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维Grid与Swizzle分组, 尾块Mask动态边界, 极短内核Profiling未捕获, 整数地址计算
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G3] ACTION_GUARD_TINY_KERNEL_AUTOTUNE（强制联动）
+#### ⚛️ `ACTION_GUARD_TINY_KERNEL_AUTOTUNE`：极短 Kernel 不把 Autotune 当核心优化
+
+* **检索锚点**：极短内核, Profiling计数器未捕获, 单program元素量小, num_warps/num_stages, autotune多配置, Launch调度开销。
+* **核心规则**：1~3us 级简单 load/store/index kernel 优先低风险地址简化、参数离线选择与结构证明，不要堆大量在线 autotune config。
+* **反证据**：`_set_k_and_s_triton_kernel` 正式 `avg=0.09`；`_copy_page_indices_kernel` 正式 `avg=0.22`。这些 tiny kernel 的主要问题并不因扩大 autotune 搜索而自然解决。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=10700 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3516 (p:2674, c:842) | Time=7.72s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：公共子表达式消除与地址不变量外提**
+   ├─ 瓶颈诊断: 瓶颈诊断：极短内核(2.66us)中循环内`offs_am[:, None] < M`等掩码每次迭代重复计算，且`a_ptrs`/`b_ptrs`基址计算含冗余乘法
+   └─ 实施动作: 实施动作：将`offs_am[:, None] < M`和`offs_bn[None, :] < N`外提到循环外作为常量掩码；将`a_ptrs`/`b_ptrs`初始计算中的`offs_am[:, None] * stride_am`和`offs_bn[None, :] * stride_bn`外提为不变量；循环内仅做`+= BLOCK_SIZE_K * stride_ak`增量更新；删除`k_remaining`动态计算改为`ki < k_tiles - 1`时全加载、最后一块用`offs_k < k_remaining`掩码
+
+  策略 [2]: **策略B：尾块分离与掩码简化**
+   ├─ 瓶颈诊断: 瓶颈诊断：`k_tiles`循环每次迭代都计算`k_remaining`和完整`a_mask`/`b_mask`，但仅最后一块需要动态边界
+   └─ 实施动作: 实施动作：将循环拆分为`for ki in range(k_tiles - 1):`全tile无掩码路径 + `if k_tiles > 0:`尾块带掩码路径；全tile路径中`tl.load(a_ptrs, mask=None)`；尾块路径保留`k_remaining`和掩码；前提：`BLOCK_SIZE_K`整除`K`时尾块路径不触发
+
+  策略 [3]: **策略C：参数离线选择与BLOCK微调**
+   ├─ 瓶颈诊断: 瓶颈诊断：Profiling显示极短内核(2.66us)且计数器未捕获，优先低风险参数微调
+   └─ 实施动作: 实施动作：对float32将`BLOCK_SIZE_M=64, BLOCK_SIZE_N=64, BLOCK_SIZE_K=64`调整为`BLOCK_SIZE_M=32, BLOCK_SIZE_N=32, BLOCK_SIZE_K=32`减少单program工作量；`num_warps`从8降至4降低寄存器压力；`GROUP_SIZE_M`从8降至4；前提：M=32,N=48,K=64时新BLOCK仍能覆盖且不增加grid溢出
+
+  策略 [4]: **策略D：Stride简化与对齐声明**
+   ├─ 瓶颈诊断: 瓶颈诊断：地址计算中`stride_am`/`stride_ak`等为运行时参数，无法利用连续对齐
+   └─ 实施动作: 实施动作：在`tl.load`/`tl.store`中添加`tl.multiple_of`和`tl.max_contiguous`提示，但必须证明：`stride_am == N`且`stride_bn == 1`时`offs_am[:, None] * stride_am`连续；`stride_cm == N`时`c_ptrs`连续；前提：仅当输入tensor满足contiguous且stride符合条件时启用；否则回退基线无提示版本
+
+  策略 [5]: **策略E：Grid维度重映射与Swizzle分组优化**
+   ├─ 瓶颈诊断: 瓶颈诊断：当前1D grid + swizzle分组计算`pid_m`/`pid_n`引入整数除法和取模开销
+   └─ 实施动作: 实施动作：将grid改为2D `(triton.cdiv(M, BLOCK_SIZE_M), triton.cdiv(N, BLOCK_SIZE_N))`，直接使用`tl.program_id(0)`和`tl.program_id(1)`；删除`_compute_pid_swizzled`函数；保留`GROUP_SIZE_M`但改为在kernel内对`pid_m`做group-aware remapping；前提：必须证明2D wrapper launch契约与基线一致（Guard G1），且`num_pid_m * num_pid_n`不溢出int32
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11413 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11295 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11321 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11329 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11402 chars
+[LLM] [Call #07] ✅ Complete | Tokens=4395 (p:2850, c:1545) | Time=25.61s
+[LLM] [Call #05] ✅ Complete | Tokens=4464 (p:2830, c:1634) | Time=26.55s
+[LLM] [Call #04] ✅ Complete | Tokens=4545 (p:2823, c:1722) | Time=27.40s
+[LLM] [Call #03] ✅ Complete | Tokens=4629 (p:2853, c:1776) | Time=27.93s
+[LLM] [Call #06] ✅ Complete | Tokens=4676 (p:2832, c:1844) | Time=28.64s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4658 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_dbd1l2ix/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.68us
+       └─ Raw speedup: 0.0075
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0075
+       └─ Fitness score: 0.0075 (max 2.0)
+       └─ Competition score: 0.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4892 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_uzu4_8qw/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.84us
+       └─ Raw speedup: -0.0493
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5172 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_sy60piq4/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5280 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_afv96bmu/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.84us
+       └─ Raw speedup: -0.0493
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5702 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_is4zugoe/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: 0.0227
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0227
+       └─ Fitness score: 0.0227 (max 2.0)
+       └─ Competition score: 2.3/200 points
+[EA] ✅ 个体 dcb04364 (gen0_strategy_guided): 耗时=2.68us, 相对基线加速比=0.0075x, 相对Seed加速比=0.9701x, Fitness=0.9701
+[EA] ✅ 个体 81e8b19f (gen0_strategy_guided): 耗时=2.84us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9155x, Fitness=0.9155
+[EA] ❌ 个体 5cb3e5cd (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 c108ec60 (gen0_strategy_guided): 耗时=2.84us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9155x, Fitness=0.9155
+[EA] ✅ 个体 f59eef30 (gen0_strategy_guided): 耗时=2.64us, 相对基线加速比=0.0227x, 相对Seed加速比=0.9848x, Fitness=0.9848
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12836 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13074 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12836 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13367 chars
+[LLM] [Call #09] ✅ Complete | Tokens=4689 (p:3268, c:1421) | Time=19.55s
+[LLM] [Call #08] ✅ Complete | Tokens=4628 (p:3209, c:1419) | Time=19.56s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6817 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4630 (p:3209, c:1421) | Time=19.58s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6817 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4856 (p:3341, c:1515) | Time=20.80s
+[LLM] [Call #12] ✅ Complete | Tokens=3125 (p:1704, c:1421) | Time=13.11s
+[LLM] [Call #13] ✅ Complete | Tokens=3125 (p:1704, c:1421) | Time=13.09s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4203 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_no6jnclw/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.60us
+       └─ Raw speedup: 0.0385
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0385
+       └─ Fitness score: 0.0385 (max 2.0)
+       └─ Competition score: 3.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4514 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_s0_75968/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: -0.0940
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4218 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_gjv_4y76/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.0146
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4218 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_jtm9mnkr/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 16501040 (crossover): 耗时=2.60us, 相对基线加速比=0.0385x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ✅ 个体 b1ba3841 (crossover): 耗时=2.98us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8725x, Fitness=0.8725
+[EA] ✅ 个体 5a8e5bce (mutation): 耗时=2.74us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9489x, Fitness=0.9489
+[EA] ✅ 个体 afcd5846 (mutation): 耗时=2.80us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9286x, Fitness=0.9286
+[EA] Gen 1 Summary: Best=1.0000, Avg=0.9558
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7115 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12396 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12396 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12689 chars
+[LLM] [Call #15] ✅ Complete | Tokens=4520 (p:3099, c:1421) | Time=14.65s
+[LLM] [Call #14] ✅ Complete | Tokens=3197 (p:1778, c:1419) | Time=14.67s[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6817 chars
+
+[LLM] [Call #16] ✅ Complete | Tokens=4520 (p:3099, c:1421) | Time=14.68s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6817 chars
+[LLM] [Call #17] ✅ Complete | Tokens=4687 (p:3172, c:1515) | Time=15.69s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7110 chars
+[LLM] [Call #18] ✅ Complete | Tokens=3123 (p:1704, c:1419) | Time=14.27s
+[LLM] [Call #19] ✅ Complete | Tokens=3125 (p:1704, c:1421) | Time=14.26s
+[LLM] [Call #20] ✅ Complete | Tokens=3290 (p:1777, c:1513) | Time=14.81s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4203 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_0f6xsmex/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: -0.0940
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4200 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_r6htv6wd/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.78us
+       └─ Raw speedup: -0.0288
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4218 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_l2crc54f/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.0146
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4493 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_g46cy0vo/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.90us
+       └─ Raw speedup: -0.0690
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 c75b3ec7 (mutation): 耗时=2.98us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8725x, Fitness=0.8725
+[EA] ✅ 个体 acd0d4f5 (mutation): 耗时=2.78us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9353x, Fitness=0.9353
+[EA] ✅ 个体 68115e92 (mutation): 耗时=2.74us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9489x, Fitness=0.9489
+[EA] ✅ 个体 379868f8 (mutation): 耗时=2.90us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8966x, Fitness=0.8966
+[EA] Gen 2 Summary: Best=1.0000, Avg=0.9422
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0000
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5021 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_ensbffso/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.70us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5021 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_ggdnef29/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.52us
+       └─ Raw speedup: 0.0714
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0714
+       └─ Fitness score: 0.0714 (max 2.0)
+       └─ Competition score: 7.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5021 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_7nbpzzq7/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.0146
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5021 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_k1udrfun/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.56us
+       └─ Raw speedup: 0.0547
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0547
+       └─ Fitness score: 0.0547 (max 2.0)
+       └─ Competition score: 5.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5021 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_9p1vd4_b/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.66us
+       └─ Raw speedup: 0.0150
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0150
+       └─ Fitness score: 0.0150 (max 2.0)
+       └─ Competition score: 1.5/200 points
+  完成: 2.660053 us  S=1.015037670302058  用时 344.4s
+
+=== [paper_full] seed 3/3 算子 1/1: matmul_kernel_simplified ===
+[harness] 适应度锚点采用 manifest T_seed = 2.6001 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: matmul_kernel_simplified
+       └─ Working directory: /workspace/Agent/datasets2/matmul_kernel_simplified
+       └─ Reference baseline: 2.70us
+       └─ Test file: /workspace/Agent/datasets2/matmul_kernel_simplified/test_matmul_kernel_simplified_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7189.66it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6333 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_f__mrfuq/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5021 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_h8a5bev4/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 86.75% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 2866cd3a, 基准耗时: 2.60us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.70 us | 当前耗时=2.80 us (相对基线:-3.57% | 相对种子:1.00x)
+- 网格结构: 算子类型=cube | Block Dim=1
+- 管线利用率: Vector=0.0%, Scalar=0.0%, MTE2(读)=0.0%, MTE3(写)=0.0%
+💡 诊断结论: Profiling 硬件计数器未捕获（极短内核），优先采用低风险参数微调、公共子表达式消除和地址不变量外提；对 Stride 简化与对齐声明必须先证明。
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6565 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1677 (p:1640, c:37) | Time=1.01s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,二维Swizzle分组Grid,尾块Mask动态边界,循环内Mask逐Tile计算,极短内核Profiling未捕获'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维Swizzle分组Grid, 尾块Mask动态边界, 循环内Mask逐Tile计算, 极短内核Profiling未捕获'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_TINY_KERNEL_AUTOTUNE*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维Swizzle分组Grid, 尾块Mask动态边界, 循环内Mask逐Tile计算, 极短内核Profiling未捕获
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G2] ACTION_GUARD_TINY_KERNEL_AUTOTUNE（强制联动）
+#### ⚛️ `ACTION_GUARD_TINY_KERNEL_AUTOTUNE`：极短 Kernel 不把 Autotune 当核心优化
+
+* **检索锚点**：极短内核, Profiling计数器未捕获, 单program元素量小, num_warps/num_stages, autotune多配置, Launch调度开销。
+* **核心规则**：1~3us 级简单 load/store/index kernel 优先低风险地址简化、参数离线选择与结构证明，不要堆大量在线 autotune config。
+* **反证据**：`_set_k_and_s_triton_kernel` 正式 `avg=0.09`；`_copy_page_indices_kernel` 正式 `avg=0.22`。这些 tiny kernel 的主要问题并不因扩大 autotune 搜索而自然解决。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=10751 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3654 (p:2687, c:967) | Time=8.70s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A: 尾块Mask外提与公共子表达式消除**
+   ├─ 瓶颈诊断: 瓶颈诊断: 循环内每步计算a_mask/b_mask/c_mask，Profiling显示极短内核(2.80us)且计数器未捕获，开销集中在冗余地址计算。
+   └─ 实施动作: 实施动作: 将k_remaining计算外提到循环前，循环内仅用`ki * BLOCK_SIZE_K`比较；将`offs_am[:, None] < M`和`offs_bn[None, :] < N`外提为循环不变量；尾块mask仅当`k_remaining < BLOCK_SIZE_K`时计算。具体修改：`k_remaining = K`前置，循环内`k_remaining -= BLOCK_SIZE_K`，`a_mask = (offs_am[:, None] < M) & (offs_k[None, :] < k_remaining + BLOCK_SIZE_K)`改为`a_mask = m_mask & (offs_k[None, :] < k_remaining + BLOCK_SIZE_K)`。
+
+  策略 [2]: **策略B: 地址不变量外提与Stride简化**
+   ├─ 瓶颈诊断: 瓶颈诊断: `a_ptrs`和`b_ptrs`基地址在循环内重复计算，且stride乘法可提前合并。
+   └─ 实施动作: 实施动作: 将`a_ptr + offs_am[:, None] * stride_am`和`b_ptr + offs_bn[None, :] * stride_bn`外提为循环不变量；`a_ptrs += BLOCK_SIZE_K * stride_ak`改为`a_ptrs += BLOCK_SIZE_K * stride_ak`但使用指针增量而非重算。具体修改：`a_base = a_ptr + offs_am[:, None] * stride_am`，`b_base = b_ptr + offs_bn[None, :] * stride_bn`，循环内`a_ptrs = a_base + offs_k[None, :] * stride_ak`，`b_ptrs = b_base + offs_k[:, None] * stride_bk`。
+
+  策略 [3]: **策略C: 二维Swizzle分组Grid与尾块独立路径**
+   ├─ 瓶颈诊断: 瓶颈诊断: 当前Grid为1D flatten，尾块mask每步计算，Profiling显示极短内核。
+   └─ 实施动作: 实施动作: 保持外部1D Grid入口不变，内部将`tile_id`映射为2D swizzle分组；对M/N整除BLOCK_SIZE的full tile走无mask fast path，尾块走通用mask path。具体修改：`num_pid_m = M // BLOCK_SIZE_M`，`num_pid_n = N // BLOCK_SIZE_N`，`if pid_m < num_pid_m and pid_n < num_pid_n: full_tile_path` else `masked_path`。
+
+  策略 [4]: **策略D: 循环内Mask逐Tile计算优化与Bias合并**
+   ├─ 瓶颈诊断: 瓶颈诊断: Bias加载独立于主循环，且mask计算冗余。
+   └─ 实施动作: 实施动作: 将Bias加载合并到主循环最后一步，复用`offs_bn`；循环内mask仅当`k_remaining < BLOCK_SIZE_K`时计算，否则使用`None`。具体修改：`if HAS_BIAS: bias = tl.load(bias_ptr + offs_bn, mask=offs_bn < N, other=0.0).to(tl.float32)`，循环内`if k_remaining >= BLOCK_SIZE_K: a = tl.load(a_ptrs, mask=None)` else `a = tl.load(a_ptrs, mask=a_mask)`。
+
+  策略 [5]: **策略E: 参数离线选择与公共子表达式消除**
+   ├─ 瓶颈诊断: 瓶颈诊断: Profiling显示极短内核(2.80us)，autotune开销不可接受，需低风险参数微调。
+   └─ 实施动作: 实施动作: 将`GROUP_SIZE_M`、`BLOCK_SIZE_K`等参数根据M/N/K离线选择，避免运行时autotune；消除`offs_am[:, None] * stride_am`等重复计算。具体修改：`if M <= 64 and N <= 64: BLOCK_SIZE_M=64, BLOCK_SIZE_N=64, BLOCK_SIZE_K=64, GROUP_SIZE_M=4` else `BLOCK_SIZE_M=128, BLOCK_SIZE_N=128, BLOCK_SIZE_K=32, GROUP_SIZE_M=8`；`stride_am_val = stride_am`外提。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11551 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11544 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11429 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11446 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11473 chars
+[LLM] [Call #07] ✅ Complete | Tokens=4480 (p:2868, c:1612) | Time=26.30s
+[LLM] [Call #06] ✅ Complete | Tokens=4503 (p:2861, c:1642) | Time=26.67s
+[LLM] [Call #03] ✅ Complete | Tokens=4547 (p:2887, c:1660) | Time=26.77s
+[LLM] [Call #04] ✅ Complete | Tokens=4557 (p:2886, c:1671) | Time=26.88s
+[LLM] [Call #05] ✅ Complete | Tokens=4921 (p:2857, c:2064) | Time=30.30s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4787 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_e_7ikklz/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.54us
+       └─ Raw speedup: 0.0630
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0630
+       └─ Fitness score: 0.0630 (max 2.0)
+       └─ Competition score: 6.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4958 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_cu0asss7/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.62us
+       └─ Raw speedup: 0.0305
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0305
+       └─ Fitness score: 0.0305 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4970 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_k79gw_qa/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: 0.0227
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0227
+       └─ Fitness score: 0.0227 (max 2.0)
+       └─ Competition score: 2.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5090 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_rds1mb0o/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.64us
+       └─ Raw speedup: 0.0227
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0227
+       └─ Fitness score: 0.0227 (max 2.0)
+       └─ Competition score: 2.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6372 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_rhcbipbe/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.98us
+       └─ Raw speedup: -0.0940
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 f2e9c5ad (gen0_strategy_guided): 耗时=2.54us, 相对基线加速比=0.0630x, 相对Seed加速比=1.0236x, Fitness=1.0236
+[EA] ✅ 个体 622b61e8 (gen0_strategy_guided): 耗时=2.62us, 相对基线加速比=0.0305x, 相对Seed加速比=0.9924x, Fitness=0.9924
+[EA] ✅ 个体 4d702b6f (gen0_strategy_guided): 耗时=2.64us, 相对基线加速比=0.0227x, 相对Seed加速比=0.9848x, Fitness=0.9848
+[EA] ✅ 个体 50f94641 (gen0_strategy_guided): 耗时=2.64us, 相对基线加速比=0.0227x, 相对Seed加速比=0.9848x, Fitness=0.9848
+[EA] ✅ 个体 aee9ef1a (gen0_strategy_guided): 耗时=2.98us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8725x, Fitness=0.8725
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0236 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13308 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14285 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13371 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12917 chars
+[LLM] [Call #09] ✅ Complete | Tokens=4992 (p:3571, c:1421) | Time=19.95s
+[LLM] [Call #11] ✅ Complete | Tokens=4648 (p:3229, c:1419) | Time=19.95s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6824 chars
+[LLM] [Call #08] ✅ Complete | Tokens=4748 (p:3327, c:1421) | Time=20.03s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6817 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4803 (p:3342, c:1461) | Time=20.63s
+[LLM] [Call #12] ✅ Complete | Tokens=3127 (p:1706, c:1421) | Time=13.05s
+[LLM] [Call #13] ✅ Complete | Tokens=3123 (p:1704, c:1419) | Time=12.99s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4173 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_i62opqdn/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.78us
+       └─ Raw speedup: -0.0288
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4377 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_d6jdyazt/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.72us
+       └─ Raw speedup: -0.0074
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4218 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_yqqk4u25/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.74us
+       └─ Raw speedup: -0.0146
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4200 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_qkj8b9ql/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.72us
+       └─ Raw speedup: -0.0074
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 6f367446 (crossover): 耗时=2.78us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9353x, Fitness=0.9353
+[EA] ✅ 个体 331b3ec5 (crossover): 耗时=2.72us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9559x, Fitness=0.9559
+[EA] ✅ 个体 7574b61a (mutation): 耗时=2.74us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9489x, Fitness=0.9489
+[EA] ✅ 个体 cd82d707 (mutation): 耗时=2.72us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9559x, Fitness=0.9559
+[EA] Gen 1 Summary: Best=1.0236, Avg=0.9699
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11700 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11874 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11856 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12623 chars
+[LLM] [Call #14] ✅ Complete | Tokens=4344 (p:2925, c:1419) | Time=15.25s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6799 chars
+[LLM] [Call #17] ✅ Complete | Tokens=4574 (p:3155, c:1419) | Time=15.26s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6806 chars
+[LLM] [Call #15] ✅ Complete | Tokens=4389 (p:2968, c:1421) | Time=15.31s
+[LLM] [Call #16] ✅ Complete | Tokens=4423 (p:2964, c:1459) | Time=15.89s
+[LLM] [Call #18] ✅ Complete | Tokens=3118 (p:1699, c:1419) | Time=12.98s
+[LLM] [Call #19] ✅ Complete | Tokens=3120 (p:1701, c:1419) | Time=12.99s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4218 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_xyrfrcju/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.78us
+       └─ Raw speedup: -0.0288
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4356 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_iub5lpx2/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.72us
+       └─ Raw speedup: -0.0074
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4200 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0__im9s1fq/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.56us
+       └─ Raw speedup: 0.0547
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0547
+       └─ Fitness score: 0.0547 (max 2.0)
+       └─ Competition score: 5.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4200 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_xg5vs5x4/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.66us
+       └─ Raw speedup: 0.0150
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0150
+       └─ Fitness score: 0.0150 (max 2.0)
+       └─ Competition score: 1.5/200 points
+[EA] ✅ 个体 d45cb18b (crossover): 耗时=2.78us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9353x, Fitness=0.9353
+[EA] ✅ 个体 41aee550 (crossover): 耗时=2.72us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9559x, Fitness=0.9559
+[EA] ✅ 个体 79391c0f (mutation): 耗时=2.56us, 相对基线加速比=0.0547x, 相对Seed加速比=1.0156x, Fitness=1.0156
+[EA] ✅ 个体 bbce784d (mutation): 耗时=2.66us, 相对基线加速比=0.0150x, 相对Seed加速比=0.9774x, Fitness=0.9774
+[EA] Gen 2 Summary: Best=1.0236, Avg=0.9846
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0236
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4787 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_u215yeup/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.90us
+       └─ Raw speedup: -0.0690
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4787 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_wx7r1ckg/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.84us
+       └─ Raw speedup: -0.0493
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4787 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_px9gct7o/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.68us
+       └─ Raw speedup: 0.0075
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0075
+       └─ Fitness score: 0.0075 (max 2.0)
+       └─ Competition score: 0.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4787 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_ytnaxb2f/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.76us
+       └─ Raw speedup: -0.0217
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4787 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/matmul_kernel_simplified/performance/matmul_kernel_simplified_dev_0/matmul_kernel_simplified --application="/usr/local/python3.11.15/bin/python /tmp/matmul_kernel_simplified_dev_0_sgqifc6w/test_matmul_kernel_simplified.py" --kernel-name="matmul_kernel_simplified" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.70us
+       └─ Optimized time: 2.80us
+       └─ Raw speedup: -0.0357
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+  完成: 2.800056 us  S=0.9642857142857143  用时 352.8s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.37 小时
+============================================================

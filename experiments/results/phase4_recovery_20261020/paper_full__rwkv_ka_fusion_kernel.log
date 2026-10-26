@@ -1,0 +1,1501 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: rwkv_ka_fusion_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 1.9800 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: rwkv_ka_fusion_kernel
+       └─ Working directory: /workspace/Agent/datasets2/rwkv_ka_fusion_kernel
+       └─ Reference baseline: 2.00us
+       └─ Test file: /workspace/Agent/datasets2/rwkv_ka_fusion_kernel/test_rwkv_ka_fusion_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 4771.07it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1690 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_mw9e6y24/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.10us
+       └─ Raw speedup: -0.0476
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1691 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_g_y6qnui/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.92us
+       └─ Raw speedup: 0.0417
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0417
+       └─ Fitness score: 0.0417 (max 2.0)
+       └─ Competition score: 4.2/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.97% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 1.92us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: ca873c50, 基准耗时: 1.98us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.00 us | 当前耗时=1.92 us (相对基线:+4.17% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=16.2%, Scalar=53.9%, MTE2(读)=30.1%, MTE3(写)=33.2%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (53.9%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=3.33 GB/s, 向量写=3.70 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3146 chars
+[LLM] [Call #01] ✅ Complete | Tokens=823 (p:785, c:38) | Time=1.02s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 一维Grid, program内H循环, 整行规约(tl.sum), Scalar标量(53.9%)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid, program内H循环, 整行规约(tl.sum), 行级全宽规约, Scalar标量(53.9%)'
+[✅ RAG Positive] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid, program内H循环, 整行规约(tl.sum), 行级全宽规约, Scalar标量(53.9%)
+
+【高置信候选优化动作】
+
+[P1] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION
+#### ⚛️ `ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`：行级规约按 n_cols 建立整行 / 分块 Fast Path
+
+* **检索锚点**：行级全宽规约, RMSNorm, Softmax, LogSoftmax, n_cols动态, 非2次幂列数, 尾块mask, 完整规约域, 持久化多行循环, Vector规约占比高。
+* **Profiling 锚点**：Vector 主瓶颈；MTE2 读流量来自同一行多趟扫描。
+* **结构判据**：每个 row 独立，核心是 `max/sum/sumsq` 规约；不同 testcase 的 n_cols 跨小/中/大尺寸。
+* **优化动作**：小中 n_cols 用 `next_power_of_2(n_cols)` 整行一次 load+reduce；大 n_cols 用中等 BLOCK 分块；对整除/full tile 单独走无 mask fast path。
+* **必须前提**：整行 tile 可放入寄存器/UB；完整规约域不能截断；局部逻辑宽度必须有独立 mask 证明。
+* **禁用条件**：超大 n_cols 强行整行驻留；为了去 mask 漏算尾元素；只使用 flatten 后总长度 mask 代替局部 Row/Head/Group 边界。
+* **正式平台证据**：`_rms_norm_kernel` 正式 `avg=2.00`；`_log_softmax_kernel` 正式 `avg=1.10, min=0.97, max=1.27`。
+* **可信度**：A(RMSNorm), B(LogSoftmax)。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6064 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2240 (p:1515, c:725) | Time=6.96s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Strategy_GridConsolidate_HLoop**
+   ├─ 瓶颈诊断: 当前瓶颈：Scalar 标量 (53.9%) 过高，源于 H 循环内每行独立地址计算和规约；Grid 粒度过细 (block_size=1*C) 导致大量小 program 启动开销
+   └─ 实施动作: 实施动作：将 Grid 从 `triton.cdiv(T*C, C)` 收拢为 `triton.cdiv(T*C, C*H)`，每个 program 处理 H 行完整规约；循环内用 `tl.arange(0, N_size)` 一次加载 k, a, kk, ka，合并地址计算；前提：H 整除 program 工作量，N_size 可放入 UB；fallback：H 非整除时保留原 Grid
+
+  策略 [2]: **Strategy_SizeSpecialized_FullRowReduce**
+   ├─ 瓶颈诊断: 当前瓶颈：Vector 16.2% 低效，因规约 `tl.sum(kt2.to(tl.float32))` 在 H 循环内重复扫描；Scalar 53.9% 来自 stride 乘法
+   └─ 实施动作: 实施动作：采用 `ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`，对 N 为 2 的幂时整行一次 load+reduce，消除 mask 开销；非 2 的幂时用 `next_power_of_2(N)` 填充并 mask；前提：N ≤ 1024 且整行可驻留 UB；禁用条件：N > 1024 时回退分块
+
+  策略 [3]: **Strategy_ScalarHoist_StrideSimplify**
+   ├─ 瓶颈诊断: 当前瓶颈：Scalar 53.9% 主因是 `k_start + i*N + tl.arange(0, N_size)` 中 i*N 每次循环重算
+   └─ 实施动作: 实施动作：将 `i*N` 外提为循环不变量 `base_offs = k_start + tl.arange(0, N_size)`，循环内仅加 `i*N`；证明 stride 恒为 1 时简化乘法为加法；前提：N 和 N_size 为 tl.constexpr；禁用条件：stride 非连续时保留原计算
+
+  策略 [4]: **Strategy_MTE2Prefetch_ReadAlign**
+   ├─ 瓶颈诊断: 当前瓶颈：MTE2 读 30.1% 未充分利用，因 k, a, kk, ka 加载分散且 mask 检查频繁
+   └─ 实施动作: 实施动作：将 k, a, kk, ka 的 load 合并为一次 `tl.load(k_ptr + offs)` 和 `tl.load(a_ptr + offs)`，利用 `tl.max_contiguous` 提示连续访问（仅当 stride=1 可证明）；前提：k, a, kk, ka 内存连续且对齐；禁用条件：非连续 stride 时保持原 mask
+
+  策略 [5]: **Strategy_OutputMerge_StoreReduce**
+   ├─ 瓶颈诊断: 当前瓶颈：Vector 写 3.70 GB/s 低效，因三个输出 `o_k, o_kk, o_kka` 独立 store 导致写流量翻倍
+   └─ 实施动作: 实施动作：将 `ok, okk, okka` 合并为单个 `tl.store` 写入连续缓冲区，减少 store 指令数；前提：输出指针连续且对齐；禁用条件：输出布局不连续时回退原 store
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6682 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6666 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6626 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6629 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=6561 chars
+[LLM] [Call #03] ✅ Complete | Tokens=2333 (p:1670, c:663) | Time=8.86s
+[LLM] [Call #06] ✅ Complete | Tokens=2306 (p:1657, c:649) | Time=8.85s
+[LLM] [Call #05] ✅ Complete | Tokens=2320 (p:1656, c:664) | Time=9.00s
+[LLM] [Call #07] ✅ Complete | Tokens=2330 (p:1640, c:690) | Time=9.20s
+[LLM] [Call #04] ✅ Complete | Tokens=2396 (p:1666, c:730) | Time=9.52s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1689 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_eu98bp6w/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.54us
+       └─ Raw speedup: -0.2126
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_5dr1peks/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 3.38us
+       └─ Raw speedup: -0.4083
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_dbmak915/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: 0.0309
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0309
+       └─ Fitness score: 0.0309 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1790 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_0rbzzzvb/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1908 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_49fuykgk/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.00us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 6bf2a666 (gen0_strategy_guided): 耗时=2.54us, 相对基线加速比=0.0000x, 相对Seed加速比=0.7795x, Fitness=0.7795
+[EA] ✅ 个体 c8918e5f (gen0_strategy_guided): 耗时=3.38us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5858x, Fitness=0.5858
+[EA] ✅ 个体 1c8c2893 (gen0_strategy_guided): 耗时=1.94us, 相对基线加速比=0.0309x, 相对Seed加速比=1.0206x, Fitness=1.0206
+[EA] ❌ 个体 386aada3 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 eb1ee1be (gen0_strategy_guided): 耗时=2.00us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9900x, Fitness=0.9900
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0206 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6771 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6962 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6771 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6752 chars
+[LLM] [Call #11] ✅ Complete | Tokens=2352 (p:1688, c:664) | Time=7.20s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4303 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2355 (p:1692, c:663) | Time=7.22s
+[LLM] [Call #08] ✅ Complete | Tokens=2355 (p:1692, c:663) | Time=7.24s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4319 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2426 (p:1740, c:686) | Time=7.72s
+[LLM] [Call #13] ✅ Complete | Tokens=1757 (p:1079, c:678) | Time=6.43s
+[LLM] [Call #12] ✅ Complete | Tokens=1757 (p:1075, c:682) | Time=6.48s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_9xzhehsv/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 3.34us
+       └─ Raw speedup: -0.4012
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1782 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_vxp_9522/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.0526
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0526
+       └─ Fitness score: 0.0526 (max 2.0)
+       └─ Competition score: 5.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1748 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_p81upcgk/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 3.44us
+       └─ Raw speedup: -0.4186
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1745 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_nc3ksrrs/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.0526
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0526
+       └─ Fitness score: 0.0526 (max 2.0)
+       └─ Competition score: 5.3/200 points
+[EA] ✅ 个体 7e2f176b (crossover): 耗时=3.34us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5928x, Fitness=0.5928
+[EA] ✅ 个体 7d6c83b4 (crossover): 耗时=1.90us, 相对基线加速比=0.0526x, 相对Seed加速比=1.0421x, Fitness=1.0421
+[EA] ✅ 个体 4e341cf0 (mutation): 耗时=3.44us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5756x, Fitness=0.5756
+[EA] ✅ 个体 061c5bc0 (mutation): 耗时=1.90us, 相对基线加速比=0.0526x, 相对Seed加速比=1.0421x, Fitness=1.0421
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0421
+[EA] Gen 1 Summary: Best=1.0421, Avg=0.8789
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6752 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4738 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6745 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6853 chars
+[LLM] [Call #16] ✅ Complete | Tokens=2349 (p:1686, c:663) | Time=7.28s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4319 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2352 (p:1688, c:664) | Time=7.29s
+[LLM] [Call #15] ✅ Complete | Tokens=1870 (p:1184, c:686) | Time=7.45s
+[LLM] [Call #17] ✅ Complete | Tokens=2408 (p:1713, c:695) | Time=7.55s
+[LLM] [Call #18] ✅ Complete | Tokens=1757 (p:1079, c:678) | Time=6.43s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_exppkk7_/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.00us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1782 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_edp9kitp/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.02us
+       └─ Raw speedup: -0.0099
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1808 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_6wq747gf/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.08us
+       └─ Raw speedup: -0.0385
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1748 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_fb7zmv0x/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 3.32us
+       └─ Raw speedup: -0.3976
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 048c944f (crossover): 耗时=2.00us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9900x, Fitness=0.9900
+[EA] ✅ 个体 727d1503 (mutation): 耗时=2.02us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9802x, Fitness=0.9802
+[EA] ✅ 个体 c0de595c (crossover): 耗时=2.08us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9519x, Fitness=0.9519
+[EA] ✅ 个体 f6ebe517 (mutation): 耗时=3.32us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5964x, Fitness=0.5964
+[EA] Gen 2 Summary: Best=1.0421, Avg=0.9338
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0421
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1782 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_2bv3i6i2/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.98us
+       └─ Raw speedup: 0.0101
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0101
+       └─ Fitness score: 0.0101 (max 2.0)
+       └─ Competition score: 1.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1782 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_kckgpc8s/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.14us
+       └─ Raw speedup: -0.0654
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1782 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_7q0h2zn2/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.88us
+       └─ Raw speedup: 0.0638
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0638
+       └─ Fitness score: 0.0638 (max 2.0)
+       └─ Competition score: 6.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1782 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_tm61pt6n/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.0526
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0526
+       └─ Fitness score: 0.0526 (max 2.0)
+       └─ Competition score: 5.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1782 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_hu9_fy53/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.10us
+       └─ Raw speedup: -0.0476
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+  完成: 1.98004 us  S=1.0101008060443222  用时 313.0s
+
+=== [paper_full] seed 2/3 算子 1/1: rwkv_ka_fusion_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 1.9800 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: rwkv_ka_fusion_kernel
+       └─ Working directory: /workspace/Agent/datasets2/rwkv_ka_fusion_kernel
+       └─ Reference baseline: 2.00us
+       └─ Test file: /workspace/Agent/datasets2/rwkv_ka_fusion_kernel/test_rwkv_ka_fusion_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7552.90it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1690 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_1cpof9j2/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.04us
+       └─ Raw speedup: -0.0196
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1691 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_pyb8_9vr/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: 0.0309
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0309
+       └─ Fitness score: 0.0309 (max 2.0)
+       └─ Competition score: 3.1/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.97% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 1.94us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 2350b8d5, 基准耗时: 1.98us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.00 us | 当前耗时=1.94 us (相对基线:+3.09% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=16.1%, Scalar=52.4%, MTE2(读)=27.0%, MTE3(写)=44.4%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (52.4%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法） | MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=3.31 GB/s, 向量写=3.67 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3223 chars
+[LLM] [Call #01] ✅ Complete | Tokens=854 (p:805, c:49) | Time=0.80s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 单program内H次循环, 整行规约(tl.sum), 标量地址计算(Scalar=52.4%), 动态mask(offs<T*C)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 单program内H次循环, 整行规约(tl.sum), 行级全宽规约, 标量地址计算(Scalar=52.4%), 动态mask(offs<T*C)'
+[✅ RAG Positive] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION, ACTION_GROUP_PACK_RESHAPE_REDUCE, ACTION_CONSTEXPR_MODE_SPECIALIZATION
+[🛡️ RAG Guard] ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 单program内H次循环, 整行规约(tl.sum), 行级全宽规约, 标量地址计算(Scalar=52.4%), 动态mask(offs<T*C)
+
+【高置信候选优化动作】
+
+[P1] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION
+#### ⚛️ `ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`：行级规约按 n_cols 建立整行 / 分块 Fast Path
+
+* **检索锚点**：行级全宽规约, RMSNorm, Softmax, LogSoftmax, n_cols动态, 非2次幂列数, 尾块mask, 完整规约域, 持久化多行循环, Vector规约占比高。
+* **Profiling 锚点**：Vector 主瓶颈；MTE2 读流量来自同一行多趟扫描。
+* **结构判据**：每个 row 独立，核心是 `max/sum/sumsq` 规约；不同 testcase 的 n_cols 跨小/中/大尺寸。
+* **优化动作**：小中 n_cols 用 `next_power_of_2(n_cols)` 整行一次 load+reduce；大 n_cols 用中等 BLOCK 分块；对整除/full tile 单独走无 mask fast path。
+* **必须前提**：整行 tile 可放入寄存器/UB；完整规约域不能截断；局部逻辑宽度必须有独立 mask 证明。
+* **禁用条件**：超大 n_cols 强行整行驻留；为了去 mask 漏算尾元素；只使用 flatten 后总长度 mask 代替局部 Row/Head/Group 边界。
+* **正式平台证据**：`_rms_norm_kernel` 正式 `avg=2.00`；`_log_softmax_kernel` 正式 `avg=1.10, min=0.97, max=1.27`。
+* **可信度**：A(RMSNorm), B(LogSoftmax)。
+
+[P2] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+[P3] ACTION_CONSTEXPR_MODE_SPECIALIZATION
+#### ⚛️ `ACTION_CONSTEXPR_MODE_SPECIALIZATION`：Shape / Stride / Mode 编译期特化
+
+* **检索锚点**：动态shape, 动态stride, constexpr机会, 编译期分支, HAS_*模式, full tile模式, 重复标量地址计算, Scalar标量占比高。
+* **Profiling 锚点**：Scalar 主瓶颈；分支和地址生成开销高。
+* **结构判据**：n_cols/chunk_size/stride/布尔模式在一次 kernel 编译实例内固定，但仍作为运行时变量参与地址和分支。
+* **优化动作**：将真实稳定参数设为 `tl.constexpr`，派生 `IS_FULL_TILE/NEEDS_MASK/HAS_*` 等编译期 flag，删除不可达逻辑。
+* **必须前提**：稳定性来自 wrapper/API 契约，而不是单个公开 testcase；shape/stride 组合数量可控。
+* **禁用条件**：高度动态 workload 中过度 constexpr 导致编译/缓存爆炸；把公开 testcase 的特定 shape/stride 当作全局契约硬编码。
+* **正式平台证据**：`_state_passing_fwd_kernel` 正式 `avg=1.48, min=0.43, max=2.00`，说明收益高度 shape-dependent。
+* **强制联动 Guard**：`ACTION_GUARD_MASK_COVERAGE_PROOF`、`ACTION_GUARD_ALIGNMENT_PROOF`、`ACTION_GUARD_LAUNCH_CONTRACT`。
+* **可信度**：B。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9501 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3170 (p:2374, c:796) | Time=7.36s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION + ACTION_CONSTEXPR_MODE_SPECIALIZATION**
+   ├─ 瓶颈诊断: Scalar=52.4% 主瓶颈，Vector=16.1% 低利用率，动态mask开销大
+   └─ 实施动作: 将 `N_size` 改为 `tl.constexpr` 并基于 `N` 编译期特化：小N（≤128）用 `next_power_of_2(N)` 整行一次load+reduce；大N分块；对 `N == N_size` 走无mask fast path。修改：`N_size: tl.constexpr` 由wrapper传入 `triton.next_power_of_2(N)`，kernel内 `offs = k_start + i * N + tl.arange(0, N_size)`，`mask=offs < k_start + i * N + N` 局部域证明。
+
+  策略 [2]: **ACTION_GROUP_PACK_RESHAPE_REDUCE**
+   ├─ 瓶颈诊断: Scalar=52.4% 地址计算高，H次循环每行独立program，MTE2=27.0% 读受限
+   └─ 实施动作: 将 `H` 个连续row打包进一个program：`grid = (triton.cdiv(T * C, block_size * H),)`，kernel内 `for i in range(0, H):` 改为一次加载 `H * N_size` 连续元素，用 `tl.view` 重塑为 `(H, N_size)` 并行规约。前提：`H * N_size` 可放入UB，`H` 为编译期常量。
+
+  策略 [3]: **ACTION_CONSTEXPR_MODE_SPECIALIZATION**
+   ├─ 瓶颈诊断: Scalar=52.4% 动态mask和地址计算，`offs < T * C` 全局mask冗余
+   └─ 实施动作: 将 `T, C, H, N` 设为 `tl.constexpr`，派生 `IS_FULL_TILE = (N == N_size)` 编译期分支。修改：kernel签名加 `T: tl.constexpr, C: tl.constexpr, H: tl.constexpr, N: tl.constexpr`，`mask=offs < k_start + i * N + N` 局部域证明，`IS_FULL_TILE` 时删除mask。
+
+  策略 [4]: **ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION**
+   ├─ 瓶颈诊断: Vector=16.1% 低，`tl.sum` 规约效率低，动态mask拖累
+   └─ 实施动作: 对 `N` 小尺寸（≤64）用 `tl.sum(kt2.to(tl.float32), axis=0)` 整行规约；大尺寸分块 `BLOCK_SIZE = 256` 并累加。修改：wrapper内 `if N <= 64: BLOCK_SIZE = N` 走整行fast path，`else: BLOCK_SIZE = 256` 分块，kernel内 `for start in range(0, N, BLOCK_SIZE):` 累加。
+
+  策略 [5]: **ACTION_CONSTEXPR_MODE_SPECIALIZATION + ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION**
+   ├─ 瓶颈诊断: Scalar=52.4% 地址计算，Vector=16.1% 低，H次循环冗余
+   └─ 实施动作: 将 `H` 设为 `tl.constexpr` 并展开循环：`for i in range(H):` 改为 `if H == 1: ... elif H == 2: ...` 编译期分支，消除循环开销。同时 `N_size` 特化：`if N == N_size: mask=offs < k_start + i * N + N` 无mask fast path。前提：`H` 值集合有限（如1-4）。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10115 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9979 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10003 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10001 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10022 chars
+[LLM] [Call #04] ✅ Complete | Tokens=3187 (p:2494, c:693) | Time=15.86s
+[LLM] [Call #06] ✅ Complete | Tokens=3305 (p:2500, c:805) | Time=16.95s
+[LLM] [Call #05] ✅ Complete | Tokens=3334 (p:2500, c:834) | Time=17.23s
+[LLM] [Call #03] ✅ Complete | Tokens=3372 (p:2528, c:844) | Time=17.31s
+[LLM] [Call #07] ✅ Complete | Tokens=4478 (p:2505, c:1973) | Time=26.98s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1773 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_kfej0tr5/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.68us
+       └─ Raw speedup: -0.2537
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2212 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_jy46og4e/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.96us
+       └─ Raw speedup: 0.0204
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0204
+       └─ Fitness score: 0.0204 (max 2.0)
+       └─ Competition score: 2.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2289 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0__yus_2r_/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: 0.0309
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0309
+       └─ Fitness score: 0.0309 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2342 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_s4ohmf8o/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.82us
+       └─ Raw speedup: 0.0989
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0989
+       └─ Fitness score: 0.0989 (max 2.0)
+       └─ Competition score: 9.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5476 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_obkpey0d/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: 0.0309
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0309
+       └─ Fitness score: 0.0309 (max 2.0)
+       └─ Competition score: 3.1/200 points
+[EA] ✅ 个体 75e1e413 (gen0_strategy_guided): 耗时=2.68us, 相对基线加速比=0.0000x, 相对Seed加速比=0.7388x, Fitness=0.7388
+[EA] ✅ 个体 b4988a84 (gen0_strategy_guided): 耗时=1.96us, 相对基线加速比=0.0204x, 相对Seed加速比=1.0102x, Fitness=1.0102
+[EA] ✅ 个体 adc5d21f (gen0_strategy_guided): 耗时=1.94us, 相对基线加速比=0.0309x, 相对Seed加速比=1.0206x, Fitness=1.0206
+[EA] ✅ 个体 30383c0b (gen0_strategy_guided): 耗时=1.82us, 相对基线加速比=0.0989x, 相对Seed加速比=1.0879x, Fitness=1.0879
+[EA] ✅ 个体 ca6a7380 (gen0_strategy_guided): 耗时=1.94us, 相对基线加速比=0.0309x, 相对Seed加速比=1.0206x, Fitness=1.0206
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0879 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7995 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7541 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7411 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10607 chars
+[LLM] [Call #11] ✅ Complete | Tokens=3327 (p:2651, c:676) | Time=8.79s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4360 chars
+[LLM] [Call #10] ✅ Complete | Tokens=2670 (p:1852, c:818) | Time=10.35s
+[LLM] [Call #09] ✅ Complete | Tokens=2729 (p:1885, c:844) | Time=10.59s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4931 chars
+[LLM] [Call #08] ✅ Complete | Tokens=2842 (p:1998, c:844) | Time=10.62s
+[LLM] [Call #12] ✅ Complete | Tokens=1766 (p:1090, c:676) | Time=6.88s
+[LLM] [Call #13] ✅ Complete | Tokens=2076 (p:1232, c:844) | Time=8.03s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2233 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_bs0mv_9d/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.26us
+       └─ Raw speedup: -0.1150
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2340 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_4o1nv8_m/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.74us
+       └─ Raw speedup: 0.1494
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1494
+       └─ Fitness score: 0.1494 (max 2.0)
+       └─ Competition score: 14.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1771 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_s67ctmlq/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.10us
+       └─ Raw speedup: -0.0476
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2342 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_pmkwuzji/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.26us
+       └─ Raw speedup: -0.1150
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 9a461175 (crossover): 耗时=2.26us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8761x, Fitness=0.8761
+[EA] ✅ 个体 9cf26736 (crossover): 耗时=1.74us, 相对基线加速比=0.1494x, 相对Seed加速比=1.1379x, Fitness=1.1379
+[EA] ✅ 个体 6b7c3680 (mutation): 耗时=2.10us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9429x, Fitness=0.9429
+[EA] ✅ 个体 e6c1588e (mutation): 耗时=2.26us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8761x, Fitness=0.8761
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1379
+[EA] Gen 1 Summary: Best=1.1379, Avg=0.9903
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=5375 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8126 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8126 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=8202 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2187 (p:1343, c:844) | Time=9.89s
+[LLM] [Call #16] ✅ Complete | Tokens=2875 (p:2031, c:844) | Time=10.16s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4931 chars[LLM] [Call #15] ✅ Complete | Tokens=2875 (p:2031, c:844) | Time=10.17s
+
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4931 chars
+[LLM] [Call #17] ✅ Complete | Tokens=2894 (p:2050, c:844) | Time=10.24s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4931 chars
+[LLM] [Call #18] ✅ Complete | Tokens=2076 (p:1232, c:844) | Time=8.96s
+[LLM] [Call #20] ✅ Complete | Tokens=2076 (p:1232, c:844) | Time=8.88s
+[LLM] [Call #19] ✅ Complete | Tokens=2076 (p:1232, c:844) | Time=8.96s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2342 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_f92oix7u/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.78us
+       └─ Raw speedup: 0.1236
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1236
+       └─ Fitness score: 0.1236 (max 2.0)
+       └─ Competition score: 12.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2342 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_tjbwgu2u/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.96us
+       └─ Raw speedup: 0.0204
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0204
+       └─ Fitness score: 0.0204 (max 2.0)
+       └─ Competition score: 2.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2342 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_0p_2lab2/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.04us
+       └─ Raw speedup: -0.0196
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2342 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_de0vu9tp/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.12us
+       └─ Raw speedup: -0.0566
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 7f75c0d6 (mutation): 耗时=1.78us, 相对基线加速比=0.1236x, 相对Seed加速比=1.1124x, Fitness=1.1124
+[EA] ✅ 个体 e3e4e2c6 (mutation): 耗时=1.96us, 相对基线加速比=0.0204x, 相对Seed加速比=1.0102x, Fitness=1.0102
+[EA] ✅ 个体 d5abfd3e (mutation): 耗时=2.04us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9706x, Fitness=0.9706
+[EA] ✅ 个体 ae18ae4a (mutation): 耗时=2.12us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9340x, Fitness=0.9340
+[EA] Gen 2 Summary: Best=1.1379, Avg=1.0422
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1379
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2340 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_k51w_398/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.28us
+       └─ Raw speedup: -0.1228
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2340 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_m3wpbjot/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.0526
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0526
+       └─ Fitness score: 0.0526 (max 2.0)
+       └─ Competition score: 5.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2340 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_nbh_tnu8/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.84us
+       └─ Raw speedup: 0.0870
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0870
+       └─ Fitness score: 0.0870 (max 2.0)
+       └─ Competition score: 8.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2340 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_9npkcl3q/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.22us
+       └─ Raw speedup: -0.0991
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2340 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_2mvgpthn/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.04us
+       └─ Raw speedup: -0.0196
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+  完成: 2.040041 us  S=0.9803920607477986  用时 348.4s
+
+=== [paper_full] seed 3/3 算子 1/1: rwkv_ka_fusion_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 1.9800 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: rwkv_ka_fusion_kernel
+       └─ Working directory: /workspace/Agent/datasets2/rwkv_ka_fusion_kernel
+       └─ Reference baseline: 2.00us
+       └─ Test file: /workspace/Agent/datasets2/rwkv_ka_fusion_kernel/test_rwkv_ka_fusion_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7454.02it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1690 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_m9jstljl/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.92us
+       └─ Raw speedup: 0.0417
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0417
+       └─ Fitness score: 0.0417 (max 2.0)
+       └─ Competition score: 4.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1691 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_cu8abh1f/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.16us
+       └─ Raw speedup: -0.0741
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 99.97% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 1.92us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: f0a1a726, 基准耗时: 1.98us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=2.00 us | 当前耗时=1.92 us (相对基线:+4.17% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=4
+- 管线利用率: Vector=16.1%, Scalar=54.0%, MTE2(读)=28.5%, MTE3(写)=31.1%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (54.0%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=3.31 GB/s, 向量写=3.68 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=3146 chars
+[LLM] [Call #01] ✅ Complete | Tokens=826 (p:785, c:41) | Time=1.29s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 一维Grid, program内H循环, 整行规约(tl.sum), 标量主导(Scalar=54.0%)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 一维Grid, program内H循环, 整行规约(tl.sum), 行级全宽规约, 标量主导(Scalar=54.0%)'
+[✅ RAG Positive] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION, ACTION_GROUP_PACK_RESHAPE_REDUCE
+[🛡️ RAG Guard] ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 一维Grid, program内H循环, 整行规约(tl.sum), 行级全宽规约, 标量主导(Scalar=54.0%)
+
+【高置信候选优化动作】
+
+[P1] ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION
+#### ⚛️ `ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION`：行级规约按 n_cols 建立整行 / 分块 Fast Path
+
+* **检索锚点**：行级全宽规约, RMSNorm, Softmax, LogSoftmax, n_cols动态, 非2次幂列数, 尾块mask, 完整规约域, 持久化多行循环, Vector规约占比高。
+* **Profiling 锚点**：Vector 主瓶颈；MTE2 读流量来自同一行多趟扫描。
+* **结构判据**：每个 row 独立，核心是 `max/sum/sumsq` 规约；不同 testcase 的 n_cols 跨小/中/大尺寸。
+* **优化动作**：小中 n_cols 用 `next_power_of_2(n_cols)` 整行一次 load+reduce；大 n_cols 用中等 BLOCK 分块；对整除/full tile 单独走无 mask fast path。
+* **必须前提**：整行 tile 可放入寄存器/UB；完整规约域不能截断；局部逻辑宽度必须有独立 mask 证明。
+* **禁用条件**：超大 n_cols 强行整行驻留；为了去 mask 漏算尾元素；只使用 flatten 后总长度 mask 代替局部 Row/Head/Group 边界。
+* **正式平台证据**：`_rms_norm_kernel` 正式 `avg=2.00`；`_log_softmax_kernel` 正式 `avg=1.10, min=0.97, max=1.27`。
+* **可信度**：A(RMSNorm), B(LogSoftmax)。
+
+[P2] ACTION_GROUP_PACK_RESHAPE_REDUCE
+#### ⚛️ `ACTION_GROUP_PACK_RESHAPE_REDUCE`：同一连续 Row 内多 Group 打包规约
+
+* **检索锚点**：GroupQuant, Block-scale, 组级量化, group_size较小, 每group独立program, 海量微小program, 同一row多个group连续, axis=1局部规约, MTE读访存占比高, Scalar标量主瓶颈。
+* **Profiling 锚点**：program 很碎且单个 Group 的 Vector 规约工作量较小；可能表现为 Scalar 启动/地址计算占比高，或 MTE2 读访存占比较高。
+* **结构判据**：同一 token/row 内存在多个彼此独立的固定 group；每个 group 内执行 `abs/max/sum/scale/quant` 等独立计算；相邻 group 在物理连续轴上连续。
+* **核心优化动作**：让一个 program 同时处理 K 个相邻 group，将原本多个独立小 program 的工作合并为一次连续加载和并行规约，批量计算并写回 quant 结果与 scale，以减少 program 数量、重复地址生成和细粒度调度开销。
+* **推荐 Lowering**：
+  - 单行多 Group：一次加载 `K * group_size` 个连续元素，使用目标后端允许的 1D/2D `tl.view`，沿 group 内维度执行独立规约。
+  - 多行多 Group：保持 row×group 之间的规约独立性，将独立规约域展平为 `(BLOCK_M * K, group_size)` 的二维形式进行规约；恢复输出布局时保持后端合法的 1D/2D 形式。
+  - K 必须是编译期常量，并根据 `K * group_size`、BLOCK_M、寄存器/UB 占用和 occupancy 选择。
+  - 尾部不足 K 个 group 时必须使用正确 mask、缩小有效域或保留通用 fallback。
+* **必须前提**：
+  - 相邻 group 的物理连续性能够由 shape/stride/layout/Wrapper 契约证明。
+  - Group 之间数学上彼此独立，打包后不能混合不同 group 的 reduction。
+  - `K * group_size` 与 BLOCK_M 对应的片上工作集处于可接受范围。
+  - 完整 group 与尾 group 均保持正确覆盖。
+* **禁用条件**：
+  - 跨不连续 row/token 强行拼接。
+  - 为表达 row×group×column 而引入目标后端不允许的高维 `tl.view`。
+  - 将并行 Group Packing 退化成单 program 内逐 group 串行执行完整计算。
+  - 固定过大的 K 导致寄存器/UB 压力或 occupancy 明显恶化。
+  - 为减少 program 数而遗漏尾 group、改变输出布局或混合独立规约域。
+* **正式平台证据**：
+  - `_act_quant_kernel` 正式 `avg=1.95, min=1.86, max=2.00`。
+  - `_quantize_k_cache_fast_kernel` 正式 `avg=1.49, min=0.48, max=2.00`，说明 K / tile 必须 shape-aware，不能固定激进放大。
+* **可信度**：A；其中固定 K 的跨 shape 泛化为 B(shape-dependent)。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=8600 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2985 (p:2149, c:836) | Time=7.57s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: Strategy_SizeSpecializedFullRowReduce
+   ├─ 瓶颈诊断: Scalar=54.0% 主瓶颈，H循环内tl.sum规约导致标量地址计算和循环开销高
+   └─ 实施动作: 采用ACTION_SIZE_SPECIALIZED_FULL_ROW_REDUCTION：对N_size分Fast/Slow Path。当N_size == N（即N为2次幂）时，移除mask，用tl.sum(kt2.to(tl.float32))直接规约；否则保留mask。修改：在kernel内判断`if N_size == N:`分支走无mask路径，`else:`走原mask路径。前提：N_size编译期常量，N为2次幂时offs完全覆盖N。避免：非2次幂时错误删除mask。
+
+  策略 [2]: Strategy_GroupPackReshapeReduce
+   ├─ 瓶颈诊断: Scalar=54.0% 主瓶颈，H个独立group重复加载ka/kk和规约
+   └─ 实施动作: 采用ACTION_GROUP_PACK_RESHAPE_REDUCE：将H个group打包，一次加载H*N_size连续元素，用tl.view重塑为(H, N_size)二维，沿axis=1独立规约。修改：`offs = k_start + tl.arange(0, H*N_size)`，`c_offs = tl.arange(0, H*N_size)`，`k = tl.load(k_ptr + offs, mask=offs < T*C)`，`ka = tl.load(ka_ptr + c_offs, mask=c_offs < C)`，`kt2 = k * kk`，`norm_kt2 = tl.sum(kt2.to(tl.float32), axis=1)`。前提：H*N_size ≤ UB容量，H编译期常量，ka/kk连续。避免：H非编译期常量或H*N_size过大。
+
+  策略 [3]: Strategy_MaskCoverageProofGuard
+   ├─ 瓶颈诊断: Scalar=54.0% 主瓶颈，mask计算增加标量开销
+   └─ 实施动作: 采用ACTION_GUARD_MASK_COVERAGE_PROOF：证明`offs < T*C`在`k_start + H*N <= T*C`时冗余。修改：在kernel内计算`full_tile = (k_start + H*N <= T*C)`，当full_tile为True时，所有load/store移除mask；否则保留原mask。前提：k_start、H、N、T、C编译期或运行时已知，且整除性可证明。避免：未证明完整覆盖时删除mask，或假设N整除C。
+
+  策略 [4]: Strategy_GridConsolidateTinyPrograms
+   ├─ 瓶颈诊断: Scalar=54.0% 主瓶颈，grid粒度过细导致大量program启动开销
+   └─ 实施动作: 采用ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS：增大BLOCK_SIZE合并多个k_start。修改：`BLOCK_SIZE = 2 * C`，`grid = lambda meta: (triton.cdiv(T*C, BLOCK_SIZE),)`，kernel内`k_start = pid * block_size`，循环处理`for j in range(2): offs = k_start + j*C + i*N + tl.arange(0, N_size)`。前提：2*C ≤ UB容量，T*C整除2*C时无mask。避免：过度合并导致UB溢出或occupancy下降。
+
+  策略 [5]: Strategy_ScalarAddressCalcSimplify
+   ├─ 瓶颈诊断: Scalar=54.0% 主瓶颈，`k_start + i*N + tl.arange(0, N_size)`标量乘法多
+   └─ 实施动作: 采用标量地址计算简化：将`i*N`外提为循环不变量。修改：`base_offs = k_start + tl.arange(0, N_size)`，循环内`offs = base_offs + i*N`。前提：N编译期常量，stride恒为1可证明。避免：stride非1时错误简化，或引入额外寄存器压力。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9220 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9358 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9191 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9281 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9144 chars
+[LLM] [Call #07] ✅ Complete | Tokens=2950 (p:2286, c:664) | Time=13.52s
+[LLM] [Call #06] ✅ Complete | Tokens=2987 (p:2320, c:667) | Time=13.56s
+[LLM] [Call #03] ✅ Complete | Tokens=2991 (p:2305, c:686) | Time=13.84s
+[LLM] [Call #05] ✅ Complete | Tokens=3076 (p:2297, c:779) | Time=14.59s
+[LLM] [Call #04] ✅ Complete | Tokens=3268 (p:2339, c:929) | Time=15.85s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_vr5hdqit/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.98us
+       └─ Raw speedup: 0.0101
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0101
+       └─ Fitness score: 0.0101 (max 2.0)
+       └─ Competition score: 1.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1780 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_dmjzvj3o/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 3.92us
+       └─ Raw speedup: -0.4898
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1781 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_i6tw_y4n/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.98us
+       └─ Raw speedup: 0.0101
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0101
+       └─ Fitness score: 0.0101 (max 2.0)
+       └─ Competition score: 1.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_0ht120lo/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.00us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2352 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_c1durhpu/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 53c99cad (gen0_strategy_guided): 耗时=1.98us, 相对基线加速比=0.0101x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ✅ 个体 0ec9e780 (gen0_strategy_guided): 耗时=3.92us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5051x, Fitness=0.5051
+[EA] ✅ 个体 03a7b195 (gen0_strategy_guided): 耗时=1.98us, 相对基线加速比=0.0101x, 相对Seed加速比=1.0000x, Fitness=1.0000
+[EA] ✅ 个体 9bc2f116 (gen0_strategy_guided): 耗时=2.00us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9900x, Fitness=0.9900
+[EA] ❌ 个体 c2bca0f8 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7184 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7258 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6752 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=6752 chars
+[LLM] [Call #11] ✅ Complete | Tokens=2352 (p:1688, c:664) | Time=7.97s
+[LLM] [Call #10] ✅ Complete | Tokens=2352 (p:1688, c:664) | Time=7.98s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4303 chars
+[LLM] [Call #09] ✅ Complete | Tokens=2593 (p:1814, c:779) | Time=9.07s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4702 chars
+[LLM] [Call #08] ✅ Complete | Tokens=2575 (p:1796, c:779) | Time=9.13s
+[LLM] [Call #12] ✅ Complete | Tokens=1757 (p:1075, c:682) | Time=6.80s
+[LLM] [Call #13] ✅ Complete | Tokens=1954 (p:1175, c:779) | Time=7.43s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_j0kj3fm0/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: -0.1525
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_rjcr87ri/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.36us
+       └─ Raw speedup: -0.1525
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1745 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_om71lzm3/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.00us
+       └─ Raw speedup: 0.0000
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_kyerytk8/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.0526
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0526
+       └─ Fitness score: 0.0526 (max 2.0)
+       └─ Competition score: 5.3/200 points
+[EA] ✅ 个体 87ef55f8 (crossover): 耗时=2.36us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8390x, Fitness=0.8390
+[EA] ✅ 个体 9b2b28e6 (crossover): 耗时=2.36us, 相对基线加速比=0.0000x, 相对Seed加速比=0.8390x, Fitness=0.8390
+[EA] ✅ 个体 451e1074 (mutation): 耗时=2.00us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9900x, Fitness=0.9900
+[EA] ✅ 个体 62b7dddb (mutation): 耗时=1.90us, 相对基线加速比=0.0526x, 相对Seed加速比=1.0421x, Fitness=1.0421
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0421
+[EA] Gen 1 Summary: Best=1.0421, Avg=0.9517
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7224 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7225 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7591 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=7184 chars
+[LLM] [Call #17] ✅ Complete | Tokens=2460 (p:1796, c:664) | Time=8.08s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4296 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2488 (p:1806, c:682) | Time=8.26s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=4343 chars
+[LLM] [Call #15] ✅ Complete | Tokens=2585 (p:1806, c:779) | Time=9.47s
+[LLM] [Call #16] ✅ Complete | Tokens=2676 (p:1897, c:779) | Time=9.47s
+[LLM] [Call #18] ✅ Complete | Tokens=1738 (p:1074, c:664) | Time=6.75s
+[LLM] [Call #19] ✅ Complete | Tokens=1767 (p:1085, c:682) | Time=6.76s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_0l82xyjg/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.80us
+       └─ Raw speedup: 0.1111
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1111
+       └─ Fitness score: 0.1111 (max 2.0)
+       └─ Competition score: 11.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_06fbx4po/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.48us
+       └─ Raw speedup: -0.1935
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1707 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_4nextcia/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.96us
+       └─ Raw speedup: 0.0204
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0204
+       └─ Fitness score: 0.0204 (max 2.0)
+       └─ Competition score: 2.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 1745 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_07pdw4xe/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.14us
+       └─ Raw speedup: -0.0654
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 3c08266e (crossover): 耗时=1.80us, 相对基线加速比=0.1111x, 相对Seed加速比=1.1000x, Fitness=1.1000
+[EA] ✅ 个体 e8acbb7c (crossover): 耗时=2.48us, 相对基线加速比=0.0000x, 相对Seed加速比=0.7984x, Fitness=0.7984
+[EA] ✅ 个体 badc91de (mutation): 耗时=1.96us, 相对基线加速比=0.0204x, 相对Seed加速比=1.0102x, Fitness=1.0102
+[EA] ✅ 个体 d4477489 (mutation): 耗时=2.14us, 相对基线加速比=0.0000x, 相对Seed加速比=0.9252x, Fitness=0.9252
+[EA] 🎉 找到更优版本! New Best Fitness: 1.1000
+[EA] Gen 2 Summary: Best=1.1000, Avg=0.9793
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1000
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_770efogb/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.94us
+       └─ Raw speedup: 0.0309
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0309
+       └─ Fitness score: 0.0309 (max 2.0)
+       └─ Competition score: 3.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_8bs18k2_/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.04us
+       └─ Raw speedup: -0.0196
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_wzmcr2b1/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.90us
+       └─ Raw speedup: 0.0526
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0526
+       └─ Fitness score: 0.0526 (max 2.0)
+       └─ Competition score: 5.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_rjbt62wt/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 2.02us
+       └─ Raw speedup: -0.0099
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 2113 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/rwkv_ka_fusion_kernel/performance/rwkv_ka_fusion_kernel_dev_0/rwkv_ka_fusion_kernel --application="/usr/local/python3.11.15/bin/python /tmp/rwkv_ka_fusion_kernel_dev_0_w7rduuhw/test_rwkv_ka_fusion_kernel.py" --kernel-name="rwkv_ka_fusion_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 2.00us
+       └─ Optimized time: 1.92us
+       └─ Raw speedup: 0.0417
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0417
+       └─ Fitness score: 0.0417 (max 2.0)
+       └─ Competition score: 4.2/200 points
+  完成: 1.940039 us  S=1.0309277287724627  用时 317.2s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.35 小时
+============================================================

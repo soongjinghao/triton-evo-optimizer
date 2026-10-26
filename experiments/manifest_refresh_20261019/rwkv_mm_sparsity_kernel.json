@@ -1,0 +1,23 @@
+{
+  "kernel": "rwkv_mm_sparsity_kernel",
+  "t_base_us": 10.540211,
+  "t_seed_us": 10.420208,
+  "seed_similarity": 0.5690900337024555,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "rwkv_mm_sparsity_kernel.py": {
+      "path": "/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/rwkv_mm_sparsity_kernel.py",
+      "latency_us": 10.540211,
+      "success": true,
+      "error": null
+    },
+    "rwkv_mm_sparsity_kernel_1.py": {
+      "path": "/workspace/Agent/datasets2/rwkv_mm_sparsity_kernel/rwkv_mm_sparsity_kernel_1.py",
+      "latency_us": 10.420208,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-10-19T14:56:44"
+}

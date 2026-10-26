@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: _selective_scan_update_kernel ===
+  [复用] 已有结果 _selective_scan_update_kernel__r11.json
+  完成: 5.040101 us  S=1.059523807161801  用时 440.7s
+
+=== [paper_b1] seed 2/3 算子 1/1: _selective_scan_update_kernel ===
+  [复用] 已有结果 _selective_scan_update_kernel__r12.json
+  完成: 4.840097 us  S=1.1033057808552182  用时 439.0s
+
+=== [paper_b1] seed 3/3 算子 1/1: _selective_scan_update_kernel ===
+  [复用] 已有结果 _selective_scan_update_kernel__r13.json
+  完成: 5.100102 us  S=1.0470588627443138  用时 441.3s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

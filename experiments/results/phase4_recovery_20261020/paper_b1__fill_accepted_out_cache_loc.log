@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: fill_accepted_out_cache_loc ===
+  [复用] 已有结果 fill_accepted_out_cache_loc__r11.json
+  完成: 18.740376 us  S=0.9615794795152456  用时 289.1s
+
+=== [paper_b1] seed 2/3 算子 1/1: fill_accepted_out_cache_loc ===
+  [复用] 已有结果 fill_accepted_out_cache_loc__r12.json
+  完成: 18.760376 us  S=0.9605543620234477  用时 288.8s
+
+=== [paper_b1] seed 3/3 算子 1/1: fill_accepted_out_cache_loc ===
+  [复用] 已有结果 fill_accepted_out_cache_loc__r13.json
+  完成: 18.820377 us  S=0.9574920311107477  用时 298.3s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

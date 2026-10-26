@@ -1,0 +1,18 @@
+[配置] paper_b2  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b2] seed 1/3 算子 1/1: copy_all_layer_kv_cache_tiled ===
+  [复用] 已有结果 copy_all_layer_kv_cache_tiled__r11.json
+  完成: 2.260045 us  S=0.982300794895677  用时 292.1s
+
+=== [paper_b2] seed 2/3 算子 1/1: copy_all_layer_kv_cache_tiled ===
+  [复用] 已有结果 copy_all_layer_kv_cache_tiled__r12.json
+  完成: 2.200044 us  S=1.0090907272763636  用时 290.8s
+
+=== [paper_b2] seed 3/3 算子 1/1: copy_all_layer_kv_cache_tiled ===
+  [复用] 已有结果 copy_all_layer_kv_cache_tiled__r13.json
+  完成: 2.320046 us  S=0.9568965442926562  用时 294.0s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

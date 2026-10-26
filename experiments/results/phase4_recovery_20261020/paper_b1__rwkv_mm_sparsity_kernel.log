@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: rwkv_mm_sparsity_kernel ===
+  [复用] 已有结果 rwkv_mm_sparsity_kernel__r11.json
+  完成: 8.800176 us  S=1.1977272954540907  用时 348.6s
+
+=== [paper_b1] seed 2/3 算子 1/1: rwkv_mm_sparsity_kernel ===
+  [复用] 已有结果 rwkv_mm_sparsity_kernel__r12.json
+  完成: 10.480209 us  S=1.0057252675018216  用时 338.6s
+
+=== [paper_b1] seed 3/3 算子 1/1: rwkv_mm_sparsity_kernel ===
+  [复用] 已有结果 rwkv_mm_sparsity_kernel__r13.json
+  完成: 6.260125 us  S=1.6837061560272357  用时 409.5s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

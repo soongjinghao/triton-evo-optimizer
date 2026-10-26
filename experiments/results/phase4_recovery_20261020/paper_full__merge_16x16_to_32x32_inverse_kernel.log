@@ -1,0 +1,1457 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: merge_16x16_to_32x32_inverse_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 15.1003 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: merge_16x16_to_32x32_inverse_kernel
+       └─ Working directory: /workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel
+       └─ Reference baseline: 18.10us
+       └─ Test file: /workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/test_merge_16x16_to_32x32_inverse_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 9212.83it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6060 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_r5n0g1la/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 18.46us
+       └─ Raw speedup: -0.0195
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6246 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_35_73q1n/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.26us
+       └─ Raw speedup: 0.1861
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1861
+       └─ Fitness score: 0.1861 (max 2.0)
+       └─ Competition score: 18.6/200 points
+[EA] 📊 2 个合法种子代码相似度为: 91.99% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 15.26us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 0f004997, 基准耗时: 15.10us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=18.10 us | 当前耗时=15.26 us (相对基线:+18.61% | 相对种子:1.00x)
+- 网格结构: 算子类型=mix | Block Dim=16
+- 管线利用率: Vector=30.6%, Scalar=50.7%, MTE2(读)=22.0%, MTE3(写)=5.2%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (50.7%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=31.36 GB/s, 向量写=26.58 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6687 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1716 (p:1671, c:45) | Time=0.91s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 二维grid(NT,B*H), 16x16块内三角规约, 标量地址计算循环, Scalar=50.7%主瓶颈'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维grid(NT, B*H), 16x16块内三角规约, 标量地址计算循环, Scalar=50.7%主瓶颈'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维grid(NT, B*H), 16x16块内三角规约, 标量地址计算循环, Scalar=50.7%主瓶颈
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=10363 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3383 (p:2590, c:793) | Time=7.26s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略名称：标量地址计算外提与循环不变式提升**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Scalar=50.7%主瓶颈，循环内存在重复的`tl.load(A + (i_t * BT + i) * H * BT + o_i)`地址计算，其中`i_t * BT`和`H * BT`为循环不变量
+   └─ 实施动作: 实施动作与具体代码修改方案：在循环前计算`base_offset = i_t * BT * H * BT`和`row_stride = H * BT`，循环内改为`tl.load(A + base_offset + i * row_stride + o_i)`，将乘法外提；同时将`o_i[:, None] > o_i[None, :]`和`o_i[:, None] == o_i[None, :]`定义为`tl.constexpr`编译期常量，避免运行时标量计算
+
+  策略 [2]: **策略名称：Grid Consolidation减少标量调度开销**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Block Dim=16，海量微小program导致标量调度开销占比高（Scalar=50.7%），当前grid为(NT, B*H)
+   └─ 实施动作: 实施动作与具体代码修改方案：将grid合并为(NT//4, B*H)，每个program处理4个连续i_t块，在kernel内增加外层循环`for block_idx in range(4): i_t = tl.program_id(0) * 4 + block_idx`，保持内部16x16三角规约逻辑不变；需证明NT能被4整除或添加尾部处理
+
+  策略 [3]: **策略名称：循环展开与向量化标量规约**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：两个for循环（i从2到min(16, T-i_t*BT)和16+2到min(32, T-i_t*BT)）每次迭代执行标量load和tl.sum，导致标量指令密集
+   └─ 实施动作: 实施动作与具体代码修改方案：将第一个循环展开为4组（i=2-5,6-9,10-13,14-15），每组内使用`tl.load`向量加载4个连续行，通过`tl.where`并行更新b_Ai_11矩阵；第二个循环同理展开为4组（i=18-21,22-25,26-29,30-31），减少循环控制开销和标量指令
+
+  策略 [4]: **策略名称：TMA预取与UB吞吐优化**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：MTE2读=22.0%，MTE3写=5.2%，UB吞吐读31.36GB/s写26.58GB/s，当前USE_TMA=False
+   └─ 实施动作: 实施动作与具体代码修改方案：启用USE_TMA=True路径，使用`tl.make_tensor_descriptor`预创建描述符，在循环前通过TMA批量预取A矩阵的16x16块到UB，减少标量地址计算；同时将b_Ai_11和b_Ai_22的写回合并为单次TMA store，提升MTE3写利用率
+
+  策略 [5]: **策略名称：寄存器分配与数据重用优化**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Vector=30.6%偏低，标量占比高，循环内重复加载相同数据（如b_A_21在循环外已加载但未充分重用）
+   └─ 实施动作: 实施动作与具体代码修改方案：将b_Ai_11和b_Ai_22的更新改为寄存器级累积，使用`tl.float32`类型避免频繁类型转换；将`b_A_21`的加载提前到循环外，在`tl.dot`计算中直接复用；将`m_I`对角矩阵的加法合并到最终store阶段，减少中间寄存器压力
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11013 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10910 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10929 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10889 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=10869 chars
+[LLM] [Call #06] ✅ Complete | Tokens=4686 (p:2722, c:1964) | Time=30.37s
+[LLM] [Call #03] ✅ Complete | Tokens=4731 (p:2753, c:1978) | Time=30.52s
+[LLM] [Call #05] ✅ Complete | Tokens=4769 (p:2732, c:2037) | Time=31.15s
+[LLM] [Call #07] ✅ Complete | Tokens=4783 (p:2717, c:2066) | Time=31.43s
+[LLM] [Call #04] ✅ Complete | Tokens=7491 (p:2727, c:4764) | Time=54.18s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5194 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_6atlm4ih/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.94us
+       └─ Raw speedup: 0.2115
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2115
+       └─ Fitness score: 0.2115 (max 2.0)
+       └─ Competition score: 21.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5261 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_t_kj0t8v/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.02us
+       └─ Raw speedup: 0.2051
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2051
+       └─ Fitness score: 0.2051 (max 2.0)
+       └─ Competition score: 20.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5903 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_tcqovat2/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 27.06us
+       └─ Raw speedup: -0.3311
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_ls39olhz/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.98us
+       └─ Raw speedup: 0.2083
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2083
+       └─ Fitness score: 0.2083 (max 2.0)
+       └─ Competition score: 20.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 10688 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_7w2enyod/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 24.04us
+       └─ Raw speedup: -0.2471
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 0c4177fc (gen0_strategy_guided): 耗时=14.94us, 相对基线加速比=0.2115x, 相对Seed加速比=1.0107x, Fitness=1.0107
+[EA] ✅ 个体 f82c10b1 (gen0_strategy_guided): 耗时=15.02us, 相对基线加速比=0.2051x, 相对Seed加速比=1.0053x, Fitness=1.0053
+[EA] ✅ 个体 7d28abab (gen0_strategy_guided): 耗时=27.06us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5580x, Fitness=0.5580
+[EA] ✅ 个体 ddf6fb20 (gen0_strategy_guided): 耗时=14.98us, 相对基线加速比=0.2083x, 相对Seed加速比=1.0080x, Fitness=1.0080
+[EA] ✅ 个体 6ae808ea (gen0_strategy_guided): 耗时=24.04us, 相对基线加速比=0.0000x, 相对Seed加速比=0.6281x, Fitness=0.6281
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0107 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14431 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=19078 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14431 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14386 chars
+[LLM] [Call #09] ✅ Complete | Tokens=6739 (p:4769, c:1970) | Time=25.62s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7861 chars
+[LLM] [Call #08] ✅ Complete | Tokens=5629 (p:3607, c:2022) | Time=26.38s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=8411 chars
+[LLM] [Call #11] ✅ Complete | Tokens=5626 (p:3596, c:2030) | Time=26.45s
+[LLM] [Call #10] ✅ Complete | Tokens=5629 (p:3607, c:2022) | Time=26.46s
+[LLM] [Call #12] ✅ Complete | Tokens=3935 (p:1965, c:1970) | Time=18.47s
+[LLM] [Call #13] ✅ Complete | Tokens=4139 (p:2102, c:2037) | Time=18.76s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5795 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_kmp_bfck/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 27.14us
+       └─ Raw speedup: -0.3331
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5795 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_ocnh9mbz/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 27.16us
+       └─ Raw speedup: -0.3336
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5261 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_81ji17v7/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.80us
+       └─ Raw speedup: 0.2230
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2230
+       └─ Fitness score: 0.2230 (max 2.0)
+       └─ Competition score: 22.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5838 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_5uvwc1v9/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 27.02us
+       └─ Raw speedup: -0.3301
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ✅ 个体 19059c81 (crossover): 耗时=27.14us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5564x, Fitness=0.5564
+[EA] ✅ 个体 65e761c6 (crossover): 耗时=27.16us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5560x, Fitness=0.5560
+[EA] ✅ 个体 8d2f26ab (mutation): 耗时=14.80us, 相对基线加速比=0.2230x, 相对Seed加速比=1.0203x, Fitness=1.0203
+[EA] ✅ 个体 13ab7469 (mutation): 耗时=27.02us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5588x, Fitness=0.5588
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0203
+[EA] Gen 1 Summary: Best=1.0203, Avg=0.7850
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13799 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=8152 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14403 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14360 chars
+[LLM] [Call #15] ✅ Complete | Tokens=3994 (p:2038, c:1956) | Time=24.73s
+[LLM] [Call #17] ✅ Complete | Tokens=5546 (p:3590, c:1956) | Time=24.83s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7806 chars
+[LLM] [Call #14] ✅ Complete | Tokens=5425 (p:3449, c:1976) | Time=24.98s
+[LLM] [Call #16] ✅ Complete | Tokens=5622 (p:3600, c:2022) | Time=25.55s
+[LLM] [Call #18] ✅ Complete | Tokens=3922 (p:1951, c:1971) | Time=17.27s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5194 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_oaipy6g6/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.00us
+       └─ Raw speedup: 0.2067
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2067
+       └─ Fitness score: 0.2067 (max 2.0)
+       └─ Competition score: 20.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5232 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_95s4efgu/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.14us
+       └─ Raw speedup: 0.2801
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2801
+       └─ Fitness score: 0.2801 (max 2.0)
+       └─ Competition score: 28.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5795 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_thl9yj80/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 27.88us
+       └─ Raw speedup: -0.3508
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5233 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_mln2q5qu/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.74us
+       └─ Raw speedup: 0.2280
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2280
+       └─ Fitness score: 0.2280 (max 2.0)
+       └─ Competition score: 22.8/200 points
+[EA] ✅ 个体 6efd72f0 (mutation): 耗时=15.00us, 相对基线加速比=0.2067x, 相对Seed加速比=1.0067x, Fitness=1.0067
+[EA] ✅ 个体 9f2339d2 (crossover): 耗时=14.14us, 相对基线加速比=0.2801x, 相对Seed加速比=1.0679x, Fitness=1.0679
+[EA] ✅ 个体 43d5d9a0 (crossover): 耗时=27.88us, 相对基线加速比=0.0000x, 相对Seed加速比=0.5416x, Fitness=0.5416
+[EA] ✅ 个体 a95c52fa (mutation): 耗时=14.74us, 相对基线加速比=0.2280x, 相对Seed加速比=1.0244x, Fitness=1.0244
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0679
+[EA] Gen 2 Summary: Best=1.0679, Avg=0.9453
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0679
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5232 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_jqe4b2sb/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.12us
+       └─ Raw speedup: 0.1971
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1971
+       └─ Fitness score: 0.1971 (max 2.0)
+       └─ Competition score: 19.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5232 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_lkl7_fpv/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.00us
+       └─ Raw speedup: 0.2067
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2067
+       └─ Fitness score: 0.2067 (max 2.0)
+       └─ Competition score: 20.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5232 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_kix6ufel/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.64us
+       └─ Raw speedup: 0.2363
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2363
+       └─ Fitness score: 0.2363 (max 2.0)
+       └─ Competition score: 23.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5232 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_i7a5b3q2/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.30us
+       └─ Raw speedup: 0.2657
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2657
+       └─ Fitness score: 0.2657 (max 2.0)
+       └─ Competition score: 26.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5232 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_qxmrb_0g/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.16us
+       └─ Raw speedup: 0.1939
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1939
+       └─ Fitness score: 0.1939 (max 2.0)
+       └─ Competition score: 19.4/200 points
+  完成: 15.0003 us  S=1.2066667333320003  用时 470.1s
+
+=== [paper_full] seed 2/3 算子 1/1: merge_16x16_to_32x32_inverse_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 15.1003 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: merge_16x16_to_32x32_inverse_kernel
+       └─ Working directory: /workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel
+       └─ Reference baseline: 18.10us
+       └─ Test file: /workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/test_merge_16x16_to_32x32_inverse_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 8251.70it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6060 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_ihlcowq5/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 18.20us
+       └─ Raw speedup: -0.0055
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6246 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_upzmvvrl/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.92us
+       └─ Raw speedup: 0.2131
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2131
+       └─ Fitness score: 0.2131 (max 2.0)
+       └─ Competition score: 21.3/200 points
+[EA] 📊 2 个合法种子代码相似度为: 91.99% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 14.92us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 74fa78fd, 基准耗时: 15.10us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=18.10 us | 当前耗时=14.92 us (相对基线:+21.31% | 相对种子:1.00x)
+- 网格结构: 算子类型=mix | Block Dim=16
+- 管线利用率: Vector=32.7%, Scalar=53.6%, MTE2(读)=24.0%, MTE3(写)=5.9%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (53.6%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=32.07 GB/s, 向量写=27.18 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6687 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1716 (p:1671, c:45) | Time=0.86s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 二维grid(NT,B*H), 16x16块内串行循环, 标量地址计算, 动态stride(H*BT,1)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维grid(NT, B*H), 16x16块内串行循环, 标量地址计算, 动态stride(H*BT, 1)'
+[✅ RAG Positive] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+[🛡️ RAG Guard] ACTION_GUARD_ALIGNMENT_PROOF*, ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_DTYPE_VIEW_STRIDE
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维grid(NT, B*H), 16x16块内串行循环, 标量地址计算, 动态stride(H*BT, 1)
+
+【高置信候选优化动作】
+
+[P1] ACTION_CONTIGUOUS_INNER_STRIDE_STRIP
+#### ⚛️ `ACTION_CONTIGUOUS_INNER_STRIDE_STRIP`：可证明连续轴的动态 stride 剥离
+
+* **检索锚点**：动态stride, 最内层连续轴, stride=1可证明, 标量地址计算重复, Scalar标量占比高, 合并访存, 连续load/store。
+* **Profiling 锚点**：Scalar 标量偏高；MTE2/MTE3 同时存在但带宽未吃满。
+* **结构判据**：wrapper/接口能严格证明最内层 stride==1；kernel 仍使用 `offs * stride_inner`。
+* **优化动作**：删除内层动态乘法，直接 `base + offs`；基地址的外层 stride 保留。
+* **必须前提**：连续性由真实 stride/契约证明。
+* **禁用条件**：非连续输入；不能仅凭常见 shape 假定 stride=1；不同 dtype/subview 的 stride 不能互相复用。
+* **正式平台证据**：`_chunk_state_fwd_kernel` 高分结构包含连续轴寻址简化；正式 `avg=2.00`，但收益与 outer-product 等动作共同出现。
+* **强制联动 Guard**：`ACTION_GUARD_DTYPE_VIEW_STRIDE`、`ACTION_GUARD_ALIGNMENT_PROOF`。
+* **可信度**：B+。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_ALIGNMENT_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_ALIGNMENT_PROOF`：对齐提示必须可证明
+
+* **检索锚点**：动态stride连续性未证明, alignment未证明, tl.multiple_of机会, 间接索引, 随机gather, 动态base, 最内层stride=1。
+* **核心规则**：`tl.multiple_of` 是对编译器的真实性承诺，不是自动对齐函数。必须证明 base alignment 与所有动态 `stride*index` / slice / gather 偏移仍保持目标倍数。
+* **必须证明**：`base % A == 0` 且所有参与地址生成的动态偏移也保持 `% A == 0`。
+* **严禁模式**：
+  - 随机 gather `base + arbitrary_ids`。
+  - 仅凭 `stride[-1]==1` 宣告每一行 base 16 对齐。
+  - 仅凭原 Tensor contiguous 就推导任意 subview / slice / dtype-view 的动态地址同样对齐。
+* **正式失败证据**：`_selective_scan_update_kernel` 多个版本在 tc1~tc3 全部 accuracy fail，候选中大量使用动态地址 `tl.multiple_of`，是强烈的 alignment 风险反证据。
+* **补充风险案例**：`_count_expert_num_tokens` 部分失败版本同时引入对 arbitrary gather 地址的 alignment hint、二维分块与 atomic；无法将失败单独归因于 alignment，但该地址模式本身不能证明固定倍数对齐。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G3] ACTION_GUARD_DTYPE_VIEW_STRIDE
+#### ⚛️ `ACTION_GUARD_DTYPE_VIEW_STRIDE`：不同 dtype / subview 的 stride 不可复用
+
+* **检索锚点**：多dtype view, fp8/fp32/bf16混合, 动态stride, subview, scale区域, rope区域, 地址偏移。
+* **核心规则**：stride 单位是当前 view 的“元素”；dtype/view 改变后必须分别获取并传递 `.stride()`。来自同一底层 tensor 不代表不同 view 的元素 stride 相同。
+* **严禁模式**：使用 q-view 的 `stride_0` 构造 fp32 scale view 或 bf16 rope view 的 row offset。
+* **正式失败证据**：`_dequantize_k_cache_fast_kernel_v3` 将 q view 的行 stride 复用于 fp32 scale / bf16 rope，三个 testcase 全部 accuracy fail。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=11051 chars
+[LLM] [Call #02] ✅ Complete | Tokens=3663 (p:2762, c:901) | Time=8.14s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **Strategy_ContiguousInnerStrideStrip**
+   ├─ 瓶颈诊断: 瓶颈诊断: Scalar标量占比53.6%因动态stride乘法重复计算
+   └─ 实施动作: 实施动作: 采用ACTION_CONTIGUOUS_INNER_STRIDE_STRIP, 将`A + (bos * H + i_h) * BT`和`A + (i_t * BT + i) * H * BT + o_i`中的`H*BT`预计算为`base_offset = bos * H * BT + i_h * BT`, 内层循环直接`base_offset + i_t * BT * H * BT + i * H * BT + o_i`改为`base_offset + (i_t * BT + i) * H * BT + o_i`但剥离最内层stride=1的o_i乘法, 前提: 通过wrapper契约证明`BT`和`H`为constexpr且stride[-1]==1, 需联动G1/G3 Guard确保对齐和dtype一致性, 禁用条件: 非连续输入或stride!=1
+
+  策略 [2]: **Strategy_ScalarLoopUnrollAndHoist**
+   ├─ 瓶颈诊断: 瓶颈诊断: 标量循环内重复地址计算和条件分支导致Scalar高
+   └─ 实施动作: 实施动作: 将两个`for i in range(2, min(16, T - i_t * BT))`和`for i in range(16+2, min(32, T - i_t * BT))`循环展开为固定迭代次数(最多14次和14次), 外提`i_t * BT`和`H * BT`为循环不变量, 使用`tl.where`合并条件赋值, 前提: `BT=32`且`T`动态但循环上限可静态确定, 需证明`T - i_t * BT`边界不导致越界, 禁用条件: BT非32或循环次数不可静态确定
+
+  策略 [3]: **Strategy_BlockPointerMergeAndPrefetch**
+   ├─ 瓶颈诊断: 瓶颈诊断: MTE2读24.0%和MTE3写5.9%未饱和, 多次独立block_ptr加载可合并
+   └─ 实施动作: 实施动作: 将`p_A_11`, `p_A_22`, `p_A_21`三个block_ptr合并为一次`tl.load`加载32x32块, 然后通过`tl.split`或slice提取16x16子块, 减少地址计算和访存指令数, 前提: `BT=32`且`T`对齐到32, 需证明`boundary_check=(0,1)`覆盖所有边界, 禁用条件: T非32倍数或USE_TMA启用时
+
+  策略 [4]: **Strategy_MatrixMultiplyFusion**
+   ├─ 瓶颈诊断: 瓶颈诊断: `tl.dot(tl.dot(b_Ai_22, b_A_21), b_Ai_11)`产生两次独立矩阵乘, 可融合为单次更高维度计算
+   └─ 实施动作: 实施动作: 将`b_Ai_22`(16x16), `b_A_21`(16x16), `b_Ai_11`(16x16)合并为`tl.dot(b_Ai_22, tl.dot(b_A_21, b_Ai_11))`或直接计算32x32逆矩阵的Schur补, 减少中间张量存储和标量开销, 前提: 数学等价性证明, 需保持DOT_PRECISION="ieee", 禁用条件: 精度不满足或中间结果溢出
+
+  策略 [5]: **Strategy_VarlenGridRecompute**
+   ├─ 瓶颈诊断: 瓶颈诊断: IS_VARLEN分支中`tl.load(chunk_indices)`和`cu_seqlens`导致标量地址计算和分支开销
+   └─ 实施动作: 实施动作: 将varlen的`i_n, i_t`重映射从kernel内移到wrapper, 预计算`bos, eos`并作为额外参数传入, kernel内直接使用预计算值, 消除`tl.load(chunk_indices)`和条件分支, 前提: 保持外部grid`[NT, B*H]`不变, 需证明预计算不改变输出覆盖, 禁用条件: chunk_indices动态变化或外部launch契约不允许
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11811 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11661 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11629 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11646 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11645 chars
+[LLM] [Call #05] ✅ Complete | Tokens=4777 (p:2907, c:1870) | Time=29.80s
+[LLM] [Call #07] ✅ Complete | Tokens=4800 (p:2911, c:1889) | Time=29.95s
+[LLM] [Call #06] ✅ Complete | Tokens=4907 (p:2911, c:1996) | Time=31.02s
+[LLM] [Call #03] ✅ Complete | Tokens=5050 (p:2952, c:2098) | Time=31.92s
+[LLM] [Call #04] ✅ Complete | Tokens=8688 (p:2915, c:5773) | Time=62.94s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4955 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_jo1rgrhg/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4975 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_o9l04jlo/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 16.16us
+       └─ Raw speedup: 0.1200
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1200
+       └─ Fitness score: 0.1200 (max 2.0)
+       └─ Competition score: 12.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5271 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_6di4tcr4/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.12us
+       └─ Raw speedup: 0.1971
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1971
+       └─ Fitness score: 0.1971 (max 2.0)
+       └─ Competition score: 19.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5575 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_g0714m25/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.80us
+       └─ Raw speedup: 0.2230
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2230
+       └─ Fitness score: 0.2230 (max 2.0)
+       └─ Competition score: 22.3/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 13568 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_4kc74r0d/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 20.92us
+       └─ Raw speedup: -0.1348
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+[EA] ❌ 个体 8af0946a (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 dcddd81f (gen0_strategy_guided): 耗时=16.16us, 相对基线加速比=0.1200x, 相对Seed加速比=0.9344x, Fitness=0.9344
+[EA] ✅ 个体 dffc3c06 (gen0_strategy_guided): 耗时=15.12us, 相对基线加速比=0.1971x, 相对Seed加速比=0.9987x, Fitness=0.9987
+[EA] ✅ 个体 7523052b (gen0_strategy_guided): 耗时=14.80us, 相对基线加速比=0.2230x, 相对Seed加速比=1.0203x, Fitness=1.0203
+[EA] ✅ 个体 4ccdb9ae (gen0_strategy_guided): 耗时=20.92us, 相对基线加速比=0.0000x, 相对Seed加速比=0.7218x, Fitness=0.7218
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0203 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13814 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13839 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13783 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=20652 chars
+[LLM] [Call #11] ✅ Complete | Tokens=7064 (p:5163, c:1901) | Time=27.29s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7590 chars
+[LLM] [Call #10] ✅ Complete | Tokens=5409 (p:3445, c:1964) | Time=28.16s
+[LLM] [Call #08] ✅ Complete | Tokens=5420 (p:3453, c:1967) | Time=28.20s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7840 chars
+[LLM] [Call #09] ✅ Complete | Tokens=5434 (p:3459, c:1975) | Time=28.25s
+[LLM] [Call #12] ✅ Complete | Tokens=3836 (p:1897, c:1939) | Time=17.98s
+[LLM] [Call #13] ✅ Complete | Tokens=3927 (p:1960, c:1967) | Time=17.95s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5191 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_cft6hnsa/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.02us
+       └─ Raw speedup: 0.2051
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2051
+       └─ Fitness score: 0.2051 (max 2.0)
+       └─ Competition score: 20.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5247 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_uvcrvk3r/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.72us
+       └─ Raw speedup: 0.1514
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1514
+       └─ Fitness score: 0.1514 (max 2.0)
+       └─ Competition score: 15.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5108 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_1kv3f00x/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5251 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_f2k_7dnu/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.48us
+       └─ Raw speedup: 0.1693
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1693
+       └─ Fitness score: 0.1693 (max 2.0)
+       └─ Competition score: 16.9/200 points
+[EA] ✅ 个体 0d8671f5 (crossover): 耗时=15.02us, 相对基线加速比=0.2051x, 相对Seed加速比=1.0053x, Fitness=1.0053
+[EA] ✅ 个体 6e809736 (crossover): 耗时=15.72us, 相对基线加速比=0.1514x, 相对Seed加速比=0.9606x, Fitness=0.9606
+[EA] ❌ 个体 36b5eab0 (mutation): 评估失败, Fitness=0
+[EA] ✅ 个体 e8613b9d (mutation): 耗时=15.48us, 相对基线加速比=0.1693x, 相对Seed加速比=0.9755x, Fitness=0.9755
+[EA] Gen 1 Summary: Best=1.0203, Avg=0.8269
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=8153 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13870 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13870 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13814 chars
+[LLM] [Call #14] ✅ Complete | Tokens=3994 (p:2038, c:1956) | Time=20.48s
+[LLM] [Call #16] ✅ Complete | Tokens=5434 (p:3467, c:1967) | Time=20.52s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7840 chars
+[LLM] [Call #15] ✅ Complete | Tokens=5434 (p:3467, c:1967) | Time=20.54s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7840 chars
+[LLM] [Call #17] ✅ Complete | Tokens=5436 (p:3453, c:1983) | Time=20.66s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7880 chars
+[LLM] [Call #18] ✅ Complete | Tokens=3927 (p:1960, c:1967) | Time=19.93s
+[LLM] [Call #19] ✅ Complete | Tokens=3927 (p:1960, c:1967) | Time=19.95s
+[LLM] [Call #20] ✅ Complete | Tokens=3953 (p:1970, c:1983) | Time=19.91s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5195 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_9ec_dm_c/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.94us
+       └─ Raw speedup: 0.2115
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2115
+       └─ Fitness score: 0.2115 (max 2.0)
+       └─ Competition score: 21.2/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5251 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_az_w2jzu/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.86us
+       └─ Raw speedup: 0.2180
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2180
+       └─ Fitness score: 0.2180 (max 2.0)
+       └─ Competition score: 21.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5251 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_nyuc51xi/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.96us
+       └─ Raw speedup: 0.2099
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2099
+       └─ Fitness score: 0.2099 (max 2.0)
+       └─ Competition score: 21.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5287 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_mho006x0/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.62us
+       └─ Raw speedup: 0.1588
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1588
+       └─ Fitness score: 0.1588 (max 2.0)
+       └─ Competition score: 15.9/200 points
+[EA] ✅ 个体 ffc9dcc2 (mutation): 耗时=14.94us, 相对基线加速比=0.2115x, 相对Seed加速比=1.0107x, Fitness=1.0107
+[EA] ✅ 个体 5db3aeac (mutation): 耗时=14.86us, 相对基线加速比=0.2180x, 相对Seed加速比=1.0162x, Fitness=1.0162
+[EA] ✅ 个体 94e00d97 (mutation): 耗时=14.96us, 相对基线加速比=0.2099x, 相对Seed加速比=1.0094x, Fitness=1.0094
+[EA] ✅ 个体 130e541f (mutation): 耗时=15.62us, 相对基线加速比=0.1588x, 相对Seed加速比=0.9667x, Fitness=0.9667
+[EA] Gen 2 Summary: Best=1.0203, Avg=1.0048
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0203
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5575 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_pcloc1_0/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.96us
+       └─ Raw speedup: 0.2099
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2099
+       └─ Fitness score: 0.2099 (max 2.0)
+       └─ Competition score: 21.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5575 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_zg1p355j/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.02us
+       └─ Raw speedup: 0.2051
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2051
+       └─ Fitness score: 0.2051 (max 2.0)
+       └─ Competition score: 20.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5575 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_hkxcr535/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.76us
+       └─ Raw speedup: 0.2263
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2263
+       └─ Fitness score: 0.2263 (max 2.0)
+       └─ Competition score: 22.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5575 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_7o9s4cru/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.60us
+       └─ Raw speedup: 0.1603
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1603
+       └─ Fitness score: 0.1603 (max 2.0)
+       └─ Competition score: 16.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5575 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_hjlu011y/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.14us
+       └─ Raw speedup: 0.1955
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1955
+       └─ Fitness score: 0.1955 (max 2.0)
+       └─ Competition score: 19.6/200 points
+  完成: 15.020301 us  S=1.205059938545839  用时 474.2s
+
+=== [paper_full] seed 3/3 算子 1/1: merge_16x16_to_32x32_inverse_kernel ===
+[harness] 适应度锚点采用 manifest T_seed = 15.1003 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: merge_16x16_to_32x32_inverse_kernel
+       └─ Working directory: /workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel
+       └─ Reference baseline: 18.10us
+       └─ Test file: /workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/test_merge_16x16_to_32x32_inverse_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7375.19it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6060 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_tf289yhn/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 17.78us
+       └─ Raw speedup: 0.0180
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0180
+       └─ Fitness score: 0.0180 (max 2.0)
+       └─ Competition score: 1.8/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 6246 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_mz83yw3x/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.82us
+       └─ Raw speedup: 0.2213
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2213
+       └─ Fitness score: 0.2213 (max 2.0)
+       └─ Competition score: 22.1/200 points
+[EA] 📊 2 个合法种子代码相似度为: 91.99% (阈值 τ=0.9)
+[EA] ✂️ 种子相似度达到阈值，仅保留运行速度更快者 (耗时: 14.82us)，丢弃重复种子！
+[EA] 🏆 黄金基准种子锁定成功！ID: 627d0b2f, 基准耗时: 15.10us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=18.10 us | 当前耗时=14.82 us (相对基线:+22.13% | 相对种子:1.00x)
+- 网格结构: 算子类型=mix | Block Dim=16
+- 管线利用率: Vector=32.7%, Scalar=53.6%, MTE2(读)=24.1%, MTE3(写)=5.4%
+⚠️ 诊断结论: 当前主瓶颈为 [Scalar 标量 (53.6%)]。标量占比偏高（优先检查标量地址计算、不变量外提；仅在 stride 恒为 1 可证明时简化 Stride 乘法）
+- UB吞吐: 向量读=32.29 GB/s, 向量写=27.36 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=6687 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1726 (p:1671, c:55) | Time=0.96s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 二维grid(NT,B*H), 标量地址计算主导(Scalar=53.6%), 16x16块内三角规约循环, 动态变长序列IS_VARLEN分支'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 二维grid(NT, B*H), 标量地址计算主导(Scalar=53.6%), 16x16块内三角规约循环, 动态变长序列IS_VARLEN分支'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_LAUNCH_CONTRACT*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 二维grid(NT, B*H), 标量地址计算主导(Scalar=53.6%), 16x16块内三角规约循环, 动态变长序列IS_VARLEN分支
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=10381 chars
+[LLM] [Call #02] ✅ Complete | Tokens=4003 (p:2594, c:1409) | Time=12.31s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：标量地址计算外提与循环不变式提升**
+   ├─ 瓶颈诊断: 瓶颈假设：Scalar=53.6% 主要由循环内重复的 `(i_t * BT + i) * H * BT + o_i` 地址计算和 `IS_VARLEN` 分支内 `tl.load(chunk_indices + i_t * 2)` 等标量操作导致。
+   └─ 实施动作: 实施动作：将循环内 `A + (i_t * BT + i) * H * BT + o_i` 中的 `i_t * BT * H * BT` 和 `o_i` 部分外提为循环不变量 `base_A = A + i_t * BT * H * BT`；将 `IS_VARLEN` 分支内的 `bos, eos, T` 计算提前到循环外；将 `o_i[:, None] > o_i[None, :]` 和 `o_i[:, None] == o_i[None, :]` 定义为 `tl.constexpr` 掩码。具体修改：在 `i_t, i_bh` 后计算 `base_offset = i_t * BT * H * BT`；在 `if IS_VARLEN:` 块后立即计算 `T_local = T` 并复用；定义 `MASK_TRI = tl.arange(0, 16)[:, None] > tl.arange(0, 16)[None, :]` 和 `MASK_ID = tl.arange(0, 16)[:, None] == tl.arange(0, 16)[None, :]` 为常量。
+
+  策略 [2]: **策略B：Grid 粒度收拢与循环合并**
+   ├─ 瓶颈诊断: 瓶颈假设：当前 Grid 为 `(NT, B*H)`，每个 program 仅处理 16x16 块，导致大量微小 program 和标量调度开销（Scalar=53.6% 含调度）。
+   └─ 实施动作: 实施动作：将 Grid 收拢为 `(NT//2, B*H)`，每个 program 处理两个连续的 16x16 块（即 32x16 区域），合并两个三角规约循环。具体修改：在 kernel 内增加 `i_t_base = i_t * 2`，同时处理 `i_t_base` 和 `i_t_base+1` 的 16x16 块；将两个 `for i in range(...)` 循环合并为一个处理 32 行的循环，使用 `tl.where` 选择正确的子块；保留 `boundary_check` 确保边界安全。前提：`NT` 为偶数或处理余数块。
+
+  策略 [3]: **策略C：数据布局转置与连续访存优化**
+   ├─ 瓶颈诊断: 瓶颈假设：当前 `A` 的 stride 为 `(H*BT, 1)`，导致 `tl.load(A + (i_t*BT + i) * H*BT + o_i)` 为跨步访存，MTE2 读利用率仅 24.1%。
+   └─ 实施动作: 实施动作：在 wrapper 中将 `A` 转置为 `(B, H, T, BT)` 布局（stride `(H*T*BT, T*BT, BT, 1)`），使 kernel 内按行连续访问；修改 `make_block_ptr` 的 strides 为 `(BT, 1)` 和 `(T*BT, BT)`；调整 `i_t` 和 `i_h` 的索引计算。具体修改：在 `solve_tril` 中 `A = A.permute(0,2,1,3).contiguous()`；kernel 内 `A += (bos * BT)` 和 `Ai += (bos * BT)`；`p_A_11 = tl.make_block_ptr(A, (T, BT), (BT, 1), (i_t*16, 0), (16,16), (1,0))`。前提：`A` 可转置且不破坏外部契约。
+
+  策略 [4]: **策略D：TMA 描述符预计算与片上复用**
+   ├─ 瓶颈诊断: 瓶颈假设：MTE3 写利用率仅 5.4%，且 `USE_TMA` 分支每次循环都重新创建描述符，增加标量开销。
+   └─ 实施动作: 实施动作：将 `tl.make_tensor_descriptor` 外提到循环外，在 kernel 开头一次性创建 `desc_A` 和 `desc_Ai`；在循环内直接使用 `desc.load` 和 `desc.store` 的偏移版本。具体修改：在 `if USE_TMA:` 块内，将 `desc = tl.make_tensor_descriptor(A, [T, BT], [H*BT, 1], [16,16])` 和 `desc_o = tl.make_tensor_descriptor(Ai, [T, BT], [H*BT, 1], [16,16])` 移到 `for` 循环之前；循环内使用 `desc.load([i_t*BT + i, 0])` 和 `desc_o.store([i_t*BT + i, 0], ...)`。前提：`USE_TMA=True` 时生效，需验证 TMA 描述符在循环间可复用。
+
+  策略 [5]: **策略E：标量规约向量化与循环展开**
+   ├─ 瓶颈诊断: 瓶颈假设：三角规约循环 `for i in range(2, min(16, T - i_t*BT))` 内 `tl.sum(b_a_11[:, None] * b_Ai_11, 0)` 为标量主导的逐行规约，Scalar=53.6%。
+   └─ 实施动作: 实施动作：将内层规约改为向量化 `tl.dot` 操作，利用 `DOT_PRECISION` 加速；对循环进行部分展开（如每次处理 2 行）。具体修改：将 `b_a_11 += tl.sum(b_a_11[:, None] * b_Ai_11, 0)` 替换为 `b_a_11 = b_a_11 + tl.dot(b_a_11[None, :], b_Ai_11, input_precision=DOT_PRECISION)[0]`；将 `for i in range(2, min(16, T - i_t*BT), 2):` 展开为处理 `i` 和 `i+1` 两行，使用 `tl.where` 更新 `b_Ai_11`。前提：`DOT_PRECISION` 支持 float32 且精度满足要求。
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11309 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11052 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11170 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11161 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=11156 chars
+[LLM] [Call #06] ✅ Complete | Tokens=4751 (p:2790, c:1961) | Time=30.56s
+[LLM] [Call #05] ✅ Complete | Tokens=4784 (p:2792, c:1992) | Time=30.88s
+[LLM] [Call #04] ✅ Complete | Tokens=4857 (p:2763, c:2094) | Time=31.85s
+[LLM] [Call #03] ✅ Complete | Tokens=4971 (p:2827, c:2144) | Time=32.30s
+[LLM] [Call #07] ✅ Complete | Tokens=5075 (p:2789, c:2286) | Time=33.48s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5183 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_altuus92/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.34us
+       └─ Raw speedup: 0.1799
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1799
+       └─ Fitness score: 0.1799 (max 2.0)
+       └─ Competition score: 18.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5223 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0__k11be9g/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 19.52us
+       └─ Raw speedup: -0.0727
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5846 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_2uvwf01m/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.42us
+       └─ Raw speedup: 0.1738
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1738
+       └─ Fitness score: 0.1738 (max 2.0)
+       └─ Competition score: 17.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5686 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_r0gmcuvn/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.16us
+       └─ Raw speedup: 0.1939
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1939
+       └─ Fitness score: 0.1939 (max 2.0)
+       └─ Competition score: 19.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5902 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_vqf2wr5i/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 42819284 (gen0_strategy_guided): 耗时=15.34us, 相对基线加速比=0.1799x, 相对Seed加速比=0.9844x, Fitness=0.9844
+[EA] ✅ 个体 94690114 (gen0_strategy_guided): 耗时=19.52us, 相对基线加速比=0.0000x, 相对Seed加速比=0.7736x, Fitness=0.7736
+[EA] ✅ 个体 cfa1c9d6 (gen0_strategy_guided): 耗时=15.42us, 相对基线加速比=0.1738x, 相对Seed加速比=0.9792x, Fitness=0.9792
+[EA] ✅ 个体 fe9ca140 (gen0_strategy_guided): 耗时=15.16us, 相对基线加速比=0.1939x, 相对Seed加速比=0.9960x, Fitness=0.9960
+[EA] ❌ 个体 dc91cd66 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0000 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13941 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=14162 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13811 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13771 chars
+[LLM] [Call #08] ✅ Complete | Tokens=5438 (p:3485, c:1953) | Time=26.04s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7779 chars
+[LLM] [Call #10] ✅ Complete | Tokens=5416 (p:3452, c:1964) | Time=26.13s
+[LLM] [Call #11] ✅ Complete | Tokens=5406 (p:3442, c:1964) | Time=26.15s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7784 chars
+[LLM] [Call #09] ✅ Complete | Tokens=5550 (p:3540, c:2010) | Time=26.91s
+[LLM] [Call #12] ✅ Complete | Tokens=3897 (p:1944, c:1953) | Time=17.82s
+[LLM] [Call #13] ✅ Complete | Tokens=3902 (p:1946, c:1956) | Time=17.73s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5191 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_kdh1abd9/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.60us
+       └─ Raw speedup: 0.1603
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1603
+       └─ Fitness score: 0.1603 (max 2.0)
+       └─ Competition score: 16.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5404 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_1lmsl5_7/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.14us
+       └─ Raw speedup: 0.1955
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1955
+       └─ Fitness score: 0.1955 (max 2.0)
+       └─ Competition score: 19.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5179 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_3xeu20uq/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.72us
+       └─ Raw speedup: 0.2296
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2296
+       └─ Fitness score: 0.2296 (max 2.0)
+       └─ Competition score: 23.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5191 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_gz17dqyi/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.24us
+       └─ Raw speedup: 0.1877
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1877
+       └─ Fitness score: 0.1877 (max 2.0)
+       └─ Competition score: 18.8/200 points
+[EA] ✅ 个体 04282793 (crossover): 耗时=15.60us, 相对基线加速比=0.1603x, 相对Seed加速比=0.9679x, Fitness=0.9679
+[EA] ✅ 个体 e95647d1 (crossover): 耗时=15.14us, 相对基线加速比=0.1955x, 相对Seed加速比=0.9974x, Fitness=0.9974
+[EA] ✅ 个体 d3c2b0c9 (mutation): 耗时=14.72us, 相对基线加速比=0.2296x, 相对Seed加速比=1.0258x, Fitness=1.0258
+[EA] ✅ 个体 75126174 (mutation): 耗时=15.24us, 相对基线加速比=0.1877x, 相对Seed加速比=0.9908x, Fitness=0.9908
+[EA] 🎉 找到更优版本! New Best Fitness: 1.0258
+[EA] Gen 1 Summary: Best=1.0258, Avg=0.9963
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13746 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13955 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13967 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=13967 chars
+[LLM] [Call #15] ✅ Complete | Tokens=5441 (p:3488, c:1953) | Time=24.73s
+[LLM] [Call #14] ✅ Complete | Tokens=5392 (p:3436, c:1956) | Time=24.75s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7772 chars
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7791 chars
+[LLM] [Call #17] ✅ Complete | Tokens=5509 (p:3491, c:2018) | Time=25.65s
+[LLM] [Call #16] ✅ Complete | Tokens=5509 (p:3491, c:2018) | Time=25.96s
+[LLM] [Call #19] ✅ Complete | Tokens=3903 (p:1947, c:1956) | Time=17.81s
+[LLM] [Call #18] ✅ Complete | Tokens=3971 (p:1943, c:2028) | Time=18.39s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5402 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_naf0r_r8/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.32us
+       └─ Raw speedup: 0.1815
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1815
+       └─ Fitness score: 0.1815 (max 2.0)
+       └─ Competition score: 18.1/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_v4iry3bz/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.16us
+       └─ Raw speedup: 0.1939
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1939
+       └─ Fitness score: 0.1939 (max 2.0)
+       └─ Competition score: 19.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5191 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_byh83xug/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.14us
+       └─ Raw speedup: 0.1955
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1955
+       └─ Fitness score: 0.1955 (max 2.0)
+       └─ Competition score: 19.6/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5406 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_bgkz5f4r/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+[EA] ✅ 个体 36a130ca (crossover): 耗时=15.32us, 相对基线加速比=0.1815x, 相对Seed加速比=0.9856x, Fitness=0.9856
+[EA] ✅ 个体 c0d7a178 (crossover): 耗时=15.16us, 相对基线加速比=0.1939x, 相对Seed加速比=0.9960x, Fitness=0.9960
+[EA] ✅ 个体 eb4b9201 (mutation): 耗时=15.14us, 相对基线加速比=0.1955x, 相对Seed加速比=0.9974x, Fitness=0.9974
+[EA] ❌ 个体 053a2149 (mutation): 评估失败, Fitness=0
+[EA] Gen 2 Summary: Best=1.0258, Avg=0.8341
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0258
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5179 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_x391b4vv/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 14.78us
+       └─ Raw speedup: 0.2246
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2246
+       └─ Fitness score: 0.2246 (max 2.0)
+       └─ Competition score: 22.5/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5179 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_hews8270/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.68us
+       └─ Raw speedup: 0.1543
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1543
+       └─ Fitness score: 0.1543 (max 2.0)
+       └─ Competition score: 15.4/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5179 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_mymosifw/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.00us
+       └─ Raw speedup: 0.2067
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.2067
+       └─ Fitness score: 0.2067 (max 2.0)
+       └─ Competition score: 20.7/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5179 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_f77m89rf/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.74us
+       └─ Raw speedup: 0.1499
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1499
+       └─ Fitness score: 0.1499 (max 2.0)
+       └─ Competition score: 15.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5179 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/performance/merge_16x16_to_32x32_inverse_kernel_dev_0/merge_16x16_to_32x32_inverse_kernel --application="/usr/local/python3.11.15/bin/python /tmp/merge_16x16_to_32x32_inverse_kernel_dev_0_1h199jow/test_merge_16x16_to_32x32_inverse_kernel.py" --kernel-name="merge_16x16_to_32x32_inverse_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 18.10us
+       └─ Optimized time: 15.20us
+       └─ Raw speedup: 0.1908
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1908
+       └─ Fitness score: 0.1908 (max 2.0)
+       └─ Competition score: 19.1/200 points
+  完成: 15.200304 us  S=1.1907895394723687  用时 445.5s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.47 小时
+============================================================

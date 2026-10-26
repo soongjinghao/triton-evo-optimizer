@@ -1,0 +1,1462 @@
+[配置] paper_full  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_full] seed 1/3 算子 1/1: compute_identity_kernel ===
+  [恢复] compute_identity_kernel__r11.json 版本不匹配，重跑：
+           - runtime_environment: {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '2'} → {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '5'}
+  [恢复] 旧结果已备份为 compute_identity_kernel__r11.json.old
+[harness] 适应度锚点采用 manifest T_seed = 24.4405 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /workspace/Agent/datasets2/compute_identity_kernel
+       └─ Reference baseline: 602.45us
+       └─ Test file: /workspace/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 9068.08it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_kfhrtcar/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 603.05us
+       └─ Raw speedup: -0.0010
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_3vx0wiu1/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.32us
+       └─ Raw speedup: 24.8336
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.8336
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 38.15% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: ecfbfabd, 基准耗时: 24.44us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=602.45 us | 当前耗时=23.32 us (相对基线:+2483.36% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=128
+- 管线利用率: Vector=6.4%, Scalar=21.4%, MTE2(读)=62.5%, MTE3(写)=22.7%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE2 读访存 (62.5%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=15.94 GB/s, 向量写=9.26 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5200 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1332 (p:1299, c:33) | Time=0.78s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 分组规约, 尾块mask, MTE2读访存主导, 重复标量计算'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 分组规约, 尾块mask, MTE2读访存主导, 重复标量计算'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 分组规约, 尾块mask, MTE2读访存主导, 重复标量计算
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=8892 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2944 (p:2222, c:722) | Time=6.79s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A：MTE2读连续化与Mask证明删除**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：MTE2读访存62.5%，向量读仅15.94GB/s，表明非连续访问导致带宽浪费
+   └─ 实施动作: 实施动作与具体代码修改方案：证明`hidden_dim`和`BLOCK_D`对齐且`token_start`为`BLOCK_B`倍数时，`d_offsets`和`token_offsets`连续，删除`d_mask`和`token_mask`的load/store mask；仅保留`k_mask`；添加`tl.multiple_of(hidden_dim, 256)`和`tl.max_contiguous(tl.arange(0, BLOCK_D), BLOCK_D)`；前提：`hidden_dim % BLOCK_D == 0`且`num_tokens % BLOCK_B == 0`；否则保留基线mask
+
+  策略 [2]: **策略B：Grid收拢与循环展开**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Vector利用率仅6.4%，Scalar 21.4%，表明单program工作量过小，launch开销占比高
+   └─ 实施动作: 实施动作与具体代码修改方案：将`BLOCK_B`从32增大至128，grid从`(cdiv(num_tokens, 32),)`变为`(cdiv(num_tokens, 128),)`；内层`d_start`循环步长从`BLOCK_D=256`增大至512；前提：`num_tokens`较大(>1024)且UB寄存器压力可承受；若`num_tokens`小则回退原BLOCK_B
+
+  策略 [3]: **策略C：标量计算外提与UB写合并**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：Scalar 21.4%含重复`scales_accum`计算，向量写9.26GB/s低效
+   └─ 实施动作: 实施动作与具体代码修改方案：将`scales_accum`计算从`d_start`循环外提至循环前，使用`tl.sum`一次完成；`tl.store`合并为连续写，删除`d_mask`；前提：`hidden_dim`为`BLOCK_D`倍数；若`hidden_dim`非对齐则保留mask
+
+  策略 [4]: **策略D：MTE3写优化与尾块处理**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：MTE3写22.7%偏低，向量写9.26GB/s表明写带宽未饱和
+   └─ 实施动作: 实施动作与具体代码修改方案：在`tl.store`前添加`tl.debug_barrier()`确保写顺序；对`token_mask`尾块使用`tl.where`填充0而非mask，减少MTE3写碎片；前提：`num_tokens`非`BLOCK_B`倍数时尾块存在；若`num_tokens`整除则跳过
+
+  策略 [5]: **策略E：TOP_K_BLOCK对齐与寄存器复用**
+   ├─ 瓶颈诊断: 现有瓶颈诊断：MTE2读62.5%含`expert_scales`非连续读取，`TOP_K_BLOCK=8`过小
+   └─ 实施动作: 实施动作与具体代码修改方案：将`TOP_K_BLOCK`从8增大至32，与`BLOCK_B`对齐；`scales_block`加载使用`tl.load(..., mask=k_mask)`并复用`token_mask`；前提：`top_k`较大(>32)且寄存器压力允许；若`top_k`小则回退原值
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9534 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9426 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9371 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9366 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9388 chars
+[LLM] [Call #04] ✅ Complete | Tokens=3448 (p:2356, c:1092) | Time=18.24s
+[LLM] [Call #07] ✅ Complete | Tokens=3439 (p:2347, c:1092) | Time=18.22s
+[LLM] [Call #06] ✅ Complete | Tokens=3447 (p:2341, c:1106) | Time=18.37s
+[LLM] [Call #05] ✅ Complete | Tokens=3456 (p:2342, c:1114) | Time=18.45s
+[LLM] [Call #03] ✅ Complete | Tokens=3682 (p:2383, c:1299) | Time=19.98s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3709 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_ctxikz2w/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.60us
+       └─ Raw speedup: 25.6566
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.6566
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3709 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_k3qc88pv/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3756 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_29vck1yr/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.24us
+       └─ Raw speedup: 23.8531
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 23.8531
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3777 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_8mezbni6/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.22us
+       └─ Raw speedup: 26.1125
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 26.1125
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4569 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_xxmo3liw/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.36us
+       └─ Raw speedup: 23.7307
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 23.7307
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ✅ 个体 8a3d8ff9 (gen0_strategy_guided): 耗时=22.60us, 相对基线加速比=25.6566x, 相对Seed加速比=1.0814x, Fitness=1.0814
+[EA] ❌ 个体 8f2705d6 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 3e0bdbef (gen0_strategy_guided): 耗时=24.24us, 相对基线加速比=23.8531x, 相对Seed加速比=1.0083x, Fitness=1.0083
+[EA] ✅ 个体 bb066548 (gen0_strategy_guided): 耗时=22.22us, 相对基线加速比=26.1125x, 相对Seed加速比=1.0999x, Fitness=1.0999
+[EA] ✅ 个体 39cb821e (gen0_strategy_guided): 耗时=24.36us, 相对基线加速比=23.7307x, 相对Seed加速比=1.0033x, Fitness=1.0033
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.0999 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11747 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10838 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11747 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11766 chars
+[LLM] [Call #09] ✅ Complete | Tokens=3801 (p:2709, c:1092) | Time=11.62s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6306 chars
+[LLM] [Call #10] ✅ Complete | Tokens=4235 (p:2936, c:1299) | Time=13.75s
+[LLM] [Call #08] ✅ Complete | Tokens=4235 (p:2936, c:1299) | Time=13.77s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=7183 chars
+[LLM] [Call #11] ✅ Complete | Tokens=4264 (p:2941, c:1323) | Time=14.16s
+[LLM] [Call #12] ✅ Complete | Tokens=2668 (p:1576, c:1092) | Time=10.24s
+[LLM] [Call #13] ✅ Complete | Tokens=3109 (p:1795, c:1314) | Time=11.84s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4569 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_4neco_w4/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.52us
+       └─ Raw speedup: 24.6139
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.6139
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4644 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_e9i0244r/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.90us
+       └─ Raw speedup: 24.2067
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.2067
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_87ibt5ie/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.34us
+       └─ Raw speedup: 24.8115
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.8115
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4612 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_s1jn10nk/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.42us
+       └─ Raw speedup: 23.6699
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 23.6699
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ✅ 个体 21b4cb91 (crossover): 耗时=23.52us, 相对基线加速比=24.6139x, 相对Seed加速比=1.0391x, Fitness=1.0391
+[EA] ✅ 个体 c2f33f55 (crossover): 耗时=23.90us, 相对基线加速比=24.2067x, 相对Seed加速比=1.0226x, Fitness=1.0226
+[EA] ✅ 个体 504ece87 (mutation): 耗时=23.34us, 相对基线加速比=24.8115x, 相对Seed加速比=1.0471x, Fitness=1.0471
+[EA] ✅ 个体 e5f24727 (mutation): 耗时=24.42us, 相对基线加速比=23.6699x, 相对Seed加速比=1.0008x, Fitness=1.0008
+[EA] Gen 1 Summary: Best=1.0999, Avg=1.0485
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10907 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6767 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11699 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=11841 chars
+[LLM] [Call #14] ✅ Complete | Tokens=3818 (p:2726, c:1092) | Time=11.61s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6323 chars
+[LLM] [Call #15] ✅ Complete | Tokens=2805 (p:1691, c:1114) | Time=11.93s
+[LLM] [Call #16] ✅ Complete | Tokens=4223 (p:2924, c:1299) | Time=13.74s
+[LLM] [Call #17] ✅ Complete | Tokens=4283 (p:2960, c:1323) | Time=13.93s
+[LLM] [Call #18] ✅ Complete | Tokens=2687 (p:1580, c:1107) | Time=9.79s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3777 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_mi96if72/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.78us
+       └─ Raw speedup: 24.3339
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.3339
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4569 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_27m1btnj/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.94us
+       └─ Raw speedup: 25.2616
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.2616
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4644 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0__0zi_asf/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.46us
+       └─ Raw speedup: 24.6795
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.6795
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3752 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_fmd40t3e/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.80us
+       └─ Raw speedup: 24.3126
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.3126
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ✅ 个体 305bfc65 (mutation): 耗时=23.78us, 相对基线加速比=24.3339x, 相对Seed加速比=1.0278x, Fitness=1.0278
+[EA] ✅ 个体 c03204b0 (crossover): 耗时=22.94us, 相对基线加速比=25.2616x, 相对Seed加速比=1.0654x, Fitness=1.0654
+[EA] ✅ 个体 d14a0d25 (crossover): 耗时=23.46us, 相对基线加速比=24.6795x, 相对Seed加速比=1.0418x, Fitness=1.0418
+[EA] ✅ 个体 ea688feb (mutation): 耗时=23.80us, 相对基线加速比=24.3126x, 相对Seed加速比=1.0269x, Fitness=1.0269
+[EA] Gen 2 Summary: Best=1.0999, Avg=1.0572
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.0999
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3777 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_fnq1mb28/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.28us
+       └─ Raw speedup: 23.8122
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 23.8122
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3777 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_t16y29wi/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.96us
+       └─ Raw speedup: 24.1436
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.1436
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3777 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_tbzew0du/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.00us
+       └─ Raw speedup: 24.1017
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.1017
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3777 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_srdgycf6/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.48us
+       └─ Raw speedup: 24.6576
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.6576
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3777 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_wcidwdf3/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.92us
+       └─ Raw speedup: 25.2845
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.2845
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+  完成: 23.96048 us  S=25.14357082996668  用时 505.7s
+
+=== [paper_full] seed 2/3 算子 1/1: compute_identity_kernel ===
+  [恢复] compute_identity_kernel__r12.json 版本不匹配，重跑：
+           - runtime_environment: {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '2'} → {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '5'}
+  [恢复] 旧结果已备份为 compute_identity_kernel__r12.json.old
+[harness] 适应度锚点采用 manifest T_seed = 24.4405 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /workspace/Agent/datasets2/compute_identity_kernel
+       └─ Reference baseline: 602.45us
+       └─ Test file: /workspace/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7229.10it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_t6idfibw/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 511.05us
+       └─ Raw speedup: 0.1789
+[⚡]       └─ Speedup valid, counted in score
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.1789
+       └─ Fitness score: 0.1789 (max 2.0)
+       └─ Competition score: 17.9/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_1nmxhc7t/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.66us
+       └─ Raw speedup: 24.4624
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.4624
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 38.15% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: 98414856, 基准耗时: 24.44us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=602.45 us | 当前耗时=23.66 us (相对基线:+2446.24% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=128
+- 管线利用率: Vector=6.3%, Scalar=19.7%, MTE2(读)=64.2%, MTE3(写)=21.2%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE2 读访存 (64.2%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=15.56 GB/s, 向量写=9.04 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5200 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1332 (p:1299, c:33) | Time=0.62s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口, 分组规约, 尾块Mask, MTE2读访存主导, 重复标量计算'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, 分组规约, 尾块Mask, MTE2读访存主导, 重复标量计算'
+[⚠️ RAG Positive] 无可靠正向 ACTION，使用保守 fallback。
+[🛡️ RAG Guard] ACTION_GUARD_MASK_COVERAGE_PROOF*, ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, 分组规约, 尾块Mask, MTE2读访存主导, 重复标量计算
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_MASK_COVERAGE_PROOF（强制联动）
+#### ⚛️ `ACTION_GUARD_MASK_COVERAGE_PROOF`：Mask 删除 / 简化必须证明完整覆盖与局部域正确
+
+* **检索锚点**：尾块mask, mask证明不足, mask可证明冗余, 非2次幂逻辑组, 无效Token, full tile, n_cols动态, group_size动态, grid边界, local domain, head边界。
+* **核心规则**：Mask 是输入域正确性的组成部分，不是单纯性能开销。只有能从 constexpr、shape、grid 与索引范围严格证明 load/store 全部有效时才能删除或简化。
+* **局部域规则**：对于 Head/Group/Row 等逻辑子域，必须同时证明局部索引落在该子域内；`global_offset < total_size` 不能替代 `local_offset < logical_width`。尤其在 `next_power_of_2(logical_width) > logical_width` 时，padding lane 可能合法落入下一个逻辑域而不触发全局越界 mask。
+* **允许模式**：full tile / aligned testcase 走独立无 Mask fast path，同时保留通用 masked path。
+* **严禁模式**：
+  - 为性能缩小 BLOCK 覆盖范围。
+  - 假定 n_cols/group_size 总是整除。
+  - 根据公开 testcase 删除尾块。
+  - store 覆盖范围无法证明时删除 store mask。
+  - 用 flatten 后总长度 mask 替代局部 Row/Head/Group 边界。
+* **正式失败风险**：`rwkv_ka_fusion_kernel` 在隐藏 testcase 出现整组 accuracy failure，说明局部逻辑域与 power-of-two padding 的 mask 证明必须单独检查。
+* **可信度**：Guard/A。
+
+---
+
+## 6. RAG 检索治理
+
+[G2] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+【Fallback：仅在 RAG 无可靠正向命中时使用】
+
+1. ACTION_INVARIANT_LOAD_HOIST
+   检查循环内是否存在与迭代无关的 weight / scale / metadata；
+   只有能证明为循环不变量时才外提并片上复用。
+
+2. ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL
+   根据 program 数量、单 program 工作量、访存类型和片上资源，
+   决定扩大 Grid 还是收拢 Grid；禁止固定方向地 flatten/consolidate。
+
+3. ACTION_TILE_AREA_BUDGET
+   调整 BLOCK/二维 tile 时同时评估寄存器/UB 占用与 occupancy；
+   禁止单纯追求更大的 BLOCK。
+
+【强制正确性底线】
+- 不能证明完整覆盖时必须保留 mask；
+- 不能证明连续性/对齐时禁止添加 tl.multiple_of 等真实性承诺；
+- random gather / 间接索引不假设连续对齐；
+- // 与 % 只有 divisor 已证明为 2 的幂时才允许改写为 bitwise；
+- 未经当前 Ascend Triton backend testcase 验证的 intrinsic 不直接使用；
+- 数学语义、Wrapper/API 契约、完整输入域与 Accuracy 优先于性能。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=8892 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2860 (p:2222, c:638) | Time=5.78s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **MTE2读访存连续化与Mask证明优化**
+   ├─ 瓶颈诊断: MTE2读访存64.2%主导瓶颈，向量读15.56GB/s低效
+   └─ 实施动作: 将`hidden_states_ptr`和`expert_scales_ptr`的load改为连续行跨度访问，证明`BLOCK_D=256`整除`hidden_dim`且`BLOCK_B=32`整除`num_tokens`时删除d_mask和token_mask；修改`tl.load(h_ptr + token_offsets[:, None] * hidden_dim + d_offsets[None, :], mask=token_mask[:, None] & d_mask[None, :])`为`tl.load(h_ptr + token_offsets[:, None] * hidden_dim + d_offsets[None, :])`，同理处理scales load和store mask
+
+  策略 [2]: **Grid收拢与标量计算外提**
+   ├─ 瓶颈诊断: 网格128个program过碎，Scalar 19.7%含重复计算
+   └─ 实施动作: 将`BLOCK_B`从32增大到64，grid减半；将`scales_accum`的`tl.where(token_mask, scales_sum, 0.0)`外提为循环外初始化`scales_accum = tl.zeros([BLOCK_B], tl.float32)`后直接`scales_accum += scales_sum`，删除token_mask条件
+
+  策略 [3]: **UB写吞吐优化与Store合并**
+   ├─ 瓶颈诊断: 向量写9.04GB/s低效，MTE3写21.2%
+   └─ 实施动作: 将`hidden_dim`循环内`tl.store`的`result = h * scales_accum[:, None]`改为先计算`scaled_h = h * scales_accum[:, None]`，然后使用`tl.store(out_ptr + token_offsets[:, None] * hidden_dim + d_offsets[None, :], scaled_h)`，删除store mask；证明`hidden_dim`为256倍数时连续写
+
+  策略 [4]: **TOP_K_BLOCK对齐与循环展开**
+   ├─ 瓶颈诊断: TOP_K_BLOCK=8导致scales load碎片化
+   └─ 实施动作: 将`TOP_K_BLOCK`从8增大到16，证明`top_k`为16倍数时删除k_mask；修改`for k_start in range(0, top_k, TOP_K_BLOCK):`为`for k_start in range(0, top_k, 16):`，`k_offsets = tl.arange(0, 16)`，删除`k_mask`条件
+
+  策略 [5]: **寄存器压力平衡与Pipeline优化**
+   ├─ 瓶颈诊断: Vector 6.3%利用率低，寄存器占用高
+   └─ 实施动作: 将`BLOCK_D`从256减小到128，`BLOCK_B`从32增大到64，平衡寄存器与UB占用；修改`tl.load`和`tl.store`的`d_offsets`为`tl.arange(0, 128)`，`d_mask = d_offsets < (hidden_dim - d_start)`保留但证明`hidden_dim`为128倍数时删除
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9565 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9389 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9435 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9382 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9375 chars
+[LLM] [Call #03] ✅ Complete | Tokens=3435 (p:2391, c:1044) | Time=17.82s
+[LLM] [Call #06] ✅ Complete | Tokens=3409 (p:2345, c:1064) | Time=18.00s
+[LLM] [Call #05] ✅ Complete | Tokens=3436 (p:2358, c:1078) | Time=18.15s
+[LLM] [Call #04] ✅ Complete | Tokens=3429 (p:2347, c:1082) | Time=18.19s
+[LLM] [Call #07] ✅ Complete | Tokens=3435 (p:2343, c:1092) | Time=18.24s
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 5 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3546 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_wcxyedis/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 21.58us
+       └─ Raw speedup: 26.9166
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 26.9166
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3626 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_qdxjdpwv/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 29.42us
+       └─ Raw speedup: 19.4772
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 19.4772
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3657 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_ovoa9x_u/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.08us
+       └─ Raw speedup: 26.2844
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 26.2844
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3681 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_5dp23brf/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.92us
+       └─ Raw speedup: 23.1750
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 23.1750
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_tzf2_e4m/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.00us
+       └─ Raw speedup: 25.1930
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.1930
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ✅ 个体 227dc43a (gen0_strategy_guided): 耗时=21.58us, 相对基线加速比=26.9166x, 相对Seed加速比=1.1325x, Fitness=1.1325
+[EA] ✅ 个体 2db7c5f7 (gen0_strategy_guided): 耗时=29.42us, 相对基线加速比=19.4772x, 相对Seed加速比=0.8307x, Fitness=0.8307
+[EA] ✅ 个体 114da76b (gen0_strategy_guided): 耗时=22.08us, 相对基线加速比=26.2844x, 相对Seed加速比=1.1069x, Fitness=1.1069
+[EA] ✅ 个体 e1985504 (gen0_strategy_guided): 耗时=24.92us, 相对基线加速比=23.1750x, 相对Seed加速比=0.9807x, Fitness=0.9807
+[EA] ✅ 个体 d889d13e (gen0_strategy_guided): 耗时=23.00us, 相对基线加速比=25.1930x, 相对Seed加速比=1.0626x, Fitness=1.0626
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.1325 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10809 chars
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10675 chars
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10675 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10703 chars
+[LLM] [Call #09] ✅ Complete | Tokens=3760 (p:2668, c:1092) | Time=11.71s
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6306 chars
+[LLM] [Call #10] ✅ Complete | Tokens=3760 (p:2668, c:1092) | Time=11.73s
+[LLM] [Call #11] ✅ Complete | Tokens=3767 (p:2675, c:1092) | Time=11.73s
+[LLM] [Call #08] ✅ Complete | Tokens=3794 (p:2702, c:1092) | Time=11.75s
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6307 chars
+[LLM] [Call #12] ✅ Complete | Tokens=2668 (p:1576, c:1092) | Time=9.98s
+[LLM] [Call #13] ✅ Complete | Tokens=2668 (p:1576, c:1092) | Time=9.96s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_014132xv/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.60us
+       └─ Raw speedup: 24.5271
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.5271
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_atmx9r3c/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.70us
+       └─ Raw speedup: 23.3903
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 23.3903
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_hbmzn_jf/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.48us
+       └─ Raw speedup: 25.7989
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.7989
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3709 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_wa5wnjxt/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.04us
+       └─ Raw speedup: 24.0599
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.0599
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ✅ 个体 36f40eb5 (crossover): 耗时=23.60us, 相对基线加速比=24.5271x, 相对Seed加速比=1.0356x, Fitness=1.0356
+[EA] ✅ 个体 246cb3e9 (crossover): 耗时=24.70us, 相对基线加速比=23.3903x, 相对Seed加速比=0.9895x, Fitness=0.9895
+[EA] ✅ 个体 3e4e8576 (mutation): 耗时=22.48us, 相对基线加速比=25.7989x, 相对Seed加速比=1.0872x, Fitness=1.0872
+[EA] ✅ 个体 bd4226aa (mutation): 耗时=24.04us, 相对基线加速比=24.0599x, 相对Seed加速比=1.0166x, Fitness=1.0166
+[EA] Gen 1 Summary: Best=1.1325, Avg=1.0614
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6698 chars
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10677 chars
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10677 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10675 chars
+[LLM] [Call #16] ✅ Complete | Tokens=3713 (p:2669, c:1044) | Time=10.80s
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6145 chars
+[LLM] [Call #14] ✅ Complete | Tokens=2766 (p:1674, c:1092) | Time=11.44s
+[LLM] [Call #17] ✅ Complete | Tokens=3760 (p:2668, c:1092) | Time=11.44s
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6306 chars
+[LLM] [Call #15] ✅ Complete | Tokens=3761 (p:2669, c:1092) | Time=11.48s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6307 chars
+[LLM] [Call #18] ✅ Complete | Tokens=2580 (p:1536, c:1044) | Time=10.87s
+[LLM] [Call #19] ✅ Complete | Tokens=2668 (p:1576, c:1092) | Time=11.12s
+[LLM] [Call #20] ✅ Complete | Tokens=2668 (p:1576, c:1092) | Time=11.11s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_anzp3h05/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.08us
+       └─ Raw speedup: 25.1023
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.1023
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3547 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_rhc87wb1/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 25.24us
+       └─ Raw speedup: 22.8685
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 22.8685
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_ar140owu/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.24us
+       └─ Raw speedup: 24.9225
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.9225
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3709 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0__kixph1w/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.10us
+       └─ Raw speedup: 25.0797
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.0797
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ✅ 个体 a687ee5f (mutation): 耗时=23.08us, 相对基线加速比=25.1023x, 相对Seed加速比=1.0589x, Fitness=1.0589
+[EA] ✅ 个体 efb3376e (mutation): 耗时=25.24us, 相对基线加速比=22.8685x, 相对Seed加速比=0.9683x, Fitness=0.9683
+[EA] ✅ 个体 50c31df4 (mutation): 耗时=23.24us, 相对基线加速比=24.9225x, 相对Seed加速比=1.0516x, Fitness=1.0516
+[EA] ✅ 个体 125e7f06 (mutation): 耗时=23.10us, 相对基线加速比=25.0797x, 相对Seed加速比=1.0580x, Fitness=1.0580
+[EA] Gen 2 Summary: Best=1.1325, Avg=1.0627
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1325
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3546 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_pn8aklff/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.22us
+       └─ Raw speedup: 24.9449
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.9449
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3546 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_k6zh7dyw/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.58us
+       └─ Raw speedup: 25.6802
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.6802
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3546 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_iv9vddnp/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.20us
+       └─ Raw speedup: 24.9672
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.9672
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3546 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_ema27vn3/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.48us
+       └─ Raw speedup: 24.6576
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.6576
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3546 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_m2k__k45/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.02us
+       └─ Raw speedup: 25.1703
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.1703
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+  完成: 23.200464 us  S=25.96724039657138  用时 503.5s
+
+=== [paper_full] seed 3/3 算子 1/1: compute_identity_kernel ===
+  [恢复] compute_identity_kernel__r13.json 版本不匹配，重跑：
+           - runtime_environment: {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '2'} → {'python': '3.11.15', 'platform': 'Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35', 'packages': {'torch': '2.7.1', 'torch-npu': '2.7.1.post4', 'triton': '3.5.0', 'langchain-openai': '1.6.0', 'transformers': '5.16.1', 'faiss-cpu': '1.15.0', 'sentence-transformers': '6.0.1'}, 'npu_devices_configured': '1', 'llm_workers_configured': '5'}
+  [恢复] 旧结果已备份为 compute_identity_kernel__r13.json.old
+[harness] 适应度锚点采用 manifest T_seed = 24.4405 us
+
+[🚀] [Executor] Initializing Triton executor...
+       └─ Operator name: compute_identity_kernel
+       └─ Working directory: /workspace/Agent/datasets2/compute_identity_kernel
+       └─ Reference baseline: 602.45us
+       └─ Test file: /workspace/Agent/datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py
+Warning: Model 140aced515cc4236a6141f2b8a77107f is not in the standard list, but will still try to use it
+[LLM] Initialization complete: 140aced515cc4236a6141f2b8a77107f
+[ℹ️ KnowledgeNode] 发现本地模型: /workspace/user_data/Agent/RAG/.hf_cache/hub/models--BAAI--bge-small-zh-v1.5/snapshots/7999e1d3359715c523056ef9478215996d62a620
+Loading weights:   0%|          | 0/71 [00:00<?, ?it/s]Loading weights: 100%|██████████| 71/71 [00:00<00:00, 7978.88it/s]
+[✅ KnowledgeNode] 泛化 RAG 本地专家知识库成功挂载！ ACTION=27 SHA256=3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397
+[EA] Initializing population, target size: 6
+[EA] 🔍 [Stage 1/4] 启动种子代码 1 卡并发校验与去重 (种子数量: 2)...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3398 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_g6cmobh0/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 660.53us
+       └─ Raw speedup: -0.0879
+[⚠️]       └─ Warning: Optimized slower than baseline, speedup set to 0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 0.0000
+       └─ Fitness score: 0.0000 (max 2.0)
+       └─ Competition score: 0.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4167 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_g4qcngnf/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.30us
+       └─ Raw speedup: 23.7918
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 23.7918
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] 📊 2 个合法种子代码相似度为: 38.15% (阈值 τ=0.9)
+[EA] 🏆 黄金基准种子锁定成功！ID: b9f06d44, 基准耗时: 24.44us
+[EA] 🔬 [Stage 2/4] 解析黄金种子的 Profiling 硬件诊断日志...
+
+【硬件 Profiling 深度诊断日志】:
+- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。
+- 性能坐标: 官方基线=602.45 us | 当前耗时=24.30 us (相对基线:+2379.18% | 相对种子:1.00x)
+- 网格结构: 算子类型=vector | Block Dim=128
+- 管线利用率: Vector=6.5%, Scalar=18.3%, MTE2(读)=62.3%, MTE3(写)=20.2%
+⚠️ 诊断结论: 当前主瓶颈为 [MTE2 读访存 (62.3%)]。MTE 内存搬运受限（检查访存连续性与任务打包；仅在基址/行跨度对齐可证明时使用 tl.multiple_of，仅在尾界不可能出现时删除 Mask）
+- UB吞吐: 向量读=16.17 GB/s, 向量写=9.39 GB/s
+
+[EA] 🧠 [Stage 3/4] 结合 Profiling 诊断向 RAG 检索知识库，生成 5 条重构策略...
+[LLM] [Call #01] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=5200 chars
+[LLM] [Call #01] ✅ Complete | Tokens=1349 (p:1299, c:50) | Time=0.75s
+[🔍 RAG Retriever] Raw Query: '外部Grid固定/直接JIT入口,MTE2读访存主导(62.3%),分组规约(scales_sum),二维program内循环(top_k循环,hidden_dim循环),动态mask(token_mask,d_mask,k_mask)'
+[🔍 RAG Retriever] Normalized: '外部Grid固定/直接JIT入口, MTE2读访存主导(62.3%), 分组规约(scales_sum), 二维program内循环(top_k循环, hidden_dim循环), 动态mask(token_mask, d_mask, k_mask)'
+[✅ RAG Positive] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+[🛡️ RAG Guard] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL*, ACTION_GUARD_LAUNCH_CONTRACT*
+
+[RAG] 检索到的候选优化工具箱：
+--------------------------------------------------------------------------------
+【RAG Query】
+外部Grid固定/直接JIT入口, MTE2读访存主导(62.3%), 分组规约(scales_sum), 二维program内循环(top_k循环, hidden_dim循环), 动态mask(token_mask, d_mask, k_mask)
+
+【高置信候选优化动作】
+
+[P1] ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS
+#### ⚛️ `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS`：海量微小 Program 收拢
+
+* **检索锚点**：海量微小program, 单program元素量很小, 二维grid过细, Token/Head/Group独立program, Launch调度开销, 重复读取共享参数, MTE读访存占比高。
+* **Profiling 锚点**：极短内核硬件计数器难捕获；或 MTE2/Scalar 并不高但整体 launch-bound。
+* **结构判据**：program 数巨大，每个 program 仅少量 load/FMA/store；多个 program 访问相同 weight/metadata。
+* **优化动作**：一个 program 合并少量 token/head/row/group；用短静态/轻量循环处理，减少 grid 与共享参数重复 load。
+* **必须前提**：合并后工作量和寄存器压力仍适中；独立维无写冲突；真实 wrapper launch contract 允许新的 PID 映射。
+* **禁用条件**：random gather 重、单 program 已很大、合并后 occupancy 明显下降；wrapper grid 不变却重新解释 PID 语义。
+* **正式平台证据**：`_fwd_kernel_ep_gather` 正式 `avg=1.65`；`_correct_attn_cp_out_kernel` 正式 `avg=1.79`；RMSNorm 多行 packing 参与正式 2x 方案。
+* **强制联动 Guard**：`ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`、`ACTION_GUARD_LAUNCH_CONTRACT`、`ACTION_GUARD_RANDOM_GATHER_OCCUPANCY`。
+* **可信度**：A。
+
+【必须同时检查的安全 Guard】
+Guard 是正确性/适用条件约束，不是普通性能建议；若与激进优化冲突，以 Guard 为准。
+
+[G1] ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL（强制联动）
+#### ⚛️ `ACTION_GUARD_GRID_DIRECTION_CONTEXTUAL`：Grid 粒度方向必须结合工作量判断
+
+* **检索锚点**：海量微小program, 单program长循环, grid过细, grid覆盖不足, launch调度开销, occupancy不足, random gather, 持久化循环。
+* **核心规则**：Grid 变换没有固定方向。program 太碎才考虑收拢；program 太少且存在可独立并行的真实长循环才考虑扩展；random gather 重时通常需要保留更多 program 隐藏访存延迟。
+* **联动规则**：
+  - `ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS` 命中时检查单 program 工作量、random gather 与 tile 资源。
+  - `ACTION_GRID_EXPAND_LONG_SERIAL_LOOP` 命中时检查实际循环次数、真实 launch contract、独立性与写冲突。
+* **正证据**：`_fwd_kernel_ep_gather`、`_correct_attn_cp_out_kernel` 的适度 consolidation 正式获益。
+* **反证据**：`_convert_req_index_to_global_index_kernel` 过度扩大 random-gather 单 program tile，正式 `avg=0.45`。
+* **可信度**：Guard/A。
+
+[G2] ACTION_GUARD_LAUNCH_CONTRACT（强制联动）
+#### ⚛️ `ACTION_GUARD_LAUNCH_CONTRACT`：Kernel 的 PID 语义必须服从真实 Wrapper Launch Contract
+
+* **检索锚点**：program_id, grid flatten, grid expand, grid维度, 二维grid, 三维grid, wrapper launch, direct JIT launch, pid重映射, external launch。
+* **核心规则**：优化 kernel 前必须从 wrapper/test 确定真实 grid rank 和每个 axis 的语义。Kernel 不得凭空增加新的 `program_id(axis)`，也不得在不修改 wrapper 的情况下重新解释已有 axis。
+* **必须证明**：
+  - Kernel 使用的最大 axis 小于真实 wrapper launch rank。
+  - 每个 PID 对应的逻辑工作域与 wrapper 一致。
+  - 所有输出元素被完整且唯一覆盖。
+  - Grid flatten / expand 后无重复写、漏写和非法 PID。
+* **严禁模式**：
+  - 2D wrapper 中使用 `tl.program_id(2)`。
+  - wrapper grid 不变，但将原来的 `(layer,tile)` 解释成 `(layer,loc,tile)`。
+  - 直接 public `@triton.jit` 被外部 `kernel[grid](...)` 调用时，将其改成普通 Python wrapper。
+  - 根据单 testcase 推测额外 grid 维。
+* **正式失败证据**：`copy_all_layer_kv_cache_tiled` 多个候选改变 PID/Grid 映射后在 tc1~tc3 出现系统性 accuracy failure；保持原 2D launch 结构的候选未出现相同模式。
+* **可信度**：Guard/A。
+--------------------------------------------------------------------------------
+[LLM] [Call #02] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Analysis | Prompt=9203 chars
+[LLM] [Call #02] ✅ Complete | Tokens=2847 (p:2300, c:547) | Time=5.21s
+
+[EA] 📋 RAG 导流与 LLM 脑暴出的 5 套重构策略蓝图：
+================================================================================
+  策略 [1]: **策略A: Grid Consolidation + 循环展开**
+   ├─ 瓶颈诊断: MTE2读访存62.3%主导，单program工作量极小
+   └─ 实施动作: Positive: ACTION_GRID_CONSOLIDATE_TINY_PROGRAMS; 将BLOCK_B从32提升至128，合并4个token到单program，用短循环处理；同时将TOP_K_BLOCK从8提升至16减少循环开销；修改grid计算为`triton.cdiv(num_tokens, 128)`，确保合并后寄存器压力适中且无写冲突
+
+  策略 [2]: **策略B: 访存连续性与对齐优化**
+   ├─ 瓶颈诊断: MTE2读62.3%因非连续访存导致
+   └─ 实施动作: NONE; 证明hidden_dim和scales_stride均为128倍数后，添加`tl.multiple_of`和`tl.max_contiguous`提示；将`h_ptr + token_offsets[:, None] * hidden_dim`改为连续加载，使用`tl.load(..., max_contiguous=BLOCK_D)`；对scales加载添加`tl.multiple_of(scales_stride, 128)`，仅当stride对齐时生效
+
+  策略 [3]: **策略C: 数据布局转置与向量化加载**
+   ├─ 瓶颈诊断: 向量读16.17GB/s偏低，MTE2瓶颈
+   └─ 实施动作: NONE; 将scales_sum计算从逐行累加改为先转置再向量化：使用`tl.trans(scales_block)`后`tl.sum(axis=0)`；将hidden_states加载改为`tl.load(..., cache_modifier=".cg")`合并缓存行；仅当BLOCK_D=256且hidden_dim为256倍数时启用
+
+  策略 [4]: **策略D: 双缓冲与软件流水线**
+   ├─ 瓶颈诊断: MTE2 62.3%与Vector 6.5%严重不平衡
+   └─ 实施动作: NONE; 对hidden_dim循环实施双缓冲：预取下一块`h_next = tl.load(...)`同时计算当前块；使用`tl.advance`指针算术减少地址计算；仅当hidden_dim≥512且BLOCK_D=256时启用，否则回退基线
+
+  策略 [5]: **策略E: 动态Mask消除与边界处理**
+   ├─ 瓶颈诊断: token_mask/d_mask/k_mask三重mask开销大
+   └─ 实施动作: NONE; 证明num_tokens为BLOCK_B倍数后删除token_mask；证明hidden_dim为BLOCK_D倍数后删除d_mask；证明top_k为TOP_K_BLOCK倍数后删除k_mask；保留scales_accum的`tl.where`条件；仅当所有维度对齐时启用，否则保留完整mask
+
+================================================================================
+
+[EA] 🚀 [Stage 4/4] 并发生成 5 个高多样性 Gen 0 重构个体...
+[LLM] [Call #03] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9715 chars
+[LLM] [Call #04] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9749 chars
+[LLM] [Call #05] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9688 chars
+[LLM] [Call #06] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9644 chars
+[LLM] [Call #07] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9685 chars
+[LLM] [Call #03] ✅ Complete | Tokens=3520 (p:2428, c:1092) | Time=18.42s
+[LLM] [Call #07] ✅ Complete | Tokens=3513 (p:2421, c:1092) | Time=18.41s
+[LLM] [Call #04] ✅ Complete | Tokens=3539 (p:2437, c:1102) | Time=18.52s
+[EA] retry 1/3: candidate rejected by AST gate, regenerating
+[LLM] [Call #08] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9749 chars
+[LLM] [Call #05] ✅ Complete | Tokens=3605 (p:2422, c:1183) | Time=19.46s
+[LLM] [Call #06] ✅ Complete | Tokens=3919 (p:2411, c:1508) | Time=22.34s
+[LLM] [Call #08] ✅ Complete | Tokens=3539 (p:2437, c:1102) | Time=9.92s
+[EA] retry 2/3: candidate rejected by AST gate, regenerating
+[LLM] [Call #09] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Initial Strategy Generation | Prompt=9749 chars
+[LLM] [Call #09] ✅ Complete | Tokens=3539 (p:2437, c:1102) | Time=9.49s
+[EA] retry 3/3: candidate rejected by AST gate, regenerating
+[EA] 🛑 候选代码触发静态门禁，跳过真机评估！原因: Preflight Error: unsupported Ascend tl.load/tl.store keyword detected: tl.load(..., max_contiguous=...)
+
+[EA] 🧪 策略子代汇总完毕（共 5 个），启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3710 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_ht_qiw6k/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[❌] [Executor] Performance test failed!
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_zqwvh4lq/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.24us
+       └─ Raw speedup: 26.0881
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 26.0881
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 4061 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_31e29nmm/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.28us
+       └─ Raw speedup: 26.0395
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 26.0395
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5335 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_clfyvpw1/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 21.12us
+       └─ Raw speedup: 27.5246
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 27.5246
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ❌ 个体 7a090456 (gen0_strategy_guided): 评估失败, Fitness=0
+[EA] ✅ 个体 bd115b9d (gen0_strategy_guided): 耗时=22.24us, 相对基线加速比=26.0881x, 相对Seed加速比=1.0989x, Fitness=1.0989
+[EA] ✅ 个体 a6de29b3 (gen0_strategy_guided): 耗时=22.28us, 相对基线加速比=26.0395x, 相对Seed加速比=1.0969x, Fitness=1.0969
+[EA] ✅ 个体 cb75f993 (gen0_strategy_guided): 耗时=21.12us, 相对基线加速比=27.5246x, 相对Seed加速比=1.1572x, Fitness=1.1572
+[EA] ❌ 个体 d97b8313 (gen0_strategy_guided): 评估失败, Fitness=0
+
+[EA] 🎉 种群初始化全部完成！初始最佳 Fitness: 1.1572 (第 0 代种群规模 6)
+
+[EA] ===== Generation 1/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #10] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10836 chars
+[LLM] [Call #11] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10057 chars
+[LLM] [Call #12] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12464 chars
+[LLM] [Call #13] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=12464 chars
+[LLM] [Call #11] ✅ Complete | Tokens=3606 (p:2514, c:1092) | Time=11.94s
+[LLM] [Call #14] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6322 chars
+[LLM] [Call #10] ✅ Complete | Tokens=3801 (p:2709, c:1092) | Time=11.97s
+[LLM] [Call #12] ✅ Complete | Tokens=4208 (p:3116, c:1092) | Time=11.97s
+[LLM] [Call #13] ✅ Complete | Tokens=4208 (p:3116, c:1092) | Time=11.97s
+[LLM] [Call #15] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6306 chars
+[LLM] [Call #15] ✅ Complete | Tokens=2668 (p:1576, c:1092) | Time=9.98s
+[LLM] [Call #14] ✅ Complete | Tokens=2687 (p:1580, c:1107) | Time=10.11s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_qmwc12vy/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 24.62us
+       └─ Raw speedup: 23.4695
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 23.4695
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3714 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_lty2vf9h/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.08us
+       └─ Raw speedup: 25.1023
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.1023
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_grxg0o2w/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.04us
+       └─ Raw speedup: 25.1476
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.1476
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3751 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_4ks3bs7e/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.88us
+       └─ Raw speedup: 25.3304
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.3304
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ✅ 个体 6970e78a (crossover): 耗时=24.62us, 相对基线加速比=23.4695x, 相对Seed加速比=0.9927x, Fitness=0.9927
+[EA] ✅ 个体 17c72f16 (crossover): 耗时=23.08us, 相对基线加速比=25.1023x, 相对Seed加速比=1.0589x, Fitness=1.0589
+[EA] ✅ 个体 8ce83be4 (mutation): 耗时=23.04us, 相对基线加速比=25.1476x, 相对Seed加速比=1.0608x, Fitness=1.0608
+[EA] ✅ 个体 59fa5073 (mutation): 耗时=22.88us, 相对基线加速比=25.3304x, 相对Seed加速比=1.0682x, Fitness=1.0682
+[EA] Gen 1 Summary: Best=1.1572, Avg=1.0728
+
+[EA] ===== Generation 2/2 =====
+[EA] 🚀 并发发射 4 个子代变异/交叉 LLM 请求...
+[LLM] [Call #16] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10879 chars
+[LLM] [Call #17] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10836 chars
+[LLM] [Call #18] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10879 chars
+[LLM] [Call #19] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Crossover | Prompt=10879 chars
+[LLM] [Call #17] ✅ Complete | Tokens=3801 (p:2709, c:1092) | Time=11.61s
+[LLM] [Call #20] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6306 chars
+[LLM] [Call #16] ✅ Complete | Tokens=3826 (p:2719, c:1107) | Time=11.73s
+[LLM] [Call #21] 🚀 Start | Model=140aced515cc4236a6141f2b8a77107f | Purpose=Mutation | Prompt=6365 chars
+[LLM] [Call #18] ✅ Complete | Tokens=3826 (p:2719, c:1107) | Time=11.89s
+[LLM] [Call #19] ✅ Complete | Tokens=3826 (p:2719, c:1107) | Time=11.89s
+[LLM] [Call #20] ✅ Complete | Tokens=2668 (p:1576, c:1092) | Time=10.16s
+[LLM] [Call #21] ✅ Complete | Tokens=2698 (p:1591, c:1107) | Time=10.18s
+[EA] 🧪 批量生成完毕，启动压测评估...
+[EA] 🚀 启动 1 卡 NPU 并发评估，共 4 个待评估个体...
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3751 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_ftg15k4b/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.94us
+       └─ Raw speedup: 25.2616
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.2616
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3751 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_5_1jsjdi/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.18us
+       └─ Raw speedup: 24.9896
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.9896
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3708 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_zxjycguo/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.64us
+       └─ Raw speedup: 25.6095
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.6095
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 3751 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_7aqs_g7i/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.98us
+       └─ Raw speedup: 25.2158
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.2158
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+[EA] ✅ 个体 3a5b880d (crossover): 耗时=22.94us, 相对基线加速比=25.2616x, 相对Seed加速比=1.0654x, Fitness=1.0654
+[EA] ✅ 个体 fd6acb5e (crossover): 耗时=23.18us, 相对基线加速比=24.9896x, 相对Seed加速比=1.0544x, Fitness=1.0544
+[EA] ✅ 个体 ab18b3e5 (mutation): 耗时=22.64us, 相对基线加速比=25.6095x, 相对Seed加速比=1.0795x, Fitness=1.0795
+[EA] ✅ 个体 ae71528c (mutation): 耗时=22.98us, 相对基线加速比=25.2158x, 相对Seed加速比=1.0635x, Fitness=1.0635
+[EA] Gen 2 Summary: Best=1.1572, Avg=1.0865
+
+[EA] 所有代演化完成。Ultimate Best Fitness: 1.1572
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5335 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_cupiev7h/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.56us
+       └─ Raw speedup: 24.5705
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.5705
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5335 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_i4p4ti5p/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.90us
+       └─ Raw speedup: 25.3074
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.3074
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5335 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_6ytj26ra/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 22.94us
+       └─ Raw speedup: 25.2616
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 25.2616
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5335 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_vy_ogdrr/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 21.84us
+       └─ Raw speedup: 26.5842
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 26.5842
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+
+[🔬] [Executor] Starting evaluation on device 0...
+[⚙️] [Executor] Step 1/3: Preparing test environment...
+       └─ Code length: 5335 characters
+[⚙️] [Executor] Step 2/3: Running performance test on device 0...
+msprof op --output=/workspace/Agent/datasets2/compute_identity_kernel/performance/compute_identity_kernel_dev_0/compute_identity_kernel --application="/usr/local/python3.11.15/bin/python /tmp/compute_identity_kernel_dev_0_a6_149d4/test_compute_identity_kernel.py" --kernel-name="compute_identity_kernel" --aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline
+[✅] [Executor] Step 3/3: Calculating speedup...
+       └─ Baseline time: 602.45us
+       └─ Optimized time: 23.42us
+       └─ Raw speedup: 24.7233
+[🏆]       └─ Speedup exceeds upper limit (2.0), calculated as 2.0
+[🎯] [Executor] Evaluation complete!
+       └─ Final speedup: 24.7233
+       └─ Fitness score: 2.0000 (max 2.0)
+       └─ Competition score: 200.0/200 points
+  完成: 22.940458 us  S=26.261551796393952  用时 477.0s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.53 小时
+============================================================

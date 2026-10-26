@@ -1,0 +1,18 @@
+[配置] paper_b1  候选池 20  LLM并发 5  NPU卡数 1  算子 1  seed [11, 12, 13]
+
+=== [paper_b1] seed 1/3 算子 1/1: fused_gdn_gating_kernel ===
+  [复用] 已有结果 fused_gdn_gating_kernel__r11.json
+  完成: 11.180223 us  S=18.033990824691067  用时 373.4s
+
+=== [paper_b1] seed 2/3 算子 1/1: fused_gdn_gating_kernel ===
+  [复用] 已有结果 fused_gdn_gating_kernel__r12.json
+  完成: 11.020221 us  S=18.29582537410094  用时 374.9s
+
+=== [paper_b1] seed 3/3 算子 1/1: fused_gdn_gating_kernel ===
+  [复用] 已有结果 fused_gdn_gating_kernel__r13.json
+  完成: 11.160223 us  S=18.066309158876127  用时 365.1s
+
+============================================================
+任务汇总：成功 3 / 3，失败 0
+用时 0.00 小时
+============================================================

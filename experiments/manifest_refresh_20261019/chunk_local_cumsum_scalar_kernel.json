@@ -1,0 +1,23 @@
+{
+  "kernel": "chunk_local_cumsum_scalar_kernel",
+  "t_base_us": 44.520889,
+  "t_seed_us": 14.00028,
+  "seed_similarity": 0.4051772650534609,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "chunk_local_cumsum_scalar_kernel.py": {
+      "path": "/workspace/Agent/datasets2/chunk_local_cumsum_scalar_kernel/chunk_local_cumsum_scalar_kernel.py",
+      "latency_us": 44.520889,
+      "success": true,
+      "error": null
+    },
+    "chunk_local_cumsum_scalar_kernel_1.py": {
+      "path": "/workspace/Agent/datasets2/chunk_local_cumsum_scalar_kernel/chunk_local_cumsum_scalar_kernel_1.py",
+      "latency_us": 14.00028,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-10-19T13:32:04"
+}

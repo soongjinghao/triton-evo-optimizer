@@ -1,0 +1,23 @@
+{
+  "kernel": "reshape_and_cache_flash_kernel",
+  "t_base_us": 2.840057,
+  "t_seed_us": 2.840057,
+  "seed_similarity": 0.6942496493688639,
+  "repeats": 5,
+  "device_id": 0,
+  "seeds": {
+    "reshape_and_cache_flash_kernel.py": {
+      "path": "/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel.py",
+      "latency_us": 2.840057,
+      "success": true,
+      "error": null
+    },
+    "reshape_and_cache_flash_kernel_1.py": {
+      "path": "/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel_1.py",
+      "latency_us": 135.642715,
+      "success": true,
+      "error": null
+    }
+  },
+  "created_at": "2026-10-19T14:47:50"
+}
