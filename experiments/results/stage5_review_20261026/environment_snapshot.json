@@ -1,0 +1,48 @@
+{
+  "cann_opp_version_info": "Version=9.0.0\nversion_dir=cann\nrequired_package_runtime_version=\">=8.5\"\nrequired_package_ge-executor_version=\">=8.5\"\nrequired_package_metadef_version=\">=8.5\"\nrequired_package_asc-devkit_version=\">=8.5\"\nrequired_package_bisheng-compiler_version=\">=8.5\"\ntimestamp=20260428_134817545",
+  "current_commit": "778bcd9240604ab297a5d2321f4264ddf2bffdb8",
+  "driver_version_info": "Version=26.1.1\nascendhal_version=7.35.23\naicpu_version=1.0\ntdt_version=1.0\nlog_version=1.0\nprof_version=2.0\ndvppkernels_version=1.1\ntsfw_version=1.0\nInnerversion=V100R001C10SPC009B220\ncompatible_version=[V100R001C21],[V100R001C22],[V100R001C23],[V100R001C25],[V100R001C10]\ncompatible_version_fw=[7.0.0,9.9.9]\npackage_version=26.1.1",
+  "frozen_commit": "68ab813757679dd1f3c9ca3c7122c1b78a5dd0df",
+  "frozen_tag": "paper-full-v1",
+  "historical_experiment_settings": {
+    "configured_llm_workers": 5,
+    "configured_npu_devices": 1,
+    "llm_model_id": "140aced515cc4236a6141f2b8a77107f"
+  },
+  "kernel": "5.10.0-216.0.0.115.oe2203sp4.aarch64",
+  "npu_devices": {
+    "device_count": 2,
+    "device_names": [
+      "Ascend910_9382",
+      "Ascend910_9382"
+    ],
+    "torch_npu_imported": true
+  },
+  "npu_smi_exit_code": 0,
+  "npu_smi_info": "+------------------------------------------------------------------------------------------------------------------+\n| npu-smi 26.1.1                              Version: 26.1.1                                                      |\n+---------------------------+---------------+----------------------------------------------------------------------+\n| NPU   Name                | Health        | Power(W)             Temp(C)                 Hugepages-Usage(page)   |\n| Chip  Phy-ID              | Bus-Id        | AICore(%)            Memory-Usage(MB)        HBM-Usage(MB)           |\n+===========================+===============+======================================================================+\n| 0     Ascend910           | OK            | 186.1                52                      0    / 0                |\n| 0     0                   | 0000:9D:00.0  | 0                    0    / 0                3116 / 65536            |\n+------------------------------------------------------------------------------------------------------------------+\n| 0     Ascend910           | OK            | -                    53                      0    / 0                |\n| 1     1                   | 0000:9F:00.0  | 0                    0    / 0                2888 / 65536            |\n+===========================+===============+======================================================================+\n+---------------------------+---------------+----------------------------------------------------------------------+\n| NPU     Chip              | Process id    | Process name       | Process memory(MB)    | Process id in container |\n+===========================+===============+======================================================================+\n| No running processes found in NPU 0                                                                              |\n+===========================+===============+======================================================================+",
+  "npu_smi_stderr": null,
+  "observation_scope": "Current host at Stage 5 review time; not a time-stamped capture from the original runs.",
+  "observed_at_utc": "2026-10-26T13:39:55.658960+00:00",
+  "packages": {
+    "faiss-cpu": "1.15.0",
+    "langchain-openai": "1.6.0",
+    "numpy": "1.26.4",
+    "pandas": "3.0.3",
+    "pytest": "8.3.2",
+    "scipy": "1.13.1",
+    "sentence-transformers": "6.0.1",
+    "torch": "2.7.1",
+    "torch-npu": "2.7.1.post4",
+    "transformers": "5.16.1",
+    "triton": "3.5.0",
+    "triton-ascend": "3.2.1"
+  },
+  "platform": "Linux-5.10.0-216.0.0.115.oe2203sp4.aarch64-aarch64-with-glibc2.35",
+  "python": "3.11.15 (main, Jun 12 2026, 03:05:24) [GCC 11.4.0]",
+  "rag_index_sha256": "3a652ca492025e02986ac43c3d1a6cfc08c26a4c0297ab0d16dbcaff7533f397",
+  "result_commit": "559f2f539c59886f155df92952141f210fa87c71",
+  "triton_distributions_detected": [
+    "triton",
+    "triton-ascend"
+  ]
+}

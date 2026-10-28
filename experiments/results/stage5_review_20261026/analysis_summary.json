@@ -1,0 +1,334 @@
+{
+  "cost": {
+    "paper_b1": {
+      "mean_llm_tokens": 37616.32,
+      "mean_wallclock_s": 418.47200000000015,
+      "total_npu_calls": 1950
+    },
+    "paper_b2": {
+      "mean_llm_tokens": 34943.32,
+      "mean_wallclock_s": 481.7193333333335,
+      "total_npu_calls": 1950
+    },
+    "paper_full": {
+      "mean_llm_tokens": 47180.153333333335,
+      "mean_wallclock_s": 452.79800000000006,
+      "total_npu_calls": 1935
+    }
+  },
+  "dataset_metadata_note": "Historical records have dataset_snapshot/dataset_sha256 null. The new external snapshot SHA binds the fixed inputs and manifests without rewriting historical JSON.",
+  "dataset_sha256_matches_meta_historical_json": false,
+  "event_logs_matched_npu_calls": 450,
+  "freeze_commit": "68ab813757679dd1f3c9ca3c7122c1b78a5dd0df",
+  "geometric_mean_by_seed": {
+    "paper_b1": {
+      "11": 1.5414193572080535,
+      "12": 1.549733001538215,
+      "13": 1.561834766119398
+    },
+    "paper_b2": {
+      "11": 1.5348346490838662,
+      "12": 1.567919418169437,
+      "13": 1.548489110155612
+    },
+    "paper_full": {
+      "11": 1.696084960675681,
+      "12": 1.643155691140316,
+      "13": 1.6889888047544996
+    }
+  },
+  "geometric_mean_of_per_kernel_medians": {
+    "paper_b1": 1.5439626619842166,
+    "paper_b2": 1.5402518171349344,
+    "paper_full": 1.653123086097331
+  },
+  "kernels_per_config": {
+    "paper_b1": 50,
+    "paper_b2": 50,
+    "paper_full": 50
+  },
+  "kernels_with_median_speedup_above_one": {
+    "paper_b1": 35,
+    "paper_b2": 33,
+    "paper_full": 39
+  },
+  "low_budget_record_count": 9,
+  "low_budget_review": [
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": null,
+      "eval_errors": {
+        "none": 9,
+        "perf_test_failed:unknown": 3
+      },
+      "event_log": "experiments/logs/filter_online__paper_full___act_quant_kernel__r912.jsonl",
+      "generation_evaluations": {
+        "0": 4,
+        "1": 4,
+        "2": 4
+      },
+      "kernel": "_act_quant_kernel",
+      "npu_calls": 12,
+      "preflight_rejects": 4,
+      "reject_reasons": {
+        "Contract Error: Prohibited 3D (or higher) tl.view detected via AST.": 1,
+        "gen0_strategy_guided": 3
+      },
+      "seed": 12,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full___act_quant_kernel.log",
+      "terminal_llm_failures": null
+    },
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": null,
+      "eval_errors": {
+        "none": 9,
+        "perf_test_failed:unknown": 3
+      },
+      "event_log": "experiments/logs/filter_online__paper_full___convert_req_index_to_global_index_kernel__r911.jsonl",
+      "generation_evaluations": {
+        "0": 4,
+        "1": 4,
+        "2": 4
+      },
+      "kernel": "_convert_req_index_to_global_index_kernel",
+      "npu_calls": 12,
+      "preflight_rejects": 4,
+      "reject_reasons": {
+        "Preflight Error: .bit_length() inside @triton.jit is prohibited on the current backend.": 1,
+        "gen0_strategy_guided": 3
+      },
+      "seed": 11,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full___convert_req_index_to_global_index_kernel.log",
+      "terminal_llm_failures": null
+    },
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": null,
+      "eval_errors": {
+        "none": 5,
+        "perf_test_failed:unknown": 3
+      },
+      "event_log": "experiments/logs/filter_online__paper_full___dequantize_k_cache_fast_kernel__r912.jsonl",
+      "generation_evaluations": {
+        "0": 5,
+        "1": 3
+      },
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "npu_calls": 8,
+      "preflight_rejects": 0,
+      "reject_reasons": {},
+      "seed": 12,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full___dequantize_k_cache_fast_kernel.log",
+      "terminal_llm_failures": null
+    },
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": 0,
+      "eval_errors": {
+        "none": 12
+      },
+      "event_log": "experiments/logs/filter_online__paper_full___log_softmax_kernel__r913.jsonl",
+      "generation_evaluations": {
+        "0": 4,
+        "1": 4,
+        "2": 4
+      },
+      "kernel": "_log_softmax_kernel",
+      "npu_calls": 12,
+      "preflight_rejects": 4,
+      "reject_reasons": {
+        "Preflight Error: unsupported Ascend tl.load/tl.store keyword detected: tl.load(..., max_contiguous=...)": 1,
+        "gen0_strategy_guided": 3
+      },
+      "seed": 13,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full___log_softmax_kernel.log",
+      "terminal_llm_failures": 0
+    },
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": 21,
+      "eval_errors": {
+        "none": 6,
+        "perf_test_failed:unknown": 4
+      },
+      "event_log": "experiments/logs/filter_online__paper_full___pack_seq_kernel__r912.jsonl",
+      "generation_evaluations": {
+        "0": 2,
+        "1": 4,
+        "2": 4
+      },
+      "kernel": "_pack_seq_kernel",
+      "npu_calls": 10,
+      "preflight_rejects": 0,
+      "reject_reasons": {},
+      "seed": 12,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full___pack_seq_kernel.log",
+      "terminal_llm_failures": 3
+    },
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": 0,
+      "eval_errors": {
+        "none": 10,
+        "perf_test_failed:unknown": 2
+      },
+      "event_log": "experiments/logs/filter_online__paper_full__assign_extend_cache_locs__r911.jsonl",
+      "generation_evaluations": {
+        "0": 4,
+        "1": 4,
+        "2": 4
+      },
+      "kernel": "assign_extend_cache_locs",
+      "npu_calls": 12,
+      "preflight_rejects": 4,
+      "reject_reasons": {
+        "Preflight Error: unsupported Ascend tl.load/tl.store keyword detected: tl.load(..., max_contiguous=...)": 1,
+        "gen0_strategy_guided": 3
+      },
+      "seed": 11,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full__assign_extend_cache_locs.log",
+      "terminal_llm_failures": 0
+    },
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": 0,
+      "eval_errors": {
+        "none": 11,
+        "perf_test_failed:unknown": 1
+      },
+      "event_log": "experiments/logs/filter_online__paper_full__compute_identity_kernel__r913.jsonl",
+      "generation_evaluations": {
+        "0": 4,
+        "1": 4,
+        "2": 4
+      },
+      "kernel": "compute_identity_kernel",
+      "npu_calls": 12,
+      "preflight_rejects": 4,
+      "reject_reasons": {
+        "Preflight Error: unsupported Ascend tl.load/tl.store keyword detected: tl.load(..., max_contiguous=...)": 1,
+        "gen0_strategy_guided": 3
+      },
+      "seed": 13,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full__compute_identity_kernel.log",
+      "terminal_llm_failures": 0
+    },
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": 0,
+      "eval_errors": {
+        "none": 10,
+        "perf_test_failed:unknown": 2
+      },
+      "event_log": "experiments/logs/filter_online__paper_full__l2norm_fwd_kernel1__r912.jsonl",
+      "generation_evaluations": {
+        "0": 4,
+        "1": 4,
+        "2": 4
+      },
+      "kernel": "l2norm_fwd_kernel1",
+      "npu_calls": 12,
+      "preflight_rejects": 4,
+      "reject_reasons": {
+        "Contract Error: Prohibited 3D (or higher) tl.view detected via AST.": 1,
+        "gen0_strategy_guided": 3
+      },
+      "seed": 12,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full__l2norm_fwd_kernel1.log",
+      "terminal_llm_failures": 0
+    },
+    {
+      "assessment": "Budget cap respected; causes are itemized from event/log evidence. Do not infer a completed candidate-generation slot from an NPU-call count alone.",
+      "budget": 13,
+      "config": "paper_full",
+      "connection_retries": 11,
+      "eval_errors": {
+        "none": 12
+      },
+      "event_log": "experiments/logs/filter_online__paper_full__mean_kernel__r913.jsonl",
+      "generation_evaluations": {
+        "0": 5,
+        "1": 3,
+        "2": 4
+      },
+      "kernel": "mean_kernel",
+      "npu_calls": 12,
+      "preflight_rejects": 0,
+      "reject_reasons": {},
+      "seed": 13,
+      "task_log": "experiments/results/phase4_recovery_20261020/paper_full__mean_kernel.log",
+      "terminal_llm_failures": 1
+    }
+  ],
+  "npu_call_distribution": {
+    "paper_b1": {
+      "13": 150
+    },
+    "paper_b2": {
+      "13": 150
+    },
+    "paper_full": {
+      "8": 1,
+      "10": 1,
+      "12": 7,
+      "13": 141
+    }
+  },
+  "paired_comparisons": {
+    "paper_b1": {
+      "bootstrap_samples": 20000,
+      "bootstrap_seed": 20261026,
+      "paired_geometric_mean_ratio": 1.07070146629895,
+      "paired_kernel_bootstrap_95ci_ratio": [
+        1.0194111046446228,
+        1.1493829854660118
+      ],
+      "paired_kernel_bootstrap_95ci_relative_increase_percent": [
+        1.9411104644622812,
+        14.938298546601182
+      ],
+      "relative_increase_percent": 7.070146629895002,
+      "statistical_unit": "kernel; three independent search seeds reduced by median within kernel",
+      "wilcoxon_p_two_sided": 0.006000913042664371,
+      "wilcoxon_statistic": 289.0
+    },
+    "paper_b2": {
+      "bootstrap_samples": 20000,
+      "bootstrap_seed": 20261026,
+      "paired_geometric_mean_ratio": 1.0732810490510256,
+      "paired_kernel_bootstrap_95ci_ratio": [
+        1.0120260570853408,
+        1.1591100147046471
+      ],
+      "paired_kernel_bootstrap_95ci_relative_increase_percent": [
+        1.202605708534077,
+        15.911001470464715
+      ],
+      "relative_increase_percent": 7.3281049051025615,
+      "statistical_unit": "kernel; three independent search seeds reduced by median within kernel",
+      "wilcoxon_p_two_sided": 0.025537891202960256,
+      "wilcoxon_statistic": 388.0
+    }
+  },
+  "primary_statistic": "per-kernel median across seeds 11,12,13, followed by geometric mean across 50 kernels",
+  "records": 450,
+  "result_commit": "559f2f539c59886f155df92952141f210fa87c71",
+  "snapshot_sha256": "ad1dc2686f89762d068563ed9abbeb902915e4f7f5ff7b20ebed7974ef7e97b3"
+}

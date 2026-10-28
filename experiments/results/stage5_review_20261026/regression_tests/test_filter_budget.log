@@ -1,0 +1,19 @@
+==================================================================
+ 候选预筛选离线自测（不占用 NPU）
+==================================================================
+  ✅ split_consistency
+  ✅ gen0_not_filtered
+  ✅ evolve_pool
+  ✅ fulleval_budget
+  ✅ budget_hard_gate
+  ✅ gen_numbering
+  ✅ random_reproducible
+  ✅ model_isolation
+  ✅ isolation_before_search
+  ✅ eval_attempt
+  ✅ provenance
+  ❌ dataset_snapshot: 相对快照名未解析到实际文件：samples_frozen_20261016.jsonl
+  ✅ result_recovery
+------------------------------------------------------------------
+  通过 12 / 失败 1 / 跳过 0
+==================================================================

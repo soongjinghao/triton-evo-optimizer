@@ -1,0 +1,47 @@
+==================================================================
+ 父代基线 / 父子特征 / 编译阶段分离 离线自测（不占用 NPU）
+==================================================================
+  ✅ resolve_direct_parent
+  ✅ resolve_rejects_bad
+  ✅ resolve_ancestor
+  ✅ resolve_depth_limit
+  ✅ resolve_pop_best
+  ✅ resolve_none
+  ✅ mutation_parent_code
+  ✅ log_parent_not_nan
+  ✅ feature_schema
+  ✅ trusted_sources
+  ✅ backbone_plain_mutation
+  ✅ backbone_crossover_chain
+  ✅ crossover_parents_order
+  ✅ backbone_code_feature
+  ✅ event_source
+  ✅ compile_vs_correctness
+  ✅ eval_result_fields
+  ✅ classify_error
+  ✅ judge_compile_rules
+  ✅ feature_impl_shared
+  ✅ feature_parity_online
+  ✅ feature_parity_training
+  ✅ mutation_tier_backbone
+  ✅ crossover_measured_latency
+  ✅ batch_aborted_unknown
+  ✅ compile_failed_counter
+  ✅ gate_off_by_default
+  ✅ pool_gate_off_by_default
+  ✅ pool_gate_before_selection
+  ✅ save_code_verified
+  ✅ reference_parent_evaluated
+  ✅ pool_id_and_parent_code
+  ✅ parent_code_missing_flag
+  ✅ event_carries_ref_parent
+  ✅ real_pool_strict_and_signflip
+  ✅ dedup_and_backfill
+  ✅ dedup_shortfall_recorded
+  ✅ tiered_remeasure
+  ✅ v2_correctness_guard
+  ✅ genetic_v2_targets
+  ✅ prepare_test_dir
+------------------------------------------------------------------
+  通过 41 / 失败 0 / 跳过 0
+==================================================================

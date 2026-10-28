@@ -1,0 +1,1810 @@
+{
+  "protocol_sha256": "e0b2b78eee38367003da6c42de4c7cb0ac82a3709a95514ac9fa3e8000a08967",
+  "started_utc": "2026-10-27T09:48:14.936583+00:00",
+  "finished_utc": "2026-10-27T22:43:25.145959+00:00",
+  "status": "completed",
+  "planned": 225,
+  "completed": [
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_act_quant_kernel",
+      "seed": 11,
+      "S": 12.415178982473453,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_act_quant_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_act_quant_kernel",
+      "seed": 11,
+      "S": 12.06507657547832,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_act_quant_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_act_quant_kernel",
+      "seed": 11,
+      "S": 1.0007196869324961,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_act_quant_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_act_quant_kernel",
+      "seed": 11,
+      "S": 0.9974892360475712,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_act_quant_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_act_quant_kernel",
+      "seed": 11,
+      "S": 12.498876539323145,
+      "npu_calls": 11,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_act_quant_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 11,
+      "S": 1.0909091597782317,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_dequantize_k_cache_fast_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 11,
+      "S": 1.5157896842063159,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_dequantize_k_cache_fast_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 11,
+      "S": 1.2100839983059166,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_dequantize_k_cache_fast_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 11,
+      "S": 1.4845361356137685,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_dequantize_k_cache_fast_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 11,
+      "S": 1.4400001999960002,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_dequantize_k_cache_fast_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 11,
+      "S": 2.2796611677648797,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_fwd_kernel_ep_gather__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 11,
+      "S": 2.1519999600008,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_fwd_kernel_ep_gather__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 11,
+      "S": 2.1693548858601415,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_fwd_kernel_ep_gather__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 11,
+      "S": 2.318965374185388,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_fwd_kernel_ep_gather__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 11,
+      "S": 2.2796611677648797,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_fwd_kernel_ep_gather__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_pack_seq_kernel",
+      "seed": 11,
+      "S": 1.1150441694745017,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_pack_seq_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_pack_seq_kernel",
+      "seed": 11,
+      "S": 1.1999998095276188,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_pack_seq_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_pack_seq_kernel",
+      "seed": 11,
+      "S": 1.1052627885577746,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_pack_seq_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_pack_seq_kernel",
+      "seed": 11,
+      "S": 1.155962907170681,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_pack_seq_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_pack_seq_kernel",
+      "seed": 11,
+      "S": 1.1999998095276188,
+      "npu_calls": 10,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_pack_seq_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 11,
+      "S": 1.1033057808552182,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_selective_scan_update_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 11,
+      "S": 1.0348837998001201,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_selective_scan_update_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 11,
+      "S": 1.1033057808552182,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_selective_scan_update_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 11,
+      "S": 1.1171547600717642,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_selective_scan_update_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 11,
+      "S": 1.003759322885799,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_selective_scan_update_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 11,
+      "S": 1.0123460524236558,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_set_k_and_s_triton_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 11,
+      "S": 0.9879520467364203,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_set_k_and_s_triton_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 11,
+      "S": 1.0123460524236558,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_set_k_and_s_triton_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 11,
+      "S": 1.0123460524236558,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_set_k_and_s_triton_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 11,
+      "S": 1.0123460524236558,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_set_k_and_s_triton_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 11,
+      "S": 1.0194175746987562,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/assign_extend_cache_locs__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 11,
+      "S": 1.0,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/assign_extend_cache_locs__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 11,
+      "S": 0.945946116383279,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/assign_extend_cache_locs__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 11,
+      "S": 0.9722223122410064,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/assign_extend_cache_locs__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 11,
+      "S": 1.0194175746987562,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/assign_extend_cache_locs__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 11,
+      "S": 3.283185785888792,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/chunk_local_cumsum_scalar_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 11,
+      "S": 3.302670666290116,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/chunk_local_cumsum_scalar_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 11,
+      "S": 3.3075779540512893,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/chunk_local_cumsum_scalar_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 11,
+      "S": 4.946666511114222,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/chunk_local_cumsum_scalar_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 11,
+      "S": 10.805825952007751,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/chunk_local_cumsum_scalar_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "compute_identity_kernel",
+      "seed": 11,
+      "S": 26.586052777230325,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/compute_identity_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "compute_identity_kernel",
+      "seed": 11,
+      "S": 25.679454732105093,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/compute_identity_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "compute_identity_kernel",
+      "seed": 11,
+      "S": 25.505503276987863,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/compute_identity_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "compute_identity_kernel",
+      "seed": 11,
+      "S": 48.11821057886225,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/compute_identity_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "compute_identity_kernel",
+      "seed": 11,
+      "S": 24.54930612431512,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/compute_identity_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "eye_kernel",
+      "seed": 11,
+      "S": 1.136363980709471,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/eye_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "eye_kernel",
+      "seed": 11,
+      "S": 1.153846153846154,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/eye_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "eye_kernel",
+      "seed": 11,
+      "S": 1.1194028180029207,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/eye_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "eye_kernel",
+      "seed": 11,
+      "S": 1.136363980709471,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/eye_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "eye_kernel",
+      "seed": 11,
+      "S": 1.153846153846154,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/eye_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 11,
+      "S": 18.26268142639536,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/fused_gdn_gating_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 11,
+      "S": 19.165400595615488,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/fused_gdn_gating_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 11,
+      "S": 18.842991271015702,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/fused_gdn_gating_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 11,
+      "S": 18.565378481848015,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/fused_gdn_gating_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 11,
+      "S": 21.820346562325323,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/fused_gdn_gating_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 11,
+      "S": 1.0459766613889951,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/l2norm_fwd_kernel2__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 11,
+      "S": 1.0111108888933333,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/l2norm_fwd_kernel2__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 11,
+      "S": 1.0340907993306951,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/l2norm_fwd_kernel2__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 11,
+      "S": 1.0581395484042757,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/l2norm_fwd_kernel2__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 11,
+      "S": 1.109755718330058,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/l2norm_fwd_kernel2__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 11,
+      "S": 1.8699999750005,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/moe_align_block_size_stage__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 11,
+      "S": 1.3501805604779904,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/moe_align_block_size_stage__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 11,
+      "S": 4.645963247935445,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/moe_align_block_size_stage__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 11,
+      "S": 1.0594901008350965,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/moe_align_block_size_stage__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 11,
+      "S": 0.9842105131581579,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/moe_align_block_size_stage__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 11,
+      "S": 2.694029758856819,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/recompute_w_u_fwd_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 11,
+      "S": 0.980090444340867,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/recompute_w_u_fwd_kernel__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 11,
+      "S": 1.0018501480451454,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/recompute_w_u_fwd_kernel__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 11,
+      "S": 1.0018501480451454,
+      "npu_calls": 11,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/recompute_w_u_fwd_kernel__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 11,
+      "S": 0.994490330680249,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/recompute_w_u_fwd_kernel__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 11,
+      "S": 1.0310075145772257,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/reshape_and_cache_kernel_flash__r11.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 11,
+      "S": 0.9708027758566891,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/reshape_and_cache_kernel_flash__r11.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 11,
+      "S": 1.198198323997182,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/reshape_and_cache_kernel_flash__r11.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 11,
+      "S": 1.0,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/reshape_and_cache_kernel_flash__r11.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 11,
+      "S": 0.9925370906705611,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/reshape_and_cache_kernel_flash__r11.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_act_quant_kernel",
+      "seed": 12,
+      "S": 10.05786556544706,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_act_quant_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_act_quant_kernel",
+      "seed": 12,
+      "S": 10.574145002808878,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_act_quant_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_act_quant_kernel",
+      "seed": 12,
+      "S": 12.498876539323145,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_act_quant_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_act_quant_kernel",
+      "seed": 12,
+      "S": 1.0008998020734154,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_act_quant_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_act_quant_kernel",
+      "seed": 12,
+      "S": 1.0018011617400917,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_act_quant_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 12,
+      "S": 1.8701298869957814,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_dequantize_k_cache_fast_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 12,
+      "S": 1.5000005208230254,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_dequantize_k_cache_fast_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 12,
+      "S": 1.0140845764715287,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_dequantize_k_cache_fast_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 12,
+      "S": 1.4845361356137685,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_dequantize_k_cache_fast_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 12,
+      "S": 1.5000005208230254,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_dequantize_k_cache_fast_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 12,
+      "S": 2.3493452422670202,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_fwd_kernel_ep_gather__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 12,
+      "S": 2.3090129317161696,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_fwd_kernel_ep_gather__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 12,
+      "S": 2.3596491824395613,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_fwd_kernel_ep_gather__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 12,
+      "S": 2.101562625119578,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_fwd_kernel_ep_gather__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 12,
+      "S": 2.2510457948961693,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_fwd_kernel_ep_gather__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_pack_seq_kernel",
+      "seed": 12,
+      "S": 1.1886792808821711,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_pack_seq_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_pack_seq_kernel",
+      "seed": 12,
+      "S": 1.1999998095276188,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_pack_seq_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_pack_seq_kernel",
+      "seed": 12,
+      "S": 1.3999997777822222,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_pack_seq_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_pack_seq_kernel",
+      "seed": 12,
+      "S": 1.1775697964947434,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_pack_seq_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_pack_seq_kernel",
+      "seed": 12,
+      "S": 1.1886792808821711,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_pack_seq_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 12,
+      "S": 1.0190839687372677,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_selective_scan_update_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 12,
+      "S": 1.059523807161801,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_selective_scan_update_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 12,
+      "S": 1.1313560704511394,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_selective_scan_update_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 12,
+      "S": 1.0722891106604284,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_selective_scan_update_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 12,
+      "S": 1.0269231153838463,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_selective_scan_update_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 12,
+      "S": 1.0,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_set_k_and_s_triton_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 12,
+      "S": 1.0379745473509396,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_set_k_and_s_triton_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 12,
+      "S": 0.9425287422379436,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_set_k_and_s_triton_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 12,
+      "S": 1.0250001249975003,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_set_k_and_s_triton_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 12,
+      "S": 1.0250001249975003,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_set_k_and_s_triton_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 12,
+      "S": 1.0294116637851887,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/assign_extend_cache_locs__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 12,
+      "S": 1.0,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/assign_extend_cache_locs__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 12,
+      "S": 1.0194175746987562,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/assign_extend_cache_locs__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 12,
+      "S": 1.0,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/assign_extend_cache_locs__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 12,
+      "S": 1.0294116637851887,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/assign_extend_cache_locs__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 12,
+      "S": 3.2307692698440342,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/chunk_local_cumsum_scalar_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 12,
+      "S": 3.198275623642313,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/chunk_local_cumsum_scalar_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 12,
+      "S": 3.259150511915061,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/chunk_local_cumsum_scalar_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 12,
+      "S": 4.946666511114222,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/chunk_local_cumsum_scalar_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 12,
+      "S": 3.2448979517464447,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/chunk_local_cumsum_scalar_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "compute_identity_kernel",
+      "seed": 12,
+      "S": 55.8849731661196,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/compute_identity_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "compute_identity_kernel",
+      "seed": 12,
+      "S": 26.39964889395725,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/compute_identity_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "compute_identity_kernel",
+      "seed": 12,
+      "S": 25.24895147737407,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/compute_identity_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "compute_identity_kernel",
+      "seed": 12,
+      "S": 26.238675193731975,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/compute_identity_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "compute_identity_kernel",
+      "seed": 12,
+      "S": 33.76905663939348,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/compute_identity_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "eye_kernel",
+      "seed": 12,
+      "S": 1.153846153846154,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/eye_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "eye_kernel",
+      "seed": 12,
+      "S": 1.25,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/eye_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "eye_kernel",
+      "seed": 12,
+      "S": 1.1194028180029207,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/eye_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "eye_kernel",
+      "seed": 12,
+      "S": 1.136363980709471,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/eye_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "eye_kernel",
+      "seed": 12,
+      "S": 1.153846153846154,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/eye_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 12,
+      "S": 19.423891987520868,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/fused_gdn_gating_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 12,
+      "S": 18.63401238940147,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/fused_gdn_gating_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 12,
+      "S": 18.984933635511833,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/fused_gdn_gating_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 12,
+      "S": 18.73791917726551,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/fused_gdn_gating_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 12,
+      "S": 22.05908361562166,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/fused_gdn_gating_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 12,
+      "S": 1.0340907993306951,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/l2norm_fwd_kernel2__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 12,
+      "S": 0.947916655816187,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/l2norm_fwd_kernel2__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 12,
+      "S": 1.0459766613889951,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/l2norm_fwd_kernel2__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 12,
+      "S": 1.0581395484042757,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/l2norm_fwd_kernel2__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 12,
+      "S": 0.98913010988366,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/l2norm_fwd_kernel2__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 12,
+      "S": 0.9516539555125934,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/moe_align_block_size_stage__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 12,
+      "S": 0.9868073876887552,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/moe_align_block_size_stage__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 12,
+      "S": 0.9829172268832475,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/moe_align_block_size_stage__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 12,
+      "S": 1.0218578958768105,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/moe_align_block_size_stage__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 12,
+      "S": 1.0716332388485932,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/moe_align_block_size_stage__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 12,
+      "S": 0.9972375782178201,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/recompute_w_u_fwd_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 12,
+      "S": 0.9935779724772477,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/recompute_w_u_fwd_kernel__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 12,
+      "S": 2.734848597717369,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/recompute_w_u_fwd_kernel__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 12,
+      "S": 0.9863387527754455,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/recompute_w_u_fwd_kernel__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 12,
+      "S": 1.1304801683765926,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/recompute_w_u_fwd_kernel__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 12,
+      "S": 0.9925370906705611,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/reshape_and_cache_kernel_flash__r12.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 12,
+      "S": 0.9568343227618437,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/reshape_and_cache_kernel_flash__r12.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 12,
+      "S": 0.9236109133913275,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/reshape_and_cache_kernel_flash__r12.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 12,
+      "S": 0.9637681133165825,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/reshape_and_cache_kernel_flash__r12.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 12,
+      "S": 1.0,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/reshape_and_cache_kernel_flash__r12.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_act_quant_kernel",
+      "seed": 13,
+      "S": 1.0001798651368417,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_act_quant_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_act_quant_kernel",
+      "seed": 13,
+      "S": 12.727688633236747,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_act_quant_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_act_quant_kernel",
+      "seed": 13,
+      "S": 1.0003597140255063,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_act_quant_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_act_quant_kernel",
+      "seed": 13,
+      "S": 12.55530515925359,
+      "npu_calls": 9,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_act_quant_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_act_quant_kernel",
+      "seed": 13,
+      "S": 1.0021621729727568,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_act_quant_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 13,
+      "S": 1.2413796967818742,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_dequantize_k_cache_fast_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 13,
+      "S": 1.3980585823291867,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_dequantize_k_cache_fast_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 13,
+      "S": 1.6551724534276608,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_dequantize_k_cache_fast_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 13,
+      "S": 1.3980585823291867,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_dequantize_k_cache_fast_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_dequantize_k_cache_fast_kernel",
+      "seed": 13,
+      "S": 1.4257423487939107,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_dequantize_k_cache_fast_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 13,
+      "S": 2.299145059906916,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_fwd_kernel_ep_gather__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 13,
+      "S": 2.2139918195048374,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_fwd_kernel_ep_gather__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 13,
+      "S": 2.2139918195048374,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_fwd_kernel_ep_gather__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 13,
+      "S": 2.3090129317161696,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_fwd_kernel_ep_gather__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_fwd_kernel_ep_gather",
+      "seed": 13,
+      "S": 2.2796611677648797,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_fwd_kernel_ep_gather__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_pack_seq_kernel",
+      "seed": 13,
+      "S": 1.1351351594833254,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_pack_seq_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_pack_seq_kernel",
+      "seed": 13,
+      "S": 1.1775697964947434,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_pack_seq_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_pack_seq_kernel",
+      "seed": 13,
+      "S": 1.1775697964947434,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_pack_seq_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_pack_seq_kernel",
+      "seed": 13,
+      "S": 1.211538036251191,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_pack_seq_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_pack_seq_kernel",
+      "seed": 13,
+      "S": 1.1999998095276188,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_pack_seq_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 13,
+      "S": 1.141025586238225,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_selective_scan_update_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 13,
+      "S": 1.3417084581214447,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_selective_scan_update_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 13,
+      "S": 1.0190839687372677,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_selective_scan_update_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 13,
+      "S": 1.0511812658842805,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_selective_scan_update_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_selective_scan_update_kernel",
+      "seed": 13,
+      "S": 0.985239962008137,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_selective_scan_update_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 13,
+      "S": 1.0512823142617038,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/_set_k_and_s_triton_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 13,
+      "S": 1.0649350565021094,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/_set_k_and_s_triton_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 13,
+      "S": 1.0379745473509396,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/_set_k_and_s_triton_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 13,
+      "S": 1.0250001249975003,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/_set_k_and_s_triton_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "_set_k_and_s_triton_kernel",
+      "seed": 13,
+      "S": 1.0,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/_set_k_and_s_triton_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 13,
+      "S": 0.9813083195057297,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/assign_extend_cache_locs__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 13,
+      "S": 1.0194175746987562,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/assign_extend_cache_locs__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 13,
+      "S": 1.0,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/assign_extend_cache_locs__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 13,
+      "S": 1.0294116637851887,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/assign_extend_cache_locs__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "assign_extend_cache_locs",
+      "seed": 13,
+      "S": 0.9545454545454546,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/assign_extend_cache_locs__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 13,
+      "S": 3.317436656257535,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/chunk_local_cumsum_scalar_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 13,
+      "S": 3.3727271666687875,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/chunk_local_cumsum_scalar_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 13,
+      "S": 3.288035298554955,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/chunk_local_cumsum_scalar_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 13,
+      "S": 4.0180506327445995,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/chunk_local_cumsum_scalar_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "chunk_local_cumsum_scalar_kernel",
+      "seed": 13,
+      "S": 3.332335025015965,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/chunk_local_cumsum_scalar_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "compute_identity_kernel",
+      "seed": 13,
+      "S": 50.96785089570124,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/compute_identity_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "compute_identity_kernel",
+      "seed": 13,
+      "S": 26.19304248697635,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/compute_identity_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "compute_identity_kernel",
+      "seed": 13,
+      "S": 26.33041927440523,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/compute_identity_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "compute_identity_kernel",
+      "seed": 13,
+      "S": 26.469242356128543,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/compute_identity_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "compute_identity_kernel",
+      "seed": 13,
+      "S": 25.72331177484106,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/compute_identity_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "eye_kernel",
+      "seed": 13,
+      "S": 1.1194028180029207,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/eye_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "eye_kernel",
+      "seed": 13,
+      "S": 1.1194028180029207,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/eye_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "eye_kernel",
+      "seed": 13,
+      "S": 1.136363980709471,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/eye_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "eye_kernel",
+      "seed": 13,
+      "S": 1.136363980709471,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/eye_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "eye_kernel",
+      "seed": 13,
+      "S": 1.136363980709471,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/eye_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 13,
+      "S": 18.984933635511833,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/fused_gdn_gating_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 13,
+      "S": 18.42961635411503,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/fused_gdn_gating_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 13,
+      "S": 19.201905390463622,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/fused_gdn_gating_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 13,
+      "S": 18.42961635411503,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/fused_gdn_gating_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "fused_gdn_gating_kernel",
+      "seed": 13,
+      "S": 18.565378481848015,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/fused_gdn_gating_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 13,
+      "S": 1.0224714556334815,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/l2norm_fwd_kernel2__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 13,
+      "S": 1.0340907993306951,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/l2norm_fwd_kernel2__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 13,
+      "S": 1.0705880000047057,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/l2norm_fwd_kernel2__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 13,
+      "S": 1.0459766613889951,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/l2norm_fwd_kernel2__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "l2norm_fwd_kernel2",
+      "seed": 13,
+      "S": 1.0833328373116258,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/l2norm_fwd_kernel2__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 13,
+      "S": 1.7517563758383758,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/moe_align_block_size_stage__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 13,
+      "S": 0.9868073876887552,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/moe_align_block_size_stage__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 13,
+      "S": 0.9973333200002666,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/moe_align_block_size_stage__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 13,
+      "S": 0.9920424665263643,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/moe_align_block_size_stage__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "moe_align_block_size_stage",
+      "seed": 13,
+      "S": 1.0505617689533602,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/moe_align_block_size_stage__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 13,
+      "S": 0.9990775091991936,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/recompute_w_u_fwd_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 13,
+      "S": 0.9926672867581564,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/recompute_w_u_fwd_kernel__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 13,
+      "S": 1.3708860632913924,
+      "npu_calls": 12,
+      "result": "experiments/results/filter_online/abl_tournament_selection/recompute_w_u_fwd_kernel__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 13,
+      "S": 0.9747974882950134,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/recompute_w_u_fwd_kernel__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "recompute_w_u_fwd_kernel",
+      "seed": 13,
+      "S": 0.9972375782178201,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/recompute_w_u_fwd_kernel__r13.json"
+    },
+    {
+      "config": "abl_profile_on_rag_off",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 13,
+      "S": 0.94326247422037,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_on_rag_off/reshape_and_cache_kernel_flash__r13.json"
+    },
+    {
+      "config": "abl_profile_off_rag_on",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 13,
+      "S": 0.9925370906705611,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_profile_off_rag_on/reshape_and_cache_kernel_flash__r13.json"
+    },
+    {
+      "config": "abl_tournament_selection",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 13,
+      "S": 0.9708027758566891,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_tournament_selection/reshape_and_cache_kernel_flash__r13.json"
+    },
+    {
+      "config": "abl_unprotected_crossover",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 13,
+      "S": 0.9708027758566891,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_unprotected_crossover/reshape_and_cache_kernel_flash__r13.json"
+    },
+    {
+      "config": "abl_uniform_mutation",
+      "kernel": "reshape_and_cache_kernel_flash",
+      "seed": 13,
+      "S": 0.9499999285728571,
+      "npu_calls": 13,
+      "result": "experiments/results/filter_online/abl_uniform_mutation/reshape_and_cache_kernel_flash__r13.json"
+    }
+  ],
+  "failed": []
+}
