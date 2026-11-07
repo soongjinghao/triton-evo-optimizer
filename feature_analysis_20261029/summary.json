@@ -1,0 +1,137 @@
+{
+  "sample_count": 15,
+  "feature_width": 49,
+  "feature_vector_schema": [
+    "char_count",
+    "byte_count",
+    "line_count",
+    "nonempty_line_count",
+    "comment_line_count",
+    "token_count",
+    "identifier_count",
+    "unique_identifier_count",
+    "numeric_literal_count",
+    "string_literal_count",
+    "delimiter_count",
+    "jit_decorator_count",
+    "function_def_count",
+    "program_id_count",
+    "range_count",
+    "load_count",
+    "store_count",
+    "add_count",
+    "sub_count",
+    "mul_count",
+    "div_count",
+    "compare_count",
+    "where_select_count",
+    "reduce_count",
+    "sum_count",
+    "max_count",
+    "min_count",
+    "dot_count",
+    "exp_count",
+    "log_count",
+    "sqrt_count",
+    "cast_count",
+    "loop_count",
+    "conditional_count",
+    "gather_count",
+    "transpose_count",
+    "scan_count",
+    "softmax_count",
+    "barrier_sync_count",
+    "allocation_count",
+    "pointer_op_count",
+    "tensor_memref_count",
+    "linalg_count",
+    "hivm_count",
+    "vector_count",
+    "mask_count",
+    "python_import_count",
+    "return_count",
+    "call_count"
+  ],
+  "fixed_width_verified": true,
+  "compile": {
+    "confirmed_failure_count": 0,
+    "confirmed_failure_rate": 0.0,
+    "pass_count": 15,
+    "unknown_count": 0,
+    "status_counts": {
+      "pass": 15,
+      "fail": 0,
+      "unknown": 0
+    },
+    "wall_time_note": "compile_wall_ms includes worker startup, imports, and test warmup; no kernel execution or performance profiling.",
+    "note": "Unknown means no JIT warmup was observed or the worker timed out; it is not counted as a compile failure. Post-compile test assertions can fail because warmup does not execute the kernel and are not counted as compile failures.",
+    "compile_wall_time_ms": {
+      "total_ms": 248085.604,
+      "mean_ms": 16539.04,
+      "median_ms": 12681.278
+    },
+    "post_compile_test_exception_count": 7
+  },
+  "stages": {
+    "source": {
+      "rows": 15,
+      "artifacts": 15,
+      "missing_count": 0,
+      "missing_rate": 0.0,
+      "observed_vector_widths": [
+        49
+      ],
+      "fixed_width": true,
+      "feature_extraction_time_ms": {
+        "total_ms": 102.209,
+        "mean_ms": 6.814,
+        "median_ms": 6.088
+      }
+    },
+    "ttir": {
+      "rows": 15,
+      "artifacts": 34,
+      "missing_count": 0,
+      "missing_rate": 0.0,
+      "observed_vector_widths": [
+        49
+      ],
+      "fixed_width": true,
+      "feature_extraction_time_ms": {
+        "total_ms": 662.164,
+        "mean_ms": 44.144,
+        "median_ms": 17.984
+      }
+    },
+    "ttadapter": {
+      "rows": 15,
+      "artifacts": 34,
+      "missing_count": 0,
+      "missing_rate": 0.0,
+      "observed_vector_widths": [
+        49
+      ],
+      "fixed_width": true,
+      "feature_extraction_time_ms": {
+        "total_ms": 822.24,
+        "mean_ms": 54.816,
+        "median_ms": 25.373
+      }
+    },
+    "npuir": {
+      "rows": 15,
+      "artifacts": 34,
+      "missing_count": 0,
+      "missing_rate": 0.0,
+      "observed_vector_widths": [
+        49
+      ],
+      "fixed_width": true,
+      "feature_extraction_time_ms": {
+        "total_ms": 994.1,
+        "mean_ms": 66.273,
+        "median_ms": 23.312
+      }
+    }
+  }
+}

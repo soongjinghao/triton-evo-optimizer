@@ -1,0 +1,4 @@
+/workspace/Agent/datasets/feature_analysis_20261029/._rms_norm_kernel-work-_635lzvs/_rms_norm_kernel.py:82: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:340.)
+  output = torch.empty_like(input_2d)
+Dumping intermediate results to /workspace/Agent/datasets/feature_analysis_20261029/ir/_rms_norm_kernel/Q51_KdlfjcbMavxp1NRBB4tX_PznwQuX-O0CkJdeHSw
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpm9locun5/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpm9locun5/kernel

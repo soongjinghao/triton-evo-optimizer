@@ -1,0 +1,4 @@
+Dumping intermediate results to /workspace/Agent/datasets/feature_analysis_20261029/ir/matmul_kernel_simplified/d8h93BcORZtD_wYem_7yQ6MSlqWc38cbuZWquH7VC3o
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmppfu13l79/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmppfu13l79/kernel
+✓ Float32 matmul test passed
+All tests passed!

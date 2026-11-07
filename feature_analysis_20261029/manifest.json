@@ -1,0 +1,77 @@
+{
+  "generated_at_utc": "2026-10-29T12:57:23.661489+00:00",
+  "dataset_dir": "/workspace/Agent/datasets",
+  "output_dir": "/workspace/Agent/datasets/feature_analysis_20261029",
+  "device_id": 0,
+  "compile_timeout_seconds": 240,
+  "python": "3.11.15",
+  "packages": {
+    "triton": "3.5.0",
+    "triton-ascend": "3.2.1",
+    "torch": "2.7.1",
+    "torch-npu": "2.7.1.post4"
+  },
+  "kernels": [
+    {
+      "name": "_act_quant_kernel",
+      "operator_type": "quantization"
+    },
+    {
+      "name": "_chunk_cumsum_fwd_kernel",
+      "operator_type": "prefix_scan"
+    },
+    {
+      "name": "_copy_page_indices_kernel",
+      "operator_type": "memory_copy"
+    },
+    {
+      "name": "_log_softmax_kernel",
+      "operator_type": "softmax_reduction"
+    },
+    {
+      "name": "_pack_seq_kernel",
+      "operator_type": "sequence_packing"
+    },
+    {
+      "name": "_per_group_transpose",
+      "operator_type": "layout_transform"
+    },
+    {
+      "name": "_rms_norm_kernel",
+      "operator_type": "normalization"
+    },
+    {
+      "name": "_selective_scan_update_kernel",
+      "operator_type": "state_space_scan"
+    },
+    {
+      "name": "_fwd_kernel_ep_gather",
+      "operator_type": "gather"
+    },
+    {
+      "name": "fused_qkvzba_split_reshape_cat_kernel",
+      "operator_type": "fused_reshape"
+    },
+    {
+      "name": "matmul_kernel_simplified",
+      "operator_type": "matrix_multiplication"
+    },
+    {
+      "name": "moe_align_block_size_stage",
+      "operator_type": "moe_routing"
+    },
+    {
+      "name": "reshape_and_cache_flash_kernel",
+      "operator_type": "kv_cache"
+    },
+    {
+      "name": "softplus",
+      "operator_type": "elementwise_activation"
+    },
+    {
+      "name": "solve_tril_16x16_kernel",
+      "operator_type": "triangular_solve"
+    }
+  ],
+  "feature_extraction": "Shared lexical/statistical numeric schema applied to source and each IR text."
+}

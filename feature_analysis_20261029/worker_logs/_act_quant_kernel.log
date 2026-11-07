@@ -1,0 +1,8 @@
+/workspace/Agent/datasets/feature_analysis_20261029/._act_quant_kernel-work-fj8q685f/_act_quant_kernel.py:94: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:340.)
+  y = torch.empty_like(x, dtype=torch.float16)
+Dumping intermediate results to /workspace/Agent/datasets/feature_analysis_20261029/ir/_act_quant_kernel/WHbb2tLLf7KyHohUNHMgaJ6m9stIleW_iOBu1y7h-mc
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpa6cafgaj/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpa6cafgaj/kernel
+All tests passed!
+Dumping intermediate results to /workspace/Agent/datasets/feature_analysis_20261029/ir/_act_quant_kernel/98loJl1w1Bg9mo7-ADTVZuRU57zesbBDbMYX4Ul5bgY
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpshg3yz1h/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpshg3yz1h/kernel
+Scale format test passed!

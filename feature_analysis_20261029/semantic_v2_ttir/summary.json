@@ -1,0 +1,373 @@
+{
+  "feature_version": "ttir_semantics_v2",
+  "analysis_dir": "/workspace/Agent/feature_analysis_20261029",
+  "kernel_count": 15,
+  "ttir_instance_count": 34,
+  "semantic_feature_width": 112,
+  "semantic_feature_schema": [
+    "operation_count",
+    "tt_operation_count",
+    "arith_operation_count",
+    "scf_operation_count",
+    "math_operation_count",
+    "other_dialect_operation_count",
+    "op_tt_load",
+    "op_tt_store",
+    "op_tt_addptr",
+    "op_tt_get_program_id",
+    "op_tt_make_range",
+    "op_tt_make_tensor_ptr",
+    "op_tt_gather",
+    "op_tt_reduce",
+    "op_tt_scan",
+    "op_tt_dot",
+    "op_tt_dot_scaled",
+    "op_tt_trans",
+    "op_tt_reshape",
+    "op_tt_expand_dims",
+    "op_tt_broadcast",
+    "op_tt_splat",
+    "op_tt_join",
+    "op_tt_split",
+    "op_tt_select",
+    "op_tt_program_id",
+    "op_arith_addf",
+    "op_arith_addi",
+    "op_arith_subf",
+    "op_arith_subi",
+    "op_arith_mulf",
+    "op_arith_muli",
+    "op_arith_divf",
+    "op_arith_divsi",
+    "op_arith_divui",
+    "op_arith_remsi",
+    "op_arith_remui",
+    "op_arith_cmpf",
+    "op_arith_cmpi",
+    "op_arith_select",
+    "op_arith_constant",
+    "op_arith_extf",
+    "op_arith_extsi",
+    "op_arith_extui",
+    "op_arith_truncf",
+    "op_arith_trunci",
+    "op_arith_sitofp",
+    "op_arith_uitofp",
+    "op_arith_fptosi",
+    "op_arith_maxf",
+    "op_arith_minf",
+    "op_arith_negf",
+    "op_arith_fma",
+    "op_arith_andi",
+    "op_arith_ori",
+    "op_arith_xori",
+    "op_scf_for",
+    "op_scf_if",
+    "op_scf_while",
+    "op_scf_yield",
+    "op_scf_condition",
+    "op_math_exp",
+    "op_math_exp2",
+    "op_math_log",
+    "op_math_log2",
+    "op_math_sqrt",
+    "op_math_rsqrt",
+    "op_math_absf",
+    "op_math_tanh",
+    "program_id_axis_x_count",
+    "program_id_axis_y_count",
+    "program_id_axis_z_count",
+    "load_mask_operand_count",
+    "store_mask_operand_count",
+    "tensor_type_occurrence_count",
+    "unique_tensor_type_count",
+    "tensor_static_elements_unique_sum",
+    "tensor_static_elements_max",
+    "tensor_dynamic_dim_count",
+    "tensor_rank_max",
+    "tensor_rank_0_unique_type_count",
+    "tensor_rank_1_unique_type_count",
+    "tensor_rank_2_unique_type_count",
+    "tensor_rank_3_unique_type_count",
+    "tensor_rank_4_unique_type_count",
+    "tensor_rank_5_unique_type_count",
+    "dtype_i1_ir_type_occurrence_count",
+    "dtype_i8_ir_type_occurrence_count",
+    "dtype_i16_ir_type_occurrence_count",
+    "dtype_i32_ir_type_occurrence_count",
+    "dtype_i64_ir_type_occurrence_count",
+    "dtype_f16_ir_type_occurrence_count",
+    "dtype_bf16_ir_type_occurrence_count",
+    "dtype_f32_ir_type_occurrence_count",
+    "dtype_f64_ir_type_occurrence_count",
+    "dtype_fp8e4nv_ir_type_occurrence_count",
+    "dtype_fp8e5_ir_type_occurrence_count",
+    "make_range_count",
+    "make_range_max_extent",
+    "boundary_check_attribute_count",
+    "padding_attribute_count",
+    "divisibility_attribute_count",
+    "divisibility_max",
+    "layout_blocked_attribute_count",
+    "layout_slice_attribute_count",
+    "layout_linear_attribute_count",
+    "layout_dot_operand_attribute_count",
+    "layout_shared_attribute_count",
+    "layout_mma_attribute_count",
+    "tensor_layout_attribute_count",
+    "masked_load_ratio",
+    "masked_store_ratio"
+  ],
+  "all_values_numeric": true,
+  "instance_policy": "One row per raw TTIR dump hash; specializations are never averaged.",
+  "instance_linkage": "Dump directory hash is joined to the same-named Triton cache directory and exact cached TTIR bytes are verified where available.",
+  "runtime_input_signature_captured": false,
+  "runtime_input_signature_note": "Round 1 did not persist actual runtime tensor shapes/strides/dtypes per JIT warmup; these are left explicitly uncaptured rather than inferred from incomplete IR types.",
+  "cache_config_fields": [
+    "target_arch",
+    "num_warps",
+    "num_stages",
+    "num_ctas",
+    "warp_size",
+    "mix_mode",
+    "parallel_mode"
+  ],
+  "failed_parse_count": 0,
+  "failed_parses": [],
+  "correctness_status": "not_measured_compile_only",
+  "performance_label_valid": false,
+  "semantic_extraction_time_ms": {
+    "total": 180.54193,
+    "mean": 5.310057,
+    "median": 5.57295
+  },
+  "aggregate_counts": {
+    "instances_per_kernel": [
+      {
+        "kernel": "_act_quant_kernel",
+        "operator_type": "quantization",
+        "ttir_instances": 2,
+        "cache_metadata_match_count": 2,
+        "exact_cache_ir_match_count": 2,
+        "distinct_ir_hashes": 2,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          0,
+          2
+        ]
+      },
+      {
+        "kernel": "_chunk_cumsum_fwd_kernel",
+        "operator_type": "prefix_scan",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "_copy_page_indices_kernel",
+        "operator_type": "memory_copy",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "_log_softmax_kernel",
+        "operator_type": "softmax_reduction",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "_pack_seq_kernel",
+        "operator_type": "sequence_packing",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          4
+        ],
+        "num_stages_values": [
+          2
+        ]
+      },
+      {
+        "kernel": "_per_group_transpose",
+        "operator_type": "layout_transform",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "_rms_norm_kernel",
+        "operator_type": "normalization",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "_selective_scan_update_kernel",
+        "operator_type": "state_space_scan",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          4
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "_fwd_kernel_ep_gather",
+        "operator_type": "gather",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          2
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "fused_qkvzba_split_reshape_cat_kernel",
+        "operator_type": "fused_reshape",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          1
+        ],
+        "num_stages_values": [
+          3
+        ]
+      },
+      {
+        "kernel": "matmul_kernel_simplified",
+        "operator_type": "matrix_multiplication",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          8
+        ],
+        "num_stages_values": [
+          3
+        ]
+      },
+      {
+        "kernel": "moe_align_block_size_stage",
+        "operator_type": "moe_routing",
+        "ttir_instances": 4,
+        "cache_metadata_match_count": 4,
+        "exact_cache_ir_match_count": 4,
+        "distinct_ir_hashes": 4,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "reshape_and_cache_flash_kernel",
+        "operator_type": "kv_cache",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "softplus",
+        "operator_type": "elementwise_activation",
+        "ttir_instances": 1,
+        "cache_metadata_match_count": 1,
+        "exact_cache_ir_match_count": 1,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          32
+        ],
+        "num_stages_values": [
+          1
+        ]
+      },
+      {
+        "kernel": "solve_tril_16x16_kernel",
+        "operator_type": "triangular_solve",
+        "ttir_instances": 16,
+        "cache_metadata_match_count": 16,
+        "exact_cache_ir_match_count": 16,
+        "distinct_ir_hashes": 1,
+        "num_warps_values": [
+          1,
+          2,
+          4,
+          8
+        ],
+        "num_stages_values": [
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "distinct_specialization_config_count": 34
+  },
+  "baseline_v1_preserved": true,
+  "baseline_summary_path": "/workspace/Agent/feature_analysis_20261029/summary.json",
+  "baseline_ttir_extraction_time_ms": {
+    "total_ms": 662.164,
+    "mean_ms": 44.144,
+    "median_ms": 17.984
+  }
+}
