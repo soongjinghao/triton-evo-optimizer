@@ -1,0 +1,100 @@
+{
+  "candidate_id": "_chunk_state_fwd_kernel__seed1",
+  "operator_name": "_chunk_state_fwd_kernel",
+  "dataset": "datasets",
+  "source_file": "_chunk_state_fwd_kernel_1.py",
+  "source_path": "/workspace/Agent/datasets/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel_1.py",
+  "source_relative_path": "datasets/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel_1.py",
+  "source_sha256": "07c98f85b519594c8d6003ddceefac951ac2adea5c8292b94babae36ef06384f",
+  "inventory_sha256": "07c98f85b519594c8d6003ddceefac951ac2adea5c8292b94babae36ef06384f",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "softplus"
+    },
+    {
+      "line": 10,
+      "name": "_chunk_state_fwd_kernel"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel.py",
+    "/workspace/Agent/datasets/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel_1.py"
+  ],
+  "test_file": "test__chunk_state_fwd_kernel_1.py",
+  "test_path": "/workspace/Agent/datasets/_chunk_state_fwd_kernel/test__chunk_state_fwd_kernel_1.py",
+  "test_sha256": "2661233ee85baf60a0245b2488b4b4d1ff547d0c24e6ce11397d63624f672292",
+  "legacy_manifest": {
+    "latency_us": 1307.806152,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 20.166,
+  "worker_log": "[W1114 08:09:10.553894270 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_chunk_state_fwd_kernel__seed1_vylio377/home/.triton/dump/gWF_nSG1YsNpGJ-Lixm7mfIEhX7kCl_xL77Cm8UXblQ\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp4s0u63m6/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp4s0u63m6/kernel\nAll tests passed!\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "warmup_time_ms": 11921.966,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_chunk_state_fwd_kernel__seed1_vylio377/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_chunk_state_fwd_kernel__seed1_vylio377/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_chunk_state_fwd_kernel__seed1_vylio377/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_chunk_state_fwd_kernel",
+      "warmup_time_ms": 11921.966
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}

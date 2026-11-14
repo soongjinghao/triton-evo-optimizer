@@ -1,0 +1,113 @@
+{
+  "schema_version": "2.0",
+  "project_root": "/workspace/Agent",
+  "primary_dataset": "datasets",
+  "selection_policy": "one_seed_file_per_operator: <operator>_1.py from datasets/",
+  "inventory_path": "/workspace/Agent/costModel/data/manifests/operator_inventory.jsonl",
+  "output_dir": "/workspace/Agent/costModel/artifacts/ir",
+  "device_index": 0,
+  "workers": 1,
+  "timeout_seconds": 300,
+  "requested_limit": 5,
+  "inventory_diagnostics": {
+    "inventory_operator_count": 50,
+    "primary_dataset": "datasets",
+    "selection_policy": "one_seed_file_per_operator: <operator>_1.py from datasets/",
+    "selected_candidate_count": 50,
+    "skipped": {
+      "operator_filter": 0,
+      "missing_seed_file": 0,
+      "missing_test_file": 0,
+      "seed_without_triton_jit": 0,
+      "missing_source": 0,
+      "stale_source_hash": 0,
+      "source_outside_primary_dataset": 0
+    }
+  },
+  "candidate_count_before_limit": 50,
+  "candidate_count_selected": 5,
+  "candidate_count_run": 5,
+  "elapsed_seconds": 112.029,
+  "execution_note": "Target Triton JIT kernels are warmup-compiled but not launched; PyTorch setup/reference operations in test scripts may still execute.",
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "status_counts": {
+    "success": 5
+  },
+  "compile_pass_count": 5,
+  "compile_fail_count": 0,
+  "compile_unknown_count": 0,
+  "ir_file_counts": {
+    "ttir": 6,
+    "ttadapter": 6,
+    "npuir": 6,
+    "npubin": 6
+  },
+  "results": [
+    {
+      "candidate_id": "_act_quant_kernel__seed1",
+      "operator_name": "_act_quant_kernel",
+      "status": "success",
+      "compile_pass": true,
+      "warmup_time_ms": 15640.051,
+      "ir_found": {
+        "ttir": true,
+        "ttadapter": true,
+        "npuir": true,
+        "npubin": true
+      }
+    },
+    {
+      "candidate_id": "_chunk_cumsum_fwd_kernel__seed1",
+      "operator_name": "_chunk_cumsum_fwd_kernel",
+      "status": "success",
+      "compile_pass": true,
+      "warmup_time_ms": 11495.956,
+      "ir_found": {
+        "ttir": true,
+        "ttadapter": true,
+        "npuir": true,
+        "npubin": true
+      }
+    },
+    {
+      "candidate_id": "_chunk_state_fwd_kernel__seed1",
+      "operator_name": "_chunk_state_fwd_kernel",
+      "status": "success",
+      "compile_pass": true,
+      "warmup_time_ms": 11921.966,
+      "ir_found": {
+        "ttir": true,
+        "ttadapter": true,
+        "npuir": true,
+        "npubin": true
+      }
+    },
+    {
+      "candidate_id": "_convert_req_index_to_global_index_kernel__seed1",
+      "operator_name": "_convert_req_index_to_global_index_kernel",
+      "status": "success",
+      "compile_pass": true,
+      "warmup_time_ms": 10928.584,
+      "ir_found": {
+        "ttir": true,
+        "ttadapter": true,
+        "npuir": true,
+        "npubin": true
+      }
+    },
+    {
+      "candidate_id": "_copy_page_indices_kernel__seed1",
+      "operator_name": "_copy_page_indices_kernel",
+      "status": "success",
+      "compile_pass": true,
+      "warmup_time_ms": 10483.845,
+      "ir_found": {
+        "ttir": true,
+        "ttadapter": true,
+        "npuir": true,
+        "npubin": true
+      }
+    }
+  ]
+}
