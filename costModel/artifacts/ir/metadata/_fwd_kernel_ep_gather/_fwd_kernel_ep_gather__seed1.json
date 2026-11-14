@@ -1,0 +1,100 @@
+{
+  "candidate_id": "_fwd_kernel_ep_gather__seed1",
+  "operator_name": "_fwd_kernel_ep_gather",
+  "dataset": "datasets",
+  "source_file": "_fwd_kernel_ep_gather_1.py",
+  "source_path": "/workspace/Agent/datasets/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather_1.py",
+  "source_relative_path": "datasets/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather_1.py",
+  "source_sha256": "0b600df39967dc40cc6c6069fcd702fe39bfd643cdf382156c6bd318b212adee",
+  "inventory_sha256": "0b600df39967dc40cc6c6069fcd702fe39bfd643cdf382156c6bd318b212adee",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "apply_expert_map"
+    },
+    {
+      "line": 12,
+      "name": "_fwd_kernel_ep_gather"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather.py",
+    "/workspace/Agent/datasets/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather_1.py"
+  ],
+  "test_file": "test__fwd_kernel_ep_gather_1.py",
+  "test_path": "/workspace/Agent/datasets/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py",
+  "test_sha256": "7bafd8f34196043231d75144c0661d75377231eb02416fcf1060a07ad03f4502",
+  "legacy_manifest": {
+    "latency_us": 4.940099,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 19.215,
+  "worker_log": "[W1114 08:17:08.721216070 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_fwd_kernel_ep_gather__seed1_b9q64ptd/home/.triton/dump/bG35sifJx0IWXprKjrKi3Bu9FTKDqc-ettA1yqixE4A\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpnxaz_6e9/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpnxaz_6e9/kernel\nTest passed!\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "warmup_time_ms": 10672.166,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_fwd_kernel_ep_gather__seed1_b9q64ptd/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_fwd_kernel_ep_gather__seed1_b9q64ptd/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_fwd_kernel_ep_gather__seed1_b9q64ptd/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_fwd_kernel_ep_gather",
+      "warmup_time_ms": 10672.166
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}

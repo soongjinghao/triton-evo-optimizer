@@ -42,7 +42,7 @@ from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
 HF_CACHE_HOME = (
     os.getenv("TRITONEVO_HF_HOME")
     or os.getenv("HF_HOME")
-    or "/workspace/user_data/Agent/RAG/.hf_cache"
+    or os.path.join(os.path.dirname(os.path.abspath(__file__)), ".hf_cache")
 )
 os.environ["HF_HOME"] = HF_CACHE_HOME
 os.environ["HF_HUB_CACHE"] = str(Path(HF_CACHE_HOME) / "hub")

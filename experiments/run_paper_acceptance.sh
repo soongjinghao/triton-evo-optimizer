@@ -6,6 +6,11 @@ set -euo pipefail
 cd /workspace/Agent
 
 source set_env/set_api_local.sh >/dev/null 2>&1
+if [[ "${EA_MSPROF_BACKEND:-op}" != "op" ]]; then
+  echo "PAPER-FULL requires msprof op timings; set EA_MSPROF_BACKEND=op explicitly."
+  echo "The application backend remeasures the seed and is only for local optimization runs."
+  exit 2
+fi
 export EA_NUM_DEVICES=1
 export EA_MAX_WORKERS=2
 

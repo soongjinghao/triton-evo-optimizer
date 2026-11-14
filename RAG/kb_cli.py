@@ -37,12 +37,18 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional
 
-os.environ["HF_HOME"] = "/workspace/user_data/Agent/RAG/.hf_cache"
+HF_HOME = (
+    os.getenv("TRITONEVO_HF_HOME")
+    or os.getenv("HF_HOME")
+    or str(Path(__file__).resolve().parent / ".hf_cache")
+)
+os.environ["HF_HOME"] = HF_HOME
+os.environ["HF_HUB_CACHE"] = str(Path(HF_HOME) / "hub")
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 os.environ["HF_DATASETS_OFFLINE"] = "1"
 os.environ["HF_HUB_OFFLINE"] = "1"
-os.environ["TRANSFORMERS_CACHE"] = "/workspace/user_data/Agent/RAG/.hf_cache"
+os.environ["TRANSFORMERS_CACHE"] = HF_HOME
 
 from langchain_community.document_loaders import (
     Docx2txtLoader,

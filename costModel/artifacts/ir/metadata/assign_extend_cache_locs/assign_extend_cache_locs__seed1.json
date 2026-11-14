@@ -1,0 +1,96 @@
+{
+  "candidate_id": "assign_extend_cache_locs__seed1",
+  "operator_name": "assign_extend_cache_locs",
+  "dataset": "datasets",
+  "source_file": "assign_extend_cache_locs_1.py",
+  "source_path": "/workspace/Agent/datasets/assign_extend_cache_locs/assign_extend_cache_locs_1.py",
+  "source_relative_path": "datasets/assign_extend_cache_locs/assign_extend_cache_locs_1.py",
+  "source_sha256": "1ab7db2fbbae4009ca9488d615ddf8d7d6e14ec01ad3e3960a649742656896f5",
+  "inventory_sha256": "1ab7db2fbbae4009ca9488d615ddf8d7d6e14ec01ad3e3960a649742656896f5",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "assign_extend_cache_locs"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/assign_extend_cache_locs/assign_extend_cache_locs.py",
+    "/workspace/Agent/datasets/assign_extend_cache_locs/assign_extend_cache_locs_1.py"
+  ],
+  "test_file": "test_assign_extend_cache_locs_1.py",
+  "test_path": "/workspace/Agent/datasets/assign_extend_cache_locs/test_assign_extend_cache_locs_1.py",
+  "test_sha256": "5dd5326fb290b772b07642529431f0be40311c3bd646b7223bf9d988807987db",
+  "legacy_manifest": {
+    "latency_us": 2.100042,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/assign_extend_cache_locs/assign_extend_cache_locs_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/assign_extend_cache_locs/assign_extend_cache_locs__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/assign_extend_cache_locs/assign_extend_cache_locs__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/assign_extend_cache_locs/assign_extend_cache_locs__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/assign_extend_cache_locs/assign_extend_cache_locs__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 19.92,
+  "worker_log": "[W1114 08:21:47.020885430 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/assign_extend_cache_locs__seed1_yzf9nzxo/home/.triton/dump/yEvFLPOKsC5zajmhV1wZrwSP8FIE0YI4-xJ95cAInIY\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpp7z7gyq9/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpp7z7gyq9/kernel\n✅ Triton kernel output matches reference implementation\nTriton result: tensor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\n       device='npu:0', dtype=torch.int32)\nReference result: tensor([817, 395, 289, 633, 614, 424, 324, 179, 396,  57, 972, 474,  83, 935,\n        393, 229, 137, 461, 522, 638], device='npu:0', dtype=torch.int32)\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "warmup_time_ms": 11354.215,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/assign_extend_cache_locs__seed1_yzf9nzxo/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/assign_extend_cache_locs__seed1_yzf9nzxo/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/assign_extend_cache_locs__seed1_yzf9nzxo/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "assign_extend_cache_locs",
+      "warmup_time_ms": 11354.215
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "candidate_id": "_trtllm_prefill_attn_kvfp8_dequant__seed1",
+  "operator_name": "_trtllm_prefill_attn_kvfp8_dequant",
+  "dataset": "datasets",
+  "source_file": "_trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "source_path": "/workspace/Agent/datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "source_relative_path": "datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "source_sha256": "ac2e21416b5fcfc09b339de3582c6f545f24af8885df6b35a07c818e46d67f23",
+  "inventory_sha256": "ac2e21416b5fcfc09b339de3582c6f545f24af8885df6b35a07c818e46d67f23",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 25,
+      "name": "_trtllm_prefill_attn_kvfp8_dequant"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant.py",
+    "/workspace/Agent/datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant_1.py"
+  ],
+  "test_file": "test__trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "test_path": "/workspace/Agent/datasets/_trtllm_prefill_attn_kvfp8_dequant/test__trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "test_sha256": "8bf2b39dacacfdd931e629ebd0c67f033877cdedfa22b60c0fcc9b7e7bb44fe3",
+  "legacy_manifest": {
+    "latency_us": 2.640053,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k00.ttir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k01.ttir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k02.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k00.ttadapter.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k01.ttadapter.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k02.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k00.npuir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k01.npuir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k02.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k00.bin",
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k01.bin",
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1__k02.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 22.35,
+  "worker_log": "[W1114 08:20:48.749815450 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/home/.triton/dump/_QcenfiLhy93I-hdCe9Q4lGi3sbu76q3pVQGZsISpnU\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpkc_pue0b/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpkc_pue0b/kernel\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/home/.triton/dump/jae4lXEuwyg7Lmv2UbPioFJL8A6X0lWLsJe4Gi58XfM\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpm44cpyc6/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpm44cpyc6/kernel\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/home/.triton/dump/PA6RA4nvfvI6o34drt-NKRaSHtgXG0Dt60Urz8Cv-DY\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpwyo28n7w/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpwyo28n7w/kernel\nAll tests passed!\n✓ All unit tests completed successfully!\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 3,
+  "n_ok": 3,
+  "warmup_time_ms": 13931.377,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_trtllm_prefill_attn_kvfp8_dequant",
+      "warmup_time_ms": 10650.81
+    },
+    {
+      "call_index": 2,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k002_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k002_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k002_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_trtllm_prefill_attn_kvfp8_dequant",
+      "warmup_time_ms": 1635.571
+    },
+    {
+      "call_index": 3,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k003_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k003_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_trtllm_prefill_attn_kvfp8_dequant__seed1_neqraje4/capture/asm/k003_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_trtllm_prefill_attn_kvfp8_dequant",
+      "warmup_time_ms": 1644.996
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 9,
+  "ir_counts": {
+    "ttir": 3,
+    "ttadapter": 3,
+    "npuir": 3,
+    "npubin": 3
+  }
+}

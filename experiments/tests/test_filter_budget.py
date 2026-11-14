@@ -452,11 +452,14 @@ def test_isolation_before_search():
     return None
 
 
-def test_dataset_snapshot_resolution():
+def test_dataset_snapshot_resolution(tmp_path, monkeypatch):
     """meta 里写相对文件名时，也必须能解析到实际文件并算出真实哈希。"""
     from experiments import filter_online_exp as fe
 
     rel = "samples_frozen_20261016.jsonl"
+    monkeypatch.setattr(fe, "DATASET_DIR", tmp_path)
+    snapshot = tmp_path / rel
+    snapshot.write_text('{"sample":"fixture"}\n', encoding="utf-8")
     p = fe._resolve_dataset_path(rel)
     assert p is not None and p.is_file(), f"相对快照名未解析到实际文件：{rel}"
     assert p == fe.DATASET_DIR / rel, f"解析结果不符合预期：{p}"

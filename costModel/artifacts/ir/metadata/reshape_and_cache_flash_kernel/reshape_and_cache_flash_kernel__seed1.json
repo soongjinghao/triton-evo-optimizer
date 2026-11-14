@@ -1,0 +1,96 @@
+{
+  "candidate_id": "reshape_and_cache_flash_kernel__seed1",
+  "operator_name": "reshape_and_cache_flash_kernel",
+  "dataset": "datasets",
+  "source_file": "reshape_and_cache_flash_kernel_1.py",
+  "source_path": "/workspace/Agent/datasets/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel_1.py",
+  "source_relative_path": "datasets/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel_1.py",
+  "source_sha256": "113723b3751821a3c95cf0e8c1565ece8144c6b8f995c792bffe2c0f7fd904a5",
+  "inventory_sha256": "113723b3751821a3c95cf0e8c1565ece8144c6b8f995c792bffe2c0f7fd904a5",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 9,
+      "name": "reshape_and_cache_flash_kernel"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel.py",
+    "/workspace/Agent/datasets/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel_1.py"
+  ],
+  "test_file": "test_reshape_and_cache_flash_kernel_1.py",
+  "test_path": "/workspace/Agent/datasets/reshape_and_cache_flash_kernel/test_reshape_and_cache_flash_kernel_1.py",
+  "test_sha256": "39c3233fe92aefaad22c137b686d9dc5caf92bdbbe2f33571b7b88fc237e9822",
+  "legacy_manifest": {
+    "latency_us": 135.642715,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 19.395,
+  "worker_log": "[W1114 08:30:44.385655230 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/reshape_and_cache_flash_kernel__seed1_9g9jw1gz/home/.triton/dump/iKZIcVKQPTE9FCqS1uE0izhwp8APjZOfN0Sc44n1l3w\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpwbk9xy9n/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpwbk9xy9n/kernel\nreshape_and_cache_flash test passed!\nAll tests passed!\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "warmup_time_ms": 10389.851,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/reshape_and_cache_flash_kernel__seed1_9g9jw1gz/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/reshape_and_cache_flash_kernel__seed1_9g9jw1gz/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/reshape_and_cache_flash_kernel__seed1_9g9jw1gz/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "reshape_and_cache_flash_kernel",
+      "warmup_time_ms": 10389.851
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}

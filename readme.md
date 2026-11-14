@@ -26,7 +26,7 @@
 ## 📁 项目结构
 
 ```
-/workspace/user_data/Agent/
+Agent/
 ├── RAG/                            # RAG知识库模块
 │   ├── data/                       # 知识文件（优化策略文档）
 │   ├── knowledge/                  # 向量索引目录
@@ -93,13 +93,30 @@ RAG 与参考 manifest 指纹、实际 LLM 模型标识。正式 PAPER/B1/B2 配
 
 ### 2.安装依赖
 
+Ascend 版 Torch、torch-npu 与 Triton 请按目标机器的 CANN/驱动版本安装；不要用普通 PyPI
+版本覆盖 Ascend 适配包。其余 Python 依赖：
+
 ```bash
-pip install torch triton langchain langchain-openai httpx
+pip install langchain langchain-openai langchain-community langchain-huggingface \
+            httpx faiss-cpu sentence-transformers python-docx pypdf docx2txt
 ```
 
-### 3.appikey配置
+### 3.模型 API 配置
 
-编辑 `set_env/set_api_test.py`，配置可用的DeepSeek apikey,apiurl
+配置 OpenAI 兼容的 `API_URL`、`API_KEY` 和模型 ID（`ENGINE_FLASH`、`ENGINE_PRO`）。
+如果服务不需要鉴权，可将 `API_KEY` 设为 `EMPTY`。例如本地 SSH 隧道可使用：
+
+```bash
+export API_URL=http://127.0.0.1:13000/v1
+export API_KEY=EMPTY
+export ENGINE_FLASH="<从 /v1/models 获取的模型 ID>"
+export ENGINE_PRO="$ENGINE_FLASH"
+```
+
+确保 SSH 隧道保持连接后，再启动优化任务。本地 `set_env/set_api_local.sh` 会设置上述
+模型变量，并将 `EA_MSPROF_BACKEND` 默认设为 `application`：它通过应用级 `msprof`
+重复采集目标算子耗时，并在相同口径下重测种子基线。该本地模式不能与官方
+`baseline.json` 或 PAPER-FULL 结果横向比较；正式验收必须使用 `EA_MSPROF_BACKEND=op`。
 
 ### 4.向量模型导入
 
@@ -110,25 +127,22 @@ embedding_model = "BAAI/bge-small-zh-v1.5"  # 向量模型
 cache_folder = "./RAG/.hf_cache"            # 模型本地缓存目录路径
 ```
 
-**向量模型下载**：
+**向量模型下载与知识库构建**：
 
-首次运行时，系统会自动从 HuggingFace 镜像下载模型到 `./RAG/.hf_cache` 目录。
+程序默认离线运行，因此首次使用前需先下载模型。以下命令在项目根目录执行：
 
 ```bash
-# 设置HuggingFace镜像源（国内加速镜像站）
+export TRITONEVO_HF_HOME="$(pwd)/RAG/.hf_cache"
+export HF_HOME="$TRITONEVO_HF_HOME"
 export HF_ENDPOINT=https://hf-mirror.com
+HF_HUB_OFFLINE=0 TRANSFORMERS_OFFLINE=0 \
+  hf download BAAI/bge-small-zh-v1.5 --cache-dir "$HF_HOME/hub"
 
-将知识库文档放入`RAG/data/`目录，然后运行构建脚本：
-
-# 放入知识文档（支持 .txt, .md, .pdf, .docx 等格式）
-# 文档格式要求：每条优化规则以 ⚛️ 或 ACTION_ 开头
-
-# 构建 FAISS 向量索引
-cd RAG
-python kb_cli.py --build
+# 将知识文档放入 RAG/data/，每条优化规则以 ⚛️ 或 ACTION_ 开头
+python RAG/kb_cli.py --build
 
 # 测试检索功能
-python kb_cli.py --search
+python RAG/kb_cli.py --search
 ```
 
 ### 5.运行优化

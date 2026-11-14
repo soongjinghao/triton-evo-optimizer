@@ -56,6 +56,12 @@ class EAConfig:
     baseline_json: str = "./baseline/baseline.json"  # Baseline data JSON file path
     timeout_seconds: int = 300             # Compilation/execution timeout
     max_iterations: int = 5                # Max fix attempts per operator
+    msprof_backend: str = field(
+        default_factory=lambda: os.getenv("EA_MSPROF_BACKEND", "op").strip().lower()
+    )
+    app_profile_repeats: int = field(
+        default_factory=lambda: int(os.getenv("EA_APP_PROFILE_REPEATS", "6"))
+    )
 
     # ==================== 消融实验配置（3.1 主实验） ====================
     # method: b0(仅重测) | b1(无证据引导EA) | b2(单轨迹LLM迭代) | full(完整TritonEvo-NPU)
@@ -87,7 +93,10 @@ class EAConfig:
 
     # 训练数据采集：记录每个进入 NPU 评测的候选及其父子延迟关系，
     # 用于后续训练候选预筛选模型（3.6 节）。只落盘，不改变任何实验行为。
-    collect_data: bool = True
+    collect_data: bool = field(
+        default_factory=lambda: os.getenv("EA_COLLECT_DATA", "1").strip().lower()
+        not in {"0", "false", "no", "off"}
+    )
     dataset_dir: str = "./experiments/dataset"
 
     # ==================== 候选预筛选（3.5/3.6） ====================
@@ -155,7 +164,10 @@ class EAConfig:
     debug: bool = False                    # Whether to enable debug mode
 
     # ==================== Code Saving Parameters ====================
-    save_code: bool = True               # Whether to save generated code (开关：是否保存生成的代码)
+    save_code: bool = field(
+        default_factory=lambda: os.getenv("EA_SAVE_CODE", "1").strip().lower()
+        not in {"0", "false", "no", "off"}
+    )                                     # Whether to save generated code
     save_code_dir: str = "./saved_codes"   # Directory to save generated code
 
     # ==================== API Configuration ====================
@@ -181,6 +193,9 @@ class EAConfig:
         print(f"         Model switch probability: {self.model_switch_prob}")
         print(f"[Config] Baseline Configuration:")
         print(f"         Baseline JSON: {self.baseline_json}")
+        print(f"         msprof backend: {self.msprof_backend}")
+        if self.msprof_backend == "application":
+            print(f"         Application profile repeats: {self.app_profile_repeats}")
         print(f"[Config] LLM Parameters:")
         print(f"         Temperature: {self.llm_temperature}")
         print(f"         Max tokens: {self.max_llm_tokens}")

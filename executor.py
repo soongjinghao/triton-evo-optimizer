@@ -14,6 +14,10 @@ import csv
 import time
 import tempfile
 import shutil
+import math
+import shlex
+import statistics
+import threading
 from typing import Dict, Any, Optional
 from dataclasses import dataclass
 from pathlib import Path
@@ -157,6 +161,24 @@ class TritonExecutor:
         self.work_dir = work_dir or Path(".")
         self.performance_dir = self.work_dir / "performance"
         self.performance_dir.mkdir(parents=True, exist_ok=True)
+        self.msprof_backend = str(
+            getattr(config, "msprof_backend", os.getenv("EA_MSPROF_BACKEND", "op"))
+        ).strip().lower()
+        if self.msprof_backend not in {"op", "application"}:
+            raise ValueError(
+                f"Unsupported msprof backend {self.msprof_backend!r}; use 'op' or 'application'")
+        if (self.msprof_backend == "application"
+                and getattr(config, "require_manifest_baseline", False)):
+            raise ValueError(
+                "The application msprof backend remeasures the seed and is incompatible "
+                "with formal manifest-baseline runs")
+        self.app_profile_repeats = int(getattr(config, "app_profile_repeats", 6))
+        if self.msprof_backend == "application" and self.app_profile_repeats < 5:
+            raise ValueError("app_profile_repeats must be at least 5")
+        self._app_baselines: Dict[int, float] = {}
+        self._latest_application_profile_dirs: Dict[int, Path] = {}
+        self._app_baseline_lock = threading.Lock()
+        self._app_profile_lock = threading.Lock()
 
         print(f"\n[{ICONS['rocket']}] [Executor] Initializing Triton executor...")
         print(f"       └─ Operator name: {kernel_name}")
@@ -222,6 +244,173 @@ class TritonExecutor:
 
         return None
 
+    @staticmethod
+    def _read_application_summary_rows(
+        result_dir: Path, kernel_name: str
+    ) -> list[dict]:
+        rows = []
+        for csv_path in result_dir.rglob("op_summary_*.csv"):
+            with open(csv_path, "r", encoding="utf-8", newline="") as f:
+                rows.extend(
+                    row for row in csv.DictReader(f)
+                    if row.get("Op Name") == kernel_name
+                )
+        return rows
+
+    @classmethod
+    def _parse_application_summary(
+        cls, result_dir: Path, kernel_name: str, min_samples: int
+    ) -> Optional[float]:
+        """Return the median task duration for the target kernel."""
+        durations = []
+        for row in cls._read_application_summary_rows(result_dir, kernel_name):
+            try:
+                duration = float(row.get("Task Duration(us)", ""))
+            except (TypeError, ValueError):
+                continue
+            if math.isfinite(duration) and duration > 0:
+                durations.append(duration)
+
+        if len(durations) < min_samples:
+            return None
+        return statistics.median(durations)
+
+    def _run_msprof_application(
+        self,
+        test_file: Path,
+        timeout: int,
+        result_dir: Path,
+        device_id: int,
+    ) -> Optional[float]:
+        """Profile repeated test executions and use the target op-summary median."""
+        result_dir.mkdir(parents=True, exist_ok=True)
+        profile_dir = Path(tempfile.mkdtemp(
+            prefix="application_profile_", dir=str(result_dir)))
+        log_file = result_dir / "get_prof_app.log"
+        python_bin = sys.executable or "python3"
+        app_runner = (
+            "import os,runpy,sys; "
+            "path=sys.argv[1]; "
+            "sys.path.insert(0, os.path.dirname(path)); "
+            "[runpy.run_path(path, run_name='__main__') "
+            "for _ in range(int(sys.argv[2]))]"
+        )
+        command = [
+            "msprof",
+            f"--output={profile_dir}",
+            "--task-time=on",
+            "--ai-core=on",
+            python_bin,
+            "-c",
+            app_runner,
+            str(test_file.resolve()),
+            str(self.app_profile_repeats),
+        ]
+        custom_env = os.environ.copy()
+        custom_env["ASCEND_DEVICE_ID"] = str(device_id)
+        custom_env["ASCEND_RT_VISIBLE_DEVICES"] = str(device_id)
+        custom_env["TRITON_CACHE_DIR"] = f"/tmp/triton_cache_dev_{device_id}"
+
+        print(shlex.join(command))
+        self._last_failure = None
+        try:
+            with self._app_profile_lock:
+                with open(log_file, "w", encoding="utf-8") as f:
+                    result = subprocess.run(
+                        command,
+                        stdout=f,
+                        stderr=subprocess.STDOUT,
+                        text=True,
+                        timeout=timeout,
+                        env=custom_env,
+                    )
+                if result.returncode != 0:
+                    self._last_failure = (
+                        "application_profile_failed",
+                        f"rc={result.returncode}; see {log_file}",
+                    )
+                    return None
+                try:
+                    duration = self._parse_application_summary(
+                        profile_dir,
+                        self.kernel_name,
+                        min_samples=self.app_profile_repeats,
+                    )
+                except (OSError, csv.Error) as exc:
+                    self._last_failure = (
+                        "profile_parse_failed",
+                        f"{type(exc).__name__}: {exc}",
+                    )
+                    return None
+                if duration is None:
+                    self._last_failure = (
+                        "profile_data_missing",
+                        f"expected at least {self.app_profile_repeats} "
+                        f"{self.kernel_name} task records; see {profile_dir}",
+                    )
+                    return None
+                self._latest_application_profile_dirs[device_id] = profile_dir
+                return duration
+        except subprocess.TimeoutExpired:
+            self._last_failure = ("timeout", f">{timeout}s")
+            return None
+        except OSError as exc:
+            self._last_failure = ("profiler_unavailable", str(exc)[:200])
+            return None
+
+    def latest_application_summary_rows(self, device_id: int) -> list[dict]:
+        profile_dir = self._latest_application_profile_dirs.get(device_id)
+        if profile_dir is None:
+            return []
+        return self._read_application_summary_rows(profile_dir, self.kernel_name)
+
+    def _baseline_for_device(self, device_id: int) -> Optional[float]:
+        if self.msprof_backend == "op":
+            return self.baseline_time
+        if device_id in self._app_baselines:
+            return self._app_baselines[device_id]
+
+        with self._app_baseline_lock:
+            if device_id in self._app_baselines:
+                return self._app_baselines[device_id]
+
+            baseline_path = self.work_dir / f"{self.kernel_name}.py"
+            if not baseline_path.is_file():
+                self._last_failure = (
+                    "baseline_missing",
+                    f"application backend needs seed source {baseline_path}",
+                )
+                return None
+            try:
+                baseline_code = baseline_path.read_text(encoding="utf-8")
+            except OSError as exc:
+                self._last_failure = (
+                    "baseline_read_failed",
+                    f"{type(exc).__name__}: {exc}",
+                )
+                return None
+
+            temp_dir, test_file = self._prepare_test_dir(baseline_code, device_id)
+            result_dir = self.performance_dir / f"{self.kernel_name}_baseline_app_dev_{device_id}"
+            try:
+                duration = self._run_msprof_application(
+                    test_file,
+                    timeout=600,
+                    result_dir=result_dir,
+                    device_id=device_id,
+                )
+            finally:
+                shutil.rmtree(temp_dir, ignore_errors=True)
+
+            if duration is None:
+                return None
+            self._app_baselines[device_id] = duration
+            self.baseline_time = duration
+            print(
+                f"[Executor] Application-profile seed baseline on device "
+                f"{device_id}: {duration:.3f}us (same backend as candidate measurements)")
+            return duration
+
     # 🛠️ 修改点 1：增加 device_id 参数，引入进程级 custom_env 隔离
     def _run_msprof(self, test_file: Path, timeout: int = 300, result_dir: Optional[Path] = None, device_id: int = 0) -> Optional[float]:
         """
@@ -230,6 +419,10 @@ class TritonExecutor:
         if result_dir is None:
             result_dir = self.performance_dir / self.kernel_name
         result_dir.mkdir(parents=True, exist_ok=True)
+
+        if self.msprof_backend == "application":
+            return self._run_msprof_application(
+                test_file, timeout=timeout, result_dir=result_dir, device_id=device_id)
 
         test_script_abs = str(test_file.resolve())
 
@@ -244,15 +437,16 @@ class TritonExecutor:
         custom_env['TRITON_CACHE_DIR'] = f"/tmp/triton_cache_dev_{device_id}"
 
         # Build msprof command
-        cmd_str = (
-            f'msprof op '
-            f'--output={result_dir} '
-            f'--application="{python_bin} {test_script_abs}" '
-            f'--kernel-name="{self.kernel_name}" '
-            f'--aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline'
-        )
+        command = [
+            "msprof", "op",
+            f"--output={result_dir}",
+            f"--kernel-name={self.kernel_name}",
+            "--aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline",
+            python_bin,
+            test_script_abs,
+        ]
 
-        print(cmd_str)
+        print(shlex.join(command))
 
         log_file = result_dir / "get_prof.log"
 
@@ -288,8 +482,7 @@ class TritonExecutor:
         try:
             with open(log_file, 'w') as f:
                 result = subprocess.run(
-                    cmd_str,
-                    shell=True,
+                    command,
                     stdout=f,
                     stderr=subprocess.STDOUT,
                     text=True,
@@ -323,6 +516,18 @@ class TritonExecutor:
         # 构建设备隔离的输出目录，避免多线程并发下文件覆盖冲突
         device_result_dir = self.performance_dir / f"{self.kernel_name}_dev_{device_id}" / self.kernel_name
         device_result_dir.mkdir(parents=True, exist_ok=True)
+
+        baseline_time = self._baseline_for_device(device_id)
+        if baseline_time is None:
+            kind, detail = getattr(self, "_last_failure", None) or ("unknown", "")
+            return EvaluationResult(
+                success=False,
+                execution_time=0.0,
+                speedup=0.0,
+                fitness=0.0,
+                error=f"baseline_calibration_failed:{kind}"
+                      + (f":{detail}" if detail else ""),
+            )
 
         # Step 1: Create temporary environment
         print(f"[{ICONS['gear']}] [Executor] Step 1/3: Preparing test environment...")
@@ -377,11 +582,11 @@ class TritonExecutor:
 
         # Step 3: Calculate speedup
         print(f"[{ICONS['check']}] [Executor] Step 3/3: Calculating speedup...")
-        print(f"       └─ Baseline time: {self.baseline_time:.2f}us")
+        print(f"       └─ Baseline time: {baseline_time:.2f}us")
         print(f"       └─ Optimized time: {current_time:.2f}us")
 
-        if current_time > 0 and self.baseline_time > 0:
-            raw_speedup = self.baseline_time / current_time - 1
+        if current_time > 0 and baseline_time > 0:
+            raw_speedup = baseline_time / current_time - 1
             speedup = max(raw_speedup, 0.0)
             fitness = min(speedup, 2.0)
 
@@ -756,11 +961,12 @@ with open(out_path, "w") as f:
         samples.sort()
         median = samples[len(samples) // 2] if len(samples) % 2 else \
             (samples[len(samples) // 2 - 1] + samples[len(samples) // 2]) / 2
+        baseline_time = self._baseline_for_device(device_id) or self.baseline_time
 
         return EvaluationResult(
             success=True,
             execution_time=median,
-            speedup=self.baseline_time / median if median > 0 else 0.0,
+            speedup=baseline_time / median if median > 0 else 0.0,
             fitness=0.0,
             error=None
         )

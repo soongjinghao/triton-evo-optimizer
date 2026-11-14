@@ -22,7 +22,7 @@ import os
 _HF_HOME = (
     os.getenv("TRITONEVO_HF_HOME")
     or os.getenv("HF_HOME")
-    or "/workspace/user_data/Agent/RAG/.hf_cache"
+    or os.path.join(os.path.dirname(os.path.abspath(__file__)), "RAG", ".hf_cache")
 )
 os.environ["HF_HOME"] = _HF_HOME
 os.environ["HF_HUB_CACHE"] = os.path.join(_HF_HOME, "hub")

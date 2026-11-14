@@ -18,7 +18,7 @@ AGENT_DIR = Path(__file__).resolve().parent.parent
 _PROJECT_HF_HOME = (
     os.getenv("TRITONEVO_HF_HOME")
     or os.getenv("HF_HOME")
-    or "/workspace/user_data/Agent/RAG/.hf_cache"
+    or str(AGENT_DIR / "RAG" / ".hf_cache")
 )
 os.environ["HF_HOME"] = _PROJECT_HF_HOME
 os.environ["HF_HUB_CACHE"] = str(Path(_PROJECT_HF_HOME) / "hub")

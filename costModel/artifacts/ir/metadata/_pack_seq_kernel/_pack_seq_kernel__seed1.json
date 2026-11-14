@@ -1,0 +1,96 @@
+{
+  "candidate_id": "_pack_seq_kernel__seed1",
+  "operator_name": "_pack_seq_kernel",
+  "dataset": "datasets",
+  "source_file": "_pack_seq_kernel_1.py",
+  "source_path": "/workspace/Agent/datasets/_pack_seq_kernel/_pack_seq_kernel_1.py",
+  "source_relative_path": "datasets/_pack_seq_kernel/_pack_seq_kernel_1.py",
+  "source_sha256": "e9235e64c451c42a13fc953acc99cc3d8024c655e59456a8053863eec4e75932",
+  "inventory_sha256": "e9235e64c451c42a13fc953acc99cc3d8024c655e59456a8053863eec4e75932",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "_pack_seq_kernel"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/_pack_seq_kernel/_pack_seq_kernel.py",
+    "/workspace/Agent/datasets/_pack_seq_kernel/_pack_seq_kernel_1.py"
+  ],
+  "test_file": "test__pack_seq_kernel_1.py",
+  "test_path": "/workspace/Agent/datasets/_pack_seq_kernel/test__pack_seq_kernel_1.py",
+  "test_sha256": "0fcace02991de80bbe981ba73d83c215070d8924f984ed02da0401edc7e2fca0",
+  "legacy_manifest": {
+    "latency_us": 2.160043,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/_pack_seq_kernel/_pack_seq_kernel_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_pack_seq_kernel/_pack_seq_kernel__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_pack_seq_kernel/_pack_seq_kernel__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_pack_seq_kernel/_pack_seq_kernel__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_pack_seq_kernel/_pack_seq_kernel__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 19.171,
+  "worker_log": "[W1114 08:17:47.869111130 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_pack_seq_kernel__seed1_nyg_tffy/home/.triton/dump/6pHGpvknj-sm2tvuAxIisKUNzWJbtg4TZKL1ZDIq1Nc\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpk9_6i13r/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=False --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpk9_6i13r/kernel\nTest 1 passed: Basic 2D input\nAll tests passed!\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "warmup_time_ms": 10320.009,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_pack_seq_kernel__seed1_nyg_tffy/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_pack_seq_kernel__seed1_nyg_tffy/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_pack_seq_kernel__seed1_nyg_tffy/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_pack_seq_kernel",
+      "warmup_time_ms": 10320.009
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}

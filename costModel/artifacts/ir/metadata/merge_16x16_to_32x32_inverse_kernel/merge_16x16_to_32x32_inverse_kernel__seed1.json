@@ -1,0 +1,96 @@
+{
+  "candidate_id": "merge_16x16_to_32x32_inverse_kernel__seed1",
+  "operator_name": "merge_16x16_to_32x32_inverse_kernel",
+  "dataset": "datasets",
+  "source_file": "merge_16x16_to_32x32_inverse_kernel_1.py",
+  "source_path": "/workspace/Agent/datasets/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel_1.py",
+  "source_relative_path": "datasets/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel_1.py",
+  "source_sha256": "e1fcca77633cf679c02e0ebc36bf4335d754fe6f3f09eda03255afb85e33975f",
+  "inventory_sha256": "e1fcca77633cf679c02e0ebc36bf4335d754fe6f3f09eda03255afb85e33975f",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 25,
+      "name": "merge_16x16_to_32x32_inverse_kernel"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel.py",
+    "/workspace/Agent/datasets/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel_1.py"
+  ],
+  "test_file": "test_merge_16x16_to_32x32_inverse_kernel_1.py",
+  "test_path": "/workspace/Agent/datasets/merge_16x16_to_32x32_inverse_kernel/test_merge_16x16_to_32x32_inverse_kernel_1.py",
+  "test_sha256": "4e24d7812cdbed72469993895584fecced25eb6c6e05e34eb57eadd8fa3befd9",
+  "legacy_manifest": {
+    "latency_us": 15.100302,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 22.59,
+  "worker_log": "Testing merge_16x16_to_32x32_inverse (corrected) with B=2, T=64, H=4, BT=32\nUsing device: npu\n[W1114 08:27:24.847205470 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\n\nGenerating strictly lower triangular blocks...\nCreated input tensor A with shape: torch.Size([2, 64, 4, 32])\nA dtype: torch.float32, device: npu:0\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/merge_16x16_to_32x32_inverse_kernel__seed1_x97u7fdf/home/.triton/dump/hzdR3xQZHbfuQnSzJP5fuWEcxGqBZv3CXtRlAKEBmaI\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp56ewhm38/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp56ewhm38/kernel\nOutput Ai shape: torch.Size([2, 64, 4, 32])\nAi dtype: torch.float32\n\n=== Test 1: Block-wise formula verification ===\n  Block [0, 0, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 0, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 1, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 1, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 2, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 2, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 3, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 3, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 0, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 0, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 1, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 1, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 2, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 2, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 3, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 3, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n\nFormula verification completed:\n  Blocks tested: 16\n  Maximum formula error: 1.00e+00\n✗ Formula errors detected\n\n=== Test 2: Full 32×32 block verification ===\n  Block [0, 0, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 0, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 1, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 1, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 2, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 2, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 3, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 3, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 0, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 0, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 1, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 1, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 2, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 2, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 3, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 3, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n\nFull block verification completed:\n  Blocks tested: 16\n  Maximum block error: 1.00e+00\n✗ Block errors detected\n\n=== Test 3: Structure verification ===\nMaximum structure error: 1.00e+00\n✗ Structure issues detected\n\n============================================================\n\nError during test: Tests failed:\n  Formula error: 1.00e+00\n  Block error: 1.00e+00\n  Structure error: 1.00e+00\nTraceback (most recent call last):\n  File \"/workspace/Agent/costModel/artifacts/ir/_work/merge_16x16_to_32x32_inverse_kernel__seed1_x97u7fdf/test_env/test_merge_16x16_to_32x32_inverse_kernel.py\", line 285, in <module>\n    A, Ai = test_merge_16x16_to_32x32_inverse()\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/Agent/costModel/artifacts/ir/_work/merge_16x16_to_32x32_inverse_kernel__seed1_x97u7fdf/test_env/test_merge_16x16_to_32x32_inverse_kernel.py\", line 275, in test_merge_16x16_to_32x32_inverse\n    raise AssertionError(\nAssertionError: Tests failed:\n  Formula error: 1.00e+00\n  Block error: 1.00e+00\n  Structure error: 1.00e+00\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "warmup_time_ms": 13358.408,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/merge_16x16_to_32x32_inverse_kernel__seed1_x97u7fdf/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/merge_16x16_to_32x32_inverse_kernel__seed1_x97u7fdf/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/merge_16x16_to_32x32_inverse_kernel__seed1_x97u7fdf/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "merge_16x16_to_32x32_inverse_kernel",
+      "warmup_time_ms": 13358.408
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}

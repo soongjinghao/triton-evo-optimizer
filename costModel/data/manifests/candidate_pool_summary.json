@@ -1,0 +1,131 @@
+{
+  "candidate_counts_by_type": {
+    "baseline": 50,
+    "historical_evolution": 8230,
+    "seed": 50
+  },
+  "candidate_record_count": 8330,
+  "compile_eligible_counts_by_type": {
+    "baseline": 50,
+    "historical_evolution": 7319,
+    "seed": 50
+  },
+  "compile_job_count": 4224,
+  "compile_jobs_by_type": {
+    "baseline": 50,
+    "historical_evolution": 4126,
+    "seed": 48
+  },
+  "duplicate_historical_rows_skipped": 0,
+  "duplicate_source_records": 3195,
+  "historical_candidate_sources_found": 7319,
+  "historical_candidate_sources_missing": 911,
+  "historical_candidates_per_operator": {
+    "_act_quant_kernel": 750,
+    "_chunk_cumsum_fwd_kernel": 73,
+    "_chunk_state_fwd_kernel": 62,
+    "_convert_req_index_to_global_index_kernel": 32,
+    "_copy_page_indices_kernel": 59,
+    "_correct_attn_cp_out_kernel": 66,
+    "_count_expert_num_tokens": 37,
+    "_dequantize_k_cache_fast_kernel": 446,
+    "_fwd_kernel_ep_gather": 424,
+    "_log_softmax_kernel": 39,
+    "_pack_seq_kernel": 387,
+    "_per_group_transpose": 38,
+    "_per_token_group_quant_8bit_colmajor": 39,
+    "_quantize_k_cache_fast_kernel": 38,
+    "_rms_norm_kernel": 201,
+    "_selective_scan_update_kernel": 402,
+    "_set_k_and_s_triton_kernel": 250,
+    "_silu_mul_fp8_quant_deep_gemm": 38,
+    "_state_passing_fwd_kernel": 38,
+    "_trtllm_prefill_attn_kvfp8_dequant": 76,
+    "_unpack_seq_triton_kernel": 48,
+    "assign_draft_cache_locs_page_size_1": 35,
+    "assign_extend_cache_locs": 310,
+    "chunk_local_cumsum_scalar_kernel": 246,
+    "chunk_local_cumsum_vector_kernel": 38,
+    "compute_identity_kernel": 406,
+    "copy_all_layer_kv_cache_tiled": 34,
+    "experts_combine_kernel": 37,
+    "eye_kernel": 747,
+    "fill_accepted_out_cache_loc": 100,
+    "fn_triton_kernel": 101,
+    "fused_gdn_gating_kernel": 300,
+    "fused_qkvzba_split_reshape_cat_kernel": 77,
+    "l2norm_fwd_kernel1": 35,
+    "l2norm_fwd_kernel2": 271,
+    "layer_norm_fwd_kernel": 25,
+    "matmul_kernel_simplified": 240,
+    "mean_kernel": 145,
+    "merge_16x16_to_32x32_inverse_kernel": 99,
+    "merge_16x16_to_64x64_inverse_kernel": 37,
+    "moe_align_block_size_stage": 394,
+    "post_reorder_triton_kernel_for_cutlass_moe": 36,
+    "recompute_w_u_fwd_kernel": 275,
+    "reduce_segments": 106,
+    "reshape_and_cache_flash_kernel": 75,
+    "reshape_and_cache_kernel_flash": 340,
+    "rwkv_ka_fusion_kernel": 37,
+    "rwkv_mm_sparsity_kernel": 36,
+    "softplus": 39,
+    "solve_tril_16x16_kernel": 66
+  },
+  "historical_candidates_with_exact_operator_jit_name": 6944,
+  "historical_candidates_with_jit_but_no_exact_operator_name": 375,
+  "historical_malformed_rows": 0,
+  "historical_sample_rows_read": 8230,
+  "input_paths": {
+    "candidate_code_dir": "experiments/dataset/codes",
+    "inventory_jsonl": "costModel/data/manifests/operator_inventory.jsonl",
+    "samples_jsonl": "experiments/dataset/samples.jsonl"
+  },
+  "missing_source_counts_by_type": {
+    "historical_evolution": 911
+  },
+  "notes": [
+    "candidate_pool.jsonl preserves logical historical candidate records, including records whose source file is missing.",
+    "candidate_compile_jobs.jsonl contains one representative per exact source hash within an operator, and only if source, JIT and test are present.",
+    "Historical parent_latency/child_latency/label are retained as provenance and must not be treated as fresh profiling labels.",
+    "Historical candidate source files need to be staged under the expected module name before running the operator test; this script does not compile them.",
+    "One source file can contain multiple Triton JIT functions and can produce multiple compiled kernel instances during a test."
+  ],
+  "operator_count_in_inventory": 50,
+  "operators_with_historical_candidates": 50,
+  "outputs": {
+    "candidate_pool": "costModel/data/manifests/candidate_pool.jsonl",
+    "compile_jobs": "costModel/data/manifests/candidate_compile_jobs.jsonl",
+    "summary": "costModel/data/manifests/candidate_pool_summary.json"
+  },
+  "policy": {
+    "deduplicate_compile_jobs_by_operator_and_source_sha256": true,
+    "historical_latency_is_current_label": false,
+    "include_baseline": true,
+    "include_historical_evolution": true,
+    "include_seed": true,
+    "missing_historical_sources_are_preserved_in_pool": true
+  },
+  "primary_dataset": "datasets",
+  "project_root": "/workspace/Agent",
+  "schema_version": "1.0",
+  "source_available_counts_by_type": {
+    "baseline": 50,
+    "historical_evolution": 7319,
+    "seed": 50
+  },
+  "source_without_jit_counts_by_type": {},
+  "unique_source_compile_group_count": 4224,
+  "warnings": [
+    {
+      "count": 911,
+      "message": "历史样本存在记录，但对应 experiments/dataset/codes/<candidate_id>.py 文件缺失；这些记录保留在候选池中，但不会生成编译任务。",
+      "type": "historical_candidate_source_missing"
+    },
+    {
+      "count": 375,
+      "message": "部分历史候选包含 Triton JIT 函数，但函数名与算子目录名不完全相同；已保留，后续需要结合测试入口确认。",
+      "type": "historical_jit_name_not_exact"
+    }
+  ]
+}

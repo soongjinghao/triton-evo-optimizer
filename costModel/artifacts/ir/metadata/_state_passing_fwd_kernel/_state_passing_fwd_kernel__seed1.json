@@ -1,0 +1,96 @@
+{
+  "candidate_id": "_state_passing_fwd_kernel__seed1",
+  "operator_name": "_state_passing_fwd_kernel",
+  "dataset": "datasets",
+  "source_file": "_state_passing_fwd_kernel_1.py",
+  "source_path": "/workspace/Agent/datasets/_state_passing_fwd_kernel/_state_passing_fwd_kernel_1.py",
+  "source_relative_path": "datasets/_state_passing_fwd_kernel/_state_passing_fwd_kernel_1.py",
+  "source_sha256": "5c4745400c4cdd4e254f823f49bbb5504bac117f1205a4d8d24ecbc1ff2e5e17",
+  "inventory_sha256": "5c4745400c4cdd4e254f823f49bbb5504bac117f1205a4d8d24ecbc1ff2e5e17",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "_state_passing_fwd_kernel"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/_state_passing_fwd_kernel/_state_passing_fwd_kernel.py",
+    "/workspace/Agent/datasets/_state_passing_fwd_kernel/_state_passing_fwd_kernel_1.py"
+  ],
+  "test_file": "test__state_passing_fwd_kernel_1.py",
+  "test_path": "/workspace/Agent/datasets/_state_passing_fwd_kernel/test__state_passing_fwd_kernel_1.py",
+  "test_sha256": "e2df3718ba2e8bbf0d1c763e79b4978dc770ab10f161f7bbacc473716aad1df0",
+  "legacy_manifest": {
+    "latency_us": 2.620052,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/_state_passing_fwd_kernel/_state_passing_fwd_kernel_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_state_passing_fwd_kernel/_state_passing_fwd_kernel__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_state_passing_fwd_kernel/_state_passing_fwd_kernel__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_state_passing_fwd_kernel/_state_passing_fwd_kernel__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_state_passing_fwd_kernel/_state_passing_fwd_kernel__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 19.322,
+  "worker_log": "[W1114 08:20:28.354850800 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_state_passing_fwd_kernel__seed1_im0hj_fa/home/.triton/dump/L3k1ubPCTC5G-KKb4Ghgl2wPFAnlEKHwWsocaa5wDP4\n[WARNING] AutoBlockify disabled for kernel '_state_passing_fwd_kernel'. Unsafe ops: loads or stores with cache modifiers. Enabling may cause correctness issues. To force enable: set has_auto_blockify_blacklist_op=False.\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpklyl1oys/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=False --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpklyl1oys/kernel\nMax absolute diff - out: 1.08e+01, final_states: 2.91e+01\nMax relative diff - out: 2.43e+01, final_states: 1.00e+00\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "warmup_time_ms": 10962.161,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_state_passing_fwd_kernel__seed1_im0hj_fa/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_state_passing_fwd_kernel__seed1_im0hj_fa/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_state_passing_fwd_kernel__seed1_im0hj_fa/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_state_passing_fwd_kernel",
+      "warmup_time_ms": 10962.161
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}

@@ -1,0 +1,338 @@
+{
+  "candidate_id": "_rms_norm_kernel__seed1",
+  "operator_name": "_rms_norm_kernel",
+  "dataset": "datasets",
+  "source_file": "_rms_norm_kernel_1.py",
+  "source_path": "/workspace/Agent/datasets/_rms_norm_kernel/_rms_norm_kernel_1.py",
+  "source_relative_path": "datasets/_rms_norm_kernel/_rms_norm_kernel_1.py",
+  "source_sha256": "951dfc1b82852bb946e86717e42b9125fb5adc5e67f931a6b6f8204da6f1bf97",
+  "inventory_sha256": "951dfc1b82852bb946e86717e42b9125fb5adc5e67f931a6b6f8204da6f1bf97",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "_rms_norm_kernel_full_row"
+    },
+    {
+      "line": 44,
+      "name": "_rms_norm_kernel"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/_rms_norm_kernel/_rms_norm_kernel.py",
+    "/workspace/Agent/datasets/_rms_norm_kernel/_rms_norm_kernel_1.py"
+  ],
+  "test_file": "test__rms_norm_kernel_1.py",
+  "test_path": "/workspace/Agent/datasets/_rms_norm_kernel/test__rms_norm_kernel_1.py",
+  "test_sha256": "ce7fcc9e2882d0bb84c5fed0fc61bef56ea483bb59f1f138bebb89ae15d81872",
+  "legacy_manifest": {
+    "latency_us": 290.425812,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/_rms_norm_kernel/_rms_norm_kernel_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_rms_norm_kernel/_rms_norm_kernel__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_rms_norm_kernel/_rms_norm_kernel__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_rms_norm_kernel/_rms_norm_kernel__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_rms_norm_kernel/_rms_norm_kernel__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 21.079,
+  "worker_log": "[W1114 08:19:07.174452080 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/home/.triton/dump/ZryPyo4dNYwPMj_0dqY3buoPoS2JmNzAqBp2BDuebH0\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmphyyvbomv/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmphyyvbomv/kernel\n✅ RMS Norm test passed!\nInput shape: torch.Size([32, 128, 512])\nMax absolute difference: 17.425291061401367\nMean absolute difference: 0.617546796798706\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 15,
+  "n_ok": 15,
+  "warmup_time_ms": 11898.73,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 11897.566
+    },
+    {
+      "call_index": 2,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k002_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k002_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k002_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.185
+    },
+    {
+      "call_index": 3,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k003_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k003_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k003_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.099
+    },
+    {
+      "call_index": 4,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k004_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k004_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k004_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.083
+    },
+    {
+      "call_index": 5,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k005_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k005_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k005_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.084
+    },
+    {
+      "call_index": 6,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k006_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k006_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k006_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.076
+    },
+    {
+      "call_index": 7,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k007_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k007_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k007_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.076
+    },
+    {
+      "call_index": 8,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k008_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k008_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k008_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.074
+    },
+    {
+      "call_index": 9,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k009_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k009_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k009_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.071
+    },
+    {
+      "call_index": 10,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k010_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k010_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k010_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.069
+    },
+    {
+      "call_index": 11,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k011_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k011_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k011_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.071
+    },
+    {
+      "call_index": 12,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k012_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k012_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k012_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.069
+    },
+    {
+      "call_index": 13,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k013_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k013_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k013_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.068
+    },
+    {
+      "call_index": 14,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k014_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k014_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k014_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.07
+    },
+    {
+      "call_index": 15,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k015_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k015_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_rms_norm_kernel__seed1_5cb1o8__/capture/asm/k015_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_rms_norm_kernel_full_row",
+      "warmup_time_ms": 0.068
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}

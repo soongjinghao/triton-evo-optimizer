@@ -278,6 +278,11 @@ class EvolutionaryAlgorithm:
         diag_lines = ["【硬件 Profiling 深度诊断日志】:", "- 说明：以下结论是候选优化假设，不是强制命令；只有代码契约、边界、连续性和对齐条件可证明时才能采用。"]
 
         official_base = getattr(self.executor, "baseline_time", 0.0)
+        baseline_label = (
+            "应用级种子基线"
+            if getattr(self.executor, "msprof_backend", "op") == "application"
+            else "官方基线"
+        )
         curr_time = (
             ind.metadata.get("execution_time", 0.0)
             if ind
@@ -292,7 +297,7 @@ class EvolutionaryAlgorithm:
             )
             base_speedup = official_base / curr_time - 1.0
             diag_lines.append(
-                f"- 性能坐标: 官方基线={official_base:.2f} us | 当前耗时={curr_time:.2f} us "
+                f"- 性能坐标: {baseline_label}={official_base:.2f} us | 当前耗时={curr_time:.2f} us "
                 f"(相对基线:{base_speedup * 100:+.2f}% | 相对种子:{rel_speedup:.2f}x)"
             )
 
@@ -446,6 +451,50 @@ class EvolutionaryAlgorithm:
                                     diag_lines.append(
                                         f"- UB吞吐: 向量读={avg_rb:.2f} GB/s, 向量写={avg_wb:.2f} GB/s"
                                     )
+
+            if getattr(self.executor, "msprof_backend", "op") == "application":
+                rows = self.executor.latest_application_summary_rows(device_id)
+                if rows:
+                    durations = []
+                    for row in rows:
+                        try:
+                            value = float(row.get("Task Duration(us)", ""))
+                        except (TypeError, ValueError):
+                            continue
+                        if math.isfinite(value) and value > 0:
+                            durations.append(value)
+                    if durations:
+                        durations.sort()
+                        median = durations[len(durations) // 2] if len(durations) % 2 else (
+                            durations[len(durations) // 2 - 1]
+                            + durations[len(durations) // 2]
+                        ) / 2
+                        diag_lines.append(
+                            f"- 应用级 msprof: 目标算子记录={len(durations)}, "
+                            f"Task Duration 中位数={median:.3f} us"
+                        )
+
+                    ratios = []
+                    for field, label in (
+                        ("aiv_vec_ratio", "Vector"),
+                        ("aiv_scalar_ratio", "Scalar"),
+                        ("aiv_mte2_ratio", "MTE2"),
+                        ("aiv_mte3_ratio", "MTE3"),
+                    ):
+                        values = []
+                        for row in rows:
+                            try:
+                                value = float(row.get(field, ""))
+                            except (TypeError, ValueError):
+                                continue
+                            if math.isfinite(value) and value >= 0:
+                                values.append(value)
+                        if values:
+                            ratios.append(
+                                f"{label}={sum(values) / len(values) * 100:.1f}%")
+                    if ratios:
+                        diag_lines.append(
+                            "- 应用级管线利用率: " + ", ".join(ratios))
 
         except Exception as e:
             diag_lines.append(f"⚠️ 解析 Profiling 告警: {e}")

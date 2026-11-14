@@ -1,0 +1,96 @@
+{
+  "candidate_id": "_set_k_and_s_triton_kernel__seed1",
+  "operator_name": "_set_k_and_s_triton_kernel",
+  "dataset": "datasets",
+  "source_file": "_set_k_and_s_triton_kernel_1.py",
+  "source_path": "/workspace/Agent/datasets/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel_1.py",
+  "source_relative_path": "datasets/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel_1.py",
+  "source_sha256": "d1a67c84b890839f8988ccc22d55aadb37f6bc626c1b314fd777e81513c19500",
+  "inventory_sha256": "d1a67c84b890839f8988ccc22d55aadb37f6bc626c1b314fd777e81513c19500",
+  "source_role": "seed",
+  "jit_functions": [
+    {
+      "line": 8,
+      "name": "_set_k_and_s_triton_kernel"
+    }
+  ],
+  "support_source_paths": [
+    "/workspace/Agent/datasets/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel.py",
+    "/workspace/Agent/datasets/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel_1.py"
+  ],
+  "test_file": "test__set_k_and_s_triton_kernel_1.py",
+  "test_path": "/workspace/Agent/datasets/_set_k_and_s_triton_kernel/test__set_k_and_s_triton_kernel_1.py",
+  "test_sha256": "5bebf3cc79f77add34f95e6065131a990fde9a389517372ddb6722b2341df99b",
+  "legacy_manifest": {
+    "latency_us": 1.600032,
+    "points_to_primary_dataset": false,
+    "recorded_dataset": "datasets2",
+    "recorded_path": "/workspace/Agent/datasets2/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel_1.py",
+    "success": true
+  },
+  "aliases": [],
+  "status": "success",
+  "compile_pass": true,
+  "triton_kernel_launched": false,
+  "torch_reference_ops_may_execute": true,
+  "device_index": 0,
+  "ir_paths": {
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel__seed1__k00.ttir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel__seed1__k00.ttadapter.mlir"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel__seed1__k00.npuir.mlir"
+    ],
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_set_k_and_s_triton_kernel/_set_k_and_s_triton_kernel__seed1__k00.bin"
+    ]
+  },
+  "ir_found": {
+    "ttir": true,
+    "ttadapter": true,
+    "npuir": true,
+    "npubin": true
+  },
+  "process_return_code": 0,
+  "process_wall_seconds": 19.449,
+  "worker_log": "[W1114 08:19:49.758156250 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/_set_k_and_s_triton_kernel__seed1_89cwqwfb/home/.triton/dump/gfO20kzDJxKlgpdXPPOxJ8WMXNP1nX5rffudVwm8UyQ\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmplhsgq_tm/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmplhsgq_tm/kernel\n/workspace/Agent/costModel/artifacts/ir/_work/_set_k_and_s_triton_kernel__seed1_89cwqwfb/test_env/test__set_k_and_s_triton_kernel.py:33: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:423.)\n  loc_token_offset_in_page = loc[0] % page_size\nAll tests passed!\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "device": "npu:0",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "warmup_time_ms": 10691.418,
+  "kernel_calls": [
+    {
+      "call_index": 1,
+      "compiled_type": "CompiledKernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/_set_k_and_s_triton_kernel__seed1_89cwqwfb/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_set_k_and_s_triton_kernel__seed1_89cwqwfb/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/_set_k_and_s_triton_kernel__seed1_89cwqwfb/capture/asm/k001_npubin.bin"
+      ],
+      "capture_error": null,
+      "kernel_name": "_set_k_and_s_triton_kernel",
+      "warmup_time_ms": 10691.418
+    }
+  ],
+  "compile_errors": [],
+  "test_error": null,
+  "test_traceback": null,
+  "sitecustomize_patch_error": null,
+  "dump_file_count": 3,
+  "ir_counts": {
+    "ttir": 1,
+    "ttadapter": 1,
+    "npuir": 1,
+    "npubin": 1
+  }
+}
