@@ -1,5 +1,0 @@
-/workspace/Agent/datasets/feature_analysis_20261029/._selective_scan_update_kernel-work-gl5tymdw/test__selective_scan_update_kernel.py:85: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:340.)
-  out = torch.zeros_like(x)
-Dumping intermediate results to /workspace/Agent/datasets/feature_analysis_20261029/ir/_selective_scan_update_kernel/liIOBEGHyWPas72XAZi5n6H-uZgFMw3Qt6V2N0FM0cg
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpn7yhrr4v/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpn7yhrr4v/kernel
-All features - Output max diff: 6.534048e+02

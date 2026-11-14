@@ -1,7 +1,0 @@
-/workspace/Agent/datasets/feature_analysis_20261029/._log_softmax_kernel-work-c19nwh2g/_log_softmax_kernel.py:98: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:340.)
-  output = torch.empty_like(input_2d, device='npu')
-Running log_softmax unit tests on NPU...
-Dumping intermediate results to /workspace/Agent/datasets/feature_analysis_20261029/ir/_log_softmax_kernel/g9zgOUnUDCkmMr5BFrvtGVhdwzGS2nVy20JnIIyktNE
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmprw42bjuc/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmprw42bjuc/kernel
-✓ test_log_softmax_2d_large passed
-All tests passed!
