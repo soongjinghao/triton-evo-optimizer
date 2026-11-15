@@ -195,18 +195,22 @@ def validate_job_files(jobs: list[dict[str, Any]], project_root: Path) -> None:
 
 def role_priority(job: dict[str, Any]) -> tuple[int, str]:
     roles = set(job.get("selected_roles") or [])
-    if "baseline" in roles or job.get("candidate_type") == "baseline":
+    if "dataset_seed" in roles or job.get("candidate_type") == "dataset_seed":
         rank = 0
+    elif "baseline" in roles or job.get("candidate_type") == "baseline":
+        rank = 0  # legacy pilot compatibility; not a CostModel candidate role
     elif "seed" in roles or job.get("candidate_type") == "seed":
-        rank = 1
-    elif "historical_p10" in roles:
+        rank = 1  # legacy pilot compatibility
+    elif "historical_best" in roles:
         rank = 2
-    elif "historical_p50" in roles:
+    elif "historical_p10" in roles:
         rank = 3
-    elif "historical_p90" in roles:
+    elif "historical_p50" in roles:
         rank = 4
-    else:
+    elif "historical_p90" in roles:
         rank = 5
+    else:
+        rank = 6
     return rank, str(job.get("compile_job_id", ""))
 
 
@@ -233,8 +237,8 @@ def select_jobs(
     if sample_strategy == "file_order":
         return filtered[:limit]
 
-    # Balanced smoke test: for each operator, take one reference job
-    # (Baseline/Seed) and one historical job before moving to the next operator.
+    # Balanced smoke test: for each operator, take one dataset seed
+    # and one historical evolution job before moving to the next operator.
     # Thus --limit 10 samples five operators and exercises both source paths.
     by_operator: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for job in filtered:
@@ -246,8 +250,8 @@ def select_jobs(
         op_jobs = by_operator[op]
         reference = [
             item for item in op_jobs
-            if item.get("candidate_type") in {"baseline", "seed"}
-            or bool(set(item.get("selected_roles") or []) & {"baseline", "seed"})
+            if item.get("candidate_type") in {"baseline", "seed", "dataset_seed"}
+            or bool(set(item.get("selected_roles") or []) & {"baseline", "seed", "dataset_seed"})
         ]
         historical = [
             item for item in op_jobs

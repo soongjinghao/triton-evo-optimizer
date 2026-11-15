@@ -308,7 +308,9 @@ class TritonExecutor:
         ]
         custom_env = os.environ.copy()
         custom_env["ASCEND_DEVICE_ID"] = str(device_id)
-        custom_env["ASCEND_RT_VISIBLE_DEVICES"] = str(device_id)
+        # msProf/msprof op does not support ASCEND_RT_VISIBLE_DEVICES.
+        # Device mapping must be checked with npu-smi in the target container.
+        custom_env.pop("ASCEND_RT_VISIBLE_DEVICES", None)
         custom_env["TRITON_CACHE_DIR"] = f"/tmp/triton_cache_dev_{device_id}"
 
         print(shlex.join(command))
@@ -433,7 +435,9 @@ class TritonExecutor:
         # 构建子进程独立的环境变量，彻底消除线程间对 ASCEND_DEVICE_ID 的锁竞争
         custom_env = os.environ.copy()
         custom_env['ASCEND_DEVICE_ID'] = str(device_id)
-        custom_env['ASCEND_RT_VISIBLE_DEVICES'] = str(device_id)
+        # msProf/msprof op does not support ASCEND_RT_VISIBLE_DEVICES.
+        # Device mapping must be checked with npu-smi in the target container.
+        custom_env.pop("ASCEND_RT_VISIBLE_DEVICES", None)
         custom_env['TRITON_CACHE_DIR'] = f"/tmp/triton_cache_dev_{device_id}"
 
         # Build msprof command
@@ -441,7 +445,10 @@ class TritonExecutor:
             "msprof", "op",
             f"--output={result_dir}",
             f"--kernel-name={self.kernel_name}",
-            "--aic-metrics=MemoryDetail,Occupancy,PipeUtilization,Roofline",
+            # CostModel currently needs reliable task latency, not the full
+            # hardware-metric suite. Start with one metric group; expand only
+            # after the basic profiling path is stable.
+            f"--aic-metrics={os.getenv('EA_MSPROF_AIC_METRICS', 'PipeUtilization')}",
             python_bin,
             test_script_abs,
         ]
@@ -496,7 +503,27 @@ class TritonExecutor:
                 self._last_failure = (kind, f"rc={result.returncode} {detail}".strip())
                 return None
 
-            return self._parse_op_basic_info(result_dir)
+            duration = self._parse_op_basic_info(result_dir)
+            if duration is None:
+                # msprof op can return rc=0 even if its internal profiling
+                # failed and OpBasicInfo.csv contains only NA/zero values.
+                try:
+                    log_text = log_file.read_text(encoding="utf-8", errors="ignore")
+                except OSError:
+                    log_text = ""
+                low = log_text.lower()
+                if "profiling channel start failed" in low or "startfftstask" in low:
+                    kind = "profiler_channel_start_failed"
+                elif "profiling kernels result is: 0 success" in low:
+                    kind = "profiler_no_valid_kernel_record"
+                else:
+                    kind = "profile_data_missing_or_unparseable"
+                tail = "\n".join(log_text.splitlines()[-12:])[-1200:]
+                self._last_failure = (
+                    kind,
+                    f"No positive Task Duration in OpBasicInfo.csv; log={log_file}; tail={tail}",
+                )
+            return duration
 
         except subprocess.TimeoutExpired:
             self._last_failure = ("timeout", f">{timeout}s")

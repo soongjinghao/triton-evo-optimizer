@@ -54,11 +54,11 @@
       "compiled_type": "CompiledKernel",
       "kernel_name": "fill_accepted_out_cache_loc",
       "saved_files": [
-        "/workspace/Agent/costModel/artifacts/ir/_work/compile_fill_accepted_out_cache_loc_09f12064e291f2c4_43c69wgl/capture/asm/k001_ttir.ttir.mlir",
-        "/workspace/Agent/costModel/artifacts/ir/_work/compile_fill_accepted_out_cache_loc_09f12064e291f2c4_43c69wgl/capture/asm/k001_ttadapter.ttadapter.mlir",
-        "/workspace/Agent/costModel/artifacts/ir/_work/compile_fill_accepted_out_cache_loc_09f12064e291f2c4_43c69wgl/capture/asm/k001_npubin.npubin"
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_fill_accepted_out_cache_loc_09f12064e291f2c4_mcuv5687/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_fill_accepted_out_cache_loc_09f12064e291f2c4_mcuv5687/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_fill_accepted_out_cache_loc_09f12064e291f2c4_mcuv5687/capture/asm/k001_npubin.npubin"
       ],
-      "warmup_time_ms": 10785.283
+      "warmup_time_ms": 11566.477
     }
   ],
   "kernel_executed": false,
@@ -77,7 +77,7 @@
   "pilot_selected": true,
   "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/fill_accepted_out_cache_loc__compile_fill_accepted_out_cache_loc_09f12064e291f2c4.log",
   "process_return_code": 0,
-  "process_wall_seconds": 19.597145,
+  "process_wall_seconds": 21.768156,
   "representative_candidate_id": "62f2628e",
   "requires_candidate_staging": true,
   "schema_version": "1.0",
@@ -99,13 +99,13 @@
     "triton"
   ],
   "test_imports_expected_module": false,
-  "test_path": "datasets/fill_accepted_out_cache_loc/test_fill_accepted_out_cache_loc_1.py",
-  "test_sha256": "9ba3168378913bc678872a6e19b0483a96a00e1db280c57b914bffc06a5a6319",
+  "test_path": "datasets2/fill_accepted_out_cache_loc/test_fill_accepted_out_cache_loc_1.py",
+  "test_sha256": "ae3d250d4f17d0cac24d98ea83f8e9038d8f578505f2217cb9c63a6fdad82dfa",
   "test_sha256_verified": true,
   "test_traceback": null,
   "torch_version": "2.7.1+cpu",
   "triton_version": "3.2.0",
-  "warmup_time_ms": 10785.283,
-  "worker_log_tail": "[W1115 02:37:22.585377380 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_fill_accepted_out_cache_loc_09f12064e291f2c4_43c69wgl/home/.triton/dump/RXKh8j3rPdEdC9_tCdRxZ4p-AvVNeFY7cymUPqC-Q4I\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpeu3v5nrg/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpeu3v5nrg/kernel\n✅ fill_accepted_out_cache_loc test passed\n",
+  "warmup_time_ms": 11566.477,
+  "worker_log_tail": "[W1115 06:33:22.153770000 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_fill_accepted_out_cache_loc_09f12064e291f2c4_mcuv5687/home/.triton/dump/u1jRL-QtZUyWRoQGQF5REs7CclViKMWvEP6MOFQOT9c\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpw_mxouf0/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpw_mxouf0/kernel\n✅ fill_accepted_out_cache_loc test passed\n",
   "worker_status": "test_completed"
 }

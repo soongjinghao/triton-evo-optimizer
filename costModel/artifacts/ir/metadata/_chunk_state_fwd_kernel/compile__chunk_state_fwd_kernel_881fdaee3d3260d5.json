@@ -1,0 +1,116 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:_chunk_state_fwd_kernel:881fdaee3d3260d5",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "_chunk_state_fwd_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_chunk_state_fwd_kernel/f952260b__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_chunk_state_fwd_kernel/f952260b__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_chunk_state_fwd_kernel/f952260b__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_chunk_state_fwd_kernel/f952260b__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "softplus"
+    },
+    {
+      "line": 12,
+      "name": "_chunk_state_fwd_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "_chunk_state_fwd_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__chunk_state_fwd_kernel_881fdaee3d3260d5_42a6yiy8/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__chunk_state_fwd_kernel_881fdaee3d3260d5_42a6yiy8/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__chunk_state_fwd_kernel_881fdaee3d3260d5_42a6yiy8/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11950.286
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "f952260b"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/_chunk_state_fwd_kernel/compile__chunk_state_fwd_kernel_881fdaee3d3260d5.json",
+  "module_staged_as": "_chunk_state_fwd_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "_chunk_state_fwd_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/_chunk_state_fwd_kernel/f952260b__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/_chunk_state_fwd_kernel__compile__chunk_state_fwd_kernel_881fdaee3d3260d5.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 23.167732,
+  "representative_candidate_id": "f952260b",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "f952260b"
+  ],
+  "selected_roles": [
+    "historical_best"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/f952260b.py",
+  "source_sha256": "881fdaee3d3260d54dd1a1f174f147a4fa461643cfde41c8c4a9548ab8a49da8",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "_chunk_state_fwd_kernel",
+    "numpy",
+    "pytest",
+    "torch"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets2/_chunk_state_fwd_kernel/test__chunk_state_fwd_kernel_1.py",
+  "test_sha256": "2661233ee85baf60a0245b2488b4b4d1ff547d0c24e6ce11397d63624f672292",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11950.286,
+  "worker_log_tail": "[W1115 06:26:51.707317730 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__chunk_state_fwd_kernel_881fdaee3d3260d5_42a6yiy8/home/.triton/dump/55fjl92M-MD0CuFNeBjA38P_NC5dZy-9wH2F7tkIJdo\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpbutic8yn/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpbutic8yn/kernel\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

@@ -1,0 +1,115 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:copy_all_layer_kv_cache_tiled:bb5792a017dbd0d1",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "copy_all_layer_kv_cache_tiled",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/copy_all_layer_kv_cache_tiled/17906b04__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/copy_all_layer_kv_cache_tiled/17906b04__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/copy_all_layer_kv_cache_tiled/17906b04__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/copy_all_layer_kv_cache_tiled/17906b04__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "copy_all_layer_kv_cache_tiled"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "copy_all_layer_kv_cache_tiled",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_copy_all_layer_kv_cache_tiled_bb5792a017dbd0d1_dotid9ph/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_copy_all_layer_kv_cache_tiled_bb5792a017dbd0d1_dotid9ph/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_copy_all_layer_kv_cache_tiled_bb5792a017dbd0d1_dotid9ph/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11168.583
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 4,
+  "logical_candidate_ids": [
+    "30b001c0",
+    "a79af702",
+    "f23884ad",
+    "17906b04"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/copy_all_layer_kv_cache_tiled/compile_copy_all_layer_kv_cache_tiled_bb5792a017dbd0d1.json",
+  "module_staged_as": "copy_all_layer_kv_cache_tiled",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "copy_all_layer_kv_cache_tiled",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/copy_all_layer_kv_cache_tiled/17906b04__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/copy_all_layer_kv_cache_tiled__compile_copy_all_layer_kv_cache_tiled_bb5792a017dbd0d1.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 21.285193,
+  "representative_candidate_id": "17906b04",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "17906b04"
+  ],
+  "selected_roles": [
+    "historical_best"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/30b001c0.py",
+  "source_sha256": "bb5792a017dbd0d1bc5cb001e8374e76213ad473d23bf8edd51e4cf3da955e1e",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "copy_all_layer_kv_cache_tiled",
+    "torch",
+    "torch_npu",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets2/copy_all_layer_kv_cache_tiled/test_copy_all_layer_kv_cache_tiled_1.py",
+  "test_sha256": "b6e1152e4e908142cd9e89741a538ceccebf4a9852bd95b7da9cc6ee69100d28",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11168.583,
+  "worker_log_tail": "[W1115 06:32:20.326682100 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_copy_all_layer_kv_cache_tiled_bb5792a017dbd0d1_dotid9ph/home/.triton/dump/_ubPJcQKcQwN22zKz0iDBs0HTvrhqENfNnlOOlmMhwU\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp31oyxtcu/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp31oyxtcu/kernel\n✅ copy_all_layer_kv_cache_tiled test passed\n",
+  "worker_status": "test_completed"
+}

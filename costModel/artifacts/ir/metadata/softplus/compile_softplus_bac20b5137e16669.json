@@ -49,15 +49,16 @@
   "pilot_selected": true,
   "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/softplus__compile_softplus_bac20b5137e16669.log",
   "process_return_code": 0,
-  "process_wall_seconds": 8.585556,
-  "representative_candidate_id": "baseline:softplus",
+  "process_wall_seconds": 10.59504,
+  "representative_candidate_id": "dataset_seed_1:softplus",
   "requires_candidate_staging": false,
   "schema_version": "1.0",
   "selected_candidate_ids": [
-    "baseline:softplus"
+    "dataset_seed_1:softplus"
   ],
+  "selected_candidate_type": "dataset_seed",
   "selected_roles": [
-    "baseline"
+    "dataset_seed"
   ],
   "sitecustomize_patch_error": null,
   "source_path": "datasets/softplus/softplus.py",
@@ -73,13 +74,13 @@
     "triton"
   ],
   "test_imports_expected_module": false,
-  "test_path": "datasets/softplus/test_softplus_1.py",
+  "test_path": "datasets2/softplus/test_softplus_1.py",
   "test_sha256": "c4b1e0177f0598f267588d58f0a67c602fb2d3c3805b92daeb43de655ecabe2c",
   "test_sha256_verified": true,
-  "test_traceback": "Traceback (most recent call last):\n  File \"/workspace/Agent/costModel/scripts/04_precompile_pilot.py\", line 576, in worker_main\n    runpy.run_path(str(test_file), run_name=\"__main__\")\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/Agent/costModel/artifacts/ir/_work/compile_softplus_bac20b5137e16669_m5mef165/test_env/test_softplus.py\", line 24, in <module>\n    output_triton = softplus(x, beta, threshold)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/Agent/costModel/artifacts/ir/_work/compile_softplus_bac20b5137e16669_m5mef165/test_env/softplus.py\", line 20, in softplus\n    output = softplus_forward(self, beta, threshold)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/python3.11.15/lib/python3.11/site-packages/triton/runtime/jit.py\", line 803, in __call__\n    raise RuntimeError(\"Cannot call @triton.jit'd outside of the scope of a kernel\")\nRuntimeError: Cannot call @triton.jit'd outside of the scope of a kernel\n",
+  "test_traceback": "Traceback (most recent call last):\n  File \"/workspace/Agent/costModel/scripts/04_precompile_pilot.py\", line 580, in worker_main\n    runpy.run_path(str(test_file), run_name=\"__main__\")\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/Agent/costModel/artifacts/ir/_work/compile_softplus_bac20b5137e16669_tssbr56h/test_env/test_softplus.py\", line 24, in <module>\n    output_triton = softplus(x, beta, threshold)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/Agent/costModel/artifacts/ir/_work/compile_softplus_bac20b5137e16669_tssbr56h/test_env/softplus.py\", line 20, in softplus\n    output = softplus_forward(self, beta, threshold)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/python3.11.15/lib/python3.11/site-packages/triton/runtime/jit.py\", line 803, in __call__\n    raise RuntimeError(\"Cannot call @triton.jit'd outside of the scope of a kernel\")\nRuntimeError: Cannot call @triton.jit'd outside of the scope of a kernel\n",
   "torch_version": "2.7.1+cpu",
   "triton_version": "3.2.0",
   "warmup_time_ms": 0.0,
-  "worker_log_tail": "[W1115 02:57:07.705748690 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\n",
+  "worker_log_tail": "[W1115 06:38:39.211204140 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\n",
   "worker_status": "failed"
 }

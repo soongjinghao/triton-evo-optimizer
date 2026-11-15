@@ -1,0 +1,1455 @@
+{
+  "counts": {
+    "dataset_seed_labels_pending_profile": 4,
+    "dataset_seed_labels_reused": 46,
+    "expected_logical_candidates": 250,
+    "operators": 50,
+    "operators_complete": 50,
+    "role_counts": {
+      "dataset_seed": 50,
+      "historical_best": 50,
+      "historical_p10": 50,
+      "historical_p50": 50,
+      "historical_p90": 50
+    },
+    "selected_logical_candidates": 250,
+    "unique_compile_jobs": 250,
+    "dataset_seed_labels_profiled_current": 0
+  },
+  "notes": [
+    "The first datasets implementation is kept as dataset_seed; it is never named baseline.",
+    "The second datasets seed is excluded from the five selected candidates.",
+    "Four evolution candidates are selected from historical child_latency groups, with distinct source hashes.",
+    "Historical labels remain historical measurements; provenance is not rewritten as current profiling.",
+    "Warmup is a separate compile-only step and does not produce runtime labels."
+  ],
+  "operators": [
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "8fb40f7a",
+          "latency_us": 2.9401,
+          "source_sha256": "49da26ed3a8cdfdd66ddd346fe6ca22c415eef4b0a56287d1f763c20e367492b"
+        },
+        "historical_p10": {
+          "candidate_id": "f3403225",
+          "latency_us": 8.6597,
+          "source_sha256": "1300cf2cadb5ace634017366be5d647069002ff49a204426e9b90a2908f422c3"
+        },
+        "historical_p50": {
+          "candidate_id": "bc1e7d04",
+          "latency_us": 111.0322,
+          "source_sha256": "792245697526124b28e0fcbd4171af3b88bcfa99dba134bdf67eebef4b855416"
+        },
+        "historical_p90": {
+          "candidate_id": "e5c0eeb4",
+          "latency_us": 111.5045,
+          "source_sha256": "6bf5937d8eef7581458e61754f931ffc35bd23090f3f8f2b90299c6e4a8f2bf3"
+        }
+      },
+      "historical_unique_eligible_sources": 287,
+      "operator_name": "_act_quant_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "282e0b28",
+          "latency_us": 4.0901,
+          "source_sha256": "389a91caff5a13c9d48536cf280b0eaa2cf080ddf16a2b83aba81ea3e451b8af"
+        },
+        "historical_p10": {
+          "candidate_id": "f3e5aba0",
+          "latency_us": 5.100099999999999,
+          "source_sha256": "2e49c0d5f64d1911451b2e1e65ea27c80bd9019f0f3ad2b1dc0b0caa10d08cd0"
+        },
+        "historical_p50": {
+          "candidate_id": "d2c12963",
+          "latency_us": 5.8801,
+          "source_sha256": "9c5c93f378693eea6c4337b3132b3cfd7e34e14fda42fdae6d439b07dd2b989e"
+        },
+        "historical_p90": {
+          "candidate_id": "bc894fc0",
+          "latency_us": 6.1001,
+          "source_sha256": "f435e1ce6e460bbc30ce53d2fc6d82b88d2da0785517f5fde50b75852e871d8b"
+        }
+      },
+      "historical_unique_eligible_sources": 35,
+      "operator_name": "_chunk_cumsum_fwd_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "f952260b",
+          "latency_us": 1155.6232,
+          "source_sha256": "881fdaee3d3260d54dd1a1f174f147a4fa461643cfde41c8c4a9548ab8a49da8"
+        },
+        "historical_p10": {
+          "candidate_id": "a55e21e1",
+          "latency_us": 1159.0632,
+          "source_sha256": "e908a73ab972ffeb5cbcfb1b8284416e585ced9bc0183a1b0c56f7878d08682e"
+        },
+        "historical_p50": {
+          "candidate_id": "174e00b4",
+          "latency_us": 1362.2872,
+          "source_sha256": "200518baede5ccfd1cbd18f18ff4d3fd722c0395d939fe1a11ffe5be02deb658"
+        },
+        "historical_p90": {
+          "candidate_id": "266d240d",
+          "latency_us": 1578.0715,
+          "source_sha256": "ce205811f2b911dbe8f5577c34f807c5ee83f581696671625013d80f11e53bbd"
+        }
+      },
+      "historical_unique_eligible_sources": 36,
+      "operator_name": "_chunk_state_fwd_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "9ec60dfa",
+          "latency_us": 46.84095,
+          "source_sha256": "4b3274aa818ca9fde9c6d6d40e49de787a463ea9d5eaf1f5b47b119687ee9597"
+        },
+        "historical_p10": {
+          "candidate_id": "1f799937",
+          "latency_us": 51.601,
+          "source_sha256": "beea6edff758527b7f333415c7eaae77984587ccad4eb2fad81d4bd2e96a38ec"
+        },
+        "historical_p50": {
+          "candidate_id": "32bf7f4a",
+          "latency_us": 73.1415,
+          "source_sha256": "d4f32968a50eb6494a691ff8336907e97f1a4cd978c1492e34604999e7a6d163"
+        },
+        "historical_p90": {
+          "candidate_id": "859fd10f",
+          "latency_us": 77.3815,
+          "source_sha256": "7debb8d4f6c68182b96c2356cd8c4cdb277d6a704afc0a76747f3cc04677cbb2"
+        }
+      },
+      "historical_unique_eligible_sources": 19,
+      "operator_name": "_convert_req_index_to_global_index_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "d80292fc",
+          "latency_us": 1.54,
+          "source_sha256": "2a6e452d23fa2dbb86ff04fa756c4b520e44d1c7d66fd2f705d4616a41b43daa"
+        },
+        "historical_p10": {
+          "candidate_id": "3c6818b0",
+          "latency_us": 1.56,
+          "source_sha256": "03a995b981643c94b388e8e8b28d4ae92527bf6ad99ff0c800f68ab60254c1cb"
+        },
+        "historical_p50": {
+          "candidate_id": "064dc640",
+          "latency_us": 1.65,
+          "source_sha256": "686cbcd85c904cee9916b01972ad296fd715ab6db757be4de6dc43e8622b3e3c"
+        },
+        "historical_p90": {
+          "candidate_id": "0c89915e",
+          "latency_us": 1.8,
+          "source_sha256": "a9478a6d6acb1b3855b4bbe83c86f6a0c76dab8f9e5a6bf16923493e215d8582"
+        }
+      },
+      "historical_unique_eligible_sources": 31,
+      "operator_name": "_copy_page_indices_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "e1e7af0a",
+          "latency_us": 3.7601,
+          "source_sha256": "1cf8f71e2b1a65f65cf979597833657948b3e5d4fa9e9b33b77d5289bdb717cc"
+        },
+        "historical_p10": {
+          "candidate_id": "70673c00",
+          "latency_us": 4.6701,
+          "source_sha256": "0b46e6eabbd9d23195e1d8ecc1f47edc76e8caa1b3145f0e539c33d7f221ac0e"
+        },
+        "historical_p50": {
+          "candidate_id": "de9525c6",
+          "latency_us": 7.4401,
+          "source_sha256": "b888aaaf08bb40483402f75f3a7f3a129e5a2046db8dcd4d5eaafef0041d3cb3"
+        },
+        "historical_p90": {
+          "candidate_id": "fb341260",
+          "latency_us": 8.3402,
+          "source_sha256": "c14c39bfca4768c248bc302cf542fb2172905db4e69f30b3a9b0c5ccaa089686"
+        }
+      },
+      "historical_unique_eligible_sources": 50,
+      "operator_name": "_correct_attn_cp_out_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "8b719215",
+          "latency_us": 1.56,
+          "source_sha256": "e9b37a21ea024714d55df3d92788a0f43a65b0faef868351e15fcc4660a23152"
+        },
+        "historical_p10": {
+          "candidate_id": "3d456ad6",
+          "latency_us": 1.5899999999999999,
+          "source_sha256": "e64f64633ccd88604837312523f8aedbc074e85d5f5022e18698caa9495a8a5e"
+        },
+        "historical_p50": {
+          "candidate_id": "1753b03d",
+          "latency_us": 1.64,
+          "source_sha256": "b4b8c4b572db9f204965ffaee7c68d60eeda79d1d92c446a0747872ec288cb0f"
+        },
+        "historical_p90": {
+          "candidate_id": "4ce36b57",
+          "latency_us": 1.78,
+          "source_sha256": "3ec56e535bf83bed16374b39c41f6a063e90b8adb4cf5a3933349c81bc1d7cea"
+        }
+      },
+      "historical_unique_eligible_sources": 23,
+      "operator_name": "_count_expert_num_tokens",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "193aa0cc",
+          "latency_us": 1.48,
+          "source_sha256": "19cf43bb77855d54082c5cae8b56c95eb83a77817897eba4964d9f1ecced84e3"
+        },
+        "historical_p10": {
+          "candidate_id": "6e21ad9c",
+          "latency_us": 2.04,
+          "source_sha256": "a409eb558a765fcf4507ff9b306abfd20095eae198c1818b7fa2078ce6ee6edb"
+        },
+        "historical_p50": {
+          "candidate_id": "f741d500",
+          "latency_us": 2.6601,
+          "source_sha256": "a1bd61cabc92e35b4c94d09a9aedec605e1cff5d2523dbe3309f9971c5c2dfa3"
+        },
+        "historical_p90": {
+          "candidate_id": "8c6369d1",
+          "latency_us": 3.1401,
+          "source_sha256": "e46460c14967baa8c99345d47ccdc57d0113df6d6bb9a7dd1856321cc738cc66"
+        }
+      },
+      "historical_unique_eligible_sources": 189,
+      "operator_name": "_dequantize_k_cache_fast_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "8f143569",
+          "latency_us": 1.8,
+          "source_sha256": "14cc1a703e1a7288f7f405a7ac157e70c4c436dba60683f24de896cb8ff2d608"
+        },
+        "historical_p10": {
+          "candidate_id": "014aabf1",
+          "latency_us": 4.4801,
+          "source_sha256": "dcba19e322081dfdb128fdba95521d353a50a89b56cf250f6088d8f05c90954f"
+        },
+        "historical_p50": {
+          "candidate_id": "0e781aad",
+          "latency_us": 4.9001,
+          "source_sha256": "f47a5fe4a55024bb87d6c38612f07c1f5f8186417a2da1f4fb657a94b1249cba"
+        },
+        "historical_p90": {
+          "candidate_id": "f0765ca2",
+          "latency_us": 6.8801,
+          "source_sha256": "337c3c03444aa12860f0546c1b91279050d4f4465124fc1b271570093e807d56"
+        }
+      },
+      "historical_unique_eligible_sources": 182,
+      "operator_name": "_fwd_kernel_ep_gather",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "909b065d",
+          "latency_us": 411.67825,
+          "source_sha256": "9c8032e5bc90266a3fb9ed299b9d8f7b2c5439f2f5c7e74a802cb25a918f714a"
+        },
+        "historical_p10": {
+          "candidate_id": "0ce64db8",
+          "latency_us": 412.8983,
+          "source_sha256": "e73bdaa1cb121906e3dc475f366ca7c4b38b4240fefe452d8267a91a769c2778"
+        },
+        "historical_p50": {
+          "candidate_id": "f39f1250",
+          "latency_us": 693.8339,
+          "source_sha256": "a6b34d17c69aee7a1d812c8104a3d5337722fb6ba459446e63315c2fdad08bbd"
+        },
+        "historical_p90": {
+          "candidate_id": "0e673bb5",
+          "latency_us": 707.7141999999999,
+          "source_sha256": "8700c7770aeeeb8533ebd5f28a3465229ac5da0fa726253aef6f193fdc3b18f6"
+        }
+      },
+      "historical_unique_eligible_sources": 21,
+      "operator_name": "_log_softmax_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "965a3cdb",
+          "latency_us": 1.6400000000000001,
+          "source_sha256": "e39f0bec197860ce90e0cfe6939f25c24b84149e1b74faa2b2ae20c3c24a854d"
+        },
+        "historical_p10": {
+          "candidate_id": "1ec7d5bc",
+          "latency_us": 2.0101,
+          "source_sha256": "69f19d8ffa5f834a2089a620feec9c3c8862f6d2bfa904bafb7cbdae422de311"
+        },
+        "historical_p50": {
+          "candidate_id": "9486c881",
+          "latency_us": 2.18,
+          "source_sha256": "85fe4de4011b2b4d3e01d7d393c2d2739e2e49e0db0555ad7dff049474666e4a"
+        },
+        "historical_p90": {
+          "candidate_id": "c86d3444",
+          "latency_us": 2.42,
+          "source_sha256": "e448893f8576bae70efbfeb51d3dc3a663e955a8872fac9d31ef37b966894f95"
+        }
+      },
+      "historical_unique_eligible_sources": 227,
+      "operator_name": "_pack_seq_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "851674e2",
+          "latency_us": 1.82,
+          "source_sha256": "08210037b87f2e916f1e6b87f7dfb6add812a2bcaab4a0ef23bb3524dd1ca512"
+        },
+        "historical_p10": {
+          "candidate_id": "16d118bf",
+          "latency_us": 2.2,
+          "source_sha256": "0782bc458019e1c38c2622e5f13c73396add751e1ff4f76627d018add39c9e92"
+        },
+        "historical_p50": {
+          "candidate_id": "ae55177a",
+          "latency_us": 2.36,
+          "source_sha256": "c7c972a2359fbd2953d79340b46002ee0c7c0f5d9c20e4d76917078caa708a75"
+        },
+        "historical_p90": {
+          "candidate_id": "7bdff828",
+          "latency_us": 3.4201,
+          "source_sha256": "981faacce35f931cb26c2810bdfddc712812cec50de2f58f572b6691db443e1b"
+        }
+      },
+      "historical_unique_eligible_sources": 23,
+      "operator_name": "_per_group_transpose",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "60c413de",
+          "latency_us": 2.5601,
+          "source_sha256": "a4126e80e7ce597d62a31207dad3bc59737ce929c830e34999fee85d69c18a8b"
+        },
+        "historical_p10": {
+          "candidate_id": "86c1976e",
+          "latency_us": 2.8501000000000003,
+          "source_sha256": "cb883e6536410fb98e2473019ebc4808e9e2d52b9383171b58a4ff5212de6588"
+        },
+        "historical_p50": {
+          "candidate_id": "c62295e3",
+          "latency_us": 3.0201,
+          "source_sha256": "9abd80a6d866c64c5e2350bb8d134ca074dd1eaa995297b8f938ef5b7e6da404"
+        },
+        "historical_p90": {
+          "candidate_id": "cc6a04be",
+          "latency_us": 3.1401,
+          "source_sha256": "82277df2c29aea23fa0184aacfd43d22cdc2c07edb96cb806b8c11898defe5ec"
+        }
+      },
+      "historical_unique_eligible_sources": 18,
+      "operator_name": "_per_token_group_quant_8bit_colmajor",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "f872c386",
+          "latency_us": 2.9801,
+          "source_sha256": "3036641043b9de53394de5216adaee742c0e89d6cd392de7a70dfdfe1794918a"
+        },
+        "historical_p10": {
+          "candidate_id": "5ddeba97",
+          "latency_us": 3.0801,
+          "source_sha256": "7be85ec99f7182603aee7441f3affeb5fbc4bdbec67f045f2684188d57cd673c"
+        },
+        "historical_p50": {
+          "candidate_id": "41c97fa4",
+          "latency_us": 3.2201,
+          "source_sha256": "f36f01dfe648a44b1c4167fe71631d07ed561270e77465e3b7a7b383e980bedd"
+        },
+        "historical_p90": {
+          "candidate_id": "4caab66a",
+          "latency_us": 3.4401,
+          "source_sha256": "d933c80fbd603df2d7688bc6ec0f885d50ea255b4568aa3234689eeab89798aa"
+        }
+      },
+      "historical_unique_eligible_sources": 22,
+      "operator_name": "_quantize_k_cache_fast_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "85a3086e",
+          "latency_us": 49.538,
+          "source_sha256": "9d275b869c1f44a090b558efc5fb2a76b8c7aee08bbce3095dcf0ac8888bedf5"
+        },
+        "historical_p10": {
+          "candidate_id": "53e51a84",
+          "latency_us": 77.97685,
+          "source_sha256": "b25eaf2c7e91b7f81334dc643a787a5c958a7c8d8d2e5441bcf550321f5ba407"
+        },
+        "historical_p50": {
+          "candidate_id": "08f31ea5",
+          "latency_us": 298.48595,
+          "source_sha256": "951d23bb22f025232d5c3633f7da86dcd689b9993266443033a098693c4814f9"
+        },
+        "historical_p90": {
+          "candidate_id": "301d5039",
+          "latency_us": 331.6666,
+          "source_sha256": "e1dbda950f1e1e7f46d63801aeae2caf7c3c00b833a6a12adccc433c0a8c12b8"
+        }
+      },
+      "historical_unique_eligible_sources": 133,
+      "operator_name": "_rms_norm_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "3a65835a",
+          "latency_us": 4.2001,
+          "source_sha256": "5af2368a1f86a803a65863a1baffe9b468690672048eb0db51f5dfd53fffc3ef"
+        },
+        "historical_p10": {
+          "candidate_id": "248364b0",
+          "latency_us": 4.7401,
+          "source_sha256": "ad320fbea656e81c180390cc01b7b95a7a5396018a2cdb7476062b19b50c5005"
+        },
+        "historical_p50": {
+          "candidate_id": "9d900eb2",
+          "latency_us": 5.0602,
+          "source_sha256": "30e3c7fd65f8f0868115b9a37bf35ceab2dbfa3efc269cb8fc110b6f138b93b9"
+        },
+        "historical_p90": {
+          "candidate_id": "8c92a5e2",
+          "latency_us": 5.6201,
+          "source_sha256": "cfb57130bc61e9a5a956220c9eb9a017853840c24b45681bc15b2446659f0193"
+        }
+      },
+      "historical_unique_eligible_sources": 196,
+      "operator_name": "_selective_scan_update_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "9680b5fa",
+          "latency_us": 1.5201,
+          "source_sha256": "25baa79b615a8860473fa3d7758e45ecea0898aacc43ccdc726ca0251fd0fba6"
+        },
+        "historical_p10": {
+          "candidate_id": "aa4d6b15",
+          "latency_us": 1.5601,
+          "source_sha256": "4dd5c59f1b533d7f2387b8d0d41fe06bde2ffd3c4318afece0912823a3caee32"
+        },
+        "historical_p50": {
+          "candidate_id": "36063e24",
+          "latency_us": 1.66,
+          "source_sha256": "0bbb5af25f85fbec9797f64adafdf4a3c4df725dbcc37f0747b881dfc125de36"
+        },
+        "historical_p90": {
+          "candidate_id": "5dde552f",
+          "latency_us": 2.9201,
+          "source_sha256": "ff2f27d87b83f3866fc523f174bb5e47cb4b76cb3144c4fdc15afae8547d412f"
+        }
+      },
+      "historical_unique_eligible_sources": 114,
+      "operator_name": "_set_k_and_s_triton_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "pending_profile",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "f1dedfe0",
+          "latency_us": 2.9801,
+          "source_sha256": "4cf027f93f118bb73f3e7d53aee0ba6555c9bd2ed3978c9c6f2944d7e5121f6c"
+        },
+        "historical_p10": {
+          "candidate_id": "22b2dc8b",
+          "latency_us": 3.2201,
+          "source_sha256": "211ebf2e53975525d355bc97784db0358907c73878671c405b0f6bcdec99280f"
+        },
+        "historical_p50": {
+          "candidate_id": "4bbff9a9",
+          "latency_us": 3.3601,
+          "source_sha256": "d68f07f711bca1c7c07811113a4e1f288a6b29043185c5dfb33d4dc414cd8655"
+        },
+        "historical_p90": {
+          "candidate_id": "55aa16aa",
+          "latency_us": 3.5201,
+          "source_sha256": "876973e739a1b05de2f80d2becc72cd22b14c9e1028c68069bc1e52d0549ed3a"
+        }
+      },
+      "historical_unique_eligible_sources": 22,
+      "operator_name": "_silu_mul_fp8_quant_deep_gemm",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "fd9386a7",
+          "latency_us": 2.32,
+          "source_sha256": "6fdf9430923bb0e067c91836c3890fc4a03db90c67bf1e684027dd6ec12645f8"
+        },
+        "historical_p10": {
+          "candidate_id": "6eae0c2e",
+          "latency_us": 2.42,
+          "source_sha256": "12aff5c7f66190c92bafbaeef556f840fc624a69c835cfaac64f6699ff2b3ee6"
+        },
+        "historical_p50": {
+          "candidate_id": "1d93c1fb",
+          "latency_us": 2.52,
+          "source_sha256": "c4dc1e3fd9ba6d1ed8a8339940e4dd5a6b4dd3c7c9154d22c689b190f1d62880"
+        },
+        "historical_p90": {
+          "candidate_id": "f49c9021",
+          "latency_us": 2.7201,
+          "source_sha256": "bbe3b58c3866442929104ddb7e88bbd1975a5895ce61af2c1db43a432cf230df"
+        }
+      },
+      "historical_unique_eligible_sources": 19,
+      "operator_name": "_state_passing_fwd_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "8f45df9a",
+          "latency_us": 2.48,
+          "source_sha256": "af2e6c8d7e87e5e22e04d9cb057fda66319df19fa4e48e605a124f56d763aa65"
+        },
+        "historical_p10": {
+          "candidate_id": "2e17f237",
+          "latency_us": 2.5801,
+          "source_sha256": "df34598f487d00f307fb97544feb17af3878bf46aad4179b1e19cb407bd9c5f0"
+        },
+        "historical_p50": {
+          "candidate_id": "adefad4d",
+          "latency_us": 2.6801,
+          "source_sha256": "1e22756121516ca36944a251e102e67393ac1025211b550411f0416d21d5995b"
+        },
+        "historical_p90": {
+          "candidate_id": "7f2564cd",
+          "latency_us": 2.9201,
+          "source_sha256": "e5821a344cbb7ad5613ca1fb775fb18940b2463997ed7063b47cf0b7d2497ba2"
+        }
+      },
+      "historical_unique_eligible_sources": 59,
+      "operator_name": "_trtllm_prefill_attn_kvfp8_dequant",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "259b5e5f",
+          "latency_us": 2.28,
+          "source_sha256": "e45fa0e0d4cd08bdf7e74d98963f95c34787dcab7bb17b464af4a50b3c378bec"
+        },
+        "historical_p10": {
+          "candidate_id": "e5ac4e55",
+          "latency_us": 2.34,
+          "source_sha256": "6417faa9847f25219e1228ab03fe69a120136726a52547272b072ed39ce4e164"
+        },
+        "historical_p50": {
+          "candidate_id": "e6ae24ed",
+          "latency_us": 2.4,
+          "source_sha256": "973777962d50823faf6cc431039396f22d71d61e5c7ec06c742152b5c006c7ca"
+        },
+        "historical_p90": {
+          "candidate_id": "0a8e1809",
+          "latency_us": 2.46,
+          "source_sha256": "e4d57b0d9577a4b273f177ca5664c162d7f12fed5bc5db1d8db2fbb4cdef2395"
+        }
+      },
+      "historical_unique_eligible_sources": 11,
+      "operator_name": "_unpack_seq_triton_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "dbaac9bc",
+          "latency_us": 1.62,
+          "source_sha256": "a138a89916ec09222f7262a2b0f1a3bf5f43cb04f474cf8370d49d653a03c9c0"
+        },
+        "historical_p10": {
+          "candidate_id": "ad9c94c2",
+          "latency_us": 1.64,
+          "source_sha256": "9af9e698351dd0c8bfea3ecde0e3162af324df0f518db5e22aeeef693166f6bc"
+        },
+        "historical_p50": {
+          "candidate_id": "35fa31ba",
+          "latency_us": 1.68,
+          "source_sha256": "5ff12d92caab25cddf99f28245de4d4337d7f1a3d269912d32d5863a6bcfa6ed"
+        },
+        "historical_p90": {
+          "candidate_id": "be1c9353",
+          "latency_us": 1.78,
+          "source_sha256": "1f6a50c716498f776e91f0b6ae110cf128742f927d490453faa041a383f34e0e"
+        }
+      },
+      "historical_unique_eligible_sources": 19,
+      "operator_name": "assign_draft_cache_locs_page_size_1",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "02ef1f2c",
+          "latency_us": 1.57,
+          "source_sha256": "619a74d6f97b4cd7c9e1e469bf3a00a6499626f751cb4cca27070f4af3f2ee06"
+        },
+        "historical_p10": {
+          "candidate_id": "7c0f0194",
+          "latency_us": 1.96,
+          "source_sha256": "a88d66a3498e6a1402e7d90246c6f7c6e70e916c6f75497c5d3794705ff8dfeb"
+        },
+        "historical_p50": {
+          "candidate_id": "6568921b",
+          "latency_us": 2.12,
+          "source_sha256": "b5c0cc5cfe15a1b963463fa79aba649feb000cba77677de286993698a3059468"
+        },
+        "historical_p90": {
+          "candidate_id": "711348d4",
+          "latency_us": 2.38,
+          "source_sha256": "b1d2c5f6a6b576e28f15ca3f760449ea6b44f65a1990b4168af05f0a6e22c634"
+        }
+      },
+      "historical_unique_eligible_sources": 149,
+      "operator_name": "assign_extend_cache_locs",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "0d63fc5b",
+          "latency_us": 9.9402,
+          "source_sha256": "59ed3174f40b2bea871517c37b21a1f61ef7095b0c1b15f89dfb4ea79f03b29a"
+        },
+        "historical_p10": {
+          "candidate_id": "277ae0f8",
+          "latency_us": 13.3205,
+          "source_sha256": "2f498cf850d0811e770b8a32bb7ab948da16c0acaaa4632bf634f04eebfd432a"
+        },
+        "historical_p50": {
+          "candidate_id": "3e1ff7c5",
+          "latency_us": 13.820599999999999,
+          "source_sha256": "1df291b107558bc57c8d49fa67042f4b0257ca2f023bafe3bc9490cf091ba865"
+        },
+        "historical_p90": {
+          "candidate_id": "3dcb4a32",
+          "latency_us": 51.781,
+          "source_sha256": "3f278be295eb2ab9a6e72125c283afb29e1e994db81af64f478931ddb69ba85f"
+        }
+      },
+      "historical_unique_eligible_sources": 116,
+      "operator_name": "chunk_local_cumsum_scalar_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "pending_profile",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "0d2f5781",
+          "latency_us": 11.3902,
+          "source_sha256": "796cce4217b5a3eee126a359d5caae89ab039d77ad4742d9645a03c1e81cf382"
+        },
+        "historical_p10": {
+          "candidate_id": "099e7111",
+          "latency_us": 12.900300000000001,
+          "source_sha256": "07eeca97882b2ec25c3c3694d2be99adeed96a990b3e4e6729411b5a26fbd027"
+        },
+        "historical_p50": {
+          "candidate_id": "4875ebb9",
+          "latency_us": 18.7804,
+          "source_sha256": "0ee98fe8fe7baed4da20d170ece13409a8fda9d89d341d15c316c29b85c78f32"
+        },
+        "historical_p90": {
+          "candidate_id": "395aec17",
+          "latency_us": 19.1804,
+          "source_sha256": "24b9086e8b0c8108720ae406af1b3ea8a4c2a58905f34129f916d18022de5611"
+        }
+      },
+      "historical_unique_eligible_sources": 18,
+      "operator_name": "chunk_local_cumsum_vector_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "00f52854",
+          "latency_us": 12.9903,
+          "source_sha256": "fa21ec0c1f9294261d2db3eb73fa1628e902ca3cdfe3e99860a633058047cfad"
+        },
+        "historical_p10": {
+          "candidate_id": "a1a70eba",
+          "latency_us": 21.7404,
+          "source_sha256": "2d53fd7216cd9cbabcc691c0ffd10026bdbfdd68867d14f2c149b90ec6d00528"
+        },
+        "historical_p50": {
+          "candidate_id": "09b104fe",
+          "latency_us": 23.310499999999998,
+          "source_sha256": "46cd1ec9dbe176f0bfb19c50df4edcb34b1160192fafcb2071392766d3964686"
+        },
+        "historical_p90": {
+          "candidate_id": "5c9de99a",
+          "latency_us": 25.7605,
+          "source_sha256": "04ee4cc15cc7a21cc3f356f394671d0638c0d9fef9d825c1adf469fe18664bc6"
+        }
+      },
+      "historical_unique_eligible_sources": 99,
+      "operator_name": "compute_identity_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "17906b04",
+          "latency_us": 1.85,
+          "source_sha256": "bb5792a017dbd0d1bc5cb001e8374e76213ad473d23bf8edd51e4cf3da955e1e"
+        },
+        "historical_p10": {
+          "candidate_id": "c9ca975e",
+          "latency_us": 2.08,
+          "source_sha256": "369edb46ff97b54e9ec868e8284959c6fba722b5a756d868cf7dfadd1ef907b3"
+        },
+        "historical_p50": {
+          "candidate_id": "38a2ac89",
+          "latency_us": 2.14,
+          "source_sha256": "81c93a74729de078798c4aa8883a41fa858b42ed130f8b70b106e897cfadcebe"
+        },
+        "historical_p90": {
+          "candidate_id": "38caccfc",
+          "latency_us": 2.26,
+          "source_sha256": "ed868d999e9bb57616c576b88ff79a79289a0f8a8c3b8fe2b2906e607396d955"
+        }
+      },
+      "historical_unique_eligible_sources": 12,
+      "operator_name": "copy_all_layer_kv_cache_tiled",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "467e08f5",
+          "latency_us": 1.46,
+          "source_sha256": "3704d75222a3aee769a4561168f6c2aa24f3d33f5b0c70d7f3f3f5ed4df143d7"
+        },
+        "historical_p10": {
+          "candidate_id": "4e0d2841",
+          "latency_us": 1.51,
+          "source_sha256": "f2b936f64611525bd8e6364744ae976877d01b4d6638213c4c3def523298373f"
+        },
+        "historical_p50": {
+          "candidate_id": "b712a108",
+          "latency_us": 1.56,
+          "source_sha256": "07075b14c68359bd2f121a4f8f9e71cd282663c41eb9ec18daa0c1902ce982be"
+        },
+        "historical_p90": {
+          "candidate_id": "05a70886",
+          "latency_us": 2.5,
+          "source_sha256": "b4cab33829c0b3f96b2c2ea1a8b60a56187d2e024029503d6735b5a77224316c"
+        }
+      },
+      "historical_unique_eligible_sources": 20,
+      "operator_name": "experts_combine_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "a16cc35a",
+          "latency_us": 1.22,
+          "source_sha256": "5048fa1b141f38a6f1df4aa63f3c6da7b5c2d140f06360611a44b58937aac814"
+        },
+        "historical_p10": {
+          "candidate_id": "d0c74a75",
+          "latency_us": 1.28,
+          "source_sha256": "9617fdbb2eff1413ab03310e7f621bf7db3671b412462dd6c4f9b1339603bd38"
+        },
+        "historical_p50": {
+          "candidate_id": "a73dd00e",
+          "latency_us": 1.34,
+          "source_sha256": "c6eb48a8d038693a908d471760bc09bfa49cea2d508cf056430cbc1b49e2a051"
+        },
+        "historical_p90": {
+          "candidate_id": "083f30e6",
+          "latency_us": 2.5001,
+          "source_sha256": "b59e3cd704de8844baa38679e610ab50524203f7a64b299c62829257a9efa379"
+        }
+      },
+      "historical_unique_eligible_sources": 329,
+      "operator_name": "eye_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "0c91955e",
+          "latency_us": 9.3402,
+          "source_sha256": "460122c37571c087e99c99a7ef0c0585d0bbffd48637a5c4cfee9f774b345a0a"
+        },
+        "historical_p10": {
+          "candidate_id": "62f2628e",
+          "latency_us": 17.6804,
+          "source_sha256": "09f12064e291f2c443038fdd730c13cc2e7a671bdd91a1ef4e4621251f03ba60"
+        },
+        "historical_p50": {
+          "candidate_id": "6e949c4f",
+          "latency_us": 18.7004,
+          "source_sha256": "516eb717b2e375c984374547c611331664b5b51127cbeb0df50828add91beaaf"
+        },
+        "historical_p90": {
+          "candidate_id": "bd4a0a4c",
+          "latency_us": 19.7004,
+          "source_sha256": "8ce5c64b0aa5e6d20ffc6a9b9985cb5a1a40d27575f70620d4e7d25cdb62af40"
+        }
+      },
+      "historical_unique_eligible_sources": 67,
+      "operator_name": "fill_accepted_out_cache_loc",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "e529c343",
+          "latency_us": 3.5001,
+          "source_sha256": "f2ceaba201d8e76af56baa208e63f7ba1607384ffdcb3ad134f465b6b3786811"
+        },
+        "historical_p10": {
+          "candidate_id": "f49dcab9",
+          "latency_us": 3.6001,
+          "source_sha256": "83a559e316f042de58ef6882ba4bf79285ec4b7365901ec691f4c8bcdc4aaff0"
+        },
+        "historical_p50": {
+          "candidate_id": "8dd16e88",
+          "latency_us": 3.7401,
+          "source_sha256": "5e5a7754d894bfb932004a18cb872fba50949660e61c47667805c7ea976155ba"
+        },
+        "historical_p90": {
+          "candidate_id": "8f2eee8c",
+          "latency_us": 5.4001,
+          "source_sha256": "b8e0f2c3afbbecdcea099bbe94fd358e18cd762f5f1e40ac063de0dd9f422e39"
+        }
+      },
+      "historical_unique_eligible_sources": 77,
+      "operator_name": "fn_triton_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "6e44c5d9",
+          "latency_us": 2.8601,
+          "source_sha256": "ad4a7160d8a1c565399ac2184544ff58ce6cc71dd857235c3e8c882dfe8baa82"
+        },
+        "historical_p10": {
+          "candidate_id": "887990d4",
+          "latency_us": 10.1802,
+          "source_sha256": "96b86bac1f361e93becebcec2b8415dc3f62d32b38267571624ee4846048d705"
+        },
+        "historical_p50": {
+          "candidate_id": "1a23ed64",
+          "latency_us": 10.8602,
+          "source_sha256": "d6d8a7103eb9b66c59535abc83a51bc0edd0e8458741819ef0bbe7c15d081063"
+        },
+        "historical_p90": {
+          "candidate_id": "7cb084a6",
+          "latency_us": 11.3805,
+          "source_sha256": "48fb2ad81b743caac4a6fafecfdb3ad211273e97ce53e338b0045b5130dbf33c"
+        }
+      },
+      "historical_unique_eligible_sources": 150,
+      "operator_name": "fused_gdn_gating_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "eb4d1ede",
+          "latency_us": 3.3601,
+          "source_sha256": "316f3178384984eb71be31226cce2acf050166b9aee224ac017defcec3326d2a"
+        },
+        "historical_p10": {
+          "candidate_id": "9a89fadf",
+          "latency_us": 3.5401,
+          "source_sha256": "e274c60beba3ed4a78d58a81f6c0e7630a3528604a369029b26dcc7eee9e9003"
+        },
+        "historical_p50": {
+          "candidate_id": "59bafb26",
+          "latency_us": 3.9001,
+          "source_sha256": "673dbb307e0d3a8430379f22f5caf706c6820fcc83943a79db83554efd987e6b"
+        },
+        "historical_p90": {
+          "candidate_id": "9209c658",
+          "latency_us": 4.3101,
+          "source_sha256": "f1eaf7f3ec1fe2500211375cf3dddb3c05136274947532bb88805775bdcd6484"
+        }
+      },
+      "historical_unique_eligible_sources": 51,
+      "operator_name": "fused_qkvzba_split_reshape_cat_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "77276a17",
+          "latency_us": 1.76,
+          "source_sha256": "6c09edecbae5f4e98c67d98cd1d03ae94b26ebcc9782b9e33df66e00bb81b9a2"
+        },
+        "historical_p10": {
+          "candidate_id": "58fb73d3",
+          "latency_us": 1.82,
+          "source_sha256": "a44426de3ac1c8149567b57e6ad5e52bb060983ea037c257ff1212fa7324708b"
+        },
+        "historical_p50": {
+          "candidate_id": "107baae9",
+          "latency_us": 2.08,
+          "source_sha256": "312a47577f0f1e67a65954a9865a978e4f0e2a6fe27a427184f8be390e9dcd51"
+        },
+        "historical_p90": {
+          "candidate_id": "1d4c1893",
+          "latency_us": 2.34,
+          "source_sha256": "f6a65415a72904d3e8b8d5993dbd88b3d1ba19ea46721da9c8aed9e9c10b4d33"
+        }
+      },
+      "historical_unique_eligible_sources": 26,
+      "operator_name": "l2norm_fwd_kernel1",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "854b6202",
+          "latency_us": 1.64,
+          "source_sha256": "e82e6c080932b691ded40bac7053e6751ce9dd109535e6bb0c524b34df92dabe"
+        },
+        "historical_p10": {
+          "candidate_id": "1a5cb3db",
+          "latency_us": 1.72,
+          "source_sha256": "f527cbd8066d2d04e60bcd0213772abca7002b3097ee16058c0231d3d2ae1bba"
+        },
+        "historical_p50": {
+          "candidate_id": "2b58104e",
+          "latency_us": 1.85,
+          "source_sha256": "87be99dd482df5355011e3ff5b256b6ff1364e1dea1c56e44ff5c6a46ce57611"
+        },
+        "historical_p90": {
+          "candidate_id": "59ee770b",
+          "latency_us": 2.8601,
+          "source_sha256": "bdd3202cc116b537340c49a5e67dbb3f62fb6b67b23dd1f277bbee5cf917e72b"
+        }
+      },
+      "historical_unique_eligible_sources": 139,
+      "operator_name": "l2norm_fwd_kernel2",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "814170ff",
+          "latency_us": 133.9827,
+          "source_sha256": "284750f7c8febd962b5709a6f6ecbb23234b4d28d5e4babcc6b792d51049eac7"
+        },
+        "historical_p10": {
+          "candidate_id": "544e6423",
+          "latency_us": 138.2628,
+          "source_sha256": "899b09755791e0e14f79f6fd86dd77eb211271a5d03eb1f3f387e38de620a98b"
+        },
+        "historical_p50": {
+          "candidate_id": "8b7d525b",
+          "latency_us": 154.2031,
+          "source_sha256": "cb63e2a06c142c57614348d9cecb7a836064b9a38d6fa204b6f0dbe38b61d926"
+        },
+        "historical_p90": {
+          "candidate_id": "2af8a55a",
+          "latency_us": 165.3533,
+          "source_sha256": "b227503162fff65a4b7a3439081e89e4cec49a0213d504deffedede56c34b2e3"
+        }
+      },
+      "historical_unique_eligible_sources": 17,
+      "operator_name": "layer_norm_fwd_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "5cc64ae9",
+          "latency_us": 1.8799,
+          "source_sha256": "3db6fd6faddaf21d85457a8899e9d242c25a5da271563a34aa90bbc8787e194a"
+        },
+        "historical_p10": {
+          "candidate_id": "cb71b5f5",
+          "latency_us": 2.52,
+          "source_sha256": "62374116c5ddd5a78b2d1e17d3a089ce9af2f30ad7145679e1ad24135b3443c6"
+        },
+        "historical_p50": {
+          "candidate_id": "02d2ccff",
+          "latency_us": 2.7100999999999997,
+          "source_sha256": "0e8d26443f9f8e11c13c665d03413db6c524570dd2e6588b2019bb78e5023da2"
+        },
+        "historical_p90": {
+          "candidate_id": "370c58f0",
+          "latency_us": 3.0001,
+          "source_sha256": "4c7c9d156c9ab5db7abb7473f6280cb7dc69a1f42c7cfe9f459d5404ca2ea01d"
+        }
+      },
+      "historical_unique_eligible_sources": 162,
+      "operator_name": "matmul_kernel_simplified",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "bd516f63",
+          "latency_us": 126.2025,
+          "source_sha256": "895b7c7f9d267d9d671a30b4c42a112a9ca783d643204fb4ff320651b3496c25"
+        },
+        "historical_p10": {
+          "candidate_id": "12905f62",
+          "latency_us": 130.4726,
+          "source_sha256": "c998b32d2fca45cca49e69995786204d7bc69f4456a20e73cc7429c09747577f"
+        },
+        "historical_p50": {
+          "candidate_id": "ef631017",
+          "latency_us": 175.1835,
+          "source_sha256": "acd876a82f9307bac29bbe4b737e93ece5506bfb8cf0935c902c92fbd14a9a7b"
+        },
+        "historical_p90": {
+          "candidate_id": "02f2a4c5",
+          "latency_us": 178.7236,
+          "source_sha256": "34397c530541e4b94236150341ce2db1d9b06ec6d467c802116a41716131b2f1"
+        }
+      },
+      "historical_unique_eligible_sources": 83,
+      "operator_name": "mean_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "16038480",
+          "latency_us": 12.7003,
+          "source_sha256": "aec3cef2256124662785c6d639f111aa865a1251302e41c39fffce4008144b34"
+        },
+        "historical_p10": {
+          "candidate_id": "8775a438",
+          "latency_us": 14.7603,
+          "source_sha256": "c724c9c7308663831f8490a7c4a3765c795d95832294317e130299725a5ac2aa"
+        },
+        "historical_p50": {
+          "candidate_id": "f94af01d",
+          "latency_us": 15.1803,
+          "source_sha256": "9d1095f5dc5e58ecfb30bbeba32a2c9254c2fd3babe641d3ab60cf7f46e750fa"
+        },
+        "historical_p90": {
+          "candidate_id": "00713e71",
+          "latency_us": 24.5205,
+          "source_sha256": "df420e64a3c7768c805c8f970cd8cb819820202eec131e389ff4fd021bad3690"
+        }
+      },
+      "historical_unique_eligible_sources": 69,
+      "operator_name": "merge_16x16_to_32x32_inverse_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "0ff152ef",
+          "latency_us": 29.5206,
+          "source_sha256": "5dbfcec9f5330133bb60f965f180b2917beb368c197e10752978effefde65f88"
+        },
+        "historical_p10": {
+          "candidate_id": "5c24d892",
+          "latency_us": 31.0006,
+          "source_sha256": "fece657c338fc43c494537ec61fc420820c522fc06633de6dde09e4b2538c28d"
+        },
+        "historical_p50": {
+          "candidate_id": "c3b7d497",
+          "latency_us": 36.8607,
+          "source_sha256": "20fba3d46845a98398b16330b3ef921a049da2ada3478c0f986216f469f3f3dd"
+        },
+        "historical_p90": {
+          "candidate_id": "d954b378",
+          "latency_us": 37.6408,
+          "source_sha256": "5039463b090863eee783e8063c6cb828552a5fede2d26b9484db5d0de06778c8"
+        }
+      },
+      "historical_unique_eligible_sources": 11,
+      "operator_name": "merge_16x16_to_64x64_inverse_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "a3cdf61f",
+          "latency_us": 3.78015,
+          "source_sha256": "ac7bfefbdb34ad27549152b0cae0f5104066009dd49afa292bae5ebafc458ce3"
+        },
+        "historical_p10": {
+          "candidate_id": "6579f03c",
+          "latency_us": 12.6803,
+          "source_sha256": "4a52e822b0457cdb6aedc9dccd4fce66bbb1f9adb8d3d15d9aa3e343486ea800"
+        },
+        "historical_p50": {
+          "candidate_id": "e4a2d7c4",
+          "latency_us": 14.5406,
+          "source_sha256": "c12af96b7109e0fd97e8555e844fd7f28058a11f01fe709e51a4ba0cb588966d"
+        },
+        "historical_p90": {
+          "candidate_id": "281e506f",
+          "latency_us": 15.7803,
+          "source_sha256": "8496775857ee6d4e54f2acbd0435fe3f045bbd267d968fa8be713ef9341dea99"
+        }
+      },
+      "historical_unique_eligible_sources": 128,
+      "operator_name": "moe_align_block_size_stage",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "1e27b5fb",
+          "latency_us": 2.7201,
+          "source_sha256": "f5f326eb7cdd2ca598b2d3752a84cf9f76b6569b0e1d8816b7d9e7aa1bbc729d"
+        },
+        "historical_p10": {
+          "candidate_id": "0f79c019",
+          "latency_us": 2.7401,
+          "source_sha256": "6446beed462dd197de4d56f7f8828d923902dc2a8f1b97b7e4bb1a5b9795c0d2"
+        },
+        "historical_p50": {
+          "candidate_id": "be6177de",
+          "latency_us": 3.4801,
+          "source_sha256": "2b49bc94a067c8c6a301ca716d1dc45c13a8ce91b88241e662f81adc753ff5b7"
+        },
+        "historical_p90": {
+          "candidate_id": "d9b010e5",
+          "latency_us": 6.3801,
+          "source_sha256": "9d492860c49e7678720a8146c2b777b6a7a41d71a14b28723d75c31d498d9bd6"
+        }
+      },
+      "historical_unique_eligible_sources": 19,
+      "operator_name": "post_reorder_triton_kernel_for_cutlass_moe",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "0eb6574f",
+          "latency_us": 7.7202,
+          "source_sha256": "b60bdff7bbdde2aa6486b359397fe8f028d2d2697d2c4a69cb1ef18d70aeec2c"
+        },
+        "historical_p10": {
+          "candidate_id": "44d27e74",
+          "latency_us": 9.7302,
+          "source_sha256": "81374eff5a5a00e9e2f6d6c11d84d21e019dcd3eb7015737049843d1b958d5f1"
+        },
+        "historical_p50": {
+          "candidate_id": "406748dd",
+          "latency_us": 21.6604,
+          "source_sha256": "3203e81be430bdf0d53260c9ffbf46dcd13ea7dd8ac9fbf0ef841033ad3c0730"
+        },
+        "historical_p90": {
+          "candidate_id": "7b8e3556",
+          "latency_us": 22.4604,
+          "source_sha256": "f9f668f199930f081bce0495a3d35b4edc1006af0c77478775003a3a881e2c91"
+        }
+      },
+      "historical_unique_eligible_sources": 183,
+      "operator_name": "recompute_w_u_fwd_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "pending_profile",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "3771d549",
+          "latency_us": 2.42,
+          "source_sha256": "dcc55bccff20ba1782bcd35f0c4afdd5475ce431b6f186f78ba6870673f4a43a"
+        },
+        "historical_p10": {
+          "candidate_id": "c2655440",
+          "latency_us": 2.5401,
+          "source_sha256": "5ca62c189bad13d9cf613056a43341fce08612ff59fdfcae069b56b786cb46ae"
+        },
+        "historical_p50": {
+          "candidate_id": "beec4a83",
+          "latency_us": 2.6700999999999997,
+          "source_sha256": "aab38ab98178a8c0bccb1b31d5d06ab8abad095b1f3560ebc3a9a077e3ecab9e"
+        },
+        "historical_p90": {
+          "candidate_id": "306c4679",
+          "latency_us": 2.9401,
+          "source_sha256": "9ae580029bfe6694ed354fb7722e75422bcf9645af83bc3026e6a33869ab26e1"
+        }
+      },
+      "historical_unique_eligible_sources": 85,
+      "operator_name": "reduce_segments",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "f4884abf",
+          "latency_us": 1.12,
+          "source_sha256": "b80d17e0ea08d334e28c6f2e4b898a364a81fcd9b6e143a885538860d1ba890c"
+        },
+        "historical_p10": {
+          "candidate_id": "f431c40a",
+          "latency_us": 2.52,
+          "source_sha256": "a90410844cc4614ba8b0d42c085c2c5b320677d99038ce9f7d253003cb5d271c"
+        },
+        "historical_p50": {
+          "candidate_id": "4271ab38",
+          "latency_us": 2.7601,
+          "source_sha256": "6796d66017ea526e15e1bc389ed9aad57b595a64459fbb983c78cad3769728f0"
+        },
+        "historical_p90": {
+          "candidate_id": "34fc2c29",
+          "latency_us": 2.9801,
+          "source_sha256": "0b4067c90b51192eee29561bb0dc30a03646f9de84ac98b0dc1229885d781681"
+        }
+      },
+      "historical_unique_eligible_sources": 57,
+      "operator_name": "reshape_and_cache_flash_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "734a4317",
+          "latency_us": 1.52,
+          "source_sha256": "3d2fdd304da37742a69477716e866a79e15c8a851d9cc4cf89f09314743942d1"
+        },
+        "historical_p10": {
+          "candidate_id": "d3a739d1",
+          "latency_us": 2.48,
+          "source_sha256": "319210633e42c3410b849d2e9d6a6f232463e9502a33aaf37d6edbf6a416db12"
+        },
+        "historical_p50": {
+          "candidate_id": "9fd50f06",
+          "latency_us": 2.7601,
+          "source_sha256": "42e12015bab9abb627d480f0c0afffb42221387eba2160b0129d5bc5b354ac66"
+        },
+        "historical_p90": {
+          "candidate_id": "2350a2b1",
+          "latency_us": 3.2201,
+          "source_sha256": "f79960b76de756ea9241722667e1764355e95a8958da46081e10d84339a1a703"
+        }
+      },
+      "historical_unique_eligible_sources": 226,
+      "operator_name": "reshape_and_cache_kernel_flash",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "44195060",
+          "latency_us": 1.6400000000000001,
+          "source_sha256": "735a964e16c4ecd66fd4a75cb0ec22e0017e0ad1083cce56039906846d3dcdeb"
+        },
+        "historical_p10": {
+          "candidate_id": "3e9e6de1",
+          "latency_us": 1.86,
+          "source_sha256": "193ee2810d672cc4203564913bcb83eab1a0b68b3f5b7ff9cb7532c915f1a3dc"
+        },
+        "historical_p50": {
+          "candidate_id": "d4631386",
+          "latency_us": 1.96,
+          "source_sha256": "dd09084045c608677af94c6a907faec79b33c89a38c1a0770b790a4100610c55"
+        },
+        "historical_p90": {
+          "candidate_id": "c65f9c0b",
+          "latency_us": 2.12,
+          "source_sha256": "f8f78d59c0e44c300355bb48e1725935ae291c43f92e9c03ffe49f720097324e"
+        }
+      },
+      "historical_unique_eligible_sources": 15,
+      "operator_name": "rwkv_ka_fusion_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "1f068c29",
+          "latency_us": 5.8401,
+          "source_sha256": "1a628408cb601b9485bc0c8c9f65905528e5ebc0ddb63d315c3216264c002288"
+        },
+        "historical_p10": {
+          "candidate_id": "2c3bd6ba",
+          "latency_us": 6.3001000000000005,
+          "source_sha256": "e9cbe17f1da96ba2c4a29945184607019e44e97a7da88827ab0b694f3ff0299f"
+        },
+        "historical_p50": {
+          "candidate_id": "b6c1b1ee",
+          "latency_us": 10.4402,
+          "source_sha256": "32f7ab957faed23c6899b605ade8149136e9c8e825b019b6728185bb8582d188"
+        },
+        "historical_p90": {
+          "candidate_id": "a5c76d73",
+          "latency_us": 10.5602,
+          "source_sha256": "b1baff9075246a4b253d0ef9e0ac5bfbfe5fbdfe29ff094b52685780354e6633"
+        }
+      },
+      "historical_unique_eligible_sources": 23,
+      "operator_name": "rwkv_mm_sparsity_kernel",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "pending_profile",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "b9043570",
+          "latency_us": 1.9,
+          "source_sha256": "360c460125482d0a8df8574e830cb9a3808f8f1d37355d84c22646893c3b1e16"
+        },
+        "historical_p10": {
+          "candidate_id": "be333eef",
+          "latency_us": 2.02,
+          "source_sha256": "4790c423114f40ecae06ff143f6f343933a185fcd0001237d52291b8c41796ee"
+        },
+        "historical_p50": {
+          "candidate_id": "0f286daa",
+          "latency_us": 2.12,
+          "source_sha256": "dd4914ea01a33cbecdf0706fc1f22823faa024a6df052979e2ad0c8bbc7fede9"
+        },
+        "historical_p90": {
+          "candidate_id": "253edc98",
+          "latency_us": 2.32,
+          "source_sha256": "f1615c6e3db8e52be91ef4bda62e1e32e1eddf581a6a3e52b738cb0ad943fb14"
+        }
+      },
+      "historical_unique_eligible_sources": 24,
+      "operator_name": "softplus",
+      "selected_count": 5
+    },
+    {
+      "dataset_seed_label_status": "reused_exact_manifest_measurement",
+      "historical_roles": {
+        "historical_best": {
+          "candidate_id": "69b55130",
+          "latency_us": 7.7002,
+          "source_sha256": "7a4001a1c4beafcca87b5e2ae461a9ed7513017c2bd7815efd32c041489fe797"
+        },
+        "historical_p10": {
+          "candidate_id": "a727d04e",
+          "latency_us": 12.0802,
+          "source_sha256": "c9adec4d687c1518d05e6a0c96eb06d63fec4d3f2faa4054402e1b71dc472775"
+        },
+        "historical_p50": {
+          "candidate_id": "286e9fb0",
+          "latency_us": 12.4402,
+          "source_sha256": "6924dbd6353db5dc168594eb930e1fe7244525ab047273f6380c3b6e43f6ddef"
+        },
+        "historical_p90": {
+          "candidate_id": "e7525e8b",
+          "latency_us": 17.8004,
+          "source_sha256": "8594ab679fcb97b6c1b1ab2f560e7effbdc9b83615f10040b6ab9819f8d3e617"
+        }
+      },
+      "historical_unique_eligible_sources": 35,
+      "operator_name": "solve_tril_16x16_kernel",
+      "selected_count": 5
+    }
+  ],
+  "pending_seed_profile_operators": [
+    "_silu_mul_fp8_quant_deep_gemm",
+    "chunk_local_cumsum_vector_kernel",
+    "reduce_segments",
+    "softplus"
+  ],
+  "schema_version": "2.0",
+  "selection_policy": {
+    "baseline_json_is_not_a_candidate_or_training_label": true,
+    "dataset_seed_label_reuse_requires_exact_source_and_test_hash_match": true,
+    "deduplicate_by_operator_and_source_sha256": true,
+    "exclude_both_dataset_seed_hashes_from_evolution_pool": true,
+    "historical_label": "median child_latency grouped by operator_name + source_sha256",
+    "historical_percentiles": [
+      0,
+      10,
+      50,
+      90
+    ],
+    "per_operator": {
+      "dataset_seed": 1,
+      "historical_best": 1,
+      "historical_p10": 1,
+      "historical_p50": 1,
+      "historical_p90": 1
+    }
+  }
+}

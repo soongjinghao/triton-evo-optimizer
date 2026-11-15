@@ -24,16 +24,16 @@
   },
   "ir_paths": {
     "npubin": [
-      "/workspace/Agent/costModel/artifacts/ir/npubin/_correct_attn_cp_out_kernel/baseline__correct_attn_cp_out_kernel__k00.npubin"
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_correct_attn_cp_out_kernel/dataset_seed_1__correct_attn_cp_out_kernel__k00.npubin"
     ],
     "npuir": [
-      "/workspace/Agent/costModel/artifacts/ir/npuir/_correct_attn_cp_out_kernel/baseline__correct_attn_cp_out_kernel__k00.npuir.mlir"
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_correct_attn_cp_out_kernel/dataset_seed_1__correct_attn_cp_out_kernel__k00.npuir.mlir"
     ],
     "ttadapter": [
-      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_correct_attn_cp_out_kernel/baseline__correct_attn_cp_out_kernel__k00.ttadapter.mlir"
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_correct_attn_cp_out_kernel/dataset_seed_1__correct_attn_cp_out_kernel__k00.ttadapter.mlir"
     ],
     "ttir": [
-      "/workspace/Agent/costModel/artifacts/ir/ttir/_correct_attn_cp_out_kernel/baseline__correct_attn_cp_out_kernel__k00.ttir.mlir"
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_correct_attn_cp_out_kernel/dataset_seed_1__correct_attn_cp_out_kernel__k00.ttir.mlir"
     ]
   },
   "jit_functions": [
@@ -54,11 +54,11 @@
       "compiled_type": "CompiledKernel",
       "kernel_name": "_correct_attn_cp_out_kernel",
       "saved_files": [
-        "/workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50_91vv1mf0/capture/asm/k001_ttir.ttir.mlir",
-        "/workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50_91vv1mf0/capture/asm/k001_ttadapter.ttadapter.mlir",
-        "/workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50_91vv1mf0/capture/asm/k001_npubin.npubin"
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50_cnrccm5l/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50_cnrccm5l/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50_cnrccm5l/capture/asm/k001_npubin.npubin"
       ],
-      "warmup_time_ms": 12160.728
+      "warmup_time_ms": 14518.281
     }
   ],
   "kernel_executed": false,
@@ -72,20 +72,21 @@
   "n_ok": 1,
   "operator_name": "_correct_attn_cp_out_kernel",
   "other_artifact_paths": [
-    "/workspace/Agent/costModel/artifacts/ir/other/_correct_attn_cp_out_kernel/baseline__correct_attn_cp_out_kernel__k00.so"
+    "/workspace/Agent/costModel/artifacts/ir/other/_correct_attn_cp_out_kernel/dataset_seed_1__correct_attn_cp_out_kernel__k00.so"
   ],
   "pilot_selected": true,
   "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/_correct_attn_cp_out_kernel__compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50.log",
   "process_return_code": 0,
-  "process_wall_seconds": 21.787059,
-  "representative_candidate_id": "baseline:_correct_attn_cp_out_kernel",
+  "process_wall_seconds": 26.118287,
+  "representative_candidate_id": "dataset_seed_1:_correct_attn_cp_out_kernel",
   "requires_candidate_staging": false,
   "schema_version": "1.0",
   "selected_candidate_ids": [
-    "baseline:_correct_attn_cp_out_kernel"
+    "dataset_seed_1:_correct_attn_cp_out_kernel"
   ],
+  "selected_candidate_type": "dataset_seed",
   "selected_roles": [
-    "baseline"
+    "dataset_seed"
   ],
   "sitecustomize_patch_error": null,
   "source_path": "datasets/_correct_attn_cp_out_kernel/_correct_attn_cp_out_kernel.py",
@@ -98,13 +99,13 @@
     "torch"
   ],
   "test_imports_expected_module": true,
-  "test_path": "datasets/_correct_attn_cp_out_kernel/test__correct_attn_cp_out_kernel_1.py",
-  "test_sha256": "7b34dd6d43aa24d22c575f2e402d8fde6a5e6290aa963db0bfd2dcc4c705b971",
+  "test_path": "datasets2/_correct_attn_cp_out_kernel/test__correct_attn_cp_out_kernel_1.py",
+  "test_sha256": "165553e2c24f39c08ad6834e3ff6034f572b95733e5fba020b64b9124453b7d8",
   "test_sha256_verified": true,
   "test_traceback": null,
   "torch_version": "2.7.1+cpu",
   "triton_version": "3.2.0",
-  "warmup_time_ms": 12160.728,
-  "worker_log_tail": "[W1115 02:15:33.585672250 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50_91vv1mf0/home/.triton/dump/-bv5zYWwr5IJCngoxUkv3XBWu5kgv_mi8diwCkNpwAQ\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpgeu79j7y/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpgeu79j7y/kernel\n✅ Triton and PyTorch implementations match!\nOutput shape: torch.Size([4, 8, 64])\nVLSE shape: torch.Size([4, 8])\n[W1115 02:15:46.887262140 ToKernelNpu.cpp:40] Warning: Device do not support double dtype now, dtype cast replace with float. (function operator())\nSample output values: tensor([       nan, 0.0000e+00, 1.6816e-44, 0.0000e+00, 0.0000e+00],\n       device='npu:0')\nSample VLSE values: tensor([0., 0., 0., 0., 0.], device='npu:0')\n",
+  "warmup_time_ms": 14518.281,
+  "worker_log_tail": "[W1115 06:27:19.764705800 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_d8fd44613a1c6e50_cnrccm5l/home/.triton/dump/-bv5zYWwr5IJCngoxUkv3XBWu5kgv_mi8diwCkNpwAQ\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpcb01zz_h/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpcb01zz_h/kernel\n✅ Triton and PyTorch implementations match!\nOutput shape: torch.Size([4, 8, 64])\nVLSE shape: torch.Size([4, 8])\n[W1115 06:27:34.449323250 ToKernelNpu.cpp:40] Warning: Device do not support double dtype now, dtype cast replace with float. (function operator())\nSample output values: tensor([       nan, 0.0000e+00, 1.6816e-44, 0.0000e+00, 0.0000e+00],\n       device='npu:0')\nSample VLSE values: tensor([0., 0., 0., 0., 0.], device='npu:0')\n",
   "worker_status": "test_completed"
 }

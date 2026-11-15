@@ -1,0 +1,111 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:_unpack_seq_triton_kernel:e45fa0e0d4cd08bd",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "_unpack_seq_triton_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_unpack_seq_triton_kernel/259b5e5f__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_unpack_seq_triton_kernel/259b5e5f__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_unpack_seq_triton_kernel/259b5e5f__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_unpack_seq_triton_kernel/259b5e5f__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 5,
+      "name": "_unpack_seq_triton_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "_unpack_seq_triton_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd_im_hhkio/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd_im_hhkio/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd_im_hhkio/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11249.224
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "259b5e5f"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/_unpack_seq_triton_kernel/compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd.json",
+  "module_staged_as": "_unpack_seq_triton_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "_unpack_seq_triton_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/_unpack_seq_triton_kernel/259b5e5f__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/_unpack_seq_triton_kernel__compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 20.174794,
+  "representative_candidate_id": "259b5e5f",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "259b5e5f"
+  ],
+  "selected_roles": [
+    "historical_best"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/259b5e5f.py",
+  "source_sha256": "e45fa0e0d4cd08bdf7e74d98963f95c34787dcab7bb17b464af4a50b3c378bec",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "_unpack_seq_triton_kernel",
+    "torch",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets2/_unpack_seq_triton_kernel/test__unpack_seq_triton_kernel_1.py",
+  "test_sha256": "551e8dfa86cbbe084456093450215278acb285b80a6e13e36765c40ae3c2dbb6",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11249.224,
+  "worker_log_tail": "[W1115 06:31:03.528071770 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\n/workspace/Agent/costModel/artifacts/ir/_work/compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd_im_hhkio/test_env/_unpack_seq_triton_kernel.py:54: UserWarning: An output with one or more elements was resized since it had shape [32], which does not match the required output shape [3]. This behavior is deprecated, and in a future PyTorch release outputs will not be resized unless they have zero elements. You can explicitly reuse an out tensor t by resizing it, inplace, to zero elements with t.resize_(0). (Triggered internally at /pytorch/aten/src/ATen/native/Resize.cpp:30.)\n  torch.cumsum(lengths.int(), dim=0, out=cum_lengths[1:])\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd_im_hhkio/home/.triton/dump/toN5rxQV7PFZ7AuF6r9A3uZBJs2_a94coYF590KkOxc\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpdi3d202h/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=False --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpdi3d202h/kernel\nTriton result shape: torch.Size([20, 64])\nReference result shape: torch.Size([20, 64])\nTotal elements: 20\n✅ Test 1 passed: Basic 3D tensor\n",
+  "worker_status": "test_completed"
+}

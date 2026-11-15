@@ -1,0 +1,92 @@
+
+================================================================================
+Starting test_solve_tril_64x64
+================================================================================
+Testing solve_tril with B=2, T=128, H=4, BT=64
+Using device: npu
+[W1115 06:35:31.284492470 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+
+Creating input tensor A with shape: torch.Size([2, 128, 4, 64])
+Filling with random strictly lower triangular values...
+Created input tensor A:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+
+Validating input structure...
+  ✓ Input structure validated (all diagonals are zero)
+
+============================================================
+Test 1: Basic functionality with BT=64
+============================================================
+Calling solve_tril...
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/4q2DhZ4fhA1qiZz-T_xmiujoOjAfxqD82f77Cwsv5Fk
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpq3gh693_/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpq3gh693_/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/o4qJ-BnVtk6hTgruTTeitCrin5wzomGsYBv3AjFL_w0
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp8wt2xdil/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp8wt2xdil/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/PAf8ImrF8Ko6WkaMYeVHIJHUw8nEL7jknJLzUttMreo
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpqvbygqdd/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpqvbygqdd/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/3JUohTGBSKphiNlnGMIYauHS5Ad2okE5pnIAaZIELts
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpf_p7_a1j/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpf_p7_a1j/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/rQgCrz8z-bNAFmKX1Lw2EF1WiaG-AWNYnDzmKPIPQPY
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp5c9vwb6d/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp5c9vwb6d/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/BdpS-GuZQ0NAPPHHwJqr0BfGK6FG5n7MEdqd8W7I2HI
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp0xef9lk6/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp0xef9lk6/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/7Hq9AGGBeC_e-uapRdSATPDFLbM6YlxVqJL7W-aqPAI
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpbzq5z9hv/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpbzq5z9hv/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/BUqmDzbXWd308dMlomNfj4ujOsfONKV4pt4_cReMavA
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpwvnf5nc6/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpwvnf5nc6/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/Yb220TiFylVmzNeVa7gu9TVlKXV2fk7UAW3W6qqLfvE
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmppae5n6k7/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmppae5n6k7/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/bhvg8PgQZRCtjgYMI81r9Mi-PT7_CML_ifcY6SjkAqU
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmppoafnnra/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmppoafnnra/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/VR0hX982r_Wuo3O-0ZHbk2ARZFKOaf_lWBpiiVJhURw
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpj30o7p2m/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpj30o7p2m/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_5dbfcec9f5330133_hbf4eyv6/home/.triton/dump/KliX_a-C_wEDlty0-ern18dBCS7bkoHVZ15JX5nHZeM
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpqdz2hzjy/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpqdz2hzjy/kernel
+
+Output Ai created:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+  ✓ Output shape is correct
+
+Verifying block-wise correctness (testing entire 64x64 blocks)...
+
+Verification completed:
+  Total 64x64 blocks tested: 16
+  Maximum error across all blocks: 1.000000e+00
+
+  Found 16 blocks with error > 1e-4:
+    Block [B=0, H=0, Idx=0]: error=1.000000e+00, ||A||=0.3474, ||Ai||=0.0000
+    Block [B=0, H=0, Idx=1]: error=1.000000e+00, ||A||=0.3159, ||Ai||=0.0000
+    Block [B=0, H=1, Idx=0]: error=1.000000e+00, ||A||=0.3525, ||Ai||=0.0000
+    ... and 13 more
+
+============================================================
+✗ FAILURE: Some 64x64 blocks failed! Maximum error: 1.000000e+00
+  Note: For 64x64 blocks, numerical errors might accumulate.
+  Consider using double precision if higher accuracy is needed.
+
+============================================================
+Additional structural checks on Ai...
+
+Checking Ai structure:
+  Found 512 diagonal errors (first 3 shown):
+    Block [0,0,0] row 0: Diagonal should be 1, got 0.000000
+    Block [0,0,0] row 1: Diagonal should be 1, got 0.000000
+    Block [0,0,0] row 2: Diagonal should be 1, got 0.000000
+  ✓ All checked upper triangle elements are close to 0
+
+============================================================
+TEST SUMMARY:
+  Total 64x64 blocks processed: 16
+  Maximum (I+A)*Ai - I error: 1.000000e+00
+  Test FAILED
+============================================================
+
+Test completed in 77.37 seconds
+
+================================================================================
+END OF TEST
+================================================================================
