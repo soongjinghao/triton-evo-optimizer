@@ -1,0 +1,113 @@
+{
+  "candidate_type": "baseline",
+  "compile_errors": [],
+  "compile_job_id": "compile:layer_norm_fwd_kernel:74480aa17785d73a",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "layer_norm_fwd_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/layer_norm_fwd_kernel/baseline_layer_norm_fwd_kernel__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/layer_norm_fwd_kernel/baseline_layer_norm_fwd_kernel__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/layer_norm_fwd_kernel/baseline_layer_norm_fwd_kernel__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/layer_norm_fwd_kernel/baseline_layer_norm_fwd_kernel__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 31,
+      "name": "layer_norm_fwd_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "layer_norm_fwd_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_layer_norm_fwd_kernel_74480aa17785d73a_7whd93a4/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_layer_norm_fwd_kernel_74480aa17785d73a_7whd93a4/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_layer_norm_fwd_kernel_74480aa17785d73a_7whd93a4/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 12269.723
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "baseline:layer_norm_fwd_kernel"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/layer_norm_fwd_kernel/compile_layer_norm_fwd_kernel_74480aa17785d73a.json",
+  "module_staged_as": "layer_norm_fwd_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "layer_norm_fwd_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/layer_norm_fwd_kernel/baseline_layer_norm_fwd_kernel__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/layer_norm_fwd_kernel__compile_layer_norm_fwd_kernel_74480aa17785d73a.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 20.598943,
+  "representative_candidate_id": "baseline:layer_norm_fwd_kernel",
+  "requires_candidate_staging": false,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "baseline:layer_norm_fwd_kernel"
+  ],
+  "selected_roles": [
+    "baseline"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "datasets/layer_norm_fwd_kernel/layer_norm_fwd_kernel.py",
+  "source_sha256": "74480aa17785d73a6bcc9d69488e156eef08566b81498a66c4a0eb841a56fd25",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "layer_norm_fwd_kernel",
+    "numpy",
+    "pytest",
+    "torch",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/layer_norm_fwd_kernel/test_layer_norm_fwd_kernel_1.py",
+  "test_sha256": "7a668831cc540377b86de722acb60add229c8eb55f85c8511b6a8e9cec02f2d3",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 12269.723,
+  "worker_log_tail": "[W1115 02:42:06.297561160 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_layer_norm_fwd_kernel_74480aa17785d73a_7whd93a4/home/.triton/dump/9S9A4SCDISGju3gG-K1-D9OawzsCVtfpKKT2beTKwNU\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpni9yjosk/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpni9yjosk/kernel\n✓ Basic layer norm test passed\n",
+  "worker_status": "test_completed"
+}

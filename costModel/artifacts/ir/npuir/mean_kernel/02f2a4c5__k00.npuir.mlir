@@ -1,0 +1,78 @@
+// -----// IR Dump After GraphSyncSolver (hivm-graph-sync-solver) //----- //
+func.func @mean_kernel(%arg0: i64 {hacc.arg_type = #hacc.arg_type<ffts_base_address>}, %arg1: memref<?xi8, #hivm.address_space<gm>> {hacc.arg_type = #hacc.arg_type<sync_block_lock>}, %arg2: memref<?xi8, #hivm.address_space<gm>> {hacc.arg_type = #hacc.arg_type<workspace>}, %arg3: memref<?xf32, #hivm.address_space<gm>> {tt.divisibility = 16 : i32, tt.tensor_kind = 0 : i32}, %arg4: memref<?xf32, #hivm.address_space<gm>> {tt.divisibility = 16 : i32, tt.tensor_kind = 1 : i32}, %arg5: i32 {tt.divisibility = 16 : i32}, %arg6: i32 {tt.divisibility = 16 : i32}, %arg7: i32 {tt.divisibility = 16 : i32}, %arg8: i32, %arg9: i32, %arg10: i32) attributes {SyncBlockLockArgIdx = 0 : i64, WorkspaceArgIdx = 1 : i64, func_dyn_memref_args = dense<[false, true, true, true, true, false, false, false, false, false, false]> : vector<11xi1>, hacc.entry, hacc.function_kind = #hacc.function_kind<DEVICE>, hivm.func_core_type = #hivm.func_core_type<AIV>, hivm.storage_aligned, mix_mode = "aiv", parallel_mode = "simd"} {
+  %c81984_i64 = arith.constant 81984 : i64
+  %c49184_i64 = arith.constant 49184 : i64
+  %c32800_i64 = arith.constant 32800 : i64
+  %c32768_i64 = arith.constant 32768 : i64
+  %c49216_i64 = arith.constant 49216 : i64
+  %c0_i64 = arith.constant 0 : i64
+  %c0 = arith.constant 0 : index
+  %c48_i32 = arith.constant 48 : i32
+  %0 = arith.muli %arg8, %arg9 : i32
+  %1 = arith.muli %0, %arg10 : i32
+  annotation.mark %1 {logical_block_num} : i32
+  %2 = hivm.hir.get_block_idx -> i64
+  %3 = arith.trunci %2 : i64 to i32
+  %4 = arith.muli %arg10, %arg9 : i32
+  hivm.hir.set_flag[<PIPE_MTE3>, <PIPE_S>, <EVENT_ID0>]
+  hivm.hir.set_flag[<PIPE_MTE3>, <PIPE_S>, <EVENT_ID1>]
+  hivm.hir.set_flag[<PIPE_S>, <PIPE_V>, <EVENT_ID0>]
+  scf.for %arg11 = %3 to %1 step %c48_i32  : i32 {
+    %5 = arith.index_cast %arg11 : i32 to index
+    %6 = arith.index_cast %3 : i32 to index
+    %7 = arith.index_cast %1 : i32 to index
+    %8 = arith.index_cast %c48_i32 : i32 to index
+    %9 = affine.apply affine_map<()[s0, s1, s2] -> (((s0 - s1) floordiv s2) mod 2)>()[%5, %6, %8]
+    %10 = arith.index_cast %9 : index to i1
+    %c0_i64_0 = arith.constant 0 : i64
+    %c1_i64 = arith.constant 1 : i64
+    %11 = arith.select %10, %c0_i64_0, %c1_i64 : i64
+    %12 = hivm.hir.pointer_cast(%c49184_i64, %c81984_i64) : memref<1xf32, #hivm.address_space<ub>>
+    annotation.mark %12 {hivm.multi_buffer = 2 : i32} : memref<1xf32, #hivm.address_space<ub>>
+    %13 = hivm.hir.pointer_cast(%c0_i64, %c49216_i64) : memref<8192xf32, #hivm.address_space<ub>>
+    annotation.mark %13 {hivm.multi_buffer = 2 : i32} : memref<8192xf32, #hivm.address_space<ub>>
+    hivm.hir.set_mask_norm
+    %14 = arith.divsi %arg11, %4 : i32
+    %15 = arith.remsi %14, %arg8 : i32
+    %16 = arith.cmpi sge, %15, %arg6 : i32
+    scf.if %16 {
+    } else {
+      %17 = arith.muli %15, %arg5 : i32
+      %18 = arith.index_cast %17 : i32 to index
+      %reinterpret_cast = memref.reinterpret_cast %arg3 to offset: [%18], sizes: [8192], strides: [1] : memref<?xf32, #hivm.address_space<gm>> to memref<8192xf32, strided<[1], offset: ?>, #hivm.address_space<gm>>
+      hivm.hir.load ins(%reinterpret_cast : memref<8192xf32, strided<[1], offset: ?>, #hivm.address_space<gm>>) outs(%13 : memref<8192xf32, #hivm.address_space<ub>>) init_out_buffer = false may_implicit_transpose_with_last_axis = false core_type = <VECTOR>
+      hivm.hir.set_flag[<PIPE_MTE2>, <PIPE_V>, <EVENT_ID0>]
+      %19 = hivm.hir.pointer_cast(%c32768_i64) : memref<1xf32, #hivm.address_space<ub>>
+      %20 = hivm.hir.pointer_cast(%c32800_i64) : memref<4096xf32, #hivm.address_space<ub>>
+      hivm.hir.wait_flag[<PIPE_S>, <PIPE_V>, <EVENT_ID0>]
+      hivm.hir.wait_flag[<PIPE_MTE2>, <PIPE_V>, <EVENT_ID0>]
+      hivm.hir.vreduce <sum> ins(%13 : memref<8192xf32, #hivm.address_space<ub>>) outs(%19 : memref<1xf32, #hivm.address_space<ub>>) temp_buffer(%20 : memref<4096xf32, #hivm.address_space<ub>>) reduce_dims = [0]
+      hivm.hir.set_flag[<PIPE_V>, <PIPE_S>, <EVENT_ID0>]
+      hivm.hir.wait_flag[<PIPE_V>, <PIPE_S>, <EVENT_ID0>]
+      %21 = memref.load %19[%c0] : memref<1xf32, #hivm.address_space<ub>>
+      hivm.hir.set_flag[<PIPE_S>, <PIPE_V>, <EVENT_ID0>]
+      %22 = arith.sitofp %arg7 : i32 to f32
+      %23 = arith.divf %21, %22 : f32
+      hivm.hir.wait_flag[<PIPE_MTE3>, <PIPE_S>, %11]
+      memref.store %23, %12[%c0] : memref<1xf32, #hivm.address_space<ub>>
+      hivm.hir.set_flag[<PIPE_S>, <PIPE_MTE3>, <EVENT_ID0>]
+      %24 = arith.index_cast %15 : i32 to index
+      %reinterpret_cast_1 = memref.reinterpret_cast %arg4 to offset: [%24], sizes: [1], strides: [1] : memref<?xf32, #hivm.address_space<gm>> to memref<1xf32, strided<[1], offset: ?>, #hivm.address_space<gm>>
+      hivm.hir.wait_flag[<PIPE_S>, <PIPE_MTE3>, <EVENT_ID0>]
+      hivm.hir.pipe_barrier[<PIPE_MTE3>]
+      hivm.hir.store ins(%12 : memref<1xf32, #hivm.address_space<ub>>) outs(%reinterpret_cast_1 : memref<1xf32, strided<[1], offset: ?>, #hivm.address_space<gm>>)
+      hivm.hir.set_flag[<PIPE_MTE3>, <PIPE_S>, %11]
+    } {pipeline.veconly}
+  } {autoblockify.subloop}
+  hivm.hir.wait_flag[<PIPE_S>, <PIPE_V>, <EVENT_ID0>]
+  hivm.hir.wait_flag[<PIPE_MTE3>, <PIPE_S>, <EVENT_ID0>]
+  hivm.hir.wait_flag[<PIPE_MTE3>, <PIPE_S>, <EVENT_ID1>]
+  hivm.hir.pipe_barrier[<PIPE_ALL>]
+  return
+}
+
+bisheng: warning: the flag '--cce-aicore-input-parameter-size=1536' has been deprecated and will be ignored [-Wunused-command-line-argument]
+warning: overriding the module target triple with aarch64-unknown-linux-gnu [-Woverride-module]
+1 warning generated.
+warning: overriding the module target triple with aarch64-unknown-linux-gnu [-Woverride-module]
+1 warning generated.

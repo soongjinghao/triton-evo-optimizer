@@ -1,0 +1,8 @@
+[W1115 02:53:09.162335770 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/home/.triton/dump/3RegcSH3jxBvDKeVUrp35AuQiYJCwYt0cvotWj89asE
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpojfir3_n/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpojfir3_n/kernel
+Basic test passed!
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/home/.triton/dump/7YKnjhz6uULzAQnai2a526rTV1VC3ku5sJzBcaWb1Qo
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpcx8htu10/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpcx8htu10/kernel
+Test case 2 passed!
+All tests passed!

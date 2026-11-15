@@ -1,0 +1,6 @@
+[W1115 02:24:40.639627210 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__selective_scan_update_kernel_ad320fbea656e81c_6vwab4d1/home/.triton/dump/4x5udzYdjz9gaz3p3Hv1nj1oyz1S4VrcLNx8ijQlI1A
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp9v5x_rvp/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp9v5x_rvp/kernel
+All features - Output max diff: 9.169018e+03
+? Test with all features passed
+All tests passed!

@@ -1,0 +1,112 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:compute_identity_kernel:2d53fd7216cd9cba",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "compute_identity_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/compute_identity_kernel/a1a70eba__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/compute_identity_kernel/a1a70eba__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/compute_identity_kernel/a1a70eba__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/compute_identity_kernel/a1a70eba__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 22,
+      "name": "compute_identity_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "compute_identity_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_compute_identity_kernel_2d53fd7216cd9cba_o_vnn0si/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_compute_identity_kernel_2d53fd7216cd9cba_o_vnn0si/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_compute_identity_kernel_2d53fd7216cd9cba_o_vnn0si/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11699.56
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "a1a70eba"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/compute_identity_kernel/compile_compute_identity_kernel_2d53fd7216cd9cba.json",
+  "module_staged_as": "compute_identity_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "compute_identity_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/compute_identity_kernel/a1a70eba__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/compute_identity_kernel__compile_compute_identity_kernel_2d53fd7216cd9cba.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 21.551304,
+  "representative_candidate_id": "a1a70eba",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "a1a70eba"
+  ],
+  "selected_roles": [
+    "historical_p10"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/a1a70eba.py",
+  "source_sha256": "2d53fd7216cd9cbabcc691c0ffd10026bdbfdd68867d14f2c149b90ec6d00528",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "compute_identity_kernel",
+    "pytest",
+    "torch",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/compute_identity_kernel/test_compute_identity_kernel_1.py",
+  "test_sha256": "7d42cf3d38455b17b8d14b0cf860e0221207b19554b4c4e66a6154305fed8380",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11699.56,
+  "worker_log_tail": "[W1115 02:33:53.248395610 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\n/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.\n  warn(\"view is deprecated, please use reshape with can_reorder being true.\")\n/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.\n  warn(\"view is deprecated, please use reshape with can_reorder being true.\")\n/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.\n  warn(\"view is deprecated, please use reshape with can_reorder being true.\")\n/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.\n  warn(\"view is deprecated, please use reshape with can_reorder being true.\")\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_compute_identity_kernel_2d53fd7216cd9cba_o_vnn0si/home/.triton/dump/i57pJiRUrXTjtLQddq7WlJgnwZ9fNDP05puvwp-SgbE\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpx8fkg0fl/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpx8fkg0fl/kernel\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

@@ -1,0 +1,110 @@
+{
+  "candidate_type": "baseline",
+  "compile_errors": [],
+  "compile_job_id": "compile:reshape_and_cache_flash_kernel:5927d9cac7c9ed27",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "reshape_and_cache_flash_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/reshape_and_cache_flash_kernel/baseline_reshape_and_cache_flash_kernel__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/reshape_and_cache_flash_kernel/baseline_reshape_and_cache_flash_kernel__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/reshape_and_cache_flash_kernel/baseline_reshape_and_cache_flash_kernel__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/reshape_and_cache_flash_kernel/baseline_reshape_and_cache_flash_kernel__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 10,
+      "name": "reshape_and_cache_flash_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "reshape_and_cache_flash_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reshape_and_cache_flash_kernel_5927d9cac7c9ed27_3ie_91i4/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reshape_and_cache_flash_kernel_5927d9cac7c9ed27_3ie_91i4/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reshape_and_cache_flash_kernel_5927d9cac7c9ed27_3ie_91i4/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 10495.136
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "baseline:reshape_and_cache_flash_kernel"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/reshape_and_cache_flash_kernel/compile_reshape_and_cache_flash_kernel_5927d9cac7c9ed27.json",
+  "module_staged_as": "reshape_and_cache_flash_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "reshape_and_cache_flash_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/reshape_and_cache_flash_kernel/baseline_reshape_and_cache_flash_kernel__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/reshape_and_cache_flash_kernel__compile_reshape_and_cache_flash_kernel_5927d9cac7c9ed27.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 19.750181,
+  "representative_candidate_id": "baseline:reshape_and_cache_flash_kernel",
+  "requires_candidate_staging": false,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "baseline:reshape_and_cache_flash_kernel"
+  ],
+  "selected_roles": [
+    "baseline"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "datasets/reshape_and_cache_flash_kernel/reshape_and_cache_flash_kernel.py",
+  "source_sha256": "5927d9cac7c9ed27100bcf9a02708a89f5ec8b0d217bcd942ebe35e99723b4b1",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "reshape_and_cache_flash_kernel",
+    "torch"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/reshape_and_cache_flash_kernel/test_reshape_and_cache_flash_kernel_1.py",
+  "test_sha256": "39c3233fe92aefaad22c137b686d9dc5caf92bdbbe2f33571b7b88fc237e9822",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 10495.136,
+  "worker_log_tail": "[W1115 02:53:34.931145930 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_reshape_and_cache_flash_kernel_5927d9cac7c9ed27_3ie_91i4/home/.triton/dump/LgNG7jzSI8dEvzzrAVm9Vn6DvfJsGZnKZ4BcH8xDGnw\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp4dk_bgmw/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp4dk_bgmw/kernel\nreshape_and_cache_flash test passed!\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

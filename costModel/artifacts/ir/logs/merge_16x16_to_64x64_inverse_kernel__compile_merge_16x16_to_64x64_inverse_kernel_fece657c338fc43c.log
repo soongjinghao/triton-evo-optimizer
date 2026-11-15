@@ -1,0 +1,70 @@
+
+================================================================================
+Starting test_solve_tril_64x64
+================================================================================
+Testing solve_tril with B=2, T=128, H=4, BT=64
+Using device: npu
+[W1115 02:46:36.086371970 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+
+Creating input tensor A with shape: torch.Size([2, 128, 4, 64])
+Filling with random strictly lower triangular values...
+Created input tensor A:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+
+Validating input structure...
+  ✓ Input structure validated (all diagonals are zero)
+
+============================================================
+Test 1: Basic functionality with BT=64
+============================================================
+Calling solve_tril...
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_merge_16x16_to_64x64_inverse_kernel_fece657c338fc43c_k4o3b9yy/home/.triton/dump/aA06AWAfzdczQBjOT7fzaSYck-KvdGMpSB3Ui8Mo_JY
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpqvce_s5j/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpqvce_s5j/kernel
+
+Output Ai created:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+  ✓ Output shape is correct
+
+Verifying block-wise correctness (testing entire 64x64 blocks)...
+
+Verification completed:
+  Total 64x64 blocks tested: 16
+  Maximum error across all blocks: 1.000000e+00
+
+  Found 16 blocks with error > 1e-4:
+    Block [B=0, H=0, Idx=0]: error=1.000000e+00, ||A||=0.4013, ||Ai||=0.0000
+    Block [B=0, H=0, Idx=1]: error=1.000000e+00, ||A||=0.3861, ||Ai||=0.0000
+    Block [B=0, H=1, Idx=0]: error=1.000000e+00, ||A||=0.3463, ||Ai||=0.0000
+    ... and 13 more
+
+============================================================
+✗ FAILURE: Some 64x64 blocks failed! Maximum error: 1.000000e+00
+  Note: For 64x64 blocks, numerical errors might accumulate.
+  Consider using double precision if higher accuracy is needed.
+
+============================================================
+Additional structural checks on Ai...
+
+Checking Ai structure:
+  Found 512 diagonal errors (first 3 shown):
+    Block [0,0,0] row 0: Diagonal should be 1, got 0.000000
+    Block [0,0,0] row 1: Diagonal should be 1, got 0.000000
+    Block [0,0,0] row 2: Diagonal should be 1, got 0.000000
+  ✓ All checked upper triangle elements are close to 0
+
+============================================================
+TEST SUMMARY:
+  Total 64x64 blocks processed: 16
+  Maximum (I+A)*Ai - I error: 1.000000e+00
+  Test FAILED
+============================================================
+
+Test completed in 16.26 seconds
+
+================================================================================
+END OF TEST
+================================================================================

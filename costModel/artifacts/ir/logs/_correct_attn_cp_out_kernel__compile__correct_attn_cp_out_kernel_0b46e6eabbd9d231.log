@@ -1,0 +1,10 @@
+[W1115 02:15:55.398611090 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__correct_attn_cp_out_kernel_0b46e6eabbd9d231_zrhmmknd/home/.triton/dump/_XygosLukMqyQI-ocaQJGEcfZz6PGhb2b9vfXOz-3KQ
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp5nu7tm_x/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp5nu7tm_x/kernel
+✅ Triton and PyTorch implementations match!
+Output shape: torch.Size([4, 8, 64])
+VLSE shape: torch.Size([4, 8])
+[W1115 02:16:08.196506500 ToKernelNpu.cpp:40] Warning: Device do not support double dtype now, dtype cast replace with float. (function operator())
+Sample output values: tensor([       nan, 0.0000e+00, 1.6816e-44, 0.0000e+00, 0.0000e+00],
+       device='npu:0')
+Sample VLSE values: tensor([0., 0., 0., 0., 0.], device='npu:0')

@@ -1,0 +1,150 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:experts_combine_kernel:07075b14c68359bd",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 9,
+  "expected_test_module_name": "experts_combine_kernel",
+  "ir_counts": {
+    "npubin": 2,
+    "npuir": 2,
+    "other": 1,
+    "ttadapter": 2,
+    "ttir": 2
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/experts_combine_kernel/b712a108__k00.npubin",
+      "/workspace/Agent/costModel/artifacts/ir/npubin/experts_combine_kernel/b712a108__k01.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/experts_combine_kernel/b712a108__k00.npuir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/npuir/experts_combine_kernel/b712a108__k01.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/experts_combine_kernel/b712a108__k00.ttadapter.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/experts_combine_kernel/b712a108__k01.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/experts_combine_kernel/b712a108__k00.ttir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttir/experts_combine_kernel/b712a108__k01.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "experts_combine_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "experts_combine_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11522.244
+    },
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 2,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "experts_combine_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k002_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k002_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k002_npubin.npubin"
+      ],
+      "warmup_time_ms": 1598.855
+    },
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 3,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "experts_combine_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k003_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k003_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/capture/asm/k003_npubin.npubin"
+      ],
+      "warmup_time_ms": 0.128
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "b712a108"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/experts_combine_kernel/compile_experts_combine_kernel_07075b14c68359bd.json",
+  "module_staged_as": "experts_combine_kernel",
+  "n_attempt": 3,
+  "n_ok": 3,
+  "operator_name": "experts_combine_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/experts_combine_kernel/b712a108__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/experts_combine_kernel__compile_experts_combine_kernel_07075b14c68359bd.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 22.697398,
+  "representative_candidate_id": "b712a108",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "b712a108"
+  ],
+  "selected_roles": [
+    "historical_p50"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/b712a108.py",
+  "source_sha256": "07075b14c68359bd2f121a4f8f9e71cd282663c41eb9ec18daa0c1902ce982be",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "experts_combine_kernel",
+    "torch",
+    "triton",
+    "typing"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/experts_combine_kernel/test_experts_combine_kernel_1.py",
+  "test_sha256": "4d02a609d175296a04519f5144243a48731657d7481ac6077154c20fb7219e18",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 13121.227,
+  "worker_log_tail": "[W1115 02:35:49.956187880 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/home/.triton/dump/tDhazPd9HRrn6Nuh1LiZIiTosslrmgrb_9vJXA-BFks\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpgmcwaitk/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpgmcwaitk/kernel\nTest case 1 passed: Basic functionality with combine_k > 1\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_experts_combine_kernel_07075b14c68359bd_b6nonwm3/home/.triton/dump/qG2Wdal62IBwyKD1syk1yoZo8A_ss9ns_FMRYx-kVUE\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpbaktfrq8/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpbaktfrq8/kernel\nTest case 2 passed: Pre-combined case (combine_k = 1)\nTest case 3 passed: With output buffer\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

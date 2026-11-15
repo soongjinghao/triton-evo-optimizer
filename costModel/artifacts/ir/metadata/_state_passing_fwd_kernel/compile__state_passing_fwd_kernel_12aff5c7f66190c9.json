@@ -1,0 +1,113 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:_state_passing_fwd_kernel:12aff5c7f66190c9",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "_state_passing_fwd_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_state_passing_fwd_kernel/fd33a866__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_state_passing_fwd_kernel/fd33a866__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_state_passing_fwd_kernel/fd33a866__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_state_passing_fwd_kernel/fd33a866__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 5,
+      "name": "_state_passing_fwd_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "_state_passing_fwd_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__state_passing_fwd_kernel_12aff5c7f66190c9_5j4u61sh/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__state_passing_fwd_kernel_12aff5c7f66190c9_5j4u61sh/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__state_passing_fwd_kernel_12aff5c7f66190c9_5j4u61sh/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 10458.729
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 3,
+  "logical_candidate_ids": [
+    "fd33a866",
+    "6eae0c2e",
+    "dfb2f894"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/_state_passing_fwd_kernel/compile__state_passing_fwd_kernel_12aff5c7f66190c9.json",
+  "module_staged_as": "_state_passing_fwd_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "_state_passing_fwd_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/_state_passing_fwd_kernel/fd33a866__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/_state_passing_fwd_kernel__compile__state_passing_fwd_kernel_12aff5c7f66190c9.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 19.977072,
+  "representative_candidate_id": "fd33a866",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "6eae0c2e"
+  ],
+  "selected_roles": [
+    "historical_p10"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/fd33a866.py",
+  "source_sha256": "12aff5c7f66190c92bafbaeef556f840fc624a69c835cfaac64f6699ff2b3ee6",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "_state_passing_fwd_kernel",
+    "torch",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/_state_passing_fwd_kernel/test__state_passing_fwd_kernel_1.py",
+  "test_sha256": "e2df3718ba2e8bbf0d1c763e79b4978dc770ab10f161f7bbacc473716aad1df0",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 10458.729,
+  "worker_log_tail": "[W1115 02:27:08.209002000 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__state_passing_fwd_kernel_12aff5c7f66190c9_5j4u61sh/home/.triton/dump/0XKvsQDE-Qo1l8yeBzWdyIRts8IJIwqtHzDeZxVZmN0\n[WARNING] AutoBlockify disabled for kernel '_state_passing_fwd_kernel'. Unsafe ops: loads or stores with cache modifiers. Enabling may cause correctness issues. To force enable: set has_auto_blockify_blacklist_op=False.\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmphclllh8s/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmphclllh8s/kernel\nMax absolute diff - out: 7.75e+01, final_states: 5.21e+01\nMax relative diff - out: 1.06e+02, final_states: 1.00e+00\n",
+  "worker_status": "test_completed"
+}

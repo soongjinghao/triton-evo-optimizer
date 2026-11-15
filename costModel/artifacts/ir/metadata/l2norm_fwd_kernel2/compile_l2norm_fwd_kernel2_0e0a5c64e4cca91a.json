@@ -1,0 +1,112 @@
+{
+  "candidate_type": "seed",
+  "compile_errors": [],
+  "compile_job_id": "compile:l2norm_fwd_kernel2:0e0a5c64e4cca91a",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "l2norm_fwd_kernel2",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/l2norm_fwd_kernel2/seed_l2norm_fwd_kernel2__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/l2norm_fwd_kernel2/seed_l2norm_fwd_kernel2__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/l2norm_fwd_kernel2/seed_l2norm_fwd_kernel2__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/l2norm_fwd_kernel2/seed_l2norm_fwd_kernel2__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "l2norm_fwd_kernel2"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "l2norm_fwd_kernel2",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_l2norm_fwd_kernel2_0e0a5c64e4cca91a_ojk1zpx0/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_l2norm_fwd_kernel2_0e0a5c64e4cca91a_ojk1zpx0/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_l2norm_fwd_kernel2_0e0a5c64e4cca91a_ojk1zpx0/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11783.89
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "seed:l2norm_fwd_kernel2"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/l2norm_fwd_kernel2/compile_l2norm_fwd_kernel2_0e0a5c64e4cca91a.json",
+  "module_staged_as": "l2norm_fwd_kernel2",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "l2norm_fwd_kernel2",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/l2norm_fwd_kernel2/seed_l2norm_fwd_kernel2__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/l2norm_fwd_kernel2__compile_l2norm_fwd_kernel2_0e0a5c64e4cca91a.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 20.495246,
+  "representative_candidate_id": "seed:l2norm_fwd_kernel2",
+  "requires_candidate_staging": false,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "seed:l2norm_fwd_kernel2"
+  ],
+  "selected_roles": [
+    "seed"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "datasets/l2norm_fwd_kernel2/l2norm_fwd_kernel2_1.py",
+  "source_sha256": "0e0a5c64e4cca91a93804c5e05f12f152b89f6eb86ad67fc64f0bb15efc1f626",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "l2norm_fwd_kernel2",
+    "torch",
+    "torch_npu",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/l2norm_fwd_kernel2/test_l2norm_fwd_kernel2_1.py",
+  "test_sha256": "e39d65b0a6e1f9dc0ecfa83a23452ab1e8514785c56d863766e9930d6b6bad03",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11783.89,
+  "worker_log_tail": "[W1115 02:41:24.259225050 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_l2norm_fwd_kernel2_0e0a5c64e4cca91a_ojk1zpx0/home/.triton/dump/isXS6VaLXL_ID6B5e9TV8OosCoAt_m_6T48u_sBFjk0\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpkcyc0cpz/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpkcyc0cpz/kernel\n✅ Test 1 passed: Basic L2 normalization\n",
+  "worker_status": "test_completed"
+}

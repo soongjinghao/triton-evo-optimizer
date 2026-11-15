@@ -1,0 +1,5 @@
+[W1115 02:20:27.259927860 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__pack_seq_kernel_e448893f8576bae7_dto39skv/home/.triton/dump/12H9oS2v6t-tvSSJFWk9_LHDjKyPJqDqNrEpwrAhfIo
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpt1paan3o/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpt1paan3o/kernel
+Test 1 passed: Basic 2D input
+All tests passed!

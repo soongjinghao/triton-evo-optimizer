@@ -1,0 +1,154 @@
+{
+  "candidate_type": "baseline",
+  "compile_errors": [],
+  "compile_job_id": "compile:_trtllm_prefill_attn_kvfp8_dequant:8ab4dd935fa4057a",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 13,
+  "expected_test_module_name": "_trtllm_prefill_attn_kvfp8_dequant",
+  "ir_counts": {
+    "npubin": 3,
+    "npuir": 3,
+    "other": 1,
+    "ttadapter": 3,
+    "ttir": 3
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k00.npubin",
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k01.npubin",
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k02.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k00.npuir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k01.npuir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k02.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k00.ttadapter.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k01.ttadapter.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k02.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k00.ttir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k01.ttir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k02.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 27,
+      "name": "_trtllm_prefill_attn_kvfp8_dequant"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "_trtllm_prefill_attn_kvfp8_dequant",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 10637.846
+    },
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 2,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "_trtllm_prefill_attn_kvfp8_dequant",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k002_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k002_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k002_npubin.npubin"
+      ],
+      "warmup_time_ms": 1663.219
+    },
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 3,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "_trtllm_prefill_attn_kvfp8_dequant",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k003_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k003_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/capture/asm/k003_npubin.npubin"
+      ],
+      "warmup_time_ms": 1716.589
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "baseline:_trtllm_prefill_attn_kvfp8_dequant"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a.json",
+  "module_staged_as": "_trtllm_prefill_attn_kvfp8_dequant",
+  "n_attempt": 3,
+  "n_ok": 3,
+  "operator_name": "_trtllm_prefill_attn_kvfp8_dequant",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/_trtllm_prefill_attn_kvfp8_dequant/baseline__trtllm_prefill_attn_kvfp8_dequant__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/_trtllm_prefill_attn_kvfp8_dequant__compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 23.09978,
+  "representative_candidate_id": "baseline:_trtllm_prefill_attn_kvfp8_dequant",
+  "requires_candidate_staging": false,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "baseline:_trtllm_prefill_attn_kvfp8_dequant"
+  ],
+  "selected_roles": [
+    "baseline"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant.py",
+  "source_sha256": "8ab4dd935fa4057a1482a5e7385f594d6ba68dc710f27c0c2410f37ee13ffee9",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "_trtllm_prefill_attn_kvfp8_dequant",
+    "numpy",
+    "pytest",
+    "torch"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/_trtllm_prefill_attn_kvfp8_dequant/test__trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "test_sha256": "8bf2b39dacacfdd931e629ebd0c67f033877cdedfa22b60c0fcc9b7e7bb44fe3",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 14017.654,
+  "worker_log_tail": "[W1115 02:27:48.340826970 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/home/.triton/dump/zqoCulSMWAiqp0S9boIaulOlUEsBeGoFBKpAnr5-0q8\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpwvp53em9/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpwvp53em9/kernel\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/home/.triton/dump/1yny6fBE5D6gCBe14T4925WY1sPneHMP-aaI1sriEwE\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp82k5_5wv/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp82k5_5wv/kernel\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__trtllm_prefill_attn_kvfp8_dequant_8ab4dd935fa4057a_lfjoco00/home/.triton/dump/llwtjJjoMhgkvSu44fI15P6FSyIBudjE6f9euVBf3gE\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpca1rh2de/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpca1rh2de/kernel\nAll tests passed!\n✓ All unit tests completed successfully!\n",
+  "worker_status": "test_completed"
+}

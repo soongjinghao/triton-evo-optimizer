@@ -1,0 +1,111 @@
+{
+  "candidate_type": "seed",
+  "compile_errors": [],
+  "compile_job_id": "compile:rwkv_ka_fusion_kernel:1c084f3308f2dbb2",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "rwkv_ka_fusion_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/rwkv_ka_fusion_kernel/seed_rwkv_ka_fusion_kernel__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/rwkv_ka_fusion_kernel/seed_rwkv_ka_fusion_kernel__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/rwkv_ka_fusion_kernel/seed_rwkv_ka_fusion_kernel__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/rwkv_ka_fusion_kernel/seed_rwkv_ka_fusion_kernel__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "rwkv_ka_fusion_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "rwkv_ka_fusion_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2_nd7f_erh/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2_nd7f_erh/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2_nd7f_erh/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11389.577
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "seed:rwkv_ka_fusion_kernel"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/rwkv_ka_fusion_kernel/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2.json",
+  "module_staged_as": "rwkv_ka_fusion_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "rwkv_ka_fusion_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/rwkv_ka_fusion_kernel/seed_rwkv_ka_fusion_kernel__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/rwkv_ka_fusion_kernel__compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 20.943515,
+  "representative_candidate_id": "seed:rwkv_ka_fusion_kernel",
+  "requires_candidate_staging": false,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "seed:rwkv_ka_fusion_kernel"
+  ],
+  "selected_roles": [
+    "seed"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "datasets/rwkv_ka_fusion_kernel/rwkv_ka_fusion_kernel_1.py",
+  "source_sha256": "1c084f3308f2dbb294657ded56af1c7eff5d90f849f70ab5e1217bd8f336478d",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "rwkv_ka_fusion_kernel",
+    "torch",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/rwkv_ka_fusion_kernel/test_rwkv_ka_fusion_kernel_1.py",
+  "test_sha256": "ff1cb355e0262973d4bacb9b7eea7ca91606114190785f683610c2ac61ed14eb",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11389.577,
+  "worker_log_tail": "[W1115 02:55:43.637499330 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2_nd7f_erh/home/.triton/dump/X-dRWYvUlvfut2n1T6flOsQixIdfvgsmCDGQWLi-Q-8\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpixr6z5u8/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpixr6z5u8/kernel\n✅ RWKV KA Fusion tests passed!\no_k max difference: 6.392909526824951\no_kk max difference: 0.9630811810493469\no_kka max difference: 1.020704746246338\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

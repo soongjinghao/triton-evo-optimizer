@@ -1,0 +1,113 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:mean_kernel:c998b32d2fca45cc",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "mean_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/mean_kernel/12905f62__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/mean_kernel/12905f62__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/mean_kernel/12905f62__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/mean_kernel/12905f62__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "mean_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "mean_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_mean_kernel_c998b32d2fca45cc_repfiv0m/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_mean_kernel_c998b32d2fca45cc_repfiv0m/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_mean_kernel_c998b32d2fca45cc_repfiv0m/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11179.849
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 2,
+  "logical_candidate_ids": [
+    "12905f62",
+    "7bd29cd7"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/mean_kernel/compile_mean_kernel_c998b32d2fca45cc.json",
+  "module_staged_as": "mean_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "mean_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/mean_kernel/12905f62__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/mean_kernel__compile_mean_kernel_c998b32d2fca45cc.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 19.43136,
+  "representative_candidate_id": "12905f62",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "12905f62"
+  ],
+  "selected_roles": [
+    "historical_p10"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/12905f62.py",
+  "source_sha256": "c998b32d2fca45cca49e69995786204d7bc69f4456a20e73cc7429c09747577f",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "mean_kernel",
+    "torch",
+    "torch_npu",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/mean_kernel/test_mean_kernel_1.py",
+  "test_sha256": "0b0b1e8982fa2d58df0330a4bd6d9e331b821a18ab5ba536186e43d7235470e4",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11179.849,
+  "worker_log_tail": "[W1115 02:44:06.285522190 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_mean_kernel_c998b32d2fca45cc_repfiv0m/home/.triton/dump/spuv0aa-z-j3Er6HYUFy70FHpBXjjVGtzybpYaGC-Ys\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpx6pju9j8/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpx6pju9j8/kernel\nTest case 1 passed: 2D tensor, dim=1, keepdim=False\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

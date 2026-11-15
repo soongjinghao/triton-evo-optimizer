@@ -1,0 +1,115 @@
+{
+  "candidate_type": "baseline",
+  "compile_errors": [],
+  "compile_job_id": "compile:matmul_kernel_simplified:811efa6ccaf30d17",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "matmul_kernel_simplified",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/matmul_kernel_simplified/baseline_matmul_kernel_simplified__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/matmul_kernel_simplified/baseline_matmul_kernel_simplified__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/matmul_kernel_simplified/baseline_matmul_kernel_simplified__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/matmul_kernel_simplified/baseline_matmul_kernel_simplified__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 11,
+      "name": "_compute_pid_swizzled"
+    },
+    {
+      "line": 24,
+      "name": "matmul_kernel_simplified"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "matmul_kernel_simplified",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_matmul_kernel_simplified_811efa6ccaf30d17_wtgvv7k3/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_matmul_kernel_simplified_811efa6ccaf30d17_wtgvv7k3/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_matmul_kernel_simplified_811efa6ccaf30d17_wtgvv7k3/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 9716.665
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "baseline:matmul_kernel_simplified"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/matmul_kernel_simplified/compile_matmul_kernel_simplified_811efa6ccaf30d17.json",
+  "module_staged_as": "matmul_kernel_simplified",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "matmul_kernel_simplified",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/matmul_kernel_simplified/baseline_matmul_kernel_simplified__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/matmul_kernel_simplified__compile_matmul_kernel_simplified_811efa6ccaf30d17.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 18.851209,
+  "representative_candidate_id": "baseline:matmul_kernel_simplified",
+  "requires_candidate_staging": false,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "baseline:matmul_kernel_simplified"
+  ],
+  "selected_roles": [
+    "baseline"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "datasets/matmul_kernel_simplified/matmul_kernel_simplified.py",
+  "source_sha256": "811efa6ccaf30d17061e61fb2b5f5b17fa53d3c888f6e2b3ed92beaa8807496f",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "matmul_kernel_simplified",
+    "numpy",
+    "torch"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/matmul_kernel_simplified/test_matmul_kernel_simplified_1.py",
+  "test_sha256": "fd7efc9d9d96101863a5ce2d9e0b2d10fedd14304131e104bd863b3154df910e",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 9716.665,
+  "worker_log_tail": "[W1115 02:42:56.762767820 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_matmul_kernel_simplified_811efa6ccaf30d17_wtgvv7k3/home/.triton/dump/XlVb4ro7KDwKWfiqRCsAUqGXpQdwnSgDog67PHZZ9S0\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpz2fxtcmx/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpz2fxtcmx/kernel\n✓ Float32 matmul test passed\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

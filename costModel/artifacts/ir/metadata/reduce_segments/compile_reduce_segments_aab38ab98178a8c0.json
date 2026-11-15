@@ -1,0 +1,141 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:reduce_segments:aab38ab98178a8c0",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 9,
+  "expected_test_module_name": "reduce_segments",
+  "ir_counts": {
+    "npubin": 2,
+    "npuir": 2,
+    "other": 1,
+    "ttadapter": 2,
+    "ttir": 2
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/reduce_segments/f123054b__k00.npubin",
+      "/workspace/Agent/costModel/artifacts/ir/npubin/reduce_segments/f123054b__k01.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/reduce_segments/f123054b__k00.npuir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/npuir/reduce_segments/f123054b__k01.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/reduce_segments/f123054b__k00.ttadapter.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/reduce_segments/f123054b__k01.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/reduce_segments/f123054b__k00.ttir.mlir",
+      "/workspace/Agent/costModel/artifacts/ir/ttir/reduce_segments/f123054b__k01.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "cdiv_fn"
+    },
+    {
+      "line": 10,
+      "name": "find_seq_idx"
+    },
+    {
+      "line": 30,
+      "name": "reduce_segments"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "reduce_segments",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11736.53
+    },
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 2,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "reduce_segments",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/capture/asm/k002_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/capture/asm/k002_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/capture/asm/k002_npubin.npubin"
+      ],
+      "warmup_time_ms": 3008.024
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 2,
+  "logical_candidate_ids": [
+    "f123054b",
+    "beec4a83"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/reduce_segments/compile_reduce_segments_aab38ab98178a8c0.json",
+  "module_staged_as": "reduce_segments",
+  "n_attempt": 2,
+  "n_ok": 2,
+  "operator_name": "reduce_segments",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/reduce_segments/f123054b__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/reduce_segments__compile_reduce_segments_aab38ab98178a8c0.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 24.533325,
+  "representative_candidate_id": "f123054b",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "beec4a83"
+  ],
+  "selected_roles": [
+    "historical_p50"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/f123054b.py",
+  "source_sha256": "aab38ab98178a8c0bccb1b31d5d06ab8abad095b1f3560ebc3a9a077e3ecab9e",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "reduce_segments",
+    "torch",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/reduce_segments/test_reduce_segments_1.py",
+  "test_sha256": "aa0b6b0d065cd8b7a3a4a9d5e9c37da7efa9ab9954657697a21082baa5aa6354",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 14744.554,
+  "worker_log_tail": "[W1115 02:53:09.162335770 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/home/.triton/dump/3RegcSH3jxBvDKeVUrp35AuQiYJCwYt0cvotWj89asE\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpojfir3_n/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpojfir3_n/kernel\nBasic test passed!\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_reduce_segments_aab38ab98178a8c0_8kswjj99/home/.triton/dump/7YKnjhz6uULzAQnai2a526rTV1VC3ku5sJzBcaWb1Qo\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpcx8htu10/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpcx8htu10/kernel\nTest case 2 passed!\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

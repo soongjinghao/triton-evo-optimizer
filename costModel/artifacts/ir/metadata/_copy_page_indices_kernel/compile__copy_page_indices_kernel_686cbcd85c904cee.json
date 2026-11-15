@@ -1,0 +1,127 @@
+{
+  "candidate_type": "historical_evolution",
+  "compile_errors": [],
+  "compile_job_id": "compile:_copy_page_indices_kernel:686cbcd85c904cee",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "_copy_page_indices_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel/artifacts/ir/npubin/_copy_page_indices_kernel/fc117074__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel/artifacts/ir/npuir/_copy_page_indices_kernel/fc117074__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel/artifacts/ir/ttadapter/_copy_page_indices_kernel/fc117074__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel/artifacts/ir/ttir/_copy_page_indices_kernel/fc117074__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 9,
+      "name": "_copy_page_indices_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "_copy_page_indices_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__copy_page_indices_kernel_686cbcd85c904cee_x_jvpbvd/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__copy_page_indices_kernel_686cbcd85c904cee_x_jvpbvd/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel/artifacts/ir/_work/compile__copy_page_indices_kernel_686cbcd85c904cee_x_jvpbvd/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 10620.836
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 16,
+  "logical_candidate_ids": [
+    "fc117074",
+    "7edb8a06",
+    "b2f32522",
+    "5eec76cf",
+    "0d29770f",
+    "a2b876db",
+    "064dc640",
+    "b796dfad",
+    "1d783dc1",
+    "f1714e99",
+    "8ad0d37c",
+    "1ca9ec00",
+    "4e47ad63",
+    "ff59ad15",
+    "a34243df",
+    "d0be9d23"
+  ],
+  "metadata_path": "/workspace/Agent/costModel/artifacts/ir/metadata/_copy_page_indices_kernel/compile__copy_page_indices_kernel_686cbcd85c904cee.json",
+  "module_staged_as": "_copy_page_indices_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "_copy_page_indices_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel/artifacts/ir/other/_copy_page_indices_kernel/fc117074__k00.so"
+  ],
+  "pilot_selected": true,
+  "process_log": "/workspace/Agent/costModel/artifacts/ir/logs/_copy_page_indices_kernel__compile__copy_page_indices_kernel_686cbcd85c904cee.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 20.535753,
+  "representative_candidate_id": "fc117074",
+  "requires_candidate_staging": true,
+  "schema_version": "1.0",
+  "selected_candidate_ids": [
+    "064dc640"
+  ],
+  "selected_roles": [
+    "historical_p50"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/fc117074.py",
+  "source_sha256": "686cbcd85c904cee9916b01972ad296fd715ab6db757be4de6dc43e8622b3e3c",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_import_modules": [
+    "_copy_page_indices_kernel",
+    "pytest",
+    "torch",
+    "triton"
+  ],
+  "test_imports_expected_module": true,
+  "test_path": "datasets/_copy_page_indices_kernel/test__copy_page_indices_kernel_1.py",
+  "test_sha256": "13ecd37b2b57a116b4e3d5291a469e3ffe55ba7e66a96f0ec767e491e99040fc",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 10620.836,
+  "worker_log_tail": "[W1115 02:15:13.998785510 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__copy_page_indices_kernel_686cbcd85c904cee_x_jvpbvd/home/.triton/dump/130tSW353J5jCo7NyBzWq54d4bQIxOnBspyZCbHL690\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpc9taxwq0/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpc9taxwq0/kernel\ntest_copy_page_indices_kernel passed!\n",
+  "worker_status": "test_completed"
+}

@@ -1,0 +1,566 @@
+Testing solve_tril with B=4, T=64, H=8, BT=16
+Using device: npu
+[W1115 02:59:39.164692070 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Created input tensor A with shape: torch.Size([4, 64, 8, 16])
+A dtype: torch.float32, device: npu:0
+
+Test 1: Basic functionality with BT=16
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/AtCfpijlchix2uFK8jKT5VCebzjD__Fvaof5F-x0GqE
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp5a7q33pp/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp5a7q33pp/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/2PnBF90ajaS1m_Y8Vb8ROdkuvDngehmcLSZKARbUnmM
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmphuo3f356/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmphuo3f356/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/2X2eEtD_4_KFJmBC0rdTAUA_Xsym31FWm5mVcrLSaa0
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpi5x9e6cj/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpi5x9e6cj/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/1E4-oX9t2isW149S0UPBqUq_bD1b5tLbW6vTUdlYoMA
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpp_qnp5x1/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpp_qnp5x1/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/m1tv9PWnpWcheXPXxewEMHm7WHqScMbHjfyZBLuEeGM
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp1cfl8ma_/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp1cfl8ma_/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/VENRAe_cJmVMPxIaRwBw3SKqqFG4vSC8pazYWxwW79U
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp45dev1ip/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp45dev1ip/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/1ZP52QT36JN-duAA0oS__iNxW-XYKxCs80CwBjA4TPc
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpsxoimx5g/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpsxoimx5g/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/CQtdOyQxXNysJBMxPON6XA6g5HHvpw0m9Ex16aHCqV0
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmposh6lvm5/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmposh6lvm5/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/V-VpPvkCywQBB8mJlJf2nPODROPsGwAUo7sFswEkH7E
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp4ggxq4lf/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp4ggxq4lf/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/VB1pGK0MQHIskYKo3HCpFFDJNl6s_8TOgEfad4j97n8
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp67bhr41c/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp67bhr41c/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/KozRJKCkViiMFrBuuxSEwvDi_Y3tt_Gvt1UdJ6K3u48
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpyc4i63cw/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpyc4i63cw/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/YL2ehoeXiZjYspt_WWpB4OUXwliB8vGRdVCn7EKss-Y
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp2hmns3g8/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp2hmns3g8/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/cfD9V_07OL5sDUEdrj8ahyJ_OM6_uZk3dziysYtIwXs
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp3z9mzixv/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp3z9mzixv/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/7hhSQxUGIhsK3d1XUCTbirw7MhbRGret-1Gtddma8p0
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpyy0i5i4d/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpyy0i5i4d/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/5nQm7irKTSWpzV1arJWL0yDSV2Gya01o9ZN96Migp5k
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpwq7xk_kg/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpwq7xk_kg/kernel
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_solve_tril_16x16_kernel_8594ab679fcb97b6_59i1eenm/home/.triton/dump/n7j57ImYh48JkGCBXpD1KGzGUvzOWDS2JvoIBkSh7a4
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp8xtpwzvf/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp8xtpwzvf/kernel
+Output Ai shape: torch.Size([4, 64, 8, 16])
+Ai dtype: torch.float32
+
+Verifying block-wise correctness...
+  Block [0, 0, 0] has error 1.000000
+    Max value in A_block: 2.678504
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 0, 1] has error 1.000000
+    Max value in A_block: 3.057291
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 0, 2] has error 1.000000
+    Max value in A_block: 2.512472
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 0, 3] has error 1.000000
+    Max value in A_block: 2.715497
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 1, 0] has error 1.000000
+    Max value in A_block: 2.733120
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 1, 1] has error 1.000000
+    Max value in A_block: 2.540679
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 1, 2] has error 1.000000
+    Max value in A_block: 3.198276
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 1, 3] has error 1.000000
+    Max value in A_block: 3.020924
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 2, 0] has error 1.000000
+    Max value in A_block: 3.032403
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 2, 1] has error 1.000000
+    Max value in A_block: 2.887279
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 2, 2] has error 1.000000
+    Max value in A_block: 3.017956
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 2, 3] has error 1.000000
+    Max value in A_block: 3.279938
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 3, 0] has error 1.000000
+    Max value in A_block: 2.562469
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 3, 1] has error 1.000000
+    Max value in A_block: 2.101707
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 3, 2] has error 1.000000
+    Max value in A_block: 3.178493
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 3, 3] has error 1.000000
+    Max value in A_block: 2.404456
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 4, 0] has error 1.000000
+    Max value in A_block: 2.811394
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 4, 1] has error 1.000000
+    Max value in A_block: 2.714714
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 4, 2] has error 1.000000
+    Max value in A_block: 2.493649
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 4, 3] has error 1.000000
+    Max value in A_block: 2.165426
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 5, 0] has error 1.000000
+    Max value in A_block: 2.518187
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 5, 1] has error 1.000000
+    Max value in A_block: 2.363925
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 5, 2] has error 1.000000
+    Max value in A_block: 2.598686
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 5, 3] has error 1.000000
+    Max value in A_block: 2.583480
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 6, 0] has error 1.000000
+    Max value in A_block: 2.795524
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 6, 1] has error 1.000000
+    Max value in A_block: 2.748001
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 6, 2] has error 1.000000
+    Max value in A_block: 3.027324
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 6, 3] has error 1.000000
+    Max value in A_block: 2.713321
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 7, 0] has error 1.000000
+    Max value in A_block: 2.856627
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 7, 1] has error 1.000000
+    Max value in A_block: 2.340553
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 7, 2] has error 1.000000
+    Max value in A_block: 3.267717
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 7, 3] has error 1.000000
+    Max value in A_block: 2.497530
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 0, 0] has error 1.000000
+    Max value in A_block: 3.006750
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 0, 1] has error 1.000000
+    Max value in A_block: 2.685200
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 0, 2] has error 1.000000
+    Max value in A_block: 3.060239
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 0, 3] has error 1.000000
+    Max value in A_block: 2.911775
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 1, 0] has error 1.000000
+    Max value in A_block: 2.983795
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 1, 1] has error 1.000000
+    Max value in A_block: 2.858575
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 1, 2] has error 1.000000
+    Max value in A_block: 3.386053
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 1, 3] has error 1.000000
+    Max value in A_block: 3.097536
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 2, 0] has error 1.000000
+    Max value in A_block: 3.235970
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 2, 1] has error 1.000000
+    Max value in A_block: 2.556962
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 2, 2] has error 1.000000
+    Max value in A_block: 2.814946
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 2, 3] has error 1.000000
+    Max value in A_block: 2.774203
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 3, 0] has error 1.000000
+    Max value in A_block: 2.263169
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 3, 1] has error 1.000000
+    Max value in A_block: 2.457760
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 3, 2] has error 1.000000
+    Max value in A_block: 3.211412
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 3, 3] has error 1.000000
+    Max value in A_block: 2.302088
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 4, 0] has error 1.000000
+    Max value in A_block: 2.824007
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 4, 1] has error 1.000000
+    Max value in A_block: 3.408157
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 4, 2] has error 1.000000
+    Max value in A_block: 3.533055
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 4, 3] has error 1.000000
+    Max value in A_block: 2.413075
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 5, 0] has error 1.000000
+    Max value in A_block: 2.552280
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 5, 1] has error 1.000000
+    Max value in A_block: 2.950015
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 5, 2] has error 1.000000
+    Max value in A_block: 3.195161
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 5, 3] has error 1.000000
+    Max value in A_block: 3.222932
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 6, 0] has error 1.000000
+    Max value in A_block: 2.784050
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 6, 1] has error 1.000000
+    Max value in A_block: 2.728266
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 6, 2] has error 1.000000
+    Max value in A_block: 2.866158
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 6, 3] has error 1.000000
+    Max value in A_block: 2.814368
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 7, 0] has error 1.000000
+    Max value in A_block: 3.328455
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 7, 1] has error 1.000000
+    Max value in A_block: 2.432111
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 7, 2] has error 1.000000
+    Max value in A_block: 2.752831
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 7, 3] has error 1.000000
+    Max value in A_block: 2.625819
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 0, 0] has error 1.000000
+    Max value in A_block: 2.560837
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 0, 1] has error 1.000000
+    Max value in A_block: 2.308739
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 0, 2] has error 1.000000
+    Max value in A_block: 2.746129
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 0, 3] has error 1.000000
+    Max value in A_block: 2.874319
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 1, 0] has error 1.000000
+    Max value in A_block: 2.416093
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 1, 1] has error 1.000000
+    Max value in A_block: 3.206795
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 1, 2] has error 1.000000
+    Max value in A_block: 2.645700
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 1, 3] has error 1.000000
+    Max value in A_block: 2.566675
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 2, 0] has error 1.000000
+    Max value in A_block: 2.704961
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 2, 1] has error 1.000000
+    Max value in A_block: 2.323504
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 2, 2] has error 1.000000
+    Max value in A_block: 2.433638
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 2, 3] has error 1.000000
+    Max value in A_block: 3.030013
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 3, 0] has error 1.000000
+    Max value in A_block: 2.987446
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 3, 1] has error 1.000000
+    Max value in A_block: 2.818005
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 3, 2] has error 1.000000
+    Max value in A_block: 3.092413
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 3, 3] has error 1.000000
+    Max value in A_block: 2.209747
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 4, 0] has error 1.000000
+    Max value in A_block: 3.675296
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 4, 1] has error 1.000000
+    Max value in A_block: 2.698512
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 4, 2] has error 1.000000
+    Max value in A_block: 3.532237
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 4, 3] has error 1.000000
+    Max value in A_block: 2.536477
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 5, 0] has error 1.000000
+    Max value in A_block: 2.212882
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 5, 1] has error 1.000000
+    Max value in A_block: 3.459300
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 5, 2] has error 1.000000
+    Max value in A_block: 2.575746
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 5, 3] has error 1.000000
+    Max value in A_block: 2.495533
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 6, 0] has error 1.000000
+    Max value in A_block: 2.875835
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 6, 1] has error 1.000000
+    Max value in A_block: 2.866293
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 6, 2] has error 1.000000
+    Max value in A_block: 2.471372
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 6, 3] has error 1.000000
+    Max value in A_block: 2.577244
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 7, 0] has error 1.000000
+    Max value in A_block: 2.163120
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 7, 1] has error 1.000000
+    Max value in A_block: 2.988486
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 7, 2] has error 1.000000
+    Max value in A_block: 2.918297
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 7, 3] has error 1.000000
+    Max value in A_block: 2.751742
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 0, 0] has error 1.000000
+    Max value in A_block: 3.665754
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 0, 1] has error 1.000000
+    Max value in A_block: 2.894306
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 0, 2] has error 1.000000
+    Max value in A_block: 2.824280
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 0, 3] has error 1.000000
+    Max value in A_block: 3.269102
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 1, 0] has error 1.000000
+    Max value in A_block: 2.503651
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 1, 1] has error 1.000000
+    Max value in A_block: 2.307666
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 1, 2] has error 1.000000
+    Max value in A_block: 3.031146
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 1, 3] has error 1.000000
+    Max value in A_block: 3.109802
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 2, 0] has error 1.000000
+    Max value in A_block: 2.817050
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 2, 1] has error 1.000000
+    Max value in A_block: 2.863997
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 2, 2] has error 1.000000
+    Max value in A_block: 2.573821
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 2, 3] has error 1.000000
+    Max value in A_block: 3.540683
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 3, 0] has error 1.000000
+    Max value in A_block: 2.317260
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 3, 1] has error 1.000000
+    Max value in A_block: 4.552814
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 3, 2] has error 1.000000
+    Max value in A_block: 2.868723
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 3, 3] has error 1.000000
+    Max value in A_block: 3.601126
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 4, 0] has error 1.000000
+    Max value in A_block: 2.492088
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 4, 1] has error 1.000000
+    Max value in A_block: 3.464612
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 4, 2] has error 1.000000
+    Max value in A_block: 3.088119
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 4, 3] has error 1.000000
+    Max value in A_block: 3.618042
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 5, 0] has error 1.000000
+    Max value in A_block: 3.077770
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 5, 1] has error 1.000000
+    Max value in A_block: 3.358742
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 5, 2] has error 1.000000
+    Max value in A_block: 2.877311
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 5, 3] has error 1.000000
+    Max value in A_block: 2.883080
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 6, 0] has error 1.000000
+    Max value in A_block: 2.972837
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 6, 1] has error 1.000000
+    Max value in A_block: 2.918995
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 6, 2] has error 1.000000
+    Max value in A_block: 2.384207
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 6, 3] has error 1.000000
+    Max value in A_block: 2.718647
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 7, 0] has error 1.000000
+    Max value in A_block: 2.142224
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 7, 1] has error 1.000000
+    Max value in A_block: 2.677238
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 7, 2] has error 1.000000
+    Max value in A_block: 3.122890
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 7, 3] has error 1.000000
+    Max value in A_block: 2.662607
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+
+Test completed:
+  Total blocks tested: 128
+  Maximum error across all blocks: 1.000000e+00
+✗ Some blocks failed! Maximum error: 1.000000e+00
+
+✓ All tests passed!
+
+==================================================
+SUCCESS: solve_tril test passed!
+==================================================

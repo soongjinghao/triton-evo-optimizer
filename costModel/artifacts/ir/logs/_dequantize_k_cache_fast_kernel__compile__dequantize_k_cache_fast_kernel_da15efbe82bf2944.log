@@ -1,0 +1,10 @@
+[W1115 02:17:29.204343710 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.
+  warn("view is deprecated, please use reshape with can_reorder being true.")
+/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.
+  warn("view is deprecated, please use reshape with can_reorder being true.")
+/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.
+  warn("view is deprecated, please use reshape with can_reorder being true.")
+Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__dequantize_k_cache_fast_kernel_da15efbe82bf2944_1dnnk6a8/home/.triton/dump/toI5VH-3jMQQOlYXr5gbBHiRTl-gxNw79tVowl4dx1U
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpghwia7po/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpghwia7po/kernel
+Test passed: Triton output matches PyTorch reference implementation.
