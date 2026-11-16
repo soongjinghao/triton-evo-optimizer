@@ -46,11 +46,10 @@ def moe_align_block_size_stage3(
 ):
     last_cumsum = 0
     off_cnt = num_experts * num_experts
-    shift = tl.ctz(block_size)
     inv_block_size = 1.0 / block_size
     for i in range(1, num_experts + 1):
         token_cnt = tl.load(tokens_cnts_ptr + off_cnt + i - 1)
-        last_cumsum = last_cumsum + ((token_cnt + block_size - 1) >> shift) << shift
+        last_cumsum = last_cumsum + tl.cdiv(token_cnt, block_size) * block_size
         tl.store(cumsum_ptr + i, last_cumsum)
     tl.store(total_tokens_post_pad_ptr, last_cumsum)
 @triton.jit

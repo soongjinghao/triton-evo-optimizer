@@ -13,7 +13,7 @@ def assign_extend_cache_locs(
     bs_upper: tl.constexpr,
 ):
     BLOCK_SIZE: tl.constexpr = 128
-    MAX_LOOP: tl.constexpr = tl.cdiv(pool_len, BLOCK_SIZE)
+    MAX_LOOP: tl.constexpr = (pool_len + BLOCK_SIZE - 1) // BLOCK_SIZE
 
     pid = tl.program_id(axis=0)
     kv_start = tl.load(start_offset + pid)
