@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_best",
+  "compile_job_id": "compile:l2norm_fwd_kernel2:e82e6c080932b691:e39d65b0",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "l2norm_fwd_kernel2",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/l2norm_fwd_kernel2/compile_l2norm_fwd_kernel2_e82e6c080932b691_e39d65b0__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/l2norm_fwd_kernel2/compile_l2norm_fwd_kernel2_e82e6c080932b691_e39d65b0__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/l2norm_fwd_kernel2/compile_l2norm_fwd_kernel2_e82e6c080932b691_e39d65b0__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/l2norm_fwd_kernel2/compile_l2norm_fwd_kernel2_e82e6c080932b691_e39d65b0__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 5,
+      "name": "l2norm_fwd_kernel2"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "l2norm_fwd_kernel2__historical_best__e82e6c080932"
+  ],
+  "operator_name": "l2norm_fwd_kernel2",
+  "representative_candidate_id": "l2norm_fwd_kernel2__historical_best__e82e6c080932",
+  "reuse_source_compile_job_id": "compile:l2norm_fwd_kernel2:e82e6c080932b691",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/l2norm_fwd_kernel2/compile_l2norm_fwd_kernel2_e82e6c080932b691.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_best"
+  ],
+  "source_path": "experiments/dataset/codes/854b6202.py",
+  "source_sha256": "e82e6c080932b691ded40bac7053e6751ce9dd109535e6bb0c524b34df92dabe",
+  "status": "success",
+  "test_path": "datasets/l2norm_fwd_kernel2/test_l2norm_fwd_kernel2_1.py",
+  "test_sha256": "e39d65b0a6e1f9dc0ecfa83a23452ab1e8514785c56d863766e9930d6b6bad03"
+}

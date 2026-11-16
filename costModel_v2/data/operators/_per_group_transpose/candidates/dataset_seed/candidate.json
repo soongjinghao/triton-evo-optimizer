@@ -1,0 +1,17 @@
+{
+  "candidate_id": "_per_group_transpose__dataset_seed__12744114c900",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/_per_group_transpose/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "_per_group_transpose"
+  ],
+  "operator_name": "_per_group_transpose",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/_per_group_transpose/_per_group_transpose_1.py",
+  "source_sha256": "12744114c9001c7e2ffa5eda57a167404b8592f99f4cdb076a57ba6de649487a",
+  "source_size_bytes": 2224
+}

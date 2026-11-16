@@ -1,0 +1,34 @@
+{
+  "candidate_id": "_act_quant_kernel__historical_p10__0b95f8569c69",
+  "candidate_role": "historical_p10",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_act_quant_kernel/candidates/historical_p10/kernel.py",
+  "historical_candidate_ids": [
+    "ed3bbe9d"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 8.5802,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "900"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "_act_quant_kernel"
+  ],
+  "operator_name": "_act_quant_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p10",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/ed3bbe9d.py",
+  "source_sha256": "0b95f8569c69cbbfa03091f1498a00e472b06c405e9257513e051d713dddaec8",
+  "source_size_bytes": 2376
+}

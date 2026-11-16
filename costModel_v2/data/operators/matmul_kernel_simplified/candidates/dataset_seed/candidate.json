@@ -1,0 +1,18 @@
+{
+  "candidate_id": "matmul_kernel_simplified__dataset_seed__821eabfdcab0",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/matmul_kernel_simplified/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "_compute_pid_swizzled",
+    "matmul_kernel_simplified"
+  ],
+  "operator_name": "matmul_kernel_simplified",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/matmul_kernel_simplified/matmul_kernel_simplified_1.py",
+  "source_sha256": "821eabfdcab052098528718256bafa6ab1b8db85ac220ea73bfc0c2170c6ae30",
+  "source_size_bytes": 5099
+}

@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:rwkv_ka_fusion_kernel:1c084f3308f2dbb2:ff1cb355",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "rwkv_ka_fusion_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/rwkv_ka_fusion_kernel/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2_ff1cb355__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/rwkv_ka_fusion_kernel/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2_ff1cb355__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/rwkv_ka_fusion_kernel/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2_ff1cb355__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/rwkv_ka_fusion_kernel/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2_ff1cb355__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "rwkv_ka_fusion_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "rwkv_ka_fusion_kernel__dataset_seed__1c084f3308f2"
+  ],
+  "operator_name": "rwkv_ka_fusion_kernel",
+  "representative_candidate_id": "rwkv_ka_fusion_kernel__dataset_seed__1c084f3308f2",
+  "reuse_source_compile_job_id": "compile:rwkv_ka_fusion_kernel:1c084f3308f2dbb2",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/rwkv_ka_fusion_kernel/compile_rwkv_ka_fusion_kernel_1c084f3308f2dbb2.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/rwkv_ka_fusion_kernel/rwkv_ka_fusion_kernel_1.py",
+  "source_sha256": "1c084f3308f2dbb294657ded56af1c7eff5d90f849f70ab5e1217bd8f336478d",
+  "status": "success",
+  "test_path": "datasets/rwkv_ka_fusion_kernel/test_rwkv_ka_fusion_kernel_1.py",
+  "test_sha256": "ff1cb355e0262973d4bacb9b7eea7ca91606114190785f683610c2ac61ed14eb"
+}

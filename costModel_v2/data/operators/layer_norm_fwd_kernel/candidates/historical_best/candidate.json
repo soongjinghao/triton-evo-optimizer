@@ -1,0 +1,34 @@
+{
+  "candidate_id": "layer_norm_fwd_kernel__historical_best__284750f7c8fe",
+  "candidate_role": "historical_best",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/layer_norm_fwd_kernel/candidates/historical_best/kernel.py",
+  "historical_candidate_ids": [
+    "814170ff"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 133.9827,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "layer_norm_fwd_kernel"
+  ],
+  "operator_name": "layer_norm_fwd_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_best",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/814170ff.py",
+  "source_sha256": "284750f7c8febd962b5709a6f6ecbb23234b4d28d5e4babcc6b792d51049eac7",
+  "source_size_bytes": 5637
+}

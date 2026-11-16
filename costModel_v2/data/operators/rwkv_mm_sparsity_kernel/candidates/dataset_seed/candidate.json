@@ -1,0 +1,17 @@
+{
+  "candidate_id": "rwkv_mm_sparsity_kernel__dataset_seed__32a057ce8f8b",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/rwkv_mm_sparsity_kernel/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "rwkv_mm_sparsity_kernel"
+  ],
+  "operator_name": "rwkv_mm_sparsity_kernel",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/rwkv_mm_sparsity_kernel/rwkv_mm_sparsity_kernel_1.py",
+  "source_sha256": "32a057ce8f8b4c350681574dc375b2de437b150d37f98fe5a0a8ea9f052bba09",
+  "source_size_bytes": 1462
+}

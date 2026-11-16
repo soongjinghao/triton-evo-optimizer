@@ -1,0 +1,66 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_job_id": "compile:recompute_w_u_fwd_kernel:f9f668f199930f08:e2ae8b32",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "recompute_w_u_fwd_kernel",
+  "ir_counts": {
+    "npubin": 3,
+    "npuir": 3,
+    "ttadapter": 2,
+    "ttir": 2
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k00.npubin",
+      "/workspace/Agent/costModel_v2/ir/npubin/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k01.npubin",
+      "/workspace/Agent/costModel_v2/ir/npubin/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k02.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k00.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k01.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k02.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k00.ttadapter.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttadapter/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k01.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k00.ttir.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttir/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08_e2ae8b32__reuse_k01.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 59,
+      "name": "recompute_w_u_fwd_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "recompute_w_u_fwd_kernel__historical_p90__f9f668f19993"
+  ],
+  "operator_name": "recompute_w_u_fwd_kernel",
+  "representative_candidate_id": "recompute_w_u_fwd_kernel__historical_p90__f9f668f19993",
+  "reuse_source_compile_job_id": "compile:recompute_w_u_fwd_kernel:f9f668f199930f08",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/recompute_w_u_fwd_kernel/compile_recompute_w_u_fwd_kernel_f9f668f199930f08.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "source_path": "experiments/dataset/codes/7b8e3556.py",
+  "source_sha256": "f9f668f199930f081bce0495a3d35b4edc1006af0c77478775003a3a881e2c91",
+  "status": "success",
+  "test_path": "datasets/recompute_w_u_fwd_kernel/test_recompute_w_u_fwd_kernel_1.py",
+  "test_sha256": "e2ae8b32f629db24500d6e63e38960c8fe5f0b63a61e90e32191bc1b5c045426"
+}

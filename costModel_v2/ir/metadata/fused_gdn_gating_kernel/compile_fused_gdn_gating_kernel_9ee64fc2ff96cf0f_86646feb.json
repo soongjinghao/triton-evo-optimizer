@@ -1,0 +1,101 @@
+{
+  "candidate_type": "historical_p50",
+  "compile_errors": [],
+  "compile_job_id": "compile:fused_gdn_gating_kernel:9ee64fc2ff96cf0f:86646feb",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "fused_gdn_gating_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/fused_gdn_gating_kernel/fused_gdn_gating_kernel__historical_p50__9ee64fc2ff96__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/fused_gdn_gating_kernel/fused_gdn_gating_kernel__historical_p50__9ee64fc2ff96__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/fused_gdn_gating_kernel/fused_gdn_gating_kernel__historical_p50__9ee64fc2ff96__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/fused_gdn_gating_kernel/fused_gdn_gating_kernel__historical_p50__9ee64fc2ff96__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "fused_gdn_gating_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "fused_gdn_gating_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel_v2/ir/_work/compile_fused_gdn_gating_kernel_9ee64fc2ff96cf0f_86646feb_31sedxmq/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_fused_gdn_gating_kernel_9ee64fc2ff96cf0f_86646feb_31sedxmq/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_fused_gdn_gating_kernel_9ee64fc2ff96cf0f_86646feb_31sedxmq/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11673.719
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "fused_gdn_gating_kernel__historical_p50__9ee64fc2ff96"
+  ],
+  "metadata_path": "/workspace/Agent/costModel_v2/ir/metadata/fused_gdn_gating_kernel/compile_fused_gdn_gating_kernel_9ee64fc2ff96cf0f_86646feb.json",
+  "module_staged_as": "fused_gdn_gating_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "fused_gdn_gating_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel_v2/ir/other/fused_gdn_gating_kernel/fused_gdn_gating_kernel__historical_p50__9ee64fc2ff96__k00.so"
+  ],
+  "process_log": "/workspace/Agent/costModel_v2/ir/logs/fused_gdn_gating_kernel__compile_fused_gdn_gating_kernel_9ee64fc2ff96cf0f_86646feb.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 21.474096,
+  "representative_candidate_id": "fused_gdn_gating_kernel__historical_p50__9ee64fc2ff96",
+  "reuse_status": "needs_compile",
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p50"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/7b70f536.py",
+  "source_sha256": "9ee64fc2ff96cf0fb872d5fbf2442a742fde60f9b6ff8c72b175727e21fc6d13",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_path": "datasets/fused_gdn_gating_kernel/test_fused_gdn_gating_kernel_1.py",
+  "test_sha256": "86646feb23bf9b96aeff3d9386afbf802a3a7125ea0e846fa0dc5b2b06b1d5d2",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11673.719,
+  "worker_log_tail": "[W1116 01:26:02.452192410 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_fused_gdn_gating_kernel_9ee64fc2ff96cf0f_86646feb_31sedxmq/home/.triton/dump/qBQkIWfboRnXHfFivgm1yZD8OWFwsvxewW2e-gF9fao\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpe88igrw3/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpe88igrw3/kernel\nAll tests passed!\n",
+  "worker_status": "test_completed"
+}

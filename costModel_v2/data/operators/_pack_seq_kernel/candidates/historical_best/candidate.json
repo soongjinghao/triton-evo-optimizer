@@ -1,0 +1,39 @@
+{
+  "candidate_id": "_pack_seq_kernel__historical_best__e39f0bec1978",
+  "candidate_role": "historical_best",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_pack_seq_kernel/candidates/historical_best/kernel.py",
+  "historical_candidate_ids": [
+    "965a3cdb",
+    "cdd6b7f7",
+    "dce5bb46",
+    "f74d64ab"
+  ],
+  "historical_generations": [
+    "1",
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 1.6400000000000001,
+  "historical_methods": [
+    "b4"
+  ],
+  "historical_operations": [
+    "crossover",
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 4,
+  "jit_functions": [
+    "_pack_seq_kernel"
+  ],
+  "operator_name": "_pack_seq_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_best",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/f74d64ab.py",
+  "source_sha256": "e39f0bec197860ce90e0cfe6939f25c24b84149e1b74faa2b2ae20c3c24a854d",
+  "source_size_bytes": 3005
+}

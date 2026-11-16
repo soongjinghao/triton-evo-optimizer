@@ -1,0 +1,37 @@
+{
+  "candidate_id": "_act_quant_kernel__historical_p50__792245697526",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_act_quant_kernel/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "bc1e7d04",
+    "ffe46c84"
+  ],
+  "historical_generations": [
+    "0",
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 111.0322,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "crossover",
+    "gen0_strategy_guided"
+  ],
+  "historical_run_ids": [
+    "900"
+  ],
+  "historical_sample_count": 2,
+  "jit_functions": [
+    "_act_quant_kernel"
+  ],
+  "operator_name": "_act_quant_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/bc1e7d04.py",
+  "source_sha256": "792245697526124b28e0fcbd4171af3b88bcfa99dba134bdf67eebef4b855416",
+  "source_size_bytes": 2510
+}

@@ -1,0 +1,40 @@
+{
+  "candidate_id": "rwkv_mm_sparsity_kernel__historical_p10__e9cbe17f1da9",
+  "candidate_role": "historical_p10",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/rwkv_mm_sparsity_kernel/candidates/historical_p10/kernel.py",
+  "historical_candidate_ids": [
+    "2c3bd6ba",
+    "533afae0",
+    "88aaeacf",
+    "9be22e55"
+  ],
+  "historical_generations": [
+    "13",
+    "2",
+    "4",
+    "8"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 6.3001000000000005,
+  "historical_methods": [
+    "b2"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 4,
+  "jit_functions": [
+    "rwkv_mm_sparsity_kernel"
+  ],
+  "operator_name": "rwkv_mm_sparsity_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p10",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/9be22e55.py",
+  "source_sha256": "e9cbe17f1da96ba2c4a29945184607019e44e97a7da88827ab0b694f3ff0299f",
+  "source_size_bytes": 1830
+}

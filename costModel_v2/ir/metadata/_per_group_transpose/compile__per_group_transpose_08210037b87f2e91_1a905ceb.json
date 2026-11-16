@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_best",
+  "compile_job_id": "compile:_per_group_transpose:08210037b87f2e91:1a905ceb",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_per_group_transpose",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_per_group_transpose/compile__per_group_transpose_08210037b87f2e91_1a905ceb__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_per_group_transpose/compile__per_group_transpose_08210037b87f2e91_1a905ceb__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_per_group_transpose/compile__per_group_transpose_08210037b87f2e91_1a905ceb__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_per_group_transpose/compile__per_group_transpose_08210037b87f2e91_1a905ceb__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 8,
+      "name": "_per_group_transpose"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_per_group_transpose__historical_best__08210037b87f"
+  ],
+  "operator_name": "_per_group_transpose",
+  "representative_candidate_id": "_per_group_transpose__historical_best__08210037b87f",
+  "reuse_source_compile_job_id": "compile:_per_group_transpose:08210037b87f2e91",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_per_group_transpose/compile__per_group_transpose_08210037b87f2e91.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_best"
+  ],
+  "source_path": "experiments/dataset/codes/851674e2.py",
+  "source_sha256": "08210037b87f2e916f1e6b87f7dfb6add812a2bcaab4a0ef23bb3524dd1ca512",
+  "status": "success",
+  "test_path": "datasets/_per_group_transpose/test__per_group_transpose_1.py",
+  "test_sha256": "1a905ceb470c8584771ec6558222b5852f79d94103c17121b37864f7ee0b6ce1"
+}

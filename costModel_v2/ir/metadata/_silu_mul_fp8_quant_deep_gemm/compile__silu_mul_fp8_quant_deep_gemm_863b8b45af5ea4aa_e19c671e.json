@@ -1,0 +1,101 @@
+{
+  "candidate_type": "historical_p50",
+  "compile_errors": [],
+  "compile_job_id": "compile:_silu_mul_fp8_quant_deep_gemm:863b8b45af5ea4aa:e19c671e",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "_silu_mul_fp8_quant_deep_gemm",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm__historical_p50__863b8b45af5e__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm__historical_p50__863b8b45af5e__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm__historical_p50__863b8b45af5e__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm__historical_p50__863b8b45af5e__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "_silu_mul_fp8_quant_deep_gemm"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "_silu_mul_fp8_quant_deep_gemm",
+      "saved_files": [
+        "/workspace/Agent/costModel_v2/ir/_work/compile__silu_mul_fp8_quant_deep_gemm_863b8b45af5ea4aa_e19c671e_znsvj8g7/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile__silu_mul_fp8_quant_deep_gemm_863b8b45af5ea4aa_e19c671e_znsvj8g7/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile__silu_mul_fp8_quant_deep_gemm_863b8b45af5ea4aa_e19c671e_znsvj8g7/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11509.482
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_silu_mul_fp8_quant_deep_gemm__historical_p50__863b8b45af5e"
+  ],
+  "metadata_path": "/workspace/Agent/costModel_v2/ir/metadata/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_863b8b45af5ea4aa_e19c671e.json",
+  "module_staged_as": "_silu_mul_fp8_quant_deep_gemm",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "_silu_mul_fp8_quant_deep_gemm",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel_v2/ir/other/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm__historical_p50__863b8b45af5e__k00.so"
+  ],
+  "process_log": "/workspace/Agent/costModel_v2/ir/logs/_silu_mul_fp8_quant_deep_gemm__compile__silu_mul_fp8_quant_deep_gemm_863b8b45af5ea4aa_e19c671e.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 20.963876,
+  "representative_candidate_id": "_silu_mul_fp8_quant_deep_gemm__historical_p50__863b8b45af5e",
+  "reuse_status": "needs_compile",
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p50"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/d333b690.py",
+  "source_sha256": "863b8b45af5ea4aa5966e5d52e31beee07a961466437fc5b90423f14ebfd2942",
+  "source_sha256_verified": true,
+  "status": "compiled_with_test_error",
+  "test_error": "AssertionError: y_q contains NaN or Inf",
+  "test_path": "datasets/_silu_mul_fp8_quant_deep_gemm/test__silu_mul_fp8_quant_deep_gemm_1.py",
+  "test_sha256": "e19c671e170d7a431ecd50c5a024365f931ca3484f780013e73bba8fee2feff8",
+  "test_sha256_verified": true,
+  "test_traceback": "Traceback (most recent call last):\n  File \"/workspace/Agent/costModel_v2/scripts/03_precompile_candidates.py\", line 573, in worker_main\n    runpy.run_path(str(test_file), run_name=\"__main__\")\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/Agent/costModel_v2/ir/_work/compile__silu_mul_fp8_quant_deep_gemm_863b8b45af5ea4aa_e19c671e_znsvj8g7/test_env/test__silu_mul_fp8_quant_deep_gemm.py\", line 44, in <module>\n    test_silu_mul_quant()\n  File \"/workspace/Agent/costModel_v2/ir/_work/compile__silu_mul_fp8_quant_deep_gemm_863b8b45af5ea4aa_e19c671e_znsvj8g7/test_env/test__silu_mul_fp8_quant_deep_gemm.py\", line 36, in test_silu_mul_quant\n    assert torch.all(torch.isfinite(y_q)), \"y_q contains NaN or Inf\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: y_q contains NaN or Inf\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11509.482,
+  "worker_log_tail": "Testing persistent_masked_m_silu_mul_quant on NPU...\n[W1116 01:23:47.494280780 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile__silu_mul_fp8_quant_deep_gemm_863b8b45af5ea4aa_e19c671e_znsvj8g7/home/.triton/dump/1B2cJsKrHdbn6YmF9QFBQbVmxau6naQ4UorRUygKElI\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmptr3ofxjw/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=False --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmptr3ofxjw/kernel\n",
+  "worker_status": "failed"
+}

@@ -1,0 +1,35 @@
+{
+  "candidate_id": "_fwd_kernel_ep_gather__historical_p10__dcba19e32208",
+  "candidate_role": "historical_p10",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_fwd_kernel_ep_gather/candidates/historical_p10/kernel.py",
+  "historical_candidate_ids": [
+    "014aabf1"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 4.4801,
+  "historical_methods": [
+    "mut_aggressive"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "apply_expert_map",
+    "_fwd_kernel_ep_gather"
+  ],
+  "operator_name": "_fwd_kernel_ep_gather",
+  "schema_version": "1.0",
+  "selection_method": "historical_p10",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/014aabf1.py",
+  "source_sha256": "dcba19e322081dfdb128fdba95521d353a50a89b56cf250f6088d8f05c90954f",
+  "source_size_bytes": 4495
+}

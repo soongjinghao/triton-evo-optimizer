@@ -1,0 +1,64 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:softplus:84446b9746483c54:c4b1e017",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "softplus",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/softplus/compile_softplus_84446b9746483c54_c4b1e017__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/softplus/compile_softplus_84446b9746483c54_c4b1e017__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/softplus/compile_softplus_84446b9746483c54_c4b1e017__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/softplus/compile_softplus_84446b9746483c54_c4b1e017__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 10,
+      "name": "softplus_kernel"
+    },
+    {
+      "line": 24,
+      "name": "softplus_kernel_default"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "softplus__dataset_seed__84446b974648"
+  ],
+  "operator_name": "softplus",
+  "representative_candidate_id": "softplus__dataset_seed__84446b974648",
+  "reuse_source_compile_job_id": "compile:softplus:84446b9746483c54",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/softplus/compile_softplus_84446b9746483c54.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/softplus/softplus_1.py",
+  "source_sha256": "84446b9746483c5430b47ba90962b523cb2a7d3c97409177f43d019062781fe2",
+  "status": "success",
+  "test_path": "datasets/softplus/test_softplus_1.py",
+  "test_sha256": "c4b1e0177f0598f267588d58f0a67c602fb2d3c3805b92daeb43de655ecabe2c"
+}

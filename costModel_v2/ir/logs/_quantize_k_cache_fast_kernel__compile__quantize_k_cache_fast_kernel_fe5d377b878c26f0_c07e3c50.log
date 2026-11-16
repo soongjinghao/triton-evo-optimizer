@@ -1,0 +1,7 @@
+[W1116 01:23:27.369900790 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile__quantize_k_cache_fast_kernel_fe5d377b878c26f0_c07e3c50_fub25bgg/home/.triton/dump/UdAEQKugYFZjr-ka9cMW_c8HMUhEQBs1MohNP07gNwI
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpyacejdya/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpyacejdya/kernel
+All tests passed!
+Output shape: torch.Size([4, 592])
+Output device: npu:0
+Output dtype: torch.bfloat16

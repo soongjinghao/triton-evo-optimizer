@@ -1,0 +1,34 @@
+{
+  "candidate_id": "copy_all_layer_kv_cache_tiled__historical_p10__369edb46ff97",
+  "candidate_role": "historical_p10",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/copy_all_layer_kv_cache_tiled/candidates/historical_p10/kernel.py",
+  "historical_candidate_ids": [
+    "c9ca975e"
+  ],
+  "historical_generations": [
+    "8"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 2.08,
+  "historical_methods": [
+    "b2"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "copy_all_layer_kv_cache_tiled"
+  ],
+  "operator_name": "copy_all_layer_kv_cache_tiled",
+  "schema_version": "1.0",
+  "selection_method": "historical_p10",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/c9ca975e.py",
+  "source_sha256": "369edb46ff97b54e9ec868e8284959c6fba722b5a756d868cf7dfadd1ef907b3",
+  "source_size_bytes": 1527
+}

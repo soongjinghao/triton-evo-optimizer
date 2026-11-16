@@ -1,0 +1,43 @@
+{
+  "candidate_id": "merge_16x16_to_64x64_inverse_kernel__historical_best__5dbfcec9f533",
+  "candidate_role": "historical_best",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/merge_16x16_to_64x64_inverse_kernel/candidates/historical_best/kernel.py",
+  "historical_candidate_ids": [
+    "0ff152ef",
+    "4df8bf85",
+    "5cfb8b74",
+    "5de0299d",
+    "7191da2d"
+  ],
+  "historical_generations": [
+    "10",
+    "12",
+    "13",
+    "7",
+    "8"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 29.5206,
+  "historical_methods": [
+    "b2"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 5,
+  "jit_functions": [
+    "merge_16x16_to_64x64_inverse_kernel",
+    "make_tensor_descriptor"
+  ],
+  "operator_name": "merge_16x16_to_64x64_inverse_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_best",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/0ff152ef.py",
+  "source_sha256": "5dbfcec9f5330133bb60f965f180b2917beb368c197e10752978effefde65f88",
+  "source_size_bytes": 12134
+}

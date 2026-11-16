@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_p10",
+  "compile_job_id": "compile:copy_all_layer_kv_cache_tiled:369edb46ff97b54e:b6e1152e",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "copy_all_layer_kv_cache_tiled",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/copy_all_layer_kv_cache_tiled/compile_copy_all_layer_kv_cache_tiled_369edb46ff97b54e_b6e1152e__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/copy_all_layer_kv_cache_tiled/compile_copy_all_layer_kv_cache_tiled_369edb46ff97b54e_b6e1152e__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/copy_all_layer_kv_cache_tiled/compile_copy_all_layer_kv_cache_tiled_369edb46ff97b54e_b6e1152e__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/copy_all_layer_kv_cache_tiled/compile_copy_all_layer_kv_cache_tiled_369edb46ff97b54e_b6e1152e__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "copy_all_layer_kv_cache_tiled"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "copy_all_layer_kv_cache_tiled__historical_p10__369edb46ff97"
+  ],
+  "operator_name": "copy_all_layer_kv_cache_tiled",
+  "representative_candidate_id": "copy_all_layer_kv_cache_tiled__historical_p10__369edb46ff97",
+  "reuse_source_compile_job_id": "compile:copy_all_layer_kv_cache_tiled:369edb46ff97b54e",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/copy_all_layer_kv_cache_tiled/compile_copy_all_layer_kv_cache_tiled_369edb46ff97b54e.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p10"
+  ],
+  "source_path": "experiments/dataset/codes/c9ca975e.py",
+  "source_sha256": "369edb46ff97b54e9ec868e8284959c6fba722b5a756d868cf7dfadd1ef907b3",
+  "status": "success",
+  "test_path": "datasets/copy_all_layer_kv_cache_tiled/test_copy_all_layer_kv_cache_tiled_1.py",
+  "test_sha256": "b6e1152e4e908142cd9e89741a538ceccebf4a9852bd95b7da9cc6ee69100d28"
+}

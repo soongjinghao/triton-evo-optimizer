@@ -1,0 +1,101 @@
+{
+  "candidate_type": "historical_p10",
+  "compile_errors": [],
+  "compile_job_id": "compile:assign_draft_cache_locs_page_size_1:6b844b342e535d76:5cd2e738",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "assign_draft_cache_locs_page_size_1",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/assign_draft_cache_locs_page_size_1/assign_draft_cache_locs_page_size_1__historical_p10__6b844b342e53__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/assign_draft_cache_locs_page_size_1/assign_draft_cache_locs_page_size_1__historical_p10__6b844b342e53__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/assign_draft_cache_locs_page_size_1/assign_draft_cache_locs_page_size_1__historical_p10__6b844b342e53__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/assign_draft_cache_locs_page_size_1/assign_draft_cache_locs_page_size_1__historical_p10__6b844b342e53__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "assign_draft_cache_locs_page_size_1"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "assign_draft_cache_locs_page_size_1",
+      "saved_files": [
+        "/workspace/Agent/costModel_v2/ir/_work/compile_assign_draft_cache_locs_page_size_1_6b844b342e535d76_5cd2e738_x0xu4bgy/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_assign_draft_cache_locs_page_size_1_6b844b342e535d76_5cd2e738_x0xu4bgy/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_assign_draft_cache_locs_page_size_1_6b844b342e535d76_5cd2e738_x0xu4bgy/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 10379.001
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "assign_draft_cache_locs_page_size_1__historical_p10__6b844b342e53"
+  ],
+  "metadata_path": "/workspace/Agent/costModel_v2/ir/metadata/assign_draft_cache_locs_page_size_1/compile_assign_draft_cache_locs_page_size_1_6b844b342e535d76_5cd2e738.json",
+  "module_staged_as": "assign_draft_cache_locs_page_size_1",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "assign_draft_cache_locs_page_size_1",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel_v2/ir/other/assign_draft_cache_locs_page_size_1/assign_draft_cache_locs_page_size_1__historical_p10__6b844b342e53__k00.so"
+  ],
+  "process_log": "/workspace/Agent/costModel_v2/ir/logs/assign_draft_cache_locs_page_size_1__compile_assign_draft_cache_locs_page_size_1_6b844b342e535d76_5cd2e738.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 19.606126,
+  "representative_candidate_id": "assign_draft_cache_locs_page_size_1__historical_p10__6b844b342e53",
+  "reuse_status": "needs_compile",
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p10"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/0a901bfd.py",
+  "source_sha256": "6b844b342e535d7670a30498cc60d5aba580108ea30e6c822f3f29f3cbdee52e",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_path": "datasets/assign_draft_cache_locs_page_size_1/test_assign_draft_cache_locs_page_size_1_1.py",
+  "test_sha256": "5cd2e7389d182991cd755772c55433cf6e67b7aa4c2ec7535216b7b5edc2fb77",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 10379.001,
+  "worker_log_tail": "[W1116 01:24:08.638778520 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_assign_draft_cache_locs_page_size_1_6b844b342e535d76_5cd2e738_x0xu4bgy/home/.triton/dump/nuug890WOEl-n2UlOVuRQ79IkwJeLSB13aSXKs8YDi8\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp0_xmzhir/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp0_xmzhir/kernel\n✅ Triton and Torch match\nOutput cache locations: tensor([ 1,  0, 24,  0,  0,  0,  0,  0,  0,  0], device='npu:0',\n       dtype=torch.int32)...\n",
+  "worker_status": "test_completed"
+}

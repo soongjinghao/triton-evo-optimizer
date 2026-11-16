@@ -1,0 +1,18 @@
+{
+  "candidate_id": "_fwd_kernel_ep_gather__dataset_seed__0b600df39967",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/_fwd_kernel_ep_gather/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "apply_expert_map",
+    "_fwd_kernel_ep_gather"
+  ],
+  "operator_name": "_fwd_kernel_ep_gather",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather_1.py",
+  "source_sha256": "0b600df39967dc40cc6c6069fcd702fe39bfd643cdf382156c6bd318b212adee",
+  "source_size_bytes": 4982
+}

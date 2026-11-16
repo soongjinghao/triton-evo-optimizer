@@ -1,0 +1,4 @@
+[W1116 01:25:08.929848520 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_copy_all_layer_kv_cache_tiled_3422946bf5e2cc9f_b6e1152e_iku08ft6/home/.triton/dump/HsN7bTBeOs6B91Lyih_u8M0Q-omu_-1xle5oSXIVfaE
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp13xkav6k/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp13xkav6k/kernel
+✅ copy_all_layer_kv_cache_tiled test passed

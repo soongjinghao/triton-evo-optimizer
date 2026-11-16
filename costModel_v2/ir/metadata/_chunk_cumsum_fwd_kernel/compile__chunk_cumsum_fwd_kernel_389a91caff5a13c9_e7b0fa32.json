@@ -1,0 +1,68 @@
+{
+  "candidate_type": "historical_best",
+  "compile_job_id": "compile:_chunk_cumsum_fwd_kernel:389a91caff5a13c9:e7b0fa32",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_chunk_cumsum_fwd_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_chunk_cumsum_fwd_kernel/compile__chunk_cumsum_fwd_kernel_389a91caff5a13c9_e7b0fa32__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_chunk_cumsum_fwd_kernel/compile__chunk_cumsum_fwd_kernel_389a91caff5a13c9_e7b0fa32__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_chunk_cumsum_fwd_kernel/compile__chunk_cumsum_fwd_kernel_389a91caff5a13c9_e7b0fa32__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_chunk_cumsum_fwd_kernel/compile__chunk_cumsum_fwd_kernel_389a91caff5a13c9_e7b0fa32__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 9,
+      "name": "softplus"
+    },
+    {
+      "line": 14,
+      "name": "softplus"
+    },
+    {
+      "line": 18,
+      "name": "_chunk_cumsum_fwd_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_chunk_cumsum_fwd_kernel__historical_best__389a91caff5a"
+  ],
+  "operator_name": "_chunk_cumsum_fwd_kernel",
+  "representative_candidate_id": "_chunk_cumsum_fwd_kernel__historical_best__389a91caff5a",
+  "reuse_source_compile_job_id": "compile:_chunk_cumsum_fwd_kernel:389a91caff5a13c9",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_chunk_cumsum_fwd_kernel/compile__chunk_cumsum_fwd_kernel_389a91caff5a13c9.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_best"
+  ],
+  "source_path": "experiments/dataset/codes/b45752b2.py",
+  "source_sha256": "389a91caff5a13c9d48536cf280b0eaa2cf080ddf16a2b83aba81ea3e451b8af",
+  "status": "success",
+  "test_path": "datasets/_chunk_cumsum_fwd_kernel/test__chunk_cumsum_fwd_kernel_1.py",
+  "test_sha256": "e7b0fa32682e78fefbac446b3d3bcf1ef95c826c9032dceb8c45fd5946251dd8"
+}

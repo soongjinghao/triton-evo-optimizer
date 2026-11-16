@@ -1,0 +1,19 @@
+{
+  "candidate_id": "reduce_segments__dataset_seed__b6ece34e3e6c",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/reduce_segments/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "cdiv_fn",
+    "find_seq_idx",
+    "reduce_segments"
+  ],
+  "operator_name": "reduce_segments",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/reduce_segments/reduce_segments_1.py",
+  "source_sha256": "b6ece34e3e6c5e1c305f9cc221efe10c2869e9ba111124d0763c19e1300b1568",
+  "source_size_bytes": 4124
+}

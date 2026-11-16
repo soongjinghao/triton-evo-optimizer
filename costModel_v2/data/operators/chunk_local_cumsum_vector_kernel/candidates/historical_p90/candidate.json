@@ -1,0 +1,34 @@
+{
+  "candidate_id": "chunk_local_cumsum_vector_kernel__historical_p90__5bc4e1e0c11c",
+  "candidate_role": "historical_p90",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/chunk_local_cumsum_vector_kernel/candidates/historical_p90/kernel.py",
+  "historical_candidate_ids": [
+    "db1db114"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 19.4804,
+  "historical_methods": [
+    "b1"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "chunk_local_cumsum_vector_kernel"
+  ],
+  "operator_name": "chunk_local_cumsum_vector_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p90",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/db1db114.py",
+  "source_sha256": "5bc4e1e0c11c64009141cd3476ad540db1d6001709516be2f265ea1ccf39173a",
+  "source_size_bytes": 10593
+}

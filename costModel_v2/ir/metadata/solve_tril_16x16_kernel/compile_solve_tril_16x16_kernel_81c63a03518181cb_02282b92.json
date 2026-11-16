@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:solve_tril_16x16_kernel:81c63a03518181cb:02282b92",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "solve_tril_16x16_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/solve_tril_16x16_kernel/compile_solve_tril_16x16_kernel_81c63a03518181cb_02282b92__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/solve_tril_16x16_kernel/compile_solve_tril_16x16_kernel_81c63a03518181cb_02282b92__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/solve_tril_16x16_kernel/compile_solve_tril_16x16_kernel_81c63a03518181cb_02282b92__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/solve_tril_16x16_kernel/compile_solve_tril_16x16_kernel_81c63a03518181cb_02282b92__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 12,
+      "name": "solve_tril_16x16_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "solve_tril_16x16_kernel__dataset_seed__81c63a035181"
+  ],
+  "operator_name": "solve_tril_16x16_kernel",
+  "representative_candidate_id": "solve_tril_16x16_kernel__dataset_seed__81c63a035181",
+  "reuse_source_compile_job_id": "compile:solve_tril_16x16_kernel:81c63a03518181cb",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/solve_tril_16x16_kernel/compile_solve_tril_16x16_kernel_81c63a03518181cb.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/solve_tril_16x16_kernel/solve_tril_16x16_kernel_1.py",
+  "source_sha256": "81c63a03518181cb1da01de5e3ff3e918aeba0d80caab731f961212b7c39e0bd",
+  "status": "success",
+  "test_path": "datasets/solve_tril_16x16_kernel/test_solve_tril_16x16_kernel_1.py",
+  "test_sha256": "02282b927a0acf6c589b28cb6700c25738ba4c9a20c909de6779a222ae3e940c"
+}

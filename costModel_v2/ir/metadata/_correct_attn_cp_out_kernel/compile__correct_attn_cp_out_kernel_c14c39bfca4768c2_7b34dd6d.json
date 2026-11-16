@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_job_id": "compile:_correct_attn_cp_out_kernel:c14c39bfca4768c2:7b34dd6d",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_correct_attn_cp_out_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_correct_attn_cp_out_kernel/compile__correct_attn_cp_out_kernel_c14c39bfca4768c2_7b34dd6d__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_correct_attn_cp_out_kernel/compile__correct_attn_cp_out_kernel_c14c39bfca4768c2_7b34dd6d__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_correct_attn_cp_out_kernel/compile__correct_attn_cp_out_kernel_c14c39bfca4768c2_7b34dd6d__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_correct_attn_cp_out_kernel/compile__correct_attn_cp_out_kernel_c14c39bfca4768c2_7b34dd6d__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "_correct_attn_cp_out_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_correct_attn_cp_out_kernel__historical_p90__c14c39bfca47"
+  ],
+  "operator_name": "_correct_attn_cp_out_kernel",
+  "representative_candidate_id": "_correct_attn_cp_out_kernel__historical_p90__c14c39bfca47",
+  "reuse_source_compile_job_id": "compile:_correct_attn_cp_out_kernel:c14c39bfca4768c2",
+  "reuse_source_metadata": "/workspace/Agent/costModel/data/pilot/candidate_ir_manifest.jsonl",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "source_path": "experiments/dataset/codes/fb341260.py",
+  "source_sha256": "c14c39bfca4768c248bc302cf542fb2172905db4e69f30b3a9b0c5ccaa089686",
+  "status": "success",
+  "test_path": "datasets/_correct_attn_cp_out_kernel/test__correct_attn_cp_out_kernel_1.py",
+  "test_sha256": "7b34dd6d43aa24d22c575f2e402d8fde6a5e6290aa963db0bfd2dcc4c705b971"
+}

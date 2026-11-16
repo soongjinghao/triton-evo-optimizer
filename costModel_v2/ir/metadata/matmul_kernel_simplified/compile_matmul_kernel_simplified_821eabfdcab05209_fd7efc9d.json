@@ -1,0 +1,64 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:matmul_kernel_simplified:821eabfdcab05209:fd7efc9d",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "matmul_kernel_simplified",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/matmul_kernel_simplified/compile_matmul_kernel_simplified_821eabfdcab05209_fd7efc9d__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/matmul_kernel_simplified/compile_matmul_kernel_simplified_821eabfdcab05209_fd7efc9d__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/matmul_kernel_simplified/compile_matmul_kernel_simplified_821eabfdcab05209_fd7efc9d__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/matmul_kernel_simplified/compile_matmul_kernel_simplified_821eabfdcab05209_fd7efc9d__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 10,
+      "name": "_compute_pid_swizzled"
+    },
+    {
+      "line": 19,
+      "name": "matmul_kernel_simplified"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "matmul_kernel_simplified__dataset_seed__821eabfdcab0"
+  ],
+  "operator_name": "matmul_kernel_simplified",
+  "representative_candidate_id": "matmul_kernel_simplified__dataset_seed__821eabfdcab0",
+  "reuse_source_compile_job_id": "compile:matmul_kernel_simplified:821eabfdcab05209",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/matmul_kernel_simplified/compile_matmul_kernel_simplified_821eabfdcab05209.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/matmul_kernel_simplified/matmul_kernel_simplified_1.py",
+  "source_sha256": "821eabfdcab052098528718256bafa6ab1b8db85ac220ea73bfc0c2170c6ae30",
+  "status": "success",
+  "test_path": "datasets/matmul_kernel_simplified/test_matmul_kernel_simplified_1.py",
+  "test_sha256": "fd7efc9d9d96101863a5ce2d9e0b2d10fedd14304131e104bd863b3154df910e"
+}

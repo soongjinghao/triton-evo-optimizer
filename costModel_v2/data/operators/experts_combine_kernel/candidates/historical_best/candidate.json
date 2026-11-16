@@ -1,0 +1,37 @@
+{
+  "candidate_id": "experts_combine_kernel__historical_best__3704d75222a3",
+  "candidate_role": "historical_best",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/experts_combine_kernel/candidates/historical_best/kernel.py",
+  "historical_candidate_ids": [
+    "467e08f5",
+    "6d68bd93"
+  ],
+  "historical_generations": [
+    "1",
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 1.46,
+  "historical_methods": [
+    "b1"
+  ],
+  "historical_operations": [
+    "crossover",
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 2,
+  "jit_functions": [
+    "experts_combine_kernel"
+  ],
+  "operator_name": "experts_combine_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_best",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/6d68bd93.py",
+  "source_sha256": "3704d75222a3aee769a4561168f6c2aa24f3d33f5b0c70d7f3f3f5ed4df143d7",
+  "source_size_bytes": 2118
+}

@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:eye_kernel:a778015b381f2312:ed2625a1",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "eye_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/eye_kernel/compile_eye_kernel_a778015b381f2312_ed2625a1__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/eye_kernel/compile_eye_kernel_a778015b381f2312_ed2625a1__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/eye_kernel/compile_eye_kernel_a778015b381f2312_ed2625a1__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/eye_kernel/compile_eye_kernel_a778015b381f2312_ed2625a1__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "eye_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "eye_kernel__dataset_seed__a778015b381f"
+  ],
+  "operator_name": "eye_kernel",
+  "representative_candidate_id": "eye_kernel__dataset_seed__a778015b381f",
+  "reuse_source_compile_job_id": "compile:eye_kernel:a778015b381f2312",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/eye_kernel/compile_eye_kernel_a778015b381f2312.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/eye_kernel/eye_kernel_1.py",
+  "source_sha256": "a778015b381f2312268c573027f476cc87353a135d2d54d158e6eada52b5bc5e",
+  "status": "success",
+  "test_path": "datasets/eye_kernel/test_eye_kernel_1.py",
+  "test_sha256": "ed2625a1b373bbdf07b1bce793acb5c36f970bf68d3f59620ed239c3c51a8169"
+}

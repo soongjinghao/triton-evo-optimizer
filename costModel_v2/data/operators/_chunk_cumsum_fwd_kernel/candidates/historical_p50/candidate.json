@@ -1,0 +1,36 @@
+{
+  "candidate_id": "_chunk_cumsum_fwd_kernel__historical_p50__9c5c93f37869",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_chunk_cumsum_fwd_kernel/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "d2c12963"
+  ],
+  "historical_generations": [
+    "11"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 5.8801,
+  "historical_methods": [
+    "b2"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "_chunk_cumsum_fwd_kernel",
+    "softplus",
+    "softplus"
+  ],
+  "operator_name": "_chunk_cumsum_fwd_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/d2c12963.py",
+  "source_sha256": "9c5c93f378693eea6c4337b3132b3cfd7e34e14fda42fdae6d439b07dd2b989e",
+  "source_size_bytes": 4414
+}

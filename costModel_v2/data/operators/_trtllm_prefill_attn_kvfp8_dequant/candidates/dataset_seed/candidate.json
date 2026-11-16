@@ -1,0 +1,17 @@
+{
+  "candidate_id": "_trtllm_prefill_attn_kvfp8_dequant__dataset_seed__ac2e21416b5f",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/_trtllm_prefill_attn_kvfp8_dequant/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "_trtllm_prefill_attn_kvfp8_dequant"
+  ],
+  "operator_name": "_trtllm_prefill_attn_kvfp8_dequant",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "source_sha256": "ac2e21416b5fcfc09b339de3582c6f545f24af8885df6b35a07c818e46d67f23",
+  "source_size_bytes": 3859
+}

@@ -1,0 +1,64 @@
+{
+  "candidate_type": "historical_p10",
+  "compile_job_id": "compile:_rms_norm_kernel:b25eaf2c7e91b7f8:ce7fcc9e",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_rms_norm_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_rms_norm_kernel/compile__rms_norm_kernel_b25eaf2c7e91b7f8_ce7fcc9e__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_rms_norm_kernel/compile__rms_norm_kernel_b25eaf2c7e91b7f8_ce7fcc9e__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_rms_norm_kernel/compile__rms_norm_kernel_b25eaf2c7e91b7f8_ce7fcc9e__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_rms_norm_kernel/compile__rms_norm_kernel_b25eaf2c7e91b7f8_ce7fcc9e__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 5,
+      "name": "_rms_norm_kernel_full_row"
+    },
+    {
+      "line": 38,
+      "name": "_rms_norm_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_rms_norm_kernel__historical_p10__b25eaf2c7e91"
+  ],
+  "operator_name": "_rms_norm_kernel",
+  "representative_candidate_id": "_rms_norm_kernel__historical_p10__b25eaf2c7e91",
+  "reuse_source_compile_job_id": "compile:_rms_norm_kernel:b25eaf2c7e91b7f8",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_rms_norm_kernel/compile__rms_norm_kernel_b25eaf2c7e91b7f8.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p10"
+  ],
+  "source_path": "experiments/dataset/codes/53e51a84.py",
+  "source_sha256": "b25eaf2c7e91b7f81334dc643a787a5c958a7c8d8d2e5441bcf550321f5ba407",
+  "status": "success",
+  "test_path": "datasets/_rms_norm_kernel/test__rms_norm_kernel_1.py",
+  "test_sha256": "ce7fcc9e2882d0bb84c5fed0fc61bef56ea483bb59f1f138bebb89ae15d81872"
+}

@@ -1,0 +1,68 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:_trtllm_prefill_attn_kvfp8_dequant:ac2e21416b5fcfc0:8bf2b39d",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_trtllm_prefill_attn_kvfp8_dequant",
+  "ir_counts": {
+    "npubin": 3,
+    "npuir": 3,
+    "ttadapter": 3,
+    "ttir": 3
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k00.bin",
+      "/workspace/Agent/costModel_v2/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k01.bin",
+      "/workspace/Agent/costModel_v2/ir/npubin/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k02.bin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k00.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k01.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k02.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k00.ttadapter.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k01.ttadapter.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k02.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k00.ttir.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k01.ttir.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttir/_trtllm_prefill_attn_kvfp8_dequant/compile__trtllm_prefill_attn_kvfp8_dequant_ac2e21416b5fcfc0_8bf2b39d__reuse_k02.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 25,
+      "name": "_trtllm_prefill_attn_kvfp8_dequant"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_trtllm_prefill_attn_kvfp8_dequant__dataset_seed__ac2e21416b5f"
+  ],
+  "operator_name": "_trtllm_prefill_attn_kvfp8_dequant",
+  "representative_candidate_id": "_trtllm_prefill_attn_kvfp8_dequant__dataset_seed__ac2e21416b5f",
+  "reuse_source_compile_job_id": null,
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant__seed1.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/_trtllm_prefill_attn_kvfp8_dequant/_trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "source_sha256": "ac2e21416b5fcfc09b339de3582c6f545f24af8885df6b35a07c818e46d67f23",
+  "status": "success",
+  "test_path": "datasets/_trtllm_prefill_attn_kvfp8_dequant/test__trtllm_prefill_attn_kvfp8_dequant_1.py",
+  "test_sha256": "8bf2b39dacacfdd931e629ebd0c67f033877cdedfa22b60c0fcc9b7e7bb44fe3"
+}

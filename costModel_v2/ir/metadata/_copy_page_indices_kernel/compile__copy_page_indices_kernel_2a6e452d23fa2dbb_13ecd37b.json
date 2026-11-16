@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_best",
+  "compile_job_id": "compile:_copy_page_indices_kernel:2a6e452d23fa2dbb:13ecd37b",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_copy_page_indices_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_copy_page_indices_kernel/compile__copy_page_indices_kernel_2a6e452d23fa2dbb_13ecd37b__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_copy_page_indices_kernel/compile__copy_page_indices_kernel_2a6e452d23fa2dbb_13ecd37b__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_copy_page_indices_kernel/compile__copy_page_indices_kernel_2a6e452d23fa2dbb_13ecd37b__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_copy_page_indices_kernel/compile__copy_page_indices_kernel_2a6e452d23fa2dbb_13ecd37b__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 8,
+      "name": "_copy_page_indices_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_copy_page_indices_kernel__historical_best__2a6e452d23fa"
+  ],
+  "operator_name": "_copy_page_indices_kernel",
+  "representative_candidate_id": "_copy_page_indices_kernel__historical_best__2a6e452d23fa",
+  "reuse_source_compile_job_id": "compile:_copy_page_indices_kernel:2a6e452d23fa2dbb",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_copy_page_indices_kernel/compile__copy_page_indices_kernel_2a6e452d23fa2dbb.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_best"
+  ],
+  "source_path": "experiments/dataset/codes/d80292fc.py",
+  "source_sha256": "2a6e452d23fa2dbb86ff04fa756c4b520e44d1c7d66fd2f705d4616a41b43daa",
+  "status": "success",
+  "test_path": "datasets/_copy_page_indices_kernel/test__copy_page_indices_kernel_1.py",
+  "test_sha256": "13ecd37b2b57a116b4e3d5291a469e3ffe55ba7e66a96f0ec767e491e99040fc"
+}

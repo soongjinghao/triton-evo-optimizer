@@ -1,0 +1,34 @@
+{
+  "candidate_id": "_count_expert_num_tokens__historical_p90__3ec56e535bf8",
+  "candidate_role": "historical_p90",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_count_expert_num_tokens/candidates/historical_p90/kernel.py",
+  "historical_candidate_ids": [
+    "4ce36b57"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 1.78,
+  "historical_methods": [
+    "b1"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "_count_expert_num_tokens"
+  ],
+  "operator_name": "_count_expert_num_tokens",
+  "schema_version": "1.0",
+  "selection_method": "historical_p90",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/4ce36b57.py",
+  "source_sha256": "3ec56e535bf83bed16374b39c41f6a063e90b8adb4cf5a3933349c81bc1d7cea",
+  "source_size_bytes": 1973
+}

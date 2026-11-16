@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_p50",
+  "compile_job_id": "compile:merge_16x16_to_32x32_inverse_kernel:9d1095f5dc5e58ec:4e24d781",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "merge_16x16_to_32x32_inverse_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/merge_16x16_to_32x32_inverse_kernel/compile_merge_16x16_to_32x32_inverse_kernel_9d1095f5dc5e58ec_4e24d781__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/merge_16x16_to_32x32_inverse_kernel/compile_merge_16x16_to_32x32_inverse_kernel_9d1095f5dc5e58ec_4e24d781__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/merge_16x16_to_32x32_inverse_kernel/compile_merge_16x16_to_32x32_inverse_kernel_9d1095f5dc5e58ec_4e24d781__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/merge_16x16_to_32x32_inverse_kernel/compile_merge_16x16_to_32x32_inverse_kernel_9d1095f5dc5e58ec_4e24d781__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 22,
+      "name": "merge_16x16_to_32x32_inverse_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "merge_16x16_to_32x32_inverse_kernel__historical_p50__9d1095f5dc5e"
+  ],
+  "operator_name": "merge_16x16_to_32x32_inverse_kernel",
+  "representative_candidate_id": "merge_16x16_to_32x32_inverse_kernel__historical_p50__9d1095f5dc5e",
+  "reuse_source_compile_job_id": "compile:merge_16x16_to_32x32_inverse_kernel:9d1095f5dc5e58ec",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/merge_16x16_to_32x32_inverse_kernel/compile_merge_16x16_to_32x32_inverse_kernel_9d1095f5dc5e58ec.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p50"
+  ],
+  "source_path": "experiments/dataset/codes/f94af01d.py",
+  "source_sha256": "9d1095f5dc5e58ecfb30bbeba32a2c9254c2fd3babe641d3ab60cf7f46e750fa",
+  "status": "success",
+  "test_path": "datasets/merge_16x16_to_32x32_inverse_kernel/test_merge_16x16_to_32x32_inverse_kernel_1.py",
+  "test_sha256": "4e24d7812cdbed72469993895584fecced25eb6c6e05e34eb57eadd8fa3befd9"
+}

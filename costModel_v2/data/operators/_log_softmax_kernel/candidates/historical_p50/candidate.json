@@ -1,0 +1,34 @@
+{
+  "candidate_id": "_log_softmax_kernel__historical_p50__a6b34d17c69a",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_log_softmax_kernel/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "f39f1250"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 693.8339,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "_log_softmax_kernel"
+  ],
+  "operator_name": "_log_softmax_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/f39f1250.py",
+  "source_sha256": "a6b34d17c69aee7a1d812c8104a3d5337722fb6ba459446e63315c2fdad08bbd",
+  "source_size_bytes": 2670
+}

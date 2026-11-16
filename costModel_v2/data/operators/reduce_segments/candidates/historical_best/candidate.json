@@ -1,0 +1,36 @@
+{
+  "candidate_id": "reduce_segments__historical_best__dcc55bccff20",
+  "candidate_role": "historical_best",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/reduce_segments/candidates/historical_best/kernel.py",
+  "historical_candidate_ids": [
+    "3771d549"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 2.42,
+  "historical_methods": [
+    "tau_0.85"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "cdiv_fn",
+    "find_seq_idx",
+    "reduce_segments"
+  ],
+  "operator_name": "reduce_segments",
+  "schema_version": "1.0",
+  "selection_method": "historical_best",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/3771d549.py",
+  "source_sha256": "dcc55bccff20ba1782bcd35f0c4afdd5475ce431b6f186f78ba6870673f4a43a",
+  "source_size_bytes": 3993
+}

@@ -1,0 +1,35 @@
+{
+  "candidate_id": "softplus__historical_p50__899d0889059f",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/softplus/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "2c164536"
+  ],
+  "historical_generations": [
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 2.1,
+  "historical_methods": [
+    "b1"
+  ],
+  "historical_operations": [
+    "crossover"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "softplus_kernel",
+    "softplus_kernel_default"
+  ],
+  "operator_name": "softplus",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/2c164536.py",
+  "source_sha256": "899d0889059faebc25ba31414e71f923c7cf0dca6a085d00c75c4bd1089e1895",
+  "source_size_bytes": 1846
+}

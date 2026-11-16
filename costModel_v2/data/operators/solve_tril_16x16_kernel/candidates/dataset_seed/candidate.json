@@ -1,0 +1,17 @@
+{
+  "candidate_id": "solve_tril_16x16_kernel__dataset_seed__81c63a035181",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/solve_tril_16x16_kernel/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "solve_tril_16x16_kernel"
+  ],
+  "operator_name": "solve_tril_16x16_kernel",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/solve_tril_16x16_kernel/solve_tril_16x16_kernel_1.py",
+  "source_sha256": "81c63a03518181cb1da01de5e3ff3e918aeba0d80caab731f961212b7c39e0bd",
+  "source_size_bytes": 3346
+}

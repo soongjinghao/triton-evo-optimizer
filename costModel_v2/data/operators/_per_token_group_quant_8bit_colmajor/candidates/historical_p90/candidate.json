@@ -1,0 +1,34 @@
+{
+  "candidate_id": "_per_token_group_quant_8bit_colmajor__historical_p90__872290024343",
+  "candidate_role": "historical_p90",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_per_token_group_quant_8bit_colmajor/candidates/historical_p90/kernel.py",
+  "historical_candidate_ids": [
+    "e47e65f5"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 3.1601,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "_per_token_group_quant_8bit_colmajor_kernel"
+  ],
+  "operator_name": "_per_token_group_quant_8bit_colmajor",
+  "schema_version": "1.0",
+  "selection_method": "historical_p90",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/e47e65f5.py",
+  "source_sha256": "8722900243434a60237e77ae0dae824ab0ee10043da47a033b24c6b398b0798c",
+  "source_size_bytes": 4230
+}

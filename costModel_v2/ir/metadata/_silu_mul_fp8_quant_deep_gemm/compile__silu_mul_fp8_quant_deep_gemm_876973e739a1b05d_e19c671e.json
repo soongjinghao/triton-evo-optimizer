@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_job_id": "compile:_silu_mul_fp8_quant_deep_gemm:876973e739a1b05d:e19c671e",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_silu_mul_fp8_quant_deep_gemm",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_876973e739a1b05d_e19c671e__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_876973e739a1b05d_e19c671e__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_876973e739a1b05d_e19c671e__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_876973e739a1b05d_e19c671e__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "_silu_mul_fp8_quant_deep_gemm"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_silu_mul_fp8_quant_deep_gemm__historical_p90__876973e739a1"
+  ],
+  "operator_name": "_silu_mul_fp8_quant_deep_gemm",
+  "representative_candidate_id": "_silu_mul_fp8_quant_deep_gemm__historical_p90__876973e739a1",
+  "reuse_source_compile_job_id": "compile:_silu_mul_fp8_quant_deep_gemm:876973e739a1b05d",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_876973e739a1b05d.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "source_path": "experiments/dataset/codes/55aa16aa.py",
+  "source_sha256": "876973e739a1b05de2f80d2becc72cd22b14c9e1028c68069bc1e52d0549ed3a",
+  "status": "success",
+  "test_path": "datasets/_silu_mul_fp8_quant_deep_gemm/test__silu_mul_fp8_quant_deep_gemm_1.py",
+  "test_sha256": "e19c671e170d7a431ecd50c5a024365f931ca3484f780013e73bba8fee2feff8"
+}

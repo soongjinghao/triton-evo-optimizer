@@ -1,0 +1,101 @@
+{
+  "candidate_type": "historical_p10",
+  "compile_errors": [],
+  "compile_job_id": "compile:eye_kernel:95b97bd554c9aad3:ed2625a1",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "eye_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/eye_kernel/eye_kernel__historical_p10__95b97bd554c9__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/eye_kernel/eye_kernel__historical_p10__95b97bd554c9__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/eye_kernel/eye_kernel__historical_p10__95b97bd554c9__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/eye_kernel/eye_kernel__historical_p10__95b97bd554c9__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "eye_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "eye_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel_v2/ir/_work/compile_eye_kernel_95b97bd554c9aad3_ed2625a1_btbdue8w/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_eye_kernel_95b97bd554c9aad3_ed2625a1_btbdue8w/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_eye_kernel_95b97bd554c9aad3_ed2625a1_btbdue8w/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11449.593
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "eye_kernel__historical_p10__95b97bd554c9"
+  ],
+  "metadata_path": "/workspace/Agent/costModel_v2/ir/metadata/eye_kernel/compile_eye_kernel_95b97bd554c9aad3_ed2625a1.json",
+  "module_staged_as": "eye_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "eye_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel_v2/ir/other/eye_kernel/eye_kernel__historical_p10__95b97bd554c9__k00.so"
+  ],
+  "process_log": "/workspace/Agent/costModel_v2/ir/logs/eye_kernel__compile_eye_kernel_95b97bd554c9aad3_ed2625a1.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 21.139616,
+  "representative_candidate_id": "eye_kernel__historical_p10__95b97bd554c9",
+  "reuse_status": "needs_compile",
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p10"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/2cff8085.py",
+  "source_sha256": "95b97bd554c9aad33c949d6651e41bc9dff05054d264b114008f870c3d961654",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_path": "datasets/eye_kernel/test_eye_kernel_1.py",
+  "test_sha256": "ed2625a1b373bbdf07b1bce793acb5c36f970bf68d3f59620ed239c3c51a8169",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11449.593,
+  "worker_log_tail": "[W1116 01:25:19.652694890 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_eye_kernel_95b97bd554c9aad3_ed2625a1_btbdue8w/home/.triton/dump/esmc6xkVoiFV0_RXpAytH0Kk7MYpynF610gXXvCdgxQ\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpeerwddbj/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpeerwddbj/kernel\neye_kernel test_1 passed\n",
+  "worker_status": "test_completed"
+}

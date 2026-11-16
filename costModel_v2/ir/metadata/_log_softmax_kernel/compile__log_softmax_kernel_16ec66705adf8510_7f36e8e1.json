@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:_log_softmax_kernel:16ec66705adf8510:7f36e8e1",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_log_softmax_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_log_softmax_kernel/compile__log_softmax_kernel_16ec66705adf8510_7f36e8e1__reuse_k00.bin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_log_softmax_kernel/compile__log_softmax_kernel_16ec66705adf8510_7f36e8e1__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_log_softmax_kernel/compile__log_softmax_kernel_16ec66705adf8510_7f36e8e1__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_log_softmax_kernel/compile__log_softmax_kernel_16ec66705adf8510_7f36e8e1__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "_log_softmax_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_log_softmax_kernel__dataset_seed__16ec66705adf"
+  ],
+  "operator_name": "_log_softmax_kernel",
+  "representative_candidate_id": "_log_softmax_kernel__dataset_seed__16ec66705adf",
+  "reuse_source_compile_job_id": null,
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_log_softmax_kernel/_log_softmax_kernel__seed1.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/_log_softmax_kernel/_log_softmax_kernel_1.py",
+  "source_sha256": "16ec66705adf85106b0e7225fdb46e9bbb9f02339f4fb3b445bd2f923616f819",
+  "status": "success",
+  "test_path": "datasets/_log_softmax_kernel/test__log_softmax_kernel_1.py",
+  "test_sha256": "7f36e8e1fc1d63c1fc46b2d2c79cd93f772625157e51ea74165c003d3684e249"
+}

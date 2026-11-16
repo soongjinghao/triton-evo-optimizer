@@ -1,0 +1,4 @@
+[W1116 01:22:39.039533640 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile__convert_req_index_to_global_index_kernel_4b1631336f372638_60b7a308_ud6evhwo/home/.triton/dump/a0LLw473PIx0xpv_EafiMVU14TRpsngq-jaZ8BGgZz4
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpq3uachhi/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpq3uachhi/kernel
+✅ Triton and PyTorch results match.

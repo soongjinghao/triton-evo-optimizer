@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:post_reorder_triton_kernel_for_cutlass_moe:86e7c870f6b89a0e:c4621382",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "post_reorder_triton_kernel_for_cutlass_moe",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/post_reorder_triton_kernel_for_cutlass_moe/compile_post_reorder_triton_kernel_for_cutlass_moe_86e7c870f6b89a0e_c4621382__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/post_reorder_triton_kernel_for_cutlass_moe/compile_post_reorder_triton_kernel_for_cutlass_moe_86e7c870f6b89a0e_c4621382__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/post_reorder_triton_kernel_for_cutlass_moe/compile_post_reorder_triton_kernel_for_cutlass_moe_86e7c870f6b89a0e_c4621382__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/post_reorder_triton_kernel_for_cutlass_moe/compile_post_reorder_triton_kernel_for_cutlass_moe_86e7c870f6b89a0e_c4621382__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 8,
+      "name": "post_reorder_triton_kernel_for_cutlass_moe"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "post_reorder_triton_kernel_for_cutlass_moe__dataset_seed__86e7c870f6b8"
+  ],
+  "operator_name": "post_reorder_triton_kernel_for_cutlass_moe",
+  "representative_candidate_id": "post_reorder_triton_kernel_for_cutlass_moe__dataset_seed__86e7c870f6b8",
+  "reuse_source_compile_job_id": "compile:post_reorder_triton_kernel_for_cutlass_moe:86e7c870f6b89a0e",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/post_reorder_triton_kernel_for_cutlass_moe/compile_post_reorder_triton_kernel_for_cutlass_moe_86e7c870f6b89a0e.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/post_reorder_triton_kernel_for_cutlass_moe/post_reorder_triton_kernel_for_cutlass_moe_1.py",
+  "source_sha256": "86e7c870f6b89a0e4af0bf91c42be6a5bec7f3bddb00aaf345c84801a4846064",
+  "status": "success",
+  "test_path": "datasets/post_reorder_triton_kernel_for_cutlass_moe/test_post_reorder_triton_kernel_for_cutlass_moe_1.py",
+  "test_sha256": "c46213828ed632f3fcce14791df5691763387a3766c35863ec1f74ab3bcea0e7"
+}

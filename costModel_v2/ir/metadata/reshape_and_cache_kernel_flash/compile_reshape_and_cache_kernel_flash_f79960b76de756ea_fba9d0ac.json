@@ -1,0 +1,72 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_job_id": "compile:reshape_and_cache_kernel_flash:f79960b76de756ea:fba9d0ac",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "reshape_and_cache_kernel_flash",
+  "ir_counts": {
+    "npubin": 4,
+    "npuir": 4,
+    "ttadapter": 4,
+    "ttir": 4
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k00.npubin",
+      "/workspace/Agent/costModel_v2/ir/npubin/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k01.npubin",
+      "/workspace/Agent/costModel_v2/ir/npubin/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k02.npubin",
+      "/workspace/Agent/costModel_v2/ir/npubin/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k03.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k00.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k01.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k02.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k03.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k00.ttadapter.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttadapter/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k01.ttadapter.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttadapter/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k02.ttadapter.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttadapter/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k03.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k00.ttir.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttir/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k01.ttir.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttir/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k02.ttir.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttir/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea_fba9d0ac__reuse_k03.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "reshape_and_cache_kernel_flash"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "reshape_and_cache_kernel_flash__historical_p90__f79960b76de7"
+  ],
+  "operator_name": "reshape_and_cache_kernel_flash",
+  "representative_candidate_id": "reshape_and_cache_kernel_flash__historical_p90__f79960b76de7",
+  "reuse_source_compile_job_id": "compile:reshape_and_cache_kernel_flash:f79960b76de756ea",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/reshape_and_cache_kernel_flash/compile_reshape_and_cache_kernel_flash_f79960b76de756ea.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "source_path": "experiments/dataset/codes/2350a2b1.py",
+  "source_sha256": "f79960b76de756ea9241722667e1764355e95a8958da46081e10d84339a1a703",
+  "status": "success",
+  "test_path": "datasets/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py",
+  "test_sha256": "fba9d0acf0f4e082417c62b24a92766b288d45c5380adc9c130ae18710d063cc"
+}

@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_best",
+  "compile_job_id": "compile:fused_qkvzba_split_reshape_cat_kernel:316f3178384984eb:4921f6a7",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "fused_qkvzba_split_reshape_cat_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_316f3178384984eb_4921f6a7__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_316f3178384984eb_4921f6a7__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_316f3178384984eb_4921f6a7__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_316f3178384984eb_4921f6a7__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 11,
+      "name": "fused_qkvzba_split_reshape_cat_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "fused_qkvzba_split_reshape_cat_kernel__historical_best__316f31783849"
+  ],
+  "operator_name": "fused_qkvzba_split_reshape_cat_kernel",
+  "representative_candidate_id": "fused_qkvzba_split_reshape_cat_kernel__historical_best__316f31783849",
+  "reuse_source_compile_job_id": "compile:fused_qkvzba_split_reshape_cat_kernel:316f3178384984eb",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_316f3178384984eb.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_best"
+  ],
+  "source_path": "experiments/dataset/codes/eb4d1ede.py",
+  "source_sha256": "316f3178384984eb71be31226cce2acf050166b9aee224ac017defcec3326d2a",
+  "status": "success",
+  "test_path": "datasets/fused_qkvzba_split_reshape_cat_kernel/test_fused_qkvzba_split_reshape_cat_kernel_1.py",
+  "test_sha256": "4921f6a7fb236a980d3f03b75905b0fdc530518e40cbc25601e7419b8c411dbe"
+}

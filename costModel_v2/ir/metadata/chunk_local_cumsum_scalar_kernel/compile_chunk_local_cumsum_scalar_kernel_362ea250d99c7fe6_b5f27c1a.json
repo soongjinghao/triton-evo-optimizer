@@ -1,0 +1,113 @@
+{
+  "candidate_type": "historical_p50",
+  "compile_errors": [],
+  "compile_job_id": "compile:chunk_local_cumsum_scalar_kernel:362ea250d99c7fe6:b5f27c1a",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "chunk_local_cumsum_scalar_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/chunk_local_cumsum_scalar_kernel/chunk_local_cumsum_scalar_kernel__historical_p50__362ea250d99c__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/chunk_local_cumsum_scalar_kernel/chunk_local_cumsum_scalar_kernel__historical_p50__362ea250d99c__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/chunk_local_cumsum_scalar_kernel/chunk_local_cumsum_scalar_kernel__historical_p50__362ea250d99c__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/chunk_local_cumsum_scalar_kernel/chunk_local_cumsum_scalar_kernel__historical_p50__362ea250d99c__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 19,
+      "name": "chunk_local_cumsum_scalar_kernel_varlen_head_first"
+    },
+    {
+      "line": 58,
+      "name": "chunk_local_cumsum_scalar_kernel_varlen_head_last"
+    },
+    {
+      "line": 92,
+      "name": "chunk_local_cumsum_scalar_kernel_fixed_head_first"
+    },
+    {
+      "line": 131,
+      "name": "chunk_local_cumsum_scalar_kernel_fixed_head_last"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "chunk_local_cumsum_scalar_kernel_fixed_head_last",
+      "saved_files": [
+        "/workspace/Agent/costModel_v2/ir/_work/compile_chunk_local_cumsum_scalar_kernel_362ea250d99c7fe6_b5f27c1a_412p7ym8/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_chunk_local_cumsum_scalar_kernel_362ea250d99c7fe6_b5f27c1a_412p7ym8/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_chunk_local_cumsum_scalar_kernel_362ea250d99c7fe6_b5f27c1a_412p7ym8/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11374.952
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "chunk_local_cumsum_scalar_kernel__historical_p50__362ea250d99c"
+  ],
+  "metadata_path": "/workspace/Agent/costModel_v2/ir/metadata/chunk_local_cumsum_scalar_kernel/compile_chunk_local_cumsum_scalar_kernel_362ea250d99c7fe6_b5f27c1a.json",
+  "module_staged_as": "chunk_local_cumsum_scalar_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "chunk_local_cumsum_scalar_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel_v2/ir/other/chunk_local_cumsum_scalar_kernel/chunk_local_cumsum_scalar_kernel__historical_p50__362ea250d99c__k00.so"
+  ],
+  "process_log": "/workspace/Agent/costModel_v2/ir/logs/chunk_local_cumsum_scalar_kernel__compile_chunk_local_cumsum_scalar_kernel_362ea250d99c7fe6_b5f27c1a.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 21.177207,
+  "representative_candidate_id": "chunk_local_cumsum_scalar_kernel__historical_p50__362ea250d99c",
+  "reuse_status": "needs_compile",
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p50"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/5c9679a3.py",
+  "source_sha256": "362ea250d99c7fe6b48318d54d48d2122072ca3c0f8e9cb587eed12bd3ed882d",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_path": "datasets/chunk_local_cumsum_scalar_kernel/test_chunk_local_cumsum_scalar_kernel_1.py",
+  "test_sha256": "b5f27c1a0185894156ad93240e0af68a2aa147c9e9b25bb40a752ba12a16c29d",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11374.952,
+  "worker_log_tail": "[W1116 01:24:30.656329140 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_chunk_local_cumsum_scalar_kernel_362ea250d99c7fe6_b5f27c1a_412p7ym8/home/.triton/dump/Kx252vJg4xlB3WRFCAyzMawyK0HYeKcmdeEChqxXn44\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpf9sp7ynf/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpf9sp7ynf/kernel\nSingle random case PASSED\n",
+  "worker_status": "test_completed"
+}

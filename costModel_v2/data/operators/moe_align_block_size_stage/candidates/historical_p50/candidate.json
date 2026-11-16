@@ -1,0 +1,44 @@
+{
+  "candidate_id": "moe_align_block_size_stage__historical_p50__ba71e0015fae",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/moe_align_block_size_stage/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "1fe98593",
+    "229544ee",
+    "5c2bebcb",
+    "8964980d"
+  ],
+  "historical_generations": [
+    "0",
+    "1",
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 14.5203,
+  "historical_methods": [
+    "b4"
+  ],
+  "historical_operations": [
+    "crossover",
+    "gen0_strategy_guided",
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 4,
+  "jit_functions": [
+    "moe_align_block_size_stage1",
+    "moe_align_block_size_stage2",
+    "moe_align_block_size_stage3",
+    "moe_align_block_size_stage4"
+  ],
+  "operator_name": "moe_align_block_size_stage",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/8964980d.py",
+  "source_sha256": "ba71e0015fae1839dd9507b70cbdc1bdae95919fb30bb4ea574e79bb900a8090",
+  "source_size_bytes": 4687
+}

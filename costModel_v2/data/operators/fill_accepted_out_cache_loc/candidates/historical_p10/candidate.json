@@ -1,0 +1,34 @@
+{
+  "candidate_id": "fill_accepted_out_cache_loc__historical_p10__825d033b2641",
+  "candidate_role": "historical_p10",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/fill_accepted_out_cache_loc/candidates/historical_p10/kernel.py",
+  "historical_candidate_ids": [
+    "0f3705d2"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 16.4403,
+  "historical_methods": [
+    "tau_0.95"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "fill_accepted_out_cache_loc"
+  ],
+  "operator_name": "fill_accepted_out_cache_loc",
+  "schema_version": "1.0",
+  "selection_method": "historical_p10",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/0f3705d2.py",
+  "source_sha256": "825d033b2641acf8b79482c4b69fac807cef776dcfd1aab66c6dac0fea0fe31f",
+  "source_size_bytes": 538
+}

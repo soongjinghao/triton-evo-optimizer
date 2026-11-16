@@ -1,0 +1,40 @@
+{
+  "candidate_id": "matmul_kernel_simplified__historical_p50__cbf676b7956f",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/matmul_kernel_simplified/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "0eb2e7e6",
+    "99da9341",
+    "bf4f9822"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 2.7001,
+  "historical_methods": [
+    "mut_aggressive",
+    "mut_uniform"
+  ],
+  "historical_operations": [
+    "crossover",
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0",
+    "2"
+  ],
+  "historical_sample_count": 3,
+  "jit_functions": [
+    "_compute_pid_swizzled",
+    "matmul_kernel_simplified"
+  ],
+  "operator_name": "matmul_kernel_simplified",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/99da9341.py",
+  "source_sha256": "cbf676b7956f5d4807c28d29c5acb0a0fe62e687ee817b14e70a4d1e3ebd83b5",
+  "source_size_bytes": 4221
+}

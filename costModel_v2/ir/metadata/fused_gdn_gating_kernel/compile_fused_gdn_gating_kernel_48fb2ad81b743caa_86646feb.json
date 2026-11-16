@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_job_id": "compile:fused_gdn_gating_kernel:48fb2ad81b743caa:86646feb",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "fused_gdn_gating_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/fused_gdn_gating_kernel/compile_fused_gdn_gating_kernel_48fb2ad81b743caa_86646feb__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/fused_gdn_gating_kernel/compile_fused_gdn_gating_kernel_48fb2ad81b743caa_86646feb__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/fused_gdn_gating_kernel/compile_fused_gdn_gating_kernel_48fb2ad81b743caa_86646feb__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/fused_gdn_gating_kernel/compile_fused_gdn_gating_kernel_48fb2ad81b743caa_86646feb__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 5,
+      "name": "fused_gdn_gating_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "fused_gdn_gating_kernel__historical_p90__48fb2ad81b74"
+  ],
+  "operator_name": "fused_gdn_gating_kernel",
+  "representative_candidate_id": "fused_gdn_gating_kernel__historical_p90__48fb2ad81b74",
+  "reuse_source_compile_job_id": "compile:fused_gdn_gating_kernel:48fb2ad81b743caa",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/fused_gdn_gating_kernel/compile_fused_gdn_gating_kernel_48fb2ad81b743caa.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "source_path": "experiments/dataset/codes/7cb084a6.py",
+  "source_sha256": "48fb2ad81b743caac4a6fafecfdb3ad211273e97ce53e338b0045b5130dbf33c",
+  "status": "success",
+  "test_path": "datasets/fused_gdn_gating_kernel/test_fused_gdn_gating_kernel_1.py",
+  "test_sha256": "86646feb23bf9b96aeff3d9386afbf802a3a7125ea0e846fa0dc5b2b06b1d5d2"
+}

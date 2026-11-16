@@ -1,0 +1,68 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_job_id": "compile:_selective_scan_update_kernel:cfb57130bc61e9a5:af063acf",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_selective_scan_update_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_selective_scan_update_kernel/compile__selective_scan_update_kernel_cfb57130bc61e9a5_af063acf__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_selective_scan_update_kernel/compile__selective_scan_update_kernel_cfb57130bc61e9a5_af063acf__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_selective_scan_update_kernel/compile__selective_scan_update_kernel_cfb57130bc61e9a5_af063acf__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_selective_scan_update_kernel/compile__selective_scan_update_kernel_cfb57130bc61e9a5_af063acf__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 14,
+      "name": "softplus"
+    },
+    {
+      "line": 19,
+      "name": "softplus"
+    },
+    {
+      "line": 37,
+      "name": "_selective_scan_update_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_selective_scan_update_kernel__historical_p90__cfb57130bc61"
+  ],
+  "operator_name": "_selective_scan_update_kernel",
+  "representative_candidate_id": "_selective_scan_update_kernel__historical_p90__cfb57130bc61",
+  "reuse_source_compile_job_id": "compile:_selective_scan_update_kernel:cfb57130bc61e9a5",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_selective_scan_update_kernel/compile__selective_scan_update_kernel_cfb57130bc61e9a5.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "source_path": "experiments/dataset/codes/8c92a5e2.py",
+  "source_sha256": "cfb57130bc61e9a5a956220c9eb9a017853840c24b45681bc15b2446659f0193",
+  "status": "success",
+  "test_path": "datasets/_selective_scan_update_kernel/test__selective_scan_update_kernel_1.py",
+  "test_sha256": "af063acf57be39ed697418cb8dac26c408a7915840893845c77c9472c62a3151"
+}

@@ -1,0 +1,34 @@
+{
+  "candidate_id": "_set_k_and_s_triton_kernel__historical_best__25baa79b615a",
+  "candidate_role": "historical_best",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_set_k_and_s_triton_kernel/candidates/historical_best/kernel.py",
+  "historical_candidate_ids": [
+    "9680b5fa"
+  ],
+  "historical_generations": [
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 1.5201,
+  "historical_methods": [
+    "sel_tournament"
+  ],
+  "historical_operations": [
+    "crossover"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "_set_k_and_s_triton_kernel"
+  ],
+  "operator_name": "_set_k_and_s_triton_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_best",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/9680b5fa.py",
+  "source_sha256": "25baa79b615a8860473fa3d7758e45ecea0898aacc43ccdc726ca0251fd0fba6",
+  "source_size_bytes": 2754
+}

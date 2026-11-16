@@ -1,0 +1,37 @@
+{
+  "candidate_id": "mean_kernel__historical_p10__c998b32d2fca",
+  "candidate_role": "historical_p10",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/mean_kernel/candidates/historical_p10/kernel.py",
+  "historical_candidate_ids": [
+    "12905f62",
+    "7bd29cd7"
+  ],
+  "historical_generations": [
+    "1",
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 130.4726,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "crossover",
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 2,
+  "jit_functions": [
+    "mean_kernel"
+  ],
+  "operator_name": "mean_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p10",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/7bd29cd7.py",
+  "source_sha256": "c998b32d2fca45cca49e69995786204d7bc69f4456a20e73cc7429c09747577f",
+  "source_size_bytes": 3082
+}

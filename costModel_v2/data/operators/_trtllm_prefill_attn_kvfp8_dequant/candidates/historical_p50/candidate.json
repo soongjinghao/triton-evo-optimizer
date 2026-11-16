@@ -1,0 +1,37 @@
+{
+  "candidate_id": "_trtllm_prefill_attn_kvfp8_dequant__historical_p50__1e2275612151",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_trtllm_prefill_attn_kvfp8_dequant/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "adefad4d",
+    "feeb7546"
+  ],
+  "historical_generations": [
+    "1",
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 2.6801,
+  "historical_methods": [
+    "tau_0.85"
+  ],
+  "historical_operations": [
+    "crossover"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 2,
+  "jit_functions": [
+    "_trtllm_prefill_attn_kvfp8_dequant",
+    "_trtllm_prefill_attn_kvfp8_dequant_compact"
+  ],
+  "operator_name": "_trtllm_prefill_attn_kvfp8_dequant",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/feeb7546.py",
+  "source_sha256": "1e22756121516ca36944a251e102e67393ac1025211b550411f0416d21d5995b",
+  "source_size_bytes": 5699
+}

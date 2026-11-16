@@ -1,0 +1,34 @@
+{
+  "candidate_id": "l2norm_fwd_kernel1__historical_p50__25bb1228ec29",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/l2norm_fwd_kernel1/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "1859345d"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 2.08,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "l2norm_fwd_kernel1"
+  ],
+  "operator_name": "l2norm_fwd_kernel1",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/1859345d.py",
+  "source_sha256": "25bb1228ec29c4b8cfb35b5bc5e3fc0310212e720c4124fc2213fb976501053c",
+  "source_size_bytes": 2266
+}

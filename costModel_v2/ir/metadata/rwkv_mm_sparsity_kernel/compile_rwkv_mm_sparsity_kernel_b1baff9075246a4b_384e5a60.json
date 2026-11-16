@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_job_id": "compile:rwkv_mm_sparsity_kernel:b1baff9075246a4b:384e5a60",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "rwkv_mm_sparsity_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/rwkv_mm_sparsity_kernel/compile_rwkv_mm_sparsity_kernel_b1baff9075246a4b_384e5a60__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/rwkv_mm_sparsity_kernel/compile_rwkv_mm_sparsity_kernel_b1baff9075246a4b_384e5a60__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/rwkv_mm_sparsity_kernel/compile_rwkv_mm_sparsity_kernel_b1baff9075246a4b_384e5a60__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/rwkv_mm_sparsity_kernel/compile_rwkv_mm_sparsity_kernel_b1baff9075246a4b_384e5a60__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 5,
+      "name": "rwkv_mm_sparsity_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "rwkv_mm_sparsity_kernel__historical_p90__b1baff907524"
+  ],
+  "operator_name": "rwkv_mm_sparsity_kernel",
+  "representative_candidate_id": "rwkv_mm_sparsity_kernel__historical_p90__b1baff907524",
+  "reuse_source_compile_job_id": "compile:rwkv_mm_sparsity_kernel:b1baff9075246a4b",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/rwkv_mm_sparsity_kernel/compile_rwkv_mm_sparsity_kernel_b1baff9075246a4b.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "source_path": "experiments/dataset/codes/a5c76d73.py",
+  "source_sha256": "b1baff9075246a4b253d0ef9e0ac5bfbfe5fbdfe29ff094b52685780354e6633",
+  "status": "success",
+  "test_path": "datasets/rwkv_mm_sparsity_kernel/test_rwkv_mm_sparsity_kernel_1.py",
+  "test_sha256": "384e5a608932464145fc9f61fff8288315d86fe4999923c7c279fdda0885a351"
+}

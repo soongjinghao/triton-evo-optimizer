@@ -1,0 +1,101 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_errors": [],
+  "compile_job_id": "compile:merge_16x16_to_32x32_inverse_kernel:e411aa19bfc6bd35:4e24d781",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "merge_16x16_to_32x32_inverse_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__historical_p90__e411aa19bfc6__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__historical_p90__e411aa19bfc6__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__historical_p90__e411aa19bfc6__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__historical_p90__e411aa19bfc6__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 22,
+      "name": "merge_16x16_to_32x32_inverse_kernel"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "merge_16x16_to_32x32_inverse_kernel",
+      "saved_files": [
+        "/workspace/Agent/costModel_v2/ir/_work/compile_merge_16x16_to_32x32_inverse_kernel_e411aa19bfc6bd35_4e24d781_8ek592u7/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_merge_16x16_to_32x32_inverse_kernel_e411aa19bfc6bd35_4e24d781_8ek592u7/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_merge_16x16_to_32x32_inverse_kernel_e411aa19bfc6bd35_4e24d781_8ek592u7/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 14330.685
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "merge_16x16_to_32x32_inverse_kernel__historical_p90__e411aa19bfc6"
+  ],
+  "metadata_path": "/workspace/Agent/costModel_v2/ir/metadata/merge_16x16_to_32x32_inverse_kernel/compile_merge_16x16_to_32x32_inverse_kernel_e411aa19bfc6bd35_4e24d781.json",
+  "module_staged_as": "merge_16x16_to_32x32_inverse_kernel",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "merge_16x16_to_32x32_inverse_kernel",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel_v2/ir/other/merge_16x16_to_32x32_inverse_kernel/merge_16x16_to_32x32_inverse_kernel__historical_p90__e411aa19bfc6__k00.so"
+  ],
+  "process_log": "/workspace/Agent/costModel_v2/ir/logs/merge_16x16_to_32x32_inverse_kernel__compile_merge_16x16_to_32x32_inverse_kernel_e411aa19bfc6bd35_4e24d781.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 24.047728,
+  "representative_candidate_id": "merge_16x16_to_32x32_inverse_kernel__historical_p90__e411aa19bfc6",
+  "reuse_status": "needs_compile",
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/030d3c86.py",
+  "source_sha256": "e411aa19bfc6bd35b29defc38ee88ffbc4d86fe015c1674671fcda9c7618a47b",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_path": "datasets/merge_16x16_to_32x32_inverse_kernel/test_merge_16x16_to_32x32_inverse_kernel_1.py",
+  "test_sha256": "4e24d7812cdbed72469993895584fecced25eb6c6e05e34eb57eadd8fa3befd9",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 14330.685,
+  "worker_log_tail": "Testing merge_16x16_to_32x32_inverse (corrected) with B=2, T=64, H=4, BT=32\nUsing device: npu\n[W1116 01:26:43.920436240 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\n\nGenerating strictly lower triangular blocks...\nCreated input tensor A with shape: torch.Size([2, 64, 4, 32])\nA dtype: torch.float32, device: npu:0\nDumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_merge_16x16_to_32x32_inverse_kernel_e411aa19bfc6bd35_4e24d781_8ek592u7/home/.triton/dump/FkTLYOPaBEauvbmeu-QhJUyQaN2lIuQN4N1rQZPTwkU\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp99qevb70/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp99qevb70/kernel\nOutput Ai shape: torch.Size([2, 64, 4, 32])\nAi dtype: torch.float32\n\n=== Test 1: Block-wise formula verification ===\n  Block [0, 0, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 0, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 1, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 1, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 2, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 2, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 3, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [0, 3, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 0, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 0, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 1, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 1, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 2, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 2, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 3, 0] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n  Block [1, 3, 1] formula errors:\n    Ai11*(I+L11)-I: 1.00e+00\n    Ai22*(I+L22)-I: 1.00e+00\n    Ai21 + Ai22*L21*Ai11: 0.00e+00\n    Upper-right zero: 0.00e+00\n\nFormula verification completed:\n  Blocks tested: 16\n  Maximum formula error: 1.00e+00\n✗ Formula errors detected\n\n=== Test 2: Full 32×32 block verification ===\n  Block [0, 0, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 0, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 1, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 1, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 2, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 2, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 3, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [0, 3, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 0, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 0, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 1, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 1, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 2, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 2, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 3, 0] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n  Block [1, 3, 1] full multiplication error: 1.00e+00\n    Max error at (0, 0): 1.00e+00\n\nFull block verification completed:\n  Blocks tested: 16\n  Maximum block error: 1.00e+00\n✗ Block errors detected\n\n=== Test 3: Structure verification ===\nMaximum structure error: 1.00e+00\n✗ Structure issues detected\n\n============================================================\n\nError during test: Tests failed:\n  Formula error: 1.00e+00\n  Block error: 1.00e+00\n  Structure error: 1.00e+00\nTraceback (most recent call last):\n  File \"/workspace/Agent/costModel_v2/ir/_work/compile_merge_16x16_to_32x32_inverse_kernel_e411aa19bfc6bd35_4e24d781_8ek592u7/test_env/test_merge_16x16_to_32x32_inverse_kernel.py\", line 285, in <module>\n    A, Ai = test_merge_16x16_to_32x32_inverse()\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/Agent/costModel_v2/ir/_work/compile_merge_16x16_to_32x32_inverse_kernel_e411aa19bfc6bd35_4e24d781_8ek592u7/test_env/test_merge_16x16_to_32x32_inverse_kernel.py\", line 275, in test_merge_16x16_to_32x32_inverse\n    raise AssertionError(\nAssertionError: Tests failed:\n  Formula error: 1.00e+00\n  Block error: 1.00e+00\n  Structure error: 1.00e+00\n",
+  "worker_status": "test_completed"
+}

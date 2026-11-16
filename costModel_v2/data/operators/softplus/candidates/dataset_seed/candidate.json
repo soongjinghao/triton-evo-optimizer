@@ -1,0 +1,18 @@
+{
+  "candidate_id": "softplus__dataset_seed__84446b974648",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/softplus/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "softplus_kernel",
+    "softplus_kernel_default"
+  ],
+  "operator_name": "softplus",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/softplus/softplus_1.py",
+  "source_sha256": "84446b9746483c5430b47ba90962b523cb2a7d3c97409177f43d019062781fe2",
+  "source_size_bytes": 1749
+}

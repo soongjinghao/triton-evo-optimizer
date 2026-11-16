@@ -1,0 +1,35 @@
+{
+  "candidate_id": "_rms_norm_kernel__historical_best__9d275b869c1f",
+  "candidate_role": "historical_best",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_rms_norm_kernel/candidates/historical_best/kernel.py",
+  "historical_candidate_ids": [
+    "85a3086e"
+  ],
+  "historical_generations": [
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 49.538,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "97"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "_rms_norm_kernel_full_row",
+    "_rms_norm_kernel"
+  ],
+  "operator_name": "_rms_norm_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_best",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/85a3086e.py",
+  "source_sha256": "9d275b869c1f44a090b558efc5fb2a76b8c7aee08bbce3095dcf0ac8888bedf5",
+  "source_size_bytes": 3907
+}

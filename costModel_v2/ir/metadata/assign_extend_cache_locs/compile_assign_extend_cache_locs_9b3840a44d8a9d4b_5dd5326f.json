@@ -1,0 +1,101 @@
+{
+  "candidate_type": "historical_p50",
+  "compile_errors": [],
+  "compile_job_id": "compile:assign_extend_cache_locs:9b3840a44d8a9d4b:5dd5326f",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 5,
+  "expected_test_module_name": "assign_extend_cache_locs",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "other": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/assign_extend_cache_locs/assign_extend_cache_locs__historical_p50__9b3840a44d8a__k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/assign_extend_cache_locs/assign_extend_cache_locs__historical_p50__9b3840a44d8a__k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/assign_extend_cache_locs/assign_extend_cache_locs__historical_p50__9b3840a44d8a__k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/assign_extend_cache_locs/assign_extend_cache_locs__historical_p50__9b3840a44d8a__k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "assign_extend_cache_locs"
+    }
+  ],
+  "kernel_calls": [
+    {
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "call_index": 1,
+      "capture_error": null,
+      "compiled_type": "CompiledKernel",
+      "kernel_name": "assign_extend_cache_locs",
+      "saved_files": [
+        "/workspace/Agent/costModel_v2/ir/_work/compile_assign_extend_cache_locs_9b3840a44d8a9d4b_5dd5326f_w2q5x302/capture/asm/k001_ttir.ttir.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_assign_extend_cache_locs_9b3840a44d8a9d4b_5dd5326f_w2q5x302/capture/asm/k001_ttadapter.ttadapter.mlir",
+        "/workspace/Agent/costModel_v2/ir/_work/compile_assign_extend_cache_locs_9b3840a44d8a9d4b_5dd5326f_w2q5x302/capture/asm/k001_npubin.npubin"
+      ],
+      "warmup_time_ms": 11594.55
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "assign_extend_cache_locs__historical_p50__9b3840a44d8a"
+  ],
+  "metadata_path": "/workspace/Agent/costModel_v2/ir/metadata/assign_extend_cache_locs/compile_assign_extend_cache_locs_9b3840a44d8a9d4b_5dd5326f.json",
+  "module_staged_as": "assign_extend_cache_locs",
+  "n_attempt": 1,
+  "n_ok": 1,
+  "operator_name": "assign_extend_cache_locs",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel_v2/ir/other/assign_extend_cache_locs/assign_extend_cache_locs__historical_p50__9b3840a44d8a__k00.so"
+  ],
+  "process_log": "/workspace/Agent/costModel_v2/ir/logs/assign_extend_cache_locs__compile_assign_extend_cache_locs_9b3840a44d8a9d4b_5dd5326f.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 21.719058,
+  "representative_candidate_id": "assign_extend_cache_locs__historical_p50__9b3840a44d8a",
+  "reuse_status": "needs_compile",
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p50"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "experiments/dataset/codes/00ac0980.py",
+  "source_sha256": "9b3840a44d8a9d4b6d35f3c27a784373cec5b8cff1e3fbb9eef72481763c485e",
+  "source_sha256_verified": true,
+  "status": "success",
+  "test_error": null,
+  "test_path": "datasets/assign_extend_cache_locs/test_assign_extend_cache_locs_1.py",
+  "test_sha256": "5dd5326fb290b772b07642529431f0be40311c3bd646b7223bf9d988807987db",
+  "test_sha256_verified": true,
+  "test_traceback": null,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 11594.55,
+  "worker_log_tail": "[W1116 01:24:28.924709820 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\nDumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_assign_extend_cache_locs_9b3840a44d8a9d4b_5dd5326f_w2q5x302/home/.triton/dump/Px6c1ySnofzSBPrwViDxoTvNJ41d9fiRnfSnAEmZkkM\n[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpnsoeecxq/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpnsoeecxq/kernel\n✅ Triton kernel output matches reference implementation\nTriton result: tensor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\n       device='npu:0', dtype=torch.int32)\nReference result: tensor([880, 798, 784, 534, 557, 765, 563, 829, 478, 678,  85,  93, 232, 342,\n        161, 265, 671, 763, 677, 511], device='npu:0', dtype=torch.int32)\n",
+  "worker_status": "test_completed"
+}

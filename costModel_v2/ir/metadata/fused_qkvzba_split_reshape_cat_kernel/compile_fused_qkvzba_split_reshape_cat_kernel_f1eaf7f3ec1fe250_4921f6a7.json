@@ -1,0 +1,60 @@
+{
+  "candidate_type": "historical_p90",
+  "compile_job_id": "compile:fused_qkvzba_split_reshape_cat_kernel:f1eaf7f3ec1fe250:4921f6a7",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "fused_qkvzba_split_reshape_cat_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_f1eaf7f3ec1fe250_4921f6a7__reuse_k00.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_f1eaf7f3ec1fe250_4921f6a7__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_f1eaf7f3ec1fe250_4921f6a7__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_f1eaf7f3ec1fe250_4921f6a7__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 12,
+      "name": "fused_qkvzba_split_reshape_cat_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "fused_qkvzba_split_reshape_cat_kernel__historical_p90__f1eaf7f3ec1f"
+  ],
+  "operator_name": "fused_qkvzba_split_reshape_cat_kernel",
+  "representative_candidate_id": "fused_qkvzba_split_reshape_cat_kernel__historical_p90__f1eaf7f3ec1f",
+  "reuse_source_compile_job_id": "compile:fused_qkvzba_split_reshape_cat_kernel:f1eaf7f3ec1fe250",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/fused_qkvzba_split_reshape_cat_kernel/compile_fused_qkvzba_split_reshape_cat_kernel_f1eaf7f3ec1fe250.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_p90"
+  ],
+  "source_path": "experiments/dataset/codes/9209c658.py",
+  "source_sha256": "f1eaf7f3ec1fe2500211375cf3dddb3c05136274947532bb88805775bdcd6484",
+  "status": "success",
+  "test_path": "datasets/fused_qkvzba_split_reshape_cat_kernel/test_fused_qkvzba_split_reshape_cat_kernel_1.py",
+  "test_sha256": "4921f6a7fb236a980d3f03b75905b0fdc530518e40cbc25601e7419b8c411dbe"
+}

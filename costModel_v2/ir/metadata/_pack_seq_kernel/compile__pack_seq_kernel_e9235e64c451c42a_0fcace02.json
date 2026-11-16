@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:_pack_seq_kernel:e9235e64c451c42a:0fcace02",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_pack_seq_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_pack_seq_kernel/compile__pack_seq_kernel_e9235e64c451c42a_0fcace02__reuse_k00.bin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_pack_seq_kernel/compile__pack_seq_kernel_e9235e64c451c42a_0fcace02__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_pack_seq_kernel/compile__pack_seq_kernel_e9235e64c451c42a_0fcace02__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_pack_seq_kernel/compile__pack_seq_kernel_e9235e64c451c42a_0fcace02__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "_pack_seq_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_pack_seq_kernel__dataset_seed__e9235e64c451"
+  ],
+  "operator_name": "_pack_seq_kernel",
+  "representative_candidate_id": "_pack_seq_kernel__dataset_seed__e9235e64c451",
+  "reuse_source_compile_job_id": null,
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_pack_seq_kernel/_pack_seq_kernel__seed1.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/_pack_seq_kernel/_pack_seq_kernel_1.py",
+  "source_sha256": "e9235e64c451c42a13fc953acc99cc3d8024c655e59456a8053863eec4e75932",
+  "status": "success",
+  "test_path": "datasets/_pack_seq_kernel/test__pack_seq_kernel_1.py",
+  "test_sha256": "0fcace02991de80bbe981ba73d83c215070d8924f984ed02da0401edc7e2fca0"
+}

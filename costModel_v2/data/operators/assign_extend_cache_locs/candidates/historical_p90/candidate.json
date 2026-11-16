@@ -1,0 +1,34 @@
+{
+  "candidate_id": "assign_extend_cache_locs__historical_p90__b1d2c5f6a6b5",
+  "candidate_role": "historical_p90",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/assign_extend_cache_locs/candidates/historical_p90/kernel.py",
+  "historical_candidate_ids": [
+    "711348d4"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 2.38,
+  "historical_methods": [
+    "tau_0.85"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "assign_extend_cache_locs"
+  ],
+  "operator_name": "assign_extend_cache_locs",
+  "schema_version": "1.0",
+  "selection_method": "historical_p90",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/711348d4.py",
+  "source_sha256": "b1d2c5f6a6b576e28f15ca3f760449ea6b44f65a1990b4168af05f0a6e22c634",
+  "source_size_bytes": 1646
+}

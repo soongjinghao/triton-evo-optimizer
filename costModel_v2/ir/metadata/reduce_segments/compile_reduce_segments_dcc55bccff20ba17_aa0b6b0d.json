@@ -1,0 +1,72 @@
+{
+  "candidate_type": "historical_best",
+  "compile_job_id": "compile:reduce_segments:dcc55bccff20ba17:aa0b6b0d",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "reduce_segments",
+  "ir_counts": {
+    "npubin": 2,
+    "npuir": 2,
+    "ttadapter": 2,
+    "ttir": 2
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/reduce_segments/compile_reduce_segments_dcc55bccff20ba17_aa0b6b0d__reuse_k00.npubin",
+      "/workspace/Agent/costModel_v2/ir/npubin/reduce_segments/compile_reduce_segments_dcc55bccff20ba17_aa0b6b0d__reuse_k01.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/reduce_segments/compile_reduce_segments_dcc55bccff20ba17_aa0b6b0d__reuse_k00.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/reduce_segments/compile_reduce_segments_dcc55bccff20ba17_aa0b6b0d__reuse_k01.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/reduce_segments/compile_reduce_segments_dcc55bccff20ba17_aa0b6b0d__reuse_k00.ttadapter.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttadapter/reduce_segments/compile_reduce_segments_dcc55bccff20ba17_aa0b6b0d__reuse_k01.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/reduce_segments/compile_reduce_segments_dcc55bccff20ba17_aa0b6b0d__reuse_k00.ttir.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttir/reduce_segments/compile_reduce_segments_dcc55bccff20ba17_aa0b6b0d__reuse_k01.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "cdiv_fn"
+    },
+    {
+      "line": 10,
+      "name": "find_seq_idx"
+    },
+    {
+      "line": 30,
+      "name": "reduce_segments"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "reduce_segments__historical_best__dcc55bccff20"
+  ],
+  "operator_name": "reduce_segments",
+  "representative_candidate_id": "reduce_segments__historical_best__dcc55bccff20",
+  "reuse_source_compile_job_id": "compile:reduce_segments:dcc55bccff20ba17",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/reduce_segments/compile_reduce_segments_dcc55bccff20ba17.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "historical_best"
+  ],
+  "source_path": "experiments/dataset/codes/3771d549.py",
+  "source_sha256": "dcc55bccff20ba1782bcd35f0c4afdd5475ce431b6f186f78ba6870673f4a43a",
+  "status": "success",
+  "test_path": "datasets/reduce_segments/test_reduce_segments_1.py",
+  "test_sha256": "aa0b6b0d065cd8b7a3a4a9d5e9c37da7efa9ab9954657697a21082baa5aa6354"
+}

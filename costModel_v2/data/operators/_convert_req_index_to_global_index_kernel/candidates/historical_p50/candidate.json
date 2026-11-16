@@ -1,0 +1,38 @@
+{
+  "candidate_id": "_convert_req_index_to_global_index_kernel__historical_p50__d4f32968a50e",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_convert_req_index_to_global_index_kernel/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "32bf7f4a",
+    "400fa1d0",
+    "d72faf30"
+  ],
+  "historical_generations": [
+    "0",
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 73.1415,
+  "historical_methods": [
+    "b1"
+  ],
+  "historical_operations": [
+    "gen0_plain",
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 3,
+  "jit_functions": [
+    "_convert_req_index_to_global_index_kernel"
+  ],
+  "operator_name": "_convert_req_index_to_global_index_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/400fa1d0.py",
+  "source_sha256": "d4f32968a50eb6494a691ff8336907e97f1a4cd978c1492e34604999e7a6d163",
+  "source_size_bytes": 3063
+}

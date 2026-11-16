@@ -1,0 +1,34 @@
+{
+  "candidate_id": "fused_qkvzba_split_reshape_cat_kernel__historical_best__316f31783849",
+  "candidate_role": "historical_best",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/fused_qkvzba_split_reshape_cat_kernel/candidates/historical_best/kernel.py",
+  "historical_candidate_ids": [
+    "eb4d1ede"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 3.3601,
+  "historical_methods": [
+    "tau_0.95"
+  ],
+  "historical_operations": [
+    "crossover"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "fused_qkvzba_split_reshape_cat_kernel"
+  ],
+  "operator_name": "fused_qkvzba_split_reshape_cat_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_best",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/eb4d1ede.py",
+  "source_sha256": "316f3178384984eb71be31226cce2acf050166b9aee224ac017defcec3326d2a",
+  "source_size_bytes": 4751
+}

@@ -1,0 +1,34 @@
+{
+  "candidate_id": "_quantize_k_cache_fast_kernel__historical_p90__d933c80fbd60",
+  "candidate_role": "historical_p90",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/_quantize_k_cache_fast_kernel/candidates/historical_p90/kernel.py",
+  "historical_candidate_ids": [
+    "4caab66a"
+  ],
+  "historical_generations": [
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 3.4401,
+  "historical_methods": [
+    "b2"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "_quantize_k_cache_fast_kernel"
+  ],
+  "operator_name": "_quantize_k_cache_fast_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p90",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/4caab66a.py",
+  "source_sha256": "d933c80fbd603df2d7688bc6ec0f885d50ea255b4568aa3234689eeab89798aa",
+  "source_size_bytes": 3423
+}

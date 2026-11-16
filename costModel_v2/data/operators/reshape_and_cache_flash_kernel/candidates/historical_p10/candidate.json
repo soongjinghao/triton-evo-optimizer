@@ -1,0 +1,37 @@
+{
+  "candidate_id": "reshape_and_cache_flash_kernel__historical_p10__9a56fd9c14d6",
+  "candidate_role": "historical_p10",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/reshape_and_cache_flash_kernel/candidates/historical_p10/kernel.py",
+  "historical_candidate_ids": [
+    "7879a2e4"
+  ],
+  "historical_generations": [
+    "2"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 2.5,
+  "historical_methods": [
+    "tau_0.95"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "reshape_and_cache_flash_kernel",
+    "reshape_and_cache_flash_kernel_int32",
+    "reshape_and_cache_flash_kernel_single_chunk",
+    "reshape_and_cache_flash_kernel_single_chunk_int32"
+  ],
+  "operator_name": "reshape_and_cache_flash_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p10",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/7879a2e4.py",
+  "source_sha256": "9a56fd9c14d6196a501bda7b1e3c5d09981517d15b40db106f5c6c1e0a0d5fd3",
+  "source_size_bytes": 8329
+}

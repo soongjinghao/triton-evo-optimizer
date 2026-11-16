@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:_convert_req_index_to_global_index_kernel:c594ea6ddab742b3:60b7a308",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_convert_req_index_to_global_index_kernel",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_convert_req_index_to_global_index_kernel/compile__convert_req_index_to_global_index_kernel_c594ea6ddab742b3_60b7a308__reuse_k00.bin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_convert_req_index_to_global_index_kernel/compile__convert_req_index_to_global_index_kernel_c594ea6ddab742b3_60b7a308__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_convert_req_index_to_global_index_kernel/compile__convert_req_index_to_global_index_kernel_c594ea6ddab742b3_60b7a308__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_convert_req_index_to_global_index_kernel/compile__convert_req_index_to_global_index_kernel_c594ea6ddab742b3_60b7a308__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 5,
+      "name": "_convert_req_index_to_global_index_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_convert_req_index_to_global_index_kernel__dataset_seed__c594ea6ddab7"
+  ],
+  "operator_name": "_convert_req_index_to_global_index_kernel",
+  "representative_candidate_id": "_convert_req_index_to_global_index_kernel__dataset_seed__c594ea6ddab7",
+  "reuse_source_compile_job_id": null,
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_convert_req_index_to_global_index_kernel/_convert_req_index_to_global_index_kernel__seed1.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/_convert_req_index_to_global_index_kernel/_convert_req_index_to_global_index_kernel_1.py",
+  "source_sha256": "c594ea6ddab742b31d80051f70e6cf15e53649b6439920e1779d827350948846",
+  "status": "success",
+  "test_path": "datasets/_convert_req_index_to_global_index_kernel/test__convert_req_index_to_global_index_kernel_1.py",
+  "test_sha256": "60b7a308a941fc04ff8122ebbac0e39821d6201e66103bca1453417f762ca58b"
+}

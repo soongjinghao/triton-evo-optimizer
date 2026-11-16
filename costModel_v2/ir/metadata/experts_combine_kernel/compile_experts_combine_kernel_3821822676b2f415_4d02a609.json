@@ -1,0 +1,64 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:experts_combine_kernel:3821822676b2f415:4d02a609",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "experts_combine_kernel",
+  "ir_counts": {
+    "npubin": 2,
+    "npuir": 2,
+    "ttadapter": 2,
+    "ttir": 2
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415_4d02a609__reuse_k00.npubin",
+      "/workspace/Agent/costModel_v2/ir/npubin/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415_4d02a609__reuse_k01.npubin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415_4d02a609__reuse_k00.npuir.mlir",
+      "/workspace/Agent/costModel_v2/ir/npuir/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415_4d02a609__reuse_k01.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415_4d02a609__reuse_k00.ttadapter.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttadapter/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415_4d02a609__reuse_k01.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415_4d02a609__reuse_k00.ttir.mlir",
+      "/workspace/Agent/costModel_v2/ir/ttir/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415_4d02a609__reuse_k01.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "experts_combine_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "experts_combine_kernel__dataset_seed__3821822676b2"
+  ],
+  "operator_name": "experts_combine_kernel",
+  "representative_candidate_id": "experts_combine_kernel__dataset_seed__3821822676b2",
+  "reuse_source_compile_job_id": "compile:experts_combine_kernel:3821822676b2f415",
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/experts_combine_kernel/compile_experts_combine_kernel_3821822676b2f415.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/experts_combine_kernel/experts_combine_kernel_1.py",
+  "source_sha256": "3821822676b2f41563f91a6789f8e574ab90183e1b7454dc0ec12652f44237f7",
+  "status": "success",
+  "test_path": "datasets/experts_combine_kernel/test_experts_combine_kernel_1.py",
+  "test_sha256": "4d02a609d175296a04519f5144243a48731657d7481ac6077154c20fb7219e18"
+}

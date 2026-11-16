@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:_per_token_group_quant_8bit_colmajor:7ca2e102829152c7:c7aef28b",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_per_token_group_quant_8bit_colmajor",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_per_token_group_quant_8bit_colmajor/compile__per_token_group_quant_8bit_colmajor_7ca2e102829152c7_c7aef28b__reuse_k00.bin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_per_token_group_quant_8bit_colmajor/compile__per_token_group_quant_8bit_colmajor_7ca2e102829152c7_c7aef28b__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_per_token_group_quant_8bit_colmajor/compile__per_token_group_quant_8bit_colmajor_7ca2e102829152c7_c7aef28b__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_per_token_group_quant_8bit_colmajor/compile__per_token_group_quant_8bit_colmajor_7ca2e102829152c7_c7aef28b__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "_per_token_group_quant_8bit_colmajor_kernel"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_per_token_group_quant_8bit_colmajor__dataset_seed__7ca2e1028291"
+  ],
+  "operator_name": "_per_token_group_quant_8bit_colmajor",
+  "representative_candidate_id": "_per_token_group_quant_8bit_colmajor__dataset_seed__7ca2e1028291",
+  "reuse_source_compile_job_id": null,
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_per_token_group_quant_8bit_colmajor/_per_token_group_quant_8bit_colmajor__seed1.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/_per_token_group_quant_8bit_colmajor/_per_token_group_quant_8bit_colmajor_1.py",
+  "source_sha256": "7ca2e102829152c761a71eccd77556ae7c7646471facdb82fd1f78c07306a7d6",
+  "status": "success",
+  "test_path": "datasets/_per_token_group_quant_8bit_colmajor/test__per_token_group_quant_8bit_colmajor_1.py",
+  "test_sha256": "c7aef28bf8a0bc82ecf07a9ebd0b06b8d99d13c6a794f03aed92651b91c196ae"
+}

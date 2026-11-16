@@ -1,0 +1,64 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:_fwd_kernel_ep_gather:0b600df39967dc40:7bafd8f3",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_fwd_kernel_ep_gather",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_fwd_kernel_ep_gather/compile__fwd_kernel_ep_gather_0b600df39967dc40_7bafd8f3__reuse_k00.bin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_fwd_kernel_ep_gather/compile__fwd_kernel_ep_gather_0b600df39967dc40_7bafd8f3__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_fwd_kernel_ep_gather/compile__fwd_kernel_ep_gather_0b600df39967dc40_7bafd8f3__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_fwd_kernel_ep_gather/compile__fwd_kernel_ep_gather_0b600df39967dc40_7bafd8f3__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 7,
+      "name": "apply_expert_map"
+    },
+    {
+      "line": 12,
+      "name": "_fwd_kernel_ep_gather"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_fwd_kernel_ep_gather__dataset_seed__0b600df39967"
+  ],
+  "operator_name": "_fwd_kernel_ep_gather",
+  "representative_candidate_id": "_fwd_kernel_ep_gather__dataset_seed__0b600df39967",
+  "reuse_source_compile_job_id": null,
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather__seed1.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/_fwd_kernel_ep_gather/_fwd_kernel_ep_gather_1.py",
+  "source_sha256": "0b600df39967dc40cc6c6069fcd702fe39bfd643cdf382156c6bd318b212adee",
+  "status": "success",
+  "test_path": "datasets/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py",
+  "test_sha256": "7bafd8f34196043231d75144c0661d75377231eb02416fcf1060a07ad03f4502"
+}

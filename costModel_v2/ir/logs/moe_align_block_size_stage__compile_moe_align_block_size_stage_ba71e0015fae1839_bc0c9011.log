@@ -1,0 +1,61 @@
+[W1116 01:26:51.915100510 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_moe_align_block_size_stage_ba71e0015fae1839_bc0c9011_wf3y_1ae/home/.triton/dump/eGbMCNtXpntctVPhFLNu9sq4o841cHTpXKlFroaZ96c
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpoqnubwqv/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpoqnubwqv/kernel
+Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_moe_align_block_size_stage_ba71e0015fae1839_bc0c9011_wf3y_1ae/home/.triton/dump/zXCCdhuQw8rxU3jj2HFtJvCCHndQ3uYv7Muic0GvmNg
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpu8a87gkh/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpu8a87gkh/kernel
+Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_moe_align_block_size_stage_ba71e0015fae1839_bc0c9011_wf3y_1ae/home/.triton/dump/pGJWQn0F2nuv8kta9gNFBe7mvxHcQ5xYSBBRsXIDZZI
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmp80eor5tz/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmp80eor5tz/kernel
+Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_moe_align_block_size_stage_ba71e0015fae1839_bc0c9011_wf3y_1ae/home/.triton/dump/4sUHmdNXc-zLA0DEgvK5QeKoq6Fm80NQ4FTaylMecwc
+[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpvmxuvi3g/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpvmxuvi3g/kernel
+topk_ids: tensor([1, 3, 2, 0, 3, 1, 1, 3, 3, 2, 0, 0, 0, 2, 2, 2, 1, 0, 1, 1, 2, 0, 0, 3,
+        1, 1, 3, 2, 1, 3, 2, 2, 2, 0, 2, 3, 3, 2, 3, 0, 3, 2, 1, 0, 3, 1, 3, 3,
+        2, 3, 1, 0, 2, 1, 3, 0, 2, 0, 1, 2, 3, 1, 1, 0, 3, 3, 1, 2, 1, 1, 3, 2,
+        0, 1, 2, 3, 3, 2, 0, 1, 0, 1, 2, 1, 1, 2, 3, 3, 0, 3, 2, 3, 3, 0, 1, 3,
+        2, 1, 0, 3, 3, 2, 1, 1, 2, 0, 2, 2, 1, 3, 0, 0, 0, 3, 2, 2, 0, 2, 1, 1,
+        2, 0, 0, 1, 0, 1, 2, 1], device='npu:0', dtype=torch.int32)
+sorted_token_ids: tensor([        32,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0, 1082130432,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0,          0,          0,          0,          0,
+                 0,          0], device='npu:0', dtype=torch.int32)
+expert_ids: tensor([1067426644, 1079216922, 1076844696, 1021040640, 1078565192, 1070072684,
+        1066783660, 1081999054, 1081427538, 1074685260, 1059626344, 1057599264,
+        1057454408, 1074325836, 1074931358, 1073904648, 1073155408, 1059031920,
+        1069390576, 1073476968, 1074866166, 1062515088, 1060805840, 1082110926,
+        1069363168, 1069691084, 1078310456, 1076797248, 1070363844, 1078507750,
+        1076741616, 1077667004, 1074614984, 1054882240, 1076238244, 1081947190,
+        1079116664, 1077176180, 1081423482, 1035744384, 1081056468, 1076280660,
+        1067589144,  999438336, 1080808708, 1069791816, 1078312950, 1080706750,
+        1075002016, 1078663286, 1071358664, 1061406520, 1077856446, 1070977612,
+        1079066092, 1062076368, 1076186528, 1059638384, 1072010828, 1075516666,
+        1079045354, 1070821424, 1065799436, 1061385464, 1078157354, 1079345822,
+        1073556512, 1076872988, 1067039628, 1065933512, 1079343598, 1075920942,
+        1058738368, 1072750044, 1076997024, 1081469260, 1081092514, 1074245018,
+        1062773656, 1070187296, 1059619944, 1071168084, 1076649220, 1066541324,
+        1070952440, 1077890114, 1080423734, 1081320736, 1053164736, 1081180146,
+        1076970916, 1081912242, 1082004756, 1062267392, 1065822604, 1078674798,
+        1077428556, 1073018960, 1062914504, 1078508700, 1080990770, 1074791704,
+        1072929932, 1067213352, 1074392522, 1048744624, 1076005708, 1076150578,
+        1068447280, 1079546734, 1063044536, 1054613984, 1057552864, 1081395240,
+        1076229340, 1074663822, 1036120064, 1077782530, 1068909440, 1067002220,
+        1076930544, 1062741984, 1024531968, 1071209268, 1051338352, 1070642232,
+        1075026952, 1073715808], device='npu:0', dtype=torch.int32)
+num_tokens_post_pad: 0
+✅ moe_align_block_size test passed

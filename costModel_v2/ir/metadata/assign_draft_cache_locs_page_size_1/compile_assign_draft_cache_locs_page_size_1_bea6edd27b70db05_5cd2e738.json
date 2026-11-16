@@ -1,0 +1,82 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_errors": [
+    {
+      "call_index": 1,
+      "error_message": "at 18:4:\n    topk: tl.constexpr,\n    speculative_num_steps: tl.constexpr,\n):\n    copy_len: tl.constexpr = topk * speculative_num_steps\n    pid = tl.program_id(axis=0)\n    out_cache_ptr = out_cache_loc + pid * copy_len\n    kv_start = tl.load(seq_lens + pid)\n    token_pool = req_to_token + tl.load(req_pool_indices + pid) * pool_len\n\n    BLOCK_SIZE: tl.constexpr = 128\n    num_loop: tl.constexpr = tl.cdiv(copy_len, BLOCK_SIZE)\n    for i in tl.static_range(num_loop):\n    ^\nTypeError(\"'tensor' object cannot be interpreted as an integer\")",
+      "error_type": "CompilationError",
+      "warmup_time_ms": 9470.426
+    }
+  ],
+  "compile_job_id": "compile:assign_draft_cache_locs_page_size_1:bea6edd27b70db05:5cd2e738",
+  "compile_only_patch": true,
+  "compile_pass": false,
+  "compile_status": "pending",
+  "device": "npu:0",
+  "device_index": 0,
+  "dump_file_count": 1,
+  "expected_test_module_name": "assign_draft_cache_locs_page_size_1",
+  "ir_counts": {
+    "npubin": 0,
+    "npuir": 0,
+    "other": 1,
+    "ttadapter": 0,
+    "ttir": 0
+  },
+  "ir_found": {
+    "npubin": false,
+    "npuir": false,
+    "ttadapter": false,
+    "ttir": false
+  },
+  "ir_paths": {
+    "npubin": [],
+    "npuir": [],
+    "ttadapter": [],
+    "ttir": []
+  },
+  "jit_functions": [
+    {
+      "line": 6,
+      "name": "assign_draft_cache_locs_page_size_1"
+    }
+  ],
+  "kernel_calls": [],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "assign_draft_cache_locs_page_size_1__dataset_seed__bea6edd27b70"
+  ],
+  "metadata_path": "/workspace/Agent/costModel_v2/ir/metadata/assign_draft_cache_locs_page_size_1/compile_assign_draft_cache_locs_page_size_1_bea6edd27b70db05_5cd2e738.json",
+  "module_staged_as": "assign_draft_cache_locs_page_size_1",
+  "n_attempt": 1,
+  "n_ok": 0,
+  "operator_name": "assign_draft_cache_locs_page_size_1",
+  "other_artifact_paths": [
+    "/workspace/Agent/costModel_v2/ir/other/assign_draft_cache_locs_page_size_1/assign_draft_cache_locs_page_size_1__dataset_seed__bea6edd27b70__k00.so"
+  ],
+  "process_log": "/workspace/Agent/costModel_v2/ir/logs/assign_draft_cache_locs_page_size_1__compile_assign_draft_cache_locs_page_size_1_bea6edd27b70db05_5cd2e738.log",
+  "process_return_code": 0,
+  "process_wall_seconds": 19.814188,
+  "representative_candidate_id": "assign_draft_cache_locs_page_size_1__dataset_seed__bea6edd27b70",
+  "reuse_status": "needs_compile",
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "sitecustomize_patch_error": null,
+  "source_path": "datasets/assign_draft_cache_locs_page_size_1/assign_draft_cache_locs_page_size_1_1.py",
+  "source_sha256": "bea6edd27b70db05900584e424e6ff115820378eab225d8a922bae475ec7af3e",
+  "source_sha256_verified": true,
+  "status": "compile_failed",
+  "test_error": "CompilationError: at 18:4:\n    topk: tl.constexpr,\n    speculative_num_steps: tl.constexpr,\n):\n    copy_len: tl.constexpr = topk * speculative_num_steps\n    pid = tl.program_id(axis=0)\n    out_cache_ptr = out_cache_loc + pid * copy_len\n    kv_start = tl.load(seq_lens + pid)\n    token_pool = req_to_token + tl.load(req_pool_indices + pid) * pool_len\n\n    BLOCK_SIZE: tl.constexpr = 128\n    num_loop: tl.constexpr = tl.cdiv(copy_len, BLOCK_SIZE)\n    for i in tl.static_range(num_loop):\n    ^\nTypeError(\"'tensor' object cannot be interpreted as an integer\")",
+  "test_path": "datasets/assign_draft_cache_locs_page_size_1/test_assign_draft_cache_locs_page_size_1_1.py",
+  "test_sha256": "5cd2e7389d182991cd755772c55433cf6e67b7aa4c2ec7535216b7b5edc2fb77",
+  "test_sha256_verified": true,
+  "test_traceback": "Traceback (most recent call last):\n  File \"/workspace/Agent/costModel_v2/scripts/03_precompile_candidates.py\", line 573, in worker_main\n    runpy.run_path(str(test_file), run_name=\"__main__\")\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/Agent/costModel_v2/ir/_work/compile_assign_draft_cache_locs_page_size_1_bea6edd27b70db05_5cd2e738__wlmqnf5/test_env/test_assign_draft_cache_locs_page_size_1.py\", line 81, in <module>\n    test_assign_draft_cache_locs()\n  File \"/workspace/Agent/costModel_v2/ir/_work/compile_assign_draft_cache_locs_page_size_1_bea6edd27b70db05_5cd2e738__wlmqnf5/test_env/test_assign_draft_cache_locs_page_size_1.py\", line 53, in test_assign_draft_cache_locs\n    assign_draft_cache_locs_page_size_1[grid](\n  File \"/usr/local/python3.11.15/lib/python3.11/site-packages/triton/runtime/jit.py\", line 333, in <lambda>\n    return lambda *args, **kwargs: self.run(grid=grid, warmup=False, *args, **kwargs)\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/Agent/costModel_v2/ir/_work/compile_assign_draft_cache_locs_page_size_1_bea6edd27b70db05_5cd2e738__wlmqnf5/patch/sitecustomize.py\", line 91, in _costmodel_run\n    compiled = _ORIGINAL_RUN(self, *args, **kwargs)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/python3.11.15/lib/python3.11/site-packages/triton/runtime/jit.py\", line 622, in run\n    kernel = self._do_compile(key, signature, device, backend, target, constants, options, configs[0], warmup)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/python3.11.15/lib/python3.11/site-packages/triton/runtime/jit.py\", line 787, in _do_compile\n    kernel = self.compile(src, target=target, options=options.__dict__)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/python3.11.15/lib/python3.11/site-packages/triton/compiler/compiler.py\", line 282, in compile\n    module = src.make_ir(options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/__init__.py\", line 38, in _patched_make_ir\n    module = _original_make_ir(self, options, codegen_fns, module_map, context)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/python3.11.15/lib/python3.11/site-packages/triton/compiler/compiler.py\", line 102, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntriton.compiler.errors.CompilationError: at 18:4:\n    topk: tl.constexpr,\n    speculative_num_steps: tl.constexpr,\n):\n    copy_len: tl.constexpr = topk * speculative_num_steps\n    pid = tl.program_id(axis=0)\n    out_cache_ptr = out_cache_loc + pid * copy_len\n    kv_start = tl.load(seq_lens + pid)\n    token_pool = req_to_token + tl.load(req_pool_indices + pid) * pool_len\n\n    BLOCK_SIZE: tl.constexpr = 128\n    num_loop: tl.constexpr = tl.cdiv(copy_len, BLOCK_SIZE)\n    for i in tl.static_range(num_loop):\n    ^\nTypeError(\"'tensor' object cannot be interpreted as an integer\")\n",
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "warmup_time_ms": 0.0,
+  "worker_log_tail": "[W1116 01:24:08.440709290 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())\n",
+  "worker_status": "failed"
+}

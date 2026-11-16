@@ -1,0 +1,18 @@
+{
+  "candidate_id": "_chunk_state_fwd_kernel__dataset_seed__07c98f85b519",
+  "candidate_role": "dataset_seed",
+  "candidate_type": "dataset_seed",
+  "destination_path": "costModel_v2/data/operators/_chunk_state_fwd_kernel/candidates/dataset_seed/kernel.py",
+  "historical_latency_is_current_label": false,
+  "jit_functions": [
+    "softplus",
+    "_chunk_state_fwd_kernel"
+  ],
+  "operator_name": "_chunk_state_fwd_kernel",
+  "schema_version": "1.0",
+  "selection_method": "select_dataset_seed_1",
+  "selection_status": "selected",
+  "source_path": "datasets/_chunk_state_fwd_kernel/_chunk_state_fwd_kernel_1.py",
+  "source_sha256": "07c98f85b519594c8d6003ddceefac951ac2adea5c8292b94babae36ef06384f",
+  "source_size_bytes": 6094
+}

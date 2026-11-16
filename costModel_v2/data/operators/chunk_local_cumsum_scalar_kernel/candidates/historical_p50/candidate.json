@@ -1,0 +1,37 @@
+{
+  "candidate_id": "chunk_local_cumsum_scalar_kernel__historical_p50__362ea250d99c",
+  "candidate_role": "historical_p50",
+  "candidate_type": "historical_evolution",
+  "destination_path": "costModel_v2/data/operators/chunk_local_cumsum_scalar_kernel/candidates/historical_p50/kernel.py",
+  "historical_candidate_ids": [
+    "5c9679a3"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_latency_is_current_label": false,
+  "historical_median_latency_us": 13.8003,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "jit_functions": [
+    "chunk_local_cumsum_scalar_kernel_varlen_head_first",
+    "chunk_local_cumsum_scalar_kernel_varlen_head_last",
+    "chunk_local_cumsum_scalar_kernel_fixed_head_first",
+    "chunk_local_cumsum_scalar_kernel_fixed_head_last"
+  ],
+  "operator_name": "chunk_local_cumsum_scalar_kernel",
+  "schema_version": "1.0",
+  "selection_method": "historical_p50",
+  "selection_status": "selected",
+  "source_path": "experiments/dataset/codes/5c9679a3.py",
+  "source_sha256": "362ea250d99c7fe6b48318d54d48d2122072ca3c0f8e9cb587eed12bd3ed882d",
+  "source_size_bytes": 8386
+}

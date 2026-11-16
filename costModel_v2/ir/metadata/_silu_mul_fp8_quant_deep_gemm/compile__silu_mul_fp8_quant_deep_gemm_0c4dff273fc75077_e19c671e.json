@@ -1,0 +1,60 @@
+{
+  "candidate_type": "dataset_seed",
+  "compile_job_id": "compile:_silu_mul_fp8_quant_deep_gemm:0c4dff273fc75077:e19c671e",
+  "compile_only_patch": true,
+  "compile_pass": true,
+  "compile_status": "pending",
+  "expected_test_module_name": "_silu_mul_fp8_quant_deep_gemm",
+  "ir_counts": {
+    "npubin": 1,
+    "npuir": 1,
+    "ttadapter": 1,
+    "ttir": 1
+  },
+  "ir_found": {
+    "npubin": true,
+    "npuir": true,
+    "ttadapter": true,
+    "ttir": true
+  },
+  "ir_paths": {
+    "npubin": [
+      "/workspace/Agent/costModel_v2/ir/npubin/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_0c4dff273fc75077_e19c671e__reuse_k00.bin"
+    ],
+    "npuir": [
+      "/workspace/Agent/costModel_v2/ir/npuir/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_0c4dff273fc75077_e19c671e__reuse_k00.npuir.mlir"
+    ],
+    "ttadapter": [
+      "/workspace/Agent/costModel_v2/ir/ttadapter/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_0c4dff273fc75077_e19c671e__reuse_k00.ttadapter.mlir"
+    ],
+    "ttir": [
+      "/workspace/Agent/costModel_v2/ir/ttir/_silu_mul_fp8_quant_deep_gemm/compile__silu_mul_fp8_quant_deep_gemm_0c4dff273fc75077_e19c671e__reuse_k00.ttir.mlir"
+    ]
+  },
+  "jit_functions": [
+    {
+      "line": 8,
+      "name": "_silu_mul_fp8_quant_deep_gemm"
+    }
+  ],
+  "kernel_executed": false,
+  "logical_candidate_count": 1,
+  "logical_candidate_ids": [
+    "_silu_mul_fp8_quant_deep_gemm__dataset_seed__0c4dff273fc7"
+  ],
+  "operator_name": "_silu_mul_fp8_quant_deep_gemm",
+  "representative_candidate_id": "_silu_mul_fp8_quant_deep_gemm__dataset_seed__0c4dff273fc7",
+  "reuse_source_compile_job_id": null,
+  "reuse_source_metadata": "/workspace/Agent/costModel/artifacts/ir/metadata/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm__seed1.json",
+  "reuse_status": "not_checked",
+  "reused": true,
+  "schema_version": "2.0",
+  "selected_roles": [
+    "dataset_seed"
+  ],
+  "source_path": "datasets/_silu_mul_fp8_quant_deep_gemm/_silu_mul_fp8_quant_deep_gemm_1.py",
+  "source_sha256": "0c4dff273fc7507719d88d3451193477667e1f773d318f702148813385e1d1ff",
+  "status": "success",
+  "test_path": "datasets/_silu_mul_fp8_quant_deep_gemm/test__silu_mul_fp8_quant_deep_gemm_1.py",
+  "test_sha256": "e19c671e170d7a431ecd50c5a024365f931ca3484f780013e73bba8fee2feff8"
+}
