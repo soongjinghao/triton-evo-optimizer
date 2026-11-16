@@ -2,15 +2,15 @@
   "compile_fail_count": 4,
   "compile_jobs_path": "/workspace/Agent/costModel_v2/data/compile_jobs.jsonl",
   "compile_only_patch": true,
-  "compile_pass_count": 245,
+  "compile_pass_count": 249,
   "compile_unknown_count": 1,
   "device_index": 0,
-  "elapsed_seconds_this_run": 340.075,
+  "elapsed_seconds_this_run": 103.59,
   "ir_file_counts": {
-    "npubin": 332,
-    "npuir": 340,
-    "ttadapter": 380,
-    "ttir": 333
+    "npubin": 339,
+    "npuir": 347,
+    "ttadapter": 387,
+    "ttir": 340
   },
   "kernel_executed": false,
   "manifest_output": "/workspace/Agent/costModel_v2/data/candidate_ir_manifest.jsonl",
@@ -2772,6 +2772,32 @@
       "warmup_time_ms": 0.0
     },
     {
+      "candidate_type": "dataset_seed",
+      "compile_job_id": "compile:assign_draft_cache_locs_page_size_1:e65e9d5ef9891ecc:5cd2e738",
+      "compile_pass": true,
+      "ir_counts": {
+        "npubin": 1,
+        "npuir": 1,
+        "other": 1,
+        "ttadapter": 1,
+        "ttir": 1
+      },
+      "ir_found": {
+        "npubin": true,
+        "npuir": true,
+        "ttadapter": true,
+        "ttir": true
+      },
+      "n_attempt": 1,
+      "operator_name": "assign_draft_cache_locs_page_size_1",
+      "representative_candidate_id": "assign_draft_cache_locs_page_size_1__dataset_seed__e65e9d5ef989",
+      "selected_roles": [
+        "dataset_seed"
+      ],
+      "status": "success",
+      "warmup_time_ms": 11235.945
+    },
+    {
       "candidate_type": "historical_p90",
       "compile_job_id": "compile:assign_draft_cache_locs_page_size_1:ecf4b3f3dd8cc445:5cd2e738",
       "compile_pass": true,
@@ -2846,6 +2872,32 @@
       ],
       "status": "success",
       "warmup_time_ms": null
+    },
+    {
+      "candidate_type": "historical_p90",
+      "compile_job_id": "compile:assign_extend_cache_locs:8bb01fcf054adfce:5dd5326f",
+      "compile_pass": true,
+      "ir_counts": {
+        "npubin": 1,
+        "npuir": 1,
+        "other": 1,
+        "ttadapter": 1,
+        "ttir": 1
+      },
+      "ir_found": {
+        "npubin": true,
+        "npuir": true,
+        "ttadapter": true,
+        "ttir": true
+      },
+      "n_attempt": 1,
+      "operator_name": "assign_extend_cache_locs",
+      "representative_candidate_id": "assign_extend_cache_locs__historical_p90__8bb01fcf054a",
+      "selected_roles": [
+        "historical_p90"
+      ],
+      "status": "success",
+      "warmup_time_ms": 13608.764
     },
     {
       "candidate_type": "historical_p50",
@@ -5133,6 +5185,31 @@
       "warmup_time_ms": 12869.008
     },
     {
+      "candidate_type": "historical_p10",
+      "compile_job_id": "compile:moe_align_block_size_stage:4a52e822b0457cdb:bc0c9011",
+      "compile_pass": true,
+      "ir_counts": {
+        "npubin": 3,
+        "npuir": 3,
+        "ttadapter": 3,
+        "ttir": 3
+      },
+      "ir_found": {
+        "npubin": true,
+        "npuir": true,
+        "ttadapter": true,
+        "ttir": true
+      },
+      "n_attempt": null,
+      "operator_name": "moe_align_block_size_stage",
+      "representative_candidate_id": "moe_align_block_size_stage__historical_p10__4a52e822b045",
+      "selected_roles": [
+        "historical_p10"
+      ],
+      "status": "success",
+      "warmup_time_ms": null
+    },
+    {
       "candidate_type": "historical_best",
       "compile_job_id": "compile:moe_align_block_size_stage:ac7bfefbdb34ad27:bc0c9011",
       "compile_pass": null,
@@ -5460,6 +5537,32 @@
       ],
       "status": "success",
       "warmup_time_ms": null
+    },
+    {
+      "candidate_type": "historical_p90",
+      "compile_job_id": "compile:reduce_segments:551c5c2c2fc03204:aa0b6b0d",
+      "compile_pass": true,
+      "ir_counts": {
+        "npubin": 2,
+        "npuir": 2,
+        "other": 1,
+        "ttadapter": 2,
+        "ttir": 2
+      },
+      "ir_found": {
+        "npubin": true,
+        "npuir": true,
+        "ttadapter": true,
+        "ttir": true
+      },
+      "n_attempt": 2,
+      "operator_name": "reduce_segments",
+      "representative_candidate_id": "reduce_segments__historical_p90__551c5c2c2fc0",
+      "selected_roles": [
+        "historical_p90"
+      ],
+      "status": "success",
+      "warmup_time_ms": 18796.477
     },
     {
       "candidate_type": "historical_p10",
@@ -6343,18 +6446,18 @@
       "warmup_time_ms": null
     }
   ],
-  "results_recorded_total": 250,
+  "results_recorded_total": 254,
   "schema_version": "1.0",
   "selected_job_count_this_run": 250,
-  "skipped_existing_count_this_run": 176,
+  "skipped_existing_count_this_run": 246,
   "status_counts": {
     "compile_failed": 4,
     "compiled_with_test_error": 1,
     "no_kernel_compile_observed": 1,
-    "success": 244
+    "success": 248
   },
-  "success_count": 245,
+  "success_count": 249,
   "timeout_seconds": 600,
   "unique_compile_jobs_total": 250,
-  "workers": 5
+  "workers": 1
 }

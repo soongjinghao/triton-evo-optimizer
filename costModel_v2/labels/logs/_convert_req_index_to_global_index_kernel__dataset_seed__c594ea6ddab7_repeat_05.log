@@ -1,0 +1,7 @@
+[W1116 10:26:48.301179180 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 10:27:00] [WARNING] [101851] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 10:27:01] [INFO] [102142] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_convert_req_index_to_global_index_kernel__dataset_seed__c594ea6ddab7_r05_eqcl4qk1/home/.triton/profile_results/prof_20261116_102700_MainProcess-101851/f6d29f527e7c_101851_20261116102700767_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 10:27:16] [INFO] [102151] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037484
+|/-\|[2026-11-16 10:27:21] [INFO] [102142] profiler.py: All profiling data parsed in a total time of 0:00:20.104734
+[costmodel-bench] _convert_req_index_to_global_index_kernel: 0.157831 ms
+✅ Triton and PyTorch results match.

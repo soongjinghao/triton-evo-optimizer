@@ -86,10 +86,8 @@ def reduce_segments(
         other=0.0,
     )
     segm_output *= tl.exp(segm_max - overall_max)[:, None]
-    if NUM_SEGMENTS_PER_SEQ <= 32 and (NUM_SEGMENTS_PER_SEQ & (NUM_SEGMENTS_PER_SEQ - 1)) == 0:
-        acc_sum = tl.reduce(segm_output, axis=0, combine_fn=lambda a, b: a + b)
-    else:
-        acc_sum = tl.sum(segm_output, axis=0)
+    # Equivalent supported reduction; avoids an inline Lambda in Triton JIT.
+    acc_sum = tl.sum(segm_output, axis=0)
     acc = tl.where(overall_expsum == 0.0, 0.0, acc_sum / overall_expsum)
     output_offset = (
         query_token_idx * output_stride_0

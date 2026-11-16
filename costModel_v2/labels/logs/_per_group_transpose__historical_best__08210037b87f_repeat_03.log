@@ -1,0 +1,10 @@
+[W1116 12:52:17.923056140 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 12:52:28] [WARNING] [308074] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 12:52:29] [INFO] [308559] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_per_group_transpose__historical_best__08210037b87f_r03_c0m5ud9o/home/.triton/profile_results/prof_20261116_125228_MainProcess-308074/f6d29f527e7c_308074_20261116125228923_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 12:52:45] [INFO] [308568] profiler.py: CANN profiling data parsed in a total time of 0:00:16.041149
+/-\|[2026-11-16 12:52:50] [INFO] [308559] profiler.py: All profiling data parsed in a total time of 0:00:20.719158
+[costmodel-bench] _per_group_transpose: 0.003371 ms
+Test passed: per_group_transpose runs successfully on NPU
+Input shape: torch.Size([32, 16])
+Output shape: torch.Size([32, 16])
+Expert offsets: tensor([ 0, 16, 32], device='npu:0', dtype=torch.int32)

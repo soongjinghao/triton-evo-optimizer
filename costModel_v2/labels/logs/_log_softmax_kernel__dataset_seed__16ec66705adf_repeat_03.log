@@ -1,0 +1,9 @@
+[W1116 12:19:24.870426600 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Running log_softmax unit tests on NPU...
+[2026-11-16 12:19:36] [WARNING] [261728] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 12:19:36] [INFO] [262001] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_log_softmax_kernel__dataset_seed__16ec66705adf_r03_p4arna65/home/.triton/profile_results/prof_20261116_121936_MainProcess-261728/f6d29f527e7c_261728_20261116121936224_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 12:19:51] [INFO] [262010] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037521
+|/-\[2026-11-16 12:19:56] [INFO] [262001] profiler.py: All profiling data parsed in a total time of 0:00:19.743453
+[costmodel-bench] _log_softmax_kernel: 0.447926 ms
+✓ test_log_softmax_2d_large passed
+All tests passed!

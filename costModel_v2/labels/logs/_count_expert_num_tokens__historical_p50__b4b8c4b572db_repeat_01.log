@@ -1,0 +1,20 @@
+[W1116 11:39:20.773435370 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 11:39:32] [WARNING] [202975] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 11:39:32] [INFO] [203244] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_count_expert_num_tokens__historical_p50__b4b8c4b572db_r01_yvw1bqkg/home/.triton/profile_results/prof_20261116_113932_MainProcess-202975/f6d29f527e7c_202975_20261116113932099_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 11:39:47] [INFO] [203253] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036805
+|/-\[2026-11-16 11:39:52] [INFO] [203244] profiler.py: All profiling data parsed in a total time of 0:00:19.853865
+[costmodel-bench] _count_expert_num_tokens: 0.004094 ms
+Test 1 passed: Basic functionality without expert map
+[2026-11-16 11:39:56] [WARNING] [202975] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 11:39:57] [INFO] [204019] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_count_expert_num_tokens__historical_p50__b4b8c4b572db_r01_yvw1bqkg/home/.triton/profile_results/prof_20261116_113956_MainProcess-202975/f6d29f527e7c_202975_20261116113956594_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 11:40:12] [INFO] [204028] profiler.py: CANN profiling data parsed in a total time of 0:00:15.039669
+|/-\[2026-11-16 11:40:16] [INFO] [204019] profiler.py: All profiling data parsed in a total time of 0:00:19.755938
+[costmodel-bench] _count_expert_num_tokens: 0.004652 ms
+Test 2 passed: With expert map
+[2026-11-16 11:40:19] [WARNING] [202975] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 11:40:20] [INFO] [204767] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_count_expert_num_tokens__historical_p50__b4b8c4b572db_r01_yvw1bqkg/home/.triton/profile_results/prof_20261116_114019_MainProcess-202975/f6d29f527e7c_202975_20261116114019654_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 11:40:36] [INFO] [204776] profiler.py: CANN profiling data parsed in a total time of 0:00:16.040282
+/-\|[2026-11-16 11:40:41] [INFO] [204767] profiler.py: All profiling data parsed in a total time of 0:00:20.812618
+[costmodel-bench] _count_expert_num_tokens: 0.004404 ms
+Test 3 passed: Larger random tensor
+All tests passed!
