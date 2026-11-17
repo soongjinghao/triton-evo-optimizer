@@ -1,23 +1,27 @@
 {
+  "benchmark_policy": "correctness_first_then_once_per_unique_launch_signature",
   "device_id": 0,
-  "failed_labels": 0,
+  "failed_labels": 51,
   "label_status_counts": {
-    "success": 5
+    "profile_failed": 51,
+    "profiling_in_progress": 1,
+    "success": 198
   },
   "latency_source": "triton.backends.ascend.testing.do_bench_npu",
   "latency_unit": "us",
+  "measurement_provenance": "correctness_first_unique_launch_signature_do_bench_npu_v2",
   "outputs": {
     "labels_csv": "/workspace/Agent/costModel_v2/labels/candidate_labels.csv",
     "records_jsonl": "/workspace/Agent/costModel_v2/labels/candidate_profile_records.jsonl",
     "summary_json": "/workspace/Agent/costModel_v2/labels/profile_summary.json"
   },
-  "pending_labels": 0,
+  "pending_labels": 1,
   "profile_eligible_after_filters": 5,
-  "profile_record_count": 5,
-  "profiled_or_resumed_this_run": 5,
-  "repeats": 5,
+  "profile_record_count": 250,
+  "profiled_or_resumed_this_run": 1,
+  "repeats": 1,
   "schema_version": "1.0",
   "selected_candidate_count": 250,
   "skipped_reasons_for_current_filter": {},
-  "successful_labels": 5
+  "successful_labels": 198
 }

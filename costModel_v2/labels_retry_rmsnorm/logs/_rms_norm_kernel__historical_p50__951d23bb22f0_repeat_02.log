@@ -1,0 +1,10 @@
+[W1117 14:01:45.652771630 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ RMS Norm test passed!
+Input shape: torch.Size([32, 128, 512])
+Max absolute difference: 1.9073486328125e-06
+Mean absolute difference: 1.7157347542706702e-08
+[2026-11-17 14:01:58] [WARNING] [41427] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 14:01:59] [INFO] [41734] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels_retry_rmsnorm/work/_rms_norm_kernel__historical_p50__951d23bb22f0_r02_5ejeu60o/home/.triton/profile_results/prof_20261117_140158_MainProcess-41427/e96ec587d4bc_41427_20261117140158516_ascend_pt
+|/-\|/-\|/-\|/-\|/[2026-11-17 14:02:16] [INFO] [41743] profiler.py: CANN profiling data parsed in a total time of 0:00:17.032468
+-\|/-[2026-11-17 14:02:21] [INFO] [41734] profiler.py: All profiling data parsed in a total time of 0:00:22.347408
+[costmodel-bench] _rms_norm_kernel signature=4ee8cdd3e51b latency=0.175538 ms observed=15

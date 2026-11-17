@@ -1,0 +1,16 @@
+{
+  "status": "test_passed",
+  "test_error": null,
+  "test_traceback": null,
+  "device_id": 0,
+  "torch_version": "2.7.1+cpu",
+  "triton_version": "3.2.0",
+  "launch_events": [],
+  "benchmark_phase": "after_correctness_test",
+  "benchmark_status": "success",
+  "patch_error": null,
+  "target_jit_names": [
+    "_rms_norm_kernel"
+  ],
+  "observed_launch_count": 0
+}
