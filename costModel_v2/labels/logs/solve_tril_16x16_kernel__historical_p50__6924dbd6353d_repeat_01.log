@@ -97,4 +97,32 @@ Test 1: Basic functionality with BT=16
 [costmodel-bench] solve_tril_16x16_kernel: 0.040302 ms
 [2026-11-17 07:29:29] [WARNING] [2219303] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
 [2026-11-17 07:29:30] [INFO] [2231965] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/solve_tril_16x16_kernel__historical_p50__6924dbd6353d_r01_wg7837wt/home/.triton/profile_results/prof_20261117_072929_MainProcess-2219303/f6d29f527e7c_2219303_20261117072929884_ascend_pt
-|/-\|/-\|/-\|
+|/-\|/-\|/-\|/-\[2026-11-17 07:29:45] [INFO] [2231974] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038401
+|/-\|[2026-11-17 07:29:51] [INFO] [2231965] profiler.py: All profiling data parsed in a total time of 0:00:20.806195
+[costmodel-bench] solve_tril_16x16_kernel: 0.040282 ms
+[2026-11-17 07:29:51] [WARNING] [2219303] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 07:29:52] [INFO] [2232817] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/solve_tril_16x16_kernel__historical_p50__6924dbd6353d_r01_wg7837wt/home/.triton/profile_results/prof_20261117_072951_MainProcess-2219303/f6d29f527e7c_2219303_20261117072951612_ascend_pt
+|/-\|/-\|/-\|/[2026-11-17 07:30:05] [INFO] [2232826] profiler.py: CANN profiling data parsed in a total time of 0:00:13.034769
+-\|/-[2026-11-17 07:30:10] [INFO] [2232817] profiler.py: All profiling data parsed in a total time of 0:00:18.668075
+[costmodel-bench] solve_tril_16x16_kernel: 0.040296 ms
+[2026-11-17 07:30:11] [WARNING] [2219303] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 07:30:11] [INFO] [2233527] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/solve_tril_16x16_kernel__historical_p50__6924dbd6353d_r01_wg7837wt/home/.triton/profile_results/prof_20261117_073011_MainProcess-2219303/f6d29f527e7c_2219303_20261117073011335_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-17 07:30:28] [INFO] [2233536] profiler.py: CANN profiling data parsed in a total time of 0:00:16.040454
+/-\|[2026-11-17 07:30:32] [INFO] [2233527] profiler.py: All profiling data parsed in a total time of 0:00:20.769860
+[costmodel-bench] solve_tril_16x16_kernel: 0.040311 ms
+[2026-11-17 07:30:33] [WARNING] [2219303] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 07:30:33] [INFO] [2234236] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/solve_tril_16x16_kernel__historical_p50__6924dbd6353d_r01_wg7837wt/home/.triton/profile_results/prof_20261117_073033_MainProcess-2219303/f6d29f527e7c_2219303_20261117073033039_ascend_pt
+|/-\|/-\|[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: An error occurred: ConcurrentTasksManager.finalize() takes 1 positional argument but 3 were given
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [CANNExportParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [CANNTimelineParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [RelationParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [CANNAnalyzeParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [OperatorViewParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [TraceViewParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [KernelViewParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [TraceStepTimeParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [MemoryViewParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [IntegrateParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [CommunicationParser] run failed.
+[2026-11-17 07:30:42] [ERROR] [2234236] profiler.py: Task [DbParser] run failed.
+[2026-11-17 07:30:42] [INFO] [2234236] profiler.py: All profiling data parsed in a total time of 0:00:08.700758
