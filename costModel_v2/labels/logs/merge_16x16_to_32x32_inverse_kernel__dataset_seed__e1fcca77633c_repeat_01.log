@@ -1,0 +1,39 @@
+[W1117 01:31:42.423100940 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing merge_16x16_to_32x32_inverse (corrected) with B=2, T=64, H=4, BT=32
+Using device: npu
+
+Generating strictly lower triangular blocks...
+Created input tensor A with shape: torch.Size([2, 64, 4, 32])
+A dtype: torch.float32, device: npu:0
+[2026-11-17 01:31:56] [WARNING] [1560175] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 01:31:56] [INFO] [1560667] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/merge_16x16_to_32x32_inverse_kernel__dataset_seed__e1fcca77633c_r01_k8tr_zgc/home/.triton/profile_results/prof_20261117_013155_MainProcess-1560175/f6d29f527e7c_1560175_20261117013155976_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 01:32:11] [INFO] [1560676] profiler.py: CANN profiling data parsed in a total time of 0:00:15.040084
+|/-\[2026-11-17 01:32:16] [INFO] [1560667] profiler.py: All profiling data parsed in a total time of 0:00:19.932719
+[costmodel-bench] merge_16x16_to_32x32_inverse_kernel: 0.034875 ms
+Output Ai shape: torch.Size([2, 64, 4, 32])
+Ai dtype: torch.float32
+
+=== Test 1: Block-wise formula verification ===
+
+Formula verification completed:
+  Blocks tested: 16
+  Maximum formula error: 6.50e-05
+✓ All block formulas correct within 1e-3
+
+=== Test 2: Full 32×32 block verification ===
+
+Full block verification completed:
+  Blocks tested: 16
+  Maximum block error: 6.10e-05
+✓ All 32×32 blocks correct within 1e-3
+
+=== Test 3: Structure verification ===
+Maximum structure error: 0.00e+00
+✓ Inverse has correct structure
+
+============================================================
+SUCCESS: All tests passed!
+
+============================================================
+SUCCESS: Corrected test passed!
+============================================================

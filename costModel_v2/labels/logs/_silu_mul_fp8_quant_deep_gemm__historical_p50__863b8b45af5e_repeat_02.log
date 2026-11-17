@@ -1,0 +1,9 @@
+[W1116 15:15:45.130775960 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing persistent_masked_m_silu_mul_quant on NPU...
+[2026-11-16 15:15:58] [WARNING] [531390] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 15:15:58] [INFO] [531802] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_silu_mul_fp8_quant_deep_gemm__historical_p50__863b8b45af5e_r02_6kjj0e2e/home/.triton/profile_results/prof_20261116_151558_MainProcess-531390/f6d29f527e7c_531390_20261116151558062_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 15:16:13] [INFO] [531811] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038075
+|/-\[2026-11-16 15:16:18] [INFO] [531802] profiler.py: All profiling data parsed in a total time of 0:00:19.861561
+[costmodel-bench] _silu_mul_fp8_quant_deep_gemm: 0.006211 ms
+✓ SiLU quantization test passed
+✅ NPU quantization kernel test completed successfully!

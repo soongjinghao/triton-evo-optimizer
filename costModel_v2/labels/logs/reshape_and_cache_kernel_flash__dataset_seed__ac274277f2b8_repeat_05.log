@@ -1,0 +1,33 @@
+[W1117 05:41:31.786828000 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-17 05:41:42] [WARNING] [2050557] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 05:41:43] [INFO] [2050958] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/reshape_and_cache_kernel_flash__dataset_seed__ac274277f2b8_r05_gs0zs97f/home/.triton/profile_results/prof_20261117_054142_MainProcess-2050557/f6d29f527e7c_2050557_20261117054142796_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 05:41:58] [INFO] [2050967] profiler.py: CANN profiling data parsed in a total time of 0:00:15.023128
+|/-\[2026-11-17 05:42:03] [INFO] [2050958] profiler.py: All profiling data parsed in a total time of 0:00:19.876139
+[costmodel-bench] reshape_and_cache_kernel_flash: 0.003946 ms
+/workspace/Agent/costModel_v2/labels/work/reshape_and_cache_kernel_flash__dataset_seed__ac274277f2b8_r05_gs0zs97f/test_env/test_reshape_and_cache_kernel_flash.py:54: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:423.)
+  block_offset = slot_idx % block_size
+✓ Basic test passed
+[2026-11-17 05:42:05] [WARNING] [2050557] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 05:42:05] [INFO] [2051692] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/reshape_and_cache_kernel_flash__dataset_seed__ac274277f2b8_r05_gs0zs97f/home/.triton/profile_results/prof_20261117_054205_MainProcess-2050557/f6d29f527e7c_2050557_20261117054205304_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 05:42:20] [INFO] [2051701] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037546
+|/-\[2026-11-17 05:42:25] [INFO] [2051692] profiler.py: All profiling data parsed in a total time of 0:00:19.759884
+[costmodel-bench] reshape_and_cache_kernel_flash: 0.003415 ms
+✓ Negative slots test passed
+[2026-11-17 05:42:27] [WARNING] [2050557] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 05:42:28] [INFO] [2052446] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/reshape_and_cache_kernel_flash__dataset_seed__ac274277f2b8_r05_gs0zs97f/home/.triton/profile_results/prof_20261117_054227_MainProcess-2050557/f6d29f527e7c_2050557_20261117054227630_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 05:42:43] [INFO] [2052455] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038723
+|/-\[2026-11-17 05:42:47] [INFO] [2052446] profiler.py: All profiling data parsed in a total time of 0:00:19.695611
+[costmodel-bench] reshape_and_cache_kernel_flash: 0.006748 ms
+✓ Large tile test passed
+[2026-11-17 05:42:51] [WARNING] [2050557] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 05:42:51] [INFO] [2053182] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/reshape_and_cache_kernel_flash__dataset_seed__ac274277f2b8_r05_gs0zs97f/home/.triton/profile_results/prof_20261117_054250_MainProcess-2050557/f6d29f527e7c_2050557_20261117054250952_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 05:43:06] [INFO] [2053191] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037812
+|/-\[2026-11-17 05:43:11] [INFO] [2053182] profiler.py: All profiling data parsed in a total time of 0:00:19.775634
+[costmodel-bench] reshape_and_cache_kernel_flash: 0.002625 ms
+[2026-11-17 05:43:13] [WARNING] [2050557] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 05:43:13] [INFO] [2053928] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/reshape_and_cache_kernel_flash__dataset_seed__ac274277f2b8_r05_gs0zs97f/home/.triton/profile_results/prof_20261117_054313_MainProcess-2050557/f6d29f527e7c_2050557_20261117054313281_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 05:43:28] [INFO] [2053937] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036714
+|/-\[2026-11-17 05:43:33] [INFO] [2053928] profiler.py: All profiling data parsed in a total time of 0:00:19.914333
+[costmodel-bench] reshape_and_cache_kernel_flash: 0.003599 ms
+✓ Edge cases test passed
+All tests passed!

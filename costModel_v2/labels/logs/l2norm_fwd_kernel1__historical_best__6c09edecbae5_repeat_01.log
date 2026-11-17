@@ -1,0 +1,10 @@
+[W1117 00:07:15.881320500 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-17 00:07:27] [WARNING] [1419640] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 00:07:27] [INFO] [1420047] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/l2norm_fwd_kernel1__historical_best__6c09edecbae5_r01_qyod9u8_/home/.triton/profile_results/prof_20261117_000727_MainProcess-1419640/f6d29f527e7c_1419640_20261117000727273_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 00:07:43] [INFO] [1420056] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038348
+|/-\[2026-11-17 00:07:47] [INFO] [1420047] profiler.py: All profiling data parsed in a total time of 0:00:19.841087
+[costmodel-bench] l2norm_fwd_kernel1: 0.003334 ms
+L2Norm test passed!
+Input shape: torch.Size([64, 64])
+Output shape: torch.Size([64, 64])
+Max difference: 5.960464477539063e-08

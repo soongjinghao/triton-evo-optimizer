@@ -1,0 +1,20 @@
+[W1116 22:40:54.941384670 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 22:41:06] [WARNING] [1304479] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 22:41:07] [INFO] [1304752] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/experts_combine_kernel__historical_p90__b4cab33829c0_r05_ifgmt8mo/home/.triton/profile_results/prof_20261116_224106_MainProcess-1304479/f6d29f527e7c_1304479_20261116224106701_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 22:41:23] [INFO] [1304761] profiler.py: CANN profiling data parsed in a total time of 0:00:16.043529
+/-\|[2026-11-16 22:41:28] [INFO] [1304752] profiler.py: All profiling data parsed in a total time of 0:00:20.783642
+[costmodel-bench] experts_combine_kernel: 0.006345 ms
+Test case 1 passed: Basic functionality with combine_k > 1
+[2026-11-16 22:41:30] [WARNING] [1304479] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 22:41:30] [INFO] [1305501] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/experts_combine_kernel__historical_p90__b4cab33829c0_r05_ifgmt8mo/home/.triton/profile_results/prof_20261116_224130_MainProcess-1304479/f6d29f527e7c_1304479_20261116224130296_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 22:41:46] [INFO] [1305510] profiler.py: CANN profiling data parsed in a total time of 0:00:15.040985
+|/-\[2026-11-16 22:41:50] [INFO] [1305501] profiler.py: All profiling data parsed in a total time of 0:00:19.804712
+[costmodel-bench] experts_combine_kernel: 0.003988 ms
+Test case 2 passed: Pre-combined case (combine_k = 1)
+[2026-11-16 22:41:51] [WARNING] [1304479] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 22:41:51] [INFO] [1306169] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/experts_combine_kernel__historical_p90__b4cab33829c0_r05_ifgmt8mo/home/.triton/profile_results/prof_20261116_224150_MainProcess-1304479/f6d29f527e7c_1304479_20261116224150988_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 22:42:06] [INFO] [1306178] profiler.py: CANN profiling data parsed in a total time of 0:00:15.040387
+|/-\|[2026-11-16 22:42:11] [INFO] [1306169] profiler.py: All profiling data parsed in a total time of 0:00:20.108526
+[costmodel-bench] experts_combine_kernel: 0.004250 ms
+Test case 3 passed: With output buffer
+All tests passed!

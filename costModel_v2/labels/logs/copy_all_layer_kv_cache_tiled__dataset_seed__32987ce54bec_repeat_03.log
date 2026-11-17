@@ -1,0 +1,7 @@
+[W1116 21:53:24.583626460 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 21:53:36] [WARNING] [1230326] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 21:53:37] [INFO] [1230595] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/copy_all_layer_kv_cache_tiled__dataset_seed__32987ce54bec_r03_n001v5rc/home/.triton/profile_results/prof_20261116_215336_MainProcess-1230326/f6d29f527e7c_1230326_20261116215336928_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 21:53:53] [INFO] [1230604] profiler.py: CANN profiling data parsed in a total time of 0:00:16.040256
+/-\|/[2026-11-16 21:53:58] [INFO] [1230595] profiler.py: All profiling data parsed in a total time of 0:00:21.275288
+[costmodel-bench] copy_all_layer_kv_cache_tiled: 0.004433 ms
+✅ copy_all_layer_kv_cache_tiled test passed

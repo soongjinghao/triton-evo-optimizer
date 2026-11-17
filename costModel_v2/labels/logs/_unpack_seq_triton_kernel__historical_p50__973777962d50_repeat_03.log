@@ -1,0 +1,12 @@
+[W1116 16:27:30.483990010 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+/workspace/Agent/costModel_v2/labels/work/_unpack_seq_triton_kernel__historical_p50__973777962d50_r03_8k8cvby_/test_env/_unpack_seq_triton_kernel.py:54: UserWarning: An output with one or more elements was resized since it had shape [32], which does not match the required output shape [3]. This behavior is deprecated, and in a future PyTorch release outputs will not be resized unless they have zero elements. You can explicitly reuse an out tensor t by resizing it, inplace, to zero elements with t.resize_(0). (Triggered internally at /pytorch/aten/src/ATen/native/Resize.cpp:30.)
+  torch.cumsum(lengths.int(), dim=0, out=cum_lengths[1:])
+[2026-11-16 16:27:42] [WARNING] [646340] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 16:27:43] [INFO] [646654] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_unpack_seq_triton_kernel__historical_p50__973777962d50_r03_8k8cvby_/home/.triton/profile_results/prof_20261116_162742_MainProcess-646340/f6d29f527e7c_646340_20261116162742557_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 16:27:58] [INFO] [646663] profiler.py: CANN profiling data parsed in a total time of 0:00:15.042599
+|/-\[2026-11-16 16:28:02] [INFO] [646654] profiler.py: All profiling data parsed in a total time of 0:00:19.745790
+[costmodel-bench] _unpack_seq_triton_kernel: 0.003027 ms
+Triton result shape: torch.Size([20, 64])
+Reference result shape: torch.Size([20, 64])
+Total elements: 20
+✅ Test 1 passed: Basic 3D tensor

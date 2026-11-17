@@ -1,0 +1,18 @@
+[W1116 16:12:46.020297720 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 16:12:58] [WARNING] [624733] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 16:12:58] [INFO] [625006] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_trtllm_prefill_attn_kvfp8_dequant__historical_p90__cb2d9e001e16_r04_2v7nzq8s/home/.triton/profile_results/prof_20261116_161258_MainProcess-624733/f6d29f527e7c_624733_20261116161258112_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 16:13:14] [INFO] [625015] profiler.py: CANN profiling data parsed in a total time of 0:00:16.040529
+/-\|[2026-11-16 16:13:19] [INFO] [625006] profiler.py: All profiling data parsed in a total time of 0:00:20.770201
+[costmodel-bench] _trtllm_prefill_attn_kvfp8_dequant: 0.008666 ms
+[2026-11-16 16:13:22] [WARNING] [624733] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 16:13:23] [INFO] [625779] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_trtllm_prefill_attn_kvfp8_dequant__historical_p90__cb2d9e001e16_r04_2v7nzq8s/home/.triton/profile_results/prof_20261116_161322_MainProcess-624733/f6d29f527e7c_624733_20261116161322687_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 16:13:38] [INFO] [625788] profiler.py: CANN profiling data parsed in a total time of 0:00:15.040181
+|/-\[2026-11-16 16:13:42] [INFO] [625779] profiler.py: All profiling data parsed in a total time of 0:00:19.701472
+[costmodel-bench] _trtllm_prefill_attn_kvfp8_dequant: 0.008314 ms
+[2026-11-16 16:13:45] [WARNING] [624733] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 16:13:45] [INFO] [626517] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_trtllm_prefill_attn_kvfp8_dequant__historical_p90__cb2d9e001e16_r04_2v7nzq8s/home/.triton/profile_results/prof_20261116_161345_MainProcess-624733/f6d29f527e7c_624733_20261116161345048_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 16:14:01] [INFO] [626526] profiler.py: CANN profiling data parsed in a total time of 0:00:16.039993
+/-\|[2026-11-16 16:14:06] [INFO] [626517] profiler.py: All profiling data parsed in a total time of 0:00:20.954194
+[costmodel-bench] _trtllm_prefill_attn_kvfp8_dequant: 0.003302 ms
+All tests passed!
+✓ All unit tests completed successfully!

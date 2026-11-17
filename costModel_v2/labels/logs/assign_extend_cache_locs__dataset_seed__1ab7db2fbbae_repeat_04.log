@@ -1,0 +1,11 @@
+[W1116 16:52:29.526770340 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 16:52:42] [WARNING] [681404] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 16:52:42] [INFO] [681677] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/assign_extend_cache_locs__dataset_seed__1ab7db2fbbae_r04_sj4g9ci8/home/.triton/profile_results/prof_20261116_165241_MainProcess-681404/f6d29f527e7c_681404_20261116165241954_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 16:52:58] [INFO] [681689] profiler.py: CANN profiling data parsed in a total time of 0:00:16.040701
+/-\|[2026-11-16 16:53:03] [INFO] [681677] profiler.py: All profiling data parsed in a total time of 0:00:20.788399
+[costmodel-bench] assign_extend_cache_locs: 0.004470 ms
+✅ Triton kernel output matches reference implementation
+Triton result: tensor([728, 320, 874, 184, 600, 237, 209, 582, 900, 286, 965, 713, 709, 108,
+        527, 734, 707, 488, 380, 967], device='npu:0', dtype=torch.int32)
+Reference result: tensor([728, 320, 874, 184, 600, 237, 209, 582, 900, 286, 965, 713, 709, 108,
+        527, 734, 707, 488, 380, 967], device='npu:0', dtype=torch.int32)

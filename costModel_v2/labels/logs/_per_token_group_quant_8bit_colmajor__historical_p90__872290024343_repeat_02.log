@@ -1,0 +1,11 @@
+[W1116 13:17:11.415032640 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 13:17:24] [WARNING] [342689] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 13:17:25] [INFO] [342985] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_per_token_group_quant_8bit_colmajor__historical_p90__872290024343_r02_4bm8u7is/home/.triton/profile_results/prof_20261116_131724_MainProcess-342689/f6d29f527e7c_342689_20261116131724710_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 13:17:40] [INFO] [342994] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036798
+|/-\[2026-11-16 13:17:45] [INFO] [342985] profiler.py: All profiling data parsed in a total time of 0:00:19.969832
+[costmodel-bench] _per_token_group_quant_8bit_colmajor_kernel: 0.007916 ms
+✅ Per-token-group quantization test passed!
+Input shape: (16, 128)
+Group size: 32
+Max quantized difference: 1
+Max scale difference: 0.0

@@ -1,0 +1,80 @@
+[W1116 14:18:03.714015580 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 14:18:16] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:18:16] [INFO] [443411] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_141815_MainProcess-443115/f6d29f527e7c_443115_20261116141815979_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 14:18:32] [INFO] [443420] profiler.py: CANN profiling data parsed in a total time of 0:00:16.044391
+/-\|/[2026-11-16 14:18:38] [INFO] [443411] profiler.py: All profiling data parsed in a total time of 0:00:21.823942
+[costmodel-bench] _rms_norm_kernel: 0.216811 ms
+[2026-11-16 14:18:38] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:18:39] [INFO] [444073] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_141838_MainProcess-443115/f6d29f527e7c_443115_20261116141838874_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:18:54] [INFO] [444082] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036808
+|/-\[2026-11-16 14:18:59] [INFO] [444073] profiler.py: All profiling data parsed in a total time of 0:00:19.850217
+[costmodel-bench] _rms_norm_kernel: 0.217059 ms
+[2026-11-16 14:18:59] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:19:00] [INFO] [444738] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_141859_MainProcess-443115/f6d29f527e7c_443115_20261116141859566_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:19:15] [INFO] [444753] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036373
+|/-\[2026-11-16 14:19:19] [INFO] [444738] profiler.py: All profiling data parsed in a total time of 0:00:19.804247
+[costmodel-bench] _rms_norm_kernel: 0.217070 ms
+[2026-11-16 14:19:20] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:19:20] [INFO] [445416] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_141920_MainProcess-443115/f6d29f527e7c_443115_20261116141920360_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:19:36] [INFO] [445425] profiler.py: CANN profiling data parsed in a total time of 0:00:15.039630
+|/-\|[2026-11-16 14:19:41] [INFO] [445416] profiler.py: All profiling data parsed in a total time of 0:00:21.046202
+[costmodel-bench] _rms_norm_kernel: 0.217024 ms
+[2026-11-16 14:19:42] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:19:42] [INFO] [446072] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_141942_MainProcess-443115/f6d29f527e7c_443115_20261116141942066_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 14:19:58] [INFO] [446081] profiler.py: CANN profiling data parsed in a total time of 0:00:16.039993
+/-\|[2026-11-16 14:20:03] [INFO] [446072] profiler.py: All profiling data parsed in a total time of 0:00:21.061113
+[costmodel-bench] _rms_norm_kernel: 0.217070 ms
+[2026-11-16 14:20:03] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:20:04] [INFO] [446746] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142003_MainProcess-443115/f6d29f527e7c_443115_20261116142003761_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:20:19] [INFO] [446755] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037108
+|/-\[2026-11-16 14:20:24] [INFO] [446746] profiler.py: All profiling data parsed in a total time of 0:00:20.081215
+[costmodel-bench] _rms_norm_kernel: 0.216993 ms
+[2026-11-16 14:20:24] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:20:25] [INFO] [447415] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142024_MainProcess-443115/f6d29f527e7c_443115_20261116142024478_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:20:40] [INFO] [447424] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037488
+|/-\[2026-11-16 14:20:44] [INFO] [447415] profiler.py: All profiling data parsed in a total time of 0:00:19.927835
+[costmodel-bench] _rms_norm_kernel: 0.217131 ms
+[2026-11-16 14:20:45] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:20:45] [INFO] [448071] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142045_MainProcess-443115/f6d29f527e7c_443115_20261116142045176_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:21:00] [INFO] [448080] profiler.py: CANN profiling data parsed in a total time of 0:00:15.042301
+|/-\[2026-11-16 14:21:05] [INFO] [448071] profiler.py: All profiling data parsed in a total time of 0:00:19.840657
+[costmodel-bench] _rms_norm_kernel: 0.217008 ms
+[2026-11-16 14:21:05] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:21:06] [INFO] [448739] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142105_MainProcess-443115/f6d29f527e7c_443115_20261116142105882_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:21:21] [INFO] [448748] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037440
+|/-\[2026-11-16 14:21:26] [INFO] [448739] profiler.py: All profiling data parsed in a total time of 0:00:19.938890
+[costmodel-bench] _rms_norm_kernel: 0.217002 ms
+[2026-11-16 14:21:26] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:21:27] [INFO] [449408] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142126_MainProcess-443115/f6d29f527e7c_443115_20261116142126590_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:21:42] [INFO] [449417] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036517
+|/-\[2026-11-16 14:21:47] [INFO] [449408] profiler.py: All profiling data parsed in a total time of 0:00:19.874933
+[costmodel-bench] _rms_norm_kernel: 0.216739 ms
+[2026-11-16 14:21:47] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:21:47] [INFO] [450064] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142147_MainProcess-443115/f6d29f527e7c_443115_20261116142147340_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:22:03] [INFO] [450073] profiler.py: CANN profiling data parsed in a total time of 0:00:15.057132
+|/-\[2026-11-16 14:22:07] [INFO] [450064] profiler.py: All profiling data parsed in a total time of 0:00:19.884018
+[costmodel-bench] _rms_norm_kernel: 0.216995 ms
+[2026-11-16 14:22:08] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:22:08] [INFO] [450731] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142208_MainProcess-443115/f6d29f527e7c_443115_20261116142208063_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:22:23] [INFO] [450740] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037651
+|/-\|[2026-11-16 14:22:29] [INFO] [450731] profiler.py: All profiling data parsed in a total time of 0:00:20.866545
+[costmodel-bench] _rms_norm_kernel: 0.217073 ms
+[2026-11-16 14:22:29] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:22:30] [INFO] [451406] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142229_MainProcess-443115/f6d29f527e7c_443115_20261116142229787_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:22:45] [INFO] [451415] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036804
+|/-\[2026-11-16 14:22:50] [INFO] [451406] profiler.py: All profiling data parsed in a total time of 0:00:19.828512
+[costmodel-bench] _rms_norm_kernel: 0.217197 ms
+[2026-11-16 14:22:50] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:22:51] [INFO] [452062] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142250_MainProcess-443115/f6d29f527e7c_443115_20261116142250499_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:23:06] [INFO] [452071] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036848
+|/-\|[2026-11-16 14:23:11] [INFO] [452062] profiler.py: All profiling data parsed in a total time of 0:00:20.828783
+[costmodel-bench] _rms_norm_kernel: 0.217005 ms
+[2026-11-16 14:23:12] [WARNING] [443115] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:23:12] [INFO] [452743] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_rms_norm_kernel__historical_p90__e1dbda950f1e_r03_vb1i3ykw/home/.triton/profile_results/prof_20261116_142312_MainProcess-443115/f6d29f527e7c_443115_20261116142312197_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 14:23:27] [INFO] [452752] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038253
+|/-\[2026-11-16 14:23:32] [INFO] [452743] profiler.py: All profiling data parsed in a total time of 0:00:19.849934
+[costmodel-bench] _rms_norm_kernel: 0.217003 ms
+✅ RMS Norm test passed!
+Input shape: torch.Size([32, 128, 512])
+Max absolute difference: 1.9073486328125e-06
+Mean absolute difference: 1.7157347542706702e-08

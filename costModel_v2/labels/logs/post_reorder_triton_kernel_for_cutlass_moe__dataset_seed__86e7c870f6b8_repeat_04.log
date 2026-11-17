@@ -1,0 +1,25 @@
+[W1117 03:33:23.982512850 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-17 03:33:35] [WARNING] [1797448] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 03:33:36] [INFO] [1797870] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/post_reorder_triton_kernel_for_cutlass_moe__dataset_seed__86e7c870f6b8_r04_y0s5d18v/home/.triton/profile_results/prof_20261117_033335_MainProcess-1797448/f6d29f527e7c_1797448_20261117033335623_ascend_pt
+|/-\|/-\|/-\|/-[2026-11-17 03:33:50] [INFO] [1797882] profiler.py: CANN profiling data parsed in a total time of 0:00:14.036869
+\|/-\[2026-11-17 03:33:56] [INFO] [1797870] profiler.py: All profiling data parsed in a total time of 0:00:19.847018
+[costmodel-bench] post_reorder_triton_kernel_for_cutlass_moe: 0.004408 ms
+[W1117 03:33:56.289002600 ToKernelNpu.cpp:40] Warning: Device do not support double dtype now, dtype cast replace with float. (function operator())
+Triton output: tensor([[-2.1641,  0.4067, -0.2372,  ..., -0.2031,  1.1377,  0.5723],
+        [ 0.1223,  0.7949, -0.3745,  ...,  1.4414, -0.8213,  0.5693],
+        [-0.1414,  0.4041, -0.8262,  ..., -0.8735,  0.5371,  0.1736],
+        ...,
+        [ 0.7822,  1.3350,  0.6396,  ...,  1.2168,  0.0486, -0.8403],
+        [ 0.7642,  1.0625, -0.5190,  ..., -0.1406, -0.0673, -1.2666],
+        [-0.2207,  0.1094, -0.8096,  ..., -0.3530, -0.1741, -0.5742]],
+       device='npu:0', dtype=torch.float16)
+PyTorch output: tensor([[-2.1641,  0.4067, -0.2372,  ..., -0.2031,  1.1377,  0.5723],
+        [ 0.1223,  0.7949, -0.3745,  ...,  1.4414, -0.8213,  0.5693],
+        [-0.1414,  0.4041, -0.8262,  ..., -0.8735,  0.5371,  0.1736],
+        ...,
+        [ 0.7822,  1.3350,  0.6396,  ...,  1.2168,  0.0486, -0.8403],
+        [ 0.7642,  1.0625, -0.5190,  ..., -0.1406, -0.0673, -1.2666],
+        [-0.2207,  0.1094, -0.8096,  ..., -0.3530, -0.1741, -0.5742]],
+       device='npu:0', dtype=torch.float16)
+Max difference: 0.0
+✅ Triton and PyTorch implementations match!

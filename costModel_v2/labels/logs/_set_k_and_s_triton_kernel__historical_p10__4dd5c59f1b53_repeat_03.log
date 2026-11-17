@@ -1,0 +1,9 @@
+[W1116 14:58:15.307728710 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 14:58:27] [WARNING] [505132] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 14:58:27] [INFO] [505406] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_set_k_and_s_triton_kernel__historical_p10__4dd5c59f1b53_r03_q8xe4i4l/home/.triton/profile_results/prof_20261116_145826_MainProcess-505132/f6d29f527e7c_505132_20261116145826968_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 14:58:43] [INFO] [505415] profiler.py: CANN profiling data parsed in a total time of 0:00:16.041031
+/-\|[2026-11-16 14:58:48] [INFO] [505406] profiler.py: All profiling data parsed in a total time of 0:00:20.818649
+[costmodel-bench] _set_k_and_s_triton_kernel: 0.002921 ms
+/workspace/Agent/costModel_v2/labels/work/_set_k_and_s_triton_kernel__historical_p10__4dd5c59f1b53_r03_q8xe4i4l/test_env/test__set_k_and_s_triton_kernel.py:33: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:423.)
+  loc_token_offset_in_page = loc[0] % page_size
+All tests passed!

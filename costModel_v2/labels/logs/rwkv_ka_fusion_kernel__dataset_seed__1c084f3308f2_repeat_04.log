@@ -1,0 +1,11 @@
+[W1117 06:24:02.410911030 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-17 06:24:15] [WARNING] [2128238] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 06:24:15] [INFO] [2128610] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/rwkv_ka_fusion_kernel__dataset_seed__1c084f3308f2_r04_xy3l5_6l/home/.triton/profile_results/prof_20261117_062415_MainProcess-2128238/f6d29f527e7c_2128238_20261117062415276_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 06:24:31] [INFO] [2128619] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036989
+|/-\|[2026-11-17 06:24:35] [INFO] [2128610] profiler.py: All profiling data parsed in a total time of 0:00:20.131364
+[costmodel-bench] rwkv_ka_fusion_kernel: 0.005209 ms
+✅ RWKV KA Fusion tests passed!
+o_k max difference: 0.0
+o_kk max difference: 5.960464477539063e-08
+o_kka max difference: 1.1920928955078125e-07
+All tests passed!

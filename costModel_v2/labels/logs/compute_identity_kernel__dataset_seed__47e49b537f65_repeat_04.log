@@ -1,0 +1,7 @@
+[W1116 21:38:55.840421390 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 21:39:07] [WARNING] [1211420] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 21:39:07] [INFO] [1211694] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/compute_identity_kernel__dataset_seed__47e49b537f65_r04_y5w8dbee/home/.triton/profile_results/prof_20261116_213907_MainProcess-1211420/f6d29f527e7c_1211420_20261116213907318_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 21:39:23] [INFO] [1211703] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037423
+|/-\[2026-11-16 21:39:27] [INFO] [1211694] profiler.py: All profiling data parsed in a total time of 0:00:19.884768
+[costmodel-bench] compute_identity_kernel: 0.022478 ms
+All tests passed!

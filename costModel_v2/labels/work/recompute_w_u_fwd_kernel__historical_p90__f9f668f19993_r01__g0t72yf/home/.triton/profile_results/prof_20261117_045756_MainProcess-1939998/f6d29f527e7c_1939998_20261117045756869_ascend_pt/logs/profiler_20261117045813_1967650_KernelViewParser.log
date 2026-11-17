@@ -1,0 +1,20 @@
+[2026-11-17-04:58:13.772] [INFO] [AscendProfiler_KernelViewParser:97] Profiler logger initialized at: /workspace/Agent/costModel_v2/labels/work/recompute_w_u_fwd_kernel__historical_p90__f9f668f19993_r01__g0t72yf/home/.triton/profile_results/prof_20261117_045756_MainProcess-1939998/f6d29f527e7c_1939998_20261117045756869_ascend_pt/logs/profiler_20261117045813_1967650_KernelViewParser.log
+[2026-11-17-04:58:13.773] [INFO] [AscendProfiler_KernelViewParser:38] KernelViewParser start.
+[2026-11-17-04:58:13.773] [ERROR] [AscendProfiler_KernelViewParser:44] Failed to generate kernel_details.csv, error: [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_view/_kernel_view_parser.py", line 42, in run
+    self.generate_view()
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_view/_kernel_view_parser.py", line 50, in generate_view
+    op_summary_file_set = CANNFileParser(self._profiler_path).get_file_list_by_type(CANNDataEnum.OP_SUMMARY)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_parse/_cann_file_parser.py", line 135, in __init__
+    self._file_dispatch()
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_parse/_cann_file_parser.py", line 314, in _file_dispatch
+    all_file_list += ProfilerPathManager.get_database_all_file(self._cann_path)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_common_func/_path_manager.py", line 170, in get_database_all_file
+    sub_files = os.listdir(os.path.realpath(profiler_path))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 414, in realpath
+  File "<frozen posixpath>", line 401, in abspath
+FileNotFoundError: [Errno 2] No such file or directory

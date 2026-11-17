@@ -1,0 +1,10 @@
+[W1116 13:29:54.752404040 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 13:30:05] [WARNING] [359814] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 13:30:06] [INFO] [360104] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_quantize_k_cache_fast_kernel__historical_p10__7be85ec99f71_r05_gxq1hcmk/home/.triton/profile_results/prof_20261116_133005_MainProcess-359814/f6d29f527e7c_359814_20261116133005776_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 13:30:22] [INFO] [360113] profiler.py: CANN profiling data parsed in a total time of 0:00:16.041258
+/-\|[2026-11-16 13:30:27] [INFO] [360104] profiler.py: All profiling data parsed in a total time of 0:00:20.778321
+[costmodel-bench] _quantize_k_cache_fast_kernel: 0.005639 ms
+All tests passed!
+Output shape: torch.Size([4, 592])
+Output device: npu:0
+Output dtype: torch.bfloat16

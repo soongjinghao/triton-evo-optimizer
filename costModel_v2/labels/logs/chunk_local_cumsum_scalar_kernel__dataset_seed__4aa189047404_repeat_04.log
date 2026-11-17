@@ -1,0 +1,167 @@
+[W1116 17:41:30.386279410 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-16 17:41:41] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:41:42] [INFO] [767016] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174141_MainProcess-766702/f6d29f527e7c_766702_20261116174141899_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:41:57] [INFO] [767025] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037605
+|/-\|[2026-11-16 17:42:03] [INFO] [767016] profiler.py: All profiling data parsed in a total time of 0:00:21.079411
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038402 ms
+[2026-11-16 17:42:03] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:42:04] [INFO] [767685] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174203_MainProcess-766702/f6d29f527e7c_766702_20261116174203936_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:42:19] [INFO] [767694] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037947
+|/-\[2026-11-16 17:42:24] [INFO] [767685] profiler.py: All profiling data parsed in a total time of 0:00:19.792136
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038528 ms
+[2026-11-16 17:42:24] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:42:25] [INFO] [768354] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174224_MainProcess-766702/f6d29f527e7c_766702_20261116174224630_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:42:40] [INFO] [768363] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038355
+|/-\[2026-11-16 17:42:45] [INFO] [768354] profiler.py: All profiling data parsed in a total time of 0:00:19.974942
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038433 ms
+[2026-11-16 17:42:45] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:42:45] [INFO] [769019] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174245_MainProcess-766702/f6d29f527e7c_766702_20261116174245311_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:43:01] [INFO] [769028] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037485
+|/-\|[2026-11-16 17:43:05] [INFO] [769019] profiler.py: All profiling data parsed in a total time of 0:00:20.115297
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038482 ms
+[2026-11-16 17:43:07] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:43:07] [INFO] [769684] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174307_MainProcess-766702/f6d29f527e7c_766702_20261116174307025_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:43:23] [INFO] [769693] profiler.py: CANN profiling data parsed in a total time of 0:00:16.042369
+/-\|/[2026-11-16 17:43:29] [INFO] [769684] profiler.py: All profiling data parsed in a total time of 0:00:21.462607
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038439 ms
+[2026-11-16 17:43:29] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:43:30] [INFO] [770359] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174329_MainProcess-766702/f6d29f527e7c_766702_20261116174329754_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:43:46] [INFO] [770368] profiler.py: CANN profiling data parsed in a total time of 0:00:16.040338
+/-\|[2026-11-16 17:43:51] [INFO] [770359] profiler.py: All profiling data parsed in a total time of 0:00:20.943556
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038476 ms
+[2026-11-16 17:43:51] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:43:52] [INFO] [771024] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174351_MainProcess-766702/f6d29f527e7c_766702_20261116174351454_ascend_pt
+|/-\|/-\|/-\|/[2026-11-16 17:44:05] [INFO] [771033] profiler.py: CANN profiling data parsed in a total time of 0:00:13.030855
+-\|/-[2026-11-16 17:44:10] [INFO] [771024] profiler.py: All profiling data parsed in a total time of 0:00:18.756061
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038483 ms
+[2026-11-16 17:44:11] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:44:11] [INFO] [771683] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174411_MainProcess-766702/f6d29f527e7c_766702_20261116174411220_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:44:28] [INFO] [771693] profiler.py: CANN profiling data parsed in a total time of 0:00:16.038850
+/-\|[2026-11-16 17:44:32] [INFO] [771683] profiler.py: All profiling data parsed in a total time of 0:00:20.982386
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038440 ms
+[2026-11-16 17:44:34] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:44:35] [INFO] [772459] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174434_MainProcess-766702/f6d29f527e7c_766702_20261116174434509_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:44:50] [INFO] [772468] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038473
+|/-\|[2026-11-16 17:44:55] [INFO] [772459] profiler.py: All profiling data parsed in a total time of 0:00:20.524296
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038515 ms
+[2026-11-16 17:44:56] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:44:56] [INFO] [773121] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174456_MainProcess-766702/f6d29f527e7c_766702_20261116174456246_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:45:11] [INFO] [773130] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036431
+|/-\[2026-11-16 17:45:16] [INFO] [773121] profiler.py: All profiling data parsed in a total time of 0:00:20.012870
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038415 ms
+[2026-11-16 17:45:17] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:45:17] [INFO] [773780] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174516_MainProcess-766702/f6d29f527e7c_766702_20261116174516947_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:45:32] [INFO] [773789] profiler.py: CANN profiling data parsed in a total time of 0:00:15.035894
+|/-\[2026-11-16 17:45:37] [INFO] [773780] profiler.py: All profiling data parsed in a total time of 0:00:20.074375
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038426 ms
+[2026-11-16 17:45:37] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:45:38] [INFO] [774457] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174537_MainProcess-766702/f6d29f527e7c_766702_20261116174537696_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:45:53] [INFO] [774466] profiler.py: CANN profiling data parsed in a total time of 0:00:15.033869
+|/-\|[2026-11-16 17:45:59] [INFO] [774457] profiler.py: All profiling data parsed in a total time of 0:00:21.061351
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038470 ms
+[2026-11-16 17:45:59] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:46:00] [INFO] [775119] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174559_MainProcess-766702/f6d29f527e7c_766702_20261116174559457_ascend_pt
+|/-\|/-\|/-\|/-[2026-11-16 17:46:14] [INFO] [775128] profiler.py: CANN profiling data parsed in a total time of 0:00:14.034045
+\|/-\[2026-11-16 17:46:19] [INFO] [775119] profiler.py: All profiling data parsed in a total time of 0:00:19.894428
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038564 ms
+[2026-11-16 17:46:20] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:46:20] [INFO] [775779] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174620_MainProcess-766702/f6d29f527e7c_766702_20261116174620264_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:46:36] [INFO] [775788] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038465
+|/-\[2026-11-16 17:46:40] [INFO] [775779] profiler.py: All profiling data parsed in a total time of 0:00:19.701874
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038445 ms
+[2026-11-16 17:46:41] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:46:41] [INFO] [776456] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174640_MainProcess-766702/f6d29f527e7c_766702_20261116174640984_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:46:56] [INFO] [776465] profiler.py: CANN profiling data parsed in a total time of 0:00:15.041429
+|/-\|[2026-11-16 17:47:01] [INFO] [776456] profiler.py: All profiling data parsed in a total time of 0:00:20.181960
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038426 ms
+[2026-11-16 17:47:02] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:47:03] [INFO] [777114] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174702_MainProcess-766702/f6d29f527e7c_766702_20261116174702749_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:47:19] [INFO] [777123] profiler.py: CANN profiling data parsed in a total time of 0:00:16.041462
+/-\|[2026-11-16 17:47:23] [INFO] [777114] profiler.py: All profiling data parsed in a total time of 0:00:20.250376
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038444 ms
+[2026-11-16 17:47:26] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:47:26] [INFO] [777865] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174726_MainProcess-766702/f6d29f527e7c_766702_20261116174726138_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:47:41] [INFO] [777874] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037850
+|/-\[2026-11-16 17:47:46] [INFO] [777865] profiler.py: All profiling data parsed in a total time of 0:00:19.907117
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038511 ms
+[2026-11-16 17:47:46] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:47:47] [INFO] [778530] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174746_MainProcess-766702/f6d29f527e7c_766702_20261116174746874_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:48:02] [INFO] [778539] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038126
+|/-\[2026-11-16 17:48:07] [INFO] [778530] profiler.py: All profiling data parsed in a total time of 0:00:20.014555
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038443 ms
+[2026-11-16 17:48:07] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:48:08] [INFO] [779188] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174807_MainProcess-766702/f6d29f527e7c_766702_20261116174807607_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:48:23] [INFO] [779197] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037041
+|/-\[2026-11-16 17:48:28] [INFO] [779188] profiler.py: All profiling data parsed in a total time of 0:00:20.009045
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038516 ms
+[2026-11-16 17:48:28] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:48:28] [INFO] [779857] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174828_MainProcess-766702/f6d29f527e7c_766702_20261116174828300_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:48:44] [INFO] [779866] profiler.py: CANN profiling data parsed in a total time of 0:00:15.040348
+|/-\|[2026-11-16 17:48:49] [INFO] [779857] profiler.py: All profiling data parsed in a total time of 0:00:20.151442
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038424 ms
+[2026-11-16 17:48:50] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:48:50] [INFO] [780528] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174850_MainProcess-766702/f6d29f527e7c_766702_20261116174850044_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:49:05] [INFO] [780537] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036547
+|/-\[2026-11-16 17:49:10] [INFO] [780528] profiler.py: All profiling data parsed in a total time of 0:00:20.003429
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038515 ms
+[2026-11-16 17:49:10] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:49:11] [INFO] [781187] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174910_MainProcess-766702/f6d29f527e7c_766702_20261116174910778_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:49:27] [INFO] [781196] profiler.py: CANN profiling data parsed in a total time of 0:00:16.042261
+/-\|/-[2026-11-16 17:49:33] [INFO] [781187] profiler.py: All profiling data parsed in a total time of 0:00:22.141111
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038507 ms
+[2026-11-16 17:49:34] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:49:35] [INFO] [781871] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174934_MainProcess-766702/f6d29f527e7c_766702_20261116174934536_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:49:51] [INFO] [781880] profiler.py: CANN profiling data parsed in a total time of 0:00:16.038783
+/-\|[2026-11-16 17:49:55] [INFO] [781871] profiler.py: All profiling data parsed in a total time of 0:00:20.325011
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038525 ms
+[2026-11-16 17:49:56] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:49:56] [INFO] [782533] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_174956_MainProcess-766702/f6d29f527e7c_766702_20261116174956239_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:50:12] [INFO] [782542] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038136
+|/-\[2026-11-16 17:50:16] [INFO] [782533] profiler.py: All profiling data parsed in a total time of 0:00:20.013891
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038479 ms
+[2026-11-16 17:50:19] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:50:19] [INFO] [783267] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175019_MainProcess-766702/f6d29f527e7c_766702_20261116175019037_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:50:35] [INFO] [783276] profiler.py: CANN profiling data parsed in a total time of 0:00:16.041031
+/-\|/[2026-11-16 17:50:40] [INFO] [783267] profiler.py: All profiling data parsed in a total time of 0:00:21.279603
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038492 ms
+[2026-11-16 17:50:41] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:50:42] [INFO] [783950] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175041_MainProcess-766702/f6d29f527e7c_766702_20261116175041875_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:50:57] [INFO] [783959] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038675
+|/-\|[2026-11-16 17:51:02] [INFO] [783950] profiler.py: All profiling data parsed in a total time of 0:00:20.182393
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038428 ms
+[2026-11-16 17:51:03] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:51:04] [INFO] [784615] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175103_MainProcess-766702/f6d29f527e7c_766702_20261116175103739_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:51:19] [INFO] [784624] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038497
+|/-\|[2026-11-16 17:51:24] [INFO] [784615] profiler.py: All profiling data parsed in a total time of 0:00:20.234439
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038507 ms
+[2026-11-16 17:51:25] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:51:26] [INFO] [785284] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175125_MainProcess-766702/f6d29f527e7c_766702_20261116175125496_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:51:42] [INFO] [785296] profiler.py: CANN profiling data parsed in a total time of 0:00:16.039435
+/-\|/-[2026-11-16 17:51:48] [INFO] [785284] profiler.py: All profiling data parsed in a total time of 0:00:22.236655
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038449 ms
+[2026-11-16 17:51:49] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:51:49] [INFO] [785961] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175149_MainProcess-766702/f6d29f527e7c_766702_20261116175149226_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:52:04] [INFO] [785970] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038523
+|/-\|[2026-11-16 17:52:10] [INFO] [785961] profiler.py: All profiling data parsed in a total time of 0:00:21.009692
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038581 ms
+[2026-11-16 17:52:11] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:52:11] [INFO] [786622] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175210_MainProcess-766702/f6d29f527e7c_766702_20261116175210968_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:52:26] [INFO] [786634] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036964
+|/-\|/[2026-11-16 17:52:32] [INFO] [786622] profiler.py: All profiling data parsed in a total time of 0:00:21.137329
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038404 ms
+[2026-11-16 17:52:33] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:52:34] [INFO] [787309] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175233_MainProcess-766702/f6d29f527e7c_766702_20261116175233690_ascend_pt
+|/-\|/-\|/-\|/-\|[2026-11-16 17:52:50] [INFO] [787318] profiler.py: CANN profiling data parsed in a total time of 0:00:16.039849
+/-\|[2026-11-16 17:52:55] [INFO] [787309] profiler.py: All profiling data parsed in a total time of 0:00:20.946065
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038494 ms
+[2026-11-16 17:52:55] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:52:56] [INFO] [787965] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175255_MainProcess-766702/f6d29f527e7c_766702_20261116175255420_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:53:11] [INFO] [787974] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036768
+|/-\|[2026-11-16 17:53:16] [INFO] [787965] profiler.py: All profiling data parsed in a total time of 0:00:20.338415
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038441 ms
+[2026-11-16 17:53:17] [WARNING] [766702] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-16 17:53:17] [INFO] [788631] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/chunk_local_cumsum_scalar_kernel__dataset_seed__4aa189047404_r04_1d4a0t45/home/.triton/profile_results/prof_20261116_175317_MainProcess-766702/f6d29f527e7c_766702_20261116175317138_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-16 17:53:32] [INFO] [788640] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037720
+|/-\[2026-11-16 17:53:37] [INFO] [788631] profiler.py: All profiling data parsed in a total time of 0:00:20.020487
+[costmodel-bench] chunk_local_cumsum_scalar_kernel: 0.038449 ms
+Single random case PASSED
