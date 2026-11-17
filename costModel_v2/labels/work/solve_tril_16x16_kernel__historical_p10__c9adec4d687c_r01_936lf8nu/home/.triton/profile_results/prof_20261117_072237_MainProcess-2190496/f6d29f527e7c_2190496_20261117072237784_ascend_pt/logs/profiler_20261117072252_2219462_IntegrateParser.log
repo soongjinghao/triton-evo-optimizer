@@ -1,0 +1,22 @@
+[2026-11-17-07:22:52.634] [INFO] [AscendProfiler_IntegrateParser:97] Profiler logger initialized at: /workspace/Agent/costModel_v2/labels/work/solve_tril_16x16_kernel__historical_p10__c9adec4d687c_r01_936lf8nu/home/.triton/profile_results/prof_20261117_072237_MainProcess-2190496/f6d29f527e7c_2190496_20261117072237784_ascend_pt/logs/profiler_20261117072252_2219462_IntegrateParser.log
+[2026-11-17-07:22:52.634] [INFO] [AscendProfiler_IntegrateParser:37] IntegrateParser start.
+[2026-11-17-07:22:52.634] [ERROR] [AscendProfiler_IntegrateParser:42] Failed to generate data_preprocess.csv or l2_cache.csv.
+Traceback (most recent call last):
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_view/_integrate_parser.py", line 40, in run
+    self.generate_view()
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_view/_integrate_parser.py", line 51, in generate_view
+    self.generate_csv(cann_data_enum, parser_bean, self._output_path)
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_view/_integrate_parser.py", line 60, in generate_csv
+    file_set = CANNFileParser(self._profiler_path).get_file_list_by_type(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_parse/_cann_file_parser.py", line 135, in __init__
+    self._file_dispatch()
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_parse/_cann_file_parser.py", line 314, in _file_dispatch
+    all_file_list += ProfilerPathManager.get_database_all_file(self._cann_path)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch_npu/profiler/analysis/prof_common_func/_path_manager.py", line 170, in get_database_all_file
+    sub_files = os.listdir(os.path.realpath(profiler_path))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 414, in realpath
+  File "<frozen posixpath>", line 401, in abspath
+FileNotFoundError: [Errno 2] No such file or directory

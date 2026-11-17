@@ -1,0 +1,27 @@
+[W1117 07:02:10.254343090 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing solve_tril with B=4, T=64, H=8, BT=16
+Using device: npu
+Created input tensor A with shape: torch.Size([4, 64, 8, 16])
+A dtype: torch.float32, device: npu:0
+
+Test 1: Basic functionality with BT=16
+[2026-11-17 07:02:23] [WARNING] [2182415] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 07:02:24] [INFO] [2182708] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/solve_tril_16x16_kernel__dataset_seed__81c63a035181_r03_z4dlh0n0/home/.triton/profile_results/prof_20261117_070223_MainProcess-2182415/f6d29f527e7c_2182415_20261117070223710_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 07:02:39] [INFO] [2182717] profiler.py: CANN profiling data parsed in a total time of 0:00:15.039290
+|/-\[2026-11-17 07:02:44] [INFO] [2182708] profiler.py: All profiling data parsed in a total time of 0:00:19.878680
+[costmodel-bench] solve_tril_16x16_kernel: 0.040034 ms
+Output Ai shape: torch.Size([4, 64, 8, 16])
+Ai dtype: torch.float32
+
+Verifying block-wise correctness...
+
+Test completed:
+  Total blocks tested: 128
+  Maximum error across all blocks: 6.103516e-05
+✓ All blocks passed! (I + A) * Ai ≈ I within tolerance 1e-4
+
+✓ All tests passed!
+
+==================================================
+SUCCESS: solve_tril test passed!
+==================================================

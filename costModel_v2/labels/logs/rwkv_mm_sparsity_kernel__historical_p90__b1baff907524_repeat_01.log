@@ -1,0 +1,10 @@
+[W1117 06:42:38.484673840 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[2026-11-17 06:42:52] [WARNING] [2154461] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
+[2026-11-17 06:42:52] [INFO] [2154753] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/rwkv_mm_sparsity_kernel__historical_p90__b1baff907524_r01_eni5idka/home/.triton/profile_results/prof_20261117_064252_MainProcess-2154461/f6d29f527e7c_2154461_20261117064252087_ascend_pt
+|/-\|/-\|/-\|/-\[2026-11-17 06:43:07] [INFO] [2154762] profiler.py: CANN profiling data parsed in a total time of 0:00:15.036726
+|/-\[2026-11-17 06:43:12] [INFO] [2154753] profiler.py: All profiling data parsed in a total time of 0:00:19.862812
+[costmodel-bench] rwkv_mm_sparsity_kernel: 0.024694 ms
+✅ RWKV MM Sparsity test passed!
+Triton output shape: torch.Size([512])
+PyTorch output shape: torch.Size([512])
+Max difference: 3.814697265625e-05
