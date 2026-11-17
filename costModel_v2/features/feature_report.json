@@ -1,0 +1,580 @@
+{
+  "rows": 198,
+  "operators": 46,
+  "candidate_roles": {
+    "dataset_seed": 46,
+    "historical_best": 32,
+    "historical_p10": 36,
+    "historical_p50": 42,
+    "historical_p90": 42
+  },
+  "feature_count": 124,
+  "non_constant_feature_count": 108,
+  "target": "log_speedup_vs_seed = log(seed_latency_us / candidate_latency_us)",
+  "ranking_method": "Pearson/Spearman correlations on raw values and within-operator centered values; ranked by absolute within-operator Spearman.",
+  "top_20_features": [
+    {
+      "feature": "tensor_elements_mean",
+      "valid_count": 198,
+      "unique_values": 99,
+      "global_variance": 3447685.1650018813,
+      "within_operator_variance": 482137.75428335037,
+      "pearson_global": -0.0200627290587906,
+      "spearman_global": -0.03870418744715232,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.05420600603212251,
+      "spearman_within_operator": -0.31691908564044047
+    },
+    {
+      "feature": "tensor_dim_mean",
+      "valid_count": 198,
+      "unique_values": 100,
+      "global_variance": 2940533.5626954543,
+      "within_operator_variance": 402639.81064659066,
+      "pearson_global": -0.02249309921004205,
+      "spearman_global": -0.0370931378014172,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": 0.09461169027301632,
+      "spearman_within_operator": -0.29771285211191045
+    },
+    {
+      "feature": "loop_op_count",
+      "valid_count": 198,
+      "unique_values": 6,
+      "global_variance": 1.1581471278440976,
+      "within_operator_variance": 0.26851851851851855,
+      "pearson_global": -0.22382359080531816,
+      "spearman_global": -0.2102731959056288,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.24722436828032673,
+      "spearman_within_operator": -0.27284451931397397
+    },
+    {
+      "feature": "op_count__scf_for",
+      "valid_count": 198,
+      "unique_values": 7,
+      "global_variance": 1.0913427201305985,
+      "within_operator_variance": 0.2672558922558923,
+      "pearson_global": -0.2293999363097906,
+      "spearman_global": -0.248510896265204,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.2372207581806617,
+      "spearman_within_operator": -0.26172621956208575
+    },
+    {
+      "feature": "tensor_elements_max",
+      "valid_count": 198,
+      "unique_values": 13,
+      "global_variance": 15408831.812264064,
+      "within_operator_variance": 1541025.616161616,
+      "pearson_global": -0.011885593444120001,
+      "spearman_global": -0.06512900193924322,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.16122758123758832,
+      "spearman_within_operator": -0.2558682266760301
+    },
+    {
+      "feature": "loop_max_nesting_depth",
+      "valid_count": 198,
+      "unique_values": 3,
+      "global_variance": 0.3604734210794817,
+      "within_operator_variance": 0.08190235690235688,
+      "pearson_global": -0.19317200510426236,
+      "spearman_global": -0.1877045732332601,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.1609302468749277,
+      "spearman_within_operator": -0.24579128245526038
+    },
+    {
+      "feature": "op_count__arith_mulf",
+      "valid_count": 198,
+      "unique_values": 10,
+      "global_variance": 7.21763085399447,
+      "within_operator_variance": 1.847811447811449,
+      "pearson_global": 0.09175138548101353,
+      "spearman_global": 0.018703491012098932,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": 0.312135586328089,
+      "spearman_within_operator": 0.2386157487147034
+    },
+    {
+      "feature": "op_count__tt_get_num_programs",
+      "valid_count": 198,
+      "unique_values": 3,
+      "global_variance": 0.1003213957759415,
+      "within_operator_variance": 0.026010101010101018,
+      "pearson_global": 0.12127761315829569,
+      "spearman_global": 0.31200122213090276,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": 0.12551278660036502,
+      "spearman_within_operator": 0.20733167953635673
+    },
+    {
+      "feature": "range_extent_mean",
+      "valid_count": 198,
+      "unique_values": 42,
+      "global_variance": 3289348.4992978508,
+      "within_operator_variance": 352586.847497194,
+      "pearson_global": -0.023200985322838392,
+      "spearman_global": -0.05386423373438084,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": 0.10574020666851891,
+      "spearman_within_operator": -0.19142665922767013
+    },
+    {
+      "feature": "tensor_dim_max",
+      "valid_count": 198,
+      "unique_values": 13,
+      "global_variance": 4546766.50464238,
+      "within_operator_variance": 488656.9373737375,
+      "pearson_global": -0.021901608765978395,
+      "spearman_global": -0.03618950450019763,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": 0.07452832900406972,
+      "spearman_within_operator": -0.18571857402949432
+    },
+    {
+      "feature": "range_extent_max",
+      "valid_count": 198,
+      "unique_values": 13,
+      "global_variance": 4550366.986225896,
+      "within_operator_variance": 488656.9373737375,
+      "pearson_global": -0.021998385261350166,
+      "spearman_global": -0.06307590719556447,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": 0.07452832900406972,
+      "spearman_within_operator": -0.18571857402949432
+    },
+    {
+      "feature": "expand_dims_count",
+      "valid_count": 198,
+      "unique_values": 17,
+      "global_variance": 16.943806754412815,
+      "within_operator_variance": 2.672811447811449,
+      "pearson_global": 0.015616747946298746,
+      "spearman_global": -0.03772701696446235,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.33560729475573964,
+      "spearman_within_operator": -0.17785252467350976
+    },
+    {
+      "feature": "op_count__tt_expand_dims",
+      "valid_count": 198,
+      "unique_values": 17,
+      "global_variance": 16.943806754412815,
+      "within_operator_variance": 2.672811447811449,
+      "pearson_global": 0.015616747946298746,
+      "spearman_global": -0.03772701696446235,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.33560729475573964,
+      "spearman_within_operator": -0.17785252467350976
+    },
+    {
+      "feature": "dot_count",
+      "valid_count": 198,
+      "unique_values": 4,
+      "global_variance": 0.433552698704213,
+      "within_operator_variance": 0.14949494949494951,
+      "pearson_global": -0.09953520033552701,
+      "spearman_global": -0.024064903814871894,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.12837734811852392,
+      "spearman_within_operator": -0.1759538357694467
+    },
+    {
+      "feature": "op_count__tt_dot",
+      "valid_count": 198,
+      "unique_values": 4,
+      "global_variance": 0.433552698704213,
+      "within_operator_variance": 0.14949494949494951,
+      "pearson_global": -0.09953520033552701,
+      "spearman_global": -0.024064903814871894,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.12837734811852392,
+      "spearman_within_operator": -0.1759538357694467
+    },
+    {
+      "feature": "memory_read_count",
+      "valid_count": 198,
+      "unique_values": 15,
+      "global_variance": 26.31387103356798,
+      "within_operator_variance": 9.116161616161616,
+      "pearson_global": -0.008760433975378781,
+      "spearman_global": -0.033950194473405255,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.04424998669449594,
+      "spearman_within_operator": 0.1736119380256034
+    },
+    {
+      "feature": "op_count__tt_load",
+      "valid_count": 198,
+      "unique_values": 15,
+      "global_variance": 26.340679522497712,
+      "within_operator_variance": 9.128787878787879,
+      "pearson_global": -0.008849729324248741,
+      "spearman_global": -0.03388787783742711,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.043040627012337615,
+      "spearman_within_operator": 0.1736119380256034
+    },
+    {
+      "feature": "op_count__math_rsqrt",
+      "valid_count": 198,
+      "unique_values": 4,
+      "global_variance": 0.5360932557902297,
+      "within_operator_variance": 0.22626262626262628,
+      "pearson_global": 0.05049920440634468,
+      "spearman_global": 0.10791500911191239,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": 0.2709189023721653,
+      "spearman_within_operator": 0.16692446522239718
+    },
+    {
+      "feature": "broadcast_count",
+      "valid_count": 198,
+      "unique_values": 17,
+      "global_variance": 24.706152433425114,
+      "within_operator_variance": 3.3026094276094295,
+      "pearson_global": -0.01434108866926953,
+      "spearman_global": -0.02666564697998122,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.3911005968549909,
+      "spearman_within_operator": -0.1659670863667161
+    },
+    {
+      "feature": "op_count__tt_broadcast",
+      "valid_count": 198,
+      "unique_values": 17,
+      "global_variance": 24.706152433425114,
+      "within_operator_variance": 3.3026094276094295,
+      "pearson_global": -0.01434108866926953,
+      "spearman_global": -0.02666564697998122,
+      "within_operator_pair_count": 198,
+      "pearson_within_operator": -0.3911005968549909,
+      "spearman_within_operator": -0.1659670863667161
+    }
+  ],
+  "highly_redundant_feature_pairs_abs_corr_ge_0_98": [
+    {
+      "feature_a": "loop_op_count",
+      "feature_b": "op_count__scf_for",
+      "within_operator_pearson": 0.9929328436603112
+    },
+    {
+      "feature_a": "range_extent_mean",
+      "feature_b": "tensor_dim_max",
+      "within_operator_pearson": 0.9845749132601966
+    },
+    {
+      "feature_a": "range_extent_mean",
+      "feature_b": "range_extent_max",
+      "within_operator_pearson": 0.9845749132601966
+    },
+    {
+      "feature_a": "tensor_dim_max",
+      "feature_b": "range_extent_max",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "expand_dims_count",
+      "feature_b": "op_count__tt_expand_dims",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "dot_count",
+      "feature_b": "op_count__tt_dot",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "dot_count",
+      "feature_b": "op_count__tt_make_tensor_ptr",
+      "within_operator_pearson": 0.9826102738161323
+    },
+    {
+      "feature_a": "op_count__tt_dot",
+      "feature_b": "op_count__tt_make_tensor_ptr",
+      "within_operator_pearson": 0.9826102738161323
+    },
+    {
+      "feature_a": "memory_read_count",
+      "feature_b": "op_count__tt_load",
+      "within_operator_pearson": 0.9998618311231788
+    },
+    {
+      "feature_a": "memory_read_count",
+      "feature_b": "memory_access_count",
+      "within_operator_pearson": 0.9975202754407769
+    },
+    {
+      "feature_a": "memory_read_count",
+      "feature_b": "op_count__tt_store",
+      "within_operator_pearson": 0.9806004195065655
+    },
+    {
+      "feature_a": "memory_read_count",
+      "feature_b": "memory_write_count",
+      "within_operator_pearson": 0.9800755039567357
+    },
+    {
+      "feature_a": "op_count__tt_load",
+      "feature_b": "memory_access_count",
+      "within_operator_pearson": 0.997163866870274
+    },
+    {
+      "feature_a": "op_count__tt_load",
+      "feature_b": "op_count__tt_store",
+      "within_operator_pearson": 0.9803360661919707
+    },
+    {
+      "feature_a": "op_count__math_rsqrt",
+      "feature_b": "math_op_count",
+      "within_operator_pearson": 0.9846283318186123
+    },
+    {
+      "feature_a": "broadcast_count",
+      "feature_b": "op_count__tt_broadcast",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "memory_access_count",
+      "feature_b": "op_count__tt_store",
+      "within_operator_pearson": 0.9901337658498293
+    },
+    {
+      "feature_a": "memory_access_count",
+      "feature_b": "memory_write_count",
+      "within_operator_pearson": 0.9899411171060436
+    },
+    {
+      "feature_a": "if_count",
+      "feature_b": "op_count__scf_if",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "if_count",
+      "feature_b": "addptr_count",
+      "within_operator_pearson": 0.9816467188729346
+    },
+    {
+      "feature_a": "if_count",
+      "feature_b": "op_count__tt_addptr",
+      "within_operator_pearson": 0.9816467188729346
+    },
+    {
+      "feature_a": "if_count",
+      "feature_b": "pointer_type_count",
+      "within_operator_pearson": 0.9815053189538213
+    },
+    {
+      "feature_a": "op_count__scf_if",
+      "feature_b": "addptr_count",
+      "within_operator_pearson": 0.9816467188729346
+    },
+    {
+      "feature_a": "op_count__scf_if",
+      "feature_b": "op_count__tt_addptr",
+      "within_operator_pearson": 0.9816467188729346
+    },
+    {
+      "feature_a": "op_count__scf_if",
+      "feature_b": "pointer_type_count",
+      "within_operator_pearson": 0.9815053189538213
+    },
+    {
+      "feature_a": "reshape_count",
+      "feature_b": "op_count__tt_reshape",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "reduce_count",
+      "feature_b": "op_count__tt_reduce",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "reduce_count",
+      "feature_b": "op_count__tt_reduce_return",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__tt_reduce",
+      "feature_b": "op_count__tt_reduce_return",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "atomic_count",
+      "feature_b": "op_count__tt_atomic_rmw",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__tt_make_tensor_ptr",
+      "feature_b": "op_count__arith_subf",
+      "within_operator_pearson": 0.9855506516000669
+    },
+    {
+      "feature_a": "scan_count",
+      "feature_b": "op_count__tt_assert",
+      "within_operator_pearson": -1.0
+    },
+    {
+      "feature_a": "scan_count",
+      "feature_b": "op_count__tt_scan",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "scan_count",
+      "feature_b": "op_count__tt_scan_return",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__arith_maxnumf",
+      "feature_b": "op_count__math_exp",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__scf_condition",
+      "feature_b": "op_count__scf_while",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__tt_assert",
+      "feature_b": "op_count__tt_scan",
+      "within_operator_pearson": -1.0
+    },
+    {
+      "feature_a": "op_count__tt_assert",
+      "feature_b": "op_count__tt_scan_return",
+      "within_operator_pearson": -1.0
+    },
+    {
+      "feature_a": "op_count__tt_scan",
+      "feature_b": "op_count__tt_scan_return",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "make_range_count",
+      "feature_b": "range_extent_count",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "make_range_count",
+      "feature_b": "op_count__tt_make_range",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "range_extent_count",
+      "feature_b": "op_count__tt_make_range",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "cf_op_count",
+      "feature_b": "branch_count",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "cf_op_count",
+      "feature_b": "op_count__cf_cond_br",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "branch_count",
+      "feature_b": "op_count__cf_cond_br",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "splat_count",
+      "feature_b": "op_count__tt_splat",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "ttir_total_bytes",
+      "feature_b": "ttir_total_lines",
+      "within_operator_pearson": 0.9851349848935447
+    },
+    {
+      "feature_a": "ttir_file_count",
+      "feature_b": "op_count__tt_func",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__arith_ori",
+      "feature_b": "op_count__tt_descriptor_load",
+      "within_operator_pearson": -1.0
+    },
+    {
+      "feature_a": "op_count__arith_ori",
+      "feature_b": "op_count__tt_descriptor_store",
+      "within_operator_pearson": -1.0
+    },
+    {
+      "feature_a": "op_count__arith_ori",
+      "feature_b": "op_count__tt_make_tensor_descriptor",
+      "within_operator_pearson": -1.0
+    },
+    {
+      "feature_a": "op_count__tt_descriptor_load",
+      "feature_b": "op_count__tt_descriptor_store",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__tt_descriptor_load",
+      "feature_b": "op_count__tt_make_tensor_descriptor",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__tt_descriptor_store",
+      "feature_b": "op_count__tt_make_tensor_descriptor",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "arith_op_count",
+      "feature_b": "op_total_count",
+      "within_operator_pearson": 0.9847325871562606
+    },
+    {
+      "feature_a": "tt_op_count",
+      "feature_b": "op_total_count",
+      "within_operator_pearson": 0.9909002209065059
+    },
+    {
+      "feature_a": "tt_op_count",
+      "feature_b": "ttir_total_lines",
+      "within_operator_pearson": 0.9840740894017129
+    },
+    {
+      "feature_a": "op_total_count",
+      "feature_b": "ttir_total_lines",
+      "within_operator_pearson": 0.9909122715101211
+    },
+    {
+      "feature_a": "addptr_count",
+      "feature_b": "op_count__tt_addptr",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "addptr_count",
+      "feature_b": "pointer_type_count",
+      "within_operator_pearson": 0.9959424303487181
+    },
+    {
+      "feature_a": "op_count__tt_addptr",
+      "feature_b": "pointer_type_count",
+      "within_operator_pearson": 0.9959424303487181
+    },
+    {
+      "feature_a": "op_count__tt_store",
+      "feature_b": "memory_write_count",
+      "within_operator_pearson": 0.9996901114491387
+    },
+    {
+      "feature_a": "tensor_type_count",
+      "feature_b": "tensor_static_shape_count",
+      "within_operator_pearson": 1.0
+    },
+    {
+      "feature_a": "op_count__arith_shli",
+      "feature_b": "op_count__arith_xori",
+      "within_operator_pearson": -1.0
+    }
+  ],
+  "caveat": "Exploratory filter-based ranking only. The sample is small and candidates are grouped by operator; do not interpret these correlations as causal importance or final generalization performance."
+}

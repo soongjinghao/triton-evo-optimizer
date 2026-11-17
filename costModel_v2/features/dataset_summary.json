@@ -1,0 +1,27 @@
+{
+  "label_rows": 201,
+  "feature_rows": 201,
+  "joined_rows": 201,
+  "normalized_rows": 198,
+  "operator_count": 48,
+  "normalized_operator_count": 46,
+  "role_counts": {
+    "dataset_seed": 46,
+    "historical_best": 32,
+    "historical_p10": 37,
+    "historical_p50": 43,
+    "historical_p90": 43
+  },
+  "missing_feature_candidate_ids": [],
+  "operators_without_dataset_seed": [
+    "_chunk_cumsum_fwd_kernel",
+    "merge_16x16_to_64x64_inverse_kernel"
+  ],
+  "baseline_definition": "median measured latency of the operator's dataset_seed candidate",
+  "speedup_definition": "seed_latency_us / candidate_label_latency_us; higher is faster",
+  "feature_count": 124,
+  "outputs": {
+    "all": "training_dataset.csv",
+    "normalized": "normalized_training_dataset.csv"
+  }
+}
