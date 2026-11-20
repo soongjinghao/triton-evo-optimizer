@@ -1,0 +1,13 @@
+{
+  "kernel": "vector_add",
+  "candidate_id": "bs256",
+  "block_size": 256,
+  "n_elements": 4099,
+  "grid": [
+    17
+  ],
+  "device": "npu:0",
+  "triton_version": "3.2.0",
+  "status": "success",
+  "ttir_path": "/workspace/Agent/costModel_v2/ir/ttir/vector_add/bs256.ttir.mlir"
+}
