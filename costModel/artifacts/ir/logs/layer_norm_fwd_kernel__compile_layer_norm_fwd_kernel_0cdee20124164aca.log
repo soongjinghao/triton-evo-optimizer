@@ -1,4 +1,0 @@
-[W1115 02:42:13.429221210 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_layer_norm_fwd_kernel_0cdee20124164aca_im6gm2zr/home/.triton/dump/PgDc77BwquBXdKL9bO917s_C3dDE6wWdIoL4vXuEGms
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpii9texfz/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpii9texfz/kernel
-✓ Basic layer norm test passed

@@ -1,8 +1,0 @@
-[W1115 02:21:34.246421100 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__per_token_group_quant_8bit_colmajor_7ca2e102829152c7_d6kc5pj8/home/.triton/dump/u63wLbasIk5KIXtuYCuxLyoD1dC-5ugVD3EZ8GkKpF0
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpgg64qg2u/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=False --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpgg64qg2u/kernel
-✅ Per-token-group quantization test passed!
-Input shape: (16, 128)
-Group size: 32
-Max quantized difference: 127
-Max scale difference: 0.027579674497246742

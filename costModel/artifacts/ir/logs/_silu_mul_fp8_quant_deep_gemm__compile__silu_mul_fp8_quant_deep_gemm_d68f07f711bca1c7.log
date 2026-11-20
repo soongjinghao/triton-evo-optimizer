@@ -1,4 +1,0 @@
-Testing persistent_masked_m_silu_mul_quant on NPU...
-[W1115 02:26:28.700721250 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__silu_mul_fp8_quant_deep_gemm_d68f07f711bca1c7_n8_ubd4e/home/.triton/dump/VcpDhD4gwmfnETgGetmKNiunH_eIAFxzArnazFGDrb0
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpkuy80n_z/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=False --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpkuy80n_z/kernel

@@ -1,9 +1,0 @@
-[W1115 06:31:03.528071770 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-/workspace/Agent/costModel/artifacts/ir/_work/compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd_im_hhkio/test_env/_unpack_seq_triton_kernel.py:54: UserWarning: An output with one or more elements was resized since it had shape [32], which does not match the required output shape [3]. This behavior is deprecated, and in a future PyTorch release outputs will not be resized unless they have zero elements. You can explicitly reuse an out tensor t by resizing it, inplace, to zero elements with t.resize_(0). (Triggered internally at /pytorch/aten/src/ATen/native/Resize.cpp:30.)
-  torch.cumsum(lengths.int(), dim=0, out=cum_lengths[1:])
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__unpack_seq_triton_kernel_e45fa0e0d4cd08bd_im_hhkio/home/.triton/dump/toN5rxQV7PFZ7AuF6r9A3uZBJs2_a94coYF590KkOxc
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpdi3d202h/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=False --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpdi3d202h/kernel
-Triton result shape: torch.Size([20, 64])
-Reference result shape: torch.Size([20, 64])
-Total elements: 20
-✅ Test 1 passed: Basic 3D tensor

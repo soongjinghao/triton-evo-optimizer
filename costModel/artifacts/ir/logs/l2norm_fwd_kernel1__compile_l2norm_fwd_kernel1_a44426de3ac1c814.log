@@ -1,7 +1,0 @@
-[W1115 02:40:43.487038340 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_l2norm_fwd_kernel1_a44426de3ac1c814_z2gycvpg/home/.triton/dump/4-kDzWPcGZn0KUf0WlB32nSoq5cTDUR4hkrcpERkuM0
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpwnogse3r/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpwnogse3r/kernel
-L2Norm test passed!
-Input shape: torch.Size([64, 64])
-Output shape: torch.Size([64, 64])
-Max difference: 1.0097295045852661

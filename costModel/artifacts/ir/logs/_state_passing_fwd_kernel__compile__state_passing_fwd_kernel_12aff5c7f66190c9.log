@@ -1,6 +1,0 @@
-[W1115 02:27:08.209002000 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__state_passing_fwd_kernel_12aff5c7f66190c9_5j4u61sh/home/.triton/dump/0XKvsQDE-Qo1l8yeBzWdyIRts8IJIwqtHzDeZxVZmN0
-[WARNING] AutoBlockify disabled for kernel '_state_passing_fwd_kernel'. Unsafe ops: loads or stores with cache modifiers. Enabling may cause correctness issues. To force enable: set has_auto_blockify_blacklist_op=False.
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmphclllh8s/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmphclllh8s/kernel
-Max absolute diff - out: 7.75e+01, final_states: 5.21e+01
-Max relative diff - out: 1.06e+02, final_states: 1.00e+00

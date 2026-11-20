@@ -1,6 +1,0 @@
-Running log_softmax unit tests on NPU...
-[W1115 06:28:52.763328130 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile__log_softmax_kernel_9c8032e5bc90266a_txep74wn/home/.triton/dump/jAv-eiY5e_vh39J5SHYFFfI9wnngGMOTZB6TMVzvryg
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpj073a4p8/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpj073a4p8/kernel
-✓ test_log_softmax_2d_large passed
-All tests passed!

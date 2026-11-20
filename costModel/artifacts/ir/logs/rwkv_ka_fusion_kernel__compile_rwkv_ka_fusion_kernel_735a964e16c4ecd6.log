@@ -1,8 +1,0 @@
-[W1115 06:37:53.366281340 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_rwkv_ka_fusion_kernel_735a964e16c4ecd6_1__z4990/home/.triton/dump/QY1DJyWlZSDmIULRTaYNUjHNf8BEqkr5M4Dkdp_DTKw
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpexxf3u0f/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpexxf3u0f/kernel
-✅ RWKV KA Fusion tests passed!
-o_k max difference: 6.392909526824951
-o_kk max difference: 0.9630811810493469
-o_kka max difference: 1.020704746246338
-All tests passed!

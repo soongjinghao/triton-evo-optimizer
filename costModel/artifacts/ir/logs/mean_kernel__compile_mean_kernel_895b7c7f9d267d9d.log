@@ -1,5 +1,0 @@
-[W1115 06:35:09.714926500 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel/artifacts/ir/_work/compile_mean_kernel_895b7c7f9d267d9d_w8fovt86/home/.triton/dump/-BGtA3B8kfP_jiDRZGtOUmcq-HSDUvgWTiHl_EzBwXk
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpvcvqjd7e/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpvcvqjd7e/kernel
-Test case 1 passed: 2D tensor, dim=1, keepdim=False
-All tests passed!
