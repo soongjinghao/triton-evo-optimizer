@@ -1,0 +1,437 @@
+{
+  "functionName": "matmul_kernel_simplified",
+  "numBlocks": 7,
+  "blocks": [
+    {
+      "id": 0,
+      "name": "BB0",
+      "type": "ENTRY",
+      "parentStructure": null,
+      "predecessors": [],
+      "successors": [2],
+      "instructions": [
+      ]
+    },
+    {
+      "id": 1,
+      "name": "BB1",
+      "type": "EXIT",
+      "parentStructure": null,
+      "predecessors": [5],
+      "successors": [],
+      "instructions": [
+      ]
+    },
+    {
+      "id": 2,
+      "name": "BB2",
+      "type": "NORMAL",
+      "parentStructure": null,
+      "predecessors": [0],
+      "successors": [3],
+      "instructions": [
+        {
+          "id": 0,
+          "operation": "%c8_i32 = arith.constant 8 : i32"
+        },
+        {
+          "id": 1,
+          "operation": "%c31_i32 = arith.constant 31 : i32"
+        },
+        {
+          "id": 2,
+          "operation": "%c1_i32 = arith.constant 1 : i32"
+        },
+        {
+          "id": 3,
+          "operation": "%c0_i32 = arith.constant 0 : i32"
+        },
+        {
+          "id": 4,
+          "operation": "%cst = arith.constant dense<32> : tensor<32x32xi32>"
+        },
+        {
+          "id": 5,
+          "operation": "%cst_0 = arith.constant dense<0.000000e+00> : tensor<32x32xf32>"
+        },
+        {
+          "id": 6,
+          "operation": "%c32_i32 = arith.constant 32 : i32"
+        },
+        {
+          "id": 7,
+          "operation": "%0 = tt.get_program_id x : i32"
+        },
+        {
+          "id": 8,
+          "operation": "%1 = arith.addi %arg3, %c31_i32 : i32"
+        },
+        {
+          "id": 9,
+          "operation": "%2 = arith.divsi %1, %c32_i32 : i32"
+        },
+        {
+          "id": 10,
+          "operation": "%3 = arith.addi %arg4, %c31_i32 : i32"
+        },
+        {
+          "id": 11,
+          "operation": "%4 = arith.divsi %3, %c32_i32 : i32"
+        },
+        {
+          "id": 12,
+          "operation": "%5 = arith.muli %4, %c8_i32 : i32"
+        },
+        {
+          "id": 13,
+          "operation": "%6 = arith.divsi %0, %5 : i32"
+        },
+        {
+          "id": 14,
+          "operation": "%7 = arith.muli %6, %c8_i32 : i32"
+        },
+        {
+          "id": 15,
+          "operation": "%8 = arith.subi %2, %7 : i32"
+        },
+        {
+          "id": 16,
+          "operation": "%9 = arith.minsi %8, %c8_i32 : i32"
+        },
+        {
+          "id": 17,
+          "operation": "%10 = arith.remsi %0, %9 : i32"
+        },
+        {
+          "id": 18,
+          "operation": "%11 = arith.addi %7, %10 : i32"
+        },
+        {
+          "id": 19,
+          "operation": "%12 = arith.remsi %0, %5 : i32"
+        },
+        {
+          "id": 20,
+          "operation": "%13 = arith.divsi %12, %9 : i32"
+        },
+        {
+          "id": 21,
+          "operation": "%14 = arith.muli %11, %c32_i32 : i32"
+        },
+        {
+          "id": 22,
+          "operation": "%15 = tt.make_range {end = 32 : i32, start = 0 : i32} : tensor<32xi32>"
+        },
+        {
+          "id": 23,
+          "operation": "%16 = tt.splat %14 : i32 -> tensor<32xi32>"
+        },
+        {
+          "id": 24,
+          "operation": "%17 = arith.addi %16, %15 : tensor<32xi32>"
+        },
+        {
+          "id": 25,
+          "operation": "%18 = arith.muli %13, %c32_i32 : i32"
+        },
+        {
+          "id": 26,
+          "operation": "%19 = tt.splat %18 : i32 -> tensor<32xi32>"
+        },
+        {
+          "id": 27,
+          "operation": "%20 = arith.addi %19, %15 : tensor<32xi32>"
+        },
+        {
+          "id": 28,
+          "operation": "%21 = tt.expand_dims %17 {axis = 1 : i32} : tensor<32xi32> -> tensor<32x1xi32>"
+        },
+        {
+          "id": 29,
+          "operation": "%22 = tt.splat %arg6 : i32 -> tensor<32x1xi32>"
+        },
+        {
+          "id": 30,
+          "operation": "%23 = arith.muli %21, %22 : tensor<32x1xi32>"
+        },
+        {
+          "id": 31,
+          "operation": "%24 = tt.expand_dims %15 {axis = 0 : i32} : tensor<32xi32> -> tensor<1x32xi32>"
+        },
+        {
+          "id": 32,
+          "operation": "%25 = tt.broadcast %23 : tensor<32x1xi32> -> tensor<32x32xi32>"
+        },
+        {
+          "id": 33,
+          "operation": "%26 = tt.broadcast %24 : tensor<1x32xi32> -> tensor<32x32xi32>"
+        },
+        {
+          "id": 34,
+          "operation": "%27 = arith.addi %25, %26 : tensor<32x32xi32>"
+        },
+        {
+          "id": 35,
+          "operation": "%28 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<32x32x!tt.ptr<f32>>"
+        },
+        {
+          "id": 36,
+          "operation": "%29 = tt.addptr %28, %27 : tensor<32x32x!tt.ptr<f32>>, tensor<32x32xi32>"
+        },
+        {
+          "id": 37,
+          "operation": "%30 = tt.expand_dims %15 {axis = 1 : i32} : tensor<32xi32> -> tensor<32x1xi32>"
+        },
+        {
+          "id": 38,
+          "operation": "%31 = tt.splat %arg7 : i32 -> tensor<32x1xi32>"
+        },
+        {
+          "id": 39,
+          "operation": "%32 = arith.muli %30, %31 : tensor<32x1xi32>"
+        },
+        {
+          "id": 40,
+          "operation": "%33 = tt.expand_dims %20 {axis = 0 : i32} : tensor<32xi32> -> tensor<1x32xi32>"
+        },
+        {
+          "id": 41,
+          "operation": "%34 = tt.broadcast %32 : tensor<32x1xi32> -> tensor<32x32xi32>"
+        },
+        {
+          "id": 42,
+          "operation": "%35 = tt.broadcast %33 : tensor<1x32xi32> -> tensor<32x32xi32>"
+        },
+        {
+          "id": 43,
+          "operation": "%36 = arith.addi %34, %35 : tensor<32x32xi32>"
+        },
+        {
+          "id": 44,
+          "operation": "%37 = tt.splat %arg1 : !tt.ptr<f32> -> tensor<32x32x!tt.ptr<f32>>"
+        },
+        {
+          "id": 45,
+          "operation": "%38 = tt.addptr %37, %36 : tensor<32x32x!tt.ptr<f32>>, tensor<32x32xi32>"
+        },
+        {
+          "id": 46,
+          "operation": "%39 = arith.addi %arg5, %c31_i32 : i32"
+        },
+        {
+          "id": 47,
+          "operation": "%40 = arith.divsi %39, %c32_i32 : i32"
+        },
+        {
+          "id": 48,
+          "operation": "%41 = tt.splat %arg3 : i32 -> tensor<32x1xi32>"
+        },
+        {
+          "id": 49,
+          "operation": "%42 = arith.cmpi slt, %21, %41 : tensor<32x1xi32>"
+        },
+        {
+          "id": 50,
+          "operation": "%43 = tt.broadcast %42 : tensor<32x1xi1> -> tensor<32x32xi1>"
+        },
+        {
+          "id": 51,
+          "operation": "%44 = tt.splat %arg4 : i32 -> tensor<1x32xi32>"
+        },
+        {
+          "id": 52,
+          "operation": "%45 = arith.cmpi slt, %33, %44 : tensor<1x32xi32>"
+        },
+        {
+          "id": 53,
+          "operation": "%46 = tt.broadcast %45 : tensor<1x32xi1> -> tensor<32x32xi1>"
+        },
+        {
+          "id": 54,
+          "operation": "%47 = arith.muli %arg7, %c32_i32 : i32"
+        },
+        {
+          "id": 55,
+          "operation": "%48 = tt.splat %47 : i32 -> tensor<32x32xi32>"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "BB3",
+      "type": "FOR_COND",
+      "parentStructure": null,
+      "predecessors": [2, 6],
+      "successors": [4, 5],
+      "instructions": [
+        {
+          "id": 56,
+          "operation": "%49:3 = scf.for %arg9 = %c0_i32 to %40 step %c1_i32 iter_args(%arg10 = %cst_0, %arg11 = %29, %arg12 = %38) -> (tensor<32x32xf32>, tensor<32x32x!tt.ptr<f32>>, tensor<32x32x!tt.ptr<f32>>)  : i32 { ..."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "BB4",
+      "type": "LOOP_BODY",
+      "parentStructure": 3,
+      "predecessors": [3],
+      "successors": [6],
+      "instructions": [
+      ]
+    },
+    {
+      "id": 5,
+      "name": "BB5",
+      "type": "LOOP_EXIT",
+      "parentStructure": null,
+      "predecessors": [3],
+      "successors": [1],
+      "instructions": [
+        {
+          "id": 73,
+          "operation": "%50 = tt.splat %arg8 : i32 -> tensor<32x1xi32>"
+        },
+        {
+          "id": 74,
+          "operation": "%51 = arith.muli %21, %50 : tensor<32x1xi32>"
+        },
+        {
+          "id": 75,
+          "operation": "%52 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<32x1x!tt.ptr<f32>>"
+        },
+        {
+          "id": 76,
+          "operation": "%53 = tt.addptr %52, %51 : tensor<32x1x!tt.ptr<f32>>, tensor<32x1xi32>"
+        },
+        {
+          "id": 77,
+          "operation": "%54 = tt.broadcast %53 : tensor<32x1x!tt.ptr<f32>> -> tensor<32x32x!tt.ptr<f32>>"
+        },
+        {
+          "id": 78,
+          "operation": "%55 = tt.addptr %54, %35 : tensor<32x32x!tt.ptr<f32>>, tensor<32x32xi32>"
+        },
+        {
+          "id": 79,
+          "operation": "%56 = tt.splat %arg3 : i32 -> tensor<32x1xi32>"
+        },
+        {
+          "id": 80,
+          "operation": "%57 = arith.cmpi slt, %21, %56 : tensor<32x1xi32>"
+        },
+        {
+          "id": 81,
+          "operation": "%58 = tt.splat %arg4 : i32 -> tensor<1x32xi32>"
+        },
+        {
+          "id": 82,
+          "operation": "%59 = arith.cmpi slt, %33, %58 : tensor<1x32xi32>"
+        },
+        {
+          "id": 83,
+          "operation": "%60 = tt.broadcast %57 : tensor<32x1xi1> -> tensor<32x32xi1>"
+        },
+        {
+          "id": 84,
+          "operation": "%61 = tt.broadcast %59 : tensor<1x32xi1> -> tensor<32x32xi1>"
+        },
+        {
+          "id": 85,
+          "operation": "%62 = arith.andi %60, %61 : tensor<32x32xi1>"
+        },
+        {
+          "id": 86,
+          "operation": "tt.store %55, %49#0, %62 : tensor<32x32x!tt.ptr<f32>>"
+        },
+        {
+          "id": 87,
+          "operation": "tt.return"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "BB6",
+      "type": "NORMAL",
+      "parentStructure": 3,
+      "predecessors": [4],
+      "successors": [3],
+      "instructions": [
+        {
+          "id": 57,
+          "operation": "%63 = arith.muli %arg9, %c32_i32 : i32"
+        },
+        {
+          "id": 58,
+          "operation": "%64 = arith.subi %arg5, %63 : i32"
+        },
+        {
+          "id": 59,
+          "operation": "%65 = tt.splat %64 : i32 -> tensor<1x32xi32>"
+        },
+        {
+          "id": 60,
+          "operation": "%66 = arith.cmpi slt, %24, %65 : tensor<1x32xi32>"
+        },
+        {
+          "id": 61,
+          "operation": "%67 = tt.broadcast %66 : tensor<1x32xi1> -> tensor<32x32xi1>"
+        },
+        {
+          "id": 62,
+          "operation": "%68 = arith.andi %43, %67 : tensor<32x32xi1>"
+        },
+        {
+          "id": 63,
+          "operation": "%69 = tt.splat %64 : i32 -> tensor<32x1xi32>"
+        },
+        {
+          "id": 64,
+          "operation": "%70 = arith.cmpi slt, %30, %69 : tensor<32x1xi32>"
+        },
+        {
+          "id": 65,
+          "operation": "%71 = tt.broadcast %70 : tensor<32x1xi1> -> tensor<32x32xi1>"
+        },
+        {
+          "id": 66,
+          "operation": "%72 = arith.andi %71, %46 : tensor<32x32xi1>"
+        },
+        {
+          "id": 67,
+          "operation": "%73 = tt.load %arg11, %68, %cst_0 : tensor<32x32x!tt.ptr<f32>>"
+        },
+        {
+          "id": 68,
+          "operation": "%74 = tt.load %arg12, %72, %cst_0 : tensor<32x32x!tt.ptr<f32>>"
+        },
+        {
+          "id": 69,
+          "operation": "%75 = tt.dot %73, %74, %arg10 : tensor<32x32xf32> * tensor<32x32xf32> -> tensor<32x32xf32>"
+        },
+        {
+          "id": 70,
+          "operation": "%76 = tt.addptr %arg11, %cst : tensor<32x32x!tt.ptr<f32>>, tensor<32x32xi32>"
+        },
+        {
+          "id": 71,
+          "operation": "%77 = tt.addptr %arg12, %48 : tensor<32x32x!tt.ptr<f32>>, tensor<32x32xi32>"
+        },
+        {
+          "id": 72,
+          "operation": "scf.yield %75, %76, %77 : tensor<32x32xf32>, tensor<32x32x!tt.ptr<f32>>, tensor<32x32x!tt.ptr<f32>>"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {"from": 0, "to": 2, "fromName": "BB0", "toName": "BB2", "type": "normal"},
+    {"from": 2, "to": 3, "fromName": "BB2", "toName": "BB3", "type": "normal"},
+    {"from": 3, "to": 4, "fromName": "BB3", "toName": "BB4", "type": "normal"},
+    {"from": 3, "to": 5, "fromName": "BB3", "toName": "BB5", "type": "normal"},
+    {"from": 4, "to": 6, "fromName": "BB4", "toName": "BB6", "type": "normal"},
+    {"from": 5, "to": 1, "fromName": "BB5", "toName": "BB1", "type": "normal"},
+    {"from": 6, "to": 3, "fromName": "BB6", "toName": "BB3", "type": "back"}
+  ]
+}

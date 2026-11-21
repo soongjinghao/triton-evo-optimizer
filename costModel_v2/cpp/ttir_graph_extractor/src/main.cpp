@@ -127,6 +127,11 @@ int main(int argc, char **argv) {
       mlir::gpu::GPUDialect>();
 
   MLIRContext context(registry);
+
+  // Allow opaque Ascend-specific metadata in TTIR,
+  // such as the HACC target attribute.
+  context.allowUnregisteredDialects();
+
   context.loadAllAvailableDialects();
 
   // 2. Parse TTIR.

@@ -1,0 +1,222 @@
+{
+  "function": "vector_add_kernel",
+  "graph": {
+    "schema": "mlir_ssa_operation_graph_v1",
+    "node_count": 24,
+    "edge_count": 28,
+    "nodes": [
+      {"id": "op_0", "kind": "operation", "op": "arith.constant", "text": "%cst = arith.constant dense<0.000000e+00> : tensor<128xf32>", "result_count": 1},
+      {"id": "op_1", "kind": "operation", "op": "arith.constant", "text": "%c128_i32 = arith.constant 128 : i32", "result_count": 1},
+      {"id": "op_2", "kind": "operation", "op": "tt.get_program_id", "text": "%0 = tt.get_program_id x : i32", "result_count": 1},
+      {"id": "op_3", "kind": "operation", "op": "arith.muli", "text": "%1 = arith.muli %0, %c128_i32 : i32", "result_count": 1},
+      {"id": "op_4", "kind": "operation", "op": "tt.make_range", "text": "%2 = tt.make_range {end = 128 : i32, start = 0 : i32} : tensor<128xi32>", "result_count": 1},
+      {"id": "op_5", "kind": "operation", "op": "tt.splat", "text": "%3 = tt.splat %1 : i32 -> tensor<128xi32>", "result_count": 1},
+      {"id": "op_6", "kind": "operation", "op": "arith.addi", "text": "%4 = arith.addi %3, %2 : tensor<128xi32>", "result_count": 1},
+      {"id": "op_7", "kind": "operation", "op": "tt.splat", "text": "%5 = tt.splat %arg3 : i32 -> tensor<128xi32>", "result_count": 1},
+      {"id": "op_8", "kind": "operation", "op": "arith.cmpi", "text": "%6 = arith.cmpi slt, %4, %5 : tensor<128xi32>", "result_count": 1},
+      {"id": "op_9", "kind": "operation", "op": "tt.splat", "text": "%7 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>", "result_count": 1},
+      {"id": "op_10", "kind": "operation", "op": "tt.addptr", "text": "%8 = tt.addptr %7, %4 : tensor<128x!tt.ptr<f32>>, tensor<128xi32>", "result_count": 1},
+      {"id": "op_11", "kind": "operation", "op": "tt.load", "text": "%9 = tt.load %8, %6, %cst : tensor<128x!tt.ptr<f32>>", "result_count": 1},
+      {"id": "op_12", "kind": "operation", "op": "tt.splat", "text": "%10 = tt.splat %arg1 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>", "result_count": 1},
+      {"id": "op_13", "kind": "operation", "op": "tt.addptr", "text": "%11 = tt.addptr %10, %4 : tensor<128x!tt.ptr<f32>>, tensor<128xi32>", "result_count": 1},
+      {"id": "op_14", "kind": "operation", "op": "tt.load", "text": "%12 = tt.load %11, %6, %cst : tensor<128x!tt.ptr<f32>>", "result_count": 1},
+      {"id": "op_15", "kind": "operation", "op": "arith.addf", "text": "%13 = arith.addf %9, %12 : tensor<128xf32>", "result_count": 1},
+      {"id": "op_16", "kind": "operation", "op": "tt.splat", "text": "%14 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>", "result_count": 1},
+      {"id": "op_17", "kind": "operation", "op": "tt.addptr", "text": "%15 = tt.addptr %14, %4 : tensor<128x!tt.ptr<f32>>, tensor<128xi32>", "result_count": 1},
+      {"id": "op_18", "kind": "operation", "op": "tt.store", "text": "tt.store %15, %13, %6 : tensor<128x!tt.ptr<f32>>", "result_count": 0},
+      {"id": "op_19", "kind": "operation", "op": "tt.return", "text": "tt.return", "result_count": 0},
+      {"id": "arg_0", "kind": "block_argument", "owner": "function", "arg_index": 0, "region_index": 0, "block_index": 0, "type": "!tt.ptr<f32>"},
+      {"id": "arg_1", "kind": "block_argument", "owner": "function", "arg_index": 1, "region_index": 0, "block_index": 0, "type": "!tt.ptr<f32>"},
+      {"id": "arg_2", "kind": "block_argument", "owner": "function", "arg_index": 2, "region_index": 0, "block_index": 0, "type": "!tt.ptr<f32>"},
+      {"id": "arg_3", "kind": "block_argument", "owner": "function", "arg_index": 3, "region_index": 0, "block_index": 0, "type": "i32"}
+    ],
+    "edges": [
+      {"source": "op_2", "target": "op_3", "kind": "ssa", "operand_index": 0, "value_type": "i32", "result_index": 0},
+      {"source": "op_1", "target": "op_3", "kind": "ssa", "operand_index": 1, "value_type": "i32", "result_index": 0},
+      {"source": "op_3", "target": "op_5", "kind": "ssa", "operand_index": 0, "value_type": "i32", "result_index": 0},
+      {"source": "op_5", "target": "op_6", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128xi32>", "result_index": 0},
+      {"source": "op_4", "target": "op_6", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xi32>", "result_index": 0},
+      {"source": "arg_3", "target": "op_7", "kind": "block_argument", "operand_index": 0, "value_type": "i32"},
+      {"source": "op_6", "target": "op_8", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128xi32>", "result_index": 0},
+      {"source": "op_7", "target": "op_8", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xi32>", "result_index": 0},
+      {"source": "arg_0", "target": "op_9", "kind": "block_argument", "operand_index": 0, "value_type": "!tt.ptr<f32>"},
+      {"source": "op_9", "target": "op_10", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128x!tt.ptr<f32>>", "result_index": 0},
+      {"source": "op_6", "target": "op_10", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xi32>", "result_index": 0},
+      {"source": "op_10", "target": "op_11", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128x!tt.ptr<f32>>", "result_index": 0},
+      {"source": "op_8", "target": "op_11", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xi1>", "result_index": 0},
+      {"source": "op_0", "target": "op_11", "kind": "ssa", "operand_index": 2, "value_type": "tensor<128xf32>", "result_index": 0},
+      {"source": "arg_1", "target": "op_12", "kind": "block_argument", "operand_index": 0, "value_type": "!tt.ptr<f32>"},
+      {"source": "op_12", "target": "op_13", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128x!tt.ptr<f32>>", "result_index": 0},
+      {"source": "op_6", "target": "op_13", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xi32>", "result_index": 0},
+      {"source": "op_13", "target": "op_14", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128x!tt.ptr<f32>>", "result_index": 0},
+      {"source": "op_8", "target": "op_14", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xi1>", "result_index": 0},
+      {"source": "op_0", "target": "op_14", "kind": "ssa", "operand_index": 2, "value_type": "tensor<128xf32>", "result_index": 0},
+      {"source": "op_11", "target": "op_15", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128xf32>", "result_index": 0},
+      {"source": "op_14", "target": "op_15", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xf32>", "result_index": 0},
+      {"source": "arg_2", "target": "op_16", "kind": "block_argument", "operand_index": 0, "value_type": "!tt.ptr<f32>"},
+      {"source": "op_16", "target": "op_17", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128x!tt.ptr<f32>>", "result_index": 0},
+      {"source": "op_6", "target": "op_17", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xi32>", "result_index": 0},
+      {"source": "op_17", "target": "op_18", "kind": "ssa", "operand_index": 0, "value_type": "tensor<128x!tt.ptr<f32>>", "result_index": 0},
+      {"source": "op_15", "target": "op_18", "kind": "ssa", "operand_index": 1, "value_type": "tensor<128xf32>", "result_index": 0},
+      {"source": "op_8", "target": "op_18", "kind": "ssa", "operand_index": 2, "value_type": "tensor<128xi1>", "result_index": 0}
+    ]
+  },
+  "dataFlow": {
+  "memoryDefinitions": {
+    "%9 = tt.load %8, %6, %cst : tensor<128x!tt.ptr<f32>>": {
+      "id": "param_0,0",
+      "tensor": "param_0",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "%4 = arith.addi %3, %2 : tensor<128xi32>": {
+      "id": "arith_addi_tensor_1,1",
+      "tensor": "arith_addi_tensor_1",
+      "version": 1,
+      "is_parameter": false,
+      "def_op": "arith.addi"
+    },
+    "%13 = arith.addf %9, %12 : tensor<128xf32>": {
+      "id": "arith_addf_tensor_1,1",
+      "tensor": "arith_addf_tensor_1",
+      "version": 1,
+      "is_parameter": false,
+      "def_op": "arith.addf"
+    },
+    "%3 = tt.splat %1 : i32 -> tensor<128xi32>": {
+      "id": "tt_splat_tensor_1,1",
+      "tensor": "tt_splat_tensor_1",
+      "version": 1,
+      "is_parameter": false,
+      "def_op": "tt.splat"
+    },
+    "%15 = tt.addptr %14, %4 : tensor<128x!tt.ptr<f32>>, tensor<128xi32>": {
+      "id": "param_2,1",
+      "tensor": "param_2",
+      "version": 1,
+      "is_parameter": false,
+      "def_op": "tt.store"
+    },
+    "%6 = arith.cmpi slt, %4, %5 : tensor<128xi32>": {
+      "id": "arith_cmpi_tensor_1,1",
+      "tensor": "arith_cmpi_tensor_1",
+      "version": 1,
+      "is_parameter": false,
+      "def_op": "arith.cmpi"
+    },
+    "<block argument> of type '!tt.ptr<f32>' at index: 0": {
+      "id": "param_0,0",
+      "tensor": "param_0",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "<block argument> of type '!tt.ptr<f32>' at index: 2": {
+      "id": "param_2,0",
+      "tensor": "param_2",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "%10 = tt.splat %arg1 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>": {
+      "id": "param_1,0",
+      "tensor": "param_1",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "%5 = tt.splat %arg3 : i32 -> tensor<128xi32>": {
+      "id": "tt_splat_tensor_2,1",
+      "tensor": "tt_splat_tensor_2",
+      "version": 1,
+      "is_parameter": false,
+      "def_op": "tt.splat"
+    },
+    "%cst = arith.constant dense<0.000000e+00> : tensor<128xf32>": {
+      "id": "arith_constant_tensor_1,1",
+      "tensor": "arith_constant_tensor_1",
+      "version": 1,
+      "is_parameter": false,
+      "def_op": "arith.constant"
+    },
+    "<block argument> of type '!tt.ptr<f32>' at index: 1": {
+      "id": "param_1,0",
+      "tensor": "param_1",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "%7 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>": {
+      "id": "param_0,0",
+      "tensor": "param_0",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "%12 = tt.load %11, %6, %cst : tensor<128x!tt.ptr<f32>>": {
+      "id": "param_1,0",
+      "tensor": "param_1",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "%14 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>": {
+      "id": "param_2,0",
+      "tensor": "param_2",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "%2 = tt.make_range {end = 128 : i32, start = 0 : i32} : tensor<128xi32>": {
+      "id": "tt_make_range_tensor_1,1",
+      "tensor": "tt_make_range_tensor_1",
+      "version": 1,
+      "is_parameter": false,
+      "def_op": "tt.make_range"
+    },
+    "%11 = tt.addptr %10, %4 : tensor<128x!tt.ptr<f32>>, tensor<128xi32>": {
+      "id": "param_1,0",
+      "tensor": "param_1",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    },
+    "%8 = tt.addptr %7, %4 : tensor<128x!tt.ptr<f32>>, tensor<128xi32>": {
+      "id": "param_0,0",
+      "tensor": "param_0",
+      "version": 0,
+      "is_parameter": true,
+      "def_op": null
+    }
+  },
+  "memoryUses": [
+    {"definition_id": "param_0,0", "user_op": "arith.addf", "operand_index": 0, "value": "%9 = tt.load %8, %6, %cst : tensor<128x!tt.ptr<f32>>", "value_type": "tensor<128xf32>"},
+    {"definition_id": "arith_addi_tensor_1,1", "user_op": "arith.cmpi", "operand_index": 0, "value": "%4 = arith.addi %3, %2 : tensor<128xi32>", "value_type": "tensor<128xi32>"},
+    {"definition_id": "arith_addi_tensor_1,1", "user_op": "tt.addptr", "operand_index": 1, "value": "%4 = arith.addi %3, %2 : tensor<128xi32>", "value_type": "tensor<128xi32>"},
+    {"definition_id": "arith_addi_tensor_1,1", "user_op": "tt.addptr", "operand_index": 1, "value": "%4 = arith.addi %3, %2 : tensor<128xi32>", "value_type": "tensor<128xi32>"},
+    {"definition_id": "arith_addi_tensor_1,1", "user_op": "tt.addptr", "operand_index": 1, "value": "%4 = arith.addi %3, %2 : tensor<128xi32>", "value_type": "tensor<128xi32>"},
+    {"definition_id": "arith_addf_tensor_1,1", "user_op": "tt.store", "operand_index": 1, "value": "%13 = arith.addf %9, %12 : tensor<128xf32>", "value_type": "tensor<128xf32>"},
+    {"definition_id": "tt_splat_tensor_1,1", "user_op": "arith.addi", "operand_index": 0, "value": "%3 = tt.splat %1 : i32 -> tensor<128xi32>", "value_type": "tensor<128xi32>"},
+    {"definition_id": "arith_cmpi_tensor_1,1", "user_op": "tt.load", "operand_index": 1, "value": "%6 = arith.cmpi slt, %4, %5 : tensor<128xi32>", "value_type": "tensor<128xi1>"},
+    {"definition_id": "arith_cmpi_tensor_1,1", "user_op": "tt.load", "operand_index": 1, "value": "%6 = arith.cmpi slt, %4, %5 : tensor<128xi32>", "value_type": "tensor<128xi1>"},
+    {"definition_id": "arith_cmpi_tensor_1,1", "user_op": "tt.store", "operand_index": 2, "value": "%6 = arith.cmpi slt, %4, %5 : tensor<128xi32>", "value_type": "tensor<128xi1>"},
+    {"definition_id": "param_0,0", "user_op": "tt.splat", "operand_index": 0, "value": "<block argument> of type '!tt.ptr<f32>' at index: 0", "value_type": "!tt.ptr<f32>"},
+    {"definition_id": "param_2,0", "user_op": "tt.splat", "operand_index": 0, "value": "<block argument> of type '!tt.ptr<f32>' at index: 2", "value_type": "!tt.ptr<f32>"},
+    {"definition_id": "param_1,0", "user_op": "tt.addptr", "operand_index": 0, "value": "%10 = tt.splat %arg1 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>", "value_type": "tensor<128x!tt.ptr<f32>>"},
+    {"definition_id": "tt_splat_tensor_2,1", "user_op": "arith.cmpi", "operand_index": 1, "value": "%5 = tt.splat %arg3 : i32 -> tensor<128xi32>", "value_type": "tensor<128xi32>"},
+    {"definition_id": "arith_constant_tensor_1,1", "user_op": "tt.load", "operand_index": 2, "value": "%cst = arith.constant dense<0.000000e+00> : tensor<128xf32>", "value_type": "tensor<128xf32>"},
+    {"definition_id": "arith_constant_tensor_1,1", "user_op": "tt.load", "operand_index": 2, "value": "%cst = arith.constant dense<0.000000e+00> : tensor<128xf32>", "value_type": "tensor<128xf32>"},
+    {"definition_id": "param_1,0", "user_op": "tt.splat", "operand_index": 0, "value": "<block argument> of type '!tt.ptr<f32>' at index: 1", "value_type": "!tt.ptr<f32>"},
+    {"definition_id": "param_0,0", "user_op": "tt.addptr", "operand_index": 0, "value": "%7 = tt.splat %arg0 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>", "value_type": "tensor<128x!tt.ptr<f32>>"},
+    {"definition_id": "param_1,0", "user_op": "arith.addf", "operand_index": 1, "value": "%12 = tt.load %11, %6, %cst : tensor<128x!tt.ptr<f32>>", "value_type": "tensor<128xf32>"},
+    {"definition_id": "param_2,0", "user_op": "tt.addptr", "operand_index": 0, "value": "%14 = tt.splat %arg2 : !tt.ptr<f32> -> tensor<128x!tt.ptr<f32>>", "value_type": "tensor<128x!tt.ptr<f32>>"},
+    {"definition_id": "tt_make_range_tensor_1,1", "user_op": "arith.addi", "operand_index": 1, "value": "%2 = tt.make_range {end = 128 : i32, start = 0 : i32} : tensor<128xi32>", "value_type": "tensor<128xi32>"},
+    {"definition_id": "param_1,0", "user_op": "tt.load", "operand_index": 0, "value": "%11 = tt.addptr %10, %4 : tensor<128x!tt.ptr<f32>>, tensor<128xi32>", "value_type": "tensor<128x!tt.ptr<f32>>"},
+    {"definition_id": "param_0,0", "user_op": "tt.load", "operand_index": 0, "value": "%8 = tt.addptr %7, %4 : tensor<128x!tt.ptr<f32>>, tensor<128xi32>", "value_type": "tensor<128x!tt.ptr<f32>>"}
+  ],
+  "Phis": {
+
+  }
+}
+}
