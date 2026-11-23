@@ -1,0 +1,41 @@
+{
+  "candidate_id": "_chunk_state_fwd_kernel__p0__881fdaee3d32",
+  "candidate_role": "p0",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/_chunk_state_fwd_kernel/variant/p0.py",
+  "historical_candidate_ids": [
+    "f952260b"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 1155.623169,
+  "historical_methods": [
+    "tau_0.7"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_primary_candidate_id": "f952260b",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/f952260b.py",
+  "operator_name": "_chunk_state_fwd_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p0",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.0,
+  "selection_population": 33,
+  "selection_rank": 1,
+  "source_path": "costModel/.datasets_staging_20261123_143416/_chunk_state_fwd_kernel/variant/p0.py",
+  "source_sha256": "881fdaee3d3260d54dd1a1f174f147a4fa461643cfde41c8c4a9548ab8a49da8",
+  "test_path": "costModel/datasets/_chunk_state_fwd_kernel/test.py"
+}

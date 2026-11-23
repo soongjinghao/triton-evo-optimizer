@@ -1,0 +1,41 @@
+{
+  "candidate_id": "experts_combine_kernel__p100__e1fa83a7c108",
+  "candidate_role": "p100",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/experts_combine_kernel/variant/p100.py",
+  "historical_candidate_ids": [
+    "a8d07688"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 3.780076,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_primary_candidate_id": "a8d07688",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/a8d07688.py",
+  "operator_name": "experts_combine_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p100",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 1.0,
+  "selection_population": 20,
+  "selection_rank": 20,
+  "source_path": "costModel/.datasets_staging_20261123_143416/experts_combine_kernel/variant/p100.py",
+  "source_sha256": "e1fa83a7c1081b883e846d4fcc54adb0829a8842f08bf93b3c4e406857e44ef0",
+  "test_path": "costModel/datasets/experts_combine_kernel/test.py"
+}

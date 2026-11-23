@@ -1,21 +1,47 @@
 {
-  "operator": "assign_draft_cache_locs_page_size_1",
-  "test_file": "costModel/datasets/assign_draft_cache_locs_page_size_1/test.py",
-  "percentiles": [
-    "p10",
-    "p30",
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
+    "p25",
     "p50",
-    "p70",
-    "p90"
+    "p75",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "assign_draft_cache_locs_page_size_1__p0__a138a89916ec",
+    "assign_draft_cache_locs_page_size_1__p25__776d446a21ef",
+    "assign_draft_cache_locs_page_size_1__p50__5ff12d92caab",
+    "assign_draft_cache_locs_page_size_1__p75__7557e934c5d7",
+    "assign_draft_cache_locs_page_size_1__p100__9830f6c82fad"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 148,
+  "ir_ready": false,
+  "operator": "assign_draft_cache_locs_page_size_1",
+  "operator_name": "assign_draft_cache_locs_page_size_1",
+  "percentiles": [
+    "p0",
+    "p25",
+    "p50",
+    "p75",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "moderate",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 19,
+  "test_file": "costModel/datasets/assign_draft_cache_locs_page_size_1/test.py",
+  "test_path": "costModel/datasets/assign_draft_cache_locs_page_size_1/test.py",
+  "test_sha256": "5cd2e7389d182991cd755772c55433cf6e67b7aa4c2ec7535216b7b5edc2fb77",
+  "test_source_path": "datasets2/assign_draft_cache_locs_page_size_1/test_assign_draft_cache_locs_page_size_1_1.py",
+  "variants_ready": true
 }

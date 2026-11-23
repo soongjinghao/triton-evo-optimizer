@@ -1,0 +1,41 @@
+{
+  "candidate_id": "_set_k_and_s_triton_kernel__p90__30134a381490",
+  "candidate_role": "p90",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/_set_k_and_s_triton_kernel/variant/p90.py",
+  "historical_candidate_ids": [
+    "74000111"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 2.940059,
+  "historical_methods": [
+    "sel_roulette"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_primary_candidate_id": "74000111",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/74000111.py",
+  "operator_name": "_set_k_and_s_triton_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p90",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.9,
+  "selection_population": 109,
+  "selection_rank": 99,
+  "source_path": "costModel/.datasets_staging_20261123_143416/_set_k_and_s_triton_kernel/variant/p90.py",
+  "source_sha256": "30134a38149071bcf8182b1676685784a7d4e49aa65d7dc5a47d667bee6e90fe",
+  "test_path": "costModel/datasets/_set_k_and_s_triton_kernel/test.py"
+}

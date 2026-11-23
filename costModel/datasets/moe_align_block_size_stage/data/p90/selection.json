@@ -1,0 +1,41 @@
+{
+  "candidate_id": "moe_align_block_size_stage__p90__8496775857ee",
+  "candidate_role": "p90",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/moe_align_block_size_stage/variant/p90.py",
+  "historical_candidate_ids": [
+    "281e506f"
+  ],
+  "historical_device_ids": [
+    "1"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 15.780315,
+  "historical_methods": [
+    "sel_roulette"
+  ],
+  "historical_operations": [
+    "crossover"
+  ],
+  "historical_primary_candidate_id": "281e506f",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/281e506f.py",
+  "operator_name": "moe_align_block_size_stage",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p90",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.9,
+  "selection_population": 132,
+  "selection_rank": 119,
+  "source_path": "costModel/.datasets_staging_20261123_143416/moe_align_block_size_stage/variant/p90.py",
+  "source_sha256": "8496775857ee6d4e54f2acbd0435fe3f045bbd267d968fa8be713ef9341dea99",
+  "test_path": "costModel/datasets/moe_align_block_size_stage/test.py"
+}

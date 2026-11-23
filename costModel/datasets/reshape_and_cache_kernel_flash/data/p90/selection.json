@@ -1,0 +1,41 @@
+{
+  "candidate_id": "reshape_and_cache_kernel_flash__p90__8f4cda66ad86",
+  "candidate_role": "p90",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/reshape_and_cache_kernel_flash/variant/p90.py",
+  "historical_candidate_ids": [
+    "6317572d"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "2"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 3.200064,
+  "historical_methods": [
+    "mut_uniform"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "6317572d",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/6317572d.py",
+  "operator_name": "reshape_and_cache_kernel_flash",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p90",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.9,
+  "selection_population": 228,
+  "selection_rank": 206,
+  "source_path": "costModel/.datasets_staging_20261123_143416/reshape_and_cache_kernel_flash/variant/p90.py",
+  "source_sha256": "8f4cda66ad86df6e21f5a0bfcf991684a602337fcafecffe1fcc08e7bc425e0f",
+  "test_path": "costModel/datasets/reshape_and_cache_kernel_flash/test.py"
+}

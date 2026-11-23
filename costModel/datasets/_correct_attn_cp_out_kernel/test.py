@@ -1,5 +1,5 @@
 import torch
-from _correct_attn_cp_out_kernel import correct_attn_cp_out
+from _correct_attn_cp_out_kernel_1 import correct_attn_cp_out
 
 device = 'npu'
 

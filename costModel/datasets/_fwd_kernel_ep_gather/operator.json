@@ -1,21 +1,47 @@
 {
-  "operator": "_fwd_kernel_ep_gather",
-  "test_file": "costModel/datasets/_fwd_kernel_ep_gather/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_fwd_kernel_ep_gather__p0__14cc1a703e1a",
+    "_fwd_kernel_ep_gather__p10__8e7571bf3d21",
+    "_fwd_kernel_ep_gather__p50__e5de794d9527",
+    "_fwd_kernel_ep_gather__p90__42699dac73c4",
+    "_fwd_kernel_ep_gather__p100__dc46d78cc9fd"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 484,
+  "ir_ready": false,
+  "operator": "_fwd_kernel_ep_gather",
+  "operator_name": "_fwd_kernel_ep_gather",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 128,
+  "test_file": "costModel/datasets/_fwd_kernel_ep_gather/test.py",
+  "test_path": "costModel/datasets/_fwd_kernel_ep_gather/test.py",
+  "test_sha256": "7bafd8f34196043231d75144c0661d75377231eb02416fcf1060a07ad03f4502",
+  "test_source_path": "datasets2/_fwd_kernel_ep_gather/test__fwd_kernel_ep_gather_1.py",
+  "variants_ready": true
 }

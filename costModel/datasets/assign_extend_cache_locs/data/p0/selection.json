@@ -1,0 +1,53 @@
+{
+  "candidate_id": "assign_extend_cache_locs__p0__619a74d6f97b",
+  "candidate_role": "p0",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/assign_extend_cache_locs/variant/p0.py",
+  "historical_candidate_ids": [
+    "02ef1f2c",
+    "13ee9808",
+    "31203817",
+    "3254ef4c",
+    "565728e7",
+    "85fa02c1",
+    "a71b9074",
+    "ac3b1b5c",
+    "c2b4deca",
+    "f19f8a05"
+  ],
+  "historical_device_ids": [
+    "0",
+    "1"
+  ],
+  "historical_generations": [
+    "1",
+    "2"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 1.5700315,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "crossover",
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "02ef1f2c",
+  "historical_run_ids": [
+    "900"
+  ],
+  "historical_sample_count": 10,
+  "historical_source_path": "experiments/dataset/codes/02ef1f2c.py",
+  "operator_name": "assign_extend_cache_locs",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p0",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.0,
+  "selection_population": 123,
+  "selection_rank": 1,
+  "source_path": "costModel/.datasets_staging_20261123_143416/assign_extend_cache_locs/variant/p0.py",
+  "source_sha256": "619a74d6f97b4cd7c9e1e469bf3a00a6499626f751cb4cca27070f4af3f2ee06",
+  "test_path": "costModel/datasets/assign_extend_cache_locs/test.py"
+}

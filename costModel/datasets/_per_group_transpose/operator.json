@@ -1,21 +1,47 @@
 {
-  "operator": "_per_group_transpose",
-  "test_file": "costModel/datasets/_per_group_transpose/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_per_group_transpose__p0__08210037b87f",
+    "_per_group_transpose__p10__0782bc458019",
+    "_per_group_transpose__p50__c7c972a2359f",
+    "_per_group_transpose__p90__981faacce35f",
+    "_per_group_transpose__p100__154269ccc08d"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 147,
+  "ir_ready": false,
+  "operator": "_per_group_transpose",
+  "operator_name": "_per_group_transpose",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 23,
+  "test_file": "costModel/datasets/_per_group_transpose/test.py",
+  "test_path": "costModel/datasets/_per_group_transpose/test.py",
+  "test_sha256": "1a905ceb470c8584771ec6558222b5852f79d94103c17121b37864f7ee0b6ce1",
+  "test_source_path": "datasets2/_per_group_transpose/test__per_group_transpose_1.py",
+  "variants_ready": true
 }

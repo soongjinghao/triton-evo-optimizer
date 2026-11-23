@@ -1,0 +1,41 @@
+{
+  "candidate_id": "_silu_mul_fp8_quant_deep_gemm__p0__4cf027f93f11",
+  "candidate_role": "p0",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/_silu_mul_fp8_quant_deep_gemm/variant/p0.py",
+  "historical_candidate_ids": [
+    "f1dedfe0"
+  ],
+  "historical_device_ids": [
+    "1"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 2.98006,
+  "historical_methods": [
+    "b1"
+  ],
+  "historical_operations": [
+    "gen0_plain"
+  ],
+  "historical_primary_candidate_id": "f1dedfe0",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/f1dedfe0.py",
+  "operator_name": "_silu_mul_fp8_quant_deep_gemm",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p0",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.0,
+  "selection_population": 22,
+  "selection_rank": 1,
+  "source_path": "costModel/.datasets_staging_20261123_143416/_silu_mul_fp8_quant_deep_gemm/variant/p0.py",
+  "source_sha256": "4cf027f93f118bb73f3e7d53aee0ba6555c9bd2ed3978c9c6f2944d7e5121f6c",
+  "test_path": "costModel/datasets/_silu_mul_fp8_quant_deep_gemm/test.py"
+}

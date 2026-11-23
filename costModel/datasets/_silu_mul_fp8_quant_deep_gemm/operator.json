@@ -1,21 +1,47 @@
 {
-  "operator": "_silu_mul_fp8_quant_deep_gemm",
-  "test_file": "costModel/datasets/_silu_mul_fp8_quant_deep_gemm/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_silu_mul_fp8_quant_deep_gemm__p0__4cf027f93f11",
+    "_silu_mul_fp8_quant_deep_gemm__p10__211ebf2e5397",
+    "_silu_mul_fp8_quant_deep_gemm__p50__863b8b45af5e",
+    "_silu_mul_fp8_quant_deep_gemm__p90__876973e739a1",
+    "_silu_mul_fp8_quant_deep_gemm__p100__3bf79ee931b9"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 150,
+  "ir_ready": false,
+  "operator": "_silu_mul_fp8_quant_deep_gemm",
+  "operator_name": "_silu_mul_fp8_quant_deep_gemm",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 22,
+  "test_file": "costModel/datasets/_silu_mul_fp8_quant_deep_gemm/test.py",
+  "test_path": "costModel/datasets/_silu_mul_fp8_quant_deep_gemm/test.py",
+  "test_sha256": "e19c671e170d7a431ecd50c5a024365f931ca3484f780013e73bba8fee2feff8",
+  "test_source_path": "datasets2/_silu_mul_fp8_quant_deep_gemm/test__silu_mul_fp8_quant_deep_gemm_1.py",
+  "variants_ready": true
 }

@@ -1,0 +1,41 @@
+{
+  "candidate_id": "_act_quant_kernel__p90__387f7569f257",
+  "candidate_role": "p90",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/_act_quant_kernel/variant/p90.py",
+  "historical_candidate_ids": [
+    "85b0c863"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 111.422226,
+  "historical_methods": [
+    "mut_adaptive"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_primary_candidate_id": "85b0c863",
+  "historical_run_ids": [
+    "1"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/85b0c863.py",
+  "operator_name": "_act_quant_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p90",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.9,
+  "selection_population": 167,
+  "selection_rank": 151,
+  "source_path": "costModel/.datasets_staging_20261123_143416/_act_quant_kernel/variant/p90.py",
+  "source_sha256": "387f7569f2570d38b693695f2b393c4923ad50ce5c6e84135a9e19b5583a985d",
+  "test_path": "costModel/datasets/_act_quant_kernel/test.py"
+}

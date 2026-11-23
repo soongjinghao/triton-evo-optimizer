@@ -1,0 +1,41 @@
+{
+  "candidate_id": "post_reorder_triton_kernel_for_cutlass_moe__p50__2b49bc94a067",
+  "candidate_role": "p50",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/post_reorder_triton_kernel_for_cutlass_moe/variant/p50.py",
+  "historical_candidate_ids": [
+    "be6177de"
+  ],
+  "historical_device_ids": [
+    "1"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 3.48007,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_primary_candidate_id": "be6177de",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/be6177de.py",
+  "operator_name": "post_reorder_triton_kernel_for_cutlass_moe",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p50",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.5,
+  "selection_population": 19,
+  "selection_rank": 10,
+  "source_path": "costModel/.datasets_staging_20261123_143416/post_reorder_triton_kernel_for_cutlass_moe/variant/p50.py",
+  "source_sha256": "2b49bc94a067c8c6a301ca716d1dc45c13a8ce91b88241e662f81adc753ff5b7",
+  "test_path": "costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/test.py"
+}

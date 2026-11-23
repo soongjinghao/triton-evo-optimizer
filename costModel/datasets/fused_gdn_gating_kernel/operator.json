@@ -1,21 +1,47 @@
 {
-  "operator": "fused_gdn_gating_kernel",
-  "test_file": "costModel/datasets/fused_gdn_gating_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "fused_gdn_gating_kernel__p0__70130bfac2f4",
+    "fused_gdn_gating_kernel__p10__6f5c5b853428",
+    "fused_gdn_gating_kernel__p50__47fd8efa12ac",
+    "fused_gdn_gating_kernel__p90__4216c65dd2a9",
+    "fused_gdn_gating_kernel__p100__dfa617ad15a5"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 595,
+  "ir_ready": false,
+  "operator": "fused_gdn_gating_kernel",
+  "operator_name": "fused_gdn_gating_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 149,
+  "test_file": "costModel/datasets/fused_gdn_gating_kernel/test.py",
+  "test_path": "costModel/datasets/fused_gdn_gating_kernel/test.py",
+  "test_sha256": "86646feb23bf9b96aeff3d9386afbf802a3a7125ea0e846fa0dc5b2b06b1d5d2",
+  "test_source_path": "datasets2/fused_gdn_gating_kernel/test_fused_gdn_gating_kernel_1.py",
+  "variants_ready": true
 }

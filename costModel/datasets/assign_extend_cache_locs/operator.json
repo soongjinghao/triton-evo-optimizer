@@ -1,21 +1,47 @@
 {
-  "operator": "assign_extend_cache_locs",
-  "test_file": "costModel/datasets/assign_extend_cache_locs/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "assign_extend_cache_locs__p0__619a74d6f97b",
+    "assign_extend_cache_locs__p10__4ad766dd26e7",
+    "assign_extend_cache_locs__p50__104d370a3dfb",
+    "assign_extend_cache_locs__p90__a04e6b17c765",
+    "assign_extend_cache_locs__p100__bb99b3698090"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 554,
+  "ir_ready": false,
+  "operator": "assign_extend_cache_locs",
+  "operator_name": "assign_extend_cache_locs",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 123,
+  "test_file": "costModel/datasets/assign_extend_cache_locs/test.py",
+  "test_path": "costModel/datasets/assign_extend_cache_locs/test.py",
+  "test_sha256": "5dd5326fb290b772b07642529431f0be40311c3bd646b7223bf9d988807987db",
+  "test_source_path": "datasets2/assign_extend_cache_locs/test_assign_extend_cache_locs_1.py",
+  "variants_ready": true
 }

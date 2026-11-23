@@ -1,0 +1,68 @@
+{
+  "candidate_id": "_copy_page_indices_kernel__p50__686cbcd85c90",
+  "candidate_role": "p50",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/_copy_page_indices_kernel/variant/p50.py",
+  "historical_candidate_ids": [
+    "064dc640",
+    "0d29770f",
+    "1ca9ec00",
+    "1d783dc1",
+    "4e47ad63",
+    "5eec76cf",
+    "7edb8a06",
+    "8ad0d37c",
+    "a2b876db",
+    "a34243df",
+    "b2f32522",
+    "b796dfad",
+    "d0be9d23",
+    "f1714e99",
+    "fc117074",
+    "ff59ad15"
+  ],
+  "historical_device_ids": [
+    "0",
+    "1"
+  ],
+  "historical_generations": [
+    "0",
+    "1",
+    "2"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 1.650033,
+  "historical_methods": [
+    "b1",
+    "b2",
+    "full",
+    "tau_0.7",
+    "tau_0.8",
+    "tau_0.85",
+    "tau_none"
+  ],
+  "historical_operations": [
+    "crossover",
+    "gen0_plain",
+    "gen0_strategy_guided",
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "064dc640",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 16,
+  "historical_source_path": "experiments/dataset/codes/064dc640.py",
+  "operator_name": "_copy_page_indices_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p50",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.5,
+  "selection_population": 31,
+  "selection_rank": 16,
+  "source_path": "costModel/.datasets_staging_20261123_143416/_copy_page_indices_kernel/variant/p50.py",
+  "source_sha256": "686cbcd85c904cee9916b01972ad296fd715ab6db757be4de6dc43e8622b3e3c",
+  "test_path": "costModel/datasets/_copy_page_indices_kernel/test.py"
+}

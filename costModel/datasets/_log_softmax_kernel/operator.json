@@ -1,21 +1,47 @@
 {
-  "operator": "_log_softmax_kernel",
-  "test_file": "costModel/datasets/_log_softmax_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_log_softmax_kernel__p0__9c8032e5bc90",
+    "_log_softmax_kernel__p10__e73bdaa1cb12",
+    "_log_softmax_kernel__p50__a6b34d17c69a",
+    "_log_softmax_kernel__p90__8700c7770aee",
+    "_log_softmax_kernel__p100__4bd0b35e1117"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 147,
+  "ir_ready": false,
+  "operator": "_log_softmax_kernel",
+  "operator_name": "_log_softmax_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 21,
+  "test_file": "costModel/datasets/_log_softmax_kernel/test.py",
+  "test_path": "costModel/datasets/_log_softmax_kernel/test.py",
+  "test_sha256": "7f36e8e1fc1d63c1fc46b2d2c79cd93f772625157e51ea74165c003d3684e249",
+  "test_source_path": "datasets2/_log_softmax_kernel/test__log_softmax_kernel_1.py",
+  "variants_ready": true
 }

@@ -1,21 +1,47 @@
 {
-  "operator": "layer_norm_fwd_kernel",
-  "test_file": "costModel/datasets/layer_norm_fwd_kernel/test.py",
-  "percentiles": [
-    "p10",
-    "p30",
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
+    "p25",
     "p50",
-    "p70",
-    "p90"
+    "p75",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "layer_norm_fwd_kernel__p0__284750f7c8fe",
+    "layer_norm_fwd_kernel__p25__72be156b1d05",
+    "layer_norm_fwd_kernel__p50__cb63e2a06c14",
+    "layer_norm_fwd_kernel__p75__4c459c00bd93",
+    "layer_norm_fwd_kernel__p100__0e6dc6002203"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 133,
+  "ir_ready": false,
+  "operator": "layer_norm_fwd_kernel",
+  "operator_name": "layer_norm_fwd_kernel",
+  "percentiles": [
+    "p0",
+    "p25",
+    "p50",
+    "p75",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "moderate",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 17,
+  "test_file": "costModel/datasets/layer_norm_fwd_kernel/test.py",
+  "test_path": "costModel/datasets/layer_norm_fwd_kernel/test.py",
+  "test_sha256": "7a668831cc540377b86de722acb60add229c8eb55f85c8511b6a8e9cec02f2d3",
+  "test_source_path": "datasets2/layer_norm_fwd_kernel/test_layer_norm_fwd_kernel_1.py",
+  "variants_ready": true
 }

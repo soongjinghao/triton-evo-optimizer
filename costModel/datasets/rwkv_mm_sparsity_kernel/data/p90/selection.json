@@ -1,0 +1,41 @@
+{
+  "candidate_id": "rwkv_mm_sparsity_kernel__p90__b1baff907524",
+  "candidate_role": "p90",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/rwkv_mm_sparsity_kernel/variant/p90.py",
+  "historical_candidate_ids": [
+    "a5c76d73"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 10.560211,
+  "historical_methods": [
+    "b1"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "a5c76d73",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/a5c76d73.py",
+  "operator_name": "rwkv_mm_sparsity_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p90",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.9,
+  "selection_population": 23,
+  "selection_rank": 21,
+  "source_path": "costModel/.datasets_staging_20261123_143416/rwkv_mm_sparsity_kernel/variant/p90.py",
+  "source_sha256": "b1baff9075246a4b253d0ef9e0ac5bfbfe5fbdfe29ff094b52685780354e6633",
+  "test_path": "costModel/datasets/rwkv_mm_sparsity_kernel/test.py"
+}

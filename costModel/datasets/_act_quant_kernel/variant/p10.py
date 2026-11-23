@@ -2,7 +2,6 @@ from typing import Optional, Tuple
 import torch
 import triton
 import triton.language as tl
-
 @triton.jit
 def _act_quant_kernel(
     X_ptr,
@@ -15,10 +14,8 @@ def _act_quant_kernel(
     BLOCK_M: tl.constexpr,
     BLOCK_N: tl.constexpr,
 ):
-    pid = tl.program_id(0)
-    num_col_blocks = tl.cdiv(N, group_size)
-    pid_m = pid // num_col_blocks
-    pid_n = pid % num_col_blocks
+    pid_m = tl.program_id(0)
+    pid_n = tl.program_id(1)
     fp8_min = -448.0
     fp8_max = 448.0
     fp8_max_inv = 1.0 / fp8_max
@@ -45,11 +42,10 @@ def _act_quant_kernel(
     y = tl.minimum(tl.maximum(y, fp8_min), fp8_max)
     y_ptrs = Y_ptr + rows[:, None] * N + cols[None, :]
     tl.store(y_ptrs, y, mask=mask)
-    s_base = pid_m * BLOCK_M * (N // group_size) + pid_n
-    s_rows = s_base + tl.arange(0, BLOCK_M)
-    s_mask = s_rows < M * (N // group_size)
-    tl.store(S_ptr + s_rows, scale, mask=s_mask)
-
+    s_cols = pid_n
+    s_ptrs = S_ptr + s_cols * M + rows
+    s_mask = row_mask
+    tl.store(s_ptrs, scale, mask=s_mask)
 def act_quant(
     x: torch.Tensor, block_size: int = 128, scale_fmt: Optional[str] = None
 ) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -62,12 +58,11 @@ def act_quant(
     M = x_flat.size(0)
     y = torch.empty_like(x, dtype=torch.float16)
     y_flat = y.view(-1, N)
-    s = x.new_empty(*x.size()[:-1], N // block_size, dtype=torch.float32)
-    s_flat = s.view(-1, N // block_size)
+    s = x.new_empty(N // block_size, *x.size()[:-1], dtype=torch.float32)
+    s_flat = s.view(N // block_size, M)
     BLOCK_M = 32
     BLOCK_N = block_size
-    num_col_blocks = triton.cdiv(N, block_size)
-    grid = (triton.cdiv(M, BLOCK_M) * num_col_blocks,)
+    grid = (triton.cdiv(M, BLOCK_M), triton.cdiv(N, block_size))
     round_scale = scale_fmt is not None
     _act_quant_kernel[grid](
         x_flat,
@@ -79,6 +74,7 @@ def act_quant(
         round_scale=round_scale,
         BLOCK_M=BLOCK_M,
         BLOCK_N=BLOCK_N,
+        num_warps=4,
         num_stages=0 if round_scale else 2,
     )
     return y, s

@@ -1,21 +1,47 @@
 {
-  "operator": "matmul_kernel_simplified",
-  "test_file": "costModel/datasets/matmul_kernel_simplified/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "matmul_kernel_simplified__p0__ff81d5b18c5a",
+    "matmul_kernel_simplified__p10__ca38e0888ac9",
+    "matmul_kernel_simplified__p50__72893c547c57",
+    "matmul_kernel_simplified__p90__97ffbbec7b04",
+    "matmul_kernel_simplified__p100__b5d8dfff2f38"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 316,
+  "ir_ready": false,
+  "operator": "matmul_kernel_simplified",
+  "operator_name": "matmul_kernel_simplified",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 137,
+  "test_file": "costModel/datasets/matmul_kernel_simplified/test.py",
+  "test_path": "costModel/datasets/matmul_kernel_simplified/test.py",
+  "test_sha256": "fd7efc9d9d96101863a5ce2d9e0b2d10fedd14304131e104bd863b3154df910e",
+  "test_source_path": "datasets2/matmul_kernel_simplified/test_matmul_kernel_simplified_1.py",
+  "variants_ready": true
 }

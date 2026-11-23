@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Collect Triton IR and MSProf data into costModel/datasets/<operator>/data/<role>."""
+"""Collect Triton IR and MSProf data into a clean per-candidate CostModel layout."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, Dict, List, Optional, Tuple
 
-VERSION = "2.1.0"
+VERSION = "2.2.0"
 
 
 # ---------------------------------------------------------------------------
@@ -74,6 +74,11 @@ def percentile_key(role: str) -> Tuple[int, float, str]:
     if match:
         return (0, float(match.group(1)), role)
     return (1, 0.0, role)
+
+
+def is_percentile_role(role: str) -> bool:
+    """Only p<number> variants belong to the official percentile dataset."""
+    return re.fullmatch(r"p\d+(?:\.\d+)?", role.lower()) is not None
 
 
 def resolve_test_path(root: Path, operator_dir: Path, raw: str) -> Path:
@@ -196,6 +201,10 @@ def update_operator_config(info: Dict[str, Any], roles: List[str]) -> None:
             for item in metadata_items
         )
     )
+    config["npubin_ready"] = bool(
+        complete_set
+        and all(item.get("ir_found", {}).get("npubin") for item in metadata_items)
+    )
     config["m3_ir_ready"] = bool(
         complete_set
         and all(
@@ -207,7 +216,7 @@ def update_operator_config(info: Dict[str, Any], roles: List[str]) -> None:
         )
     )
     config["complete_data_ready"] = bool(
-        config["profiling_ready"] and config["m3_ir_ready"]
+        config["profiling_ready"] and config["m3_ir_ready"] and config["npubin_ready"]
     )
     config["last_collector_version"] = VERSION
     write_json(info["config_path"], config)
@@ -374,14 +383,19 @@ def ir_stage(path: Path) -> Optional[str]:
 
 
 def copy_ir(source: Path, ir_root: Path, stage: str, prefix: str) -> Path:
+    """Copy an artifact into its stage folder, deduplicating identical contents."""
     target_dir = ir_root / stage
     target_dir.mkdir(parents=True, exist_ok=True)
     digest = sha256(source)
-    target = target_dir / f"{prefix}{source.name}"
 
+    # Different process IDs often produce byte-identical files across preflight,
+    # timing and hardware passes. Keep one copy per content hash.
+    for existing in sorted(target_dir.iterdir()):
+        if existing.is_file() and sha256(existing) == digest:
+            return existing
+
+    target = target_dir / f"{prefix}{source.name}"
     if target.exists():
-        if sha256(target) == digest:
-            return target
         target = target_dir / f"{prefix}{source.stem}_{digest[:10]}{source.suffix}"
 
     if not target.exists():
@@ -402,6 +416,104 @@ def collect_ir(source_root: Path, ir_root: Path, prefix: str) -> Dict[str, List[
             continue
         saved = copy_ir(source, ir_root, stage, prefix)
         found.setdefault(stage, []).append(saved)
+    return found
+
+
+def archive_compiler_save_temps(source_root: Path, ir_root: Path) -> Dict[str, Any]:
+    """Archive unique save-temps files flatly, with a manifest; avoid raw temp trees."""
+    archive_root = ir_root / "compiler_save_temps"
+    artifacts_dir = archive_root / "artifacts"
+    artifacts_dir.mkdir(parents=True, exist_ok=True)
+
+    entries: List[Dict[str, Any]] = []
+    archived_by_hash: Dict[str, Path] = {}
+    if source_root.exists():
+        for source in sorted(path for path in source_root.rglob("*") if path.is_file()):
+            digest = sha256(source)
+            archived_path = archived_by_hash.get(digest)
+            if archived_path is None:
+                archived_name = f"{digest[:12]}_{source.name}"
+                archived_path = artifacts_dir / archived_name
+                if not archived_path.exists():
+                    shutil.copy2(source, archived_path)
+                archived_by_hash[digest] = archived_path
+            entries.append({
+                "source_relative_path": str(source.relative_to(source_root)),
+                "archived_path": str(archived_path.relative_to(ir_root)),
+                "size_bytes": source.stat().st_size,
+                "sha256": digest,
+                "recognized_stage": ir_stage(source),
+            })
+
+    manifest = {
+        "schema_version": "costmodel_compiler_save_temps_v1",
+        "file_count": len(entries),
+        "unique_content_count": len({item["sha256"] for item in entries}),
+        "files": entries,
+    }
+    write_json(archive_root / "manifest.json", manifest)
+    return manifest
+
+
+def archive_capture_events(capture_dir: Path, ir_root: Path) -> Optional[Path]:
+    """Persist a compact capture manifest without retaining transient capture files."""
+    events_path = capture_dir.parent / "capture_events.jsonl"
+    if not events_path.is_file():
+        return None
+
+    events: List[Dict[str, Any]] = []
+    for line in events_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        if not line.strip():
+            continue
+        try:
+            item = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        events.append({
+            "pid": item.get("pid"),
+            "call_index": item.get("call_index"),
+            "jit_function": item.get("jit_function"),
+            "asm_keys": item.get("asm_keys", []),
+            "saved_file_names": [Path(p).name for p in item.get("saved_files", [])],
+        })
+
+    target = ir_root / "capture_manifest.json"
+    write_json(target, {
+        "schema_version": "costmodel_capture_manifest_v1",
+        "event_count": len(events),
+        "events": events,
+    })
+    return target
+
+
+def collect_target_binaries(cache_dir: Path, ir_root: Path, operator: str) -> Dict[str, List[Path]]:
+    """Collect kernel-specific .o/.so outputs, excluding Triton runtime libraries."""
+    found: Dict[str, List[Path]] = {}
+    if not cache_dir.exists():
+        return found
+
+    op_token = operator.lower().lstrip("_")
+    for source in sorted(path for path in cache_dir.rglob("*") if path.is_file()):
+        suffix = source.suffix.lower()
+        name = source.name.lower()
+        if suffix == ".o":
+            if "kernel" not in name and op_token not in name:
+                continue
+            stage = "object"
+        elif suffix == ".so":
+            # launcher_cxx11abi*.so and npu_utils.so are runtime helpers, not
+            # the operator's generated shared kernel library.
+            if "libkernel" not in name and op_token not in name:
+                continue
+            if "launcher" in name or "npu_utils" in name:
+                continue
+            stage = "shared"
+        else:
+            continue
+
+        saved = copy_ir(source, ir_root, stage, "cache_")
+        found.setdefault(stage, []).append(saved)
+
     return found
 
 
@@ -474,17 +586,19 @@ def run_one(
     operator = info["operator"]
     role_dir = info["data_dir"] / role
     ir_root = role_dir / "ir"
-    capture_dir = ir_root / "capture" / "asm"
     profiling_dir = role_dir / "profiling"
     raw_profile_dir = profiling_dir / "raw"
     work_dir = role_dir / ".collector_work"
+    capture_dir = work_dir / "capture" / "asm"
+    save_temps_dir = work_dir / "compiler_save_temps"
 
     role_dir.mkdir(parents=True, exist_ok=True)
-    capture_dir.mkdir(parents=True, exist_ok=True)
-    profiling_dir.mkdir(parents=True, exist_ok=True)
     if work_dir.exists():
         shutil.rmtree(work_dir)
     work_dir.mkdir(parents=True, exist_ok=True)
+    capture_dir.mkdir(parents=True, exist_ok=True)
+    save_temps_dir.mkdir(parents=True, exist_ok=True)
+    profiling_dir.mkdir(parents=True, exist_ok=True)
 
     kernel_snapshot = role_dir / "kernel.py"
     shutil.copy2(variant, kernel_snapshot)
@@ -518,6 +632,7 @@ def run_one(
     env_keys = [
         "HOME", "TRITON_CACHE_DIR", "PYTHONPATH",
         "COSTMODEL_CAPTURE_DIR", "COSTMODEL_CAPTURE_KERNEL",
+        "COSTMODEL_HIVM_SAVE_TEMPS_DIR",
     ]
     old_env = {key: os.environ.get(key) for key in env_keys}
     start_clock = time.monotonic()
@@ -544,6 +659,9 @@ def run_one(
 
         os.environ["COSTMODEL_CAPTURE_DIR"] = str(capture_dir)
         os.environ["COSTMODEL_CAPTURE_KERNEL"] = operator
+        # Executor subprocesses inherit this variable. The installed Ascend
+        # compiler hook adds --save-temps=<unique-dir> to BiShengIR invocations.
+        os.environ["COSTMODEL_HIVM_SAVE_TEMPS_DIR"] = str(save_temps_dir)
 
         TritonExecutor = get_executor(root)
         executor = TritonExecutor(
@@ -597,11 +715,17 @@ def run_one(
 
         captured = collect_ir(capture_dir, ir_root, "asm_")
         dumped = collect_ir(dump_dir, ir_root, "dump_")
-        ir_found = merge_ir(captured, dumped)
+        saved_temps = collect_ir(save_temps_dir, ir_root, "save_temps_")
+        binaries = collect_target_binaries(cache_dir, ir_root, operator)
+        ir_found = merge_ir(captured, dumped, saved_temps, binaries)
 
-        hook_error_path = ir_root / "capture" / "capture_hook_error.txt"
+        save_temps_manifest = archive_compiler_save_temps(save_temps_dir, ir_root)
+        capture_manifest_path = archive_capture_events(capture_dir, ir_root)
+
+        hook_error_path = capture_dir.parent / "capture_hook_error.txt"
         if hook_error_path.is_file():
             hook_error = hook_error_path.read_text(encoding="utf-8")
+            shutil.copy2(hook_error_path, ir_root / "capture_hook_error.txt")
 
     finally:
         for key, value in old_env.items():
@@ -613,6 +737,10 @@ def run_one(
     has_ttir = bool(ir_found.get("ttir"))
     has_ttadapter = bool(ir_found.get("ttadapter"))
     has_hivm_opt = bool(ir_found.get("hivm_opt"))
+    has_hivm = bool(ir_found.get("hivm"))
+    has_npubin = bool(ir_found.get("npubin"))
+    has_object = bool(ir_found.get("object"))
+    has_shared = bool(ir_found.get("shared"))
     hardware_ok = profile_summary.get("collection", {}).get("hardware_profile_success")
     summary_available = bool(profile_summary_path and profile_summary_path.is_file())
 
@@ -627,6 +755,8 @@ def run_one(
         status = "measurement_inconsistent"
     elif not (has_ttir and has_ttadapter):
         status = "ir_incomplete"
+    elif not has_npubin:
+        status = "binary_incomplete"
     elif not has_hivm_opt:
         status = "partial_success"
     else:
@@ -687,9 +817,18 @@ def run_one(
             "M3_ttir_ttadapter_hivm_opt": (
                 "available" if has_ttir and has_ttadapter and has_hivm_opt else "incomplete"
             ),
-            "hivm_unoptimized": "available" if ir_found.get("hivm") else "missing_optional",
+            "hivm_unoptimized": "available" if has_hivm else "missing_optional",
             "npuir_debug_dump": "available" if ir_found.get("npuir") else "missing_optional",
+            "npubin": "available" if has_npubin else "missing",
+            "kernel_object": "available" if has_object else "missing_optional",
+            "kernel_shared_library": "available" if has_shared else "missing_optional",
         },
+        "compiler_save_temps": {
+            "directory": relpath(ir_root / "compiler_save_temps", role_dir),
+            "file_count": save_temps_manifest.get("file_count", 0),
+            "unique_content_count": save_temps_manifest.get("unique_content_count", 0),
+        },
+        "capture_manifest": relpath(capture_manifest_path, role_dir),
         "capture_hook_error": hook_error,
         "notes": [
             "Read candidate directly from variant/<role>.py; no manifest is used.",
@@ -697,6 +836,9 @@ def run_one(
             "Triton cache was isolated for this candidate.",
             "A direct correctness preflight must pass before any MSProf pass is run.",
             "HIVM and optimized HIVM are stored as separate IR stages.",
+            "BiShengIR save-temps is enabled per candidate and archived under ir/compiler_save_temps.",
+            "Identical IR artifacts across preflight/timing/hardware processes are deduplicated by SHA-256.",
+            "Transient capture and compiler work directories are removed after stable artifacts are archived.",
             "M3 requires an actual module.hivm.opt.mlir artifact.",
         ],
     }
@@ -753,7 +895,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--overwrite",
         action="store_true",
-        help="Replace existing data/<role> output for selected variants.",
+        help=(
+            "Archive existing data/<role> under costModel/audit/backups, "
+            "then create a fresh clean output."
+        ),
     )
     return parser.parse_args()
 
@@ -768,13 +913,22 @@ def main() -> int:
         raise ValueError("--timeout must be >= 1")
 
     info = load_operator(root, args.operator)
-    all_roles = [path.stem for path in info["variants"]]
-    selected = list(info["variants"])
+    all_variant_roles = [path.stem for path in info["variants"]]
+    official_variants = [
+        path for path in info["variants"] if is_percentile_role(path.stem)
+    ]
+    # Temporary diagnostic variants such as p50_testfix are selectable only
+    # explicitly; they are not included in normal five-percentile collection.
+    default_variants = official_variants or list(info["variants"])
+    official_roles = [path.stem for path in official_variants]
 
+    selected = list(default_variants)
     if args.role:
-        selected = [path for path in selected if path.stem == args.role]
+        selected = [path for path in info["variants"] if path.stem == args.role]
         if not selected:
-            raise ValueError(f"Unknown role {args.role!r}; available: {all_roles}")
+            raise ValueError(
+                f"Unknown role {args.role!r}; available: {all_variant_roles}"
+            )
     if args.limit is not None:
         selected = selected[:args.limit]
 
@@ -812,7 +966,7 @@ def main() -> int:
 
     info["data_dir"].mkdir(parents=True, exist_ok=True)
     # Repairs stale percentile entries by reading the actual variant filenames.
-    update_operator_config(info, all_roles)
+    update_operator_config(info, official_roles)
 
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
     history_path = info["data_dir"] / "collection_history.jsonl"
@@ -828,7 +982,13 @@ def main() -> int:
         print(f"Output : {role_dir}")
 
         if args.overwrite and role_dir.exists():
-            shutil.rmtree(role_dir)
+            backup_root = root / "costModel" / "audit" / "backups" / info["operator"]
+            backup_root.mkdir(parents=True, exist_ok=True)
+            backup_path = backup_root / f"{role}_{run_id}"
+            if backup_path.exists():
+                backup_path = backup_root / f"{role}_{run_id}_{int(time.time())}"
+            shutil.move(str(role_dir), str(backup_path))
+            print(f"[BACKUP] Previous role data moved to: {backup_path}")
 
         try:
             metadata = run_one(
@@ -843,6 +1003,26 @@ def main() -> int:
         except Exception as exc:
             print(f"[ERROR] {role}: {exc}")
             traceback.print_exc()
+            work_dir = role_dir / ".collector_work"
+            if work_dir.exists():
+                diagnostic_root = (
+                    root / "costModel" / "audit" / "failed_runs" / info["operator"]
+                )
+                diagnostic_root.mkdir(parents=True, exist_ok=True)
+                diagnostic_dir = diagnostic_root / f"{role}_{run_id}"
+                if diagnostic_dir.exists():
+                    diagnostic_dir = diagnostic_root / f"{role}_{run_id}_{int(time.time())}"
+                diagnostic_dir.mkdir(parents=True, exist_ok=True)
+                # Keep only diagnostic text/JSON/CSV; never leave work trees in data/.
+                for item in work_dir.rglob("*"):
+                    if not item.is_file():
+                        continue
+                    if item.suffix.lower() in {".log", ".txt", ".json", ".csv"}:
+                        relative = item.relative_to(work_dir)
+                        target = diagnostic_dir / relative
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(item, target)
+                shutil.rmtree(work_dir, ignore_errors=True)
             metadata = write_failed_metadata(info, role, variant, exc)
 
         metadata["run_id"] = run_id
@@ -858,7 +1038,7 @@ def main() -> int:
         print(f"IR status    : {metadata.get('ir_stage_status', {})}")
 
     # Readiness flags reflect all variants, not only this invocation's subset.
-    update_operator_config(info, all_roles)
+    update_operator_config(info, official_roles)
 
     success_count = sum(item.get("status") == "success" for item in results)
     correctness_failure_count = sum(item.get("status") == "correctness_failed" for item in results)
@@ -872,6 +1052,10 @@ def main() -> int:
         "run_id": run_id,
         "operator_name": info["operator"],
         "selected_roles": [path.stem for path in selected],
+        "official_percentile_roles": official_roles,
+        "temporary_roles_selected": [
+            path.stem for path in selected if not is_percentile_role(path.stem)
+        ],
         "selected_count": len(selected),
         "success_count": success_count,
         "partial_success_count": partial_count,

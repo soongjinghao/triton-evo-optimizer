@@ -1,0 +1,41 @@
+{
+  "candidate_id": "softplus__p0__360c46012548",
+  "candidate_role": "p0",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/softplus/variant/p0.py",
+  "historical_candidate_ids": [
+    "b9043570"
+  ],
+  "historical_device_ids": [
+    "1"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 1.900038,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "b9043570",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/b9043570.py",
+  "operator_name": "softplus",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p0",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.0,
+  "selection_population": 24,
+  "selection_rank": 1,
+  "source_path": "costModel/.datasets_staging_20261123_143416/softplus/variant/p0.py",
+  "source_sha256": "360c460125482d0a8df8574e830cb9a3808f8f1d37355d84c22646893c3b1e16",
+  "test_path": "costModel/datasets/softplus/test.py"
+}

@@ -1,21 +1,47 @@
 {
-  "operator": "_per_token_group_quant_8bit_colmajor",
-  "test_file": "costModel/datasets/_per_token_group_quant_8bit_colmajor/test.py",
-  "percentiles": [
-    "p10",
-    "p30",
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
+    "p25",
     "p50",
-    "p70",
-    "p90"
+    "p75",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_per_token_group_quant_8bit_colmajor__p0__a4126e80e7ce",
+    "_per_token_group_quant_8bit_colmajor__p25__d368d0ed0931",
+    "_per_token_group_quant_8bit_colmajor__p50__94ef94eeff6a",
+    "_per_token_group_quant_8bit_colmajor__p75__0a1df06e7bea",
+    "_per_token_group_quant_8bit_colmajor__p100__ac48b3bf8703"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 155,
+  "ir_ready": false,
+  "operator": "_per_token_group_quant_8bit_colmajor",
+  "operator_name": "_per_token_group_quant_8bit_colmajor",
+  "percentiles": [
+    "p0",
+    "p25",
+    "p50",
+    "p75",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "moderate",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 18,
+  "test_file": "costModel/datasets/_per_token_group_quant_8bit_colmajor/test.py",
+  "test_path": "costModel/datasets/_per_token_group_quant_8bit_colmajor/test.py",
+  "test_sha256": "c7aef28bf8a0bc82ecf07a9ebd0b06b8d99d13c6a794f03aed92651b91c196ae",
+  "test_source_path": "datasets2/_per_token_group_quant_8bit_colmajor/test__per_token_group_quant_8bit_colmajor_1.py",
+  "variants_ready": true
 }

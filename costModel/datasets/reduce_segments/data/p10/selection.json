@@ -1,0 +1,41 @@
+{
+  "candidate_id": "reduce_segments__p10__a1bb54b3e0d2",
+  "candidate_role": "p10",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/reduce_segments/variant/p10.py",
+  "historical_candidate_ids": [
+    "d1e6d479"
+  ],
+  "historical_device_ids": [
+    "1"
+  ],
+  "historical_generations": [
+    "2"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 2.580052,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "d1e6d479",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/d1e6d479.py",
+  "operator_name": "reduce_segments",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p10",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.1,
+  "selection_population": 46,
+  "selection_rank": 5,
+  "source_path": "costModel/.datasets_staging_20261123_143416/reduce_segments/variant/p10.py",
+  "source_sha256": "a1bb54b3e0d2f93774afadedc1230584921b99208f34cf996a86e138f1797f43",
+  "test_path": "costModel/datasets/reduce_segments/test.py"
+}

@@ -32,13 +32,18 @@ def _act_quant_kernel(
     x_abs = tl.abs(x)
     amax = tl.max(x_abs, axis=1)
     amax = tl.maximum(amax, 1e-4)
-    scale = tl.where(round_scale, tl.exp2(tl.ceil(tl.log2(amax * fp8_max_inv))), amax * fp8_max_inv)
+    if round_scale:
+        log_val = tl.log2(amax * fp8_max_inv)
+        log_ceil = tl.ceil(log_val)
+        scale = tl.exp2(log_ceil)
+    else:
+        scale = amax * fp8_max_inv
     scale_broadcast = scale[:, None]
     y = x / scale_broadcast
     y = tl.minimum(tl.maximum(y, fp8_min), fp8_max)
     y_ptrs = Y_ptr + rows[:, None] * N + cols[None, :]
     tl.store(y_ptrs, y, mask=mask)
-    s_cols = pid_n
+    s_cols = pid_n * 2
     s_ptrs = S_ptr + rows * (N // group_size) + s_cols
     s_mask = row_mask
     tl.store(s_ptrs, scale, mask=s_mask)
@@ -57,8 +62,12 @@ def act_quant(
     y_flat = y.view(-1, N)
     s = x.new_empty(*x.size()[:-1], N // block_size, dtype=torch.float32)
     s_flat = s.view(-1, N // block_size)
-    BLOCK_M = 32
-    BLOCK_N = block_size
+    if N % 256 == 0:
+        BLOCK_M = 16
+        BLOCK_N = 256
+    else:
+        BLOCK_M = 32
+        BLOCK_N = block_size
     grid = (triton.cdiv(M, BLOCK_M), triton.cdiv(N, block_size))
     round_scale = scale_fmt is not None
     _act_quant_kernel[grid](

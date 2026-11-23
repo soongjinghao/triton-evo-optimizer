@@ -1,0 +1,41 @@
+{
+  "candidate_id": "_rms_norm_kernel__p100__0668871f8819",
+  "candidate_role": "p100",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/_rms_norm_kernel/variant/p100.py",
+  "historical_candidate_ids": [
+    "c82bf638"
+  ],
+  "historical_device_ids": [
+    "1"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 351.24704,
+  "historical_methods": [
+    "mut_aggressive"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_primary_candidate_id": "c82bf638",
+  "historical_run_ids": [
+    "1"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/c82bf638.py",
+  "operator_name": "_rms_norm_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p100",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 1.0,
+  "selection_population": 131,
+  "selection_rank": 131,
+  "source_path": "costModel/.datasets_staging_20261123_143416/_rms_norm_kernel/variant/p100.py",
+  "source_sha256": "0668871f88190b9d6fe8c5994be6192a1224177d1318e207b98c639cf6f506a3",
+  "test_path": "costModel/datasets/_rms_norm_kernel/test.py"
+}

@@ -1,21 +1,47 @@
 {
-  "operator": "_rms_norm_kernel",
-  "test_file": "costModel/datasets/_rms_norm_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_rms_norm_kernel__p0__9d275b869c1f",
+    "_rms_norm_kernel__p10__b25eaf2c7e91",
+    "_rms_norm_kernel__p50__3a23fda6d5e9",
+    "_rms_norm_kernel__p90__cd3155e8daee",
+    "_rms_norm_kernel__p100__0668871f8819"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 312,
+  "ir_ready": false,
+  "operator": "_rms_norm_kernel",
+  "operator_name": "_rms_norm_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 131,
+  "test_file": "costModel/datasets/_rms_norm_kernel/test.py",
+  "test_path": "costModel/datasets/_rms_norm_kernel/test.py",
+  "test_sha256": "ce7fcc9e2882d0bb84c5fed0fc61bef56ea483bb59f1f138bebb89ae15d81872",
+  "test_source_path": "datasets2/_rms_norm_kernel/test__rms_norm_kernel_1.py",
+  "variants_ready": true
 }

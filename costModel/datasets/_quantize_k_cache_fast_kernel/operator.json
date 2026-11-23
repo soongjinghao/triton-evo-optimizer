@@ -1,21 +1,47 @@
 {
-  "operator": "_quantize_k_cache_fast_kernel",
-  "test_file": "costModel/datasets/_quantize_k_cache_fast_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_quantize_k_cache_fast_kernel__p0__3036641043b9",
+    "_quantize_k_cache_fast_kernel__p10__7be85ec99f71",
+    "_quantize_k_cache_fast_kernel__p50__9aab4b0b2bc7",
+    "_quantize_k_cache_fast_kernel__p90__d933c80fbd60",
+    "_quantize_k_cache_fast_kernel__p100__53f4d76cf3d5"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 145,
+  "ir_ready": false,
+  "operator": "_quantize_k_cache_fast_kernel",
+  "operator_name": "_quantize_k_cache_fast_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 22,
+  "test_file": "costModel/datasets/_quantize_k_cache_fast_kernel/test.py",
+  "test_path": "costModel/datasets/_quantize_k_cache_fast_kernel/test.py",
+  "test_sha256": "c07e3c50d0099a4725d12699f45c56c6105afae7ca08a1ccc230d7c2b4fbbec2",
+  "test_source_path": "datasets2/_quantize_k_cache_fast_kernel/test__quantize_k_cache_fast_kernel_1.py",
+  "variants_ready": true
 }

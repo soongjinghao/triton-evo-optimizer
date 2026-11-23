@@ -1,21 +1,47 @@
 {
-  "operator": "moe_align_block_size_stage",
-  "test_file": "costModel/datasets/moe_align_block_size_stage/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "moe_align_block_size_stage__p0__ac7bfefbdb34",
+    "moe_align_block_size_stage__p10__4a52e822b045",
+    "moe_align_block_size_stage__p50__ba71e0015fae",
+    "moe_align_block_size_stage__p90__8496775857ee",
+    "moe_align_block_size_stage__p100__40ba9d60b6da"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 862,
+  "ir_ready": false,
+  "operator": "moe_align_block_size_stage",
+  "operator_name": "moe_align_block_size_stage",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 132,
+  "test_file": "costModel/datasets/moe_align_block_size_stage/test.py",
+  "test_path": "costModel/datasets/moe_align_block_size_stage/test.py",
+  "test_sha256": "bc0c9011fbb4a294e0117d4dda392152dada1f85f3f70566d5baf8f9b5e83ba5",
+  "test_source_path": "datasets2/moe_align_block_size_stage/test_moe_align_block_size_stage_1.py",
+  "variants_ready": true
 }

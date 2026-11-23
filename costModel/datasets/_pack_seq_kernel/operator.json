@@ -1,21 +1,47 @@
 {
-  "operator": "_pack_seq_kernel",
-  "test_file": "costModel/datasets/_pack_seq_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_pack_seq_kernel__p0__e39f0bec1978",
+    "_pack_seq_kernel__p10__fc6407e35f94",
+    "_pack_seq_kernel__p50__9f94869acb74",
+    "_pack_seq_kernel__p90__06278d15bff7",
+    "_pack_seq_kernel__p100__19059b877e62"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 567,
+  "ir_ready": false,
+  "operator": "_pack_seq_kernel",
+  "operator_name": "_pack_seq_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 176,
+  "test_file": "costModel/datasets/_pack_seq_kernel/test.py",
+  "test_path": "costModel/datasets/_pack_seq_kernel/test.py",
+  "test_sha256": "0fcace02991de80bbe981ba73d83c215070d8924f984ed02da0401edc7e2fca0",
+  "test_source_path": "datasets2/_pack_seq_kernel/test__pack_seq_kernel_1.py",
+  "variants_ready": true
 }

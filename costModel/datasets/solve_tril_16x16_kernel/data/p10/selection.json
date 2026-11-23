@@ -1,0 +1,41 @@
+{
+  "candidate_id": "solve_tril_16x16_kernel__p10__c9adec4d687c",
+  "candidate_role": "p10",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/solve_tril_16x16_kernel/variant/p10.py",
+  "historical_candidate_ids": [
+    "a727d04e"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "0"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 12.080241,
+  "historical_methods": [
+    "tau_0.7"
+  ],
+  "historical_operations": [
+    "gen0_strategy_guided"
+  ],
+  "historical_primary_candidate_id": "a727d04e",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/a727d04e.py",
+  "operator_name": "solve_tril_16x16_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p10",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.1,
+  "selection_population": 35,
+  "selection_rank": 4,
+  "source_path": "costModel/.datasets_staging_20261123_143416/solve_tril_16x16_kernel/variant/p10.py",
+  "source_sha256": "c9adec4d687c1518d05e6a0c96eb06d63fec4d3f2faa4054402e1b71dc472775",
+  "test_path": "costModel/datasets/solve_tril_16x16_kernel/test.py"
+}

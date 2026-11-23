@@ -1,21 +1,47 @@
 {
-  "operator": "l2norm_fwd_kernel2",
-  "test_file": "costModel/datasets/l2norm_fwd_kernel2/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "l2norm_fwd_kernel2__p0__e82e6c080932",
+    "l2norm_fwd_kernel2__p10__d31cc93bc5aa",
+    "l2norm_fwd_kernel2__p50__99e241a58525",
+    "l2norm_fwd_kernel2__p90__17c6b8444664",
+    "l2norm_fwd_kernel2__p100__202e4e2b5966"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 533,
+  "ir_ready": false,
+  "operator": "l2norm_fwd_kernel2",
+  "operator_name": "l2norm_fwd_kernel2",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 140,
+  "test_file": "costModel/datasets/l2norm_fwd_kernel2/test.py",
+  "test_path": "costModel/datasets/l2norm_fwd_kernel2/test.py",
+  "test_sha256": "e39d65b0a6e1f9dc0ecfa83a23452ab1e8514785c56d863766e9930d6b6bad03",
+  "test_source_path": "datasets2/l2norm_fwd_kernel2/test_l2norm_fwd_kernel2_1.py",
+  "variants_ready": true
 }

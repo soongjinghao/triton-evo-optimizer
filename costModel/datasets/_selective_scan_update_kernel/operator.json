@@ -1,21 +1,47 @@
 {
-  "operator": "_selective_scan_update_kernel",
-  "test_file": "costModel/datasets/_selective_scan_update_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "_selective_scan_update_kernel__p0__5af2368a1f86",
+    "_selective_scan_update_kernel__p10__9536b9754bbc",
+    "_selective_scan_update_kernel__p50__90b384ae21c1",
+    "_selective_scan_update_kernel__p90__2b32bbcf6e19",
+    "_selective_scan_update_kernel__p100__f8ce21d287ad"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 577,
+  "ir_ready": false,
+  "operator": "_selective_scan_update_kernel",
+  "operator_name": "_selective_scan_update_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 139,
+  "test_file": "costModel/datasets/_selective_scan_update_kernel/test.py",
+  "test_path": "costModel/datasets/_selective_scan_update_kernel/test.py",
+  "test_sha256": "af063acf57be39ed697418cb8dac26c408a7915840893845c77c9472c62a3151",
+  "test_source_path": "datasets2/_selective_scan_update_kernel/test__selective_scan_update_kernel_1.py",
+  "variants_ready": true
 }

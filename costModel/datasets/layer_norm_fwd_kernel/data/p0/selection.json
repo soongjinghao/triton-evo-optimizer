@@ -1,0 +1,41 @@
+{
+  "candidate_id": "layer_norm_fwd_kernel__p0__284750f7c8fe",
+  "candidate_role": "p0",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/layer_norm_fwd_kernel/variant/p0.py",
+  "historical_candidate_ids": [
+    "814170ff"
+  ],
+  "historical_device_ids": [
+    "1"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 133.982681,
+  "historical_methods": [
+    "full"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "814170ff",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/814170ff.py",
+  "operator_name": "layer_norm_fwd_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p0",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.0,
+  "selection_population": 17,
+  "selection_rank": 1,
+  "source_path": "costModel/.datasets_staging_20261123_143416/layer_norm_fwd_kernel/variant/p0.py",
+  "source_sha256": "284750f7c8febd962b5709a6f6ecbb23234b4d28d5e4babcc6b792d51049eac7",
+  "test_path": "costModel/datasets/layer_norm_fwd_kernel/test.py"
+}

@@ -1,21 +1,47 @@
 {
-  "operator": "chunk_local_cumsum_scalar_kernel",
-  "test_file": "costModel/datasets/chunk_local_cumsum_scalar_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "chunk_local_cumsum_scalar_kernel__p0__59ed3174f40b",
+    "chunk_local_cumsum_scalar_kernel__p10__112d7cf2601d",
+    "chunk_local_cumsum_scalar_kernel__p50__0cc7a2b2fbef",
+    "chunk_local_cumsum_scalar_kernel__p90__0e19df9e8df4",
+    "chunk_local_cumsum_scalar_kernel__p100__fbfa9c4a4bc5"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 555,
+  "ir_ready": false,
+  "operator": "chunk_local_cumsum_scalar_kernel",
+  "operator_name": "chunk_local_cumsum_scalar_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 119,
+  "test_file": "costModel/datasets/chunk_local_cumsum_scalar_kernel/test.py",
+  "test_path": "costModel/datasets/chunk_local_cumsum_scalar_kernel/test.py",
+  "test_sha256": "b5f27c1a0185894156ad93240e0af68a2aa147c9e9b25bb40a752ba12a16c29d",
+  "test_source_path": "datasets2/chunk_local_cumsum_scalar_kernel/test_chunk_local_cumsum_scalar_kernel_1.py",
+  "variants_ready": true
 }

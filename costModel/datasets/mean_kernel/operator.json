@@ -1,21 +1,47 @@
 {
-  "operator": "mean_kernel",
-  "test_file": "costModel/datasets/mean_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "mean_kernel__p0__895b7c7f9d26",
+    "mean_kernel__p10__c998b32d2fca",
+    "mean_kernel__p50__acd876a82f93",
+    "mean_kernel__p90__34397c530541",
+    "mean_kernel__p100__5f2a7d6f114b"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 254,
+  "ir_ready": false,
+  "operator": "mean_kernel",
+  "operator_name": "mean_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 83,
+  "test_file": "costModel/datasets/mean_kernel/test.py",
+  "test_path": "costModel/datasets/mean_kernel/test.py",
+  "test_sha256": "0b0b1e8982fa2d58df0330a4bd6d9e331b821a18ab5ba536186e43d7235470e4",
+  "test_source_path": "datasets2/mean_kernel/test_mean_kernel_1.py",
+  "variants_ready": true
 }

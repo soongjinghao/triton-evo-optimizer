@@ -1,0 +1,41 @@
+{
+  "candidate_id": "fused_gdn_gating_kernel__p90__4216c65dd2a9",
+  "candidate_role": "p90",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/fused_gdn_gating_kernel/variant/p90.py",
+  "historical_candidate_ids": [
+    "6701170b"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "1"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 11.640466,
+  "historical_methods": [
+    "mut_aggressive"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "6701170b",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 1,
+  "historical_source_path": "experiments/dataset/codes/6701170b.py",
+  "operator_name": "fused_gdn_gating_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p90",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.9,
+  "selection_population": 149,
+  "selection_rank": 135,
+  "source_path": "costModel/.datasets_staging_20261123_143416/fused_gdn_gating_kernel/variant/p90.py",
+  "source_sha256": "4216c65dd2a9961917e62090812b7f82b4afe151bd5d753fd51580d913d7587d",
+  "test_path": "costModel/datasets/fused_gdn_gating_kernel/test.py"
+}

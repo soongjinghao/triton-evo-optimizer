@@ -1,21 +1,47 @@
 {
-  "operator": "reduce_segments",
-  "test_file": "costModel/datasets/reduce_segments/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "reduce_segments__p0__17fef1ab0b33",
+    "reduce_segments__p10__a1bb54b3e0d2",
+    "reduce_segments__p50__6fd7aaba8e08",
+    "reduce_segments__p90__3b2103c71bcb",
+    "reduce_segments__p100__aa8678759813"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 175,
+  "ir_ready": false,
+  "operator": "reduce_segments",
+  "operator_name": "reduce_segments",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 46,
+  "test_file": "costModel/datasets/reduce_segments/test.py",
+  "test_path": "costModel/datasets/reduce_segments/test.py",
+  "test_sha256": "aa0b6b0d065cd8b7a3a4a9d5e9c37da7efa9ab9954657697a21082baa5aa6354",
+  "test_source_path": "datasets2/reduce_segments/test_reduce_segments_1.py",
+  "variants_ready": true
 }

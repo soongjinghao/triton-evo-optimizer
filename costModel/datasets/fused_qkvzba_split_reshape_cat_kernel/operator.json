@@ -1,21 +1,47 @@
 {
-  "operator": "fused_qkvzba_split_reshape_cat_kernel",
-  "test_file": "costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "fused_qkvzba_split_reshape_cat_kernel__p0__316f31783849",
+    "fused_qkvzba_split_reshape_cat_kernel__p10__e274c60beba3",
+    "fused_qkvzba_split_reshape_cat_kernel__p50__673dbb307e0d",
+    "fused_qkvzba_split_reshape_cat_kernel__p90__f1eaf7f3ec1f",
+    "fused_qkvzba_split_reshape_cat_kernel__p100__8b6ac59dfaa8"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 208,
+  "ir_ready": false,
+  "operator": "fused_qkvzba_split_reshape_cat_kernel",
+  "operator_name": "fused_qkvzba_split_reshape_cat_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 52,
+  "test_file": "costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/test.py",
+  "test_path": "costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/test.py",
+  "test_sha256": "4921f6a7fb236a980d3f03b75905b0fdc530518e40cbc25601e7419b8c411dbe",
+  "test_source_path": "datasets2/fused_qkvzba_split_reshape_cat_kernel/test_fused_qkvzba_split_reshape_cat_kernel_1.py",
+  "variants_ready": true
 }

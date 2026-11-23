@@ -1,0 +1,49 @@
+{
+  "candidate_id": "_state_passing_fwd_kernel__p50__c4dc1e3fd9ba",
+  "candidate_role": "p50",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/_state_passing_fwd_kernel/variant/p50.py",
+  "historical_candidate_ids": [
+    "1d93c1fb",
+    "235cc22b",
+    "23698a24",
+    "34a0a31f",
+    "4cb2b07c"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "1",
+    "3",
+    "5",
+    "6",
+    "7"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 2.52005,
+  "historical_methods": [
+    "b2"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "1d93c1fb",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 5,
+  "historical_source_path": "experiments/dataset/codes/1d93c1fb.py",
+  "operator_name": "_state_passing_fwd_kernel",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p50",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.5,
+  "selection_population": 19,
+  "selection_rank": 10,
+  "source_path": "costModel/.datasets_staging_20261123_143416/_state_passing_fwd_kernel/variant/p50.py",
+  "source_sha256": "c4dc1e3fd9ba6d1ed8a8339940e4dd5a6b4dd3c7c9154d22c689b190f1d62880",
+  "test_path": "costModel/datasets/_state_passing_fwd_kernel/test.py"
+}

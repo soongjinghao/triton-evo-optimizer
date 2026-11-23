@@ -1,21 +1,47 @@
 {
-  "operator": "rwkv_ka_fusion_kernel",
-  "test_file": "costModel/datasets/rwkv_ka_fusion_kernel/test.py",
-  "percentiles": [
-    "p10",
-    "p30",
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
+    "p25",
     "p50",
-    "p70",
-    "p90"
+    "p75",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "rwkv_ka_fusion_kernel__p0__735a964e16c4",
+    "rwkv_ka_fusion_kernel__p25__342fb64db831",
+    "rwkv_ka_fusion_kernel__p50__dd09084045c6",
+    "rwkv_ka_fusion_kernel__p75__4efa1c56f8ae",
+    "rwkv_ka_fusion_kernel__p100__c206c63878c8"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 152,
+  "ir_ready": false,
+  "operator": "rwkv_ka_fusion_kernel",
+  "operator_name": "rwkv_ka_fusion_kernel",
+  "percentiles": [
+    "p0",
+    "p25",
+    "p50",
+    "p75",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "moderate",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 15,
+  "test_file": "costModel/datasets/rwkv_ka_fusion_kernel/test.py",
+  "test_path": "costModel/datasets/rwkv_ka_fusion_kernel/test.py",
+  "test_sha256": "ff1cb355e0262973d4bacb9b7eea7ca91606114190785f683610c2ac61ed14eb",
+  "test_source_path": "datasets2/rwkv_ka_fusion_kernel/test_rwkv_ka_fusion_kernel_1.py",
+  "variants_ready": true
 }

@@ -1,0 +1,47 @@
+{
+  "candidate_id": "softplus__p90__f1615c6e3db8",
+  "candidate_role": "p90",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/softplus/variant/p90.py",
+  "historical_candidate_ids": [
+    "253edc98",
+    "2a99c23c",
+    "3d34a0fe",
+    "8575a775"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "13",
+    "2",
+    "4",
+    "8"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 2.3200465,
+  "historical_methods": [
+    "b2"
+  ],
+  "historical_operations": [
+    "mutation"
+  ],
+  "historical_primary_candidate_id": "253edc98",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 4,
+  "historical_source_path": "experiments/dataset/codes/253edc98.py",
+  "operator_name": "softplus",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p90",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.9,
+  "selection_population": 24,
+  "selection_rank": 22,
+  "source_path": "costModel/.datasets_staging_20261123_143416/softplus/variant/p90.py",
+  "source_sha256": "f1615c6e3db8e52be91ef4bda62e1e32e1eddf581a6a3e52b738cb0ad943fb14",
+  "test_path": "costModel/datasets/softplus/test.py"
+}

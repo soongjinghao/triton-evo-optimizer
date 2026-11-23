@@ -1,21 +1,47 @@
 {
-  "operator": "compute_identity_kernel",
-  "test_file": "costModel/datasets/compute_identity_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "compute_identity_kernel__p0__fa21ec0c1f92",
+    "compute_identity_kernel__p10__2d53fd7216cd",
+    "compute_identity_kernel__p50__e4d89df0e35d",
+    "compute_identity_kernel__p90__04ee4cc15cc7",
+    "compute_identity_kernel__p100__849f35c7f607"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 835,
+  "ir_ready": false,
+  "operator": "compute_identity_kernel",
+  "operator_name": "compute_identity_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 104,
+  "test_file": "costModel/datasets/compute_identity_kernel/test.py",
+  "test_path": "costModel/datasets/compute_identity_kernel/test.py",
+  "test_sha256": "7d42cf3d38455b17b8d14b0cf860e0221207b19554b4c4e66a6154305fed8380",
+  "test_source_path": "datasets2/compute_identity_kernel/test_compute_identity_kernel_1.py",
+  "variants_ready": true
 }

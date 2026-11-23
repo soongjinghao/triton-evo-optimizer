@@ -1,0 +1,43 @@
+{
+  "candidate_id": "_trtllm_prefill_attn_kvfp8_dequant__p50__1e2275612151",
+  "candidate_role": "p50",
+  "candidate_type": "historical_evolution",
+  "compile_eligible": true,
+  "destination_path": "costModel/.datasets_staging_20261123_143416/_trtllm_prefill_attn_kvfp8_dequant/variant/p50.py",
+  "historical_candidate_ids": [
+    "adefad4d",
+    "feeb7546"
+  ],
+  "historical_device_ids": [
+    "0"
+  ],
+  "historical_generations": [
+    "1",
+    "2"
+  ],
+  "historical_hash_mismatch_count": 0,
+  "historical_latency_is_current_label": false,
+  "historical_latency_us": 2.6800535,
+  "historical_methods": [
+    "tau_0.85"
+  ],
+  "historical_operations": [
+    "crossover"
+  ],
+  "historical_primary_candidate_id": "adefad4d",
+  "historical_run_ids": [
+    "0"
+  ],
+  "historical_sample_count": 2,
+  "historical_source_path": "experiments/dataset/codes/adefad4d.py",
+  "operator_name": "_trtllm_prefill_attn_kvfp8_dequant",
+  "schema_version": "costmodel_dataset_v1",
+  "selected_role": "p50",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_percentile": 0.5,
+  "selection_population": 59,
+  "selection_rank": 30,
+  "source_path": "costModel/.datasets_staging_20261123_143416/_trtllm_prefill_attn_kvfp8_dequant/variant/p50.py",
+  "source_sha256": "1e22756121516ca36944a251e102e67393ac1025211b550411f0416d21d5995b",
+  "test_path": "costModel/datasets/_trtllm_prefill_attn_kvfp8_dequant/test.py"
+}

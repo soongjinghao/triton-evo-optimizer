@@ -1,21 +1,47 @@
 {
-  "operator": "solve_tril_16x16_kernel",
-  "test_file": "costModel/datasets/solve_tril_16x16_kernel/test.py",
-  "percentiles": [
+  "candidate_count": 5,
+  "candidate_roles": [
+    "p0",
     "p10",
-    "p30",
     "p50",
-    "p70",
-    "p90"
+    "p90",
+    "p100"
   ],
   "candidate_source_roles": [
-    "dataset_seed",
-    "historical_best",
-    "historical_p10",
-    "historical_p50",
-    "historical_p90"
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution",
+    "historical_evolution"
   ],
-  "variants_ready": false,
+  "candidates": [
+    "solve_tril_16x16_kernel__p0__7a4001a1c4be",
+    "solve_tril_16x16_kernel__p10__c9adec4d687c",
+    "solve_tril_16x16_kernel__p50__6924dbd6353d",
+    "solve_tril_16x16_kernel__p90__8594ab679fcb",
+    "solve_tril_16x16_kernel__p100__bdc5582e44bd"
+  ],
+  "correctness_ready": false,
+  "historical_log_files": 1345,
+  "historical_valid_evaluation_rows": 182,
+  "ir_ready": false,
+  "operator": "solve_tril_16x16_kernel",
+  "operator_name": "solve_tril_16x16_kernel",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
   "profiling_ready": false,
-  "ir_ready": false
+  "sample_sufficiency": "sufficient",
+  "schema_version": "costmodel_dataset_v1",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 35,
+  "test_file": "costModel/datasets/solve_tril_16x16_kernel/test.py",
+  "test_path": "costModel/datasets/solve_tril_16x16_kernel/test.py",
+  "test_sha256": "02282b927a0acf6c589b28cb6700c25738ba4c9a20c909de6779a222ae3e940c",
+  "test_source_path": "datasets2/solve_tril_16x16_kernel/test_solve_tril_16x16_kernel_1.py",
+  "variants_ready": true
 }
