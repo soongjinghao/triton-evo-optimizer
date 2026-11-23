@@ -1,0 +1,46 @@
+{
+  "operator": "_act_quant_kernel",
+  "test_file": "costModel/datasets/_act_quant_kernel/test.py",
+  "percentiles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100",
+    "p50_testfix"
+  ],
+  "candidate_source_roles": [
+    "dataset_seed",
+    "historical_best",
+    "historical_p10",
+    "historical_p50",
+    "historical_p90"
+  ],
+  "variants_ready": true,
+  "profiling_ready": false,
+  "ir_ready": false,
+  "operator_name": "_act_quant_kernel",
+  "candidate_count": 6,
+  "candidates": [
+    "_act_quant_kernel__p0__49da26ed3a8c",
+    "_act_quant_kernel__p10__e9bd2e54a01b",
+    "_act_quant_kernel__p50__2feb3d9b5441",
+    "_act_quant_kernel__p90__6d9d04541232",
+    "_act_quant_kernel__p100__5cf2715c8f7a"
+  ],
+  "candidate_roles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100",
+    "p50_testfix"
+  ],
+  "test_path": "costModel/datasets/_act_quant_kernel/test.py",
+  "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
+  "selection_population": 192,
+  "last_collector_version": "2.1.0",
+  "correctness_ready": false,
+  "m3_ir_ready": false,
+  "complete_data_ready": false
+}

@@ -1,0 +1,21 @@
+{
+  "operator": "reduce_segments",
+  "test_file": "costModel/datasets/reduce_segments/test.py",
+  "percentiles": [
+    "p10",
+    "p30",
+    "p50",
+    "p70",
+    "p90"
+  ],
+  "candidate_source_roles": [
+    "dataset_seed",
+    "historical_best",
+    "historical_p10",
+    "historical_p50",
+    "historical_p90"
+  ],
+  "variants_ready": false,
+  "profiling_ready": false,
+  "ir_ready": false
+}

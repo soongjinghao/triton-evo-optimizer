@@ -55,6 +55,7 @@ class EvaluationResult:
     speedup: float
     fitness: float
     error: Optional[str] = None
+    correctness_success: Optional[bool] = None
 
 
 class TritonExecutor:
@@ -126,6 +127,7 @@ class TritonExecutor:
         "aiv_mte3_time(us)",
         "aiv_mte3_ratio",
         "aiv_icache_miss_rate",
+        "memory_bound",
         "cube_utilization(%)",
         "aiv_vec_bankgroup_cflt_ratio",
         "aiv_vec_bank_cflt_ratio",
@@ -178,6 +180,7 @@ class TritonExecutor:
         kernel_name: str = "kernel",
         work_dir: Optional[Path] = None,
         profile_mode: Optional[str] = None,
+        correctness_preflight: bool = False,
     ):
         self.baseline_time = float(baseline_time)
         self.test_code_path = Path(test_code_path)
@@ -198,6 +201,9 @@ class TritonExecutor:
 
         self.last_profile_dir: Optional[Path] = None
         self.last_profile_error: Optional[str] = None
+        self.correctness_preflight = bool(correctness_preflight)
+        self.last_correctness_success: Optional[bool] = None
+        self.last_preflight_log: Optional[Path] = None
 
         print(f"\n[{ICONS['rocket']}] [Executor] Initializing Triton executor...")
         print(f"       └─ Operator name: {kernel_name}")
@@ -271,6 +277,60 @@ class TritonExecutor:
                     return path
         return None
 
+    def _run_correctness_preflight(self, test_file: Path, timeout: int) -> bool:
+        """Run the test directly before MSProf; MSProf can return 0 even if its app failed."""
+        log_file = self.work_dir / "preflight.log"
+        log_file.parent.mkdir(parents=True, exist_ok=True)
+        self.last_preflight_log = log_file
+        cmd = ["python3", str(test_file.resolve())]
+        print(f"[Executor] correctness preflight: {' '.join(cmd)}")
+        try:
+            with log_file.open("w", encoding="utf-8") as log:
+                result = subprocess.run(
+                    cmd,
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                    timeout=timeout,
+                    cwd=str(test_file.parent),
+                )
+            self.last_correctness_success = (result.returncode == 0)
+            if result.returncode != 0:
+                self.last_profile_error = (
+                    f"Correctness preflight failed with exit code {result.returncode}; "
+                    f"see {log_file}"
+                )
+                print(f"[Executor] ERROR: {self.last_profile_error}")
+                return False
+            print("[Executor] Correctness preflight passed")
+            return True
+        except subprocess.TimeoutExpired:
+            self.last_correctness_success = False
+            self.last_profile_error = f"Correctness preflight timed out; see {log_file}"
+            print(f"[Executor] ERROR: {self.last_profile_error}")
+            return False
+        except Exception as exc:
+            self.last_correctness_success = False
+            self.last_profile_error = f"Correctness preflight failed: {exc}"
+            print(f"[Executor] ERROR: {self.last_profile_error}")
+            return False
+
+    @staticmethod
+    def _application_log_failed(log_file: Path) -> bool:
+        """Detect application exceptions hidden behind a successful msprof exit code."""
+        try:
+            content = log_file.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            return False
+        has_traceback = "Traceback (most recent call last):" in content
+        has_exception = bool(re.search(
+            r"(?m)(AssertionError|RuntimeError|ValueError|TypeError|ImportError|"
+            r"ModuleNotFoundError|IndexError|KeyError|Exception):",
+            content,
+        ))
+        has_runtime_failure = "ERR99999 UNKNOWN" in content
+        return (has_traceback and has_exception) or has_runtime_failure
+
     def _run_msprof_pass(
         self,
         test_file: Path,
@@ -305,6 +365,13 @@ class TritonExecutor:
                     f"see {log_file}"
                 )
                 print(f"[Executor] WARNING: {self.last_profile_error}")
+                return False, cmd
+            if self._application_log_failed(log_file):
+                self.last_profile_error = (
+                    f"{pass_name} application failed inside MSProf even though the "
+                    f"MSProf process returned 0; see {log_file}"
+                )
+                print(f"[Executor] ERROR: {self.last_profile_error}")
                 return False, cmd
             if self._find_latest_prof_dir(output_dir) is None:
                 self.last_profile_error = (
@@ -395,6 +462,39 @@ class TritonExecutor:
         result["active_core_count"] = active
         return result
 
+    def _core_from_op_summary(
+        self, kernel_record: Dict[str, Any], fields: List[str], task_type: str
+    ) -> Dict[str, Any]:
+        values = {
+            field.removeprefix("aic_").removeprefix("aiv_"): self._number(
+                kernel_record.get(field)
+            )
+            for field in fields
+            if field in kernel_record
+        }
+        if not values:
+            return {}
+        numeric = [value for value in values.values() if value is not None]
+        normalized_task = (task_type or "").upper()
+        applicability = "available"
+        if normalized_task == "AI_VECTOR_CORE" and fields and all(
+            field.startswith("aic_") for field in fields
+        ):
+            applicability = "not_applicable_for_task_type"
+        elif normalized_task == "AI_CORE" and fields and all(
+            field.startswith("aiv_") for field in fields
+        ):
+            applicability = "not_applicable_for_task_type"
+        return {
+            "source": "op_summary_task",
+            "task_type": task_type or None,
+            "applicability": applicability,
+            "record_count": 1,
+            "active_record_count": 1 if any(value > 0 for value in numeric) else 0,
+            **{f"{field}_mean": value for field, value in values.items()},
+            **{f"{field}_max": value for field, value in values.items()},
+        }
+
     def _extract_compact_profile(
         self,
         timing_dir: Path,
@@ -438,14 +538,28 @@ class TritonExecutor:
 
         ai_core_path = self._find_csv(source_dir, "ai_core_utilization")
         ai_vector_path = self._find_csv(source_dir, "ai_vector_core_utilization")
+        task_type = str(kernel_record.get("Task Type", ""))
+        ai_core_fields = [
+            "aic_mac_ratio", "aic_scalar_ratio", "aic_mte1_ratio",
+            "aic_mte2_ratio", "aic_fixpipe_ratio", "aic_icache_miss_rate",
+        ]
+        ai_vector_fields = [
+            "aiv_vec_ratio", "aiv_mac_ratio", "aiv_scalar_ratio",
+            "aiv_mte1_ratio", "aiv_mte2_ratio", "aiv_mte3_ratio",
+            "aiv_icache_miss_rate", "memory_bound",
+        ]
         ai_core = self._aggregate_core_csv(
             ai_core_path,
             ["mac_ratio", "scalar_ratio", "mte1_ratio", "mte2_ratio", "fixpipe_ratio", "icache_miss_rate"],
-        ) if ai_core_path else {}
+        ) if ai_core_path else self._core_from_op_summary(
+            kernel_record, ai_core_fields, task_type
+        )
         ai_vector = self._aggregate_core_csv(
             ai_vector_path,
             ["vec_ratio", "mac_ratio", "scalar_ratio", "mte1_ratio", "mte2_ratio", "mte3_ratio", "icache_miss_rate", "memory_bound"],
-        ) if ai_vector_path else {}
+        ) if ai_vector_path else self._core_from_op_summary(
+            kernel_record, ai_vector_fields, task_type
+        )
 
         hbm_path = self._find_csv(source_dir, "hbm")
         hbm_rows = self._read_csv(hbm_path) if hbm_path else []
@@ -453,13 +567,18 @@ class TritonExecutor:
         if hbm_avg is None and hbm_rows:
             hbm_avg = hbm_rows[0]
         hbm = {
+            "scope": "device_level_sampled_bandwidth",
+            "sample_count": len(hbm_rows),
             "read_mb_s": self._number(hbm_avg.get("Read(MB/s)")) if hbm_avg else None,
             "write_mb_s": self._number(hbm_avg.get("Write(MB/s)")) if hbm_avg else None,
         }
 
         llc_path = self._find_csv(source_dir, "llc_read_write")
         llc_rows = self._read_csv(llc_path) if llc_path else []
-        llc: Dict[str, Any] = {}
+        llc: Dict[str, Any] = {
+            "scope": "device_level_llc_profile",
+            "sample_count": len(llc_rows),
+        }
         for mode in ("read", "write"):
             candidates = [r for r in llc_rows if str(r.get("Mode", "")).lower() == mode]
             avg = next((r for r in candidates if str(r.get("Task", "")).lower() == "average"), None)
@@ -489,7 +608,7 @@ class TritonExecutor:
         app_rows = [r for r in npu_mem_rows if str(r.get("event", "")).upper() == "APP"]
         if not app_rows:
             app_rows = npu_mem_rows
-        npu_memory: Dict[str, Any] = {}
+        npu_memory: Dict[str, Any] = {"scope": "application_level_sampled_memory"}
         for source_field, output_field in (
             ("ddr(KB)", "ddr_kb"),
             ("hbm(KB)", "hbm_kb"),
@@ -502,6 +621,66 @@ class TritonExecutor:
             npu_memory[f"{output_field}_peak"] = max(values) if values else None
             npu_memory[f"{output_field}_mean"] = self._median(values)
 
+        npu_module_mem_path = self._find_csv(source_dir, "npu_module_mem")
+        npu_module_rows = self._read_csv(npu_module_mem_path) if npu_module_mem_path else []
+        module_memory: Dict[str, Any] = {}
+        grouped_module_values: Dict[str, List[float]] = {}
+        for row in npu_module_rows:
+            component = str(row.get("Component", "Unknown")).strip() or "Unknown"
+            value = self._number(row.get("Total Reserved(KB)"))
+            if value is not None:
+                grouped_module_values.setdefault(component, []).append(value)
+        for component, values in grouped_module_values.items():
+            if not values or max(values) <= 0:
+                continue
+            module_memory[component] = {
+                "reserved_kb_peak": max(values),
+                "reserved_kb_mean": statistics.fmean(values),
+                "sample_count": len(values),
+            }
+
+        npu_timestamps = [
+            n for n in (self._number(row.get("timestamp(us)")) for row in app_rows)
+            if n is not None
+        ]
+        npu_memory["sample_count"] = len(app_rows)
+        npu_memory["timestamp_start_us"] = min(npu_timestamps) if npu_timestamps else None
+        npu_memory["timestamp_end_us"] = max(npu_timestamps) if npu_timestamps else None
+        npu_memory["sampling_span_us"] = (
+            max(npu_timestamps) - min(npu_timestamps)
+            if len(npu_timestamps) >= 2 else None
+        )
+
+        hardware_task_duration = self._number(kernel_record.get("Task Duration(us)"))
+        timing_difference = (
+            abs(timing - hardware_task_duration)
+            if timing is not None and hardware_task_duration is not None else None
+        )
+        timing_relative_difference = (
+            timing_difference / max(abs(timing), abs(hardware_task_duration)) * 100.0
+            if timing_difference is not None and max(abs(timing), abs(hardware_task_duration)) > 0
+            else None
+        )
+        timing_consistent = (
+            timing_relative_difference <= 20.0
+            if timing_relative_difference is not None else None
+        )
+
+        metric_coverage = {
+            "kernel_task_duration": hardware_task_duration is not None,
+            "aic_pipeline_from_op_summary_or_csv": bool(ai_core) and ai_core.get("applicability") != "not_applicable_for_task_type",
+            "aiv_pipeline_from_op_summary_or_csv": bool(ai_vector) and ai_vector.get("applicability") != "not_applicable_for_task_type",
+            "task_type": task_type or None,
+            "hbm_read_bandwidth": hbm["read_mb_s"] is not None,
+            "hbm_write_bandwidth": hbm["write_mb_s"] is not None,
+            "llc_read": llc["read_hit_rate_pct"] is not None and llc["read_throughput_mb_s"] is not None,
+            "llc_write": llc["write_hit_rate_pct"] is not None and llc["write_throughput_mb_s"] is not None,
+            "npu_memory": bool(npu_mem_rows),
+            "npu_module_memory": bool(module_memory),
+            "aic_applicability": ai_core.get("applicability", "missing"),
+            "aiv_applicability": ai_vector.get("applicability", "missing"),
+        }
+
         summary = {
             "schema_version": "costmodel_msprof_v1",
             "kernel_name": self.kernel_name,
@@ -511,6 +690,12 @@ class TritonExecutor:
                 "source": timing_source,
                 "sample_count": timing_samples,
                 "task_time_cross_check": task_time_validation,
+                "hardware_pass_task_duration_us": hardware_task_duration,
+                "cross_pass_difference_us": timing_difference,
+                "cross_pass_relative_difference_pct": timing_relative_difference,
+                "cross_pass_consistent_20pct": timing_consistent,
+                "label_valid": timing_consistent is True,
+                "label_execution_time_us": timing if timing_consistent is True else None,
             },
             "kernel": kernel_record,
             "core_utilization": {
@@ -521,7 +706,9 @@ class TritonExecutor:
                 "hbm": hbm,
                 "llc": llc,
                 "npu_memory": npu_memory,
+                "npu_module_memory": module_memory,
             },
+            "metric_coverage": metric_coverage,
             "collection": {
                 "hardware_profile_success": metrics_success,
                 "op_summary_rows_for_kernel": len(kernel_rows),
@@ -532,6 +719,7 @@ class TritonExecutor:
                     "hbm": str(hbm_path) if hbm_path else None,
                     "llc_read_write": str(llc_path) if llc_path else None,
                     "npu_mem": str(npu_mem_path) if npu_mem_path else None,
+                    "npu_module_mem": str(npu_module_mem_path) if npu_module_mem_path else None,
                     "task_time": str(task_time_path) if task_time_path else None,
                 },
                 "commands": commands,
@@ -633,7 +821,13 @@ class TritonExecutor:
             test_file.write_text(modified_test, encoding="utf-8")
             print(f"       └─ Candidate code length: {len(code)} characters")
 
-            current_time = self._run_msprof(test_file, timeout=timeout)
+            if self.correctness_preflight:
+                if not self._run_correctness_preflight(test_file, timeout=timeout):
+                    current_time = None
+                else:
+                    current_time = self._run_msprof(test_file, timeout=timeout)
+            else:
+                current_time = self._run_msprof(test_file, timeout=timeout)
         except Exception as exc:
             current_time = None
             self.last_profile_error = f"Evaluation setup failed: {exc}"
@@ -648,6 +842,7 @@ class TritonExecutor:
                 speedup=0.0,
                 fitness=0.0,
                 error=self.last_profile_error or "Performance test failed",
+                correctness_success=self.last_correctness_success,
             )
 
         print(f"[{ICONS['check']}] [Executor] Timing pass completed")
@@ -676,4 +871,5 @@ class TritonExecutor:
             speedup=speedup,
             fitness=fitness,
             error=None,
+            correctness_success=self.last_correctness_success,
         )
