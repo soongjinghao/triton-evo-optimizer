@@ -1,0 +1,43 @@
+{
+  "functionName": "matmul_kernel_simplified",
+  "schema": "mlir_region_cfg_v2",
+  "numRegions": 10,
+  "numBlocks": 8,
+  "numEdges": 9,
+  "regionBranchOpCount": 3,
+  "unsupportedRegionCount": 0,
+  "regions": [
+    {"id": 0, "ownerOp": "func.func", "parentRegion": null, "depth": 0, "blocks": [0]},
+    {"id": 1, "ownerOp": "linalg.fill", "parentRegion": 0, "depth": 1, "blocks": [1]},
+    {"id": 2, "ownerOp": "scf.for", "parentRegion": 0, "depth": 1, "blocks": [2]},
+    {"id": 3, "ownerOp": "scf.if", "parentRegion": 2, "depth": 2, "blocks": [3]},
+    {"id": 4, "ownerOp": "linalg.fill", "parentRegion": 3, "depth": 3, "blocks": [4]},
+    {"id": 5, "ownerOp": "scf.if", "parentRegion": 2, "depth": 2, "blocks": []},
+    {"id": 6, "ownerOp": "scf.if", "parentRegion": 2, "depth": 2, "blocks": [5]},
+    {"id": 7, "ownerOp": "linalg.fill", "parentRegion": 6, "depth": 3, "blocks": [6]},
+    {"id": 8, "ownerOp": "scf.if", "parentRegion": 2, "depth": 2, "blocks": []},
+    {"id": 9, "ownerOp": "linalg.matmul", "parentRegion": 2, "depth": 2, "blocks": [7]}
+  ],
+  "blocks": [
+    {"id": 0, "name": "BB0", "regionId": 0, "blockIndex": 0, "argumentCount": 17, "operations": ["arith.constant", "arith.constant", "arith.constant", "arith.constant", "arith.constant", "arith.constant", "arith.constant", "arith.constant", "arith.constant", "tensor.empty", "linalg.fill", "arith.addi", "arith.divsi", "arith.addi", "arith.divsi", "arith.muli", "arith.divsi", "arith.muli", "arith.subi", "arith.minsi", "arith.remsi", "arith.addi", "arith.remsi", "arith.divsi", "arith.muli", "arith.muli", "arith.addi", "arith.divsi", "arith.muli", "arith.index_cast", "arith.index_cast", "arith.muli", "arith.index_cast", "arith.index_cast", "scf.for", "arith.index_cast", "arith.muli", "arith.addi", "memref.reinterpret_cast", "arith.addi", "arith.index_cast", "arith.maxsi", "arith.minsi", "arith.subi", "arith.addi", "arith.index_cast", "arith.maxsi", "arith.minsi", "arith.subi", "arith.minsi", "arith.maxsi", "arith.minsi", "arith.maxsi", "tensor.extract_slice", "memref.subview", "bufferization.materialize_in_destination", "func.return"], "predecessors": [0, 2], "successors": [2, 0]},
+    {"id": 1, "name": "BB1", "regionId": 1, "blockIndex": 0, "argumentCount": 2, "operations": ["linalg.yield"], "predecessors": [], "successors": []},
+    {"id": 2, "name": "BB2", "regionId": 2, "blockIndex": 0, "argumentCount": 4, "operations": ["memref.reinterpret_cast", "arith.addi", "memref.reinterpret_cast", "arith.muli", "arith.subi", "memref.alloc", "arith.addi", "arith.index_cast", "arith.maxsi", "arith.minsi", "arith.subi", "arith.index_cast", "arith.maxsi", "arith.minsi", "arith.minsi", "arith.maxsi", "arith.minsi", "arith.maxsi", "arith.cmpi", "arith.cmpi", "arith.ori", "scf.if", "memref.subview", "memref.subview", "memref.copy", "bufferization.to_tensor", "memref.alloc", "arith.addi", "arith.index_cast", "arith.maxsi", "arith.minsi", "arith.subi", "arith.minsi", "arith.maxsi", "arith.cmpi", "arith.ori", "scf.if", "memref.subview", "memref.subview", "memref.copy", "bufferization.to_tensor", "linalg.matmul", "arith.addi", "arith.index_cast", "arith.addi", "scf.yield"], "predecessors": [2, 3, 5, 0], "successors": [3, 2, 5, 0]},
+    {"id": 3, "name": "BB3", "regionId": 3, "blockIndex": 0, "argumentCount": 0, "operations": ["linalg.fill", "scf.yield"], "predecessors": [2], "successors": [2]},
+    {"id": 4, "name": "BB4", "regionId": 4, "blockIndex": 0, "argumentCount": 2, "operations": ["linalg.yield"], "predecessors": [], "successors": []},
+    {"id": 5, "name": "BB5", "regionId": 6, "blockIndex": 0, "argumentCount": 0, "operations": ["linalg.fill", "scf.yield"], "predecessors": [2], "successors": [2]},
+    {"id": 6, "name": "BB6", "regionId": 7, "blockIndex": 0, "argumentCount": 2, "operations": ["linalg.yield"], "predecessors": [], "successors": []},
+    {"id": 7, "name": "BB7", "regionId": 9, "blockIndex": 0, "argumentCount": 3, "operations": ["arith.mulf", "arith.addf", "linalg.yield"], "predecessors": [], "successors": []}
+  ],
+  "edges": [
+    {"source": 2, "target": 3, "kind": "region_entry", "ownerOp": "scf.if"},
+    {"source": 2, "target": 2, "kind": "region_bypass", "ownerOp": "scf.if"},
+    {"source": 3, "target": 2, "kind": "region_exit", "ownerOp": "scf.if"},
+    {"source": 2, "target": 5, "kind": "region_entry", "ownerOp": "scf.if"},
+    {"source": 5, "target": 2, "kind": "region_exit", "ownerOp": "scf.if"},
+    {"source": 0, "target": 2, "kind": "region_entry", "ownerOp": "scf.for"},
+    {"source": 0, "target": 0, "kind": "region_bypass", "ownerOp": "scf.for"},
+    {"source": 2, "target": 2, "kind": "region_loop", "ownerOp": "scf.for"},
+    {"source": 2, "target": 0, "kind": "region_exit", "ownerOp": "scf.for"}
+  ],
+  "controlFlowSemantics": "V2 records explicit block successors and RegionBranchOpInterface entry/exit transitions. Region-to-block value forwarding is not yet exported as DFG edges."
+}

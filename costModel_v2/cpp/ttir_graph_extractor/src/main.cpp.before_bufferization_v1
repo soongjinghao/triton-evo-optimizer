@@ -1,0 +1,273 @@
+
+#include "TritonToGraph/AliasAnalysis.h"
+#include "TritonToGraph/ControlFlowGraphBuilder.h"
+#include "TritonToGraph/DataflowGraph.h"
+
+#include "mlir/Dialect/Arith/IR/Arith.h"
+#include "mlir/Dialect/Affine/IR/AffineOps.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
+#include "mlir/Dialect/Linalg/IR/Linalg.h"
+#include "mlir/Dialect/MemRef/IR/MemRef.h"
+#include "mlir/Dialect/Vector/IR/VectorOps.h"
+#include "bishengir/Dialect/Annotation/IR/Annotation.h"
+#include "bishengir/Dialect/HACC/IR/HACC.h"
+#include "bishengir/Dialect/HFusion/IR/HFusion.h"
+#include "bishengir/Dialect/HIVM/IR/HIVM.h"
+#include "mlir/Dialect/ControlFlow/IR/ControlFlow.h"
+#include "mlir/Dialect/GPU/IR/GPUDialect.h"
+#include "mlir/Dialect/Math/IR/Math.h"
+#include "mlir/Dialect/SCF/IR/SCF.h"
+#include "mlir/Dialect/Tensor/IR/Tensor.h"
+
+#include "mlir/IR/BuiltinOps.h"
+#include "mlir/IR/DialectRegistry.h"
+#include "mlir/IR/MLIRContext.h"
+#include "mlir/Parser/Parser.h"
+
+#include "triton/Dialect/Triton/IR/Dialect.h"
+#include "triton/Dialect/TritonGPU/IR/Dialect.h"
+
+#include "llvm/ADT/SmallString.h"
+#include "llvm/Support/CommandLine.h"
+#include "llvm/Support/FileSystem.h"
+#include "llvm/Support/Path.h"
+#include "llvm/Support/raw_ostream.h"
+
+#include <cctype>
+#include <string>
+
+using namespace mlir;
+using namespace mlir::triton::cfg;
+
+static llvm::cl::opt<std::string> InputFile(
+    llvm::cl::Positional,
+    llvm::cl::desc("<input TTIR MLIR file>"),
+    llvm::cl::Required);
+
+static llvm::cl::opt<std::string> OutputDir(
+    "output-dir",
+    llvm::cl::desc("Output directory"),
+    llvm::cl::init("graph_output"));
+
+static llvm::cl::opt<bool> ParseOnly(
+    "parse-only",
+    llvm::cl::desc("Only parse MLIR without graph extraction"),
+    llvm::cl::init(false));
+
+static std::string sanitizeName(const std::string &name) {
+  std::string result;
+
+  for (unsigned char c : name) {
+    if (std::isalnum(c) || c == '_' || c == '-') {
+      result += static_cast<char>(c);
+    } else {
+      result += '_';
+    }
+  }
+
+  return result.empty() ? "kernel" : result;
+}
+
+static bool writeCFG(
+    ControlFlowGraph &cfg,
+    const llvm::SmallString<256> &path) {
+
+  std::error_code ec;
+  llvm::raw_fd_ostream os(
+      path, ec, llvm::sys::fs::OF_Text);
+
+  if (ec) {
+    llvm::errs() << "[error] Cannot create CFG file: "
+                 << ec.message() << "\n";
+    return false;
+  }
+
+  cfg.exportToJSON(os);
+  os.flush();
+
+  if (os.has_error()) {
+    llvm::errs() << "[error] Failed writing CFG JSON\n";
+    return false;
+  }
+
+  return true;
+}
+
+static bool writeDFG(
+    DataFlowGraph &dfg,
+    const llvm::SmallString<256> &path) {
+
+  std::error_code ec;
+  llvm::raw_fd_ostream os(
+      path, ec, llvm::sys::fs::OF_Text);
+
+  if (ec) {
+    llvm::errs() << "[error] Cannot create DFG file: "
+                 << ec.message() << "\n";
+    return false;
+  }
+
+  dfg.exportToJSON(os);
+  os.flush();
+
+  if (os.has_error()) {
+    llvm::errs() << "[error] Failed writing DFG JSON\n";
+    return false;
+  }
+
+  return true;
+}
+
+int main(int argc, char **argv) {
+
+  llvm::cl::ParseCommandLineOptions(
+      argc, argv, "Triton TTIR CFG/DFG Extractor\n");
+
+  llvm::errs() << "========================================\n";
+  llvm::errs() << "Triton TTIR Graph Extractor\n";
+  llvm::errs() << "========================================\n";
+
+  // 1. Register required dialects.
+  DialectRegistry registry;
+
+  registry.insert<
+      mlir::triton::TritonDialect,
+      mlir::triton::gpu::TritonGPUDialect,
+      mlir::arith::ArithDialect,
+      mlir::cf::ControlFlowDialect,
+      mlir::scf::SCFDialect,
+      mlir::math::MathDialect,
+      mlir::tensor::TensorDialect,
+      mlir::gpu::GPUDialect,
+      mlir::func::FuncDialect,
+      mlir::affine::AffineDialect,
+      mlir::linalg::LinalgDialect,
+      mlir::memref::MemRefDialect,
+      mlir::vector::VectorDialect,
+      mlir::annotation::AnnotationDialect,
+      mlir::hacc::HACCDialect,
+      mlir::hfusion::HFusionDialect,
+      mlir::hivm::HIVMDialect>();
+
+  MLIRContext context(registry);
+
+  // Allow opaque Ascend-specific metadata in TTIR,
+  // such as the HACC target attribute.
+  context.allowUnregisteredDialects();
+
+  context.loadAllAvailableDialects();
+
+  // 2. Parse TTIR.
+  llvm::errs() << "[1/4] Parsing TTIR: "
+               << InputFile << "\n";
+
+  auto module =
+      parseSourceFile<ModuleOp>(InputFile, &context);
+
+  if (!module) {
+    llvm::errs() << "[error] Failed to parse TTIR\n";
+    return 1;
+  }
+
+  if (ParseOnly) {
+    llvm::errs() << "[PASS] MLIR parsing completed\\n";
+    return 0;
+  }
+
+  // 3. Create output directory.
+  std::error_code ec =
+      llvm::sys::fs::create_directories(OutputDir);
+
+  if (ec) {
+    llvm::errs() << "[error] Cannot create output directory: "
+                 << ec.message() << "\n";
+    return 1;
+  }
+
+  int functionCount = 0;
+  int successCount = 0;
+  int failureCount = 0;
+
+  // 4. Extract CFG and DFG for each Triton function.
+  module->walk([&](mlir::triton::FuncOp func) {
+
+    ++functionCount;
+
+    std::string functionName =
+        sanitizeName(func.getName().str());
+
+    llvm::errs() << "\n[2/4] Processing function: "
+                 << functionName << "\n";
+
+    // Build CFG.
+    ControlFlowGraphBuilder builder;
+    auto cfg = builder.build(func);
+
+    if (!cfg) {
+      llvm::errs() << "[error] CFG construction failed\n";
+      ++failureCount;
+      return;
+    }
+
+    llvm::errs() << "  CFG construction: success\n";
+
+    // Build Alias Analysis.
+    AliasAnalysis aliasAnalysis;
+    aliasAnalysis.analyzePointerAliases(*cfg);
+
+    llvm::errs() << "  Alias analysis: success\n";
+
+    // Build DataFlowGraph with Memory SSA.
+    DataFlowGraph dfg(*cfg, aliasAnalysis);
+    dfg.build();
+
+    llvm::errs() << "  DFG construction: success\n";
+
+    // Output paths.
+    llvm::SmallString<256> cfgPath(OutputDir);
+    llvm::SmallString<256> dfgPath(OutputDir);
+
+    llvm::sys::path::append(
+        cfgPath, functionName + "_cfg.json");
+
+    llvm::sys::path::append(
+        dfgPath, functionName + "_dataflow.json");
+
+    // Export CFG.
+    bool cfgOK = writeCFG(*cfg, cfgPath);
+
+    // Export DFG.
+    bool dfgOK = writeDFG(dfg, dfgPath);
+
+    if (cfgOK && dfgOK) {
+      ++successCount;
+
+      llvm::errs() << "  CFG: " << cfgPath << "\n";
+      llvm::errs() << "  DFG: " << dfgPath << "\n";
+      llvm::errs() << "  Export: success\n";
+    } else {
+      ++failureCount;
+    }
+  });
+
+  // Final summary.
+  llvm::errs() << "\n========================================\n";
+  llvm::errs() << "Extraction Summary\n";
+  llvm::errs() << "========================================\n";
+
+  llvm::errs() << "Functions found : "
+               << functionCount << "\n";
+
+  llvm::errs() << "Successful      : "
+               << successCount << "\n";
+
+  llvm::errs() << "Failed          : "
+               << failureCount << "\n";
+
+  llvm::errs() << "Output directory: "
+               << OutputDir << "\n";
+
+  llvm::errs() << "========================================\n";
+
+  return functionCount > 0 && failureCount == 0 ? 0 : 1;
+}

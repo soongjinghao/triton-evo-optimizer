@@ -1,0 +1,143 @@
+// -----// IR Dump After InferHIVMDataLayout (hivm-infer-data-layout) //----- //
+func.func @matmul_kernel_simplified(%arg0: i64 {hacc.arg_type = #hacc.arg_type<ffts_base_address>}, %arg1: memref<?xi8, #hivm.address_space<gm>> {hacc.arg_type = #hacc.arg_type<sync_block_lock>}, %arg2: memref<?xi8, #hivm.address_space<gm>> {hacc.arg_type = #hacc.arg_type<workspace>}, %arg3: memref<?xf32, #hivm.address_space<gm>> {tt.divisibility = 16 : i32, tt.tensor_kind = 0 : i32}, %arg4: memref<?xf32, #hivm.address_space<gm>> {tt.divisibility = 16 : i32, tt.tensor_kind = 0 : i32}, %arg5: memref<?xf32, #hivm.address_space<gm>> {tt.divisibility = 16 : i32, tt.tensor_kind = 1 : i32}, %arg6: i32 {tt.divisibility = 16 : i32}, %arg7: i32 {tt.divisibility = 16 : i32}, %arg8: i32 {tt.divisibility = 16 : i32}, %arg9: i32 {tt.divisibility = 16 : i32}, %arg10: i32 {tt.divisibility = 16 : i32}, %arg11: i32 {tt.divisibility = 16 : i32}, %arg12: i32, %arg13: i32, %arg14: i32) attributes {SyncBlockLockArgIdx = 0 : i64, WorkspaceArgIdx = 1 : i64, func_dyn_memref_args = dense<[false, true, true, true, true, true, false, false, false, false, false, false, false, false, false]> : vector<15xi1>, hacc.entry, hacc.function_kind = #hacc.function_kind<DEVICE>, hivm.func_core_type = #hivm.func_core_type<AIC>, hivm.storage_aligned, mix_mode = "mix", parallel_mode = "simd"} {
+  %cst = arith.constant 0.000000e+00 : f32
+  %c64_i32 = arith.constant 64 : i32
+  %c0_i32 = arith.constant 0 : i32
+  %c63_i32 = arith.constant 63 : i32
+  %c8_i32 = arith.constant 8 : i32
+  %c0 = arith.constant 0 : index
+  %c64 = arith.constant 64 : index
+  %c1_i32 = arith.constant 1 : i32
+  %c24_i32 = arith.constant 24 : i32
+  %0 = arith.muli %arg12, %arg13 : i32
+  %1 = arith.muli %0, %arg14 : i32
+  annotation.mark %1 {logical_block_num} : i32
+  %2 = hivm.hir.get_block_idx -> i64
+  %3 = arith.trunci %2 : i64 to i32
+  %4 = arith.muli %arg14, %arg13 : i32
+  %5 = arith.addi %arg6, %c63_i32 : i32
+  %6 = arith.divsi %5, %c64_i32 : i32
+  %7 = arith.addi %arg7, %c63_i32 : i32
+  %8 = arith.divsi %7, %c64_i32 : i32
+  %9 = arith.muli %8, %c8_i32 : i32
+  %10 = arith.addi %arg8, %c63_i32 : i32
+  %11 = arith.divsi %10, %c64_i32 : i32
+  %12 = arith.muli %arg10, %c64_i32 : i32
+  %13 = arith.index_cast %arg9 : i32 to index
+  %14 = arith.index_cast %arg10 : i32 to index
+  %15 = arith.index_cast %arg6 : i32 to index
+  %16 = arith.index_cast %arg7 : i32 to index
+  %17 = arith.index_cast %12 : i32 to index
+  %18 = arith.index_cast %arg11 : i32 to index
+  scf.for %arg15 = %3 to %1 step %c24_i32  : i32 {
+    hivm.hir.set_mask_norm
+    %19 = arith.divsi %arg15, %4 : i32
+    %20 = arith.remsi %19, %arg12 : i32
+    %21 = arith.divsi %20, %9 : i32
+    %22 = arith.muli %21, %c8_i32 : i32
+    %23 = arith.subi %6, %22 : i32
+    %24 = arith.minsi %23, %c8_i32 : i32
+    %25 = arith.remsi %20, %24 : i32
+    %26 = arith.addi %22, %25 : i32
+    %27 = arith.remsi %20, %9 : i32
+    %28 = arith.divsi %27, %24 : i32
+    %29 = arith.muli %26, %c64_i32 : i32
+    %30 = arith.muli %28, %c64_i32 : i32
+    %31 = arith.index_cast %29 : i32 to index
+    %32 = affine.apply affine_map<()[s0, s1] -> (s0 * s1)>()[%31, %13]
+    %33 = arith.index_cast %30 : i32 to index
+    %34 = affine.max affine_map<()[s0, s1] -> (s1, s0)>()[%31, %15]
+    %35 = affine.min affine_map<()[s0, s1] -> (s1 + 64, s0)>()[%34, %31]
+    %36 = affine.min affine_map<()[s0, s1] -> (64, s0 - s1)>()[%35, %31]
+    %37 = affine.max affine_map<()[s0] -> (0, s0)>()[%36]
+    %38 = arith.cmpi slt, %37, %c64 : index
+    %39 = affine.max affine_map<()[s0, s1] -> (s1, s0)>()[%33, %16]
+    %40 = affine.min affine_map<()[s0, s1] -> (s1 + 64, s0)>()[%39, %33]
+    %41 = affine.min affine_map<()[s0, s1] -> (64, s0 - s1)>()[%40, %33]
+    %42 = affine.max affine_map<()[s0] -> (0, s0)>()[%41]
+    %43 = arith.cmpi slt, %42, %c64 : index
+    %c64_0 = arith.constant 64 : index
+    %c64_1 = arith.constant 64 : index
+    %44 = affine.apply affine_map<()[s0, s1] -> ((s0 + 15) floordiv 16)>()[%c64_0, %c64_1]
+    %45 = affine.apply affine_map<()[s0, s1] -> ((s1 + 15) floordiv 16)>()[%c64_0, %c64_1]
+    %c16 = arith.constant 16 : index
+    %c16_2 = arith.constant 16 : index
+    %alloc = memref.alloc(%45, %44, %c16, %c16_2) {alignment = 64 : i64} : memref<?x?x?x?xf32, #hivm.address_space<cc>>
+    %46:2 = scf.for %arg16 = %c0_i32 to %11 step %c1_i32 iter_args(%arg17 = %32, %arg18 = %c0) -> (index, index)  : i32 {
+      %reinterpret_cast_8 = memref.reinterpret_cast %arg3 to offset: [%arg17], sizes: [64, 64], strides: [%13, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<64x64xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %54 = affine.apply affine_map<()[s0, s1] -> (s0 + s1)>()[%arg18, %33]
+      %reinterpret_cast_9 = memref.reinterpret_cast %arg4 to offset: [%54], sizes: [64, 64], strides: [%14, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<64x64xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %55 = arith.muli %arg16, %c64_i32 : i32
+      %56 = arith.subi %arg8, %55 : i32
+      %c64_10 = arith.constant 64 : index
+      %c64_11 = arith.constant 64 : index
+      %57 = affine.apply affine_map<()[s0, s1] -> ((s0 + 15) floordiv 16)>()[%c64_10, %c64_11]
+      %58 = affine.apply affine_map<()[s0, s1] -> ((s1 + 7) floordiv 8)>()[%c64_10, %c64_11]
+      %c16_12 = arith.constant 16 : index
+      %c8 = arith.constant 8 : index
+      %alloc_13 = memref.alloc(%58, %57, %c16_12, %c8) : memref<?x?x?x?xf32, #hivm.address_space<cbuf>>
+      %59 = arith.index_cast %56 : i32 to index
+      %60 = affine.max affine_map<()[s0] -> (0, s0)>()[%59]
+      %61 = affine.min affine_map<()[s0] -> (64, s0)>()[%60]
+      %62 = affine.max affine_map<()[s0] -> (0, s0)>()[%61]
+      %63 = arith.cmpi slt, %62, %c64 : index
+      %64 = arith.ori %38, %63 : i1
+      %subview_14 = memref.subview %reinterpret_cast_8[0, 0] [%37, %62] [1, 1] : memref<64x64xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %65 = affine.apply affine_map<()[s0, s1] -> ((s0 + 15) floordiv 16)>()[%37, %62]
+      %66 = affine.apply affine_map<()[s0, s1] -> ((s1 + 7) floordiv 8)>()[%37, %62]
+      %c16_15 = arith.constant 16 : index
+      %c8_16 = arith.constant 8 : index
+      %c0_17 = arith.constant 0 : index
+      %c0_18 = arith.constant 0 : index
+      %67 = affine.apply affine_map<()[s0, s1] -> (s0 floordiv 16)>()[%c0_17, %c0_18]
+      %68 = affine.apply affine_map<()[s0, s1] -> (s0 mod 16)>()[%c0_17, %c0_18]
+      %69 = affine.apply affine_map<()[s0, s1] -> (s1 floordiv 8)>()[%c0_17, %c0_18]
+      %70 = affine.apply affine_map<()[s0, s1] -> (s1 mod 8)>()[%c0_17, %c0_18]
+      %subview_19 = memref.subview %alloc_13[%69, %67, %68, %70] [%66, %65, %c16_15, %c8_16] [1, 1, 1, 1] : memref<?x?x?x?xf32, #hivm.address_space<cbuf>> to memref<?x?x?x?xf32, strided<[?, ?, ?, 1], offset: ?>, #hivm.address_space<cbuf>>
+      hivm.hir.nd2nz {dst_continuous} ins(%subview_14 : memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>) outs(%subview_19 : memref<?x?x?x?xf32, strided<[?, ?, ?, 1], offset: ?>, #hivm.address_space<cbuf>>) init_out_buffer = true pad_value = %cst : f32 init_condition = %64 : i1
+      %c64_20 = arith.constant 64 : index
+      %c64_21 = arith.constant 64 : index
+      %71 = affine.apply affine_map<()[s0, s1] -> ((s0 + 15) floordiv 16)>()[%c64_20, %c64_21]
+      %72 = affine.apply affine_map<()[s0, s1] -> ((s1 + 7) floordiv 8)>()[%c64_20, %c64_21]
+      %c16_22 = arith.constant 16 : index
+      %c8_23 = arith.constant 8 : index
+      %alloc_24 = memref.alloc(%72, %71, %c16_22, %c8_23) : memref<?x?x?x?xf32, #hivm.address_space<cbuf>>
+      %73 = arith.ori %63, %43 : i1
+      %subview_25 = memref.subview %reinterpret_cast_9[0, 0] [%62, %42] [1, 1] : memref<64x64xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %74 = affine.apply affine_map<()[s0, s1] -> ((s0 + 15) floordiv 16)>()[%62, %42]
+      %75 = affine.apply affine_map<()[s0, s1] -> ((s1 + 7) floordiv 8)>()[%62, %42]
+      %c16_26 = arith.constant 16 : index
+      %c8_27 = arith.constant 8 : index
+      %c0_28 = arith.constant 0 : index
+      %c0_29 = arith.constant 0 : index
+      %76 = affine.apply affine_map<()[s0, s1] -> (s0 floordiv 16)>()[%c0_28, %c0_29]
+      %77 = affine.apply affine_map<()[s0, s1] -> (s0 mod 16)>()[%c0_28, %c0_29]
+      %78 = affine.apply affine_map<()[s0, s1] -> (s1 floordiv 8)>()[%c0_28, %c0_29]
+      %79 = affine.apply affine_map<()[s0, s1] -> (s1 mod 8)>()[%c0_28, %c0_29]
+      %subview_30 = memref.subview %alloc_24[%78, %76, %77, %79] [%75, %74, %c16_26, %c8_27] [1, 1, 1, 1] : memref<?x?x?x?xf32, #hivm.address_space<cbuf>> to memref<?x?x?x?xf32, strided<[?, ?, ?, 1], offset: ?>, #hivm.address_space<cbuf>>
+      hivm.hir.nd2nz {dst_continuous} ins(%subview_25 : memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>) outs(%subview_30 : memref<?x?x?x?xf32, strided<[?, ?, ?, 1], offset: ?>, #hivm.address_space<cbuf>>) init_out_buffer = true pad_value = %cst : f32 init_condition = %73 : i1
+      %80 = arith.cmpi eq, %arg16, %c0_i32 : i32
+      hivm.hir.mmadL1 {fixpipe_for_result_already_inserted = true} ins(%alloc_13, %alloc_24, %80, %37, %62, %42 : memref<?x?x?x?xf32, #hivm.address_space<cbuf>>, memref<?x?x?x?xf32, #hivm.address_space<cbuf>>, i1, index, index, index) outs(%alloc : memref<?x?x?x?xf32, #hivm.address_space<cc>>)
+      %81 = affine.apply affine_map<()[s0] -> (s0 + 64)>()[%arg17]
+      %82 = affine.apply affine_map<()[s0, s1] -> (s0 + s1)>()[%arg18, %17]
+      scf.yield %81, %82 : index, index
+    } {fixpipe_for_mmad_result_already_inserted = true, pipeline.cubeonly}
+    %47 = affine.apply affine_map<()[s0, s1, s2] -> (s0 + s1 * s2)>()[%33, %31, %18]
+    %reinterpret_cast = memref.reinterpret_cast %arg5 to offset: [%47], sizes: [64, 64], strides: [%18, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<64x64xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+    %48 = affine.apply affine_map<()[s0, s1] -> ((s0 + 15) floordiv 16)>()[%37, %42]
+    %49 = affine.apply affine_map<()[s0, s1] -> ((s1 + 15) floordiv 16)>()[%37, %42]
+    %c16_3 = arith.constant 16 : index
+    %c16_4 = arith.constant 16 : index
+    %c0_5 = arith.constant 0 : index
+    %c0_6 = arith.constant 0 : index
+    %50 = affine.apply affine_map<()[s0, s1] -> (s0 floordiv 16)>()[%c0_5, %c0_6]
+    %51 = affine.apply affine_map<()[s0, s1] -> (s0 mod 16)>()[%c0_5, %c0_6]
+    %52 = affine.apply affine_map<()[s0, s1] -> (s1 floordiv 16)>()[%c0_5, %c0_6]
+    %53 = affine.apply affine_map<()[s0, s1] -> (s1 mod 16)>()[%c0_5, %c0_6]
+    %subview = memref.subview %alloc[%52, %50, %51, %53] [%49, %48, %c16_3, %c16_4] [1, 1, 1, 1] : memref<?x?x?x?xf32, #hivm.address_space<cc>> to memref<?x?x?x?xf32, strided<[?, ?, ?, 1], offset: ?>, #hivm.address_space<cc>>
+    %subview_7 = memref.subview %reinterpret_cast[0, 0] [%37, %42] [1, 1] : memref<64x64xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+    hivm.hir.fixpipe {dma_mode = #hivm.dma_mode<nz2nd>} ins(%subview : memref<?x?x?x?xf32, strided<[?, ?, ?, 1], offset: ?>, #hivm.address_space<cc>>) outs(%subview_7 : memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>)
+  } {autoblockify.subloop}
+  return
+}
+
