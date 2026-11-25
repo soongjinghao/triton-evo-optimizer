@@ -23,13 +23,15 @@ def _set_k_and_s_triton_kernel(
     loc_page_index = loc >> 6
     loc_token_offset_in_page = loc & 63
     out_k_offsets = (
-        loc * ((BUF_NUMEL_PER_PAGE // 64) * NUM_K_ELEMS_PER_TOKEN)
+        loc_page_index * BUF_NUMEL_PER_PAGE
+        + loc_token_offset_in_page * NUM_K_ELEMS_PER_TOKEN
         + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)
     )
+    S_OFFSET_WORDS: tl.constexpr = S_OFFSET_NBYTES_IN_PAGE // 4
     out_s_offset = (
-        (loc >> 6) * (BUF_NUMEL_PER_PAGE // 4)
-        + S_OFFSET_NBYTES_IN_PAGE // 4
-        + (loc & 63)
+        loc_page_index * (BUF_NUMEL_PER_PAGE // 4)
+        + S_OFFSET_WORDS
+        + loc_token_offset_in_page
     )
     tl.store(buf_fp16_ptr + out_k_offsets, k)
     tl.store(buf_fp32_ptr + out_s_offset, k_scale)

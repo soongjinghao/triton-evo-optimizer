@@ -85,14 +85,12 @@ def _selective_scan_update_kernel(
     HAS_STATE_BATCH_INDICES: tl.constexpr,
     BLOCK_SIZE_DSTATE: tl.constexpr,
 ):
-    pid = tl.program_id(axis=0)
-    pid_b = pid // nheads
-    pid_h = pid % nheads
-    ngroups_head_idx = pid_h // nheads_ngroups_ratio
+    pid_m = tl.program_id(axis=0)
+    pid_b = tl.program_id(axis=1)
+    pid_h = tl.program_id(axis=2)
     if HAS_STATE_BATCH_INDICES:
         state_batch_indices_ptr += pid_b
         state_batch_idx = tl.load(state_batch_indices_ptr).to(tl.int64)
-        pad_slot_mask = state_batch_idx != pad_slot_id
         state_ptr += state_batch_idx * stride_state_batch + pid_h * stride_state_head
     else:
         state_ptr += pid_b * stride_state_batch + pid_h * stride_state_head
@@ -101,12 +99,12 @@ def _selective_scan_update_kernel(
     if HAS_DT_BIAS:
         dt_bias_ptr += pid_h * stride_dt_bias_head
     A_ptr += pid_h * stride_A_head
-    B_ptr += pid_b * stride_B_batch + ngroups_head_idx * stride_B_group
-    C_ptr += pid_b * stride_C_batch + ngroups_head_idx * stride_C_group
+    B_ptr += pid_b * stride_B_batch + (pid_h // nheads_ngroups_ratio) * stride_B_group
+    C_ptr += pid_b * stride_C_batch + (pid_h // nheads_ngroups_ratio) * stride_C_group
     if HAS_Z:
         z_ptr += pid_b * stride_z_batch + pid_h * stride_z_head
     out_ptr += pid_b * stride_out_batch + pid_h * stride_out_head
-    offs_m = tl.arange(0, BLOCK_SIZE_M)
+    offs_m = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
     offs_n = tl.arange(0, BLOCK_SIZE_DSTATE)
     state_ptrs = state_ptr + (
         offs_m[:, None] * stride_state_dim + offs_n[None, :] * stride_state_dstate
@@ -127,12 +125,10 @@ def _selective_scan_update_kernel(
     if HAS_Z:
         z_ptrs = z_ptr + offs_m * stride_z_dim
     out_ptrs = out_ptr + offs_m * stride_out_dim
-    mask_m = offs_m[:, None] < dim
-    mask_n = offs_n[None, :] < dstate
-    mask_state = mask_m & mask_n
+    mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
     if HAS_STATE_BATCH_INDICES:
-        mask_state = mask_state & pad_slot_mask
-    state = tl.load(state_ptrs, mask=mask_state, other=0.0)
+        mask &= state_batch_idx != pad_slot_id
+    state = tl.load(state_ptrs, mask=mask, other=0.0)
     x = tl.load(x_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
     if not TIE_HDIM:
         dt = tl.load(dt_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
@@ -141,27 +137,29 @@ def _selective_scan_update_kernel(
         if DT_SOFTPLUS:
             dt = softplus(dt)
         A = tl.load(
-            A_ptrs, mask=mask_state, other=0.0
+            A_ptrs, mask=(offs_m[:, None] < dim) & (offs_n[None, :] < dstate), other=0.0
         ).to(tl.float32)
         dA = tl.exp(A * dt[:, None])
     else:
-        dt = tl.load(dt_ptr).to(tl.float32)
+        dt = tl.load(dt_ptr + offs_m * stride_dt_dim, mask=offs_m < dim, other=0.0).to(tl.float32)
         if HAS_DT_BIAS:
-            dt += tl.load(dt_bias_ptr).to(tl.float32)
+            dt += tl.load(dt_bias_ptr + offs_m * stride_dt_bias_dim, mask=offs_m < dim, other=0.0).to(tl.float32)
         if DT_SOFTPLUS:
             dt = softplus(dt)
-        A = tl.load(A_ptr).to(tl.float32)
-        dA = tl.exp(A * dt)
+        A = tl.load(A_ptr + offs_m[:, None] * stride_A_dim + offs_n[None, :] * stride_A_dstate, mask=(offs_m[:, None] < dim) & (offs_n[None, :] < dstate), other=0.0).to(tl.float32)
+        dA = tl.exp(A * dt[:, None])
     B = tl.load(B_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     C = tl.load(C_ptrs, mask=offs_n < dstate, other=0.0).to(tl.float32)
     if HAS_D:
         D = tl.load(D_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
     if HAS_Z:
         z = tl.load(z_ptrs, mask=offs_m < dim, other=0.0).to(tl.float32)
-    dB = B[None, :] * dt[:, None] if not TIE_HDIM else B * dt
+    dB = B[None, :] * dt[:, None] if not TIE_HDIM else B * dt[:, None]
     state = state * dA + dB * x[:, None]
-    mask_store = mask_state
-    tl.store(state_ptrs, state, mask=mask_store)
+    mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
+    if HAS_STATE_BATCH_INDICES:
+        mask &= state_batch_idx != pad_slot_id
+    tl.store(state_ptrs, state, mask=mask)
     out = tl.sum(state * C[None, :], axis=1)
     if HAS_D:
         out += x * D
@@ -221,7 +219,7 @@ def selective_state_update(
     if state_batch_indices is not None:
         assert state_batch_indices.shape == (batch,)
     assert out.shape == x.shape
-    grid = lambda META: (batch * nheads,)
+    grid = lambda META: (triton.cdiv(dim, META["BLOCK_SIZE_M"]), batch, nheads)
     z_strides = (z.stride(0), z.stride(1), z.stride(2)) if z is not None else (0, 0, 0)
     BLOCK_SIZE_M, num_warps = (
         (32, 4)

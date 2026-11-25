@@ -1,0 +1,96 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 6,
+  "events": [
+    {
+      "pid": 26342,
+      "call_index": 1,
+      "jit_function": "_act_quant_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p026342_k001_act_quant_kernel.ttir.mlir",
+        "p026342_k001_act_quant_kernel.ttadapter.mlir",
+        "p026342_k001_act_quant_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 26342,
+      "call_index": 2,
+      "jit_function": "_act_quant_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p026342_k002_act_quant_kernel.ttir.mlir",
+        "p026342_k002_act_quant_kernel.ttadapter.mlir",
+        "p026342_k002_act_quant_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 26698,
+      "call_index": 1,
+      "jit_function": "_act_quant_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p026698_k001_act_quant_kernel.ttir.mlir",
+        "p026698_k001_act_quant_kernel.ttadapter.mlir",
+        "p026698_k001_act_quant_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 26698,
+      "call_index": 2,
+      "jit_function": "_act_quant_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p026698_k002_act_quant_kernel.ttir.mlir",
+        "p026698_k002_act_quant_kernel.ttadapter.mlir",
+        "p026698_k002_act_quant_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 27084,
+      "call_index": 1,
+      "jit_function": "_act_quant_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p027084_k001_act_quant_kernel.ttir.mlir",
+        "p027084_k001_act_quant_kernel.ttadapter.mlir",
+        "p027084_k001_act_quant_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 27084,
+      "call_index": 2,
+      "jit_function": "_act_quant_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p027084_k002_act_quant_kernel.ttir.mlir",
+        "p027084_k002_act_quant_kernel.ttadapter.mlir",
+        "p027084_k002_act_quant_kernel.npubin"
+      ]
+    }
+  ]
+}

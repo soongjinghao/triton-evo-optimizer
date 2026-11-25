@@ -19,17 +19,14 @@ def _act_quant_kernel(
     fp8_min = -448.0
     fp8_max = 448.0
     fp8_max_inv = 1.0 / fp8_max
-    row_start = pid_m * BLOCK_M
+    row = pid_m
     col_start = pid_n * group_size
-    rows = row_start + tl.arange(0, BLOCK_M)
     cols = col_start + tl.arange(0, BLOCK_N)
-    row_mask = rows < M
     col_mask = cols < N
-    mask = row_mask[:, None] & col_mask[None, :]
-    x_ptrs = X_ptr + rows[:, None] * N + cols[None, :]
-    x = tl.load(x_ptrs, mask=mask, other=0.0).to(tl.float32)
+    x_ptrs = X_ptr + row * N + cols
+    x = tl.load(x_ptrs, mask=col_mask, other=0.0).to(tl.float32)
     x_abs = tl.abs(x)
-    amax = tl.max(x_abs, axis=1)
+    amax = tl.max(x_abs, axis=0)
     amax = tl.maximum(amax, 1e-4)
     if round_scale:
         log_val = tl.log2(amax * fp8_max_inv)
@@ -37,15 +34,14 @@ def _act_quant_kernel(
         scale = tl.exp2(log_ceil)
     else:
         scale = amax * fp8_max_inv
-    scale_broadcast = scale[:, None]
-    y = x / scale_broadcast
+    scale_inv = 1.0 / scale
+    y = x * scale_inv
     y = tl.minimum(tl.maximum(y, fp8_min), fp8_max)
-    y_ptrs = Y_ptr + rows[:, None] * N + cols[None, :]
-    tl.store(y_ptrs, y, mask=mask)
+    y_ptrs = Y_ptr + row * N + cols
+    tl.store(y_ptrs, y, mask=col_mask)
     s_cols = pid_n
-    s_ptrs = S_ptr + s_cols * M + rows
-    s_mask = row_mask
-    tl.store(s_ptrs, scale, mask=s_mask)
+    s_ptrs = S_ptr + row * (N // group_size) + s_cols
+    tl.store(s_ptrs, scale, mask=True)
 def act_quant(
     x: torch.Tensor, block_size: int = 128, scale_fmt: Optional[str] = None
 ) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -58,11 +54,11 @@ def act_quant(
     M = x_flat.size(0)
     y = torch.empty_like(x, dtype=torch.float16)
     y_flat = y.view(-1, N)
-    s = x.new_empty(N // block_size, *x.size()[:-1], dtype=torch.float32)
-    s_flat = s.view(N // block_size, M)
-    BLOCK_M = 32
+    s = x.new_empty(*x.size()[:-1], N // block_size, dtype=torch.float32)
+    s_flat = s.view(-1, N // block_size)
+    BLOCK_M = 1
     BLOCK_N = block_size
-    grid = (triton.cdiv(M, BLOCK_M), triton.cdiv(N, block_size))
+    grid = (M, triton.cdiv(N, block_size))
     round_scale = scale_fmt is not None
     _act_quant_kernel[grid](
         x_flat,
@@ -74,7 +70,6 @@ def act_quant(
         round_scale=round_scale,
         BLOCK_M=BLOCK_M,
         BLOCK_N=BLOCK_N,
-        num_warps=4,
         num_stages=0 if round_scale else 2,
     )
     return y, s

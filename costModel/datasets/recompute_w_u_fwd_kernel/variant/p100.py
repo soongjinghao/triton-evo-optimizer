@@ -5,9 +5,13 @@ import functools
 from collections.abc import Callable
 from typing import Any
 
+def prepare_lens(cu_seqlens: torch.LongTensor) -> torch.LongTensor:
+    return cu_seqlens[1:] - cu_seqlens[:-1]
+
 def tensor_cache(fn: Callable[..., torch.Tensor]) -> Callable[..., torch.Tensor]:
-    cache_entries: list[tuple[tuple | None, dict | None, Any]] = []
+    cache_entries: tuple[tuple | None, dict | None, Any] = []
     cache_size = 8
+
     @functools.wraps(fn)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         nonlocal cache_entries, cache_size
@@ -32,6 +36,7 @@ def tensor_cache(fn: Callable[..., torch.Tensor]) -> Callable[..., torch.Tensor]
             cache_entries = cache_entries[1:]
         cache_entries.append((args, kwargs, result))
         return result
+
     return wrapper
 
 @tensor_cache
@@ -45,9 +50,6 @@ def prepare_chunk_indices(
         ]
     )
     return torch.stack([indices.eq(0).cumsum(0) - 1, indices], 1).to(cu_seqlens)
-
-def prepare_lens(cu_seqlens: torch.LongTensor) -> torch.LongTensor:
-    return cu_seqlens[1:] - cu_seqlens[:-1]
 
 @triton.heuristics({"IS_VARLEN": lambda args: args["cu_seqlens"] is not None})
 @triton.autotune(
@@ -81,6 +83,7 @@ def recompute_w_u_fwd_kernel(
 ):
     i_t, i_bh = tl.program_id(0), tl.program_id(1)
     i_b, i_h = i_bh // H, i_bh % H
+
     if IS_VARLEN:
         i_n, i_t = (
             tl.load(chunk_indices + i_t * 2).to(tl.int32),
@@ -91,60 +94,214 @@ def recompute_w_u_fwd_kernel(
             tl.load(cu_seqlens + i_n + 1).to(tl.int32),
         )
         T = eos - bos
+        base_v = v + (bos * H + i_h) * V
+        base_u = u + (bos * H + i_h) * V
+        i_hg = i_h // (H // Hg)
+        base_k = k + (bos * Hg + i_hg) * K
+        base_w = w + (bos * H + i_h) * K
+
+        n_v = tl.cdiv(V, BV)
+        n_k = tl.cdiv(K, BK)
+
+        if (i_t + 1) * BT < T:
+            p_beta = tl.make_block_ptr(
+                beta + bos * H + i_h, (BT,), (H,), (i_t * BT,), (BT,), (0,)
+            )
+            p_g = tl.make_block_ptr(
+                g + (bos * H + i_h), (BT,), (H,), (i_t * BT,), (BT,), (0,)
+            )
+            p_A = tl.make_block_ptr(
+                A + (bos * H + i_h) * BT,
+                (BT, BT),
+                (H * BT, 1),
+                (i_t * BT, 0),
+                (BT, BT),
+                (1, 0),
+            )
+            b_beta = tl.load(p_beta)
+            b_A = tl.load(p_A)
+            b_g = tl.exp(tl.load(p_g))
+
+            for i_kv in range(max(n_v, n_k)):
+                if i_kv < n_v:
+                    p_v = tl.make_block_ptr(
+                        base_v,
+                        (BT, V),
+                        (H * V, 1),
+                        (i_t * BT, i_kv * BV),
+                        (BT, BV),
+                        (1, 0),
+                    )
+                    p_u = tl.make_block_ptr(
+                        base_u,
+                        (BT, V),
+                        (H * V, 1),
+                        (i_t * BT, i_kv * BV),
+                        (BT, BV),
+                        (1, 0),
+                    )
+                    b_v = tl.load(p_v, boundary_check=(1,))
+                    b_vb = (b_v * b_beta[:, None]).to(b_v.dtype)
+                    b_u = tl.dot(b_A, b_vb, allow_tf32=False)
+                    tl.store(p_u, b_u.to(p_u.dtype.element_ty), boundary_check=(1,))
+
+                if i_kv < n_k:
+                    p_k = tl.make_block_ptr(
+                        base_k,
+                        (BT, K),
+                        (Hg * K, 1),
+                        (i_t * BT, i_kv * BK),
+                        (BT, BK),
+                        (1, 0),
+                    )
+                    p_w = tl.make_block_ptr(
+                        base_w,
+                        (BT, K),
+                        (H * K, 1),
+                        (i_t * BT, i_kv * BK),
+                        (BT, BK),
+                        (1, 0),
+                    )
+                    b_k = tl.load(p_k, boundary_check=(1,))
+                    b_kb = (b_k * b_beta[:, None] * b_g[:, None]).to(b_k.dtype)
+                    b_w = tl.dot(b_A, b_kb)
+                    tl.store(p_w, b_w.to(p_w.dtype.element_ty), boundary_check=(1,))
+        else:
+            p_beta = tl.make_block_ptr(
+                beta + bos * H + i_h, (T,), (H,), (i_t * BT,), (BT,), (0,)
+            )
+            p_g = tl.make_block_ptr(
+                g + (bos * H + i_h), (T,), (H,), (i_t * BT,), (BT,), (0,)
+            )
+            p_A = tl.make_block_ptr(
+                A + (bos * H + i_h) * BT,
+                (T, BT),
+                (H * BT, 1),
+                (i_t * BT, 0),
+                (BT, BT),
+                (1, 0),
+            )
+            b_beta = tl.load(p_beta, boundary_check=(0,))
+            b_A = tl.load(p_A, boundary_check=(0, 1))
+            b_g = tl.exp(tl.load(p_g, boundary_check=(0,)))
+
+            for i_kv in range(max(n_v, n_k)):
+                if i_kv < n_v:
+                    p_v = tl.make_block_ptr(
+                        base_v,
+                        (T, V),
+                        (H * V, 1),
+                        (i_t * BT, i_kv * BV),
+                        (BT, BV),
+                        (1, 0),
+                    )
+                    p_u = tl.make_block_ptr(
+                        base_u,
+                        (T, V),
+                        (H * V, 1),
+                        (i_t * BT, i_kv * BV),
+                        (BT, BV),
+                        (1, 0),
+                    )
+                    b_v = tl.load(p_v, boundary_check=(0, 1))
+                    b_vb = (b_v * b_beta[:, None]).to(b_v.dtype)
+                    b_u = tl.dot(b_A, b_vb, allow_tf32=False)
+                    tl.store(p_u, b_u.to(p_u.dtype.element_ty), boundary_check=(0, 1))
+
+                if i_kv < n_k:
+                    p_k = tl.make_block_ptr(
+                        base_k,
+                        (T, K),
+                        (Hg * K, 1),
+                        (i_t * BT, i_kv * BK),
+                        (BT, BK),
+                        (1, 0),
+                    )
+                    p_w = tl.make_block_ptr(
+                        base_w,
+                        (T, K),
+                        (H * K, 1),
+                        (i_t * BT, i_kv * BK),
+                        (BT, BK),
+                        (1, 0),
+                    )
+                    b_k = tl.load(p_k, boundary_check=(0, 1))
+                    b_kb = (b_k * b_beta[:, None] * b_g[:, None]).to(b_k.dtype)
+                    b_w = tl.dot(b_A, b_kb)
+                    tl.store(p_w, b_w.to(p_w.dtype.element_ty), boundary_check=(0, 1))
     else:
         bos, eos = i_b * T, i_b * T + T
-    p_beta = tl.make_block_ptr(
-        beta + bos * H + i_h, (T,), (H,), (i_t * BT,), (BT,), (0,)
-    )
-    p_g = tl.make_block_ptr(g + (bos * H + i_h), (T,), (H,), (i_t * BT,), (BT,), (0,))
-    p_A = tl.make_block_ptr(
-        A + (bos * H + i_h) * BT, (T, BT), (H * BT, 1), (i_t * BT, 0), (BT, BT), (1, 0)
-    )
-    b_beta = tl.load(p_beta, boundary_check=(0,))
-    b_A = tl.load(p_A, boundary_check=(0, 1))
-    b_g = tl.exp(tl.load(p_g, boundary_check=(0,)))
-    for i_v in range(tl.cdiv(V, BV)):
-        p_v = tl.make_block_ptr(
-            v + (bos * H + i_h) * V,
-            (V, T),
-            (1, V),
-            (i_v * BV, i_t * BT),
-            (BV, BT),
-            (0, 1),
+        base_v = v + (bos * H + i_h) * V
+        base_u = u + (bos * H + i_h) * V
+        i_hg = i_h // (H // Hg)
+        base_k = k + (bos * Hg + i_hg) * K
+        base_w = w + (bos * H + i_h) * K
+
+        n_v = tl.cdiv(V, BV)
+        n_k = tl.cdiv(K, BK)
+
+        p_beta = tl.make_block_ptr(
+            beta + bos * H + i_h, (T,), (H,), (i_t * BT,), (BT,), (0,)
         )
-        p_u = tl.make_block_ptr(
-            u + (bos * H + i_h) * V,
-            (V, T),
-            (1, V),
-            (i_v * BV, i_t * BT),
-            (BV, BT),
-            (0, 1),
+        p_g = tl.make_block_ptr(
+            g + (bos * H + i_h), (T,), (H,), (i_t * BT,), (BT,), (0,)
         )
-        b_v = tl.load(p_v, boundary_check=(0, 1))
-        b_vb = (b_v * b_beta[None, :]).to(b_v.dtype)
-        b_u = tl.dot(b_A, b_vb.T, allow_tf32=False)
-        tl.store(p_u, b_u.T.to(p_u.dtype.element_ty), boundary_check=(0, 1))
-    for i_k in range(tl.cdiv(K, BK)):
-        p_k = tl.make_block_ptr(
-            k + (bos * Hg + i_h // (H // Hg)) * K,
-            (K, T),
-            (1, K),
-            (i_k * BK, i_t * BT),
-            (BK, BT),
-            (0, 1),
+        p_A = tl.make_block_ptr(
+            A + (bos * H + i_h) * BT,
+            (T, BT),
+            (H * BT, 1),
+            (i_t * BT, 0),
+            (BT, BT),
+            (1, 0),
         )
-        p_w = tl.make_block_ptr(
-            w + (bos * H + i_h) * K,
-            (K, T),
-            (1, K),
-            (i_k * BK, i_t * BT),
-            (BK, BT),
-            (0, 1),
-        )
-        b_k = tl.load(p_k, boundary_check=(0, 1))
-        b_kb = (b_k * b_beta[None, :] * b_g[None, :]).to(b_k.dtype)
-        b_w = tl.dot(b_A, b_kb.T)
-        tl.store(p_w, b_w.T.to(p_w.dtype.element_ty), boundary_check=(0, 1))
+        b_beta = tl.load(p_beta, boundary_check=(0,))
+        b_A = tl.load(p_A, boundary_check=(0, 1))
+        b_g = tl.exp(tl.load(p_g, boundary_check=(0,)))
+
+        for i_kv in range(max(n_v, n_k)):
+            if i_kv < n_v:
+                p_v = tl.make_block_ptr(
+                    base_v,
+                    (T, V),
+                    (H * V, 1),
+                    (i_t * BT, i_kv * BV),
+                    (BT, BV),
+                    (1, 0),
+                )
+                p_u = tl.make_block_ptr(
+                    base_u,
+                    (T, V),
+                    (H * V, 1),
+                    (i_t * BT, i_kv * BV),
+                    (BT, BV),
+                    (1, 0),
+                )
+                b_v = tl.load(p_v, boundary_check=(0, 1))
+                b_vb = (b_v * b_beta[:, None]).to(b_v.dtype)
+                b_u = tl.dot(b_A, b_vb, allow_tf32=False)
+                tl.store(p_u, b_u.to(p_u.dtype.element_ty), boundary_check=(0, 1))
+
+            if i_kv < n_k:
+                p_k = tl.make_block_ptr(
+                    base_k,
+                    (T, K),
+                    (Hg * K, 1),
+                    (i_t * BT, i_kv * BK),
+                    (BT, BK),
+                    (1, 0),
+                )
+                p_w = tl.make_block_ptr(
+                    base_w,
+                    (T, K),
+                    (H * K, 1),
+                    (i_t * BT, i_kv * BK),
+                    (BT, BK),
+                    (1, 0),
+                )
+                b_k = tl.load(p_k, boundary_check=(0, 1))
+                b_kb = (b_k * b_beta[:, None] * b_g[:, None]).to(b_k.dtype)
+                b_w = tl.dot(b_A, b_kb)
+                tl.store(p_w, b_w.to(p_w.dtype.element_ty), boundary_check=(0, 1))
 
 def recompute_w_u_fwd(
     k: torch.Tensor,
@@ -165,16 +322,12 @@ def recompute_w_u_fwd(
     BV = 64
     u = torch.empty_like(v)
     w = k.new_empty(B, T, H, K)
-    k_t = k.transpose(1, 2).contiguous()
-    v_t = v.transpose(1, 2).contiguous()
-    w_t = torch.empty(B, H, T, K, dtype=w.dtype, device=w.device)
-    u_t = torch.empty(B, H, T, V, dtype=u.dtype, device=u.device)
     recompute_w_u_fwd_kernel[(NT, B * H)](
-        k=k_t,
-        v=v_t,
+        k=k,
+        v=v,
         beta=beta,
-        w=w_t,
-        u=u_t,
+        w=w,
+        u=u,
         A=A,
         g=g_cumsum,
         cu_seqlens=cu_seqlens,
@@ -188,6 +341,4 @@ def recompute_w_u_fwd(
         BK=BK,
         BV=BV,
     )
-    w.copy_(w_t.transpose(1, 2).contiguous())
-    u.copy_(u_t.transpose(1, 2).contiguous())
     return w, u

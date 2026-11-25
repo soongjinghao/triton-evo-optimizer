@@ -1,7 +1,6 @@
 import torch
 import triton
 import triton.language as tl
-
 @triton.jit
 def _per_token_group_quant_8bit_colmajor_kernel(
     y_ptr,
@@ -12,7 +11,7 @@ def _per_token_group_quant_8bit_colmajor_kernel(
     N: tl.constexpr,
     y_row_stride: tl.constexpr,
     y_q_row_stride: tl.constexpr,
-    y_s_row_stride: tl.constexpr,
+    y_s_col_stride: tl.constexpr,
     eps,
     BLOCK: tl.constexpr,
     BLOCK_M: tl.constexpr,
@@ -21,7 +20,6 @@ def _per_token_group_quant_8bit_colmajor_kernel(
     BIT8_MAX: tl.constexpr,
     REQUIRES_M_MASK: tl.constexpr,
     REQUIRES_N_MASK: tl.constexpr,
-    NUM_GROUPS_PER_ROW: tl.constexpr,
 ):
     pid_m = tl.program_id(0)
     pid_g = tl.program_id(1)
@@ -30,7 +28,7 @@ def _per_token_group_quant_8bit_colmajor_kernel(
     col_offsets = tl.arange(0, BLOCK)
     in_ptrs = y_ptr + m_offsets[:, None] * y_row_stride + g_start + col_offsets[None, :]
     out_ptrs = y_q_ptr + m_offsets[:, None] * y_q_row_stride + g_start + col_offsets[None, :]
-    y_s_ptrs = y_s_ptr + m_offsets * NUM_GROUPS_PER_ROW + pid_g
+    y_s_ptrs = y_s_ptr + pid_g * y_s_col_stride + m_offsets
     if not REQUIRES_M_MASK and not REQUIRES_N_MASK:
         y = tl.load(in_ptrs)
         _absmax = tl.max(tl.abs(y), axis=1)
@@ -59,7 +57,6 @@ def _per_token_group_quant_8bit_colmajor_kernel(
         y_q = tl.clamp(y * inv_s_native[:, None], BIT8_MIN, BIT8_MAX).to(tl.int8)
         tl.store(out_ptrs, y_q, mask=mask2d)
         tl.store(y_s_ptrs, y_s, mask=m_mask)
-
 def per_token_group_quant_8bit_colmajor(y: torch.Tensor, group_size: int, eps: float = 1e-5, scale_ue8m0: bool = False):
     assert y.is_contiguous(), "Input tensor must be contiguous"
     if y.device.type != 'npu':
@@ -69,7 +66,7 @@ def per_token_group_quant_8bit_colmajor(y: torch.Tensor, group_size: int, eps: f
     M, N = y_view.shape
     num_groups_per_row = (N + group_size - 1) // group_size
     y_q = torch.empty_like(y_view, dtype=torch.int8)
-    y_s = torch.empty((M, num_groups_per_row), dtype=torch.float32, device=y_view.device)
+    y_s = torch.empty((num_groups_per_row, M), dtype=torch.float32, device=y_view.device)
     BIT8_MIN = -128.0
     BIT8_MAX = 127.0
     BLOCK = triton.next_power_of_2(group_size)
@@ -108,7 +105,6 @@ def per_token_group_quant_8bit_colmajor(y: torch.Tensor, group_size: int, eps: f
         BIT8_MAX=BIT8_MAX,
         REQUIRES_M_MASK=REQUIRES_M_MASK,
         REQUIRES_N_MASK=REQUIRES_N_MASK,
-        NUM_GROUPS_PER_ROW=num_groups_per_row,
         num_warps=num_warps,
         num_stages=1,
     )

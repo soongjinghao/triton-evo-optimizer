@@ -6,7 +6,6 @@ import torch
 import torch_npu
 import triton
 import triton.language as tl
-
 @triton.jit
 def _log_softmax_kernel(
     input_ptr,
@@ -17,29 +16,26 @@ def _log_softmax_kernel(
     BLOCK_SIZE: tl.constexpr,
 ):
     row_idx = tl.program_id(0).to(tl.int64)
-    col_block_idx = tl.program_id(1).to(tl.int64)
-    col_offset = col_block_idx * BLOCK_SIZE
-    col_idx = col_offset + tl.arange(0, BLOCK_SIZE)
-    mask = col_idx < n_cols
     row_start_ptr = input_ptr + row_idx * input_row_stride
     output_row_start_ptr = output_ptr + row_idx * output_row_stride
-    curr_vals = tl.load(row_start_ptr + col_idx, mask=mask, other=-float("inf"))
-    m_i = tl.max(curr_vals, axis=0)
-    l_i = tl.sum(tl.exp(curr_vals - m_i), axis=0)
-    for col_offset_scan in range(0, n_cols, BLOCK_SIZE):
-        col_idx_scan = col_offset_scan + tl.arange(0, BLOCK_SIZE)
-        mask_scan = col_idx_scan < n_cols
-        curr_vals_scan = tl.load(row_start_ptr + col_idx_scan, mask=mask_scan, other=-float("inf"))
-        m_next = tl.max(curr_vals_scan, axis=0)
+    m_i = -float("inf")
+    l_i = 0.0
+    for col_offset in range(0, n_cols, BLOCK_SIZE):
+        col_idx = col_offset + tl.arange(0, BLOCK_SIZE)
+        mask = col_idx < n_cols
+        curr_vals = tl.load(row_start_ptr + col_idx, mask=mask, other=-float("inf"))
+        m_next = tl.max(curr_vals, axis=0)
         m_new = tl.maximum(m_i, m_next)
         alpha = tl.exp(m_i - m_new)
-        l_i = l_i * alpha + tl.sum(tl.exp(curr_vals_scan - m_new), axis=0)
+        l_i = l_i * alpha + tl.sum(tl.exp(curr_vals - m_new), axis=0)
         m_i = m_new
     log_sum_exp = tl.log(l_i) + m_i
-    vals = tl.load(row_start_ptr + col_idx, mask=mask)
-    output = vals - log_sum_exp
-    tl.store(output_row_start_ptr + col_idx, output, mask=mask)
-
+    for col_offset in range(0, n_cols, BLOCK_SIZE):
+        col_idx = col_offset + tl.arange(0, BLOCK_SIZE)
+        mask = col_idx < n_cols
+        vals = tl.load(row_start_ptr + col_idx, mask=mask)
+        output = vals - log_sum_exp
+        tl.store(output_row_start_ptr + col_idx, output, mask=mask)
 def log_softmax(input: torch.Tensor, dim: int = -1) -> torch.Tensor:
     if dim != -1 and dim != input.ndim - 1:
         raise ValueError(
@@ -55,7 +51,7 @@ def log_softmax(input: torch.Tensor, dim: int = -1) -> torch.Tensor:
         raise ValueError("Input tensor cannot have empty last dimension")
     output = torch.empty_like(input_2d, device='npu')
     BLOCK_SIZE = min(1024, triton.next_power_of_2(n_cols))
-    grid = (n_rows, n_cols // BLOCK_SIZE + 1)
+    grid = (n_rows,)
     _log_softmax_kernel[grid](
         input_2d,
         output,
@@ -63,5 +59,7 @@ def log_softmax(input: torch.Tensor, dim: int = -1) -> torch.Tensor:
         output.stride(0),
         n_cols,
         BLOCK_SIZE=BLOCK_SIZE,
+        num_warps=4,
+        num_stages=2,
     )
     return output.reshape(original_shape)

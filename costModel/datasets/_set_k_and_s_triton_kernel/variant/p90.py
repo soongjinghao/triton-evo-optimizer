@@ -1,9 +1,7 @@
 import torch
 import triton
 import triton.language as tl
-
 device = 'npu'
-
 @triton.jit
 def _set_k_and_s_triton_kernel(
     buf_fp16_ptr,
@@ -16,35 +14,26 @@ def _set_k_and_s_triton_kernel(
     BUF_NUMEL_PER_PAGE: tl.constexpr,
     NUM_K_ELEMS_PER_TOKEN: tl.constexpr,
     S_OFFSET_NBYTES_IN_PAGE: tl.constexpr,
-    BLOCK_TOKENS: tl.constexpr,
 ):
-    token_base = tl.program_id(0) * BLOCK_TOKENS
-    token_offsets = token_base + tl.arange(0, BLOCK_TOKENS)
-    
-    loc = tl.load(loc_ptr + token_offsets, mask=token_offsets < tl.num_programs(0) * BLOCK_TOKENS, other=0)
-    
-    in_k_offsets = token_offsets[:, None] * index_k_ptr_stride_0 + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)[None, :]
-    k = tl.load(index_k_ptr + in_k_offsets, mask=token_offsets[:, None] < tl.num_programs(0) * BLOCK_TOKENS, other=0.0)
-    
-    k_scale = tl.load(index_k_scale_ptr + token_offsets, mask=token_offsets < tl.num_programs(0) * BLOCK_TOKENS, other=0.0)
-    
-    loc_page_index = loc // PAGE_SIZE
-    loc_token_offset_in_page = loc % PAGE_SIZE
-    
+    token_id = tl.program_id(0)
+    loc = tl.load(loc_ptr + token_id)
+    in_k_offsets = token_id * index_k_ptr_stride_0 + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)
+    k = tl.load(index_k_ptr + in_k_offsets)
+    k_scale = tl.load(index_k_scale_ptr + token_id)
+    loc_page_index = loc >> 6
+    loc_token_offset_in_page = loc & 63
     out_k_offsets = (
-        loc_page_index[:, None] * BUF_NUMEL_PER_PAGE
-        + loc_token_offset_in_page[:, None] * NUM_K_ELEMS_PER_TOKEN
-        + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)[None, :]
+        loc_page_index * BUF_NUMEL_PER_PAGE
+        + loc_token_offset_in_page * NUM_K_ELEMS_PER_TOKEN
+        + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)
     )
     out_s_offset = (
-        loc_page_index * BUF_NUMEL_PER_PAGE // 4
-        + S_OFFSET_NBYTES_IN_PAGE // 4
+        loc_page_index * (BUF_NUMEL_PER_PAGE * 16777216 // 67108864)
+        + S_OFFSET_NBYTES_IN_PAGE * 16777216 // 67108864
         + loc_token_offset_in_page
     )
-    
-    tl.store(buf_fp16_ptr + out_k_offsets, k, mask=token_offsets[:, None] < tl.num_programs(0) * BLOCK_TOKENS)
-    tl.store(buf_fp32_ptr + out_s_offset, k_scale, mask=token_offsets < tl.num_programs(0) * BLOCK_TOKENS)
-
+    tl.store(buf_fp16_ptr + out_k_offsets, k)
+    tl.store(buf_fp32_ptr + out_s_offset, k_scale)
 def _set_k_and_s_triton(
     buf: torch.Tensor,
     loc: torch.Tensor,
@@ -77,13 +66,9 @@ def _set_k_and_s_triton(
     assert loc.is_contiguous()
     assert index_k.is_contiguous()
     assert index_k_scale.is_contiguous()
-    
-    BLOCK_TOKENS = 4
-    grid = (triton.cdiv(num_tokens_to_write, BLOCK_TOKENS),)
-    
     buf_fp16 = buf.view(torch.float16)
     buf_fp32 = buf.view(torch.float32)
-    _set_k_and_s_triton_kernel[grid](
+    _set_k_and_s_triton_kernel[(num_tokens_to_write,)](
         buf_fp16,
         buf_fp32,
         loc,
@@ -94,5 +79,4 @@ def _set_k_and_s_triton(
         BUF_NUMEL_PER_PAGE=buf_numel_per_page,
         NUM_K_ELEMS_PER_TOKEN=index_head_dim,
         S_OFFSET_NBYTES_IN_PAGE=page_size * index_head_dim,
-        BLOCK_TOKENS=BLOCK_TOKENS,
     )

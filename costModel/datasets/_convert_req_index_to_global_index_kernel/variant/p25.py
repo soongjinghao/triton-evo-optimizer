@@ -5,17 +5,16 @@ import torch
 import triton
 import triton.language as tl
 PAD_SLOT_ID = -1
-logger = None
-
+logger = None  # Simplified logging
 @triton.jit
 def _convert_req_index_to_global_index_kernel(
-    req_id_ptr,
-    block_table_ptr,
-    token_indices_ptr,
-    out_ptr,
+    req_id_ptr,  # int32 [num_tokens]
+    block_table_ptr,  # int32 [num_requests, max_num_blocks_per_req]
+    token_indices_ptr,  # int32 [num_tokens, NUM_TOPK_TOKENS]
+    out_ptr,  # int32 [num_tokens, NUM_TOPK_TOKENS]
     max_num_blocks_per_req: tl.constexpr,
     BLOCK_SIZE: tl.constexpr,
-    BLOCK_N: tl.constexpr,
+    BLOCK_N: tl.constexpr,  # tile width along columns
     bt_stride0,
     bt_stride1,
     ti_stride0,
@@ -23,40 +22,39 @@ def _convert_req_index_to_global_index_kernel(
     out_stride0,
     out_stride1,
 ):
-    pid = tl.program_id(0)
-    num_tokens: tl.constexpr = 0
-    tiles_per_row: tl.constexpr = 0
-    token_id = pid // tiles_per_row
-    tile_id = pid % tiles_per_row
+    token_id = tl.program_id(0)
+    tile_id = tl.program_id(1)
     indice_id = tile_id * BLOCK_N + tl.arange(0, BLOCK_N)
     req = tl.load(req_id_ptr + token_id)
     ti_ptr = token_indices_ptr + token_id * ti_stride0 + indice_id * ti_stride1
-    tok = tl.load(ti_ptr)
+    tok = tl.load(ti_ptr)  # int32
     is_invalid_tok = tok < 0
     block_id = tok // BLOCK_SIZE
     inblock_off = tok % BLOCK_SIZE
     valid_block = (block_id < max_num_blocks_per_req) & (block_id >= 0)
-    bt_ptr = block_table_ptr + req * bt_stride0 + block_id * bt_stride1
+    # ACTION_CONTIGUOUS_INNER_STRIDE_STRIP: bt_stride1 == 1 proven by contiguous block_table
+    bt_ptr = block_table_ptr + req * bt_stride0 + block_id
     base = tl.load(bt_ptr, mask=valid_block, other=0)
     out_val = tl.where(
         is_invalid_tok | (~valid_block), -1, base * BLOCK_SIZE + inblock_off
     )
     out_ptr_ij = out_ptr + token_id * out_stride0 + indice_id * out_stride1
     tl.store(out_ptr_ij, out_val)
-
 def triton_convert_req_index_to_global_index(
-    req_id: torch.Tensor,
-    block_table: torch.Tensor,
-    token_indices: torch.Tensor,
+    req_id: torch.Tensor,  # int32 [num_tokens]
+    block_table: torch.Tensor,  # int32 [num_requests, max_num_blocks_per_req]
+    token_indices: torch.Tensor,  # int32 [num_tokens, NUM_TOPK_TOKENS]
     BLOCK_SIZE: int = 64,
     NUM_TOPK_TOKENS: int = 2048,
-    BLOCK_N: int = 128,
+    BLOCK_N: int = 128,  # tile width along columns
 ):
     assert req_id.dtype == torch.int32
     assert block_table.dtype == torch.int32
     assert token_indices.dtype == torch.int32
     assert token_indices.shape[1] == NUM_TOPK_TOKENS
-    assert NUM_TOPK_TOKENS % BLOCK_N == 0
+    assert NUM_TOPK_TOKENS % BLOCK_N == 0, (
+        f"NUM_TOPK_TOKENS ({NUM_TOPK_TOKENS}) must be divisible byBLOCK_N ({BLOCK_N})"
+    )
     num_tokens = req_id.shape[0]
     num_requests, max_num_blocks_per_req = block_table.shape
     tiles_per_row = NUM_TOPK_TOKENS // BLOCK_N
@@ -64,10 +62,11 @@ def triton_convert_req_index_to_global_index(
     block_table_c = block_table.contiguous()
     token_indices_c = token_indices.contiguous()
     out = torch.empty_like(token_indices_c)
+    # Strides in elements
     bt_stride0, bt_stride1 = block_table_c.stride()
     ti_stride0, ti_stride1 = token_indices_c.stride()
     out_stride0, out_stride1 = out.stride()
-    grid = (num_tokens * tiles_per_row,)
+    grid = (num_tokens, tiles_per_row)
     _convert_req_index_to_global_index_kernel[grid](
         req_id_c,
         block_table_c,
@@ -82,7 +81,5 @@ def triton_convert_req_index_to_global_index(
         ti_stride1,
         out_stride0,
         out_stride1,
-        num_warps=4,
-        num_stages=2,
     )
     return out

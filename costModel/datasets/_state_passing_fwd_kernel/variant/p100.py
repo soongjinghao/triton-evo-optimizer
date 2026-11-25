@@ -43,117 +43,124 @@ def _state_passing_fwd_kernel(
     NEEDS_SEQ_MASK: tl.constexpr,
     BLOCK_SIZE: tl.constexpr,
     IS_FULL_TILE: tl.constexpr,
-    NHEADS: tl.constexpr,
 ):
     pid_m = tl.program_id(0)
-    pid_bh = tl.program_id(1)
-    pid_b = pid_bh // NHEADS
-    pid_h = pid_bh % NHEADS
+    pid_b = tl.program_id(1)
+    pid_h = tl.program_id(2)
     offs = pid_m * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
-    offs = tl.max_contiguous(offs, BLOCK_SIZE * 2)
+    offs = tl.max_contiguous(offs, BLOCK_SIZE)
     if IS_FULL_TILE:
         mask = None
     else:
         mask = offs < DIM
+
     states_base = states_ptr + pid_b * STRIDE_STATES_BATCH + pid_h * STRIDE_STATES_HEAD
-    states_base = tl.multiple_of(states_base, 32)
+    states_base = tl.multiple_of(states_base, 16)
     out_base = out_ptr + pid_b * STRIDE_OUT_BATCH + pid_h * STRIDE_OUT_HEAD
-    out_base = tl.multiple_of(out_base, 32)
+    out_base = tl.multiple_of(out_base, 16)
     final_base = final_states_ptr + pid_b * STRIDE_FINAL_BATCH + pid_h * STRIDE_FINAL_HEAD
-    final_base = tl.multiple_of(final_base, 32)
+    final_base = tl.multiple_of(final_base, 16)
     dA_base = (
         dA_cs_ptr
         + pid_b * STRIDE_DA_BATCH
         + pid_h * STRIDE_DA_HEAD
         + (CHUNK_SIZE - 1) * STRIDE_DA_CSIZE
     )
-    dA_base = tl.multiple_of(dA_base, 32)
+    dA_base = tl.multiple_of(dA_base, 16)
+
     if HAS_INITSTATES:
         init_base = initstates_ptr + pid_h * STRIDE_INIT_HEAD
         if not IS_CONT_BATCHED:
             init_base += pid_b * STRIDE_INIT_BATCH
-        init_base = tl.multiple_of(init_base, 32)
+        init_base = tl.multiple_of(init_base, 16)
         if IS_FULL_TILE:
             state = tl.load(init_base + offs * STRIDE_INIT_DIM).to(tl.float32)
         else:
             state = tl.load(init_base + offs * STRIDE_INIT_DIM, mask=mask, other=0.0).to(tl.float32)
     else:
         state = tl.zeros((BLOCK_SIZE,), dtype=tl.float32)
+
     if IS_FULL_TILE:
         tl.store(out_base + offs * STRIDE_OUT_DIM, state)
     else:
         tl.store(out_base + offs * STRIDE_OUT_DIM, state, mask=mask)
+
     states_ptrs = states_base + offs * STRIDE_STATES_DIM
-    states_ptrs = tl.multiple_of(states_ptrs, 32)
+    states_ptrs = tl.multiple_of(states_ptrs, 16)
     out_ptrs = out_base + STRIDE_OUT_CHUNK + offs * STRIDE_OUT_DIM
-    out_ptrs = tl.multiple_of(out_ptrs, 32)
+    out_ptrs = tl.multiple_of(out_ptrs, 16)
     final_ptrs = final_base + offs * STRIDE_FINAL_DIM
-    final_ptrs = tl.multiple_of(final_ptrs, 32)
+    final_ptrs = tl.multiple_of(final_ptrs, 16)
     dA_ptr = dA_base
+
     if NEEDS_CONT_SEQ:
         seq_base = seq_idx_ptr + pid_b * STRIDE_SEQ_BATCH
         prev_seq_idx_chunk_end = tl.zeros((), dtype=tl.int32)
         logical_chunk_idx = tl.zeros((), dtype=tl.int32)
+        init_base_cont = initstates_ptr + pid_h * STRIDE_INIT_HEAD + offs * STRIDE_INIT_DIM
+        init_base_cont = tl.multiple_of(init_base_cont, 16)
+        dA_boundary_base = dA_base - (CHUNK_SIZE - 1) * STRIDE_DA_CSIZE
+        dA_boundary_base = tl.multiple_of(dA_boundary_base, 16)
     elif NEEDS_SEQ_MASK:
         seq_base = seq_idx_ptr + pid_b * STRIDE_SEQ_BATCH
         prev_seq_idx_chunk_end = tl.zeros((), dtype=tl.int32)
-    for c in range(0, NCHUNKS, 2):
+
+    for c in range(NCHUNKS):
         if IS_FULL_TILE:
-            new_state0 = tl.load(states_ptrs).to(tl.float32)
+            new_state = tl.load(states_ptrs).to(tl.float32)
         else:
-            new_state0 = tl.load(states_ptrs, mask=mask, other=0.0).to(tl.float32)
-        dA0 = tl.load(tl.multiple_of(dA_ptr, 32)).to(tl.float32)
-        scale_mask0 = tl.full((), True, dtype=tl.int1)
+            new_state = tl.load(states_ptrs, mask=mask, other=0.0).to(tl.float32)
+        dA = tl.load(tl.multiple_of(dA_ptr, 16), cache_modifier=".ca").to(tl.float32)
+        scale_mask = tl.full((), True, dtype=tl.int1)
+
         if NEEDS_CONT_SEQ:
-            seq_end_idx0 = min((c + 1) * CHUNK_SIZE, SEQLEN) - 1
-            seq_start_idx0 = min(c * CHUNK_SIZE, SEQLEN)
-            seq_idx_chunk_end0 = tl.load(
-                seq_base + seq_end_idx0 * STRIDE_SEQ_SEQLEN
+            seq_end_idx = c * CHUNK_SIZE + CHUNK_SIZE - 1
+            seq_start_idx = c * CHUNK_SIZE
+            seq_end_idx_clamped = tl.min(seq_end_idx, SEQLEN - 1)
+            seq_start_idx_clamped = tl.min(seq_start_idx, SEQLEN)
+            seq_idx_chunk_end = tl.load(
+                seq_base + seq_end_idx_clamped * STRIDE_SEQ_SEQLEN
             ).to(tl.int32)
-            seq_changed0 = prev_seq_idx_chunk_end != seq_idx_chunk_end0
-            if seq_changed0:
+            seq_changed = prev_seq_idx_chunk_end != seq_idx_chunk_end
+            if seq_changed:
                 if IS_FULL_TILE:
                     state = tl.load(
-                        initstates_ptr
-                        + seq_idx_chunk_end0 * STRIDE_INIT_BATCH
-                        + pid_h * STRIDE_INIT_HEAD
-                        + offs * STRIDE_INIT_DIM
+                        init_base_cont + seq_idx_chunk_end * STRIDE_INIT_BATCH
                     ).to(tl.float32)
                 else:
                     state = tl.load(
-                        initstates_ptr
-                        + seq_idx_chunk_end0 * STRIDE_INIT_BATCH
-                        + pid_h * STRIDE_INIT_HEAD
-                        + offs * STRIDE_INIT_DIM,
+                        init_base_cont + seq_idx_chunk_end * STRIDE_INIT_BATCH,
                         mask=mask,
                         other=0.0,
                     ).to(tl.float32)
-                seq_idx_chunk_start0 = tl.load(
-                    seq_base + seq_start_idx0 * STRIDE_SEQ_SEQLEN
+                seq_idx_chunk_start = tl.load(
+                    seq_base + seq_start_idx_clamped * STRIDE_SEQ_SEQLEN
                 ).to(tl.int32)
-                logical_chunk_idx += seq_idx_chunk_end0 - seq_idx_chunk_start0
+                logical_chunk_idx += seq_idx_chunk_end - seq_idx_chunk_start
                 if logical_chunk_idx < CHUNK_META_NUM:
-                    c_off0 = tl.load(chunk_offsets_ptr + logical_chunk_idx)
-                    if c_off0 > 0:
-                        boundary_idx0 = c_off0 - 1
-                        dA_boundary0 = tl.load(
-                            dA_ptr
-                            - (CHUNK_SIZE - 1) * STRIDE_DA_CSIZE
-                            + boundary_idx0 * STRIDE_DA_CSIZE,
+                    c_off = tl.load(chunk_offsets_ptr + logical_chunk_idx)
+                    if c_off > 0:
+                        boundary_idx = c_off - 1
+                        dA_boundary = tl.load(
+                            dA_boundary_base + boundary_idx * STRIDE_DA_CSIZE,
+                            cache_modifier=".ca",
                         ).to(tl.float32)
-                        dA0 -= dA_boundary0
+                        dA -= dA_boundary
             logical_chunk_idx += 1
-            prev_seq_idx_chunk_end = seq_idx_chunk_end0
+            prev_seq_idx_chunk_end = seq_idx_chunk_end
         elif NEEDS_SEQ_MASK:
-            seq_end_idx0 = min((c + 1) * CHUNK_SIZE, SEQLEN) - 1
-            seq_idx_chunk_end0 = tl.load(
-                seq_base + seq_end_idx0 * STRIDE_SEQ_SEQLEN
+            seq_end_idx = c * CHUNK_SIZE + CHUNK_SIZE - 1
+            seq_end_idx_clamped = tl.min(seq_end_idx, SEQLEN - 1)
+            seq_idx_chunk_end = tl.load(
+                seq_base + seq_end_idx_clamped * STRIDE_SEQ_SEQLEN
             ).to(tl.int32)
-            scale_mask0 = seq_idx_chunk_end0 == prev_seq_idx_chunk_end
-            prev_seq_idx_chunk_end = seq_idx_chunk_end0
-        scale0 = tl.where(scale_mask0, tl.exp(dA0), 0.0)
-        state = scale0 * state + new_state0
-        if c < NCHUNKS - 2:
+            scale_mask = seq_idx_chunk_end == prev_seq_idx_chunk_end
+            prev_seq_idx_chunk_end = seq_idx_chunk_end
+
+        scale = tl.where(scale_mask, tl.exp(dA), 0.0)
+        state = scale * state + new_state
+
+        if c < NCHUNKS - 1:
             if IS_FULL_TILE:
                 tl.store(out_ptrs, state)
             else:
@@ -163,78 +170,11 @@ def _state_passing_fwd_kernel(
                 tl.store(final_ptrs, state)
             else:
                 tl.store(final_ptrs, state, mask=mask)
+
         states_ptrs += STRIDE_STATES_CHUNK
         out_ptrs += STRIDE_OUT_CHUNK
         dA_ptr += STRIDE_DA_CHUNK
-        if c + 1 < NCHUNKS:
-            if IS_FULL_TILE:
-                new_state1 = tl.load(states_ptrs).to(tl.float32)
-            else:
-                new_state1 = tl.load(states_ptrs, mask=mask, other=0.0).to(tl.float32)
-            dA1 = tl.load(tl.multiple_of(dA_ptr, 32)).to(tl.float32)
-            scale_mask1 = tl.full((), True, dtype=tl.int1)
-            if NEEDS_CONT_SEQ:
-                seq_end_idx1 = min((c + 2) * CHUNK_SIZE, SEQLEN) - 1
-                seq_start_idx1 = min((c + 1) * CHUNK_SIZE, SEQLEN)
-                seq_idx_chunk_end1 = tl.load(
-                    seq_base + seq_end_idx1 * STRIDE_SEQ_SEQLEN
-                ).to(tl.int32)
-                seq_changed1 = prev_seq_idx_chunk_end != seq_idx_chunk_end1
-                if seq_changed1:
-                    if IS_FULL_TILE:
-                        state = tl.load(
-                            initstates_ptr
-                            + seq_idx_chunk_end1 * STRIDE_INIT_BATCH
-                            + pid_h * STRIDE_INIT_HEAD
-                            + offs * STRIDE_INIT_DIM
-                        ).to(tl.float32)
-                    else:
-                        state = tl.load(
-                            initstates_ptr
-                            + seq_idx_chunk_end1 * STRIDE_INIT_BATCH
-                            + pid_h * STRIDE_INIT_HEAD
-                            + offs * STRIDE_INIT_DIM,
-                            mask=mask,
-                            other=0.0,
-                        ).to(tl.float32)
-                    seq_idx_chunk_start1 = tl.load(
-                        seq_base + seq_start_idx1 * STRIDE_SEQ_SEQLEN
-                    ).to(tl.int32)
-                    logical_chunk_idx += seq_idx_chunk_end1 - seq_idx_chunk_start1
-                    if logical_chunk_idx < CHUNK_META_NUM:
-                        c_off1 = tl.load(chunk_offsets_ptr + logical_chunk_idx)
-                        if c_off1 > 0:
-                            boundary_idx1 = c_off1 - 1
-                            dA_boundary1 = tl.load(
-                                dA_ptr
-                                - (CHUNK_SIZE - 1) * STRIDE_DA_CSIZE
-                                + boundary_idx1 * STRIDE_DA_CSIZE,
-                            ).to(tl.float32)
-                            dA1 -= dA_boundary1
-                logical_chunk_idx += 1
-                prev_seq_idx_chunk_end = seq_idx_chunk_end1
-            elif NEEDS_SEQ_MASK:
-                seq_end_idx1 = min((c + 2) * CHUNK_SIZE, SEQLEN) - 1
-                seq_idx_chunk_end1 = tl.load(
-                    seq_base + seq_end_idx1 * STRIDE_SEQ_SEQLEN
-                ).to(tl.int32)
-                scale_mask1 = seq_idx_chunk_end1 == prev_seq_idx_chunk_end
-                prev_seq_idx_chunk_end = seq_idx_chunk_end1
-            scale1 = tl.where(scale_mask1, tl.exp(dA1), 0.0)
-            state = scale1 * state + new_state1
-            if c + 1 < NCHUNKS - 2:
-                if IS_FULL_TILE:
-                    tl.store(out_ptrs, state)
-                else:
-                    tl.store(out_ptrs, state, mask=mask)
-            else:
-                if IS_FULL_TILE:
-                    tl.store(final_ptrs, state)
-                else:
-                    tl.store(final_ptrs, state, mask=mask)
-            states_ptrs += STRIDE_STATES_CHUNK
-            out_ptrs += STRIDE_OUT_CHUNK
-            dA_ptr += STRIDE_DA_CHUNK
+
 
 def _state_passing_fwd(
     states,
@@ -266,14 +206,14 @@ def _state_passing_fwd(
     out_dtype = states.dtype if out_dtype is None else out_dtype
     out = torch.empty((batch, nchunks, nheads, dim), device=states.device, dtype=out_dtype)
     final_states = torch.empty((batch, nheads, dim), device=states.device, dtype=torch.float32)
-    block_size = min(512, triton.next_power_of_2(max(1, dim)))
+    block_size = min(256, triton.next_power_of_2(max(1, dim)))
     if block_size <= 32:
-        num_warps = 2
+        num_warps = 1
     elif block_size <= 128:
-        num_warps = 4
+        num_warps = 2
     else:
-        num_warps = 8
-    grid = (triton.cdiv(dim, block_size), batch * nheads)
+        num_warps = 4
+    grid = (triton.cdiv(dim, block_size), batch, nheads)
     IS_FULL_TILE = (dim % block_size == 0)
     with torch.npu.device(states.device.index):
         _state_passing_fwd_kernel[grid](
@@ -316,8 +256,7 @@ def _state_passing_fwd(
             NEEDS_SEQ_MASK=seq_idx is not None and initial_states is None,
             BLOCK_SIZE=block_size,
             IS_FULL_TILE=IS_FULL_TILE,
-            NHEADS=nheads,
-            num_stages=2,
+            num_stages=1,
             num_warps=num_warps,
         )
     return out, final_states

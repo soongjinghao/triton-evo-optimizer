@@ -15,11 +15,9 @@ def fused_gdn_gating_kernel(
     threshold: tl.constexpr,
     BLK_HEADS: tl.constexpr,
     BLK_BATCH: tl.constexpr,
-    NUM_HEAD_BLOCKS: tl.constexpr,
 ):
-    program_id = tl.program_id(0)
-    head_block_idx = program_id // NUM_HEAD_BLOCKS
-    batch_block_idx = program_id % NUM_HEAD_BLOCKS
+    head_block_idx = tl.program_id(0)
+    batch_block_idx = tl.program_id(1)
     head_off = head_block_idx * BLK_HEADS + tl.arange(0, BLK_HEADS)
     batch_off = batch_block_idx * BLK_BATCH + tl.arange(0, BLK_BATCH)
     head_mask = head_off < NUM_HEADS
@@ -36,19 +34,14 @@ def fused_gdn_gating_kernel(
     bias_expanded = blk_bias[None, :]
     x = blk_a + bias_expanded
     beta_x = beta * x
-    need_full = tl.max(beta_x > threshold) != 0
-    if need_full:
-        exp_term = tl.exp(beta_x)
-        inv_beta = 1.0 / beta
-        softplus_approx = inv_beta * tl.log(1.0 + exp_term)
-        softplus_x = tl.where(beta_x > threshold, x, softplus_approx)
-    else:
-        softplus_x = x
+    inv_beta = 1.0 / beta
+    softplus_x = tl.where(beta_x > threshold, x, inv_beta * tl.log(1.0 + tl.exp(beta_x)))
     A_exp = tl.exp(blk_A_log)
     A_exp_expanded = A_exp[None, :]
     blk_g = -A_exp_expanded * softplus_x
     tl.store(g + off_base, blk_g, mask=full_mask)
-    blk_beta_output = tl.sigmoid(blk_b)
+    neg_blk_b = -blk_b
+    blk_beta_output = 1.0 / (1.0 + tl.exp(neg_blk_b))
     tl.store(beta_output + off_base, blk_beta_output, mask=full_mask)
 def fused_gdn_gating(
     A_log: torch.Tensor,
@@ -85,7 +78,7 @@ def fused_gdn_gating(
     BLK_BATCH = max(8, BLK_BATCH)
     num_head_blocks = triton.cdiv(num_heads, BLK_HEADS)
     num_batch_blocks = triton.cdiv(batch, BLK_BATCH)
-    grid = (num_head_blocks * num_batch_blocks,)
+    grid = (num_head_blocks, num_batch_blocks)
     if len(a.shape) == 3:
         g = torch.empty(batch, seq_len, num_heads, dtype=torch.float32, device=a.device)
         beta_output = torch.empty(batch, seq_len, num_heads, dtype=torch.float32, device=b.device)
@@ -114,7 +107,6 @@ def fused_gdn_gating(
         threshold,
         BLK_HEADS,
         BLK_BATCH,
-        num_head_blocks,
         num_warps=num_warps,
     )
     if len(a.shape) == 3:

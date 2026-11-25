@@ -1,11 +1,9 @@
 import torch
 import triton
 import triton.language as tl
-
 @triton.jit
 def cdiv_fn(x, y):
     return (x + y - 1) // y
-
 @triton.jit
 def find_seq_idx(
     query_start_len_ptr,
@@ -25,7 +23,6 @@ def find_seq_idx(
         else:
             right = mid
     return left - 1
-
 @triton.jit
 def reduce_segments(
     output_ptr,
@@ -47,10 +44,8 @@ def reduce_segments(
     NUM_SEGMENTS_PER_SEQ: tl.constexpr,
     USE_FP8: tl.constexpr,
 ):
-    flat_idx = tl.program_id(0)
-    num_tokens = tl.num_programs(0)
-    query_token_idx = flat_idx // num_query_heads
-    query_head_idx = flat_idx % num_query_heads
+    query_token_idx = tl.program_id(0)
+    query_head_idx = tl.program_id(1)
     seq_idx = find_seq_idx(
         query_start_len_ptr, query_token_idx, num_seqs, BLOCK_Q, False
     )

@@ -2,12 +2,9 @@ import warnings
 import torch
 import triton
 import triton.language as tl
-
 BS_LIST = [32, 64]
-
 def prepare_lens(cu_seqlens: torch.LongTensor) -> torch.LongTensor:
     return cu_seqlens[1:] - cu_seqlens[:-1]
-
 def prepare_chunk_indices(
     cu_seqlens: torch.LongTensor, chunk_size: int
 ) -> torch.LongTensor:
@@ -18,7 +15,6 @@ def prepare_chunk_indices(
         ]
     )
     return torch.stack([indices.eq(0).cumsum(0) - 1, indices], 1).to(cu_seqlens)
-
 @triton.heuristics({"IS_VARLEN": lambda args: args["cu_seqlens"] is not None})
 @triton.autotune(
     configs=[triton.Config({}, num_warps=num_warps) for num_warps in [1, 2, 4, 8]],
@@ -44,20 +40,6 @@ def chunk_local_cumsum_scalar_kernel(
     pid = tl.program_id(0)
     start_task = pid * BLOCK_BH
     end_task = min(start_task + BLOCK_BH, NT_total)
-    
-    # Loop invariant code motion: hoist chunk_indices and cu_seqlens loads outside task loop
-    if IS_VARLEN:
-        # Batch load chunk_indices for the entire BLOCK_BH range
-        task_offsets = start_task + tl.arange(0, BLOCK_BH)
-        task_mask = task_offsets < end_task
-        # Load i_n and i_t for all tasks in this block
-        i_n_all = tl.load(chunk_indices + task_offsets * 2, mask=task_mask, other=0).to(tl.int32)
-        i_t_all = tl.load(chunk_indices + task_offsets * 2 + 1, mask=task_mask, other=0).to(tl.int32)
-        # Load bos and eos for all tasks
-        bos_all = tl.load(cu_seqlens + i_n_all, mask=task_mask, other=0).to(tl.int32)
-        eos_all = tl.load(cu_seqlens + i_n_all + 1, mask=task_mask, other=0).to(tl.int32)
-        T_local_all = eos_all - bos_all
-    
     for task_idx in range(start_task, end_task):
         i_n = 0
         i_t = 0
@@ -67,13 +49,11 @@ def chunk_local_cumsum_scalar_kernel(
         i_b = 0
         i_h = 0
         if IS_VARLEN:
-            # Use pre-loaded values
-            local_idx = task_idx - start_task
-            i_n = i_n_all[local_idx]
-            i_t = i_t_all[local_idx]
-            bos = bos_all[local_idx]
-            eos = eos_all[local_idx]
-            T_local = T_local_all[local_idx]
+            i_n = tl.load(chunk_indices + task_idx * 2).to(tl.int32)
+            i_t = tl.load(chunk_indices + task_idx * 2 + 1).to(tl.int32)
+            bos = tl.load(cu_seqlens + i_n).to(tl.int32)
+            eos = tl.load(cu_seqlens + i_n + 1).to(tl.int32)
+            T_local = eos - bos
         else:
             i_b = task_idx // (NT_per_seq * H)
             remaining = task_idx % (NT_per_seq * H)
@@ -107,7 +87,7 @@ def chunk_local_cumsum_scalar_kernel(
                 b_o = tl.cumsum(b_s, axis=0)
                 if REVERSE:
                     b_z = tl.sum(b_s, axis=0)
-                    b_o = -b_o + b_z[None] + b_s
+                    b_o = -b_o + b_z + b_s
                 tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0,))
         else:
             if IS_VARLEN:
@@ -127,7 +107,6 @@ def chunk_local_cumsum_scalar_kernel(
                 b_z = tl.sum(b_s, axis=0)
                 b_o = -b_o + b_z[None] + b_s
             tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0,))
-
 def chunk_local_cumsum_scalar(
     g: torch.Tensor,
     chunk_size: int,
@@ -156,8 +135,7 @@ def chunk_local_cumsum_scalar(
         else:
             NT_total = len(chunk_indices) * H
     MAX_GRID_SIZE = 40
-    # Reduce BLOCK_BH to min(8, NT_total) to lower register pressure
-    BLOCK_BH = min(8, NT_total)
+    BLOCK_BH = triton.cdiv(NT_total, MAX_GRID_SIZE)
     grid_size = min(MAX_GRID_SIZE, triton.cdiv(NT_total, BLOCK_BH))
     g_org, g = g, torch.empty_like(g, dtype=output_dtype or g.dtype)
     grid = (grid_size,)

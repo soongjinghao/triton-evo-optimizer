@@ -17,34 +17,38 @@ def _correct_attn_cp_out_kernel(
     lse_idx,
     HEAD_DIM: tl.constexpr,
     N_ROUNDED: tl.constexpr,
+    BLOCK_H: tl.constexpr,
 ):
-    batch_idx = tl.program_id(axis=0).to(tl.int32)
-    head_idx = tl.program_id(axis=1).to(tl.int32)
+    batch_idx = tl.program_id(axis=0).to(tl.int64)
+    head_block_idx = tl.program_id(axis=1).to(tl.int64)
+    head_offsets = head_block_idx * BLOCK_H + tl.arange(0, BLOCK_H)
     d_offsets = tl.arange(0, HEAD_DIM)
     num_n_offsets = tl.arange(0, N_ROUNDED)
+    
     lse_offsets = (
-        num_n_offsets * lses_stride_N
+        num_n_offsets[:, None] * lses_stride_N
         + batch_idx * lses_stride_B
-        + head_idx * lses_stride_H
+        + head_offsets[None, :] * lses_stride_H
     )
     lse = tl.load(lses_ptr + lse_offsets)
     lse = tl.where((lse != lse) | (lse == float("inf")), -float("inf"), lse)
     lse_max = tl.max(lse, axis=0)
     lse_max = tl.where(lse_max == -float("inf"), 0, lse_max)
-    lse -= lse_max
+    lse -= lse_max[None, :]
     lse_exp = tl.exp(lse)
     lse_acc = tl.sum(lse_exp, axis=0)
     lse = tl.log(lse_acc)
     lse += lse_max
-    lse_offsets = batch_idx * lses_stride_B + head_idx * lses_stride_H
+    lse_offsets = batch_idx * lses_stride_B + head_offsets * lses_stride_H
     tl.store(vlse_ptr + lse_offsets, lse)
+    
     output_offsets = (
         batch_idx * outputs_stride_B
-        + head_idx * outputs_stride_H
-        + d_offsets * outputs_stride_D
+        + head_offsets[:, None] * outputs_stride_H
+        + d_offsets[None, :] * outputs_stride_D
     )
     lse_offset = (
-        lse_idx * lses_stride_N + batch_idx * lses_stride_B + head_idx * lses_stride_H
+        lse_idx * lses_stride_N + batch_idx * lses_stride_B + head_offsets * lses_stride_H
     )
     lse_tmp = tl.load(lses_ptr + lse_offset)
     lse_finally = lse_tmp - lse
@@ -55,7 +59,7 @@ def _correct_attn_cp_out_kernel(
     )
     factor = tl.exp(lse_finally)
     output = tl.load(outputs_ptr + output_offsets)
-    output = output * factor
+    output = output * factor[:, None]
     tl.store(new_output_ptr + output_offsets, output)
 
 def correct_attn_cp_out(outputs, lses, lse_idx):
@@ -64,21 +68,22 @@ def correct_attn_cp_out(outputs, lses, lse_idx):
     N_ROUNDED = triton.next_power_of_2(N)
     new_output = torch.empty_like(outputs, device='npu')
     vlse = torch.empty((B, H), device='npu', dtype=torch.float32)
-    lses_T = lses.permute(1, 2, 0).contiguous()
-    grid = (B, H)
+    BLOCK_H = 4
+    grid = (B, triton.cdiv(H, BLOCK_H))
     _correct_attn_cp_out_kernel[grid](
-        outputs,
-        new_output,
-        lses_T,
+        outputs, 
+        new_output, 
+        lses, 
         vlse,
         outputs.stride(0),
         outputs.stride(1),
         outputs.stride(2),
-        1,
-        N,
-        B * N,
+        lses.stride(0),
+        lses.stride(1),
+        lses.stride(2),
         lse_idx,
         HEAD_DIM=D,
         N_ROUNDED=N_ROUNDED,
+        BLOCK_H=BLOCK_H,
     )
     return new_output, vlse

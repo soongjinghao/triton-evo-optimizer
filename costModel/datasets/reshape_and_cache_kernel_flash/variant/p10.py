@@ -2,7 +2,6 @@ import torch
 import torch_npu
 import triton
 import triton.language as tl
-
 @triton.jit
 def reshape_and_cache_kernel_flash(
     key_ptr,
@@ -19,37 +18,34 @@ def reshape_and_cache_kernel_flash(
     num_heads: tl.constexpr,
     head_size: tl.constexpr,
     block_size: tl.constexpr,
-    LOG2_BLOCK_SIZE: tl.constexpr,
     FP8_KV_CACHE: tl.constexpr,
     TILE_SIZE: tl.constexpr,
+    block_idx: tl.int64,
+    block_offset: tl.int64,
+    src_key_idx: tl.int64,
+    src_value_idx: tl.int64,
+    tgt_idx: tl.int64,
 ):
-    token_idx = tl.program_id(axis=0)
-    slot_idx = tl.load(slot_mapping_ptr + token_idx).to(tl.int64)
-    if slot_idx < 0:
-        return
     tile_i = tl.program_id(axis=1)
     tile_offs = tl.arange(0, TILE_SIZE)
     tile_pos = tile_i * TILE_SIZE + tile_offs
-    block_idx = slot_idx >> LOG2_BLOCK_SIZE
-    block_offset = slot_idx & (block_size - 1)
-    src_key_idx = token_idx * key_stride
-    src_value_idx = token_idx * value_stride
-    tgt_idx = block_idx * block_stride + block_offset * page_stride
     key_load = tl.load(
         key_ptr + src_key_idx + tile_pos, mask=tile_pos < (num_heads * head_size)
     )
     if FP8_KV_CACHE:
-        key_tile = key_load if key_load.dtype.is_fp8() else key_load / tl.load(k_scale)
+        inv_k_scale = 1.0 / tl.load(k_scale)
+        key_tile = key_load if key_load.dtype.is_fp8() else key_load * inv_k_scale
     else:
         key_tile = key_load
     value_load = tl.load(
         value_ptr + src_value_idx + tile_pos, mask=tile_pos < (num_heads * head_size)
     )
     if FP8_KV_CACHE:
+        inv_v_scale = 1.0 / tl.load(v_scale)
         if value_load.dtype.is_fp8():
             value_tile = value_load
         else:
-            value_tile = value_load / tl.load(v_scale)
+            value_tile = value_load * inv_v_scale
     else:
         value_tile = value_load
     tl.store(
@@ -62,7 +58,6 @@ def reshape_and_cache_kernel_flash(
         value_tile,
         mask=tile_pos < (num_heads * head_size),
     )
-
 def triton_reshape_and_cache_flash(
     key: torch.Tensor,
     value: torch.Tensor,
@@ -101,31 +96,42 @@ def triton_reshape_and_cache_flash(
         value_cache = value_cache.to(kv_cache_torch_dtype)
     FP8_KV_CACHE = kv_cache_dtype.startswith("fp8")
     TILE_SIZE = min(512, triton.next_power_of_2(n))
-    LOG2_BLOCK_SIZE = 4
-    num_warps = 4
-    num_stages = 2
-    grid = lambda meta: (
-        slot_mapping.shape[0],
-        triton.cdiv(n, meta["TILE_SIZE"]),
-    )
-    reshape_and_cache_kernel_flash[grid](
-        key_ptr=key,
-        value_ptr=value,
-        key_cache_ptr=key_cache,
-        value_cache_ptr=value_cache,
-        slot_mapping_ptr=slot_mapping,
-        k_scale=k_scale,
-        v_scale=v_scale,
-        key_stride=key_stride,
-        value_stride=value_stride,
-        block_stride=block_stride,
-        page_stride=page_stride,
-        num_heads=num_heads,
-        head_size=head_size,
-        block_size=block_size,
-        LOG2_BLOCK_SIZE=LOG2_BLOCK_SIZE,
-        FP8_KV_CACHE=FP8_KV_CACHE,
-        TILE_SIZE=TILE_SIZE,
-        num_warps=num_warps,
-        num_stages=num_stages,
-    )
+    num_warps = 8
+    num_stages = 3
+    num_tokens = slot_mapping.shape[0]
+    slot_mapping_cpu = slot_mapping.cpu()
+    for token_idx in range(num_tokens):
+        slot_idx = int(slot_mapping_cpu[token_idx].item())
+        if slot_idx < 0:
+            continue
+        block_idx = slot_idx // block_size
+        block_offset = slot_idx % block_size
+        src_key_idx = token_idx * key_stride
+        src_value_idx = token_idx * value_stride
+        tgt_idx = block_idx * block_stride + block_offset * page_stride
+        grid = lambda meta: (1, triton.cdiv(n, meta["TILE_SIZE"]))
+        reshape_and_cache_kernel_flash[grid](
+            key_ptr=key,
+            value_ptr=value,
+            key_cache_ptr=key_cache,
+            value_cache_ptr=value_cache,
+            slot_mapping_ptr=slot_mapping,
+            k_scale=k_scale,
+            v_scale=v_scale,
+            key_stride=key_stride,
+            value_stride=value_stride,
+            block_stride=block_stride,
+            page_stride=page_stride,
+            num_heads=num_heads,
+            head_size=head_size,
+            block_size=block_size,
+            FP8_KV_CACHE=FP8_KV_CACHE,
+            TILE_SIZE=TILE_SIZE,
+            block_idx=block_idx,
+            block_offset=block_offset,
+            src_key_idx=src_key_idx,
+            src_value_idx=src_value_idx,
+            tgt_idx=tgt_idx,
+            num_warps=num_warps,
+            num_stages=num_stages,
+        )

@@ -44,40 +44,26 @@ def _chunk_cumsum_fwd_kernel(
     HAS_DT_BIAS: tl.constexpr,
     BLOCK_SIZE_CHUNK: tl.constexpr,
     BLOCK_SIZE_H: tl.constexpr = 16,
-    CONTIGUOUS_DT: tl.constexpr = False,
-    CONTIGUOUS_DT_OUT: tl.constexpr = False,
-    CONTIGUOUS_DA_CUMSUM: tl.constexpr = False,
 ):
-    pid = tl.program_id(axis=0).to(tl.int64)
-    nchunks = tl.cdiv(seqlen, chunk_size).to(tl.int64)
-    pid_b = pid // (nchunks * tl.cdiv(nheads, BLOCK_SIZE_H))
-    pid_rem = pid % (nchunks * tl.cdiv(nheads, BLOCK_SIZE_H))
-    pid_c = pid_rem // tl.cdiv(nheads, BLOCK_SIZE_H)
-    pid_h = pid_rem % tl.cdiv(nheads, BLOCK_SIZE_H)
+    pid_b = tl.program_id(axis=0)
+    pid_ch = tl.program_id(axis=1)
+    pid_c = pid_ch // tl.cdiv(nheads, BLOCK_SIZE_H)
+    pid_h = pid_ch % tl.cdiv(nheads, BLOCK_SIZE_H)
     dt_ptr += pid_b * stride_dt_batch + pid_c * chunk_size * stride_dt_seqlen
     dt_out_ptr += pid_b * stride_dt_out_batch + pid_c * stride_dt_out_chunk
     dA_cumsum_ptr += pid_b * stride_dA_cs_batch + pid_c * stride_dA_cs_chunk
     offs_h = pid_h * BLOCK_SIZE_H + tl.arange(0, BLOCK_SIZE_H)
     offs_c = tl.arange(0, BLOCK_SIZE_CHUNK)
-    if CONTIGUOUS_DT:
-        dt_ptrs = dt_ptr + offs_h[:, None] * chunk_size + offs_c[None, :]
-    else:
-        dt_ptrs = dt_ptr + (
-            offs_h[:, None] * stride_dt_head + offs_c[None, :] * stride_dt_seqlen
-        )
+    dt_ptrs = dt_ptr + (
+        offs_h[:, None] * stride_dt_head + offs_c[None, :] * stride_dt_seqlen
+    )
     A_ptrs = A_ptr + offs_h * stride_A_head
-    if CONTIGUOUS_DT_OUT:
-        dt_out_ptrs = dt_out_ptr + offs_h[:, None] * chunk_size + offs_c[None, :]
-    else:
-        dt_out_ptrs = dt_out_ptr + (
-            offs_h[:, None] * stride_dt_out_head + offs_c[None, :] * stride_dt_out_csize
-        )
-    if CONTIGUOUS_DA_CUMSUM:
-        dA_cs_ptrs = dA_cumsum_ptr + offs_h[:, None] * chunk_size + offs_c[None, :]
-    else:
-        dA_cs_ptrs = dA_cumsum_ptr + (
-            offs_h[:, None] * stride_dA_cs_head + offs_c[None, :] * stride_dA_cs_csize
-        )
+    dt_out_ptrs = dt_out_ptr + (
+        offs_h[:, None] * stride_dt_out_head + offs_c[None, :] * stride_dt_out_csize
+    )
+    dA_cs_ptrs = dA_cumsum_ptr + (
+        offs_h[:, None] * stride_dA_cs_head + offs_c[None, :] * stride_dA_cs_csize
+    )
     chunk_size_limit = min(chunk_size, seqlen - pid_c * chunk_size)
     dt = tl.load(
         dt_ptrs,
@@ -122,11 +108,12 @@ def _chunk_cumsum_fwd(
     dA_cumsum = torch.empty(
         batch, nheads, nchunks, chunk_size, device=dt.device, dtype=torch.float32
     )
-    contiguous_dt = (dt.stride(1) == 1) and (dt.stride(2) == chunk_size)
-    contiguous_dt_out = (dt_out.stride(3) == 1) and (dt_out.stride(2) == chunk_size)
-    contiguous_dA_cumsum = (dA_cumsum.stride(3) == 1) and (dA_cumsum.stride(2) == chunk_size)
-    grid = lambda META: (batch * nchunks * triton.cdiv(nheads, META["BLOCK_SIZE_H"]),)
-    _chunk_cumsum_fwd_kernel[grid](
+    grid_chunk_cs = lambda META: (
+        batch,
+        nchunks * triton.cdiv(nheads, META["BLOCK_SIZE_H"]),
+        1,
+    )
+    _chunk_cumsum_fwd_kernel[grid_chunk_cs](
         dt,
         A,
         dt_bias,
@@ -154,8 +141,5 @@ def _chunk_cumsum_fwd(
         dt_softplus,
         HAS_DT_BIAS=dt_bias is not None,
         BLOCK_SIZE_CHUNK=triton.next_power_of_2(chunk_size),
-        CONTIGUOUS_DT=contiguous_dt,
-        CONTIGUOUS_DT_OUT=contiguous_dt_out,
-        CONTIGUOUS_DA_CUMSUM=contiguous_dA_cumsum,
     )
     return dA_cumsum, dt_out

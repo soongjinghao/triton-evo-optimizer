@@ -20,25 +20,24 @@ def _dequantize_k_cache_fast(quant_k_cache, group_size: int = 128):
     input_nope_s = quant_k_cache[:, dim_nope : dim_nope + num_tiles * 4].view(
         torch.float32
     )
-    input_rope = quant_k_cache[:, dim_nope + num_tiles * 4 :].view(torch.bfloat16)
-    token_base_q = 0
-    token_base_s = 0
-    token_base_rope = 0
-    token_base_out = 0
-    _dequantize_k_cache_fast_kernel[(num_tokens, num_blocks_per_token)](
+    input_rope = quant_k_cache[:, dim_nope + num_tiles * 4 : dim_nope + num_tiles * 4 + dim_rope].view(torch.bfloat16)
+    BLOCK_M = 4
+    grid = (triton.cdiv(num_tokens, BLOCK_M), 5)
+    _dequantize_k_cache_fast_kernel[grid](
         output,
         input_nope_q,
         input_nope_s,
         input_rope,
-        token_base_q,
-        token_base_s,
-        token_base_rope,
-        token_base_out,
         output.stride(0),
+        input_nope_q.stride(0),
+        input_nope_s.stride(0),
+        input_rope.stride(0),
         NUM_NOPE_BLOCKS=num_tiles,
         GROUP_SIZE=group_size,
         DIM_NOPE=dim_nope,
         DIM_ROPE=dim_rope,
+        BLOCK_M=BLOCK_M,
+        NUM_TOKENS=num_tokens,
     )
     return output
 
@@ -48,34 +47,39 @@ def _dequantize_k_cache_fast_kernel(
     input_nope_q_ptr,
     input_nope_s_ptr,
     input_rope_ptr,
-    token_base_q: tl.constexpr,
-    token_base_s: tl.constexpr,
-    token_base_rope: tl.constexpr,
-    token_base_out: tl.constexpr,
     output_stride_0: int,
+    input_nope_q_stride_0: int,
+    input_nope_s_stride_0: int,
+    input_rope_stride_0: int,
     NUM_NOPE_BLOCKS: tl.constexpr,
     GROUP_SIZE: tl.constexpr,
     DIM_NOPE: tl.constexpr,
     DIM_ROPE: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    NUM_TOKENS: tl.constexpr,
 ):
-    token_id = tl.program_id(0)
+    token_base = tl.program_id(0) * BLOCK_M
     raw_block_id = tl.program_id(1)
+    offs_token = token_base + tl.arange(0, BLOCK_M)
+    token_mask = offs_token < NUM_TOKENS
     if raw_block_id < NUM_NOPE_BLOCKS:
         effective_block_id = raw_block_id
         offs_q = effective_block_id * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
-        mask = offs_q < DIM_NOPE
-        ptr_q = input_nope_q_ptr + token_base_q + offs_q
-        ptr_s = input_nope_s_ptr + token_base_s + effective_block_id
+        mask_col = offs_q < DIM_NOPE
+        mask = token_mask[:, None] & mask_col[None, :]
+        ptr_q = input_nope_q_ptr + offs_token[:, None] * input_nope_q_stride_0 + offs_q[None, :]
+        ptr_s = input_nope_s_ptr + offs_token * input_nope_s_stride_0 + effective_block_id
         y_q = tl.load(ptr_q, mask=mask, other=0.0).to(tl.float32)
-        y_s = tl.load(ptr_s)
+        y_s = tl.load(ptr_s, mask=token_mask)[:, None]
         y = (y_q * y_s).to(output_ptr.dtype.element_ty)
-        dst_ptr = output_ptr + token_base_out + offs_q
+        dst_ptr = output_ptr + offs_token[:, None] * output_stride_0 + offs_q[None, :]
         tl.store(dst_ptr, y, mask=mask)
     else:
         effective_block_id = raw_block_id - NUM_NOPE_BLOCKS
         offs = effective_block_id * GROUP_SIZE + tl.arange(0, GROUP_SIZE)
-        mask = offs < DIM_ROPE
-        src_ptr = input_rope_ptr + token_base_rope + offs
-        dst_ptr = output_ptr + token_base_out + DIM_NOPE + offs
+        mask_col = offs < DIM_ROPE
+        mask = token_mask[:, None] & mask_col[None, :]
+        src_ptr = input_rope_ptr + offs_token[:, None] * input_rope_stride_0 + offs[None, :]
+        dst_ptr = output_ptr + offs_token[:, None] * output_stride_0 + DIM_NOPE + offs[None, :]
         data = tl.load(src_ptr, mask=mask).to(tl.bfloat16)
         tl.store(dst_ptr, data, mask=mask)

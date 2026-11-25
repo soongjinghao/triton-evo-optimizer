@@ -26,7 +26,7 @@ def compute_identity_kernel(
     output_ptr: tl.tensor,
     num_tokens: int,
     hidden_dim: int,
-    num_tokens_stride: int,
+    scales_stride: int,
     BLOCK_B: tl.constexpr,
     BLOCK_D: tl.constexpr,
     TOP_K_BLOCK: tl.constexpr,
@@ -39,14 +39,16 @@ def compute_identity_kernel(
     for k_start in range(0, top_k, TOP_K_BLOCK):
         k_offsets = tl.arange(0, TOP_K_BLOCK)
         k_mask = k_offsets < (top_k - k_start)
-        scale_ptr = expert_scales_ptr + k_start * num_tokens_stride + token_start
+        scale_ptr = expert_scales_ptr + token_start * scales_stride + k_start
         scales_block = tl.load(
-            scale_ptr + token_offsets,
-            mask=token_mask
+            scale_ptr + token_offsets[:, None] * scales_stride + k_offsets[None, :],
+            mask=token_mask[:, None] & k_mask[None, :]
         )
-        scales_sum = tl.sum(scales_block[:, None] * tl.where(k_mask[None, :], 1.0, 0.0), axis=1)
+        scales_sum = tl.sum(scales_block, axis=1)
         scales_accum += tl.where(token_mask, scales_sum, 0.0)
-    for d_start in range(0, hidden_dim, BLOCK_D):
+    d_start = 0
+    BLOCK_D2 = BLOCK_D * 2
+    for d_start in range(0, hidden_dim, BLOCK_D2):
         d_offsets = tl.arange(0, BLOCK_D)
         d_mask = d_offsets < (hidden_dim - d_start)
         h_ptr = hidden_states_ptr + token_start * hidden_dim + d_start
@@ -55,11 +57,45 @@ def compute_identity_kernel(
             mask=token_mask[:, None] & d_mask[None, :]
         )
         result = h * scales_accum[:, None]
+        result_2d = tl.view(result, (BLOCK_B, BLOCK_D))
         out_ptr = output_ptr + token_start * hidden_dim + d_start
         tl.store(
             out_ptr + token_offsets[:, None] * hidden_dim + d_offsets[None, :],
-            result,
+            result_2d,
             mask=token_mask[:, None] & d_mask[None, :]
+        )
+        d_start_next = d_start + BLOCK_D
+        if d_start_next + BLOCK_D <= hidden_dim:
+            d_offsets2 = tl.arange(0, BLOCK_D)
+            d_mask2 = d_offsets2 < (hidden_dim - d_start_next)
+            h_ptr2 = hidden_states_ptr + token_start * hidden_dim + d_start_next
+            h2 = tl.load(
+                h_ptr2 + token_offsets[:, None] * hidden_dim + d_offsets2[None, :],
+                mask=token_mask[:, None] & d_mask2[None, :]
+            )
+            result2 = h2 * scales_accum[:, None]
+            result2_2d = tl.view(result2, (BLOCK_B, BLOCK_D))
+            out_ptr2 = output_ptr + token_start * hidden_dim + d_start_next
+            tl.store(
+                out_ptr2 + token_offsets[:, None] * hidden_dim + d_offsets2[None, :],
+                result2_2d,
+                mask=token_mask[:, None] & d_mask2[None, :]
+            )
+    if hidden_dim % BLOCK_D2 != 0:
+        d_start_tail = (hidden_dim // BLOCK_D2) * BLOCK_D2
+        d_offsets_tail = tl.arange(0, BLOCK_D)
+        d_mask_tail = d_offsets_tail < (hidden_dim - d_start_tail)
+        h_ptr_tail = hidden_states_ptr + token_start * hidden_dim + d_start_tail
+        h_tail = tl.load(
+            h_ptr_tail + token_offsets[:, None] * hidden_dim + d_offsets_tail[None, :],
+            mask=token_mask[:, None] & d_mask_tail[None, :]
+        )
+        result_tail = h_tail * scales_accum[:, None]
+        out_ptr_tail = output_ptr + token_start * hidden_dim + d_start_tail
+        tl.store(
+            out_ptr_tail + token_offsets[:, None] * hidden_dim + d_offsets_tail[None, :],
+            result_tail,
+            mask=token_mask[:, None] & d_mask_tail[None, :]
         )
 def zero_experts_compute_triton(
     expert_indices: torch.Tensor,
@@ -83,7 +119,6 @@ def zero_experts_compute_triton(
     output = torch.zeros_like(hidden_states, device='npu')
     hidden_dim = hidden_states.size(-1)
     num_tokens = hidden_states.size(0)
-    zero_expert_scales_t = zero_expert_scales.t().contiguous()
     BLOCK_B = 32
     BLOCK_D = 256
     TOP_K_BLOCK = 8
@@ -91,13 +126,15 @@ def zero_experts_compute_triton(
     compute_identity_kernel[grid](
         top_k,
         hidden_states,
-        zero_expert_scales_t,
+        zero_expert_scales,
         output,
         num_tokens,
         hidden_dim,
-        zero_expert_scales_t.stride(0),
+        zero_expert_scales.stride(0),
         BLOCK_B=BLOCK_B,
         BLOCK_D=BLOCK_D,
         TOP_K_BLOCK=TOP_K_BLOCK,
+        num_warps=4,
+        num_stages=2,
     )
     return output
