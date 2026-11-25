@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 212698,
+      "call_index": 1,
+      "jit_function": "fused_qkvzba_split_reshape_cat_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p212698_k001_fused_qkvzba_split_reshape_cat_kernel.ttir.mlir",
+        "p212698_k001_fused_qkvzba_split_reshape_cat_kernel.ttadapter.mlir",
+        "p212698_k001_fused_qkvzba_split_reshape_cat_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 212925,
+      "call_index": 1,
+      "jit_function": "fused_qkvzba_split_reshape_cat_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p212925_k001_fused_qkvzba_split_reshape_cat_kernel.ttir.mlir",
+        "p212925_k001_fused_qkvzba_split_reshape_cat_kernel.ttadapter.mlir",
+        "p212925_k001_fused_qkvzba_split_reshape_cat_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 213312,
+      "call_index": 1,
+      "jit_function": "fused_qkvzba_split_reshape_cat_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p213312_k001_fused_qkvzba_split_reshape_cat_kernel.ttir.mlir",
+        "p213312_k001_fused_qkvzba_split_reshape_cat_kernel.ttadapter.mlir",
+        "p213312_k001_fused_qkvzba_split_reshape_cat_kernel.npubin"
+      ]
+    }
+  ]
+}

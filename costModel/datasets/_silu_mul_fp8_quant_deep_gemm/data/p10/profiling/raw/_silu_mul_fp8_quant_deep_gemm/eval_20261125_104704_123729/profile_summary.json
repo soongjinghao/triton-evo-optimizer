@@ -1,0 +1,205 @@
+{
+  "schema_version": "costmodel_msprof_v1",
+  "kernel_name": "_silu_mul_fp8_quant_deep_gemm",
+  "profile_mode": "full",
+  "timing": {
+    "execution_time_us": 8.1,
+    "source": "op_summary.Task Duration(us)",
+    "sample_count": 1,
+    "task_time_cross_check": {
+      "median_task_time_us": 7.18,
+      "sample_count": 1,
+      "task_id": "3",
+      "stream_id": "47"
+    },
+    "hardware_pass_task_duration_us": 7.18,
+    "cross_pass_difference_us": 0.9199999999999999,
+    "cross_pass_relative_difference_pct": 11.358024691358025,
+    "cross_pass_consistent_20pct": true,
+    "label_valid": true,
+    "label_execution_time_us": 8.1
+  },
+  "kernel": {
+    "Device_id": "0",
+    "Task ID": "3",
+    "Stream ID": "47",
+    "Op Name": "_silu_mul_fp8_quant_deep_gemm",
+    "OP Type": "_silu_mul_fp8_quant_deep_gemm",
+    "OP State": "static",
+    "Task Type": "AI_VECTOR_CORE",
+    "Task Start Time(us)": "1795603643670133.420\t",
+    "Task Duration(us)": 7.18,
+    "Block Num": "16",
+    "Mix Block Num": "0",
+    "HF32 Eligible": "YES",
+    "Input Shapes": "\"2,8,256;2\"",
+    "Input Data Types": "FLOAT16;INT32",
+    "Output Shapes": "\"2,8,128;2,8,1\"",
+    "Output Data Types": "FLOAT16;FLOAT",
+    "aicore_time(us)": 0.0,
+    "aic_total_cycles": 0.0,
+    "aic_mac_time(us)": 0.0,
+    "aic_mac_ratio": 0.0,
+    "aic_scalar_time(us)": 0.0,
+    "aic_scalar_ratio": 0.0,
+    "aic_mte1_time(us)": 0.0,
+    "aic_mte1_ratio": 0.0,
+    "aic_mte2_time(us)": 0.0,
+    "aic_mte2_ratio": 0.0,
+    "aic_fixpipe_time(us)": 0.0,
+    "aic_fixpipe_ratio": 0.0,
+    "aic_icache_miss_rate": 0.0,
+    "aiv_time(us)": 5.323,
+    "aiv_total_cycles": 153310.0,
+    "aiv_vec_time(us)": 0.51,
+    "aiv_vec_ratio": 0.096,
+    "aiv_scalar_time(us)": 1.544,
+    "aiv_scalar_ratio": 0.29,
+    "aiv_mte2_time(us)": 0.401,
+    "aiv_mte2_ratio": 0.075,
+    "aiv_mte3_time(us)": 0.129,
+    "aiv_mte3_ratio": 0.024,
+    "aiv_icache_miss_rate": 0.165,
+    "cube_utilization(%)": 0.0
+  },
+  "core_utilization": {
+    "ai_core": {
+      "source": "op_summary_task",
+      "task_type": "AI_VECTOR_CORE",
+      "applicability": "not_applicable_for_task_type",
+      "record_count": 1,
+      "active_record_count": 0,
+      "mac_ratio_mean": 0.0,
+      "scalar_ratio_mean": 0.0,
+      "mte1_ratio_mean": 0.0,
+      "mte2_ratio_mean": 0.0,
+      "fixpipe_ratio_mean": 0.0,
+      "icache_miss_rate_mean": 0.0,
+      "mac_ratio_max": 0.0,
+      "scalar_ratio_max": 0.0,
+      "mte1_ratio_max": 0.0,
+      "mte2_ratio_max": 0.0,
+      "fixpipe_ratio_max": 0.0,
+      "icache_miss_rate_max": 0.0
+    },
+    "ai_vector_core": {
+      "source": "op_summary_task",
+      "task_type": "AI_VECTOR_CORE",
+      "applicability": "available",
+      "record_count": 1,
+      "active_record_count": 1,
+      "vec_ratio_mean": 0.096,
+      "scalar_ratio_mean": 0.29,
+      "mte2_ratio_mean": 0.075,
+      "mte3_ratio_mean": 0.024,
+      "icache_miss_rate_mean": 0.165,
+      "vec_ratio_max": 0.096,
+      "scalar_ratio_max": 0.29,
+      "mte2_ratio_max": 0.075,
+      "mte3_ratio_max": 0.024,
+      "icache_miss_rate_max": 0.165
+    }
+  },
+  "memory": {
+    "hbm": {
+      "scope": "device_level_sampled_bandwidth",
+      "sample_count": 5,
+      "read_mb_s": 26.219,
+      "write_mb_s": 12.424
+    },
+    "llc": {
+      "scope": "device_level_llc_profile",
+      "sample_count": 3,
+      "read_hit_rate_pct": 43.918,
+      "read_throughput_mb_s": 6283.827,
+      "write_hit_rate_pct": null,
+      "write_throughput_mb_s": null
+    },
+    "npu_memory": {
+      "scope": "application_level_sampled_memory",
+      "ddr_kb_peak": 0.0,
+      "ddr_kb_mean": 0.0,
+      "hbm_kb_peak": 157876.0,
+      "hbm_kb_mean": 121012.0,
+      "total_memory_kb_peak": 157876.0,
+      "total_memory_kb_mean": 121012.0,
+      "sample_count": 23,
+      "timestamp_start_us": 1795603643269028.0,
+      "timestamp_end_us": 1795603643699926.0,
+      "sampling_span_us": 430898.0
+    },
+    "npu_module_memory": {
+      "RUNTIME": {
+        "reserved_kb_peak": 34920.0,
+        "reserved_kb_mean": 32871.30434782609,
+        "sample_count": 23
+      },
+      "APP": {
+        "reserved_kb_peak": 36864.0,
+        "reserved_kb_mean": 3027.478260869565,
+        "sample_count": 23
+      }
+    }
+  },
+  "metric_coverage": {
+    "kernel_task_duration": true,
+    "aic_pipeline_from_op_summary_or_csv": false,
+    "aiv_pipeline_from_op_summary_or_csv": true,
+    "task_type": "AI_VECTOR_CORE",
+    "hbm_read_bandwidth": true,
+    "hbm_write_bandwidth": true,
+    "llc_read": true,
+    "llc_write": false,
+    "npu_memory": true,
+    "npu_module_memory": true,
+    "aic_applicability": "not_applicable_for_task_type",
+    "aiv_applicability": "available"
+  },
+  "collection": {
+    "hardware_profile_success": true,
+    "op_summary_rows_for_kernel": 1,
+    "source_csv": {
+      "op_summary": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/hardware/PROF_000001_20261125104722929_00125447LFIHKPBO/mindstudio_profiler_output/op_summary_20261125104729.csv",
+      "ai_core_utilization": null,
+      "ai_vector_core_utilization": null,
+      "hbm": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/hardware/PROF_000001_20261125104722929_00125447LFIHKPBO/mindstudio_profiler_output/hbm_20261125104729.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/hardware/PROF_000001_20261125104722929_00125447LFIHKPBO/mindstudio_profiler_output/llc_read_write_20261125104729.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/hardware/PROF_000001_20261125104722929_00125447LFIHKPBO/mindstudio_profiler_output/npu_mem_20261125104729.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/hardware/PROF_000001_20261125104722929_00125447LFIHKPBO/mindstudio_profiler_output/npu_module_mem_20261125104729.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/hardware/PROF_000001_20261125104722929_00125447LFIHKPBO/mindstudio_profiler_output/task_time_20261125104729.csv"
+    },
+    "commands": {
+      "timing": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/timing",
+        "--task-time=l0",
+        "--ai-core=off",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "python3",
+        "/tmp/_silu_mul_fp8_quant_deep_gemm_tr5rgbe2/test__silu_mul_fp8_quant_deep_gemm.py"
+      ],
+      "hardware": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/hardware",
+        "--task-time=l1",
+        "--task-memory=on",
+        "--ai-core=on",
+        "--aic-mode=task-based",
+        "--aic-metrics=PipeUtilization",
+        "--sys-hardware-mem=on",
+        "--sys-hardware-mem-freq=50",
+        "--llc-profiling=read",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "--ge-api=off",
+        "python3",
+        "/tmp/_silu_mul_fp8_quant_deep_gemm_tr5rgbe2/test__silu_mul_fp8_quant_deep_gemm.py"
+      ]
+    },
+    "raw_profile_directories": {
+      "timing": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p10/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104704_123729/hardware"
+    }
+  }
+}

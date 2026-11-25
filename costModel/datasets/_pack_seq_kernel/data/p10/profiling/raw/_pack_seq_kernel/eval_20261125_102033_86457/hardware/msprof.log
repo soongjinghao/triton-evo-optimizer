@@ -1,0 +1,33 @@
+[INFO] Start profiling....
+[W1125 10:20:50.231725250 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Test 1 passed: Basic 2D input
+All tests passed!
+[INFO] Start export data in PROF_000001_20261125102049852_00088115QOHLGERJ.
+Wed 25 Nov 2026 10:20:55 [WARNING] [MSVP] [88334] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:20:55 [INFO] [MSVP] [88336] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/host" ...
+Wed 25 Nov 2026 10:20:55 [INFO] [MSVP] [88336] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:20:55 [INFO] [MSVP] [88336] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/host" finished.
+Wed 25 Nov 2026 10:20:55 [INFO] [MSVP] [88336] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/device_0" ...
+Wed 25 Nov 2026 10:20:55 [INFO] [MSVP] [88336] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:20:55 [INFO] [MSVP] [88336] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/device_0" finished.
+Wed 25 Nov 2026 10:20:55 [INFO] [MSVP] [88336] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/device_0.
+Wed 25 Nov 2026 10:20:56 [WARNING] [MSVP] [88510] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:20:56 [INFO] [MSVP] [88518] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:20:56 [INFO] [MSVP] [88518] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:20:56 [INFO] [MSVP] [88518] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/device_0.
+Wed 25 Nov 2026 10:20:56 [INFO] [MSVP] [88518] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/host"
+Wed 25 Nov 2026 10:20:56 [INFO] [MSVP] [88518] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/device_0.
+Wed 25 Nov 2026 10:20:56 [INFO] [MSVP] [88518] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:20:56 [INFO] [MSVP] [88518] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125102049852_00088115QOHLGERJ done.
+[INFO] Start query data in PROF_000001_20261125102049852_00088115QOHLGERJ.
+Wed 25 Nov 2026 10:20:57 [WARNING] [MSVP] [88559] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:20:50.781916	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:20:50.785683	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125102049852_00088115QOHLGERJ done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_pack_seq_kernel/data/p10/.collector_work/performance/_pack_seq_kernel/eval_20261125_102033_86457/hardware/PROF_000001_20261125102049852_00088115QOHLGERJ

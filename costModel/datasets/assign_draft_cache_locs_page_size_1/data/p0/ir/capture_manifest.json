@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 145736,
+      "call_index": 1,
+      "jit_function": "assign_draft_cache_locs_page_size_1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p145736_k001_assign_draft_cache_locs_page_size_1.ttir.mlir",
+        "p145736_k001_assign_draft_cache_locs_page_size_1.ttadapter.mlir",
+        "p145736_k001_assign_draft_cache_locs_page_size_1.npubin"
+      ]
+    },
+    {
+      "pid": 145970,
+      "call_index": 1,
+      "jit_function": "assign_draft_cache_locs_page_size_1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p145970_k001_assign_draft_cache_locs_page_size_1.ttir.mlir",
+        "p145970_k001_assign_draft_cache_locs_page_size_1.ttadapter.mlir",
+        "p145970_k001_assign_draft_cache_locs_page_size_1.npubin"
+      ]
+    },
+    {
+      "pid": 146348,
+      "call_index": 1,
+      "jit_function": "assign_draft_cache_locs_page_size_1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p146348_k001_assign_draft_cache_locs_page_size_1.ttir.mlir",
+        "p146348_k001_assign_draft_cache_locs_page_size_1.ttadapter.mlir",
+        "p146348_k001_assign_draft_cache_locs_page_size_1.npubin"
+      ]
+    }
+  ]
+}

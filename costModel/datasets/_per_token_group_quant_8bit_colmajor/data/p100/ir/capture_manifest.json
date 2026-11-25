@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 101320,
+      "call_index": 1,
+      "jit_function": "_per_token_group_quant_8bit_colmajor_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p101320_k001_per_token_group_quant_8bit_colmajor_kernel.ttir.mlir",
+        "p101320_k001_per_token_group_quant_8bit_colmajor_kernel.ttadapter.mlir",
+        "p101320_k001_per_token_group_quant_8bit_colmajor_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 101570,
+      "call_index": 1,
+      "jit_function": "_per_token_group_quant_8bit_colmajor_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p101570_k001_per_token_group_quant_8bit_colmajor_kernel.ttir.mlir",
+        "p101570_k001_per_token_group_quant_8bit_colmajor_kernel.ttadapter.mlir",
+        "p101570_k001_per_token_group_quant_8bit_colmajor_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 101962,
+      "call_index": 1,
+      "jit_function": "_per_token_group_quant_8bit_colmajor_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p101962_k001_per_token_group_quant_8bit_colmajor_kernel.ttir.mlir",
+        "p101962_k001_per_token_group_quant_8bit_colmajor_kernel.ttadapter.mlir",
+        "p101962_k001_per_token_group_quant_8bit_colmajor_kernel.npubin"
+      ]
+    }
+  ]
+}

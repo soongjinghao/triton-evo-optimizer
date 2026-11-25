@@ -21,10 +21,10 @@
     "_trtllm_prefill_attn_kvfp8_dequant__p90__cb2d9e001e16",
     "_trtllm_prefill_attn_kvfp8_dequant__p100__2c5582a2aab5"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 212,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_trtllm_prefill_attn_kvfp8_dequant",
   "operator_name": "_trtllm_prefill_attn_kvfp8_dequant",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_trtllm_prefill_attn_kvfp8_dequant/test.py",
   "test_sha256": "8bf2b39dacacfdd931e629ebd0c67f033877cdedfa22b60c0fcc9b7e7bb44fe3",
   "test_source_path": "datasets2/_trtllm_prefill_attn_kvfp8_dequant/test__trtllm_prefill_attn_kvfp8_dequant_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

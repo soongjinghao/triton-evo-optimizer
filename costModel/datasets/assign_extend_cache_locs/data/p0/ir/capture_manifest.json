@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 151034,
+      "call_index": 1,
+      "jit_function": "assign_extend_cache_locs",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p151034_k001_assign_extend_cache_locs.ttir.mlir",
+        "p151034_k001_assign_extend_cache_locs.ttadapter.mlir",
+        "p151034_k001_assign_extend_cache_locs.npubin"
+      ]
+    },
+    {
+      "pid": 151278,
+      "call_index": 1,
+      "jit_function": "assign_extend_cache_locs",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p151278_k001_assign_extend_cache_locs.ttir.mlir",
+        "p151278_k001_assign_extend_cache_locs.ttadapter.mlir",
+        "p151278_k001_assign_extend_cache_locs.npubin"
+      ]
+    },
+    {
+      "pid": 151657,
+      "call_index": 1,
+      "jit_function": "assign_extend_cache_locs",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p151657_k001_assign_extend_cache_locs.ttir.mlir",
+        "p151657_k001_assign_extend_cache_locs.ttadapter.mlir",
+        "p151657_k001_assign_extend_cache_locs.npubin"
+      ]
+    }
+  ]
+}

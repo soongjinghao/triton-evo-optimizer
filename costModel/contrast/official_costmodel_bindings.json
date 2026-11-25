@@ -1,0 +1,15 @@
+{
+  "_comment": "Bindings are runtime scalar values for TTIR %argN. Use operator-level values only when all candidate roles share the same workload.",
+  "default": {},
+  "operators": {
+    "_chunk_state_fwd_kernel": {
+      "arg5": 16,
+      "arg6": 8,
+      "arg7": 8,
+      "arg8": 2,
+      "arg9": 4096,
+      "arg10": 2
+    }
+  },
+  "candidates": {}
+}

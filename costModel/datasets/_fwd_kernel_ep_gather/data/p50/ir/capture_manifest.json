@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 77722,
+      "call_index": 1,
+      "jit_function": "_fwd_kernel_ep_gather",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p077722_k001_fwd_kernel_ep_gather.ttir.mlir",
+        "p077722_k001_fwd_kernel_ep_gather.ttadapter.mlir",
+        "p077722_k001_fwd_kernel_ep_gather.npubin"
+      ]
+    },
+    {
+      "pid": 77960,
+      "call_index": 1,
+      "jit_function": "_fwd_kernel_ep_gather",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p077960_k001_fwd_kernel_ep_gather.ttir.mlir",
+        "p077960_k001_fwd_kernel_ep_gather.ttadapter.mlir",
+        "p077960_k001_fwd_kernel_ep_gather.npubin"
+      ]
+    },
+    {
+      "pid": 78344,
+      "call_index": 1,
+      "jit_function": "_fwd_kernel_ep_gather",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p078344_k001_fwd_kernel_ep_gather.ttir.mlir",
+        "p078344_k001_fwd_kernel_ep_gather.ttadapter.mlir",
+        "p078344_k001_fwd_kernel_ep_gather.npubin"
+      ]
+    }
+  ]
+}

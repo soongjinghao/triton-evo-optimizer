@@ -21,10 +21,10 @@
     "merge_16x16_to_32x32_inverse_kernel__p90__93a02d7a0baa",
     "merge_16x16_to_32x32_inverse_kernel__p100__7c0cd362d128"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 168,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "merge_16x16_to_32x32_inverse_kernel",
   "operator_name": "merge_16x16_to_32x32_inverse_kernel",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/merge_16x16_to_32x32_inverse_kernel/test.py",
   "test_sha256": "4e24d7812cdbed72469993895584fecced25eb6c6e05e34eb57eadd8fa3befd9",
   "test_source_path": "datasets2/merge_16x16_to_32x32_inverse_kernel/test_merge_16x16_to_32x32_inverse_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

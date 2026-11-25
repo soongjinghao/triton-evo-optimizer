@@ -1,0 +1,6 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,ZerosLike,AI_VECTOR_CORE,1669,84992.438,2.98,50.924,54.362,39.54
+0,merge_16x16_to_64x64_inverse_kernel,MIX_AIC,2078,77211.287,35.541,37.157,48.482,35.92
+0,Fill,AI_VECTOR_CORE,46336,52316.692,0.96,1.129,1.84,24.339
+0,Mul,AI_VECTOR_CORE,160,244.27,1.3,1.527,1.98,0.114
+0,DSARandomNormal,DSA_SQE,160,188.608,1.1,1.179,3.02,0.088

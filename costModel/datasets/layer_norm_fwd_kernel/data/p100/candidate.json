@@ -1,0 +1,11 @@
+{
+  "schema_version": "costmodel_candidate_v1",
+  "operator_name": "layer_norm_fwd_kernel",
+  "candidate_id": "layer_norm_fwd_kernel__p100__0e6dc6002203",
+  "candidate_role": "p100",
+  "variant_path": "costModel/datasets/layer_norm_fwd_kernel/variant/p100.py",
+  "source_code_sha256": "0e6dc6002203431b6f527f9fa3da9af234f9d2602e552c26a2a64e42d2f66700",
+  "kernel_snapshot": "costModel/datasets/layer_norm_fwd_kernel/data/p100/kernel.py",
+  "test_path": "costModel/datasets/layer_norm_fwd_kernel/test.py",
+  "created_at": "2026-11-25T11:59:35+00:00"
+}

@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1125 10:24:37.965029570 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Test passed: per_group_transpose runs successfully on NPU
+Input shape: torch.Size([32, 16])
+Output shape: torch.Size([32, 16])
+Expert offsets: tensor([ 0, 16, 32], device='npu:0', dtype=torch.int32)
+[INFO] Start export data in PROF_000001_20261125102436543_00093481ARFIDICL.
+Wed 25 Nov 2026 10:24:41 [WARNING] [MSVP] [93667] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:24:41 [INFO] [MSVP] [93669] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/host" ...
+Wed 25 Nov 2026 10:24:41 [INFO] [MSVP] [93669] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:24:41 [INFO] [MSVP] [93669] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/host" finished.
+Wed 25 Nov 2026 10:24:41 [INFO] [MSVP] [93669] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/device_0" ...
+Wed 25 Nov 2026 10:24:41 [INFO] [MSVP] [93669] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:24:41 [INFO] [MSVP] [93669] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/device_0" finished.
+Wed 25 Nov 2026 10:24:41 [INFO] [MSVP] [93669] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/device_0.
+Wed 25 Nov 2026 10:24:42 [WARNING] [MSVP] [93843] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:24:42 [INFO] [MSVP] [93845] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:24:42 [INFO] [MSVP] [93845] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:24:42 [INFO] [MSVP] [93845] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/device_0.
+Wed 25 Nov 2026 10:24:42 [INFO] [MSVP] [93845] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/host"
+Wed 25 Nov 2026 10:24:42 [INFO] [MSVP] [93845] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/device_0.
+Wed 25 Nov 2026 10:24:42 [INFO] [MSVP] [93845] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:24:42 [INFO] [MSVP] [93845] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125102436543_00093481ARFIDICL done.
+[INFO] Start query data in PROF_000001_20261125102436543_00093481ARFIDICL.
+Wed 25 Nov 2026 10:24:43 [WARNING] [MSVP] [93886] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:24:36.516844	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:24:36.520103	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125102436543_00093481ARFIDICL done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/performance/_per_group_transpose/eval_20261125_102419_91806/hardware/PROF_000001_20261125102436543_00093481ARFIDICL

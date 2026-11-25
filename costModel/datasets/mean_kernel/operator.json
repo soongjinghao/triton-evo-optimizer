@@ -21,10 +21,10 @@
     "mean_kernel__p90__34397c530541",
     "mean_kernel__p100__5f2a7d6f114b"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 254,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "mean_kernel",
   "operator_name": "mean_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/mean_kernel/test.py",
   "test_sha256": "0b0b1e8982fa2d58df0330a4bd6d9e331b821a18ab5ba536186e43d7235470e4",
   "test_source_path": "datasets2/mean_kernel/test_mean_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

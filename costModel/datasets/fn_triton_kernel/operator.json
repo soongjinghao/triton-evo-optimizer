@@ -21,10 +21,10 @@
     "fn_triton_kernel__p90__b8e0f2c3afbb",
     "fn_triton_kernel__p100__08f116c8b490"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 162,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "fn_triton_kernel",
   "operator_name": "fn_triton_kernel",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/fn_triton_kernel/test.py",
   "test_sha256": "a994257059fc4a9097c4ea37d43ec3a969a39640da95f9ade98b206ce4f195d1",
   "test_source_path": "datasets2/fn_triton_kernel/test_fn_triton_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

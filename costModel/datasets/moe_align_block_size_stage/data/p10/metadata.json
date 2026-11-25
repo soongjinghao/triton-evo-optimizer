@@ -1,0 +1,285 @@
+{
+  "schema_version": "costmodel_collection_v2",
+  "script_version": "2.2.0",
+  "operator_name": "moe_align_block_size_stage",
+  "candidate_id": "moe_align_block_size_stage__p10__4a52e822b045",
+  "candidate_role": "p10",
+  "status": "success",
+  "started_at": "2026-11-25T12:22:56+00:00",
+  "finished_at": "2026-11-25T12:23:49+00:00",
+  "duration_seconds": 52.162,
+  "source": {
+    "variant_path": "costModel/datasets/moe_align_block_size_stage/variant/p10.py",
+    "source_code_sha256": "4a52e822b0457cdb6aedc9dccd4fce66bbb1f9adb8d3d15d9aa3e343486ea800",
+    "kernel_snapshot": "costModel/datasets/moe_align_block_size_stage/data/p10/kernel.py",
+    "test_path": "costModel/datasets/moe_align_block_size_stage/test.py",
+    "test_sha256": "bc0c9011fbb4a294e0117d4dda392152dada1f85f3f70566d5baf8f9b5e83ba5"
+  },
+  "evaluation": {
+    "success": true,
+    "execution_time_us": 15.98,
+    "error": null,
+    "profile_mode": "full",
+    "profile_dir": "profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543",
+    "hardware_profile_success": true
+  },
+  "correctness": {
+    "preflight_enabled": true,
+    "success": true,
+    "log_path": "profiling/preflight.log",
+    "error": null
+  },
+  "profiling": {
+    "summary_available": true,
+    "summary_path": "profiling/profile_summary.json",
+    "raw_profile_dir": "profiling/raw",
+    "timing": {
+      "execution_time_us": 15.98,
+      "source": "op_summary.Task Duration(us)",
+      "sample_count": 3,
+      "task_time_cross_check": {
+        "median_task_time_us": 15.3,
+        "sample_count": 3,
+        "task_id": "6",
+        "stream_id": "47"
+      },
+      "hardware_pass_task_duration_us": 15.3,
+      "cross_pass_difference_us": 0.6799999999999997,
+      "cross_pass_relative_difference_pct": 4.255319148936168,
+      "cross_pass_consistent_20pct": true,
+      "label_valid": true,
+      "label_execution_time_us": 15.98
+    },
+    "kernel": {
+      "Device_id": "0",
+      "Task ID": "6",
+      "Stream ID": "47",
+      "Op Name": "moe_align_block_size_stage1",
+      "OP Type": "moe_align_block_size_stage1",
+      "OP State": "static",
+      "Task Type": "AI_VECTOR_CORE",
+      "Task Start Time(us)": "1795609421768606.208\t",
+      "Task Duration(us)": 15.3,
+      "Block Num": "4",
+      "Mix Block Num": "0",
+      "HF32 Eligible": "YES",
+      "Input Shapes": "\"128;5,4\"",
+      "Input Data Types": "INT32;INT32",
+      "Output Shapes": "\"5,4\"",
+      "Output Data Types": "INT32",
+      "aicore_time(us)": 0.0,
+      "aic_total_cycles": 0.0,
+      "aic_mac_time(us)": 0.0,
+      "aic_mac_ratio": 0.0,
+      "aic_scalar_time(us)": 0.0,
+      "aic_scalar_ratio": 0.0,
+      "aic_mte1_time(us)": 0.0,
+      "aic_mte1_ratio": 0.0,
+      "aic_mte2_time(us)": 0.0,
+      "aic_mte2_ratio": 0.0,
+      "aic_fixpipe_time(us)": 0.0,
+      "aic_fixpipe_ratio": 0.0,
+      "aic_icache_miss_rate": 0.0,
+      "aiv_time(us)": 14.192,
+      "aiv_total_cycles": 102185.0,
+      "aiv_vec_time(us)": 0.008,
+      "aiv_vec_ratio": 0.002,
+      "aiv_scalar_time(us)": 6.712,
+      "aiv_scalar_ratio": 0.47,
+      "aiv_mte2_time(us)": 0.037,
+      "aiv_mte2_ratio": 0.003,
+      "aiv_mte3_time(us)": 6.264,
+      "aiv_mte3_ratio": 0.441,
+      "aiv_icache_miss_rate": 0.016,
+      "cube_utilization(%)": 0.0
+    },
+    "core_utilization": {
+      "ai_core": {
+        "source": "op_summary_task",
+        "task_type": "AI_VECTOR_CORE",
+        "applicability": "not_applicable_for_task_type",
+        "record_count": 1,
+        "active_record_count": 0,
+        "mac_ratio_mean": 0.0,
+        "scalar_ratio_mean": 0.0,
+        "mte1_ratio_mean": 0.0,
+        "mte2_ratio_mean": 0.0,
+        "fixpipe_ratio_mean": 0.0,
+        "icache_miss_rate_mean": 0.0,
+        "mac_ratio_max": 0.0,
+        "scalar_ratio_max": 0.0,
+        "mte1_ratio_max": 0.0,
+        "mte2_ratio_max": 0.0,
+        "fixpipe_ratio_max": 0.0,
+        "icache_miss_rate_max": 0.0
+      },
+      "ai_vector_core": {
+        "source": "op_summary_task",
+        "task_type": "AI_VECTOR_CORE",
+        "applicability": "available",
+        "record_count": 1,
+        "active_record_count": 1,
+        "vec_ratio_mean": 0.002,
+        "scalar_ratio_mean": 0.47,
+        "mte2_ratio_mean": 0.003,
+        "mte3_ratio_mean": 0.441,
+        "icache_miss_rate_mean": 0.016,
+        "vec_ratio_max": 0.002,
+        "scalar_ratio_max": 0.47,
+        "mte2_ratio_max": 0.003,
+        "mte3_ratio_max": 0.441,
+        "icache_miss_rate_max": 0.016
+      }
+    },
+    "memory": {
+      "hbm": {
+        "scope": "device_level_sampled_bandwidth",
+        "sample_count": 5,
+        "read_mb_s": 31.839,
+        "write_mb_s": 12.552
+      },
+      "llc": {
+        "scope": "device_level_llc_profile",
+        "sample_count": 3,
+        "read_hit_rate_pct": 40.692,
+        "read_throughput_mb_s": 7103.681,
+        "write_hit_rate_pct": null,
+        "write_throughput_mb_s": null
+      },
+      "npu_memory": {
+        "scope": "application_level_sampled_memory",
+        "ddr_kb_peak": 0.0,
+        "ddr_kb_mean": 0.0,
+        "hbm_kb_peak": 121012.0,
+        "hbm_kb_mean": 121012.0,
+        "total_memory_kb_peak": 121012.0,
+        "total_memory_kb_mean": 121012.0,
+        "sample_count": 54,
+        "timestamp_start_us": 1795609421369949.8,
+        "timestamp_end_us": 1795609422416109.8,
+        "sampling_span_us": 1046160.0
+      },
+      "npu_module_memory": {
+        "RUNTIME": {
+          "reserved_kb_peak": 32876.0,
+          "reserved_kb_mean": 31466.962962962964,
+          "sample_count": 54
+        },
+        "APP": {
+          "reserved_kb_peak": 2048.0,
+          "reserved_kb_mean": 644.7407407407408,
+          "sample_count": 54
+        }
+      }
+    },
+    "collection": {
+      "hardware_profile_success": true,
+      "op_summary_rows_for_kernel": 3,
+      "source_csv": {
+        "op_summary": "/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543/hardware/PROF_000001_20261125122341018_00266572FKQGGQBN/mindstudio_profiler_output/op_summary_20261125122347.csv",
+        "ai_core_utilization": null,
+        "ai_vector_core_utilization": null,
+        "hbm": "/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543/hardware/PROF_000001_20261125122341018_00266572FKQGGQBN/mindstudio_profiler_output/hbm_20261125122347.csv",
+        "llc_read_write": "/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543/hardware/PROF_000001_20261125122341018_00266572FKQGGQBN/mindstudio_profiler_output/llc_read_write_20261125122347.csv",
+        "npu_mem": "/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543/hardware/PROF_000001_20261125122341018_00266572FKQGGQBN/mindstudio_profiler_output/npu_mem_20261125122347.csv",
+        "npu_module_mem": "/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543/hardware/PROF_000001_20261125122341018_00266572FKQGGQBN/mindstudio_profiler_output/npu_module_mem_20261125122347.csv",
+        "task_time": "/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543/hardware/PROF_000001_20261125122341018_00266572FKQGGQBN/mindstudio_profiler_output/task_time_20261125122347.csv"
+      },
+      "commands": {
+        "timing": [
+          "msprof",
+          "--output=/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/.collector_work/performance/moe_align_block_size_stage/eval_20261125_122322_264543/timing",
+          "--task-time=l0",
+          "--ai-core=off",
+          "--ascendcl=off",
+          "--runtime-api=off",
+          "python3",
+          "/tmp/moe_align_block_size_stage_fo54zfw1/test_moe_align_block_size_stage.py"
+        ],
+        "hardware": [
+          "msprof",
+          "--output=/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/.collector_work/performance/moe_align_block_size_stage/eval_20261125_122322_264543/hardware",
+          "--task-time=l1",
+          "--task-memory=on",
+          "--ai-core=on",
+          "--aic-mode=task-based",
+          "--aic-metrics=PipeUtilization",
+          "--sys-hardware-mem=on",
+          "--sys-hardware-mem-freq=50",
+          "--llc-profiling=read",
+          "--ascendcl=off",
+          "--runtime-api=off",
+          "--ge-api=off",
+          "python3",
+          "/tmp/moe_align_block_size_stage_fo54zfw1/test_moe_align_block_size_stage.py"
+        ]
+      },
+      "raw_profile_directories": {
+        "timing": "/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543/timing",
+        "hardware": "/workspace/Agent/costModel/datasets/moe_align_block_size_stage/data/p10/profiling/raw/moe_align_block_size_stage/eval_20261125_122322_264543/hardware"
+      }
+    }
+  },
+  "ir_found": {
+    "npubin": true,
+    "ttadapter": true,
+    "ttir": true,
+    "hivm_opt": true
+  },
+  "ir_counts": {
+    "npubin": 3,
+    "ttadapter": 3,
+    "ttir": 3,
+    "hivm_opt": 3
+  },
+  "ir_paths": {
+    "npubin": [
+      "ir/npubin/asm_p265785_k001_moe_align_block_size_stage1.npubin",
+      "ir/npubin/asm_p265785_k002_moe_align_block_size_stage2_3_fused.npubin",
+      "ir/npubin/asm_p265785_k003_moe_align_block_size_stage4.npubin"
+    ],
+    "ttadapter": [
+      "ir/ttadapter/asm_p265785_k001_moe_align_block_size_stage1.ttadapter.mlir",
+      "ir/ttadapter/asm_p265785_k002_moe_align_block_size_stage2_3_fused.ttadapter.mlir",
+      "ir/ttadapter/asm_p265785_k003_moe_align_block_size_stage4.ttadapter.mlir"
+    ],
+    "ttir": [
+      "ir/ttir/asm_p265785_k001_moe_align_block_size_stage1.ttir.mlir",
+      "ir/ttir/asm_p265785_k002_moe_align_block_size_stage2_3_fused.ttir.mlir",
+      "ir/ttir/asm_p265785_k003_moe_align_block_size_stage4.ttir.mlir"
+    ],
+    "hivm_opt": [
+      "ir/hivm_opt/save_temps_module.hivm.opt.mlir",
+      "ir/hivm_opt/save_temps_module.hivm.opt_73c53d2400.mlir",
+      "ir/hivm_opt/save_temps_module.hivm.opt_760b1f6317.mlir"
+    ]
+  },
+  "ir_stage_status": {
+    "M1_ttir": "available",
+    "M2_ttir_ttadapter": "available",
+    "M3_ttir_ttadapter_hivm_opt": "available",
+    "hivm_unoptimized": "missing_optional",
+    "npuir_debug_dump": "missing_optional",
+    "npubin": "available",
+    "kernel_object": "missing_optional",
+    "kernel_shared_library": "missing_optional"
+  },
+  "compiler_save_temps": {
+    "directory": "ir/compiler_save_temps",
+    "file_count": 3,
+    "unique_content_count": 3
+  },
+  "capture_manifest": "ir/capture_manifest.json",
+  "capture_hook_error": null,
+  "notes": [
+    "Read candidate directly from variant/<role>.py; no manifest is used.",
+    "No historical IR or profiling labels were reused.",
+    "Triton cache was isolated for this candidate.",
+    "A direct correctness preflight must pass before any MSProf pass is run.",
+    "HIVM and optimized HIVM are stored as separate IR stages.",
+    "BiShengIR save-temps is enabled per candidate and archived under ir/compiler_save_temps.",
+    "Identical IR artifacts across preflight/timing/hardware processes are deduplicated by SHA-256.",
+    "Transient capture and compiler work directories are removed after stable artifacts are archived.",
+    "M3 requires an actual module.hivm.opt.mlir artifact."
+  ]
+}

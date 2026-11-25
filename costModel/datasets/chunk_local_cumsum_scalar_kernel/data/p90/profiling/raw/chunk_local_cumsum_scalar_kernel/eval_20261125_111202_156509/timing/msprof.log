@@ -1,0 +1,33 @@
+[INFO] Start profiling....
+[W1125 11:12:08.071636090 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Single random case PASSED
+[INFO] Start export data in PROF_000001_20261125111207680_00160904OJJGMOHB.
+Wed 25 Nov 2026 11:12:12 [WARNING] [MSVP] [161086] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:12:12 [INFO] [MSVP] [161088] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/host" ...
+Wed 25 Nov 2026 11:12:12 [INFO] [MSVP] [161088] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:12:12 [INFO] [MSVP] [161088] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/host" finished.
+Wed 25 Nov 2026 11:12:12 [INFO] [MSVP] [161088] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/device_0" ...
+Wed 25 Nov 2026 11:12:12 [INFO] [MSVP] [161088] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161088] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/device_0" finished.
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161088] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/device_0.
+Wed 25 Nov 2026 11:12:13 [WARNING] [MSVP] [161268] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161270] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161270] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161270] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/device_0.
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161270] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/host"
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161270] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/device_0.
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161270] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/device_0"
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161270] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:12:13 [INFO] [MSVP] [161270] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125111207680_00160904OJJGMOHB done.
+[INFO] Start query data in PROF_000001_20261125111207680_00160904OJJGMOHB.
+Wed 25 Nov 2026 11:12:14 [WARNING] [MSVP] [161309] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:12:08.642431	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:12:08.646967	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125111207680_00160904OJJGMOHB done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/chunk_local_cumsum_scalar_kernel/data/p90/.collector_work/performance/chunk_local_cumsum_scalar_kernel/eval_20261125_111202_156509/timing/PROF_000001_20261125111207680_00160904OJJGMOHB

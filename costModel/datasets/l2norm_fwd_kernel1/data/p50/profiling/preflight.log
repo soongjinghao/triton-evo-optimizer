@@ -1,0 +1,6 @@
+[W1125 11:50:32.878907450 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p50/.collector_work/compiler_save_temps/73267c6780ff548e6657aedd7fc26db6e4f6532ab4b66aff_pid218247_uzl2cn6c
+L2Norm test passed!
+Input shape: torch.Size([64, 64])
+Output shape: torch.Size([64, 64])
+Max difference: 5.960464477539063e-08

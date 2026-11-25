@@ -1,0 +1,96 @@
+{
+  "schema_version": "costmodel_collection_v2",
+  "script_version": "2.2.0",
+  "operator_name": "merge_16x16_to_32x32_inverse_kernel",
+  "candidate_id": "merge_16x16_to_32x32_inverse_kernel__p90__93a02d7a0baa",
+  "candidate_role": "p90",
+  "status": "execution_failed",
+  "started_at": "2026-11-25T12:10:33+00:00",
+  "finished_at": "2026-11-25T12:11:10+00:00",
+  "duration_seconds": 37.535,
+  "source": {
+    "variant_path": "costModel/datasets/merge_16x16_to_32x32_inverse_kernel/variant/p90.py",
+    "source_code_sha256": "93a02d7a0baafd3cb9d88d223d07f24188b677b3cedd7a8b561a4eb3cfcedefc",
+    "kernel_snapshot": "costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p90/kernel.py",
+    "test_path": "costModel/datasets/merge_16x16_to_32x32_inverse_kernel/test.py",
+    "test_sha256": "4e24d7812cdbed72469993895584fecced25eb6c6e05e34eb57eadd8fa3befd9"
+  },
+  "evaluation": {
+    "success": false,
+    "execution_time_us": null,
+    "error": "timing application failed inside MSProf even though the MSProf process returned 0; see /workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p90/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_121056_243574/timing/msprof.log",
+    "profile_mode": "full",
+    "profile_dir": "profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261125_121056_243574",
+    "hardware_profile_success": null
+  },
+  "correctness": {
+    "preflight_enabled": true,
+    "success": true,
+    "log_path": "profiling/preflight.log",
+    "error": null
+  },
+  "profiling": {
+    "summary_available": false,
+    "summary_path": null,
+    "raw_profile_dir": "profiling/raw",
+    "timing": {},
+    "kernel": {},
+    "core_utilization": {},
+    "memory": {},
+    "collection": {}
+  },
+  "ir_found": {
+    "npubin": true,
+    "ttadapter": true,
+    "ttir": true,
+    "hivm_opt": true
+  },
+  "ir_counts": {
+    "npubin": 1,
+    "ttadapter": 1,
+    "ttir": 1,
+    "hivm_opt": 1
+  },
+  "ir_paths": {
+    "npubin": [
+      "ir/npubin/asm_p251390_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
+    ],
+    "ttadapter": [
+      "ir/ttadapter/asm_p251390_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir"
+    ],
+    "ttir": [
+      "ir/ttir/asm_p251390_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir"
+    ],
+    "hivm_opt": [
+      "ir/hivm_opt/save_temps_module.hivm.opt.mlir"
+    ]
+  },
+  "ir_stage_status": {
+    "M1_ttir": "available",
+    "M2_ttir_ttadapter": "available",
+    "M3_ttir_ttadapter_hivm_opt": "available",
+    "hivm_unoptimized": "missing_optional",
+    "npuir_debug_dump": "missing_optional",
+    "npubin": "available",
+    "kernel_object": "missing_optional",
+    "kernel_shared_library": "missing_optional"
+  },
+  "compiler_save_temps": {
+    "directory": "ir/compiler_save_temps",
+    "file_count": 1,
+    "unique_content_count": 1
+  },
+  "capture_manifest": "ir/capture_manifest.json",
+  "capture_hook_error": null,
+  "notes": [
+    "Read candidate directly from variant/<role>.py; no manifest is used.",
+    "No historical IR or profiling labels were reused.",
+    "Triton cache was isolated for this candidate.",
+    "A direct correctness preflight must pass before any MSProf pass is run.",
+    "HIVM and optimized HIVM are stored as separate IR stages.",
+    "BiShengIR save-temps is enabled per candidate and archived under ir/compiler_save_temps.",
+    "Identical IR artifacts across preflight/timing/hardware processes are deduplicated by SHA-256.",
+    "Transient capture and compiler work directories are removed after stable artifacts are archived.",
+    "M3 requires an actual module.hivm.opt.mlir artifact."
+  ]
+}

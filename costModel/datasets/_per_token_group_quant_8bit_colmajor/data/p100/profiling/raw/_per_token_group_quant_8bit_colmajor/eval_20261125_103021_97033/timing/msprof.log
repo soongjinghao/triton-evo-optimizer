@@ -1,0 +1,37 @@
+[INFO] Start profiling....
+[W1125 10:30:26.530098030 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ Per-token-group quantization test passed!
+Input shape: (16, 128)
+Group size: 32
+Max quantized difference: 1
+Max scale difference: 0.0
+[INFO] Start export data in PROF_000001_20261125103026153_00101570IHJCMDQM.
+Wed 25 Nov 2026 10:30:31 [WARNING] [MSVP] [101735] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:30:31 [INFO] [MSVP] [101737] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/host" ...
+Wed 25 Nov 2026 10:30:31 [INFO] [MSVP] [101737] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:30:31 [INFO] [MSVP] [101737] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/host" finished.
+Wed 25 Nov 2026 10:30:31 [INFO] [MSVP] [101737] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/device_0" ...
+Wed 25 Nov 2026 10:30:31 [INFO] [MSVP] [101737] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:30:31 [INFO] [MSVP] [101737] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/device_0" finished.
+Wed 25 Nov 2026 10:30:31 [INFO] [MSVP] [101737] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/device_0.
+Wed 25 Nov 2026 10:30:32 [WARNING] [MSVP] [101911] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:30:32 [INFO] [MSVP] [101913] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:30:32 [INFO] [MSVP] [101913] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:30:32 [INFO] [MSVP] [101913] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/device_0.
+Wed 25 Nov 2026 10:30:32 [INFO] [MSVP] [101913] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/host"
+Wed 25 Nov 2026 10:30:32 [INFO] [MSVP] [101913] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/device_0.
+Wed 25 Nov 2026 10:30:32 [INFO] [MSVP] [101913] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/device_0"
+Wed 25 Nov 2026 10:30:32 [INFO] [MSVP] [101913] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:30:32 [INFO] [MSVP] [101913] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125103026153_00101570IHJCMDQM done.
+[INFO] Start query data in PROF_000001_20261125103026153_00101570IHJCMDQM.
+Wed 25 Nov 2026 10:30:33 [WARNING] [MSVP] [101958] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:30:26.102871	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:30:26.106219	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125103026153_00101570IHJCMDQM done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p100/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_103021_97033/timing/PROF_000001_20261125103026153_00101570IHJCMDQM

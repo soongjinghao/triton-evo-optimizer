@@ -1,0 +1,10 @@
+Device_id,Model ID,Task ID,Stream ID,Op Name,OP Type,OP State,Task Type,Task Start Time(us),Task Duration(us),Task Wait Time(us),Block Num,Mix Block Num,HF32 Eligible,Input Shapes,Input Data Types,Input Formats,Output Shapes,Output Data Types,Output Formats,Context ID
+0,4294967295,1,47,aclnnInplaceNormal_DSARandomNormal_DSARandomNormal,N/A,N/A,N/A,1795607679026876.666	,3.660,0,0,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,2,47,l2norm_fwd_kernel2,N/A,N/A,N/A,1795607679198439.265	,4.540,171558.840000,4,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,3,47,aclnnMul_MulAiCore_Mul,N/A,N/A,N/A,1795607679347789.716	,3.660,149345.960000,8,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,4,47,aclnnReduceSum_ReduceSumOpAiCore_ReduceSum,N/A,N/A,N/A,1795607679362298.276	,8.160,14504.840000,16,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0
+0,4294967295,5,47,aclnnAdds_AddAiCore_Add,N/A,N/A,N/A,1795607679363948.402	,3.080,1642.090000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,6,47,aclnnRsqrt_RsqrtAiCore_Rsqrt,N/A,N/A,N/A,1795607679364235.293	,1.661,283.670000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,7,47,aclnnMul_MulAiCore_Mul,N/A,N/A,N/A,1795607679364337.638	,8.600,100.839000,32,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,8,47,aclnnIsClose_IsCloseAiCore_IsClose,N/A,N/A,N/A,1795607679366021.705	,4.360,1675.400000,8,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,9,47,aclnnAll_ReduceAll_ReduceAll,N/A,N/A,N/A,1795607679370764.354	,3.061,4738.140000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0

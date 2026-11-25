@@ -1,0 +1,36 @@
+[INFO] Start profiling....
+[W1125 10:26:36.435257420 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Test passed: per_group_transpose runs successfully on NPU
+Input shape: torch.Size([32, 16])
+Output shape: torch.Size([32, 16])
+Expert offsets: tensor([ 0, 16, 32], device='npu:0', dtype=torch.int32)
+[INFO] Start export data in PROF_000001_20261125102636079_00096225LEQGOGNM.
+Wed 25 Nov 2026 10:26:40 [WARNING] [MSVP] [96370] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:26:40 [INFO] [MSVP] [96372] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/host" ...
+Wed 25 Nov 2026 10:26:40 [INFO] [MSVP] [96372] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:26:40 [INFO] [MSVP] [96372] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/host" finished.
+Wed 25 Nov 2026 10:26:40 [INFO] [MSVP] [96372] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/device_0" ...
+Wed 25 Nov 2026 10:26:40 [INFO] [MSVP] [96372] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:26:40 [INFO] [MSVP] [96372] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/device_0" finished.
+Wed 25 Nov 2026 10:26:40 [INFO] [MSVP] [96372] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/device_0.
+Wed 25 Nov 2026 10:26:41 [WARNING] [MSVP] [96547] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:26:41 [INFO] [MSVP] [96555] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:26:41 [INFO] [MSVP] [96555] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:26:41 [INFO] [MSVP] [96555] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/device_0.
+Wed 25 Nov 2026 10:26:41 [INFO] [MSVP] [96555] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/host"
+Wed 25 Nov 2026 10:26:41 [INFO] [MSVP] [96555] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/device_0.
+Wed 25 Nov 2026 10:26:41 [INFO] [MSVP] [96555] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/device_0"
+Wed 25 Nov 2026 10:26:41 [INFO] [MSVP] [96555] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:26:41 [INFO] [MSVP] [96555] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125102636079_00096225LEQGOGNM done.
+[INFO] Start query data in PROF_000001_20261125102636079_00096225LEQGOGNM.
+Wed 25 Nov 2026 10:26:42 [WARNING] [MSVP] [96594] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:26:36.011108	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:26:36.014433	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125102636079_00096225LEQGOGNM done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_per_group_transpose/data/p100/.collector_work/performance/_per_group_transpose/eval_20261125_102631_91806/timing/PROF_000001_20261125102636079_00096225LEQGOGNM

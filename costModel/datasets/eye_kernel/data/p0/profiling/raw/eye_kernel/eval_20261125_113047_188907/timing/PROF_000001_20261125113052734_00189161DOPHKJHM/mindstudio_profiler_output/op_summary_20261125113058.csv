@@ -1,0 +1,6 @@
+Device_id,Model ID,Task ID,Stream ID,Op Name,OP Type,OP State,Task Type,Task Start Time(us),Task Duration(us),Task Wait Time(us),Block Num,Mix Block Num,HF32 Eligible,Input Shapes,Input Data Types,Input Formats,Output Shapes,Output Data Types,Output Formats,Context ID
+0,4294967295,0,47,eye_kernel,N/A,N/A,N/A,1795606253308032.558	,4.680,0,4,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,1,47,aclnnEye_EyeAiCore_MemSet,N/A,N/A,N/A,1795606253457289.485	,16.521,149252.320000,48,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,2,47,aclnnEye_EyeAiCore_Eye,N/A,N/A,N/A,1795606253457318.486	,9.841,12.479000,48,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,3,47,aclnnIsClose_IsCloseAiCore_IsClose,N/A,N/A,N/A,1795606253459403.950	,3.240,2075.659000,4,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,4,47,aclnnAll_ReduceAll_ReduceAll,N/A,N/A,N/A,1795606253464695.801	,2.580,5288.510000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0

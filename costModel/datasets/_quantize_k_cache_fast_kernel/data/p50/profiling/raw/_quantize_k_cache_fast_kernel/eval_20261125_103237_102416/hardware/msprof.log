@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1125 10:32:55.471088190 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+All tests passed!
+Output shape: torch.Size([4, 592])
+Output device: npu:0
+Output dtype: torch.bfloat16
+[INFO] Start export data in PROF_000001_20261125103255075_00105200OIEROJIR.
+Wed 25 Nov 2026 10:33:00 [WARNING] [MSVP] [105412] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:33:00 [INFO] [MSVP] [105414] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/host" ...
+Wed 25 Nov 2026 10:33:00 [INFO] [MSVP] [105414] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:33:00 [INFO] [MSVP] [105414] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/host" finished.
+Wed 25 Nov 2026 10:33:00 [INFO] [MSVP] [105414] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/device_0" ...
+Wed 25 Nov 2026 10:33:00 [INFO] [MSVP] [105414] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:33:00 [INFO] [MSVP] [105414] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/device_0" finished.
+Wed 25 Nov 2026 10:33:00 [INFO] [MSVP] [105414] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/device_0.
+Wed 25 Nov 2026 10:33:01 [WARNING] [MSVP] [105588] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:33:01 [INFO] [MSVP] [105590] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:33:01 [INFO] [MSVP] [105590] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:33:01 [INFO] [MSVP] [105590] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/device_0.
+Wed 25 Nov 2026 10:33:01 [INFO] [MSVP] [105590] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/host"
+Wed 25 Nov 2026 10:33:01 [INFO] [MSVP] [105590] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/device_0.
+Wed 25 Nov 2026 10:33:01 [INFO] [MSVP] [105590] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:33:01 [INFO] [MSVP] [105590] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125103255075_00105200OIEROJIR done.
+[INFO] Start query data in PROF_000001_20261125103255075_00105200OIEROJIR.
+Wed 25 Nov 2026 10:33:02 [WARNING] [MSVP] [105637] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:32:55.012012	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:32:55.016261	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125103255075_00105200OIEROJIR done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_quantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_quantize_k_cache_fast_kernel/eval_20261125_103237_102416/hardware/PROF_000001_20261125103255075_00105200OIEROJIR

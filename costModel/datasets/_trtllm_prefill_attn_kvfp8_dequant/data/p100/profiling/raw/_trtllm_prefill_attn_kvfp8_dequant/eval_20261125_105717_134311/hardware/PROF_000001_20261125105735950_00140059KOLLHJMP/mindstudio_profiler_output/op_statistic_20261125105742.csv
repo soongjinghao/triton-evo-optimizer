@@ -1,0 +1,8 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,_trtllm_prefill_attn_kvfp8_dequant,AI_VECTOR_CORE,3,18366.934,3177.767,6122.311,9430.457,99.59
+0,DSARandomNormal,DSA_SQE,2,20.361,2.22,10.18,18.141,0.11
+0,Range,AI_VECTOR_CORE,4,20.341,4.08,5.085,7.44,0.11
+0,Cast,AI_VECTOR_CORE,4,16.021,1.32,4.005,11.14,0.087
+0,Mul,AI_VECTOR_CORE,2,12.701,1.94,6.35,10.76,0.069
+0,TensorEqual,MIX_AIV,1,3.94,3.94,3.94,3.94,0.021
+0,DSARandomUniform,DSA_SQE,2,2.26,1.08,1.13,1.18,0.012

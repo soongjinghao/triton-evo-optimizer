@@ -1,0 +1,36 @@
+[INFO] Start profiling....
+[W1125 11:27:46.522834450 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Test case 1 passed: Basic functionality with combine_k > 1
+Test case 2 passed: Pre-combined case (combine_k = 1)
+Test case 3 passed: With output buffer
+All tests passed!
+[INFO] Start export data in PROF_000001_20261125112746164_00184649GKAQKFEO.
+Wed 25 Nov 2026 11:27:49 [WARNING] [MSVP] [184794] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:27:49 [INFO] [MSVP] [184796] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/host" ...
+Wed 25 Nov 2026 11:27:49 [INFO] [MSVP] [184796] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:27:49 [INFO] [MSVP] [184796] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/host" finished.
+Wed 25 Nov 2026 11:27:49 [INFO] [MSVP] [184796] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/device_0" ...
+Wed 25 Nov 2026 11:27:49 [INFO] [MSVP] [184796] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:27:49 [INFO] [MSVP] [184796] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/device_0" finished.
+Wed 25 Nov 2026 11:27:49 [INFO] [MSVP] [184796] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/device_0.
+Wed 25 Nov 2026 11:27:50 [WARNING] [MSVP] [184970] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:27:50 [INFO] [MSVP] [184972] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:27:50 [INFO] [MSVP] [184972] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:27:50 [INFO] [MSVP] [184972] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/device_0.
+Wed 25 Nov 2026 11:27:50 [INFO] [MSVP] [184972] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/host"
+Wed 25 Nov 2026 11:27:50 [INFO] [MSVP] [184972] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/device_0.
+Wed 25 Nov 2026 11:27:50 [INFO] [MSVP] [184972] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/device_0"
+Wed 25 Nov 2026 11:27:50 [INFO] [MSVP] [184972] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:27:50 [INFO] [MSVP] [184972] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125112746164_00184649GKAQKFEO done.
+[INFO] Start query data in PROF_000001_20261125112746164_00184649GKAQKFEO.
+Wed 25 Nov 2026 11:27:51 [WARNING] [MSVP] [185017] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:27:46.126522	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:27:46.129433	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125112746164_00184649GKAQKFEO done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/experts_combine_kernel/data/p10/.collector_work/performance/experts_combine_kernel/eval_20261125_112741_183037/timing/PROF_000001_20261125112746164_00184649GKAQKFEO

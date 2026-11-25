@@ -1,0 +1,36 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 2,
+  "events": [
+    {
+      "pid": 251390,
+      "call_index": 1,
+      "jit_function": "merge_16x16_to_32x32_inverse_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p251390_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir",
+        "p251390_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir",
+        "p251390_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 251778,
+      "call_index": 1,
+      "jit_function": "merge_16x16_to_32x32_inverse_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p251778_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir",
+        "p251778_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir",
+        "p251778_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
+      ]
+    }
+  ]
+}

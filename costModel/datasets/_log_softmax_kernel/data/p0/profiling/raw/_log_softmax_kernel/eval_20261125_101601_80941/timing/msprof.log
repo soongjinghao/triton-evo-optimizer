@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1125 10:16:06.710968470 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Running log_softmax unit tests on NPU...
+✓ test_log_softmax_2d_large passed
+All tests passed!
+[INFO] Start export data in PROF_000001_20261125101606345_00081242AGNMMAOG.
+Wed 25 Nov 2026 10:16:11 [WARNING] [MSVP] [81393] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:16:11 [INFO] [MSVP] [81395] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/host" ...
+Wed 25 Nov 2026 10:16:11 [INFO] [MSVP] [81395] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:16:11 [INFO] [MSVP] [81395] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/host" finished.
+Wed 25 Nov 2026 10:16:11 [INFO] [MSVP] [81395] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/device_0" ...
+Wed 25 Nov 2026 10:16:11 [INFO] [MSVP] [81395] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:16:11 [INFO] [MSVP] [81395] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/device_0" finished.
+Wed 25 Nov 2026 10:16:11 [INFO] [MSVP] [81395] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/device_0.
+Wed 25 Nov 2026 10:16:12 [WARNING] [MSVP] [81575] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:16:12 [INFO] [MSVP] [81577] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:16:12 [INFO] [MSVP] [81577] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:16:12 [INFO] [MSVP] [81577] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/device_0.
+Wed 25 Nov 2026 10:16:12 [INFO] [MSVP] [81577] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/host"
+Wed 25 Nov 2026 10:16:12 [INFO] [MSVP] [81577] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/device_0.
+Wed 25 Nov 2026 10:16:12 [INFO] [MSVP] [81577] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/device_0"
+Wed 25 Nov 2026 10:16:12 [INFO] [MSVP] [81577] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:16:12 [INFO] [MSVP] [81577] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125101606345_00081242AGNMMAOG done.
+[INFO] Start query data in PROF_000001_20261125101606345_00081242AGNMMAOG.
+Wed 25 Nov 2026 10:16:13 [WARNING] [MSVP] [81616] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:16:06.283332	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:16:06.286149	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125101606345_00081242AGNMMAOG done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p0/.collector_work/performance/_log_softmax_kernel/eval_20261125_101601_80941/timing/PROF_000001_20261125101606345_00081242AGNMMAOG

@@ -1,0 +1,131 @@
+2026-11-25 09:53:27 [INFO] [50025] [50025] [kernel_parser_worker.cpp:46] Start run KernelParserWorker
+2026-11-25 09:53:27 [INFO] [50025] [50026] [kernel_parser_worker.cpp:58] Start parse hash data
+2026-11-25 09:53:27 [INFO] [50025] [50027] [kernel_parser_worker.cpp:62] Start parse type info data
+2026-11-25 09:53:27 [INFO] [50025] [50026] [kernel_parser_worker.cpp:78] Hash data load from path: /workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/hardware/PROF_000001_20261125095315699_00049459CHARFCER/host/data
+2026-11-25 09:53:27 [INFO] [50025] [50027] [kernel_parser_worker.cpp:100] Typeinfo data load from path: /workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/hardware/PROF_000001_20261125095315699_00049459CHARFCER/host/data
+2026-11-25 09:53:27 [INFO] [50025] [50026] [kernel_parser_worker.cpp:80] Start load runtime op info data
+2026-11-25 09:53:27 [INFO] [50025] [50026] [kernel_parser_worker.cpp:83] success get hash data
+2026-11-25 09:53:27 [INFO] [50025] [50026] [kernel_parser_worker.cpp:90] success get hashDbDumper
+2026-11-25 09:53:27 [INFO] [50025] [50026] [db_runner.cpp:53] Start create GeHashInfo
+2026-11-25 09:53:27 [INFO] [50025] [50027] [db_runner.cpp:53] Start create TypeHashInfo
+2026-11-25 09:53:27 [INFO] [50025] [50026] [db_runner.cpp:66] create GeHashInfo success
+2026-11-25 09:53:27 [INFO] [50025] [50026] [db_runner.h:61] Start insert data to GeHashInfo
+2026-11-25 09:53:27 [INFO] [50025] [50026] [db_runner.h:72] insert data to GeHashInfo success
+2026-11-25 09:53:27 [INFO] [50025] [50026] [base_dumper.h:56] Dump GeHashInfo data success
+2026-11-25 09:53:27 [INFO] [50025] [50027] [db_runner.cpp:66] create TypeHashInfo success
+2026-11-25 09:53:27 [INFO] [50025] [50027] [db_runner.h:61] Start insert data to TypeHashInfo
+2026-11-25 09:53:27 [INFO] [50025] [50027] [db_runner.h:72] insert data to TypeHashInfo success
+2026-11-25 09:53:27 [INFO] [50025] [50027] [base_dumper.h:56] Dump TypeHashInfo data success
+2026-11-25 09:53:27 [INFO] [50025] [50025] [time_logger.h:32] HostTraceWorker start
+2026-11-25 09:53:27 [INFO] [50025] [50025] [time_logger.h:32] Group all events start
+2026-11-25 09:53:27 [INFO] [50025] [50031] [time_logger.h:32] Group Kernel start
+2026-11-25 09:53:27 [INFO] [50025] [50032] [time_logger.h:32] Group GraphIdMap start
+2026-11-25 09:53:27 [INFO] [50025] [50036] [time_logger.h:32] Group NodeBasicInfo start
+2026-11-25 09:53:27 [INFO] [50025] [50030] [time_logger.h:32] Group FusionOpInfo start
+2026-11-25 09:53:27 [INFO] [50025] [50033] [time_logger.h:32] Group NodeAttrInfo start
+2026-11-25 09:53:27 [INFO] [50025] [50034] [time_logger.h:32] Group TensorInfo start
+2026-11-25 09:53:27 [INFO] [50025] [50032] [time_logger.h:39] Group GraphIdMap end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50029] [time_logger.h:32] Group ContextId start
+2026-11-25 09:53:27 [INFO] [50025] [50035] [time_logger.h:32] Group HcclInfo start
+2026-11-25 09:53:27 [INFO] [50025] [50032] [time_logger.h:32] Group TaskTrack start
+2026-11-25 09:53:27 [INFO] [50025] [50030] [time_logger.h:39] Group FusionOpInfo end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50033] [time_logger.h:39] Group NodeAttrInfo end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50030] [time_logger.h:32] Group HcclOpInfo start
+2026-11-25 09:53:27 [INFO] [50025] [50033] [time_logger.h:32] Group DpuTaskTrack start
+2026-11-25 09:53:27 [INFO] [50025] [50035] [time_logger.h:39] Group HcclInfo end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50033] [event_grouper.cpp:333] Parsed DPU task track data, size: 0
+2026-11-25 09:53:27 [INFO] [50025] [50030] [time_logger.h:39] Group HcclOpInfo end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50033] [time_logger.h:39] Group DpuTaskTrack end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50029] [time_logger.h:39] Group ContextId end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50031] [time_logger.h:39] Group Kernel end, cost time = 30 ms
+2026-11-25 09:53:27 [INFO] [50025] [50036] [time_logger.h:39] Group NodeBasicInfo end, cost time = 30 ms
+2026-11-25 09:53:27 [INFO] [50025] [50032] [time_logger.h:39] Group TaskTrack end, cost time = 70 ms
+2026-11-25 09:53:27 [INFO] [50025] [50034] [time_logger.h:39] Group TensorInfo end, cost time = 128 ms
+2026-11-25 09:53:27 [INFO] [50025] [50025] [event_grouper.cpp:155] After group events, Kernel: 0, GraphId: 0, FusionOp: 0, NodeBasic: 0, NodeAttr: 0, Tensor: 0, ContextId: 0, HcclInfo: 0, TaskTrack: 3, HcclOpInfo: 0, thread: 49459
+2026-11-25 09:53:27 [INFO] [50025] [50025] [event_grouper.cpp:155] After group events, Kernel: 44411, GraphId: 0, FusionOp: 0, NodeBasic: 44411, NodeAttr: 0, Tensor: 44411, ContextId: 1, HcclInfo: 0, TaskTrack: 88815, HcclOpInfo: 0, thread: 49586
+2026-11-25 09:53:27 [INFO] [50025] [50025] [time_logger.h:39] Group all events end, cost time = 129 ms
+2026-11-25 09:53:27 [INFO] [50025] [50038] [time_logger.h:32] Dump api data start start
+2026-11-25 09:53:27 [INFO] [50025] [50039] [time_logger.h:32] Dump flip tasks data start start
+2026-11-25 09:53:27 [INFO] [50025] [50046] [time_logger.h:32] Dump dpu task track data start start
+2026-11-25 09:53:27 [INFO] [50025] [50037] [time_logger.h:32] Multi thread build tree start
+2026-11-25 09:53:27 [WARN] [50025] [50046] [base_dumper.h:42] Input data is empty, pass dump
+2026-11-25 09:53:27 [INFO] [50025] [50039] [db_runner.cpp:53] Start create HostTaskFlip
+2026-11-25 09:53:27 [INFO] [50025] [50040] [time_logger.h:32] Dump model name data start start
+2026-11-25 09:53:27 [INFO] [50025] [50046] [time_logger.h:39] Dump dpu task track data start end, cost time = 0 ms
+2026-11-25 09:53:27 [WARN] [50025] [50040] [base_dumper.h:42] Input data is empty, pass dump
+2026-11-25 09:53:27 [INFO] [50025] [50040] [time_logger.h:39] Dump model name data start end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50039] [db_runner.cpp:66] create HostTaskFlip success
+2026-11-25 09:53:27 [INFO] [50025] [50039] [db_runner.h:61] Start insert data to HostTaskFlip
+2026-11-25 09:53:27 [INFO] [50025] [50039] [db_runner.h:72] insert data to HostTaskFlip success
+2026-11-25 09:53:27 [INFO] [50025] [50039] [base_dumper.h:56] Dump HostTaskFlip data success
+2026-11-25 09:53:27 [INFO] [50025] [50039] [time_logger.h:39] Dump flip tasks data start end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50047] [host_trace_worker.cpp:80] Start multi thread build tree, threadId = 49459
+2026-11-25 09:53:27 [INFO] [50025] [50048] [host_trace_worker.cpp:80] Start multi thread build tree, threadId = 49586
+2026-11-25 09:53:27 [WARN] [50025] [50057] [tree_builder.cpp:192] No Events, event type: 8, threadId = 49459
+2026-11-25 09:53:27 [WARN] [50025] [50059] [tree_builder.cpp:192] No Events, event type: 6, threadId = 49459
+2026-11-25 09:53:27 [WARN] [50025] [50058] [tree_builder.cpp:192] No Events, event type: 2, threadId = 49459
+2026-11-25 09:53:27 [WARN] [50025] [50059] [tree_builder.cpp:192] No Events, event type: 5, threadId = 49459
+2026-11-25 09:53:27 [WARN] [50025] [50058] [tree_builder.cpp:192] No Events, event type: 3, threadId = 49459
+2026-11-25 09:53:27 [WARN] [50025] [50058] [tree_builder.cpp:192] No Events, event type: 4, threadId = 49459
+2026-11-25 09:53:27 [WARN] [50025] [50058] [tree_builder.cpp:192] No Events, event type: 6, threadId = 49459
+2026-11-25 09:53:27 [WARN] [50025] [50058] [tree_builder.cpp:192] No Events, event type: 10, threadId = 49459
+2026-11-25 09:53:27 [INFO] [50025] [50047] [tree_builder.cpp:73] Build Tree End, ThreadId = 49459
+2026-11-25 09:53:27 [INFO] [50025] [50047] [host_trace_worker.cpp:91] Multi thread build tree done, threadId = 49459
+2026-11-25 09:53:27 [INFO] [50025] [50038] [db_runner.cpp:53] Start create ApiData
+2026-11-25 09:53:27 [INFO] [50025] [50038] [db_runner.cpp:66] create ApiData success
+2026-11-25 09:53:27 [INFO] [50025] [50048] [event_queue.cpp:72] EventQueue for thread 49586 is empty
+2026-11-25 09:53:27 [INFO] [50025] [50048] [event_queue.cpp:72] EventQueue for thread 49586 is empty
+2026-11-25 09:53:27 [WARN] [50025] [50060] [tree_builder.cpp:192] No Events, event type: 8, threadId = 49586
+2026-11-25 09:53:27 [WARN] [50025] [50060] [tree_builder.cpp:192] No Events, event type: 6, threadId = 49586
+2026-11-25 09:53:27 [WARN] [50025] [50060] [tree_builder.cpp:192] No Events, event type: 5, threadId = 49586
+2026-11-25 09:53:27 [INFO] [50025] [50038] [db_runner.h:61] Start insert data to ApiData
+2026-11-25 09:53:27 [INFO] [50025] [50062] [tree_builder.cpp:234] Add LevelEvents done, threadId = 49586, event type: 2, matchCnt = 44411, mismatchCnt = 0 
+2026-11-25 09:53:27 [WARN] [50025] [50062] [tree_builder.cpp:192] No Events, event type: 3, threadId = 49586
+2026-11-25 09:53:27 [INFO] [50025] [50062] [tree_builder.cpp:234] Add LevelEvents done, threadId = 49586, event type: 4, matchCnt = 44411, mismatchCnt = 0 
+2026-11-25 09:53:27 [INFO] [50025] [50062] [tree_builder.cpp:234] Add LevelEvents done, threadId = 49586, event type: 6, matchCnt = 1, mismatchCnt = 0 
+2026-11-25 09:53:27 [WARN] [50025] [50062] [tree_builder.cpp:192] No Events, event type: 10, threadId = 49586
+2026-11-25 09:53:27 [INFO] [50025] [50038] [db_runner.h:72] insert data to ApiData success
+2026-11-25 09:53:27 [INFO] [50025] [50038] [base_dumper.h:56] Dump ApiData data success
+2026-11-25 09:53:27 [INFO] [50025] [50038] [time_logger.h:39] Dump api data start end, cost time = 70 ms
+2026-11-25 09:53:27 [INFO] [50025] [50048] [tree_builder.cpp:73] Build Tree End, ThreadId = 49586
+2026-11-25 09:53:27 [INFO] [50025] [50048] [host_trace_worker.cpp:91] Multi thread build tree done, threadId = 49586
+2026-11-25 09:53:27 [INFO] [50025] [50037] [time_logger.h:39] Multi thread build tree end, cost time = 92 ms
+2026-11-25 09:53:27 [INFO] [50025] [50037] [time_logger.h:32] Multi thread analyze tree and dump data start
+2026-11-25 09:53:27 [INFO] [50025] [50063] [host_trace_worker.cpp:110] Start analyze tree and dump data, threadId = 49459
+2026-11-25 09:53:27 [INFO] [50025] [50063] [time_logger.h:32] Dump CANN data start
+2026-11-25 09:53:27 [INFO] [50025] [50073] [cann_trace_db_dumper.cpp:162] Empty hccl OPs
+2026-11-25 09:53:27 [INFO] [50025] [50073] [cann_trace_db_dumper.cpp:496] Empty hccl tasks
+2026-11-25 09:53:27 [INFO] [50025] [50073] [time_logger.h:32] Dump host tasks start
+2026-11-25 09:53:27 [INFO] [50025] [50074] [cann_trace_db_dumper.cpp:240] Empty kernel tasks
+2026-11-25 09:53:27 [INFO] [50025] [50073] [db_runner.cpp:53] Start create HostTask
+2026-11-25 09:53:27 [INFO] [50025] [50075] [cann_trace_db_dumper.cpp:554] Empty geFusionOps
+2026-11-25 09:53:27 [INFO] [50025] [50064] [host_trace_worker.cpp:110] Start analyze tree and dump data, threadId = 49586
+2026-11-25 09:53:27 [INFO] [50025] [50073] [db_runner.cpp:66] create HostTask success
+2026-11-25 09:53:27 [INFO] [50025] [50073] [db_runner.h:61] Start insert data to HostTask
+2026-11-25 09:53:27 [INFO] [50025] [50073] [db_runner.h:72] insert data to HostTask success
+2026-11-25 09:53:27 [INFO] [50025] [50073] [time_logger.h:39] Dump host tasks end, cost time = 1 ms
+2026-11-25 09:53:27 [INFO] [50025] [50063] [time_logger.h:39] Dump CANN data end, cost time = 2 ms
+2026-11-25 09:53:27 [INFO] [50025] [50063] [host_trace_worker.cpp:119] Dump cann trace data done, threadId = 49459
+2026-11-25 09:53:27 [INFO] [50025] [50064] [time_logger.h:32] Dump CANN data start
+2026-11-25 09:53:27 [INFO] [50025] [50080] [cann_trace_db_dumper.cpp:162] Empty hccl OPs
+2026-11-25 09:53:27 [INFO] [50025] [50080] [cann_trace_db_dumper.cpp:496] Empty hccl tasks
+2026-11-25 09:53:27 [INFO] [50025] [50079] [cann_trace_db_dumper.cpp:554] Empty geFusionOps
+2026-11-25 09:53:27 [INFO] [50025] [50078] [time_logger.h:32] DumpOpDesc Start start
+2026-11-25 09:53:27 [INFO] [50025] [50078] [db_runner.cpp:53] Start create TaskInfo
+2026-11-25 09:53:27 [INFO] [50025] [50078] [db_runner.cpp:66] create TaskInfo success
+2026-11-25 09:53:27 [INFO] [50025] [50077] [time_logger.h:32] Dump host tasks start
+2026-11-25 09:53:27 [INFO] [50025] [50077] [db_runner.cpp:53] Start create HostTask
+2026-11-25 09:53:27 [INFO] [50025] [50077] [db_runner.cpp:66] create HostTask success
+2026-11-25 09:53:27 [INFO] [50025] [50077] [db_runner.h:61] Start insert data to HostTask
+2026-11-25 09:53:27 [INFO] [50025] [50077] [db_runner.h:72] insert data to HostTask success
+2026-11-25 09:53:27 [INFO] [50025] [50077] [time_logger.h:39] Dump host tasks end, cost time = 132 ms
+2026-11-25 09:53:27 [INFO] [50025] [50078] [db_runner.h:61] Start insert data to TaskInfo
+2026-11-25 09:53:27 [INFO] [50025] [50078] [db_runner.h:72] insert data to TaskInfo success
+2026-11-25 09:53:27 [INFO] [50025] [50078] [time_logger.h:39] DumpOpDesc Start end, cost time = 353 ms
+2026-11-25 09:53:27 [INFO] [50025] [50064] [time_logger.h:39] Dump CANN data end, cost time = 359 ms
+2026-11-25 09:53:27 [INFO] [50025] [50064] [host_trace_worker.cpp:119] Dump cann trace data done, threadId = 49586
+2026-11-25 09:53:27 [INFO] [50025] [50037] [time_logger.h:39] Multi thread analyze tree and dump data end, cost time = 533 ms
+2026-11-25 09:53:27 [INFO] [50025] [50025] [time_logger.h:32] Dump memcpy info data start start
+2026-11-25 09:53:27 [WARN] [50025] [50025] [base_dumper.h:42] Input data is empty, pass dump
+2026-11-25 09:53:27 [INFO] [50025] [50025] [time_logger.h:39] Dump memcpy info data start end, cost time = 0 ms
+2026-11-25 09:53:27 [INFO] [50025] [50025] [time_logger.h:39] HostTraceWorker end, cost time = 761 ms

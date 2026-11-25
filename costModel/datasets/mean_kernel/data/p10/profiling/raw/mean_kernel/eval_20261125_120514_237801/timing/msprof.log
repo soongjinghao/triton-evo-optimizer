@@ -1,0 +1,34 @@
+[INFO] Start profiling....
+[W1125 12:05:20.221663970 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Test case 1 passed: 2D tensor, dim=1, keepdim=False
+All tests passed!
+[INFO] Start export data in PROF_000001_20261125120519865_00239197OJKONONA.
+Wed 25 Nov 2026 12:05:25 [WARNING] [MSVP] [239368] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:05:25 [INFO] [MSVP] [239370] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/host" ...
+Wed 25 Nov 2026 12:05:25 [INFO] [MSVP] [239370] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:05:25 [INFO] [MSVP] [239370] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/host" finished.
+Wed 25 Nov 2026 12:05:25 [INFO] [MSVP] [239370] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/device_0" ...
+Wed 25 Nov 2026 12:05:25 [INFO] [MSVP] [239370] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:05:25 [INFO] [MSVP] [239370] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/device_0" finished.
+Wed 25 Nov 2026 12:05:25 [INFO] [MSVP] [239370] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/device_0.
+Wed 25 Nov 2026 12:05:26 [WARNING] [MSVP] [239550] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:05:26 [INFO] [MSVP] [239552] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:05:26 [INFO] [MSVP] [239552] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:05:26 [INFO] [MSVP] [239552] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/device_0.
+Wed 25 Nov 2026 12:05:26 [INFO] [MSVP] [239552] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/host"
+Wed 25 Nov 2026 12:05:26 [INFO] [MSVP] [239552] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/device_0.
+Wed 25 Nov 2026 12:05:26 [INFO] [MSVP] [239552] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/device_0"
+Wed 25 Nov 2026 12:05:26 [INFO] [MSVP] [239552] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 12:05:26 [INFO] [MSVP] [239552] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125120519865_00239197OJKONONA done.
+[INFO] Start query data in PROF_000001_20261125120519865_00239197OJKONONA.
+Wed 25 Nov 2026 12:05:27 [WARNING] [MSVP] [239591] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 12:05:20.830203	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 12:05:20.832892	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125120519865_00239197OJKONONA done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/mean_kernel/data/p10/.collector_work/performance/mean_kernel/eval_20261125_120514_237801/timing/PROF_000001_20261125120519865_00239197OJKONONA

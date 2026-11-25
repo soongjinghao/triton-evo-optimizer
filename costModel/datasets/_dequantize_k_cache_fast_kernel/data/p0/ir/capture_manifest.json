@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 70147,
+      "call_index": 1,
+      "jit_function": "_dequantize_k_cache_fast_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p070147_k001_dequantize_k_cache_fast_kernel.ttir.mlir",
+        "p070147_k001_dequantize_k_cache_fast_kernel.ttadapter.mlir",
+        "p070147_k001_dequantize_k_cache_fast_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 70400,
+      "call_index": 1,
+      "jit_function": "_dequantize_k_cache_fast_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p070400_k001_dequantize_k_cache_fast_kernel.ttir.mlir",
+        "p070400_k001_dequantize_k_cache_fast_kernel.ttadapter.mlir",
+        "p070400_k001_dequantize_k_cache_fast_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 70781,
+      "call_index": 1,
+      "jit_function": "_dequantize_k_cache_fast_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p070781_k001_dequantize_k_cache_fast_kernel.ttir.mlir",
+        "p070781_k001_dequantize_k_cache_fast_kernel.ttadapter.mlir",
+        "p070781_k001_dequantize_k_cache_fast_kernel.npubin"
+      ]
+    }
+  ]
+}

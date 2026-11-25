@@ -1,0 +1,37 @@
+[INFO] Start profiling....
+[W1125 10:58:21.478616500 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+/tmp/_unpack_seq_triton_kernel_vjb2e1e7/_unpack_seq_triton_kernel.py:54: UserWarning: An output with one or more elements was resized since it had shape [32], which does not match the required output shape [3]. This behavior is deprecated, and in a future PyTorch release outputs will not be resized unless they have zero elements. You can explicitly reuse an out tensor t by resizing it, inplace, to zero elements with t.resize_(0). (Triggered internally at /pytorch/aten/src/ATen/native/Resize.cpp:30.)
+  torch.cumsum(lengths.int(), dim=0, out=cum_lengths[1:])
+Triton result shape: torch.Size([20, 64])
+Reference result shape: torch.Size([20, 64])
+Total elements: 20
+✅ Test 1 passed: Basic 3D tensor
+[INFO] Start export data in PROF_000001_20261125105821071_00141088HRJDFEQH.
+Wed 25 Nov 2026 10:58:26 [WARNING] [MSVP] [141310] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:58:26 [INFO] [MSVP] [141312] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/host" ...
+Wed 25 Nov 2026 10:58:26 [INFO] [MSVP] [141312] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:58:26 [INFO] [MSVP] [141312] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/host" finished.
+Wed 25 Nov 2026 10:58:26 [INFO] [MSVP] [141312] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/device_0" ...
+Wed 25 Nov 2026 10:58:26 [INFO] [MSVP] [141312] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:58:26 [INFO] [MSVP] [141312] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/device_0" finished.
+Wed 25 Nov 2026 10:58:26 [INFO] [MSVP] [141312] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/device_0.
+Wed 25 Nov 2026 10:58:27 [WARNING] [MSVP] [141490] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:58:27 [INFO] [MSVP] [141494] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:58:27 [INFO] [MSVP] [141494] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:58:27 [INFO] [MSVP] [141494] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/device_0.
+Wed 25 Nov 2026 10:58:27 [INFO] [MSVP] [141494] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/host"
+Wed 25 Nov 2026 10:58:27 [INFO] [MSVP] [141494] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/device_0.
+Wed 25 Nov 2026 10:58:27 [INFO] [MSVP] [141494] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:58:27 [INFO] [MSVP] [141494] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125105821071_00141088HRJDFEQH done.
+[INFO] Start query data in PROF_000001_20261125105821071_00141088HRJDFEQH.
+Wed 25 Nov 2026 10:58:28 [WARNING] [MSVP] [141547] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:58:21.014969	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:58:21.018485	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125105821071_00141088HRJDFEQH done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p0/.collector_work/performance/_unpack_seq_triton_kernel/eval_20261125_105804_140469/hardware/PROF_000001_20261125105821071_00141088HRJDFEQH

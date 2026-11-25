@@ -1,0 +1,36 @@
+[INFO] Start profiling....
+[W1125 11:06:37.856975260 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ Triton kernel output matches reference implementation
+Triton result: tensor([978, 791, 905, 957, 497, 952, 934, 638, 883, 203, 402, 660, 736, 794,
+        737, 497, 715, 826, 985, 974], device='npu:0', dtype=torch.int32)
+Reference result: tensor([978, 791, 905, 957, 497, 952, 934, 638, 883, 203, 402, 660, 736, 794,
+        737, 497, 715, 826, 985, 974], device='npu:0', dtype=torch.int32)
+[INFO] Start export data in PROF_000001_20261125110637460_00152743ARQQMEON.
+Wed 25 Nov 2026 11:06:41 [WARNING] [MSVP] [152944] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:06:41 [INFO] [MSVP] [152946] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/host" ...
+Wed 25 Nov 2026 11:06:41 [INFO] [MSVP] [152946] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:06:41 [INFO] [MSVP] [152946] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/host" finished.
+Wed 25 Nov 2026 11:06:41 [INFO] [MSVP] [152946] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/device_0" ...
+Wed 25 Nov 2026 11:06:41 [INFO] [MSVP] [152946] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [152946] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/device_0" finished.
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [152946] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/device_0.
+Wed 25 Nov 2026 11:06:42 [WARNING] [MSVP] [153126] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [153128] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [153128] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [153128] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/device_0.
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [153128] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/host"
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [153128] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/device_0.
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [153128] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:06:42 [INFO] [MSVP] [153128] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125110637460_00152743ARQQMEON done.
+[INFO] Start query data in PROF_000001_20261125110637460_00152743ARQQMEON.
+Wed 25 Nov 2026 11:06:43 [WARNING] [MSVP] [153169] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:06:37.405881	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:06:37.408561	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125110637460_00152743ARQQMEON done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p10/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110619_151033/hardware/PROF_000001_20261125110637460_00152743ARQQMEON

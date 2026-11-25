@@ -21,10 +21,10 @@
     "layer_norm_fwd_kernel__p75__4c459c00bd93",
     "layer_norm_fwd_kernel__p100__0e6dc6002203"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 133,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "layer_norm_fwd_kernel",
   "operator_name": "layer_norm_fwd_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p75",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "moderate",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/layer_norm_fwd_kernel/test.py",
   "test_sha256": "7a668831cc540377b86de722acb60add229c8eb55f85c8511b6a8e9cec02f2d3",
   "test_source_path": "datasets2/layer_norm_fwd_kernel/test_layer_norm_fwd_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

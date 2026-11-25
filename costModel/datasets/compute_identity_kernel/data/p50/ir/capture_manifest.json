@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 173886,
+      "call_index": 1,
+      "jit_function": "compute_identity_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p173886_k001_compute_identity_kernel.ttir.mlir",
+        "p173886_k001_compute_identity_kernel.ttadapter.mlir",
+        "p173886_k001_compute_identity_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 174132,
+      "call_index": 1,
+      "jit_function": "compute_identity_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p174132_k001_compute_identity_kernel.ttir.mlir",
+        "p174132_k001_compute_identity_kernel.ttadapter.mlir",
+        "p174132_k001_compute_identity_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 174537,
+      "call_index": 1,
+      "jit_function": "compute_identity_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p174537_k001_compute_identity_kernel.ttir.mlir",
+        "p174537_k001_compute_identity_kernel.ttadapter.mlir",
+        "p174537_k001_compute_identity_kernel.npubin"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 60740,
+      "call_index": 1,
+      "jit_function": "_correct_attn_cp_out_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p060740_k001_correct_attn_cp_out_kernel.ttir.mlir",
+        "p060740_k001_correct_attn_cp_out_kernel.ttadapter.mlir",
+        "p060740_k001_correct_attn_cp_out_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 60992,
+      "call_index": 1,
+      "jit_function": "_correct_attn_cp_out_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p060992_k001_correct_attn_cp_out_kernel.ttir.mlir",
+        "p060992_k001_correct_attn_cp_out_kernel.ttadapter.mlir",
+        "p060992_k001_correct_attn_cp_out_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 61373,
+      "call_index": 1,
+      "jit_function": "_correct_attn_cp_out_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p061373_k001_correct_attn_cp_out_kernel.ttir.mlir",
+        "p061373_k001_correct_attn_cp_out_kernel.ttadapter.mlir",
+        "p061373_k001_correct_attn_cp_out_kernel.npubin"
+      ]
+    }
+  ]
+}

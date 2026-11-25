@@ -1,0 +1,36 @@
+[INFO] Start profiling....
+[W1125 10:36:32.038771820 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ RMS Norm test passed!
+Input shape: torch.Size([32, 128, 512])
+Max absolute difference: 1.9073486328125e-06
+Mean absolute difference: 1.7157347542706702e-08
+[INFO] Start export data in PROF_000001_20261125103631676_00110147IRIRNDJL.
+Wed 25 Nov 2026 10:36:36 [WARNING] [MSVP] [110295] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:36:36 [INFO] [MSVP] [110297] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/host" ...
+Wed 25 Nov 2026 10:36:36 [INFO] [MSVP] [110297] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:36:36 [INFO] [MSVP] [110297] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/host" finished.
+Wed 25 Nov 2026 10:36:36 [INFO] [MSVP] [110297] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/device_0" ...
+Wed 25 Nov 2026 10:36:36 [INFO] [MSVP] [110297] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:36:36 [INFO] [MSVP] [110297] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/device_0" finished.
+Wed 25 Nov 2026 10:36:36 [INFO] [MSVP] [110297] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/device_0.
+Wed 25 Nov 2026 10:36:37 [WARNING] [MSVP] [110477] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:36:37 [INFO] [MSVP] [110479] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:36:37 [INFO] [MSVP] [110479] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:36:37 [INFO] [MSVP] [110479] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/device_0.
+Wed 25 Nov 2026 10:36:37 [INFO] [MSVP] [110479] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/host"
+Wed 25 Nov 2026 10:36:37 [INFO] [MSVP] [110479] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/device_0.
+Wed 25 Nov 2026 10:36:37 [INFO] [MSVP] [110479] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/device_0"
+Wed 25 Nov 2026 10:36:37 [INFO] [MSVP] [110479] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:36:37 [INFO] [MSVP] [110479] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125103631676_00110147IRIRNDJL done.
+[INFO] Start query data in PROF_000001_20261125103631676_00110147IRIRNDJL.
+Wed 25 Nov 2026 10:36:38 [WARNING] [MSVP] [110518] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:36:32.611715	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:36:32.614449	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125103631676_00110147IRIRNDJL done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p50/.collector_work/performance/_rms_norm_kernel/eval_20261125_103626_107780/timing/PROF_000001_20261125103631676_00110147IRIRNDJL

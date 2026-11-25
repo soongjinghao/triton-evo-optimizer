@@ -1,0 +1,8 @@
+[W1125 11:00:03.759713860 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+/tmp/_unpack_seq_triton_kernel_rz0j4hr_/_unpack_seq_triton_kernel.py:56: UserWarning: An output with one or more elements was resized since it had shape [32], which does not match the required output shape [3]. This behavior is deprecated, and in a future PyTorch release outputs will not be resized unless they have zero elements. You can explicitly reuse an out tensor t by resizing it, inplace, to zero elements with t.resize_(0). (Triggered internally at /pytorch/aten/src/ATen/native/Resize.cpp:30.)
+  torch.cumsum(lengths.int(), dim=0, out=cum_lengths[1:])
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_unpack_seq_triton_kernel/data/p75/.collector_work/compiler_save_temps/038ba918a3dcf45a3372fc44699078508a23dcf4a92240df_pid143622_n_1fd3h4
+Triton result shape: torch.Size([20, 64])
+Reference result shape: torch.Size([20, 64])
+Total elements: 20
+✅ Test 1 passed: Basic 3D tensor

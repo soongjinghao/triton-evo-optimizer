@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 53194,
+      "call_index": 1,
+      "jit_function": "_copy_page_indices_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p053194_k001_copy_page_indices_kernel.ttir.mlir",
+        "p053194_k001_copy_page_indices_kernel.ttadapter.mlir",
+        "p053194_k001_copy_page_indices_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 53438,
+      "call_index": 1,
+      "jit_function": "_copy_page_indices_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p053438_k001_copy_page_indices_kernel.ttir.mlir",
+        "p053438_k001_copy_page_indices_kernel.ttadapter.mlir",
+        "p053438_k001_copy_page_indices_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 53817,
+      "call_index": 1,
+      "jit_function": "_copy_page_indices_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p053817_k001_copy_page_indices_kernel.ttir.mlir",
+        "p053817_k001_copy_page_indices_kernel.ttadapter.mlir",
+        "p053817_k001_copy_page_indices_kernel.npubin"
+      ]
+    }
+  ]
+}

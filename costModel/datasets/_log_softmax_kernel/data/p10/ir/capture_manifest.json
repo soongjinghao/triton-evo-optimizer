@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 82059,
+      "call_index": 1,
+      "jit_function": "_log_softmax_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p082059_k001_log_softmax_kernel.ttir.mlir",
+        "p082059_k001_log_softmax_kernel.ttadapter.mlir",
+        "p082059_k001_log_softmax_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 82405,
+      "call_index": 1,
+      "jit_function": "_log_softmax_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p082405_k001_log_softmax_kernel.ttir.mlir",
+        "p082405_k001_log_softmax_kernel.ttadapter.mlir",
+        "p082405_k001_log_softmax_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 82801,
+      "call_index": 1,
+      "jit_function": "_log_softmax_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p082801_k001_log_softmax_kernel.ttir.mlir",
+        "p082801_k001_log_softmax_kernel.ttadapter.mlir",
+        "p082801_k001_log_softmax_kernel.npubin"
+      ]
+    }
+  ]
+}

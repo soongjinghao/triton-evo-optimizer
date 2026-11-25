@@ -21,10 +21,10 @@
     "_count_expert_num_tokens__p90__3ec56e535bf8",
     "_count_expert_num_tokens__p100__60abaaceb052"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 134,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_count_expert_num_tokens",
   "operator_name": "_count_expert_num_tokens",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_count_expert_num_tokens/test.py",
   "test_sha256": "a1617793fd39900448678ac1a8da7b93926f67f4ad83edfa5f2547ae3521e36d",
   "test_source_path": "datasets2/_count_expert_num_tokens/test__count_expert_num_tokens_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

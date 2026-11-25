@@ -1,0 +1,32 @@
+[INFO] Start profiling....
+[W1125 11:43:42.642645310 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+All tests passed!
+[INFO] Start export data in PROF_000001_20261125114342231_00208071RJLFBDCG.
+Wed 25 Nov 2026 11:43:46 [WARNING] [MSVP] [208247] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:43:46 [INFO] [MSVP] [208249] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/host" ...
+Wed 25 Nov 2026 11:43:46 [INFO] [MSVP] [208249] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:43:46 [INFO] [MSVP] [208249] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/host" finished.
+Wed 25 Nov 2026 11:43:46 [INFO] [MSVP] [208249] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/device_0" ...
+Wed 25 Nov 2026 11:43:46 [INFO] [MSVP] [208249] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:43:46 [INFO] [MSVP] [208249] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/device_0" finished.
+Wed 25 Nov 2026 11:43:46 [INFO] [MSVP] [208249] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/device_0.
+Wed 25 Nov 2026 11:43:47 [WARNING] [MSVP] [208429] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:43:47 [INFO] [MSVP] [208431] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:43:47 [INFO] [MSVP] [208431] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:43:47 [INFO] [MSVP] [208431] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/device_0.
+Wed 25 Nov 2026 11:43:47 [INFO] [MSVP] [208431] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/host"
+Wed 25 Nov 2026 11:43:47 [INFO] [MSVP] [208431] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/device_0.
+Wed 25 Nov 2026 11:43:47 [INFO] [MSVP] [208431] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:43:47 [INFO] [MSVP] [208431] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125114342231_00208071RJLFBDCG done.
+[INFO] Start query data in PROF_000001_20261125114342231_00208071RJLFBDCG.
+Wed 25 Nov 2026 11:43:48 [WARNING] [MSVP] [208472] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:43:42.228222	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:43:42.231624	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125114342231_00208071RJLFBDCG done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p50/.collector_work/performance/fused_gdn_gating_kernel/eval_20261125_114324_205299/hardware/PROF_000001_20261125114342231_00208071RJLFBDCG

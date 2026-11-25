@@ -21,10 +21,10 @@
     "fused_qkvzba_split_reshape_cat_kernel__p90__f1eaf7f3ec1f",
     "fused_qkvzba_split_reshape_cat_kernel__p100__f1eaf7f3ec1f"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 208,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "fused_qkvzba_split_reshape_cat_kernel",
   "operator_name": "fused_qkvzba_split_reshape_cat_kernel",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/test.py",
   "test_sha256": "4921f6a7fb236a980d3f03b75905b0fdc530518e40cbc25601e7419b8c411dbe",
   "test_source_path": "datasets2/fused_qkvzba_split_reshape_cat_kernel/test_fused_qkvzba_split_reshape_cat_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

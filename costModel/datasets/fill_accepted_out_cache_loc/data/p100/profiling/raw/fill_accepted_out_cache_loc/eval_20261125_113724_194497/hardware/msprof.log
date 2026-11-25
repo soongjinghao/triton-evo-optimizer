@@ -1,0 +1,32 @@
+[INFO] Start profiling....
+[W1125 11:37:42.122928050 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ fill_accepted_out_cache_loc test passed
+[INFO] Start export data in PROF_000001_20261125113741739_00199568KAEBEGNA.
+Wed 25 Nov 2026 11:37:46 [WARNING] [MSVP] [199773] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:37:46 [INFO] [MSVP] [199775] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/host" ...
+Wed 25 Nov 2026 11:37:46 [INFO] [MSVP] [199775] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:37:46 [INFO] [MSVP] [199775] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/host" finished.
+Wed 25 Nov 2026 11:37:46 [INFO] [MSVP] [199775] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/device_0" ...
+Wed 25 Nov 2026 11:37:46 [INFO] [MSVP] [199775] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:37:46 [INFO] [MSVP] [199775] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/device_0" finished.
+Wed 25 Nov 2026 11:37:46 [INFO] [MSVP] [199775] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/device_0.
+Wed 25 Nov 2026 11:37:47 [WARNING] [MSVP] [199949] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:37:47 [INFO] [MSVP] [199951] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:37:47 [INFO] [MSVP] [199951] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:37:47 [INFO] [MSVP] [199951] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/device_0.
+Wed 25 Nov 2026 11:37:47 [INFO] [MSVP] [199951] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/host"
+Wed 25 Nov 2026 11:37:47 [INFO] [MSVP] [199951] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/device_0.
+Wed 25 Nov 2026 11:37:47 [INFO] [MSVP] [199951] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:37:47 [INFO] [MSVP] [199951] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125113741739_00199568KAEBEGNA done.
+[INFO] Start query data in PROF_000001_20261125113741739_00199568KAEBEGNA.
+Wed 25 Nov 2026 11:37:48 [WARNING] [MSVP] [199998] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:37:42.703220	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:37:42.707232	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125113741739_00199568KAEBEGNA done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/fill_accepted_out_cache_loc/data/p100/.collector_work/performance/fill_accepted_out_cache_loc/eval_20261125_113724_194497/hardware/PROF_000001_20261125113741739_00199568KAEBEGNA

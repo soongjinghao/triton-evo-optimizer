@@ -1,0 +1,7 @@
+[W1125 11:29:45.490474550 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/experts_combine_kernel/data/p100/.collector_work/compiler_save_temps/a0fad4a3ec71e279490821afc80553471568ed1fb0817152_pid187757_l72hj8cv
+Test case 1 passed: Basic functionality with combine_k > 1
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/experts_combine_kernel/data/p100/.collector_work/compiler_save_temps/0f860aa13674fcf0f541d64ff6fec9719ea473ae9d2d3de7_pid187757_81jo7wvq
+Test case 2 passed: Pre-combined case (combine_k = 1)
+Test case 3 passed: With output buffer
+All tests passed!

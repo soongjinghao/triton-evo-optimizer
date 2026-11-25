@@ -1,0 +1,141 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 9,
+  "events": [
+    {
+      "pid": 183038,
+      "call_index": 1,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183038_k001_experts_combine_kernel.ttir.mlir",
+        "p183038_k001_experts_combine_kernel.ttadapter.mlir",
+        "p183038_k001_experts_combine_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 183038,
+      "call_index": 2,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183038_k002_experts_combine_kernel.ttir.mlir",
+        "p183038_k002_experts_combine_kernel.ttadapter.mlir",
+        "p183038_k002_experts_combine_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 183038,
+      "call_index": 3,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183038_k003_experts_combine_kernel.ttir.mlir",
+        "p183038_k003_experts_combine_kernel.ttadapter.mlir",
+        "p183038_k003_experts_combine_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 183514,
+      "call_index": 1,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183514_k001_experts_combine_kernel.ttir.mlir",
+        "p183514_k001_experts_combine_kernel.ttadapter.mlir",
+        "p183514_k001_experts_combine_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 183514,
+      "call_index": 2,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183514_k002_experts_combine_kernel.ttir.mlir",
+        "p183514_k002_experts_combine_kernel.ttadapter.mlir",
+        "p183514_k002_experts_combine_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 183514,
+      "call_index": 3,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183514_k003_experts_combine_kernel.ttir.mlir",
+        "p183514_k003_experts_combine_kernel.ttadapter.mlir",
+        "p183514_k003_experts_combine_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 183892,
+      "call_index": 1,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183892_k001_experts_combine_kernel.ttir.mlir",
+        "p183892_k001_experts_combine_kernel.ttadapter.mlir",
+        "p183892_k001_experts_combine_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 183892,
+      "call_index": 2,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183892_k002_experts_combine_kernel.ttir.mlir",
+        "p183892_k002_experts_combine_kernel.ttadapter.mlir",
+        "p183892_k002_experts_combine_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 183892,
+      "call_index": 3,
+      "jit_function": "experts_combine_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p183892_k003_experts_combine_kernel.ttir.mlir",
+        "p183892_k003_experts_combine_kernel.ttadapter.mlir",
+        "p183892_k003_experts_combine_kernel.npubin"
+      ]
+    }
+  ]
+}

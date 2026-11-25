@@ -1,0 +1,205 @@
+{
+  "schema_version": "costmodel_msprof_v1",
+  "kernel_name": "_log_softmax_kernel",
+  "profile_mode": "full",
+  "timing": {
+    "execution_time_us": 668.807,
+    "source": "op_summary.Task Duration(us)",
+    "sample_count": 1,
+    "task_time_cross_check": {
+      "median_task_time_us": 666.266,
+      "sample_count": 1,
+      "task_id": "2",
+      "stream_id": "47"
+    },
+    "hardware_pass_task_duration_us": 666.266,
+    "cross_pass_difference_us": 2.5410000000000537,
+    "cross_pass_relative_difference_pct": 0.37993023398380305,
+    "cross_pass_consistent_20pct": true,
+    "label_valid": true,
+    "label_execution_time_us": 668.807
+  },
+  "kernel": {
+    "Device_id": "0",
+    "Task ID": "2",
+    "Stream ID": "47",
+    "Op Name": "_log_softmax_kernel",
+    "OP Type": "_log_softmax_kernel",
+    "OP State": "static",
+    "Task Type": "AI_VECTOR_CORE",
+    "Task Start Time(us)": "1795601962368304.852\t",
+    "Task Duration(us)": 666.266,
+    "Block Num": "48",
+    "Mix Block Num": "0",
+    "HF32 Eligible": "YES",
+    "Input Shapes": "\"4096,8192\"",
+    "Input Data Types": "FLOAT",
+    "Output Shapes": "\"4096,8192\"",
+    "Output Data Types": "FLOAT",
+    "aicore_time(us)": 0.0,
+    "aic_total_cycles": 0.0,
+    "aic_mac_time(us)": 0.0,
+    "aic_mac_ratio": 0.0,
+    "aic_scalar_time(us)": 0.0,
+    "aic_scalar_ratio": 0.0,
+    "aic_mte1_time(us)": 0.0,
+    "aic_mte1_ratio": 0.0,
+    "aic_mte2_time(us)": 0.0,
+    "aic_mte2_ratio": 0.0,
+    "aic_fixpipe_time(us)": 0.0,
+    "aic_fixpipe_ratio": 0.0,
+    "aic_icache_miss_rate": 0.0,
+    "aiv_time(us)": 653.262,
+    "aiv_total_cycles": 56441857.0,
+    "aiv_vec_time(us)": 237.845,
+    "aiv_vec_ratio": 0.364,
+    "aiv_scalar_time(us)": 237.344,
+    "aiv_scalar_ratio": 0.363,
+    "aiv_mte2_time(us)": 275.524,
+    "aiv_mte2_ratio": 0.422,
+    "aiv_mte3_time(us)": 104.384,
+    "aiv_mte3_ratio": 0.16,
+    "aiv_icache_miss_rate": 0.0,
+    "cube_utilization(%)": 0.0
+  },
+  "core_utilization": {
+    "ai_core": {
+      "source": "op_summary_task",
+      "task_type": "AI_VECTOR_CORE",
+      "applicability": "not_applicable_for_task_type",
+      "record_count": 1,
+      "active_record_count": 0,
+      "mac_ratio_mean": 0.0,
+      "scalar_ratio_mean": 0.0,
+      "mte1_ratio_mean": 0.0,
+      "mte2_ratio_mean": 0.0,
+      "fixpipe_ratio_mean": 0.0,
+      "icache_miss_rate_mean": 0.0,
+      "mac_ratio_max": 0.0,
+      "scalar_ratio_max": 0.0,
+      "mte1_ratio_max": 0.0,
+      "mte2_ratio_max": 0.0,
+      "fixpipe_ratio_max": 0.0,
+      "icache_miss_rate_max": 0.0
+    },
+    "ai_vector_core": {
+      "source": "op_summary_task",
+      "task_type": "AI_VECTOR_CORE",
+      "applicability": "available",
+      "record_count": 1,
+      "active_record_count": 1,
+      "vec_ratio_mean": 0.364,
+      "scalar_ratio_mean": 0.363,
+      "mte2_ratio_mean": 0.422,
+      "mte3_ratio_mean": 0.16,
+      "icache_miss_rate_mean": 0.0,
+      "vec_ratio_max": 0.364,
+      "scalar_ratio_max": 0.363,
+      "mte2_ratio_max": 0.422,
+      "mte3_ratio_max": 0.16,
+      "icache_miss_rate_max": 0.0
+    }
+  },
+  "memory": {
+    "hbm": {
+      "scope": "device_level_sampled_bandwidth",
+      "sample_count": 5,
+      "read_mb_s": 190.585,
+      "write_mb_s": 147.092
+    },
+    "llc": {
+      "scope": "device_level_llc_profile",
+      "sample_count": 3,
+      "read_hit_rate_pct": 42.999,
+      "read_throughput_mb_s": 4743.827,
+      "write_hit_rate_pct": null,
+      "write_throughput_mb_s": null
+    },
+    "npu_memory": {
+      "scope": "application_level_sampled_memory",
+      "ddr_kb_peak": 0.0,
+      "ddr_kb_mean": 0.0,
+      "hbm_kb_peak": 555192.0,
+      "hbm_kb_mean": 157880.0,
+      "total_memory_kb_peak": 555192.0,
+      "total_memory_kb_mean": 157880.0,
+      "sample_count": 70,
+      "timestamp_start_us": 1795601962121611.0,
+      "timestamp_end_us": 1795601963496480.0,
+      "sampling_span_us": 1374869.0
+    },
+    "npu_module_memory": {
+      "RUNTIME": {
+        "reserved_kb_peak": 34924.0,
+        "reserved_kb_mean": 32840.68571428571,
+        "sample_count": 70
+      },
+      "APP": {
+        "reserved_kb_peak": 436224.0,
+        "reserved_kb_mean": 82768.45714285714,
+        "sample_count": 70
+      }
+    }
+  },
+  "metric_coverage": {
+    "kernel_task_duration": true,
+    "aic_pipeline_from_op_summary_or_csv": false,
+    "aiv_pipeline_from_op_summary_or_csv": true,
+    "task_type": "AI_VECTOR_CORE",
+    "hbm_read_bandwidth": true,
+    "hbm_write_bandwidth": true,
+    "llc_read": true,
+    "llc_write": false,
+    "npu_memory": true,
+    "npu_module_memory": true,
+    "aic_applicability": "not_applicable_for_task_type",
+    "aiv_applicability": "available"
+  },
+  "collection": {
+    "hardware_profile_success": true,
+    "op_summary_rows_for_kernel": 1,
+    "source_csv": {
+      "op_summary": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/hardware/PROF_000001_20261125101921759_00085993ABJOPOGP/mindstudio_profiler_output/op_summary_20261125101927.csv",
+      "ai_core_utilization": null,
+      "ai_vector_core_utilization": null,
+      "hbm": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/hardware/PROF_000001_20261125101921759_00085993ABJOPOGP/mindstudio_profiler_output/hbm_20261125101927.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/hardware/PROF_000001_20261125101921759_00085993ABJOPOGP/mindstudio_profiler_output/llc_read_write_20261125101927.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/hardware/PROF_000001_20261125101921759_00085993ABJOPOGP/mindstudio_profiler_output/npu_mem_20261125101927.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/hardware/PROF_000001_20261125101921759_00085993ABJOPOGP/mindstudio_profiler_output/npu_module_mem_20261125101927.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/hardware/PROF_000001_20261125101921759_00085993ABJOPOGP/mindstudio_profiler_output/task_time_20261125101927.csv"
+    },
+    "commands": {
+      "timing": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/timing",
+        "--task-time=l0",
+        "--ai-core=off",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "python3",
+        "/tmp/_log_softmax_kernel_n9axm2sf/test__log_softmax_kernel.py"
+      ],
+      "hardware": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/hardware",
+        "--task-time=l1",
+        "--task-memory=on",
+        "--ai-core=on",
+        "--aic-mode=task-based",
+        "--aic-metrics=PipeUtilization",
+        "--sys-hardware-mem=on",
+        "--sys-hardware-mem-freq=50",
+        "--llc-profiling=read",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "--ge-api=off",
+        "python3",
+        "/tmp/_log_softmax_kernel_n9axm2sf/test__log_softmax_kernel.py"
+      ]
+    },
+    "raw_profile_directories": {
+      "timing": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p100/.collector_work/performance/_log_softmax_kernel/eval_20261125_101905_80941/hardware"
+    }
+  }
+}

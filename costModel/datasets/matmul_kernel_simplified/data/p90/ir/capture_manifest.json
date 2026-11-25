@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 235610,
+      "call_index": 1,
+      "jit_function": "matmul_kernel_simplified",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p235610_k001_matmul_kernel_simplified.ttir.mlir",
+        "p235610_k001_matmul_kernel_simplified.ttadapter.mlir",
+        "p235610_k001_matmul_kernel_simplified.npubin"
+      ]
+    },
+    {
+      "pid": 235849,
+      "call_index": 1,
+      "jit_function": "matmul_kernel_simplified",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p235849_k001_matmul_kernel_simplified.ttir.mlir",
+        "p235849_k001_matmul_kernel_simplified.ttadapter.mlir",
+        "p235849_k001_matmul_kernel_simplified.npubin"
+      ]
+    },
+    {
+      "pid": 236235,
+      "call_index": 1,
+      "jit_function": "matmul_kernel_simplified",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p236235_k001_matmul_kernel_simplified.ttir.mlir",
+        "p236235_k001_matmul_kernel_simplified.ttadapter.mlir",
+        "p236235_k001_matmul_kernel_simplified.npubin"
+      ]
+    }
+  ]
+}

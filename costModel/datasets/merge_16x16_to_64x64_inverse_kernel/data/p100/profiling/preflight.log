@@ -1,0 +1,80 @@
+[W1125 12:19:36.678514820 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+
+================================================================================
+Starting test_solve_tril_64x64
+================================================================================
+Testing solve_tril with B=2, T=128, H=4, BT=64
+Using device: npu
+
+Creating input tensor A with shape: torch.Size([2, 128, 4, 64])
+Filling with random strictly lower triangular values...
+Created input tensor A:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+
+Validating input structure...
+  ✓ Input structure validated (all diagonals are zero)
+
+============================================================
+Test 1: Basic functionality with BT=64
+============================================================
+Calling solve_tril...
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/70803a20bc13cb190867abd9c628bba552deccd9359e0efb_pid261530_kfgem7rk
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/7d6f07d2b604ed4f2d4a747f40f4aaea8bd9d370d7338e42_pid261530_cgn6b8yh
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/b93984ed2f31d4026d0e56b48a8e706bdac682bed3d74cbd_pid261530_o1c7bvuu
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/ae596930057d751f5b8e9bf80fdd10a7e80e22e0d3b0a1a9_pid261530_9rj53qm9
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/a73cc13df3b9ed4d08b78f4bf69a8e2995afe6d11f271fa0_pid261530_x0kps91s
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/106eaecc764114e5096f67740288c5f8c99e18e242a5fd09_pid261530_okbm5br7
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/713e1952425e3a233eae9acd50489f4f36c6754c20482836_pid261530_3rm0ahes
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/15b6de005b41d425e4c8a7fd5961aca769c030814f64c955_pid261530_64uii39l
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/d7b16594c2b91c573d2c3e9f47df70b922cc4b07d1ab8161_pid261530_gys7ix7y
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/8a1655ee6a4fd72d653c6ccd0cb2013f7853ed9903ecde1c_pid261530_8axn_py3
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/bd280059716178d7fa191e8a466ac09d0ab95554030b78d4_pid261530_t4xduvpt
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p100/.collector_work/compiler_save_temps/f37032abc82eecf642ab06b934f7d8463f70fdcb9e69bfcb_pid261530_t6qt6pet
+
+Output Ai created:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+  ✓ Output shape is correct
+
+Verifying block-wise correctness (testing entire 64x64 blocks)...
+
+Verification completed:
+  Total 64x64 blocks tested: 16
+  Maximum error across all blocks: 1.000000e+00
+
+  Found 14 blocks with error > 1e-4:
+    Block [B=0, H=0, Idx=1]: error=1.000000e+00, ||A||=0.4031, ||Ai||=0.0000
+    Block [B=0, H=1, Idx=1]: error=1.000000e+00, ||A||=0.3639, ||Ai||=0.0000
+    Block [B=0, H=2, Idx=0]: error=1.000000e+00, ||A||=0.3560, ||Ai||=0.0000
+    ... and 11 more
+
+============================================================
+✗ FAILURE: Some 64x64 blocks failed! Maximum error: 1.000000e+00
+  Note: For 64x64 blocks, numerical errors might accumulate.
+  Consider using double precision if higher accuracy is needed.
+
+============================================================
+Additional structural checks on Ai...
+
+Checking Ai structure:
+  Found 384 diagonal errors (first 3 shown):
+    Block [0,0,1] row 0: Diagonal should be 1, got 0.000000
+    Block [0,0,1] row 1: Diagonal should be 1, got 0.000000
+    Block [0,0,1] row 2: Diagonal should be 1, got 0.000000
+  ✓ All checked upper triangle elements are close to 0
+
+============================================================
+TEST SUMMARY:
+  Total 64x64 blocks processed: 16
+  Maximum (I+A)*Ai - I error: 1.000000e+00
+  Test FAILED
+============================================================
+
+Test completed in 75.37 seconds
+
+================================================================================
+END OF TEST
+================================================================================

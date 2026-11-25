@@ -1,0 +1,10 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,moe_align_block_size_stage1,AI_VECTOR_CORE,1,15.681,15.681,15.681,15.681,25.331
+0,moe_align_block_size_stage4,AI_VECTOR_CORE,1,15.441,15.441,15.441,15.441,24.943
+0,Range,AI_VECTOR_CORE,1,10.04,10.04,10.04,10.04,16.22
+0,ZerosLike,AI_VECTOR_CORE,3,6.82,1.64,2.273,3.52,11.018
+0,Cast,AI_VECTOR_CORE,1,3.78,3.78,3.78,3.78,6.107
+0,moe_align_block_size_stage2,AI_VECTOR_CORE,1,3.4,3.4,3.4,3.4,5.493
+0,DSARandomUniform,DSA_SQE,1,2.88,2.88,2.88,2.88,4.653
+0,moe_align_block_size_stage3,AI_VECTOR_CORE,1,1.96,1.96,1.96,1.96,3.166
+0,Mul,AI_VECTOR_CORE,1,1.9,1.9,1.9,1.9,3.069

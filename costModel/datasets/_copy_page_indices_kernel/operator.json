@@ -21,10 +21,10 @@
     "_copy_page_indices_kernel__p90__a9478a6d6acb",
     "_copy_page_indices_kernel__p100__a9478a6d6acb"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 174,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_copy_page_indices_kernel",
   "operator_name": "_copy_page_indices_kernel",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_copy_page_indices_kernel/test.py",
   "test_sha256": "13ecd37b2b57a116b4e3d5291a469e3ffe55ba7e66a96f0ec767e491e99040fc",
   "test_source_path": "datasets2/_copy_page_indices_kernel/test__copy_page_indices_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

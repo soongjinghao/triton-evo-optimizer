@@ -1,0 +1,33 @@
+[INFO] Start profiling....
+[W1125 12:02:32.980351460 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✓ Float32 matmul test passed
+All tests passed!
+[INFO] Start export data in PROF_000001_20261125120231459_00235140ENAFLPHQ.
+Wed 25 Nov 2026 12:02:36 [WARNING] [MSVP] [235383] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:02:36 [INFO] [MSVP] [235385] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/host" ...
+Wed 25 Nov 2026 12:02:36 [INFO] [MSVP] [235385] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:02:36 [INFO] [MSVP] [235385] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/host" finished.
+Wed 25 Nov 2026 12:02:36 [INFO] [MSVP] [235385] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/device_0" ...
+Wed 25 Nov 2026 12:02:36 [INFO] [MSVP] [235385] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:02:37 [INFO] [MSVP] [235385] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/device_0" finished.
+Wed 25 Nov 2026 12:02:37 [INFO] [MSVP] [235385] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/device_0.
+Wed 25 Nov 2026 12:02:37 [WARNING] [MSVP] [235559] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:02:37 [INFO] [MSVP] [235567] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:02:37 [INFO] [MSVP] [235567] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:02:37 [INFO] [MSVP] [235567] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/device_0.
+Wed 25 Nov 2026 12:02:37 [INFO] [MSVP] [235567] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/host"
+Wed 25 Nov 2026 12:02:37 [INFO] [MSVP] [235567] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/device_0.
+Wed 25 Nov 2026 12:02:38 [INFO] [MSVP] [235567] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 12:02:38 [INFO] [MSVP] [235567] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125120231459_00235140ENAFLPHQ done.
+[INFO] Start query data in PROF_000001_20261125120231459_00235140ENAFLPHQ.
+Wed 25 Nov 2026 12:02:38 [WARNING] [MSVP] [235608] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 12:02:31.553976	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 12:02:31.558217	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125120231459_00235140ENAFLPHQ done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ

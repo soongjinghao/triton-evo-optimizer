@@ -1,0 +1,5 @@
+[W1125 10:44:31.278027950 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+/tmp/_set_k_and_s_triton_kernel_phggpau2/test__set_k_and_s_triton_kernel.py:33: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:423.)
+  loc_token_offset_in_page = loc[0] % page_size
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_set_k_and_s_triton_kernel/data/p90/.collector_work/compiler_save_temps/e772435b8680f0654e048ccdba55776ffc14aa5cf93da021_pid121584_dq_ki3ct
+All tests passed!

@@ -21,10 +21,10 @@
     "l2norm_fwd_kernel1__p90__f6a65415a729",
     "l2norm_fwd_kernel1__p100__7d3f7d667611"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 146,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "l2norm_fwd_kernel1",
   "operator_name": "l2norm_fwd_kernel1",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/l2norm_fwd_kernel1/test.py",
   "test_sha256": "f52c8998987c1d241010b1bda330dda090d62faaab8a8c61e96f13b3471a3f28",
   "test_source_path": "datasets2/l2norm_fwd_kernel1/test_l2norm_fwd_kernel1_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

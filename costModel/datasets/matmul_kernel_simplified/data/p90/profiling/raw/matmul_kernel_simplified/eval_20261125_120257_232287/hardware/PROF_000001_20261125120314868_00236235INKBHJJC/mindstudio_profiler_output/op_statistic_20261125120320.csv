@@ -1,0 +1,6 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,matmul_kernel_simplified,AI_CORE,1,5.82,5.82,5.82,5.82,24.433
+0,IsClose,AI_VECTOR_CORE,1,5.52,5.52,5.52,5.52,23.174
+0,DSARandomNormal,DSA_SQE,2,4.72,1.54,2.36,3.18,19.815
+0,MatMulV2,AI_CORE,1,4.44,4.44,4.44,4.44,18.64
+0,ReduceAll,MIX_AIV,1,3.32,3.32,3.32,3.32,13.938

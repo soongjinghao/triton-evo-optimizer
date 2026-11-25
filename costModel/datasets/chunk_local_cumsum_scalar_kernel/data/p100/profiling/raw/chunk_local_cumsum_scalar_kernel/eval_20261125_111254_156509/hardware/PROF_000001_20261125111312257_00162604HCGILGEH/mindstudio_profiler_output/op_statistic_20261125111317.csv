@@ -1,0 +1,8 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,chunk_local_cumsum_scalar_kernel,AI_VECTOR_CORE,603,233288.767,381.635,386.88,392.716,90.549
+0,ZerosLike,AI_VECTOR_CORE,483,24316.512,49.082,50.345,55.802,9.438
+0,MemSet,AI_VECTOR_CORE,1,10.44,10.44,10.44,10.44,0.004
+0,Cumsum,AI_VECTOR_CORE,1,10.4,10.4,10.4,10.4,0.004
+0,IsClose,AI_VECTOR_CORE,1,5.8,5.8,5.8,5.8,0.002
+0,DSARandomNormal,DSA_SQE,1,4.5,4.5,4.5,4.5,0.002
+0,ReduceAll,MIX_AIV,1,2.7,2.7,2.7,2.7,0.001

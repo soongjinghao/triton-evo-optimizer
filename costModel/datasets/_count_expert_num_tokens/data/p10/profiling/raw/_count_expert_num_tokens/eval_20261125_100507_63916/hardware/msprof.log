@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1125 10:05:24.536929640 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Test 1 passed: Basic functionality without expert map
+Test 2 passed: With expert map
+Test 3 passed: Larger random tensor
+All tests passed!
+[INFO] Start export data in PROF_000001_20261125100524147_00065966HRFEDOIN.
+Wed 25 Nov 2026 10:05:28 [WARNING] [MSVP] [66177] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:05:28 [INFO] [MSVP] [66179] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/host" ...
+Wed 25 Nov 2026 10:05:28 [INFO] [MSVP] [66179] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:05:28 [INFO] [MSVP] [66179] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/host" finished.
+Wed 25 Nov 2026 10:05:28 [INFO] [MSVP] [66179] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/device_0" ...
+Wed 25 Nov 2026 10:05:28 [INFO] [MSVP] [66179] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:05:28 [INFO] [MSVP] [66179] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/device_0" finished.
+Wed 25 Nov 2026 10:05:28 [INFO] [MSVP] [66179] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/device_0.
+Wed 25 Nov 2026 10:05:29 [WARNING] [MSVP] [66353] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:05:29 [INFO] [MSVP] [66355] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:05:29 [INFO] [MSVP] [66355] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:05:29 [INFO] [MSVP] [66355] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/device_0.
+Wed 25 Nov 2026 10:05:29 [INFO] [MSVP] [66355] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/host"
+Wed 25 Nov 2026 10:05:29 [INFO] [MSVP] [66355] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/device_0.
+Wed 25 Nov 2026 10:05:29 [INFO] [MSVP] [66355] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:05:29 [INFO] [MSVP] [66355] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125100524147_00065966HRFEDOIN done.
+[INFO] Start query data in PROF_000001_20261125100524147_00065966HRFEDOIN.
+Wed 25 Nov 2026 10:05:30 [WARNING] [MSVP] [66402] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:05:24.049529	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:05:24.054419	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125100524147_00065966HRFEDOIN done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p10/.collector_work/performance/_count_expert_num_tokens/eval_20261125_100507_63916/hardware/PROF_000001_20261125100524147_00065966HRFEDOIN

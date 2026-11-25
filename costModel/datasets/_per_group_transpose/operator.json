@@ -21,10 +21,10 @@
     "_per_group_transpose__p90__981faacce35f",
     "_per_group_transpose__p100__154269ccc08d"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 147,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_per_group_transpose",
   "operator_name": "_per_group_transpose",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_per_group_transpose/test.py",
   "test_sha256": "1a905ceb470c8584771ec6558222b5852f79d94103c17121b37864f7ee0b6ce1",
   "test_source_path": "datasets2/_per_group_transpose/test__per_group_transpose_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

@@ -1,0 +1,30 @@
+{
+  "schema_version": "costmodel_collection_run_v2",
+  "script_version": "2.2.0",
+  "run_id": "20261125_112631",
+  "operator_name": "experts_combine_kernel",
+  "selected_roles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
+  "official_percentile_roles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
+  "temporary_roles_selected": [],
+  "selected_count": 5,
+  "success_count": 4,
+  "partial_success_count": 0,
+  "correctness_failure_count": 0,
+  "measurement_inconsistent_count": 1,
+  "incomplete_or_failed_count": 1,
+  "profile_mode": "full",
+  "history_path": "costModel/datasets/experts_combine_kernel/data/collection_history.jsonl",
+  "finished_at": "2026-11-25T11:30:27+00:00"
+}

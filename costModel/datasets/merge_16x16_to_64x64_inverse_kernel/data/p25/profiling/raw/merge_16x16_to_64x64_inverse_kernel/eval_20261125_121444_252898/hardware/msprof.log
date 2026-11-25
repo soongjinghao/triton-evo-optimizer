@@ -1,0 +1,95 @@
+[INFO] Start profiling....
+[W1125 12:15:15.029676240 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+
+================================================================================
+Starting test_solve_tril_64x64
+================================================================================
+Testing solve_tril with B=2, T=128, H=4, BT=64
+Using device: npu
+
+Creating input tensor A with shape: torch.Size([2, 128, 4, 64])
+Filling with random strictly lower triangular values...
+Created input tensor A:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+
+Validating input structure...
+  ✓ Input structure validated (all diagonals are zero)
+
+============================================================
+Test 1: Basic functionality with BT=64
+============================================================
+Calling solve_tril...
+
+Output Ai created:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+  ✓ Output shape is correct
+
+Verifying block-wise correctness (testing entire 64x64 blocks)...
+
+Verification completed:
+  Total 64x64 blocks tested: 16
+  Maximum error across all blocks: 3.346417e-01
+
+  Found 4 blocks with error > 1e-4:
+    Block [B=0, H=0, Idx=0]: error=3.073454e-01, ||A||=0.3712, ||Ai||=1.0000
+    Block [B=0, H=1, Idx=0]: error=3.213600e-01, ||A||=0.3336, ||Ai||=1.0000
+    Block [B=0, H=2, Idx=0]: error=3.346417e-01, ||A||=0.3575, ||Ai||=1.0000
+    ... and 1 more
+
+============================================================
+✗ FAILURE: Some 64x64 blocks failed! Maximum error: 3.346417e-01
+  Note: For 64x64 blocks, numerical errors might accumulate.
+  Consider using double precision if higher accuracy is needed.
+
+============================================================
+Additional structural checks on Ai...
+
+Checking Ai structure:
+  ✓ All checked diagonal elements are close to 1
+  ✓ All checked upper triangle elements are close to 0
+
+============================================================
+TEST SUMMARY:
+  Total 64x64 blocks processed: 16
+  Maximum (I+A)*Ai - I error: 3.346417e-01
+  Test FAILED
+============================================================
+
+Test completed in 4.62 seconds
+
+================================================================================
+END OF TEST
+================================================================================
+[INFO] Start export data in PROF_000001_20261125121514633_00256574ECIQBKCD.
+Wed 25 Nov 2026 12:15:23 [WARNING] [MSVP] [257022] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:15:23 [INFO] [MSVP] [257024] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/host" ...
+Wed 25 Nov 2026 12:15:23 [INFO] [MSVP] [257024] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:15:24 [INFO] [MSVP] [257024] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/host" finished.
+Wed 25 Nov 2026 12:15:24 [INFO] [MSVP] [257024] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/device_0" ...
+Wed 25 Nov 2026 12:15:24 [INFO] [MSVP] [257024] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:15:24 [INFO] [MSVP] [257024] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/device_0" finished.
+Wed 25 Nov 2026 12:15:26 [INFO] [MSVP] [257024] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/device_0.
+Wed 25 Nov 2026 12:15:33 [WARNING] [MSVP] [257243] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:15:33 [INFO] [MSVP] [257245] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:15:33 [INFO] [MSVP] [257245] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:15:33 [INFO] [MSVP] [257245] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/device_0.
+Wed 25 Nov 2026 12:15:33 [INFO] [MSVP] [257245] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/host"
+Wed 25 Nov 2026 12:15:36 [INFO] [MSVP] [257245] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/device_0.
+Wed 25 Nov 2026 12:15:36 [INFO] [MSVP] [257245] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 12:15:36 [INFO] [MSVP] [257245] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125121514633_00256574ECIQBKCD done.
+[INFO] Start query data in PROF_000001_20261125121514633_00256574ECIQBKCD.
+Wed 25 Nov 2026 12:15:37 [WARNING] [MSVP] [257298] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 12:15:14.615522	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 12:15:14.618573	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125121514633_00256574ECIQBKCD done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/performance/merge_16x16_to_64x64_inverse_kernel/eval_20261125_121444_252898/hardware/PROF_000001_20261125121514633_00256574ECIQBKCD

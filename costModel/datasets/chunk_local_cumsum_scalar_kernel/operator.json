@@ -21,10 +21,10 @@
     "chunk_local_cumsum_scalar_kernel__p90__0e19df9e8df4",
     "chunk_local_cumsum_scalar_kernel__p100__fbfa9c4a4bc5"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 555,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "chunk_local_cumsum_scalar_kernel",
   "operator_name": "chunk_local_cumsum_scalar_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/chunk_local_cumsum_scalar_kernel/test.py",
   "test_sha256": "b5f27c1a0185894156ad93240e0af68a2aa147c9e9b25bb40a752ba12a16c29d",
   "test_source_path": "datasets2/chunk_local_cumsum_scalar_kernel/test_chunk_local_cumsum_scalar_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 200004,
+      "call_index": 1,
+      "jit_function": "fn_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p200004_k001_fn_triton_kernel.ttir.mlir",
+        "p200004_k001_fn_triton_kernel.ttadapter.mlir",
+        "p200004_k001_fn_triton_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 200236,
+      "call_index": 1,
+      "jit_function": "fn_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p200236_k001_fn_triton_kernel.ttir.mlir",
+        "p200236_k001_fn_triton_kernel.ttadapter.mlir",
+        "p200236_k001_fn_triton_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 200620,
+      "call_index": 1,
+      "jit_function": "fn_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p200620_k001_fn_triton_kernel.ttir.mlir",
+        "p200620_k001_fn_triton_kernel.ttadapter.mlir",
+        "p200620_k001_fn_triton_kernel.npubin"
+      ]
+    }
+  ]
+}

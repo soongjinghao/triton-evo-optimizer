@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 196636,
+      "call_index": 1,
+      "jit_function": "fill_accepted_out_cache_loc",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p196636_k001_fill_accepted_out_cache_loc.ttir.mlir",
+        "p196636_k001_fill_accepted_out_cache_loc.ttadapter.mlir",
+        "p196636_k001_fill_accepted_out_cache_loc.npubin"
+      ]
+    },
+    {
+      "pid": 196979,
+      "call_index": 1,
+      "jit_function": "fill_accepted_out_cache_loc",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p196979_k001_fill_accepted_out_cache_loc.ttir.mlir",
+        "p196979_k001_fill_accepted_out_cache_loc.ttadapter.mlir",
+        "p196979_k001_fill_accepted_out_cache_loc.npubin"
+      ]
+    },
+    {
+      "pid": 197403,
+      "call_index": 1,
+      "jit_function": "fill_accepted_out_cache_loc",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p197403_k001_fill_accepted_out_cache_loc.ttir.mlir",
+        "p197403_k001_fill_accepted_out_cache_loc.ttadapter.mlir",
+        "p197403_k001_fill_accepted_out_cache_loc.npubin"
+      ]
+    }
+  ]
+}

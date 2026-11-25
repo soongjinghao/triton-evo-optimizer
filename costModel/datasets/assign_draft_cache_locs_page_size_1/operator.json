@@ -21,10 +21,10 @@
     "assign_draft_cache_locs_page_size_1__p75__7557e934c5d7",
     "assign_draft_cache_locs_page_size_1__p100__9830f6c82fad"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 148,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "assign_draft_cache_locs_page_size_1",
   "operator_name": "assign_draft_cache_locs_page_size_1",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p75",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "moderate",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/assign_draft_cache_locs_page_size_1/test.py",
   "test_sha256": "5cd2e7389d182991cd755772c55433cf6e67b7aa4c2ec7535216b7b5edc2fb77",
   "test_source_path": "datasets2/assign_draft_cache_locs_page_size_1/test_assign_draft_cache_locs_page_size_1_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

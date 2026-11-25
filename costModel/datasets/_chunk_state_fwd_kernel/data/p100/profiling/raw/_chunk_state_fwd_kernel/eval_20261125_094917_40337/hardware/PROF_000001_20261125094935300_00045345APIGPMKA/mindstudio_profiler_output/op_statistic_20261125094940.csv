@@ -1,0 +1,8 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,_chunk_state_fwd_kernel,MIX_AIC,1,502.34,502.34,502.34,502.34,85.047
+0,ReduceAny,MIX_AIV,2,21.901,6.84,10.95,15.061,3.708
+0,OnesLike,AI_VECTOR_CORE,4,19.161,2.22,4.79,10.84,3.244
+0,NotEqual,AI_VECTOR_CORE,1,16.921,16.921,16.921,16.921,2.865
+0,StridedSlice,AI_VECTOR_CORE,1,13.141,13.141,13.141,13.141,2.225
+0,Equal,AI_VECTOR_CORE,1,9.38,9.38,9.38,9.38,1.588
+0,Abs,AI_VECTOR_CORE,1,7.82,7.82,7.82,7.82,1.324

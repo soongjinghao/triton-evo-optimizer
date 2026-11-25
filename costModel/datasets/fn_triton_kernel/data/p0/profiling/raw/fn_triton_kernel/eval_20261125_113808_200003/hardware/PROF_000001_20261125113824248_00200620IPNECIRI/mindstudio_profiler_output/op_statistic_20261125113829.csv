@@ -1,0 +1,8 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,ViewCopy,AI_VECTOR_CORE,2,23.481,10.78,11.74,12.701,25.362
+0,ZerosLike,AI_VECTOR_CORE,2,13.801,2.8,6.9,11,14.906
+0,ReduceAll,MIX_AIV,1,13.701,13.701,13.701,13.701,14.798
+0,IsClose,AI_VECTOR_CORE,1,13.641,13.641,13.641,13.641,14.733
+0,BroadcastTo,AI_VECTOR_CORE,1,12.701,12.701,12.701,12.701,13.718
+0,DSARandomNormal,DSA_SQE,2,10.8,1.64,5.4,9.16,11.666
+0,fn_triton_kernel,AI_VECTOR_CORE,1,4.46,4.46,4.46,4.46,4.817

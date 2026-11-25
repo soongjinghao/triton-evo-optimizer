@@ -1,0 +1,277 @@
+{
+  "schema_version": "costmodel_collection_v2",
+  "script_version": "2.2.0",
+  "operator_name": "matmul_kernel_simplified",
+  "candidate_id": "matmul_kernel_simplified__p100__b5d8dfff2f38",
+  "candidate_role": "p100",
+  "status": "measurement_inconsistent",
+  "started_at": "2026-11-25T12:03:22+00:00",
+  "finished_at": "2026-11-25T12:04:07+00:00",
+  "duration_seconds": 45.133,
+  "source": {
+    "variant_path": "costModel/datasets/matmul_kernel_simplified/variant/p100.py",
+    "source_code_sha256": "b5d8dfff2f3898aa7c67ef7bfe407ce0d82d6beac9e5ce7c6e313657075bba7e",
+    "kernel_snapshot": "costModel/datasets/matmul_kernel_simplified/data/p100/kernel.py",
+    "test_path": "costModel/datasets/matmul_kernel_simplified/test.py",
+    "test_sha256": "fd7efc9d9d96101863a5ce2d9e0b2d10fedd14304131e104bd863b3154df910e"
+  },
+  "evaluation": {
+    "success": true,
+    "execution_time_us": 9.1,
+    "error": null,
+    "profile_mode": "full",
+    "profile_dir": "profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287",
+    "hardware_profile_success": true
+  },
+  "correctness": {
+    "preflight_enabled": true,
+    "success": true,
+    "log_path": "profiling/preflight.log",
+    "error": null
+  },
+  "profiling": {
+    "summary_available": true,
+    "summary_path": "profiling/profile_summary.json",
+    "raw_profile_dir": "profiling/raw",
+    "timing": {
+      "execution_time_us": 9.1,
+      "source": "op_summary.Task Duration(us)",
+      "sample_count": 1,
+      "task_time_cross_check": {
+        "median_task_time_us": 6.1,
+        "sample_count": 1,
+        "task_id": "4",
+        "stream_id": "47"
+      },
+      "hardware_pass_task_duration_us": 6.1,
+      "cross_pass_difference_us": 3.0,
+      "cross_pass_relative_difference_pct": 32.967032967032964,
+      "cross_pass_consistent_20pct": false,
+      "label_valid": false,
+      "label_execution_time_us": null
+    },
+    "kernel": {
+      "Device_id": "0",
+      "Task ID": "4",
+      "Stream ID": "47",
+      "Op Name": "matmul_kernel_simplified",
+      "OP Type": "matmul_kernel_simplified",
+      "OP State": "static",
+      "Task Type": "MIX_AIC",
+      "Task Start Time(us)": "1795608240571343.136\t",
+      "Task Duration(us)": 6.1,
+      "Block Num": "1",
+      "Mix Block Num": "2",
+      "HF32 Eligible": "YES",
+      "Input Shapes": "\"32,64;64,48\"",
+      "Input Data Types": "FLOAT;FLOAT",
+      "Output Shapes": "\"32,48\"",
+      "Output Data Types": "FLOAT",
+      "aicore_time(us)": 5.759,
+      "aic_total_cycles": 10367.0,
+      "aic_mac_time(us)": 0.142,
+      "aic_mac_ratio": 0.025,
+      "aic_scalar_time(us)": 2.541,
+      "aic_scalar_ratio": 0.441,
+      "aic_mte1_time(us)": 0.14,
+      "aic_mte1_ratio": 0.024,
+      "aic_mte2_time(us)": 0.836,
+      "aic_mte2_ratio": 0.145,
+      "aic_fixpipe_time(us)": 0.186,
+      "aic_fixpipe_ratio": 0.032,
+      "aic_icache_miss_rate": 0.095,
+      "aiv_time(us)": 5.196,
+      "aiv_total_cycles": 18704.0,
+      "aiv_vec_time(us)": 0.058,
+      "aiv_vec_ratio": 0.011,
+      "aiv_scalar_time(us)": 1.853,
+      "aiv_scalar_ratio": 0.357,
+      "aiv_mte2_time(us)": 0.646,
+      "aiv_mte2_ratio": 0.124,
+      "aiv_mte3_time(us)": 0.091,
+      "aiv_mte3_ratio": 0.018,
+      "aiv_icache_miss_rate": 0.139,
+      "cube_utilization(%)": 3.934
+    },
+    "core_utilization": {
+      "ai_core": {
+        "source": "op_summary_task",
+        "task_type": "MIX_AIC",
+        "applicability": "available",
+        "record_count": 1,
+        "active_record_count": 1,
+        "mac_ratio_mean": 0.025,
+        "scalar_ratio_mean": 0.441,
+        "mte1_ratio_mean": 0.024,
+        "mte2_ratio_mean": 0.145,
+        "fixpipe_ratio_mean": 0.032,
+        "icache_miss_rate_mean": 0.095,
+        "mac_ratio_max": 0.025,
+        "scalar_ratio_max": 0.441,
+        "mte1_ratio_max": 0.024,
+        "mte2_ratio_max": 0.145,
+        "fixpipe_ratio_max": 0.032,
+        "icache_miss_rate_max": 0.095
+      },
+      "ai_vector_core": {
+        "source": "op_summary_task",
+        "task_type": "MIX_AIC",
+        "applicability": "available",
+        "record_count": 1,
+        "active_record_count": 1,
+        "vec_ratio_mean": 0.011,
+        "scalar_ratio_mean": 0.357,
+        "mte2_ratio_mean": 0.124,
+        "mte3_ratio_mean": 0.018,
+        "icache_miss_rate_mean": 0.139,
+        "vec_ratio_max": 0.011,
+        "scalar_ratio_max": 0.357,
+        "mte2_ratio_max": 0.124,
+        "mte3_ratio_max": 0.018,
+        "icache_miss_rate_max": 0.139
+      }
+    },
+    "memory": {
+      "hbm": {
+        "scope": "device_level_sampled_bandwidth",
+        "sample_count": 5,
+        "read_mb_s": 37.387,
+        "write_mb_s": 15.413
+      },
+      "llc": {
+        "scope": "device_level_llc_profile",
+        "sample_count": 3,
+        "read_hit_rate_pct": 39.768,
+        "read_throughput_mb_s": 8216.833,
+        "write_hit_rate_pct": null,
+        "write_throughput_mb_s": null
+      },
+      "npu_memory": {
+        "scope": "application_level_sampled_memory",
+        "ddr_kb_peak": 0.0,
+        "ddr_kb_mean": 0.0,
+        "hbm_kb_peak": 123064.0,
+        "hbm_kb_mean": 123064.0,
+        "total_memory_kb_peak": 123064.0,
+        "total_memory_kb_mean": 123064.0,
+        "sample_count": 50,
+        "timestamp_start_us": 1795608240315794.5,
+        "timestamp_end_us": 1795608241290507.2,
+        "sampling_span_us": 974712.75
+      },
+      "npu_module_memory": {
+        "RUNTIME": {
+          "reserved_kb_peak": 32880.0,
+          "reserved_kb_mean": 32873.12,
+          "sample_count": 50
+        },
+        "APP": {
+          "reserved_kb_peak": 2048.0,
+          "reserved_kb_mean": 901.12,
+          "sample_count": 50
+        }
+      }
+    },
+    "collection": {
+      "hardware_profile_success": true,
+      "op_summary_rows_for_kernel": 1,
+      "source_csv": {
+        "op_summary": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287/hardware/PROF_000001_20261125120359963_00237361CBKDKHCN/mindstudio_profiler_output/op_summary_20261125120405.csv",
+        "ai_core_utilization": null,
+        "ai_vector_core_utilization": null,
+        "hbm": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287/hardware/PROF_000001_20261125120359963_00237361CBKDKHCN/mindstudio_profiler_output/hbm_20261125120405.csv",
+        "llc_read_write": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287/hardware/PROF_000001_20261125120359963_00237361CBKDKHCN/mindstudio_profiler_output/llc_read_write_20261125120405.csv",
+        "npu_mem": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287/hardware/PROF_000001_20261125120359963_00237361CBKDKHCN/mindstudio_profiler_output/npu_mem_20261125120405.csv",
+        "npu_module_mem": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287/hardware/PROF_000001_20261125120359963_00237361CBKDKHCN/mindstudio_profiler_output/npu_module_mem_20261125120405.csv",
+        "task_time": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287/hardware/PROF_000001_20261125120359963_00237361CBKDKHCN/mindstudio_profiler_output/task_time_20261125120405.csv"
+      },
+      "commands": {
+        "timing": [
+          "msprof",
+          "--output=/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120342_232287/timing",
+          "--task-time=l0",
+          "--ai-core=off",
+          "--ascendcl=off",
+          "--runtime-api=off",
+          "python3",
+          "/tmp/matmul_kernel_simplified_qgxmee0g/test_matmul_kernel_simplified.py"
+        ],
+        "hardware": [
+          "msprof",
+          "--output=/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120342_232287/hardware",
+          "--task-time=l1",
+          "--task-memory=on",
+          "--ai-core=on",
+          "--aic-mode=task-based",
+          "--aic-metrics=PipeUtilization",
+          "--sys-hardware-mem=on",
+          "--sys-hardware-mem-freq=50",
+          "--llc-profiling=read",
+          "--ascendcl=off",
+          "--runtime-api=off",
+          "--ge-api=off",
+          "python3",
+          "/tmp/matmul_kernel_simplified_qgxmee0g/test_matmul_kernel_simplified.py"
+        ]
+      },
+      "raw_profile_directories": {
+        "timing": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287/timing",
+        "hardware": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p100/profiling/raw/matmul_kernel_simplified/eval_20261125_120342_232287/hardware"
+      }
+    }
+  },
+  "ir_found": {
+    "npubin": true,
+    "ttadapter": true,
+    "ttir": true,
+    "hivm_opt": true
+  },
+  "ir_counts": {
+    "npubin": 1,
+    "ttadapter": 1,
+    "ttir": 1,
+    "hivm_opt": 1
+  },
+  "ir_paths": {
+    "npubin": [
+      "ir/npubin/asm_p236705_k001_matmul_kernel_simplified.npubin"
+    ],
+    "ttadapter": [
+      "ir/ttadapter/asm_p236705_k001_matmul_kernel_simplified.ttadapter.mlir"
+    ],
+    "ttir": [
+      "ir/ttir/asm_p236705_k001_matmul_kernel_simplified.ttir.mlir"
+    ],
+    "hivm_opt": [
+      "ir/hivm_opt/save_temps_module.hivm.opt.mlir"
+    ]
+  },
+  "ir_stage_status": {
+    "M1_ttir": "available",
+    "M2_ttir_ttadapter": "available",
+    "M3_ttir_ttadapter_hivm_opt": "available",
+    "hivm_unoptimized": "missing_optional",
+    "npuir_debug_dump": "missing_optional",
+    "npubin": "available",
+    "kernel_object": "missing_optional",
+    "kernel_shared_library": "missing_optional"
+  },
+  "compiler_save_temps": {
+    "directory": "ir/compiler_save_temps",
+    "file_count": 1,
+    "unique_content_count": 1
+  },
+  "capture_manifest": "ir/capture_manifest.json",
+  "capture_hook_error": null,
+  "notes": [
+    "Read candidate directly from variant/<role>.py; no manifest is used.",
+    "No historical IR or profiling labels were reused.",
+    "Triton cache was isolated for this candidate.",
+    "A direct correctness preflight must pass before any MSProf pass is run.",
+    "HIVM and optimized HIVM are stored as separate IR stages.",
+    "BiShengIR save-temps is enabled per candidate and archived under ir/compiler_save_temps.",
+    "Identical IR artifacts across preflight/timing/hardware processes are deduplicated by SHA-256.",
+    "Transient capture and compiler work directories are removed after stable artifacts are archived.",
+    "M3 requires an actual module.hivm.opt.mlir artifact."
+  ]
+}

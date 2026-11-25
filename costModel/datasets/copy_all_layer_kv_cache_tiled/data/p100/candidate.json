@@ -1,0 +1,11 @@
+{
+  "schema_version": "costmodel_candidate_v1",
+  "operator_name": "copy_all_layer_kv_cache_tiled",
+  "candidate_id": "copy_all_layer_kv_cache_tiled__p100__670f02d2137e",
+  "candidate_role": "p100",
+  "variant_path": "costModel/datasets/copy_all_layer_kv_cache_tiled/variant/p100.py",
+  "source_code_sha256": "670f02d2137e0a00de5dfe2dd6cf3adb4f34d4571294540bb48f561138ff9b77",
+  "kernel_snapshot": "costModel/datasets/copy_all_layer_kv_cache_tiled/data/p100/kernel.py",
+  "test_path": "costModel/datasets/copy_all_layer_kv_cache_tiled/test.py",
+  "created_at": "2026-11-25T11:25:46+00:00"
+}

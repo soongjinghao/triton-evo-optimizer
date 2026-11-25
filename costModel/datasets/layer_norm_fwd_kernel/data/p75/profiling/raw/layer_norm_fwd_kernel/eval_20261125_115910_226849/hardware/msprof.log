@@ -1,0 +1,32 @@
+[INFO] Start profiling....
+[W1125 11:59:28.231476430 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✓ Basic layer norm test passed
+[INFO] Start export data in PROF_000001_20261125115927772_00230747HEMEJBOL.
+Wed 25 Nov 2026 11:59:33 [WARNING] [MSVP] [230968] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:59:33 [INFO] [MSVP] [230970] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/host" ...
+Wed 25 Nov 2026 11:59:33 [INFO] [MSVP] [230970] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:59:33 [INFO] [MSVP] [230970] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/host" finished.
+Wed 25 Nov 2026 11:59:33 [INFO] [MSVP] [230970] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/device_0" ...
+Wed 25 Nov 2026 11:59:33 [INFO] [MSVP] [230970] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:59:33 [INFO] [MSVP] [230970] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/device_0" finished.
+Wed 25 Nov 2026 11:59:33 [INFO] [MSVP] [230970] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/device_0.
+Wed 25 Nov 2026 11:59:34 [WARNING] [MSVP] [231150] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:59:34 [INFO] [MSVP] [231152] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:59:34 [INFO] [MSVP] [231152] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:59:34 [INFO] [MSVP] [231152] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/device_0.
+Wed 25 Nov 2026 11:59:34 [INFO] [MSVP] [231152] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/host"
+Wed 25 Nov 2026 11:59:34 [INFO] [MSVP] [231152] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/device_0.
+Wed 25 Nov 2026 11:59:34 [INFO] [MSVP] [231152] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:59:34 [INFO] [MSVP] [231152] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125115927772_00230747HEMEJBOL done.
+[INFO] Start query data in PROF_000001_20261125115927772_00230747HEMEJBOL.
+Wed 25 Nov 2026 11:59:35 [WARNING] [MSVP] [231193] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:59:28.816885	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:59:28.819761	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125115927772_00230747HEMEJBOL done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/layer_norm_fwd_kernel/data/p75/.collector_work/performance/layer_norm_fwd_kernel/eval_20261125_115910_226849/hardware/PROF_000001_20261125115927772_00230747HEMEJBOL

@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 103495,
+      "call_index": 1,
+      "jit_function": "_quantize_k_cache_fast_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p103495_k001_quantize_k_cache_fast_kernel.ttir.mlir",
+        "p103495_k001_quantize_k_cache_fast_kernel.ttadapter.mlir",
+        "p103495_k001_quantize_k_cache_fast_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 103730,
+      "call_index": 1,
+      "jit_function": "_quantize_k_cache_fast_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p103730_k001_quantize_k_cache_fast_kernel.ttir.mlir",
+        "p103730_k001_quantize_k_cache_fast_kernel.ttadapter.mlir",
+        "p103730_k001_quantize_k_cache_fast_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 104117,
+      "call_index": 1,
+      "jit_function": "_quantize_k_cache_fast_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p104117_k001_quantize_k_cache_fast_kernel.ttir.mlir",
+        "p104117_k001_quantize_k_cache_fast_kernel.ttadapter.mlir",
+        "p104117_k001_quantize_k_cache_fast_kernel.npubin"
+      ]
+    }
+  ]
+}

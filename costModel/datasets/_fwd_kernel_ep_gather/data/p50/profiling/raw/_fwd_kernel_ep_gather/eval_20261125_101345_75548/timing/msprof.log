@@ -1,0 +1,33 @@
+[INFO] Start profiling....
+[W1125 10:13:51.360524030 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Test passed!
+[INFO] Start export data in PROF_000001_20261125101350983_00077960CRLKLNIK.
+Wed 25 Nov 2026 10:13:56 [WARNING] [MSVP] [78111] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:13:56 [INFO] [MSVP] [78113] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/host" ...
+Wed 25 Nov 2026 10:13:56 [INFO] [MSVP] [78113] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:13:56 [INFO] [MSVP] [78113] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/host" finished.
+Wed 25 Nov 2026 10:13:56 [INFO] [MSVP] [78113] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/device_0" ...
+Wed 25 Nov 2026 10:13:56 [INFO] [MSVP] [78113] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:13:56 [INFO] [MSVP] [78113] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/device_0" finished.
+Wed 25 Nov 2026 10:13:56 [INFO] [MSVP] [78113] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/device_0.
+Wed 25 Nov 2026 10:13:57 [WARNING] [MSVP] [78293] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:13:57 [INFO] [MSVP] [78295] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:13:57 [INFO] [MSVP] [78295] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:13:57 [INFO] [MSVP] [78295] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/device_0.
+Wed 25 Nov 2026 10:13:57 [INFO] [MSVP] [78295] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/host"
+Wed 25 Nov 2026 10:13:57 [INFO] [MSVP] [78295] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/device_0.
+Wed 25 Nov 2026 10:13:57 [INFO] [MSVP] [78295] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/device_0"
+Wed 25 Nov 2026 10:13:57 [INFO] [MSVP] [78295] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:13:57 [INFO] [MSVP] [78295] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125101350983_00077960CRLKLNIK done.
+[INFO] Start query data in PROF_000001_20261125101350983_00077960CRLKLNIK.
+Wed 25 Nov 2026 10:13:58 [WARNING] [MSVP] [78334] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:13:51.930692	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:13:51.933708	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125101350983_00077960CRLKLNIK done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_fwd_kernel_ep_gather/data/p50/.collector_work/performance/_fwd_kernel_ep_gather/eval_20261125_101345_75548/timing/PROF_000001_20261125101350983_00077960CRLKLNIK

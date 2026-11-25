@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 50257,
+      "call_index": 1,
+      "jit_function": "_convert_req_index_to_global_index_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p050257_k001_convert_req_index_to_global_index_kernel.ttir.mlir",
+        "p050257_k001_convert_req_index_to_global_index_kernel.ttadapter.mlir",
+        "p050257_k001_convert_req_index_to_global_index_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 50527,
+      "call_index": 1,
+      "jit_function": "_convert_req_index_to_global_index_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p050527_k001_convert_req_index_to_global_index_kernel.ttir.mlir",
+        "p050527_k001_convert_req_index_to_global_index_kernel.ttadapter.mlir",
+        "p050527_k001_convert_req_index_to_global_index_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 50947,
+      "call_index": 1,
+      "jit_function": "_convert_req_index_to_global_index_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p050947_k001_convert_req_index_to_global_index_kernel.ttir.mlir",
+        "p050947_k001_convert_req_index_to_global_index_kernel.ttadapter.mlir",
+        "p050947_k001_convert_req_index_to_global_index_kernel.npubin"
+      ]
+    }
+  ]
+}

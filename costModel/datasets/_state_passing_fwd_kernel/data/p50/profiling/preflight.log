@@ -1,0 +1,5 @@
+[W1125 10:51:20.871093890 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[WARNING] AutoBlockify disabled for kernel '_state_passing_fwd_kernel'. Unsafe ops: loads or stores with cache modifiers. Enabling may cause correctness issues. To force enable: set has_auto_blockify_blacklist_op=False.
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p50/.collector_work/compiler_save_temps/39c050c748083906764a8cf850a366e239083c64964803b3_pid131167_e0opp54t
+Max absolute diff - out: 0.00e+00, final_states: 0.00e+00
+Max relative diff - out: 0.00e+00, final_states: 0.00e+00

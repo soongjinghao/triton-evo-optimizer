@@ -1,0 +1,35 @@
+[W1125 12:08:02.101629180 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing merge_16x16_to_32x32_inverse (corrected) with B=2, T=64, H=4, BT=32
+Using device: npu
+
+Generating strictly lower triangular blocks...
+Created input tensor A with shape: torch.Size([2, 64, 4, 32])
+A dtype: torch.float32, device: npu:0
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p0/.collector_work/compiler_save_temps/38fca6f53b9b5f06d9bea66693d8fe26f0a6171827a40043_pid243575_1shm49c9
+Output Ai shape: torch.Size([2, 64, 4, 32])
+Ai dtype: torch.float32
+
+=== Test 1: Block-wise formula verification ===
+
+Formula verification completed:
+  Blocks tested: 16
+  Maximum formula error: 1.22e-04
+✓ All block formulas correct within 1e-3
+
+=== Test 2: Full 32×32 block verification ===
+
+Full block verification completed:
+  Blocks tested: 16
+  Maximum block error: 1.22e-04
+✓ All 32×32 blocks correct within 1e-3
+
+=== Test 3: Structure verification ===
+Maximum structure error: 0.00e+00
+✓ Inverse has correct structure
+
+============================================================
+SUCCESS: All tests passed!
+
+============================================================
+SUCCESS: Corrected test passed!
+============================================================

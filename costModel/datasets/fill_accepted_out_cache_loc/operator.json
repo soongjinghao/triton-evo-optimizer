@@ -21,10 +21,10 @@
     "fill_accepted_out_cache_loc__p90__07760989be46",
     "fill_accepted_out_cache_loc__p100__07760989be46"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 164,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "fill_accepted_out_cache_loc",
   "operator_name": "fill_accepted_out_cache_loc",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/fill_accepted_out_cache_loc/test.py",
   "test_sha256": "ae3d250d4f17d0cac24d98ea83f8e9038d8f578505f2217cb9c63a6fdad82dfa",
   "test_source_path": "datasets2/fill_accepted_out_cache_loc/test_fill_accepted_out_cache_loc_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

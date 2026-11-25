@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 220398,
+      "call_index": 1,
+      "jit_function": "l2norm_fwd_kernel1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p220398_k001_l2norm_fwd_kernel1.ttir.mlir",
+        "p220398_k001_l2norm_fwd_kernel1.ttadapter.mlir",
+        "p220398_k001_l2norm_fwd_kernel1.npubin"
+      ]
+    },
+    {
+      "pid": 220648,
+      "call_index": 1,
+      "jit_function": "l2norm_fwd_kernel1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p220648_k001_l2norm_fwd_kernel1.ttir.mlir",
+        "p220648_k001_l2norm_fwd_kernel1.ttadapter.mlir",
+        "p220648_k001_l2norm_fwd_kernel1.npubin"
+      ]
+    },
+    {
+      "pid": 221041,
+      "call_index": 1,
+      "jit_function": "l2norm_fwd_kernel1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p221041_k001_l2norm_fwd_kernel1.ttir.mlir",
+        "p221041_k001_l2norm_fwd_kernel1.ttadapter.mlir",
+        "p221041_k001_l2norm_fwd_kernel1.npubin"
+      ]
+    }
+  ]
+}

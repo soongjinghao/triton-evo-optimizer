@@ -21,10 +21,10 @@
     "_chunk_cumsum_fwd_kernel__p75__4fdff0a6419c",
     "_chunk_cumsum_fwd_kernel__p100__f955c0824998"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 147,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_chunk_cumsum_fwd_kernel",
   "operator_name": "_chunk_cumsum_fwd_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p75",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "moderate",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_chunk_cumsum_fwd_kernel/test.py",
   "test_sha256": "e7b0fa32682e78fefbac446b3d3bcf1ef95c826c9032dceb8c45fd5946251dd8",
   "test_source_path": "datasets2/_chunk_cumsum_fwd_kernel/test__chunk_cumsum_fwd_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

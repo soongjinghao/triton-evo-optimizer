@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 118412,
+      "call_index": 1,
+      "jit_function": "_set_k_and_s_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p118412_k001_set_k_and_s_triton_kernel.ttir.mlir",
+        "p118412_k001_set_k_and_s_triton_kernel.ttadapter.mlir",
+        "p118412_k001_set_k_and_s_triton_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 118655,
+      "call_index": 1,
+      "jit_function": "_set_k_and_s_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p118655_k001_set_k_and_s_triton_kernel.ttir.mlir",
+        "p118655_k001_set_k_and_s_triton_kernel.ttadapter.mlir",
+        "p118655_k001_set_k_and_s_triton_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 119034,
+      "call_index": 1,
+      "jit_function": "_set_k_and_s_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p119034_k001_set_k_and_s_triton_kernel.ttir.mlir",
+        "p119034_k001_set_k_and_s_triton_kernel.ttadapter.mlir",
+        "p119034_k001_set_k_and_s_triton_kernel.npubin"
+      ]
+    }
+  ]
+}

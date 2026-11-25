@@ -1,0 +1,141 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 9,
+  "events": [
+    {
+      "pid": 135528,
+      "call_index": 1,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p135528_k001_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p135528_k001_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p135528_k001_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    },
+    {
+      "pid": 135528,
+      "call_index": 2,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p135528_k002_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p135528_k002_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p135528_k002_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    },
+    {
+      "pid": 135528,
+      "call_index": 3,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p135528_k003_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p135528_k003_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p135528_k003_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    },
+    {
+      "pid": 135936,
+      "call_index": 1,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p135936_k001_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p135936_k001_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p135936_k001_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    },
+    {
+      "pid": 135936,
+      "call_index": 2,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p135936_k002_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p135936_k002_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p135936_k002_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    },
+    {
+      "pid": 135936,
+      "call_index": 3,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p135936_k003_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p135936_k003_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p135936_k003_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    },
+    {
+      "pid": 136315,
+      "call_index": 1,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p136315_k001_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p136315_k001_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p136315_k001_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    },
+    {
+      "pid": 136315,
+      "call_index": 2,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p136315_k002_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p136315_k002_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p136315_k002_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    },
+    {
+      "pid": 136315,
+      "call_index": 3,
+      "jit_function": "_trtllm_prefill_attn_kvfp8_dequant",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p136315_k003_trtllm_prefill_attn_kvfp8_dequant.ttir.mlir",
+        "p136315_k003_trtllm_prefill_attn_kvfp8_dequant.ttadapter.mlir",
+        "p136315_k003_trtllm_prefill_attn_kvfp8_dequant.npubin"
+      ]
+    }
+  ]
+}

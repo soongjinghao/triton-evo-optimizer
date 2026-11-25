@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 178719,
+      "call_index": 1,
+      "jit_function": "copy_all_layer_kv_cache_tiled",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p178719_k001_copy_all_layer_kv_cache_tiled.ttir.mlir",
+        "p178719_k001_copy_all_layer_kv_cache_tiled.ttadapter.mlir",
+        "p178719_k001_copy_all_layer_kv_cache_tiled.npubin"
+      ]
+    },
+    {
+      "pid": 178961,
+      "call_index": 1,
+      "jit_function": "copy_all_layer_kv_cache_tiled",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p178961_k001_copy_all_layer_kv_cache_tiled.ttir.mlir",
+        "p178961_k001_copy_all_layer_kv_cache_tiled.ttadapter.mlir",
+        "p178961_k001_copy_all_layer_kv_cache_tiled.npubin"
+      ]
+    },
+    {
+      "pid": 179380,
+      "call_index": 1,
+      "jit_function": "copy_all_layer_kv_cache_tiled",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p179380_k001_copy_all_layer_kv_cache_tiled.ttir.mlir",
+        "p179380_k001_copy_all_layer_kv_cache_tiled.ttadapter.mlir",
+        "p179380_k001_copy_all_layer_kv_cache_tiled.npubin"
+      ]
+    }
+  ]
+}

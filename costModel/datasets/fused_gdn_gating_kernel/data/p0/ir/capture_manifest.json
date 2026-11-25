@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 205300,
+      "call_index": 1,
+      "jit_function": "fused_gdn_gating_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p205300_k001_fused_gdn_gating_kernel.ttir.mlir",
+        "p205300_k001_fused_gdn_gating_kernel.ttadapter.mlir",
+        "p205300_k001_fused_gdn_gating_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 205538,
+      "call_index": 1,
+      "jit_function": "fused_gdn_gating_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p205538_k001_fused_gdn_gating_kernel.ttir.mlir",
+        "p205538_k001_fused_gdn_gating_kernel.ttadapter.mlir",
+        "p205538_k001_fused_gdn_gating_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 205910,
+      "call_index": 1,
+      "jit_function": "fused_gdn_gating_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p205910_k001_fused_gdn_gating_kernel.ttir.mlir",
+        "p205910_k001_fused_gdn_gating_kernel.ttadapter.mlir",
+        "p205910_k001_fused_gdn_gating_kernel.npubin"
+      ]
+    }
+  ]
+}

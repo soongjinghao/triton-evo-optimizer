@@ -1,0 +1,6 @@
+[W1125 10:24:05.910409600 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_per_group_transpose/data/p10/.collector_work/compiler_save_temps/065301a6cb6f606d9ce0d8fc80a78513ceb685b6e335fedb_pid92862_1lf5q6jg
+Test passed: per_group_transpose runs successfully on NPU
+Input shape: torch.Size([32, 16])
+Output shape: torch.Size([32, 16])
+Expert offsets: tensor([ 0, 16, 32], device='npu:0', dtype=torch.int32)

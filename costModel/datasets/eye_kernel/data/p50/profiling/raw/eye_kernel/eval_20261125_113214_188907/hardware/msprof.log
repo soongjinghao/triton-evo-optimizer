@@ -1,0 +1,32 @@
+[INFO] Start profiling....
+[W1125 11:32:32.624994040 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+eye_kernel test_1 passed
+[INFO] Start export data in PROF_000001_20261125113232224_00191822KPIPOOIE.
+Wed 25 Nov 2026 11:32:35 [WARNING] [MSVP] [192009] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:32:35 [INFO] [MSVP] [192011] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/host" ...
+Wed 25 Nov 2026 11:32:35 [INFO] [MSVP] [192011] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:32:35 [INFO] [MSVP] [192011] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/host" finished.
+Wed 25 Nov 2026 11:32:35 [INFO] [MSVP] [192011] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/device_0" ...
+Wed 25 Nov 2026 11:32:35 [INFO] [MSVP] [192011] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:32:35 [INFO] [MSVP] [192011] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/device_0" finished.
+Wed 25 Nov 2026 11:32:35 [INFO] [MSVP] [192011] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/device_0.
+Wed 25 Nov 2026 11:32:36 [WARNING] [MSVP] [192185] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:32:36 [INFO] [MSVP] [192187] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:32:36 [INFO] [MSVP] [192187] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:32:36 [INFO] [MSVP] [192187] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/device_0.
+Wed 25 Nov 2026 11:32:36 [INFO] [MSVP] [192187] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/host"
+Wed 25 Nov 2026 11:32:36 [INFO] [MSVP] [192187] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/device_0.
+Wed 25 Nov 2026 11:32:36 [INFO] [MSVP] [192187] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:32:36 [INFO] [MSVP] [192187] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125113232224_00191822KPIPOOIE done.
+[INFO] Start query data in PROF_000001_20261125113232224_00191822KPIPOOIE.
+Wed 25 Nov 2026 11:32:37 [WARNING] [MSVP] [192234] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:32:32.208823	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:32:32.212652	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125113232224_00191822KPIPOOIE done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/eye_kernel/data/p50/.collector_work/performance/eye_kernel/eval_20261125_113214_188907/hardware/PROF_000001_20261125113232224_00191822KPIPOOIE

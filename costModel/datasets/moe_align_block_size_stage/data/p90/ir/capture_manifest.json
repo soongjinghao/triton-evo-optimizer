@@ -1,0 +1,186 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 12,
+  "events": [
+    {
+      "pid": 268418,
+      "call_index": 1,
+      "jit_function": "moe_align_block_size_stage1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p268418_k001_moe_align_block_size_stage1.ttir.mlir",
+        "p268418_k001_moe_align_block_size_stage1.ttadapter.mlir",
+        "p268418_k001_moe_align_block_size_stage1.npubin"
+      ]
+    },
+    {
+      "pid": 268418,
+      "call_index": 2,
+      "jit_function": "moe_align_block_size_stage2",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p268418_k002_moe_align_block_size_stage2.ttir.mlir",
+        "p268418_k002_moe_align_block_size_stage2.ttadapter.mlir",
+        "p268418_k002_moe_align_block_size_stage2.npubin"
+      ]
+    },
+    {
+      "pid": 268418,
+      "call_index": 3,
+      "jit_function": "moe_align_block_size_stage3",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p268418_k003_moe_align_block_size_stage3.ttir.mlir",
+        "p268418_k003_moe_align_block_size_stage3.ttadapter.mlir",
+        "p268418_k003_moe_align_block_size_stage3.npubin"
+      ]
+    },
+    {
+      "pid": 268418,
+      "call_index": 4,
+      "jit_function": "moe_align_block_size_stage4",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p268418_k004_moe_align_block_size_stage4.ttir.mlir",
+        "p268418_k004_moe_align_block_size_stage4.ttadapter.mlir",
+        "p268418_k004_moe_align_block_size_stage4.npubin"
+      ]
+    },
+    {
+      "pid": 268869,
+      "call_index": 1,
+      "jit_function": "moe_align_block_size_stage1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p268869_k001_moe_align_block_size_stage1.ttir.mlir",
+        "p268869_k001_moe_align_block_size_stage1.ttadapter.mlir",
+        "p268869_k001_moe_align_block_size_stage1.npubin"
+      ]
+    },
+    {
+      "pid": 268869,
+      "call_index": 2,
+      "jit_function": "moe_align_block_size_stage2",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p268869_k002_moe_align_block_size_stage2.ttir.mlir",
+        "p268869_k002_moe_align_block_size_stage2.ttadapter.mlir",
+        "p268869_k002_moe_align_block_size_stage2.npubin"
+      ]
+    },
+    {
+      "pid": 268869,
+      "call_index": 3,
+      "jit_function": "moe_align_block_size_stage3",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p268869_k003_moe_align_block_size_stage3.ttir.mlir",
+        "p268869_k003_moe_align_block_size_stage3.ttadapter.mlir",
+        "p268869_k003_moe_align_block_size_stage3.npubin"
+      ]
+    },
+    {
+      "pid": 268869,
+      "call_index": 4,
+      "jit_function": "moe_align_block_size_stage4",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p268869_k004_moe_align_block_size_stage4.ttir.mlir",
+        "p268869_k004_moe_align_block_size_stage4.ttadapter.mlir",
+        "p268869_k004_moe_align_block_size_stage4.npubin"
+      ]
+    },
+    {
+      "pid": 269260,
+      "call_index": 1,
+      "jit_function": "moe_align_block_size_stage1",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p269260_k001_moe_align_block_size_stage1.ttir.mlir",
+        "p269260_k001_moe_align_block_size_stage1.ttadapter.mlir",
+        "p269260_k001_moe_align_block_size_stage1.npubin"
+      ]
+    },
+    {
+      "pid": 269260,
+      "call_index": 2,
+      "jit_function": "moe_align_block_size_stage2",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p269260_k002_moe_align_block_size_stage2.ttir.mlir",
+        "p269260_k002_moe_align_block_size_stage2.ttadapter.mlir",
+        "p269260_k002_moe_align_block_size_stage2.npubin"
+      ]
+    },
+    {
+      "pid": 269260,
+      "call_index": 3,
+      "jit_function": "moe_align_block_size_stage3",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p269260_k003_moe_align_block_size_stage3.ttir.mlir",
+        "p269260_k003_moe_align_block_size_stage3.ttadapter.mlir",
+        "p269260_k003_moe_align_block_size_stage3.npubin"
+      ]
+    },
+    {
+      "pid": 269260,
+      "call_index": 4,
+      "jit_function": "moe_align_block_size_stage4",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p269260_k004_moe_align_block_size_stage4.ttir.mlir",
+        "p269260_k004_moe_align_block_size_stage4.ttadapter.mlir",
+        "p269260_k004_moe_align_block_size_stage4.npubin"
+      ]
+    }
+  ]
+}

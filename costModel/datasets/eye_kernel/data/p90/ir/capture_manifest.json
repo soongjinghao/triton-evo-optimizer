@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 192236,
+      "call_index": 1,
+      "jit_function": "eye_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p192236_k001_eye_kernel.ttir.mlir",
+        "p192236_k001_eye_kernel.ttadapter.mlir",
+        "p192236_k001_eye_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 192473,
+      "call_index": 1,
+      "jit_function": "eye_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p192473_k001_eye_kernel.ttir.mlir",
+        "p192473_k001_eye_kernel.ttadapter.mlir",
+        "p192473_k001_eye_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 192851,
+      "call_index": 1,
+      "jit_function": "eye_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p192851_k001_eye_kernel.ttir.mlir",
+        "p192851_k001_eye_kernel.ttadapter.mlir",
+        "p192851_k001_eye_kernel.npubin"
+      ]
+    }
+  ]
+}

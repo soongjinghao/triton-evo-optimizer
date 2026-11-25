@@ -21,10 +21,10 @@
     "_log_softmax_kernel__p90__8700c7770aee",
     "_log_softmax_kernel__p100__8700c7770aee"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 147,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_log_softmax_kernel",
   "operator_name": "_log_softmax_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_log_softmax_kernel/test.py",
   "test_sha256": "7f36e8e1fc1d63c1fc46b2d2c79cd93f772625157e51ea74165c003d3684e249",
   "test_source_path": "datasets2/_log_softmax_kernel/test__log_softmax_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

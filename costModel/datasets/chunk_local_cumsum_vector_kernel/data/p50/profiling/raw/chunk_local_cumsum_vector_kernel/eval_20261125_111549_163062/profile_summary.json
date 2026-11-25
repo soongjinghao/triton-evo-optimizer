@@ -1,0 +1,205 @@
+{
+  "schema_version": "costmodel_msprof_v1",
+  "kernel_name": "chunk_local_cumsum_vector_kernel",
+  "profile_mode": "full",
+  "timing": {
+    "execution_time_us": 12.6205,
+    "source": "op_summary.Task Duration(us)",
+    "sample_count": 1008,
+    "task_time_cross_check": {
+      "median_task_time_us": 12.58,
+      "sample_count": 954,
+      "task_id": "2",
+      "stream_id": "47"
+    },
+    "hardware_pass_task_duration_us": 12.581,
+    "cross_pass_difference_us": 0.03950000000000031,
+    "cross_pass_relative_difference_pct": 0.31298284537062965,
+    "cross_pass_consistent_20pct": true,
+    "label_valid": true,
+    "label_execution_time_us": 12.6205
+  },
+  "kernel": {
+    "Device_id": "0",
+    "Task ID": "2",
+    "Stream ID": "47",
+    "Op Name": "chunk_local_cumsum_vector_kernel",
+    "OP Type": "chunk_local_cumsum_vector_kernel",
+    "OP State": "static",
+    "Task Type": "MIX_AIC",
+    "Task Start Time(us)": "1795605367095458.298\t",
+    "Task Duration(us)": 12.581,
+    "Block Num": "24",
+    "Mix Block Num": "48",
+    "HF32 Eligible": "YES",
+    "Input Shapes": "\"4,128,16,64\"",
+    "Input Data Types": "FLOAT",
+    "Output Shapes": "\"4,128,16,64\"",
+    "Output Data Types": "FLOAT",
+    "aicore_time(us)": 8.407,
+    "aic_total_cycles": 363190.0,
+    "aic_mac_time(us)": 0.714,
+    "aic_mac_ratio": 0.099,
+    "aic_scalar_time(us)": 2.416,
+    "aic_scalar_ratio": 0.282,
+    "aic_mte1_time(us)": 0.938,
+    "aic_mte1_ratio": 0.125,
+    "aic_mte2_time(us)": 3.233,
+    "aic_mte2_ratio": 0.328,
+    "aic_fixpipe_time(us)": 1.958,
+    "aic_fixpipe_ratio": 0.276,
+    "aic_icache_miss_rate": 0.0,
+    "aiv_time(us)": 4.6075,
+    "aiv_total_cycles": 398067.0,
+    "aiv_vec_time(us)": 0.223,
+    "aiv_vec_ratio": 0.048,
+    "aiv_scalar_time(us)": 2.018,
+    "aiv_scalar_ratio": 0.429,
+    "aiv_mte2_time(us)": 0.004,
+    "aiv_mte2_ratio": 0.001,
+    "aiv_mte3_time(us)": 0.388,
+    "aiv_mte3_ratio": 0.081,
+    "aiv_icache_miss_rate": 0.0,
+    "cube_utilization(%)": 66.66900000000001
+  },
+  "core_utilization": {
+    "ai_core": {
+      "source": "op_summary_task",
+      "task_type": "MIX_AIC",
+      "applicability": "available",
+      "record_count": 1,
+      "active_record_count": 1,
+      "mac_ratio_mean": 0.099,
+      "scalar_ratio_mean": 0.282,
+      "mte1_ratio_mean": 0.125,
+      "mte2_ratio_mean": 0.328,
+      "fixpipe_ratio_mean": 0.276,
+      "icache_miss_rate_mean": 0.0,
+      "mac_ratio_max": 0.099,
+      "scalar_ratio_max": 0.282,
+      "mte1_ratio_max": 0.125,
+      "mte2_ratio_max": 0.328,
+      "fixpipe_ratio_max": 0.276,
+      "icache_miss_rate_max": 0.0
+    },
+    "ai_vector_core": {
+      "source": "op_summary_task",
+      "task_type": "MIX_AIC",
+      "applicability": "available",
+      "record_count": 1,
+      "active_record_count": 1,
+      "vec_ratio_mean": 0.048,
+      "scalar_ratio_mean": 0.429,
+      "mte2_ratio_mean": 0.001,
+      "mte3_ratio_mean": 0.081,
+      "icache_miss_rate_mean": 0.0,
+      "vec_ratio_max": 0.048,
+      "scalar_ratio_max": 0.429,
+      "mte2_ratio_max": 0.001,
+      "mte3_ratio_max": 0.081,
+      "icache_miss_rate_max": 0.0
+    }
+  },
+  "memory": {
+    "hbm": {
+      "scope": "device_level_sampled_bandwidth",
+      "sample_count": 5,
+      "read_mb_s": 764.109,
+      "write_mb_s": 10107.46
+    },
+    "llc": {
+      "scope": "device_level_llc_profile",
+      "sample_count": 3,
+      "read_hit_rate_pct": 41.215,
+      "read_throughput_mb_s": 6568.58,
+      "write_hit_rate_pct": null,
+      "write_throughput_mb_s": null
+    },
+    "npu_memory": {
+      "scope": "application_level_sampled_memory",
+      "ddr_kb_peak": 0.0,
+      "ddr_kb_mean": 0.0,
+      "hbm_kb_peak": 340152.0,
+      "hbm_kb_mean": 340152.0,
+      "total_memory_kb_peak": 340152.0,
+      "total_memory_kb_mean": 340152.0,
+      "sample_count": 55,
+      "timestamp_start_us": 1795605366859619.2,
+      "timestamp_end_us": 1795605367934725.5,
+      "sampling_span_us": 1075106.25
+    },
+    "npu_module_memory": {
+      "RUNTIME": {
+        "reserved_kb_peak": 32876.0,
+        "reserved_kb_mean": 32686.036363636365,
+        "sample_count": 55
+      },
+      "APP": {
+        "reserved_kb_peak": 221184.0,
+        "reserved_kb_mean": 173670.4,
+        "sample_count": 55
+      }
+    }
+  },
+  "metric_coverage": {
+    "kernel_task_duration": true,
+    "aic_pipeline_from_op_summary_or_csv": true,
+    "aiv_pipeline_from_op_summary_or_csv": true,
+    "task_type": "MIX_AIC",
+    "hbm_read_bandwidth": true,
+    "hbm_write_bandwidth": true,
+    "llc_read": true,
+    "llc_write": false,
+    "npu_memory": true,
+    "npu_module_memory": true,
+    "aic_applicability": "available",
+    "aiv_applicability": "available"
+  },
+  "collection": {
+    "hardware_profile_success": true,
+    "op_summary_rows_for_kernel": 954,
+    "source_csv": {
+      "op_summary": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/hardware/PROF_000001_20261125111606498_00167854OKEDHDGL/mindstudio_profiler_output/op_summary_20261125111612.csv",
+      "ai_core_utilization": null,
+      "ai_vector_core_utilization": null,
+      "hbm": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/hardware/PROF_000001_20261125111606498_00167854OKEDHDGL/mindstudio_profiler_output/hbm_20261125111612.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/hardware/PROF_000001_20261125111606498_00167854OKEDHDGL/mindstudio_profiler_output/llc_read_write_20261125111612.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/hardware/PROF_000001_20261125111606498_00167854OKEDHDGL/mindstudio_profiler_output/npu_mem_20261125111612.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/hardware/PROF_000001_20261125111606498_00167854OKEDHDGL/mindstudio_profiler_output/npu_module_mem_20261125111612.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/hardware/PROF_000001_20261125111606498_00167854OKEDHDGL/mindstudio_profiler_output/task_time_20261125111612.csv"
+    },
+    "commands": {
+      "timing": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/timing",
+        "--task-time=l0",
+        "--ai-core=off",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "python3",
+        "/tmp/chunk_local_cumsum_vector_kernel_m2gqrbln/test_chunk_local_cumsum_vector_kernel.py"
+      ],
+      "hardware": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/hardware",
+        "--task-time=l1",
+        "--task-memory=on",
+        "--ai-core=on",
+        "--aic-mode=task-based",
+        "--aic-metrics=PipeUtilization",
+        "--sys-hardware-mem=on",
+        "--sys-hardware-mem-freq=50",
+        "--llc-profiling=read",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "--ge-api=off",
+        "python3",
+        "/tmp/chunk_local_cumsum_vector_kernel_m2gqrbln/test_chunk_local_cumsum_vector_kernel.py"
+      ]
+    },
+    "raw_profile_directories": {
+      "timing": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p50/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111549_163062/hardware"
+    }
+  }
+}

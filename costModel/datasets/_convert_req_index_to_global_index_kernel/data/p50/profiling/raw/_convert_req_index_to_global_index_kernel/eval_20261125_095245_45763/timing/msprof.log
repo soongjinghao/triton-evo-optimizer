@@ -1,0 +1,33 @@
+[INFO] Start profiling....
+[W1125 09:52:50.683672610 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ Triton and PyTorch results match.
+[INFO] Start export data in PROF_000001_20261125095250310_00049030DQCFOHAA.
+Wed 25 Nov 2026 09:53:02 [WARNING] [MSVP] [49214] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 09:53:02 [INFO] [MSVP] [49216] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/host" ...
+Wed 25 Nov 2026 09:53:02 [INFO] [MSVP] [49216] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 09:53:03 [INFO] [MSVP] [49216] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/host" finished.
+Wed 25 Nov 2026 09:53:03 [INFO] [MSVP] [49216] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/device_0" ...
+Wed 25 Nov 2026 09:53:03 [INFO] [MSVP] [49216] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 09:53:03 [INFO] [MSVP] [49216] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/device_0" finished.
+Wed 25 Nov 2026 09:53:04 [INFO] [MSVP] [49216] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/device_0.
+Wed 25 Nov 2026 09:53:07 [WARNING] [MSVP] [49402] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 09:53:07 [INFO] [MSVP] [49404] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 09:53:07 [INFO] [MSVP] [49404] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 09:53:07 [INFO] [MSVP] [49404] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/device_0.
+Wed 25 Nov 2026 09:53:08 [INFO] [MSVP] [49404] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/host"
+Wed 25 Nov 2026 09:53:09 [INFO] [MSVP] [49404] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/device_0.
+Wed 25 Nov 2026 09:53:09 [INFO] [MSVP] [49404] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/device_0"
+Wed 25 Nov 2026 09:53:09 [INFO] [MSVP] [49404] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 09:53:09 [INFO] [MSVP] [49404] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125095250310_00049030DQCFOHAA done.
+[INFO] Start query data in PROF_000001_20261125095250310_00049030DQCFOHAA.
+Wed 25 Nov 2026 09:53:09 [WARNING] [MSVP] [49449] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 09:52:50.222794	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 09:52:50.226543	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125095250310_00049030DQCFOHAA done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_convert_req_index_to_global_index_kernel/data/p50/.collector_work/performance/_convert_req_index_to_global_index_kernel/eval_20261125_095245_45763/timing/PROF_000001_20261125095250310_00049030DQCFOHAA

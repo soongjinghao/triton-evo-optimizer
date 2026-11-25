@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 130095,
+      "call_index": 1,
+      "jit_function": "_state_passing_fwd_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p130095_k001_state_passing_fwd_kernel.ttir.mlir",
+        "p130095_k001_state_passing_fwd_kernel.ttadapter.mlir",
+        "p130095_k001_state_passing_fwd_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 130337,
+      "call_index": 1,
+      "jit_function": "_state_passing_fwd_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p130337_k001_state_passing_fwd_kernel.ttir.mlir",
+        "p130337_k001_state_passing_fwd_kernel.ttadapter.mlir",
+        "p130337_k001_state_passing_fwd_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 130715,
+      "call_index": 1,
+      "jit_function": "_state_passing_fwd_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p130715_k001_state_passing_fwd_kernel.ttir.mlir",
+        "p130715_k001_state_passing_fwd_kernel.ttadapter.mlir",
+        "p130715_k001_state_passing_fwd_kernel.npubin"
+      ]
+    }
+  ]
+}

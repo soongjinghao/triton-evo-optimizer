@@ -1,0 +1,33 @@
+[INFO] Start profiling....
+[W1125 11:17:51.623926110 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Single random vectorised case PASSED
+[INFO] Start export data in PROF_000001_20261125111751232_00170753RDKPLIGC.
+Wed 25 Nov 2026 11:17:57 [WARNING] [MSVP] [170904] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:17:57 [INFO] [MSVP] [170912] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/host" ...
+Wed 25 Nov 2026 11:17:57 [INFO] [MSVP] [170912] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:17:57 [INFO] [MSVP] [170912] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/host" finished.
+Wed 25 Nov 2026 11:17:57 [INFO] [MSVP] [170912] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/device_0" ...
+Wed 25 Nov 2026 11:17:57 [INFO] [MSVP] [170912] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:17:57 [INFO] [MSVP] [170912] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/device_0" finished.
+Wed 25 Nov 2026 11:17:57 [INFO] [MSVP] [170912] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/device_0.
+Wed 25 Nov 2026 11:17:58 [WARNING] [MSVP] [171086] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:17:58 [INFO] [MSVP] [171088] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:17:58 [INFO] [MSVP] [171088] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:17:58 [INFO] [MSVP] [171088] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/device_0.
+Wed 25 Nov 2026 11:17:58 [INFO] [MSVP] [171088] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/host"
+Wed 25 Nov 2026 11:17:58 [INFO] [MSVP] [171088] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/device_0.
+Wed 25 Nov 2026 11:17:58 [INFO] [MSVP] [171088] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/device_0"
+Wed 25 Nov 2026 11:17:58 [INFO] [MSVP] [171088] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:17:58 [INFO] [MSVP] [171088] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125111751232_00170753RDKPLIGC done.
+[INFO] Start query data in PROF_000001_20261125111751232_00170753RDKPLIGC.
+Wed 25 Nov 2026 11:17:59 [WARNING] [MSVP] [171127] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:17:51.195827	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:17:51.199270	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125111751232_00170753RDKPLIGC done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p100/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111746_163062/timing/PROF_000001_20261125111751232_00170753RDKPLIGC

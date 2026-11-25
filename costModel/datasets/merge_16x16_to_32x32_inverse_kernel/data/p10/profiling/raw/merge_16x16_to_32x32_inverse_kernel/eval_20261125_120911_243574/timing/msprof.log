@@ -1,0 +1,65 @@
+[INFO] Start profiling....
+[W1125 12:09:17.107749960 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing merge_16x16_to_32x32_inverse (corrected) with B=2, T=64, H=4, BT=32
+Using device: npu
+
+Generating strictly lower triangular blocks...
+Created input tensor A with shape: torch.Size([2, 64, 4, 32])
+A dtype: torch.float32, device: npu:0
+Output Ai shape: torch.Size([2, 64, 4, 32])
+Ai dtype: torch.float32
+
+=== Test 1: Block-wise formula verification ===
+
+Formula verification completed:
+  Blocks tested: 16
+  Maximum formula error: 1.35e-04
+✓ All block formulas correct within 1e-3
+
+=== Test 2: Full 32×32 block verification ===
+
+Full block verification completed:
+  Blocks tested: 16
+  Maximum block error: 4.58e-05
+✓ All 32×32 blocks correct within 1e-3
+
+=== Test 3: Structure verification ===
+Maximum structure error: 0.00e+00
+✓ Inverse has correct structure
+
+============================================================
+SUCCESS: All tests passed!
+
+============================================================
+SUCCESS: Corrected test passed!
+============================================================
+[INFO] Start export data in PROF_000001_20261125120916730_00249184BCBICKMM.
+Wed 25 Nov 2026 12:09:22 [WARNING] [MSVP] [249367] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:09:22 [INFO] [MSVP] [249369] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/host" ...
+Wed 25 Nov 2026 12:09:22 [INFO] [MSVP] [249369] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:09:22 [INFO] [MSVP] [249369] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/host" finished.
+Wed 25 Nov 2026 12:09:22 [INFO] [MSVP] [249369] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/device_0" ...
+Wed 25 Nov 2026 12:09:22 [INFO] [MSVP] [249369] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:09:22 [INFO] [MSVP] [249369] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/device_0" finished.
+Wed 25 Nov 2026 12:09:22 [INFO] [MSVP] [249369] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/device_0.
+Wed 25 Nov 2026 12:09:24 [WARNING] [MSVP] [249549] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:09:24 [INFO] [MSVP] [249551] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:09:24 [INFO] [MSVP] [249551] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:09:24 [INFO] [MSVP] [249551] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/device_0.
+Wed 25 Nov 2026 12:09:24 [INFO] [MSVP] [249551] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/host"
+Wed 25 Nov 2026 12:09:24 [INFO] [MSVP] [249551] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/device_0.
+Wed 25 Nov 2026 12:09:24 [INFO] [MSVP] [249551] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/device_0"
+Wed 25 Nov 2026 12:09:24 [INFO] [MSVP] [249551] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 12:09:24 [INFO] [MSVP] [249551] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125120916730_00249184BCBICKMM done.
+[INFO] Start query data in PROF_000001_20261125120916730_00249184BCBICKMM.
+Wed 25 Nov 2026 12:09:25 [WARNING] [MSVP] [249596] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 12:09:17.706325	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 12:09:17.712068	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125120916730_00249184BCBICKMM done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p10/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_120911_243574/timing/PROF_000001_20261125120916730_00249184BCBICKMM

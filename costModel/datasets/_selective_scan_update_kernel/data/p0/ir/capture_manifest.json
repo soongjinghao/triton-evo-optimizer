@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 113064,
+      "call_index": 1,
+      "jit_function": "_selective_scan_update_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p113064_k001_selective_scan_update_kernel.ttir.mlir",
+        "p113064_k001_selective_scan_update_kernel.ttadapter.mlir",
+        "p113064_k001_selective_scan_update_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 113322,
+      "call_index": 1,
+      "jit_function": "_selective_scan_update_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p113322_k001_selective_scan_update_kernel.ttir.mlir",
+        "p113322_k001_selective_scan_update_kernel.ttadapter.mlir",
+        "p113322_k001_selective_scan_update_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 113700,
+      "call_index": 1,
+      "jit_function": "_selective_scan_update_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p113700_k001_selective_scan_update_kernel.ttir.mlir",
+        "p113700_k001_selective_scan_update_kernel.ttadapter.mlir",
+        "p113700_k001_selective_scan_update_kernel.npubin"
+      ]
+    }
+  ]
+}

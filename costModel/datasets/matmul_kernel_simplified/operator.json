@@ -21,10 +21,10 @@
     "matmul_kernel_simplified__p90__97ffbbec7b04",
     "matmul_kernel_simplified__p100__b5d8dfff2f38"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 316,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "matmul_kernel_simplified",
   "operator_name": "matmul_kernel_simplified",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/matmul_kernel_simplified/test.py",
   "test_sha256": "fd7efc9d9d96101863a5ce2d9e0b2d10fedd14304131e104bd863b3154df910e",
   "test_source_path": "datasets2/matmul_kernel_simplified/test_matmul_kernel_simplified_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

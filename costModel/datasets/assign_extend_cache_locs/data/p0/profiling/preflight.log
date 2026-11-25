@@ -1,0 +1,7 @@
+[W1125 11:05:17.795764530 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p0/.collector_work/compiler_save_temps/446eb51fb57940e34bbdecf4428a84213fb9770d870c1cd2_pid151034_guv0byk3
+✅ Triton kernel output matches reference implementation
+Triton result: tensor([919, 569, 169, 418, 751, 527, 977, 974, 105, 661, 566, 244, 437, 555,
+        854, 522, 103, 295, 461, 974], device='npu:0', dtype=torch.int32)
+Reference result: tensor([919, 569, 169, 418, 751, 527, 977, 974, 105, 661, 566, 244, 437, 555,
+        854, 522, 103, 295, 461, 974], device='npu:0', dtype=torch.int32)

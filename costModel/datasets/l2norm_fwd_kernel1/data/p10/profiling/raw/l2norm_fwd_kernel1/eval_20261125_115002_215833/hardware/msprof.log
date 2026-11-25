@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1125 11:50:20.975987210 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+L2Norm test passed!
+Input shape: torch.Size([64, 64])
+Output shape: torch.Size([64, 64])
+Max difference: 5.960464477539063e-08
+[INFO] Start export data in PROF_000001_20261125115019588_00217602ACDMCCLC.
+Wed 25 Nov 2026 11:50:24 [WARNING] [MSVP] [217981] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:50:24 [INFO] [MSVP] [217983] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/host" ...
+Wed 25 Nov 2026 11:50:24 [INFO] [MSVP] [217983] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:50:24 [INFO] [MSVP] [217983] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/host" finished.
+Wed 25 Nov 2026 11:50:24 [INFO] [MSVP] [217983] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/device_0" ...
+Wed 25 Nov 2026 11:50:24 [INFO] [MSVP] [217983] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:50:24 [INFO] [MSVP] [217983] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/device_0" finished.
+Wed 25 Nov 2026 11:50:25 [INFO] [MSVP] [217983] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/device_0.
+Wed 25 Nov 2026 11:50:25 [WARNING] [MSVP] [218168] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:50:25 [INFO] [MSVP] [218170] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:50:25 [INFO] [MSVP] [218170] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:50:25 [INFO] [MSVP] [218170] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/device_0.
+Wed 25 Nov 2026 11:50:25 [INFO] [MSVP] [218170] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/host"
+Wed 25 Nov 2026 11:50:25 [INFO] [MSVP] [218170] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/device_0.
+Wed 25 Nov 2026 11:50:25 [INFO] [MSVP] [218170] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:50:25 [INFO] [MSVP] [218170] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125115019588_00217602ACDMCCLC done.
+[INFO] Start query data in PROF_000001_20261125115019588_00217602ACDMCCLC.
+Wed 25 Nov 2026 11:50:26 [WARNING] [MSVP] [218236] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:50:19.557687	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:50:19.560688	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125115019588_00217602ACDMCCLC done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/l2norm_fwd_kernel1/data/p10/.collector_work/performance/l2norm_fwd_kernel1/eval_20261125_115002_215833/hardware/PROF_000001_20261125115019588_00217602ACDMCCLC

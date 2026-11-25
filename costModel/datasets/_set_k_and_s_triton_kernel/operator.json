@@ -21,10 +21,10 @@
     "_set_k_and_s_triton_kernel__p90__a6f7a5604e67",
     "_set_k_and_s_triton_kernel__p100__a6f7a5604e67"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 506,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_set_k_and_s_triton_kernel",
   "operator_name": "_set_k_and_s_triton_kernel",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_set_k_and_s_triton_kernel/test.py",
   "test_sha256": "5bebf3cc79f77add34f95e6065131a990fde9a389517372ddb6722b2341df99b",
   "test_source_path": "datasets2/_set_k_and_s_triton_kernel/test__set_k_and_s_triton_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

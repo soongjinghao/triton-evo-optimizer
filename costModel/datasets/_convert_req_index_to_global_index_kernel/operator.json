@@ -21,10 +21,10 @@
     "_convert_req_index_to_global_index_kernel__p75__8bb560e4b28e",
     "_convert_req_index_to_global_index_kernel__p100__d3c37bcf54ce"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 139,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_convert_req_index_to_global_index_kernel",
   "operator_name": "_convert_req_index_to_global_index_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p75",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "moderate",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_convert_req_index_to_global_index_kernel/test.py",
   "test_sha256": "60b7a308a941fc04ff8122ebbac0e39821d6201e66103bca1453417f762ca58b",
   "test_source_path": "datasets2/_convert_req_index_to_global_index_kernel/test__convert_req_index_to_global_index_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

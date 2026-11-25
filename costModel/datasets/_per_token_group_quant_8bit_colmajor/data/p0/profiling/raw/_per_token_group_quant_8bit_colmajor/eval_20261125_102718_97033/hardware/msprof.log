@@ -1,0 +1,36 @@
+[INFO] Start profiling....
+[W1125 10:27:34.958249210 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ Per-token-group quantization test passed!
+Input shape: (16, 128)
+Group size: 32
+Max quantized difference: 1
+Max scale difference: 0.0
+[INFO] Start export data in PROF_000001_20261125102734567_00097674MLGCJCHG.
+Wed 25 Nov 2026 10:27:39 [WARNING] [MSVP] [97862] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:27:39 [INFO] [MSVP] [97864] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/host" ...
+Wed 25 Nov 2026 10:27:39 [INFO] [MSVP] [97864] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:27:39 [INFO] [MSVP] [97864] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/host" finished.
+Wed 25 Nov 2026 10:27:39 [INFO] [MSVP] [97864] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/device_0" ...
+Wed 25 Nov 2026 10:27:39 [INFO] [MSVP] [97864] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:27:39 [INFO] [MSVP] [97864] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/device_0" finished.
+Wed 25 Nov 2026 10:27:39 [INFO] [MSVP] [97864] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/device_0.
+Wed 25 Nov 2026 10:27:40 [WARNING] [MSVP] [98038] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:27:40 [INFO] [MSVP] [98040] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:27:40 [INFO] [MSVP] [98040] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:27:40 [INFO] [MSVP] [98040] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/device_0.
+Wed 25 Nov 2026 10:27:40 [INFO] [MSVP] [98040] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/host"
+Wed 25 Nov 2026 10:27:40 [INFO] [MSVP] [98040] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/device_0.
+Wed 25 Nov 2026 10:27:40 [INFO] [MSVP] [98040] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:27:40 [INFO] [MSVP] [98040] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125102734567_00097674MLGCJCHG done.
+[INFO] Start query data in PROF_000001_20261125102734567_00097674MLGCJCHG.
+Wed 25 Nov 2026 10:27:41 [WARNING] [MSVP] [98088] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:27:34.509125	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:27:34.512458	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125102734567_00097674MLGCJCHG done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_per_token_group_quant_8bit_colmajor/data/p0/.collector_work/performance/_per_token_group_quant_8bit_colmajor/eval_20261125_102718_97033/hardware/PROF_000001_20261125102734567_00097674MLGCJCHG

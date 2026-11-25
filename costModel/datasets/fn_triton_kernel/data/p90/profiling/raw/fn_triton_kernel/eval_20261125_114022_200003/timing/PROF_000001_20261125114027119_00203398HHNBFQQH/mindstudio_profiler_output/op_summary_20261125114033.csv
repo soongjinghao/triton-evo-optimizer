@@ -1,0 +1,11 @@
+Device_id,Model ID,Task ID,Stream ID,Op Name,OP Type,OP State,Task Type,Task Start Time(us),Task Duration(us),Task Wait Time(us),Block Num,Mix Block Num,HF32 Eligible,Input Shapes,Input Data Types,Input Formats,Output Shapes,Output Data Types,Output Formats,Context ID
+0,4294967295,1,47,aclnnInplaceNormal_DSARandomNormal_DSARandomNormal,N/A,N/A,N/A,1795606827531922.201	,9.180,0,0,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,3,47,aclnnInplaceNormal_DSARandomNormal_DSARandomNormal,N/A,N/A,N/A,1795606827532385.079	,1.681,453.570000,0,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,4,47,aclnnInplaceZero_ZerosLikeAiCore_ZerosLike,N/A,N/A,N/A,1795606827665383.277	,12.900,132996.569000,48,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,5,47,fn_triton_kernel,N/A,N/A,N/A,1795606827822189.886	,5.740,156793.850000,4,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,6,47,aclnnInplaceZero_ZerosLikeAiCore_ZerosLike,N/A,N/A,N/A,1795606827823598.442	,2.420,1402.760000,48,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,7,47,aclnnInplaceCopy_ViewCopyAiCore_ViewCopy,N/A,N/A,N/A,1795606827828333.351	,12.701,4732.330000,48,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,8,47,aclnnInplaceCopy_BroadcastToAiCore_BroadcastTo,N/A,N/A,N/A,1795606827831297.230	,11.560,2951.299000,43,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,9,47,aclnnInplaceCopy_ViewCopyAiCore_ViewCopy,N/A,N/A,N/A,1795606827831330.551	,10.561,21.690000,48,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,10,47,aclnnIsClose_IsCloseAiCore_IsClose,N/A,N/A,N/A,1795606827833408.274	,13.381,2067.189000,48,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,11,47,aclnnAll_ReduceAll_ReduceAll,N/A,N/A,N/A,1795606827840131.063	,13.941,6709.369000,48,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0

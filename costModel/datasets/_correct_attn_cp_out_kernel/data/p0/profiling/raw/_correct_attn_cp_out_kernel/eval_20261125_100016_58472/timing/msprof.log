@@ -1,0 +1,38 @@
+[INFO] Start profiling....
+[W1125 10:00:21.670510090 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[W1125 10:00:22.995647570 ToKernelNpu.cpp:40] Warning: Device do not support double dtype now, dtype cast replace with float. (function operator())
+✅ Triton and PyTorch implementations match!
+Output shape: torch.Size([4, 8, 64])
+VLSE shape: torch.Size([4, 8])
+Sample output values: tensor([-0.1421,  0.0739,  0.0038,  0.0912,  0.0460], device='npu:0')
+Sample VLSE values: tensor([1.4853, 2.2458, 1.9022, 1.1312, 1.8198], device='npu:0')
+[INFO] Start export data in PROF_000001_20261125100021287_00058828CFRFBMLI.
+Wed 25 Nov 2026 10:00:26 [WARNING] [MSVP] [59013] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:00:26 [INFO] [MSVP] [59015] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/host" ...
+Wed 25 Nov 2026 10:00:26 [INFO] [MSVP] [59015] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:00:26 [INFO] [MSVP] [59015] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/host" finished.
+Wed 25 Nov 2026 10:00:26 [INFO] [MSVP] [59015] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/device_0" ...
+Wed 25 Nov 2026 10:00:26 [INFO] [MSVP] [59015] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:00:26 [INFO] [MSVP] [59015] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/device_0" finished.
+Wed 25 Nov 2026 10:00:26 [INFO] [MSVP] [59015] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/device_0.
+Wed 25 Nov 2026 10:00:27 [WARNING] [MSVP] [59189] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:00:27 [INFO] [MSVP] [59197] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:00:27 [INFO] [MSVP] [59197] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:00:27 [INFO] [MSVP] [59197] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/device_0.
+Wed 25 Nov 2026 10:00:27 [INFO] [MSVP] [59197] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/host"
+Wed 25 Nov 2026 10:00:27 [INFO] [MSVP] [59197] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/device_0.
+Wed 25 Nov 2026 10:00:27 [INFO] [MSVP] [59197] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/device_0"
+Wed 25 Nov 2026 10:00:27 [INFO] [MSVP] [59197] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:00:27 [INFO] [MSVP] [59197] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125100021287_00058828CFRFBMLI done.
+[INFO] Start query data in PROF_000001_20261125100021287_00058828CFRFBMLI.
+Wed 25 Nov 2026 10:00:28 [WARNING] [MSVP] [59236] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:00:21.210278	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:00:21.214570	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125100021287_00058828CFRFBMLI done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p0/.collector_work/performance/_correct_attn_cp_out_kernel/eval_20261125_100016_58472/timing/PROF_000001_20261125100021287_00058828CFRFBMLI

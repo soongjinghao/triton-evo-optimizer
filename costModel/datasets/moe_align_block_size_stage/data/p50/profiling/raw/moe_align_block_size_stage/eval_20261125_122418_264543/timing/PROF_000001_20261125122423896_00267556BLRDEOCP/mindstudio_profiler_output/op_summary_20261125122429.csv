@@ -1,0 +1,10 @@
+Device_id,Model ID,Task ID,Stream ID,Op Name,OP Type,OP State,Task Type,Task Start Time(us),Task Duration(us),Task Wait Time(us),Block Num,Mix Block Num,HF32 Eligible,Input Shapes,Input Data Types,Input Formats,Output Shapes,Output Data Types,Output Formats,Context ID
+0,4294967295,1,47,aclnnInplaceRandom_DSARandomUniform_DSARandomUniform,N/A,N/A,N/A,1795609464408863.767	,2.820,0,0,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,2,47,aclnnInplaceRandom_CastAiCore_Cast,N/A,N/A,N/A,1795609464443152.678	,3.920,34286.180000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,3,47,aclnnInplaceZero_ZerosLikeAiCore_ZerosLike,N/A,N/A,N/A,1795609464445341.046	,1.460,2184.330000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,4,47,aclnnInplaceZero_ZerosLikeAiCore_ZerosLike,N/A,N/A,N/A,1795609464445422.809	,3.400,80.290000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,5,47,aclnnInplaceZero_ZerosLikeAiCore_ZerosLike,N/A,N/A,N/A,1795609464445437.409	,1.460,11.350000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,6,47,moe_align_block_size_stage1,N/A,N/A,N/A,1795609464618703.637	,17.100,173264.790000,4,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,7,47,moe_align_block_size_stage2,N/A,N/A,N/A,1795609464622742.258	,4.640,4021.400000,4,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,8,47,moe_align_block_size_stage3,N/A,N/A,N/A,1795609464626560.391	,3.980,3813.610000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,9,47,moe_align_block_size_stage4,N/A,N/A,N/A,1795609464631573.711	,16.421,5009.270000,4,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A

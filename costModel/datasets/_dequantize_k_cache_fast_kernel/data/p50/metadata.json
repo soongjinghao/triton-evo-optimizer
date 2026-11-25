@@ -1,0 +1,277 @@
+{
+  "schema_version": "costmodel_collection_v2",
+  "script_version": "2.2.0",
+  "operator_name": "_dequantize_k_cache_fast_kernel",
+  "candidate_id": "_dequantize_k_cache_fast_kernel__p50__de76875bb7e4",
+  "candidate_role": "p50",
+  "status": "success",
+  "started_at": "2026-11-25T10:09:39+00:00",
+  "finished_at": "2026-11-25T10:10:24+00:00",
+  "duration_seconds": 44.631,
+  "source": {
+    "variant_path": "costModel/datasets/_dequantize_k_cache_fast_kernel/variant/p50.py",
+    "source_code_sha256": "de76875bb7e46c88d1687547c2fe5fef654ca496f6cf00595c66e802405fb714",
+    "kernel_snapshot": "costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/kernel.py",
+    "test_path": "costModel/datasets/_dequantize_k_cache_fast_kernel/test.py",
+    "test_sha256": "70940a029657b99821bf3ede9e0e9feb41cee9b6e74e7759bf85090d02fe2083"
+  },
+  "evaluation": {
+    "success": true,
+    "execution_time_us": 4.12,
+    "error": null,
+    "profile_mode": "full",
+    "profile_dir": "profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146",
+    "hardware_profile_success": true
+  },
+  "correctness": {
+    "preflight_enabled": true,
+    "success": true,
+    "log_path": "profiling/preflight.log",
+    "error": null
+  },
+  "profiling": {
+    "summary_available": true,
+    "summary_path": "profiling/profile_summary.json",
+    "raw_profile_dir": "profiling/raw",
+    "timing": {
+      "execution_time_us": 4.12,
+      "source": "op_summary.Task Duration(us)",
+      "sample_count": 1,
+      "task_time_cross_check": {
+        "median_task_time_us": 4.62,
+        "sample_count": 1,
+        "task_id": "3",
+        "stream_id": "47"
+      },
+      "hardware_pass_task_duration_us": 4.62,
+      "cross_pass_difference_us": 0.5,
+      "cross_pass_relative_difference_pct": 10.822510822510822,
+      "cross_pass_consistent_20pct": true,
+      "label_valid": true,
+      "label_execution_time_us": 4.12
+    },
+    "kernel": {
+      "Device_id": "0",
+      "Task ID": "3",
+      "Stream ID": "47",
+      "Op Name": "_dequantize_k_cache_fast_kernel",
+      "OP Type": "_dequantize_k_cache_fast_kernel",
+      "OP State": "static",
+      "Task Type": "AI_VECTOR_CORE",
+      "Task Start Time(us)": "1795601416619264.547\t",
+      "Task Duration(us)": 4.62,
+      "Block Num": "5",
+      "Mix Block Num": "0",
+      "HF32 Eligible": "YES",
+      "Input Shapes": "\"4,512;4,8;4,64\"",
+      "Input Data Types": "DT_BF16;FLOAT;DT_BF16",
+      "Output Shapes": "\"4,576\"",
+      "Output Data Types": "DT_BF16",
+      "aicore_time(us)": 0.0,
+      "aic_total_cycles": 0.0,
+      "aic_mac_time(us)": 0.0,
+      "aic_mac_ratio": 0.0,
+      "aic_scalar_time(us)": 0.0,
+      "aic_scalar_ratio": 0.0,
+      "aic_mte1_time(us)": 0.0,
+      "aic_mte1_ratio": 0.0,
+      "aic_mte2_time(us)": 0.0,
+      "aic_mte2_ratio": 0.0,
+      "aic_fixpipe_time(us)": 0.0,
+      "aic_fixpipe_ratio": 0.0,
+      "aic_icache_miss_rate": 0.0,
+      "aiv_time(us)": 3.486,
+      "aiv_total_cycles": 31378.0,
+      "aiv_vec_time(us)": 0.077,
+      "aiv_vec_ratio": 0.022,
+      "aiv_scalar_time(us)": 1.038,
+      "aiv_scalar_ratio": 0.298,
+      "aiv_mte2_time(us)": 0.466,
+      "aiv_mte2_ratio": 0.134,
+      "aiv_mte3_time(us)": 0.17,
+      "aiv_mte3_ratio": 0.049,
+      "aiv_icache_miss_rate": 0.217,
+      "cube_utilization(%)": 0.0
+    },
+    "core_utilization": {
+      "ai_core": {
+        "source": "op_summary_task",
+        "task_type": "AI_VECTOR_CORE",
+        "applicability": "not_applicable_for_task_type",
+        "record_count": 1,
+        "active_record_count": 0,
+        "mac_ratio_mean": 0.0,
+        "scalar_ratio_mean": 0.0,
+        "mte1_ratio_mean": 0.0,
+        "mte2_ratio_mean": 0.0,
+        "fixpipe_ratio_mean": 0.0,
+        "icache_miss_rate_mean": 0.0,
+        "mac_ratio_max": 0.0,
+        "scalar_ratio_max": 0.0,
+        "mte1_ratio_max": 0.0,
+        "mte2_ratio_max": 0.0,
+        "fixpipe_ratio_max": 0.0,
+        "icache_miss_rate_max": 0.0
+      },
+      "ai_vector_core": {
+        "source": "op_summary_task",
+        "task_type": "AI_VECTOR_CORE",
+        "applicability": "available",
+        "record_count": 1,
+        "active_record_count": 1,
+        "vec_ratio_mean": 0.022,
+        "scalar_ratio_mean": 0.298,
+        "mte2_ratio_mean": 0.134,
+        "mte3_ratio_mean": 0.049,
+        "icache_miss_rate_mean": 0.217,
+        "vec_ratio_max": 0.022,
+        "scalar_ratio_max": 0.298,
+        "mte2_ratio_max": 0.134,
+        "mte3_ratio_max": 0.049,
+        "icache_miss_rate_max": 0.217
+      }
+    },
+    "memory": {
+      "hbm": {
+        "scope": "device_level_sampled_bandwidth",
+        "sample_count": 5,
+        "read_mb_s": 22.956,
+        "write_mb_s": 10.828
+      },
+      "llc": {
+        "scope": "device_level_llc_profile",
+        "sample_count": 3,
+        "read_hit_rate_pct": 42.617,
+        "read_throughput_mb_s": 5425.485,
+        "write_hit_rate_pct": null,
+        "write_throughput_mb_s": null
+      },
+      "npu_memory": {
+        "scope": "application_level_sampled_memory",
+        "ddr_kb_peak": 0.0,
+        "ddr_kb_mean": 0.0,
+        "hbm_kb_peak": 127160.0,
+        "hbm_kb_mean": 127160.0,
+        "total_memory_kb_peak": 127160.0,
+        "total_memory_kb_mean": 127160.0,
+        "sample_count": 59,
+        "timestamp_start_us": 1795601416253763.2,
+        "timestamp_end_us": 1795601417412823.2,
+        "sampling_span_us": 1159060.0
+      },
+      "npu_module_memory": {
+        "RUNTIME": {
+          "reserved_kb_peak": 36964.0,
+          "reserved_kb_mean": 35703.4,
+          "sample_count": 60
+        },
+        "APP": {
+          "reserved_kb_peak": 2048.0,
+          "reserved_kb_mean": 2013.8666666666666,
+          "sample_count": 60
+        }
+      }
+    },
+    "collection": {
+      "hardware_profile_success": true,
+      "op_summary_rows_for_kernel": 1,
+      "source_csv": {
+        "op_summary": "/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/hardware/PROF_000001_20261125101015894_00072938BJJDMFII/mindstudio_profiler_output/op_summary_20261125101022.csv",
+        "ai_core_utilization": null,
+        "ai_vector_core_utilization": null,
+        "hbm": "/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/hardware/PROF_000001_20261125101015894_00072938BJJDMFII/mindstudio_profiler_output/hbm_20261125101022.csv",
+        "llc_read_write": "/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/hardware/PROF_000001_20261125101015894_00072938BJJDMFII/mindstudio_profiler_output/llc_read_write_20261125101022.csv",
+        "npu_mem": "/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/hardware/PROF_000001_20261125101015894_00072938BJJDMFII/mindstudio_profiler_output/npu_mem_20261125101022.csv",
+        "npu_module_mem": "/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/hardware/PROF_000001_20261125101015894_00072938BJJDMFII/mindstudio_profiler_output/npu_module_mem_20261125101022.csv",
+        "task_time": "/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/hardware/PROF_000001_20261125101015894_00072938BJJDMFII/mindstudio_profiler_output/task_time_20261125101022.csv"
+      },
+      "commands": {
+        "timing": [
+          "msprof",
+          "--output=/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/timing",
+          "--task-time=l0",
+          "--ai-core=off",
+          "--ascendcl=off",
+          "--runtime-api=off",
+          "python3",
+          "/tmp/_dequantize_k_cache_fast_kernel_amq44axs/test__dequantize_k_cache_fast_kernel.py"
+        ],
+        "hardware": [
+          "msprof",
+          "--output=/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/.collector_work/performance/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/hardware",
+          "--task-time=l1",
+          "--task-memory=on",
+          "--ai-core=on",
+          "--aic-mode=task-based",
+          "--aic-metrics=PipeUtilization",
+          "--sys-hardware-mem=on",
+          "--sys-hardware-mem-freq=50",
+          "--llc-profiling=read",
+          "--ascendcl=off",
+          "--runtime-api=off",
+          "--ge-api=off",
+          "python3",
+          "/tmp/_dequantize_k_cache_fast_kernel_amq44axs/test__dequantize_k_cache_fast_kernel.py"
+        ]
+      },
+      "raw_profile_directories": {
+        "timing": "/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/timing",
+        "hardware": "/workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p50/profiling/raw/_dequantize_k_cache_fast_kernel/eval_20261125_100959_70146/hardware"
+      }
+    }
+  },
+  "ir_found": {
+    "npubin": true,
+    "ttadapter": true,
+    "ttir": true,
+    "hivm_opt": true
+  },
+  "ir_counts": {
+    "npubin": 1,
+    "ttadapter": 1,
+    "ttir": 1,
+    "hivm_opt": 1
+  },
+  "ir_paths": {
+    "npubin": [
+      "ir/npubin/asm_p072293_k001_dequantize_k_cache_fast_kernel.npubin"
+    ],
+    "ttadapter": [
+      "ir/ttadapter/asm_p072293_k001_dequantize_k_cache_fast_kernel.ttadapter.mlir"
+    ],
+    "ttir": [
+      "ir/ttir/asm_p072293_k001_dequantize_k_cache_fast_kernel.ttir.mlir"
+    ],
+    "hivm_opt": [
+      "ir/hivm_opt/save_temps_module.hivm.opt.mlir"
+    ]
+  },
+  "ir_stage_status": {
+    "M1_ttir": "available",
+    "M2_ttir_ttadapter": "available",
+    "M3_ttir_ttadapter_hivm_opt": "available",
+    "hivm_unoptimized": "missing_optional",
+    "npuir_debug_dump": "missing_optional",
+    "npubin": "available",
+    "kernel_object": "missing_optional",
+    "kernel_shared_library": "missing_optional"
+  },
+  "compiler_save_temps": {
+    "directory": "ir/compiler_save_temps",
+    "file_count": 1,
+    "unique_content_count": 1
+  },
+  "capture_manifest": "ir/capture_manifest.json",
+  "capture_hook_error": null,
+  "notes": [
+    "Read candidate directly from variant/<role>.py; no manifest is used.",
+    "No historical IR or profiling labels were reused.",
+    "Triton cache was isolated for this candidate.",
+    "A direct correctness preflight must pass before any MSProf pass is run.",
+    "HIVM and optimized HIVM are stored as separate IR stages.",
+    "BiShengIR save-temps is enabled per candidate and archived under ir/compiler_save_temps.",
+    "Identical IR artifacts across preflight/timing/hardware processes are deduplicated by SHA-256.",
+    "Transient capture and compiler work directories are removed after stable artifacts are archived.",
+    "M3 requires an actual module.hivm.opt.mlir artifact."
+  ]
+}

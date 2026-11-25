@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 238920,
+      "call_index": 1,
+      "jit_function": "mean_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p238920_k001_mean_kernel.ttir.mlir",
+        "p238920_k001_mean_kernel.ttadapter.mlir",
+        "p238920_k001_mean_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 239197,
+      "call_index": 1,
+      "jit_function": "mean_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p239197_k001_mean_kernel.ttir.mlir",
+        "p239197_k001_mean_kernel.ttadapter.mlir",
+        "p239197_k001_mean_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 239601,
+      "call_index": 1,
+      "jit_function": "mean_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p239601_k001_mean_kernel.ttir.mlir",
+        "p239601_k001_mean_kernel.ttadapter.mlir",
+        "p239601_k001_mean_kernel.npubin"
+      ]
+    }
+  ]
+}

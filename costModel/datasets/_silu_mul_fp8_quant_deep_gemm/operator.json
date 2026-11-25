@@ -21,10 +21,10 @@
     "_silu_mul_fp8_quant_deep_gemm__p90__876973e739a1",
     "_silu_mul_fp8_quant_deep_gemm__p100__3bf79ee931b9"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 150,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "_silu_mul_fp8_quant_deep_gemm",
   "operator_name": "_silu_mul_fp8_quant_deep_gemm",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/_silu_mul_fp8_quant_deep_gemm/test.py",
   "test_sha256": "e19c671e170d7a431ecd50c5a024365f931ca3484f780013e73bba8fee2feff8",
   "test_source_path": "datasets2/_silu_mul_fp8_quant_deep_gemm/test__silu_mul_fp8_quant_deep_gemm_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

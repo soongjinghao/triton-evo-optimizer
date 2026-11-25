@@ -1,0 +1,34 @@
+[INFO] Start profiling....
+[W1125 11:04:21.374744080 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ Triton and Torch match
+Output cache locations: tensor([842, 118, 351, 240, 408, 267, 461,  76, 300, 119], device='npu:0',
+       dtype=torch.int32)...
+[INFO] Start export data in PROF_000001_20261125110421008_00149551ENMEROHJ.
+Wed 25 Nov 2026 11:04:24 [WARNING] [MSVP] [149724] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:04:24 [INFO] [MSVP] [149726] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/host" ...
+Wed 25 Nov 2026 11:04:24 [INFO] [MSVP] [149726] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:04:24 [INFO] [MSVP] [149726] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/host" finished.
+Wed 25 Nov 2026 11:04:24 [INFO] [MSVP] [149726] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/device_0" ...
+Wed 25 Nov 2026 11:04:24 [INFO] [MSVP] [149726] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:04:24 [INFO] [MSVP] [149726] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/device_0" finished.
+Wed 25 Nov 2026 11:04:24 [INFO] [MSVP] [149726] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/device_0.
+Wed 25 Nov 2026 11:04:25 [WARNING] [MSVP] [149906] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:04:25 [INFO] [MSVP] [149908] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:04:25 [INFO] [MSVP] [149908] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:04:25 [INFO] [MSVP] [149908] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/device_0.
+Wed 25 Nov 2026 11:04:25 [INFO] [MSVP] [149908] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/host"
+Wed 25 Nov 2026 11:04:25 [INFO] [MSVP] [149908] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/device_0.
+Wed 25 Nov 2026 11:04:25 [INFO] [MSVP] [149908] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:04:25 [INFO] [MSVP] [149908] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125110421008_00149551ENMEROHJ done.
+[INFO] Start query data in PROF_000001_20261125110421008_00149551ENMEROHJ.
+Wed 25 Nov 2026 11:04:26 [WARNING] [MSVP] [149949] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:04:21.927725	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:04:21.930635	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125110421008_00149551ENMEROHJ done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/assign_draft_cache_locs_page_size_1/data/p75/.collector_work/performance/assign_draft_cache_locs_page_size_1/eval_20261125_110405_145735/hardware/PROF_000001_20261125110421008_00149551ENMEROHJ

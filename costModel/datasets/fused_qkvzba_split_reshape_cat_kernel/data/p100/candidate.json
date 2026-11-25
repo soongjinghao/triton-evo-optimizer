@@ -1,0 +1,11 @@
+{
+  "schema_version": "costmodel_candidate_v1",
+  "operator_name": "fused_qkvzba_split_reshape_cat_kernel",
+  "candidate_id": "fused_qkvzba_split_reshape_cat_kernel__p100__f1eaf7f3ec1f",
+  "candidate_role": "p100",
+  "variant_path": "costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/variant/p100.py",
+  "source_code_sha256": "f1eaf7f3ec1fe2500211375cf3dddb3c05136274947532bb88805775bdcd6484",
+  "kernel_snapshot": "costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/kernel.py",
+  "test_path": "costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/test.py",
+  "created_at": "2026-11-25T11:48:13+00:00"
+}

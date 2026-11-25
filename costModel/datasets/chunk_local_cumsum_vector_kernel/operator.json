@@ -21,10 +21,10 @@
     "chunk_local_cumsum_vector_kernel__p75__07fd229421e9",
     "chunk_local_cumsum_vector_kernel__p100__c6accd26568f"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 152,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "chunk_local_cumsum_vector_kernel",
   "operator_name": "chunk_local_cumsum_vector_kernel",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/chunk_local_cumsum_vector_kernel/test.py",
   "test_sha256": "f12a32e6ebd76304f7472864bae314bc9cfb07e1f22457d5cc5acc14c5e5d946",
   "test_source_path": "datasets2/chunk_local_cumsum_vector_kernel/test_chunk_local_cumsum_vector_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

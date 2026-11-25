@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 141555,
+      "call_index": 1,
+      "jit_function": "_unpack_seq_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p141555_k001_unpack_seq_triton_kernel.ttir.mlir",
+        "p141555_k001_unpack_seq_triton_kernel.ttadapter.mlir",
+        "p141555_k001_unpack_seq_triton_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 141790,
+      "call_index": 1,
+      "jit_function": "_unpack_seq_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p141790_k001_unpack_seq_triton_kernel.ttir.mlir",
+        "p141790_k001_unpack_seq_triton_kernel.ttadapter.mlir",
+        "p141790_k001_unpack_seq_triton_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 142168,
+      "call_index": 1,
+      "jit_function": "_unpack_seq_triton_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p142168_k001_unpack_seq_triton_kernel.ttir.mlir",
+        "p142168_k001_unpack_seq_triton_kernel.ttadapter.mlir",
+        "p142168_k001_unpack_seq_triton_kernel.npubin"
+      ]
+    }
+  ]
+}

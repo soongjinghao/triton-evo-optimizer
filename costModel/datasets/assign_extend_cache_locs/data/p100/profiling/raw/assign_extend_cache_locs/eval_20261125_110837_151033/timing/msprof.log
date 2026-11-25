@@ -1,0 +1,37 @@
+[INFO] Start profiling....
+[W1125 11:08:42.460697570 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ Triton kernel output matches reference implementation
+Triton result: tensor([ 26, 712, 763, 696, 733,  11, 882, 927, 990, 821, 493, 904, 319, 776,
+        374, 483, 265, 327, 973, 526], device='npu:0', dtype=torch.int32)
+Reference result: tensor([ 26, 712, 763, 696, 733,  11, 882, 927, 990, 821, 493, 904, 319, 776,
+        374, 483, 265, 327, 973, 526], device='npu:0', dtype=torch.int32)
+[INFO] Start export data in PROF_000001_20261125110842085_00155652BQJKKDJK.
+Wed 25 Nov 2026 11:08:45 [WARNING] [MSVP] [155822] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:08:45 [INFO] [MSVP] [155824] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/host" ...
+Wed 25 Nov 2026 11:08:45 [INFO] [MSVP] [155824] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:08:45 [INFO] [MSVP] [155824] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/host" finished.
+Wed 25 Nov 2026 11:08:45 [INFO] [MSVP] [155824] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/device_0" ...
+Wed 25 Nov 2026 11:08:45 [INFO] [MSVP] [155824] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 11:08:45 [INFO] [MSVP] [155824] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/device_0" finished.
+Wed 25 Nov 2026 11:08:45 [INFO] [MSVP] [155824] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/device_0.
+Wed 25 Nov 2026 11:08:46 [WARNING] [MSVP] [155998] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 11:08:46 [INFO] [MSVP] [156000] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:08:46 [INFO] [MSVP] [156000] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 11:08:46 [INFO] [MSVP] [156000] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/device_0.
+Wed 25 Nov 2026 11:08:46 [INFO] [MSVP] [156000] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/host"
+Wed 25 Nov 2026 11:08:46 [INFO] [MSVP] [156000] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/device_0.
+Wed 25 Nov 2026 11:08:46 [INFO] [MSVP] [156000] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/device_0"
+Wed 25 Nov 2026 11:08:46 [INFO] [MSVP] [156000] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 11:08:46 [INFO] [MSVP] [156000] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125110842085_00155652BQJKKDJK done.
+[INFO] Start query data in PROF_000001_20261125110842085_00155652BQJKKDJK.
+Wed 25 Nov 2026 11:08:47 [WARNING] [MSVP] [156045] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 11:08:42.033663	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 11:08:42.037777	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125110842085_00155652BQJKKDJK done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p100/.collector_work/performance/assign_extend_cache_locs/eval_20261125_110837_151033/timing/PROF_000001_20261125110842085_00155652BQJKKDJK

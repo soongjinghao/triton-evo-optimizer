@@ -1,0 +1,6 @@
+[W1125 10:37:41.886760600 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_rms_norm_kernel/data/p100/.collector_work/compiler_save_temps/009caeff3fb4acade10756a6b15778d7aa3c4f39ebd10159_pid111994_o10rc6q0
+✅ RMS Norm test passed!
+Input shape: torch.Size([32, 128, 512])
+Max absolute difference: 1.9073486328125e-06
+Mean absolute difference: 1.7157347542706702e-08

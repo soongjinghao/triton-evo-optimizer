@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 91807,
+      "call_index": 1,
+      "jit_function": "_per_group_transpose",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p091807_k001_per_group_transpose.ttir.mlir",
+        "p091807_k001_per_group_transpose.ttadapter.mlir",
+        "p091807_k001_per_group_transpose.npubin"
+      ]
+    },
+    {
+      "pid": 92053,
+      "call_index": 1,
+      "jit_function": "_per_group_transpose",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p092053_k001_per_group_transpose.ttir.mlir",
+        "p092053_k001_per_group_transpose.ttadapter.mlir",
+        "p092053_k001_per_group_transpose.npubin"
+      ]
+    },
+    {
+      "pid": 92432,
+      "call_index": 1,
+      "jit_function": "_per_group_transpose",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p092432_k001_per_group_transpose.ttir.mlir",
+        "p092432_k001_per_group_transpose.ttadapter.mlir",
+        "p092432_k001_per_group_transpose.npubin"
+      ]
+    }
+  ]
+}

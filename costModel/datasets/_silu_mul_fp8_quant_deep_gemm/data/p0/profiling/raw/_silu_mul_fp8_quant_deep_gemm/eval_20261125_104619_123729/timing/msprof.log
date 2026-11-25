@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1125 10:46:24.935840080 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing persistent_masked_m_silu_mul_quant on NPU...
+✓ SiLU quantization test passed
+✅ NPU quantization kernel test completed successfully!
+[INFO] Start export data in PROF_000001_20261125104624581_00124008RJIJBGJB.
+Wed 25 Nov 2026 10:46:28 [WARNING] [MSVP] [124165] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:46:29 [INFO] [MSVP] [124167] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/host" ...
+Wed 25 Nov 2026 10:46:29 [INFO] [MSVP] [124167] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:46:29 [INFO] [MSVP] [124167] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/host" finished.
+Wed 25 Nov 2026 10:46:29 [INFO] [MSVP] [124167] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/device_0" ...
+Wed 25 Nov 2026 10:46:29 [INFO] [MSVP] [124167] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 10:46:29 [INFO] [MSVP] [124167] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/device_0" finished.
+Wed 25 Nov 2026 10:46:29 [INFO] [MSVP] [124167] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/device_0.
+Wed 25 Nov 2026 10:46:29 [WARNING] [MSVP] [124347] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 10:46:29 [INFO] [MSVP] [124349] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:46:30 [INFO] [MSVP] [124349] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 10:46:30 [INFO] [MSVP] [124349] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/device_0.
+Wed 25 Nov 2026 10:46:30 [INFO] [MSVP] [124349] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/host"
+Wed 25 Nov 2026 10:46:30 [INFO] [MSVP] [124349] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/device_0.
+Wed 25 Nov 2026 10:46:30 [INFO] [MSVP] [124349] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/device_0"
+Wed 25 Nov 2026 10:46:30 [INFO] [MSVP] [124349] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 10:46:30 [INFO] [MSVP] [124349] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125104624581_00124008RJIJBGJB done.
+[INFO] Start query data in PROF_000001_20261125104624581_00124008RJIJBGJB.
+Wed 25 Nov 2026 10:46:30 [WARNING] [MSVP] [124391] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 10:46:24.511477	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 10:46:24.514222	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125104624581_00124008RJIJBGJB done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p0/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104619_123729/timing/PROF_000001_20261125104624581_00124008RJIJBGJB

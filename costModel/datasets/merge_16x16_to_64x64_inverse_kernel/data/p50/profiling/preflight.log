@@ -1,0 +1,69 @@
+[W1125 12:15:44.790510450 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+
+================================================================================
+Starting test_solve_tril_64x64
+================================================================================
+Testing solve_tril with B=2, T=128, H=4, BT=64
+Using device: npu
+
+Creating input tensor A with shape: torch.Size([2, 128, 4, 64])
+Filling with random strictly lower triangular values...
+Created input tensor A:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+
+Validating input structure...
+  ✓ Input structure validated (all diagonals are zero)
+
+============================================================
+Test 1: Basic functionality with BT=64
+============================================================
+Calling solve_tril...
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/63c1ddf32d428de856fe0cc135bf0b923abfc12406120f79_pid257306_ai4hyard
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/5a079e7dff694b5eba1cfaa32006917a39cc3bbffa9c54e6_pid257306_fs1h1bid
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/c0d76e8c8ff3178611819933e857967b8aee2b9cdf27ef18_pid257306_u70w13tv
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/a816b4886f4a060110eeb44c6f936b3509267e7c4eb82a17_pid257306_y4y93j_6
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/f4cb9205707983855fabe06add18fa06b54c8a95793b7735_pid257306_tbwlnuwa
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/6867b8df13dd351aad398846b7b1e9f8a85dad4bb9e55b6f_pid257306_c26xs19x
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/459672740c827f8c08853ebfbb539281c450526f4e85852b_pid257306_hec9w6kt
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/ad0ea034d7fcb2224b4bec163ece8a7433c59bb23dbbfc05_pid257306_p48h9lqj
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/24796b9c3bf62f5987584cbf729d99c26b8dc066c1542d27_pid257306_64yd6xjz
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/5067f8a9ebbf0894f805dfa66f925a392eac901407d6f735_pid257306_d8cts8gv
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/0b1ea47d69a3edb8c71bd6f0ffa340a249b1879e07be0cba_pid257306_l3vdlm8l
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p50/.collector_work/compiler_save_temps/5e0dd7a634658044ba734ad03650c5dda0d813db3e1a2f14_pid257306_fxf6247o
+
+Output Ai created:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+  ✓ Output shape is correct
+
+Verifying block-wise correctness (testing entire 64x64 blocks)...
+
+Verification completed:
+  Total 64x64 blocks tested: 16
+  Maximum error across all blocks: 1.192093e-07
+
+============================================================
+✓ SUCCESS: All 64x64 blocks passed! (I + A) * Ai ≈ I within tolerance 1e-4
+
+============================================================
+Additional structural checks on Ai...
+
+Checking Ai structure:
+  ✓ All checked diagonal elements are close to 1
+  ✓ All checked upper triangle elements are close to 0
+
+============================================================
+TEST SUMMARY:
+  Total 64x64 blocks processed: 16
+  Maximum (I+A)*Ai - I error: 1.192093e-07
+  Test PASSED
+============================================================
+
+Test completed in 76.07 seconds
+
+================================================================================
+END OF TEST
+================================================================================

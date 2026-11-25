@@ -1,0 +1,205 @@
+{
+  "schema_version": "costmodel_msprof_v1",
+  "kernel_name": "matmul_kernel_simplified",
+  "profile_mode": "full",
+  "timing": {
+    "execution_time_us": 4.621,
+    "source": "op_summary.Task Duration(us)",
+    "sample_count": 1,
+    "task_time_cross_check": {
+      "median_task_time_us": 5.02,
+      "sample_count": 1,
+      "task_id": "4",
+      "stream_id": "47"
+    },
+    "hardware_pass_task_duration_us": 5.02,
+    "cross_pass_difference_us": 0.39899999999999913,
+    "cross_pass_relative_difference_pct": 7.948207171314725,
+    "cross_pass_consistent_20pct": true,
+    "label_valid": true,
+    "label_execution_time_us": 4.621
+  },
+  "kernel": {
+    "Device_id": "0",
+    "Task ID": "4",
+    "Stream ID": "47",
+    "Op Name": "matmul_kernel_simplified",
+    "OP Type": "matmul_kernel_simplified",
+    "OP State": "static",
+    "Task Type": "AI_CORE",
+    "Task Start Time(us)": "1795608152187794.610\t",
+    "Task Duration(us)": 5.02,
+    "Block Num": "1",
+    "Mix Block Num": "0",
+    "HF32 Eligible": "YES",
+    "Input Shapes": "\"32,64;64,48\"",
+    "Input Data Types": "FLOAT;FLOAT",
+    "Output Shapes": "\"32,48\"",
+    "Output Data Types": "FLOAT",
+    "aicore_time(us)": 4.488,
+    "aic_total_cycles": 8078.0,
+    "aic_mac_time(us)": 0.142,
+    "aic_mac_ratio": 0.032,
+    "aic_scalar_time(us)": 1.039,
+    "aic_scalar_ratio": 0.232,
+    "aic_mte1_time(us)": 0.141,
+    "aic_mte1_ratio": 0.031,
+    "aic_mte2_time(us)": 1.461,
+    "aic_mte2_ratio": 0.326,
+    "aic_fixpipe_time(us)": 0.184,
+    "aic_fixpipe_ratio": 0.041,
+    "aic_icache_miss_rate": 0.147,
+    "aiv_time(us)": 0.0,
+    "aiv_total_cycles": 0.0,
+    "aiv_vec_time(us)": 0.0,
+    "aiv_vec_ratio": 0.0,
+    "aiv_scalar_time(us)": 0.0,
+    "aiv_scalar_ratio": 0.0,
+    "aiv_mte2_time(us)": 0.0,
+    "aiv_mte2_ratio": 0.0,
+    "aiv_mte3_time(us)": 0.0,
+    "aiv_mte3_ratio": 0.0,
+    "aiv_icache_miss_rate": 0.0,
+    "cube_utilization(%)": 3.725
+  },
+  "core_utilization": {
+    "ai_core": {
+      "source": "op_summary_task",
+      "task_type": "AI_CORE",
+      "applicability": "available",
+      "record_count": 1,
+      "active_record_count": 1,
+      "mac_ratio_mean": 0.032,
+      "scalar_ratio_mean": 0.232,
+      "mte1_ratio_mean": 0.031,
+      "mte2_ratio_mean": 0.326,
+      "fixpipe_ratio_mean": 0.041,
+      "icache_miss_rate_mean": 0.147,
+      "mac_ratio_max": 0.032,
+      "scalar_ratio_max": 0.232,
+      "mte1_ratio_max": 0.031,
+      "mte2_ratio_max": 0.326,
+      "fixpipe_ratio_max": 0.041,
+      "icache_miss_rate_max": 0.147
+    },
+    "ai_vector_core": {
+      "source": "op_summary_task",
+      "task_type": "AI_CORE",
+      "applicability": "available",
+      "record_count": 1,
+      "active_record_count": 0,
+      "vec_ratio_mean": 0.0,
+      "scalar_ratio_mean": 0.0,
+      "mte2_ratio_mean": 0.0,
+      "mte3_ratio_mean": 0.0,
+      "icache_miss_rate_mean": 0.0,
+      "vec_ratio_max": 0.0,
+      "scalar_ratio_max": 0.0,
+      "mte2_ratio_max": 0.0,
+      "mte3_ratio_max": 0.0,
+      "icache_miss_rate_max": 0.0
+    }
+  },
+  "memory": {
+    "hbm": {
+      "scope": "device_level_sampled_bandwidth",
+      "sample_count": 5,
+      "read_mb_s": 17.697,
+      "write_mb_s": 8.06
+    },
+    "llc": {
+      "scope": "device_level_llc_profile",
+      "sample_count": 3,
+      "read_hit_rate_pct": 43.889,
+      "read_throughput_mb_s": 4953.554,
+      "write_hit_rate_pct": null,
+      "write_throughput_mb_s": null
+    },
+    "npu_memory": {
+      "scope": "application_level_sampled_memory",
+      "ddr_kb_peak": 0.0,
+      "ddr_kb_mean": 0.0,
+      "hbm_kb_peak": 123064.0,
+      "hbm_kb_mean": 123064.0,
+      "total_memory_kb_peak": 123064.0,
+      "total_memory_kb_mean": 123064.0,
+      "sample_count": 69,
+      "timestamp_start_us": 1795608151933016.5,
+      "timestamp_end_us": 1795608153275928.5,
+      "sampling_span_us": 1342912.0
+    },
+    "npu_module_memory": {
+      "RUNTIME": {
+        "reserved_kb_peak": 32880.0,
+        "reserved_kb_mean": 32811.82608695652,
+        "sample_count": 69
+      },
+      "APP": {
+        "reserved_kb_peak": 2048.0,
+        "reserved_kb_mean": 563.9420289855072,
+        "sample_count": 69
+      }
+    }
+  },
+  "metric_coverage": {
+    "kernel_task_duration": true,
+    "aic_pipeline_from_op_summary_or_csv": true,
+    "aiv_pipeline_from_op_summary_or_csv": true,
+    "task_type": "AI_CORE",
+    "hbm_read_bandwidth": true,
+    "hbm_write_bandwidth": true,
+    "llc_read": true,
+    "llc_write": false,
+    "npu_memory": true,
+    "npu_module_memory": true,
+    "aic_applicability": "available",
+    "aiv_applicability": "available"
+  },
+  "collection": {
+    "hardware_profile_success": true,
+    "op_summary_rows_for_kernel": 1,
+    "source_csv": {
+      "op_summary": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/mindstudio_profiler_output/op_summary_20261125120237.csv",
+      "ai_core_utilization": null,
+      "ai_vector_core_utilization": null,
+      "hbm": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/mindstudio_profiler_output/hbm_20261125120238.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/mindstudio_profiler_output/llc_read_write_20261125120238.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/mindstudio_profiler_output/npu_mem_20261125120237.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/mindstudio_profiler_output/npu_module_mem_20261125120237.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware/PROF_000001_20261125120231459_00235140ENAFLPHQ/mindstudio_profiler_output/task_time_20261125120237.csv"
+    },
+    "commands": {
+      "timing": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/timing",
+        "--task-time=l0",
+        "--ai-core=off",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "python3",
+        "/tmp/matmul_kernel_simplified__6r0rpdg/test_matmul_kernel_simplified.py"
+      ],
+      "hardware": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware",
+        "--task-time=l1",
+        "--task-memory=on",
+        "--ai-core=on",
+        "--aic-mode=task-based",
+        "--aic-metrics=PipeUtilization",
+        "--sys-hardware-mem=on",
+        "--sys-hardware-mem-freq=50",
+        "--llc-profiling=read",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "--ge-api=off",
+        "python3",
+        "/tmp/matmul_kernel_simplified__6r0rpdg/test_matmul_kernel_simplified.py"
+      ]
+    },
+    "raw_profile_directories": {
+      "timing": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/matmul_kernel_simplified/data/p50/.collector_work/performance/matmul_kernel_simplified/eval_20261125_120213_232287/hardware"
+    }
+  }
+}

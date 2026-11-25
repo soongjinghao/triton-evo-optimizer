@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 43593,
+      "call_index": 1,
+      "jit_function": "_chunk_state_fwd_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p043593_k001_chunk_state_fwd_kernel.ttir.mlir",
+        "p043593_k001_chunk_state_fwd_kernel.ttadapter.mlir",
+        "p043593_k001_chunk_state_fwd_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 43864,
+      "call_index": 1,
+      "jit_function": "_chunk_state_fwd_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p043864_k001_chunk_state_fwd_kernel.ttir.mlir",
+        "p043864_k001_chunk_state_fwd_kernel.ttadapter.mlir",
+        "p043864_k001_chunk_state_fwd_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 44243,
+      "call_index": 1,
+      "jit_function": "_chunk_state_fwd_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p044243_k001_chunk_state_fwd_kernel.ttir.mlir",
+        "p044243_k001_chunk_state_fwd_kernel.ttadapter.mlir",
+        "p044243_k001_chunk_state_fwd_kernel.npubin"
+      ]
+    }
+  ]
+}

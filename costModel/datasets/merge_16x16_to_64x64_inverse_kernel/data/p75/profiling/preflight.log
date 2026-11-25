@@ -1,0 +1,58 @@
+[W1125 12:18:14.611643960 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+
+================================================================================
+Starting test_solve_tril_64x64
+================================================================================
+Testing solve_tril with B=2, T=128, H=4, BT=64
+Using device: npu
+
+Creating input tensor A with shape: torch.Size([2, 128, 4, 64])
+Filling with random strictly lower triangular values...
+Created input tensor A:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+
+Validating input structure...
+  ✓ Input structure validated (all diagonals are zero)
+
+============================================================
+Test 1: Basic functionality with BT=64
+============================================================
+Calling solve_tril...
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p75/.collector_work/compiler_save_temps/d40d1911ecc38fa2f17711ea7490145cc969816f595bea25_pid260147_xw5f2v6d
+
+Output Ai created:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+  ✓ Output shape is correct
+
+Verifying block-wise correctness (testing entire 64x64 blocks)...
+
+Verification completed:
+  Total 64x64 blocks tested: 16
+  Maximum error across all blocks: 1.192093e-07
+
+============================================================
+✓ SUCCESS: All 64x64 blocks passed! (I + A) * Ai ≈ I within tolerance 1e-4
+
+============================================================
+Additional structural checks on Ai...
+
+Checking Ai structure:
+  ✓ All checked diagonal elements are close to 1
+  ✓ All checked upper triangle elements are close to 0
+
+============================================================
+TEST SUMMARY:
+  Total 64x64 blocks processed: 16
+  Maximum (I+A)*Ai - I error: 1.192093e-07
+  Test PASSED
+============================================================
+
+Test completed in 19.42 seconds
+
+================================================================================
+END OF TEST
+================================================================================

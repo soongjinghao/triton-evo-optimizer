@@ -1,0 +1,11 @@
+[W1125 10:06:28.239306610 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[WARNING] AutoBlockify disabled for kernel '_count_expert_num_tokens'. Unsafe ops: atomic operations. Enabling may cause correctness issues. To force enable: set has_auto_blockify_blacklist_op=False.
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p90/.collector_work/compiler_save_temps/73b3595246e6a633d84c1ebf2e8f7533fea21d86fd9c4e2c_pid67646_1hhm9_o1
+Test 1 passed: Basic functionality without expert map
+[WARNING] AutoBlockify disabled for kernel '_count_expert_num_tokens'. Unsafe ops: atomic operations. Enabling may cause correctness issues. To force enable: set has_auto_blockify_blacklist_op=False.
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p90/.collector_work/compiler_save_temps/eaed92f2c49a21151ad47dfb01ae2b9fa8858694dd8b2e3b_pid67646_1gg_uaje
+Test 2 passed: With expert map
+[WARNING] AutoBlockify disabled for kernel '_count_expert_num_tokens'. Unsafe ops: atomic operations. Enabling may cause correctness issues. To force enable: set has_auto_blockify_blacklist_op=False.
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_count_expert_num_tokens/data/p90/.collector_work/compiler_save_temps/0b63e0a7d67c32a7ab6902c90dd0cca47ac74e550fe73be8_pid67646_if9t7f5b
+Test 3 passed: Larger random tensor
+All tests passed!

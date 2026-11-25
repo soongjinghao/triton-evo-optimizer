@@ -1,0 +1,66 @@
+[W1125 12:14:23.766906860 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+
+================================================================================
+Starting test_solve_tril_64x64
+================================================================================
+Testing solve_tril with B=2, T=128, H=4, BT=64
+Using device: npu
+
+Creating input tensor A with shape: torch.Size([2, 128, 4, 64])
+Filling with random strictly lower triangular values...
+Created input tensor A:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+
+Validating input structure...
+  ✓ Input structure validated (all diagonals are zero)
+
+============================================================
+Test 1: Basic functionality with BT=64
+============================================================
+Calling solve_tril...
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/merge_16x16_to_64x64_inverse_kernel/data/p25/.collector_work/compiler_save_temps/917442e4004245ffdc40cc1236e143700ae57286d5ff5b89_pid255833_vut_ce2e
+
+Output Ai created:
+  Shape: torch.Size([2, 128, 4, 64])
+  Dtype: torch.float32
+  Device: npu:0
+  ✓ Output shape is correct
+
+Verifying block-wise correctness (testing entire 64x64 blocks)...
+
+Verification completed:
+  Total 64x64 blocks tested: 16
+  Maximum error across all blocks: 3.130249e-01
+
+  Found 4 blocks with error > 1e-4:
+    Block [B=0, H=0, Idx=0]: error=3.130249e-01, ||A||=0.3172, ||Ai||=1.0000
+    Block [B=0, H=1, Idx=0]: error=2.999410e-01, ||A||=0.2937, ||Ai||=1.0000
+    Block [B=0, H=2, Idx=0]: error=2.902197e-01, ||A||=0.2913, ||Ai||=1.0000
+    ... and 1 more
+
+============================================================
+✗ FAILURE: Some 64x64 blocks failed! Maximum error: 3.130249e-01
+  Note: For 64x64 blocks, numerical errors might accumulate.
+  Consider using double precision if higher accuracy is needed.
+
+============================================================
+Additional structural checks on Ai...
+
+Checking Ai structure:
+  ✓ All checked diagonal elements are close to 1
+  ✓ All checked upper triangle elements are close to 0
+
+============================================================
+TEST SUMMARY:
+  Total 64x64 blocks processed: 16
+  Maximum (I+A)*Ai - I error: 3.130249e-01
+  Test FAILED
+============================================================
+
+Test completed in 18.64 seconds
+
+================================================================================
+END OF TEST
+================================================================================
