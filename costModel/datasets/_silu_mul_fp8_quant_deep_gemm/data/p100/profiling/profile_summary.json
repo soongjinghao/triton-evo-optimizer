@@ -3,21 +3,21 @@
   "kernel_name": "_silu_mul_fp8_quant_deep_gemm",
   "profile_mode": "full",
   "timing": {
-    "execution_time_us": 4.06,
+    "execution_time_us": 5.1,
     "source": "op_summary.Task Duration(us)",
     "sample_count": 1,
     "task_time_cross_check": {
-      "median_task_time_us": 5.3,
+      "median_task_time_us": 4.66,
       "sample_count": 1,
       "task_id": "3",
       "stream_id": "47"
     },
-    "hardware_pass_task_duration_us": 5.301,
-    "cross_pass_difference_us": 1.2410000000000005,
-    "cross_pass_relative_difference_pct": 23.410677230711197,
-    "cross_pass_consistent_20pct": false,
-    "label_valid": false,
-    "label_execution_time_us": null
+    "hardware_pass_task_duration_us": 4.66,
+    "cross_pass_difference_us": 0.4399999999999995,
+    "cross_pass_relative_difference_pct": 8.627450980392148,
+    "cross_pass_consistent_20pct": true,
+    "label_valid": true,
+    "label_execution_time_us": 5.1
   },
   "kernel": {
     "Device_id": "0",
@@ -27,8 +27,8 @@
     "OP Type": "_silu_mul_fp8_quant_deep_gemm",
     "OP State": "static",
     "Task Type": "AI_VECTOR_CORE",
-    "Task Start Time(us)": "1795603777401337.861\t",
-    "Task Duration(us)": 5.301,
+    "Task Start Time(us)": "1795610963633898.176\t",
+    "Task Duration(us)": 4.66,
     "Block Num": "2",
     "Mix Block Num": "0",
     "HF32 Eligible": "YES",
@@ -49,17 +49,17 @@
     "aic_fixpipe_time(us)": 0.0,
     "aic_fixpipe_ratio": 0.0,
     "aic_icache_miss_rate": 0.0,
-    "aiv_time(us)": 4.701,
-    "aiv_total_cycles": 16923.0,
-    "aiv_vec_time(us)": 0.782,
-    "aiv_vec_ratio": 0.166,
-    "aiv_scalar_time(us)": 1.755,
-    "aiv_scalar_ratio": 0.373,
-    "aiv_mte2_time(us)": 0.369,
-    "aiv_mte2_ratio": 0.079,
-    "aiv_mte3_time(us)": 0.135,
-    "aiv_mte3_ratio": 0.029,
-    "aiv_icache_miss_rate": 0.163,
+    "aiv_time(us)": 3.548,
+    "aiv_total_cycles": 12771.0,
+    "aiv_vec_time(us)": 0.786,
+    "aiv_vec_ratio": 0.221,
+    "aiv_scalar_time(us)": 1.29,
+    "aiv_scalar_ratio": 0.364,
+    "aiv_mte2_time(us)": 0.389,
+    "aiv_mte2_ratio": 0.11,
+    "aiv_mte3_time(us)": 0.151,
+    "aiv_mte3_ratio": 0.042,
+    "aiv_icache_miss_rate": 0.156,
     "cube_utilization(%)": 0.0
   },
   "core_utilization": {
@@ -88,30 +88,30 @@
       "applicability": "available",
       "record_count": 1,
       "active_record_count": 1,
-      "vec_ratio_mean": 0.166,
-      "scalar_ratio_mean": 0.373,
-      "mte2_ratio_mean": 0.079,
-      "mte3_ratio_mean": 0.029,
-      "icache_miss_rate_mean": 0.163,
-      "vec_ratio_max": 0.166,
-      "scalar_ratio_max": 0.373,
-      "mte2_ratio_max": 0.079,
-      "mte3_ratio_max": 0.029,
-      "icache_miss_rate_max": 0.163
+      "vec_ratio_mean": 0.221,
+      "scalar_ratio_mean": 0.364,
+      "mte2_ratio_mean": 0.11,
+      "mte3_ratio_mean": 0.042,
+      "icache_miss_rate_mean": 0.156,
+      "vec_ratio_max": 0.221,
+      "scalar_ratio_max": 0.364,
+      "mte2_ratio_max": 0.11,
+      "mte3_ratio_max": 0.042,
+      "icache_miss_rate_max": 0.156
     }
   },
   "memory": {
     "hbm": {
       "scope": "device_level_sampled_bandwidth",
       "sample_count": 5,
-      "read_mb_s": 22.098,
-      "write_mb_s": 10.676
+      "read_mb_s": 18.612,
+      "write_mb_s": 8.236
     },
     "llc": {
       "scope": "device_level_llc_profile",
       "sample_count": 3,
-      "read_hit_rate_pct": 42.192,
-      "read_throughput_mb_s": 5499.524,
+      "read_hit_rate_pct": 42.764,
+      "read_throughput_mb_s": 5170.715,
       "write_hit_rate_pct": null,
       "write_throughput_mb_s": null
     },
@@ -123,21 +123,21 @@
       "hbm_kb_mean": 157880.0,
       "total_memory_kb_peak": 157880.0,
       "total_memory_kb_mean": 157880.0,
-      "sample_count": 36,
-      "timestamp_start_us": 1795603777017090.2,
-      "timestamp_end_us": 1795603777715825.5,
-      "sampling_span_us": 698735.25
+      "sample_count": 71,
+      "timestamp_start_us": 1795610963205145.0,
+      "timestamp_end_us": 1795610964588614.0,
+      "sampling_span_us": 1383469.0
     },
     "npu_module_memory": {
       "RUNTIME": {
         "reserved_kb_peak": 34920.0,
-        "reserved_kb_mean": 32814.59459459459,
-        "sample_count": 37
+        "reserved_kb_mean": 32840.33802816901,
+        "sample_count": 71
       },
       "APP": {
         "reserved_kb_peak": 36864.0,
-        "reserved_kb_mean": 1826.5945945945946,
-        "sample_count": 37
+        "reserved_kb_mean": 1009.5774647887324,
+        "sample_count": 71
       }
     }
   },
@@ -159,29 +159,29 @@
     "hardware_profile_success": true,
     "op_summary_rows_for_kernel": 1,
     "source_csv": {
-      "op_summary": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/hardware/PROF_000001_20261125104936664_00128612MHFGRQDK/mindstudio_profiler_output/op_summary_20261125104943.csv",
+      "op_summary": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/hardware/PROF_000001_20261125124922843_00018096QCGAMIQQ/mindstudio_profiler_output/op_summary_20261125124929.csv",
       "ai_core_utilization": null,
       "ai_vector_core_utilization": null,
-      "hbm": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/hardware/PROF_000001_20261125104936664_00128612MHFGRQDK/mindstudio_profiler_output/hbm_20261125104943.csv",
-      "llc_read_write": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/hardware/PROF_000001_20261125104936664_00128612MHFGRQDK/mindstudio_profiler_output/llc_read_write_20261125104943.csv",
-      "npu_mem": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/hardware/PROF_000001_20261125104936664_00128612MHFGRQDK/mindstudio_profiler_output/npu_mem_20261125104943.csv",
-      "npu_module_mem": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/hardware/PROF_000001_20261125104936664_00128612MHFGRQDK/mindstudio_profiler_output/npu_module_mem_20261125104943.csv",
-      "task_time": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/hardware/PROF_000001_20261125104936664_00128612MHFGRQDK/mindstudio_profiler_output/task_time_20261125104943.csv"
+      "hbm": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/hardware/PROF_000001_20261125124922843_00018096QCGAMIQQ/mindstudio_profiler_output/hbm_20261125124930.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/hardware/PROF_000001_20261125124922843_00018096QCGAMIQQ/mindstudio_profiler_output/llc_read_write_20261125124930.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/hardware/PROF_000001_20261125124922843_00018096QCGAMIQQ/mindstudio_profiler_output/npu_mem_20261125124929.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/hardware/PROF_000001_20261125124922843_00018096QCGAMIQQ/mindstudio_profiler_output/npu_module_mem_20261125124929.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/hardware/PROF_000001_20261125124922843_00018096QCGAMIQQ/mindstudio_profiler_output/task_time_20261125124929.csv"
     },
     "commands": {
       "timing": [
         "msprof",
-        "--output=/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/timing",
+        "--output=/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing",
         "--task-time=l0",
         "--ai-core=off",
         "--ascendcl=off",
         "--runtime-api=off",
         "python3",
-        "/tmp/_silu_mul_fp8_quant_deep_gemm_p_83bpbz/test__silu_mul_fp8_quant_deep_gemm.py"
+        "/tmp/_silu_mul_fp8_quant_deep_gemm_pcoqmtxl/test__silu_mul_fp8_quant_deep_gemm.py"
       ],
       "hardware": [
         "msprof",
-        "--output=/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/hardware",
+        "--output=/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/hardware",
         "--task-time=l1",
         "--task-memory=on",
         "--ai-core=on",
@@ -194,12 +194,12 @@
         "--runtime-api=off",
         "--ge-api=off",
         "python3",
-        "/tmp/_silu_mul_fp8_quant_deep_gemm_p_83bpbz/test__silu_mul_fp8_quant_deep_gemm.py"
+        "/tmp/_silu_mul_fp8_quant_deep_gemm_pcoqmtxl/test__silu_mul_fp8_quant_deep_gemm.py"
       ]
     },
     "raw_profile_directories": {
-      "timing": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/timing",
-      "hardware": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_104919_123729/hardware"
+      "timing": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/profiling/raw/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/hardware"
     }
   }
 }

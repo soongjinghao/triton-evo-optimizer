@@ -1,0 +1,26 @@
+{
+  "schema_version": "costmodel_collection_run_v2",
+  "script_version": "2.2.0",
+  "run_id": "20261126_121941",
+  "operator_name": "solve_tril_16x16_kernel",
+  "selected_roles": [
+    "p100"
+  ],
+  "official_percentile_roles": [
+    "p0",
+    "p10",
+    "p50",
+    "p90",
+    "p100"
+  ],
+  "temporary_roles_selected": [],
+  "selected_count": 1,
+  "success_count": 1,
+  "partial_success_count": 0,
+  "correctness_failure_count": 0,
+  "measurement_inconsistent_count": 0,
+  "incomplete_or_failed_count": 0,
+  "profile_mode": "full",
+  "history_path": "costModel/datasets/solve_tril_16x16_kernel/data/collection_history.jsonl",
+  "finished_at": "2026-11-26T12:21:34+00:00"
+}

@@ -12,24 +12,25 @@ def rwkv_mm_sparsity_kernel(
     block_size: tl.constexpr,
 ):
     pid = tl.program_id(0)
-    col_idx = pid * block_size + tl.arange(0, block_size)
+    num_col_groups = tl.cdiv(v_cols, block_size)
+    col_group_id = pid % num_col_groups
+    col_idx = col_group_id * block_size + tl.arange(0, block_size)
     col_mask = col_idx < v_cols
     acc = tl.zeros((block_size,), dtype=tl.float32)
     num_blks = tl.cdiv(k_size, blk_size)
-    for i in range(0, num_blks):
+    for i in range(num_blks):
         k_offset = i * blk_size + tl.arange(0, blk_size)
         k_mask = k_offset < k_size
         k = tl.load(k_ptr + k_offset, mask=k_mask, other=0.0)
         k_nonzero_mask = k != 0
+        k_float = k.to(tl.float32)
         v_ptr_block = v_ptr + k_offset[:, None] * v_cols + col_idx[None, :]
         v = tl.load(
             v_ptr_block,
             mask=k_mask[:, None] & col_mask[None, :] & k_nonzero_mask[:, None],
             other=0.0,
         )
-        k_float = k[:, None].to(tl.float32)
-        v_float = v.to(tl.float32)
-        acc += tl.sum(k_float * v_float, axis=0)
+        acc += tl.sum(k_float[:, None] * v.to(tl.float32), axis=0)
     out_ptr = output_ptr + col_idx
     tl.store(out_ptr, acc, mask=col_mask)
 def rwkv_mm_sparsity(k: torch.Tensor, v: torch.Tensor):

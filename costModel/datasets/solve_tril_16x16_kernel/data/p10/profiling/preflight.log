@@ -1,0 +1,38 @@
+[W1125 13:35:18.459605030 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing solve_tril with B=4, T=64, H=8, BT=16
+Using device: npu
+Created input tensor A with shape: torch.Size([4, 64, 8, 16])
+A dtype: torch.float32, device: npu:0
+
+Test 1: Basic functionality with BT=16
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/dca057267ac3c80f4c8c70dc5e5ba0cffcc9b283a6cee5c6_pid97559_5ju1_hh8
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/05cd07f61287c83236a185572c21cce799a774a662ff5c30_pid97559_ib58mai2
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/08ed7ef12383c7b111ff7f59aece8e64a016883e98c75d66_pid97559_7fwc4usw
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/07905d640e4e9ad700b21f071d76ffdd2b5553b89d749c3a_pid97559_8bhhd07u
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/4cff287668e24ca8664c08a9d01ae1965405c43ea89fd195_pid97559_8569_ua_
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/827ee7a76e19faf17921dc3753f6128281d97d419155d5de_pid97559_2fbnksw8
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/ec4723028ba1e4050fe2962ca8975e328aeb7c4a7722308f_pid97559_r91chq4x
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/516499bc56bbe0eaa3b7dd03849347f41d1e5d8e1d15effe_pid97559_86mh3p9s
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/127823486bd052e25964d648e80b5958cb18fb6638cfb587_pid97559_sjw46nev
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/655926ccbf8cb74e6823f6ba60f336e7f7c87c091eb51d5f_pid97559_49p45x70
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/9c3f3f1d603882d9808681e7d1bc2fedab7d7d5aa745eeff_pid97559_kg_ff7k6
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/19f4111e3e30a6dfb1c103062179d048af68bf73db541d60_pid97559_e63zf2bp
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/79df3859ba3cc8f620889c91096662fb8b84eb197e0a2ea7_pid97559_5mp9zlyh
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/dcb37966e80b07611f09e4582923b6a2f2eb02853a2ad00b_pid97559_dnbo89cz
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/ba2a490122c1a53ce307f5e2f4e9a35dcb5427829a8a5f65_pid97559_xqe96_pg
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p10/.collector_work/compiler_save_temps/6a63ae1e34e58225f24cb7d48b3b9a77a731997fff1c9627_pid97559_9dnm57_a
+Output Ai shape: torch.Size([4, 64, 8, 16])
+Ai dtype: torch.float32
+
+Verifying block-wise correctness...
+
+Test completed:
+  Total blocks tested: 128
+  Maximum error across all blocks: 4.577637e-05
+✓ All blocks passed! (I + A) * Ai ≈ I within tolerance 1e-4
+
+✓ All tests passed!
+
+==================================================
+SUCCESS: solve_tril test passed!
+==================================================

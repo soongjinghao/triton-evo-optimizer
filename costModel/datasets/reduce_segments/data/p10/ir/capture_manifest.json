@@ -1,0 +1,96 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 6,
+  "events": [
+    {
+      "pid": 95779,
+      "call_index": 1,
+      "jit_function": "reduce_segments",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p095779_k001_reduce_segments.ttir.mlir",
+        "p095779_k001_reduce_segments.ttadapter.mlir",
+        "p095779_k001_reduce_segments.npubin"
+      ]
+    },
+    {
+      "pid": 95779,
+      "call_index": 2,
+      "jit_function": "reduce_segments",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p095779_k002_reduce_segments.ttir.mlir",
+        "p095779_k002_reduce_segments.ttadapter.mlir",
+        "p095779_k002_reduce_segments.npubin"
+      ]
+    },
+    {
+      "pid": 96763,
+      "call_index": 1,
+      "jit_function": "reduce_segments",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p096763_k001_reduce_segments.ttir.mlir",
+        "p096763_k001_reduce_segments.ttadapter.mlir",
+        "p096763_k001_reduce_segments.npubin"
+      ]
+    },
+    {
+      "pid": 96763,
+      "call_index": 2,
+      "jit_function": "reduce_segments",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p096763_k002_reduce_segments.ttir.mlir",
+        "p096763_k002_reduce_segments.ttadapter.mlir",
+        "p096763_k002_reduce_segments.npubin"
+      ]
+    },
+    {
+      "pid": 97795,
+      "call_index": 1,
+      "jit_function": "reduce_segments",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p097795_k001_reduce_segments.ttir.mlir",
+        "p097795_k001_reduce_segments.ttadapter.mlir",
+        "p097795_k001_reduce_segments.npubin"
+      ]
+    },
+    {
+      "pid": 97795,
+      "call_index": 2,
+      "jit_function": "reduce_segments",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p097795_k002_reduce_segments.ttir.mlir",
+        "p097795_k002_reduce_segments.ttadapter.mlir",
+        "p097795_k002_reduce_segments.npubin"
+      ]
+    }
+  ]
+}

@@ -21,10 +21,10 @@
     "rwkv_ka_fusion_kernel__p75__4efa1c56f8ae",
     "rwkv_ka_fusion_kernel__p100__c206c63878c8"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 152,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "rwkv_ka_fusion_kernel",
   "operator_name": "rwkv_ka_fusion_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p75",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "moderate",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/rwkv_ka_fusion_kernel/test.py",
   "test_sha256": "ff1cb355e0262973d4bacb9b7eea7ca91606114190785f683610c2ac61ed14eb",
   "test_source_path": "datasets2/rwkv_ka_fusion_kernel/test_rwkv_ka_fusion_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

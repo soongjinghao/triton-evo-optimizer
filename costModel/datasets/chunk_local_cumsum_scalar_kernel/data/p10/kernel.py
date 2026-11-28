@@ -26,6 +26,8 @@ def chunk_local_cumsum_scalar_kernel(
     o,
     cu_seqlens,
     chunk_indices,
+    bos_list,
+    eos_list,
     NT_total: tl.constexpr,
     T,
     B: tl.constexpr,
@@ -51,8 +53,8 @@ def chunk_local_cumsum_scalar_kernel(
         if IS_VARLEN:
             i_n = tl.load(chunk_indices + task_idx * 2).to(tl.int32)
             i_t = tl.load(chunk_indices + task_idx * 2 + 1).to(tl.int32)
-            bos = tl.load(cu_seqlens + i_n).to(tl.int32)
-            eos = tl.load(cu_seqlens + i_n + 1).to(tl.int32)
+            bos = tl.load(bos_list + i_n).to(tl.int32)
+            eos = tl.load(eos_list + i_n).to(tl.int32)
             T_local = eos - bos
         else:
             i_b = task_idx // (NT_per_seq * H)
@@ -87,7 +89,7 @@ def chunk_local_cumsum_scalar_kernel(
                 b_o = tl.cumsum(b_s, axis=0)
                 if REVERSE:
                     b_z = tl.sum(b_s, axis=0)
-                    b_o = -b_o + b_z + b_s
+                    b_o = -b_o + b_z[None] + b_s
                 tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0,))
         else:
             if IS_VARLEN:
@@ -134,16 +136,23 @@ def chunk_local_cumsum_scalar(
             NT_total = len(chunk_indices) * H
         else:
             NT_total = len(chunk_indices) * H
-    MAX_GRID_SIZE = 40
-    BLOCK_BH = triton.cdiv(NT_total, MAX_GRID_SIZE)
-    grid_size = min(MAX_GRID_SIZE, triton.cdiv(NT_total, BLOCK_BH))
+    BLOCK_BH = max(1, NT_total // 40)
+    grid_size = triton.cdiv(NT_total, BLOCK_BH)
     g_org, g = g, torch.empty_like(g, dtype=output_dtype or g.dtype)
     grid = (grid_size,)
+    if cu_seqlens is not None:
+        bos_list = cu_seqlens[:-1].contiguous()
+        eos_list = cu_seqlens[1:].contiguous()
+    else:
+        bos_list = None
+        eos_list = None
     chunk_local_cumsum_scalar_kernel[grid](
         g_org,
         g,
         cu_seqlens,
         chunk_indices,
+        bos_list,
+        eos_list,
         NT_total=NT_total,
         T=T,
         B=B,

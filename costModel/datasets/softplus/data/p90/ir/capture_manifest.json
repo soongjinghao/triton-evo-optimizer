@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 70865,
+      "call_index": 1,
+      "jit_function": "softplus_kernel_default",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p070865_k001_softplus_kernel_default.ttir.mlir",
+        "p070865_k001_softplus_kernel_default.ttadapter.mlir",
+        "p070865_k001_softplus_kernel_default.npubin"
+      ]
+    },
+    {
+      "pid": 71130,
+      "call_index": 1,
+      "jit_function": "softplus_kernel_default",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p071130_k001_softplus_kernel_default.ttir.mlir",
+        "p071130_k001_softplus_kernel_default.ttadapter.mlir",
+        "p071130_k001_softplus_kernel_default.npubin"
+      ]
+    },
+    {
+      "pid": 71514,
+      "call_index": 1,
+      "jit_function": "softplus_kernel_default",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p071514_k001_softplus_kernel_default.ttir.mlir",
+        "p071514_k001_softplus_kernel_default.ttadapter.mlir",
+        "p071514_k001_softplus_kernel_default.npubin"
+      ]
+    }
+  ]
+}

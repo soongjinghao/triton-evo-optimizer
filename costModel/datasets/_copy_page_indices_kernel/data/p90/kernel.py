@@ -20,9 +20,10 @@ def _copy_page_indices_kernel(
     num_blocks = end_idx - start_idx
     offset = tl.arange(0, BLOCK_SIZE)
     for i in tl.range(0, num_blocks, BLOCK_SIZE):
-        block_ids = tl.load(row_ptr + offset + i, mask=i + offset < num_blocks)
+        mask = offset < num_blocks - i
+        block_ids = tl.load(row_ptr + i + offset, mask=mask)
         tl.store(
             page_indices + start_idx + i + offset,
             block_ids,
-            mask=i + offset < num_blocks,
+            mask=mask,
         )

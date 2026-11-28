@@ -1,0 +1,32 @@
+[INFO] Start profiling....
+[W1126 13:13:58.372969640 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+test_copy_page_indices_kernel passed!
+[INFO] Start export data in PROF_000001_20261126131357772_00074365RRJQCRAM.
+Thu 26 Nov 2026 13:14:02 [WARNING] [MSVP] [74575] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Thu 26 Nov 2026 13:14:02 [INFO] [MSVP] [74577] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/host" ...
+Thu 26 Nov 2026 13:14:02 [INFO] [MSVP] [74577] msprof_common.py: It may take few minutes, please be patient ...
+Thu 26 Nov 2026 13:14:02 [INFO] [MSVP] [74577] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/host" finished.
+Thu 26 Nov 2026 13:14:02 [INFO] [MSVP] [74577] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/device_0" ...
+Thu 26 Nov 2026 13:14:02 [INFO] [MSVP] [74577] msprof_common.py: It may take few minutes, please be patient ...
+Thu 26 Nov 2026 13:14:02 [INFO] [MSVP] [74577] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/device_0" finished.
+Thu 26 Nov 2026 13:14:02 [INFO] [MSVP] [74577] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/device_0.
+Thu 26 Nov 2026 13:14:03 [WARNING] [MSVP] [74769] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Thu 26 Nov 2026 13:14:03 [INFO] [MSVP] [74771] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/host" has been analyzed. Parsing phase will be skipped.
+Thu 26 Nov 2026 13:14:03 [INFO] [MSVP] [74771] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/device_0" has been analyzed. Parsing phase will be skipped.
+Thu 26 Nov 2026 13:14:03 [INFO] [MSVP] [74771] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/device_0.
+Thu 26 Nov 2026 13:14:03 [INFO] [MSVP] [74771] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/host"
+Thu 26 Nov 2026 13:14:03 [INFO] [MSVP] [74771] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/device_0.
+Thu 26 Nov 2026 13:14:03 [INFO] [MSVP] [74771] msprof_common.py: Start exporting summary output_file.
+Thu 26 Nov 2026 13:14:03 [INFO] [MSVP] [74771] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261126131357772_00074365RRJQCRAM done.
+[INFO] Start query data in PROF_000001_20261126131357772_00074365RRJQCRAM.
+Thu 26 Nov 2026 13:14:04 [WARNING] [MSVP] [74812] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-26 13:13:58.489069	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-26 13:13:58.492609	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261126131357772_00074365RRJQCRAM done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p90/.collector_work/performance/_copy_page_indices_kernel/eval_20261126_131339_73706/hardware/PROF_000001_20261126131357772_00074365RRJQCRAM

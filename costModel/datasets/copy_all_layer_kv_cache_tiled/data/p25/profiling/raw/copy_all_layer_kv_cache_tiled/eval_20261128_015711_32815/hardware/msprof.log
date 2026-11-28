@@ -1,0 +1,32 @@
+[INFO] Start profiling....
+[W1128 01:57:28.917375350 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ copy_all_layer_kv_cache_tiled test passed
+[INFO] Start export data in PROF_000001_20261128015728334_00033468BLMEAMRL.
+Sat 28 Nov 2026 01:57:33 [WARNING] [MSVP] [33653] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Sat 28 Nov 2026 01:57:33 [INFO] [MSVP] [33655] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/host" ...
+Sat 28 Nov 2026 01:57:33 [INFO] [MSVP] [33655] msprof_common.py: It may take few minutes, please be patient ...
+Sat 28 Nov 2026 01:57:33 [INFO] [MSVP] [33655] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/host" finished.
+Sat 28 Nov 2026 01:57:33 [INFO] [MSVP] [33655] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/device_0" ...
+Sat 28 Nov 2026 01:57:33 [INFO] [MSVP] [33655] msprof_common.py: It may take few minutes, please be patient ...
+Sat 28 Nov 2026 01:57:33 [INFO] [MSVP] [33655] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/device_0" finished.
+Sat 28 Nov 2026 01:57:33 [INFO] [MSVP] [33655] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/device_0.
+Sat 28 Nov 2026 01:57:34 [WARNING] [MSVP] [33835] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Sat 28 Nov 2026 01:57:34 [INFO] [MSVP] [33837] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/host" has been analyzed. Parsing phase will be skipped.
+Sat 28 Nov 2026 01:57:34 [INFO] [MSVP] [33837] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/device_0" has been analyzed. Parsing phase will be skipped.
+Sat 28 Nov 2026 01:57:34 [INFO] [MSVP] [33837] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/device_0.
+Sat 28 Nov 2026 01:57:34 [INFO] [MSVP] [33837] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/host"
+Sat 28 Nov 2026 01:57:34 [INFO] [MSVP] [33837] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/device_0.
+Sat 28 Nov 2026 01:57:34 [INFO] [MSVP] [33837] msprof_common.py: Start exporting summary output_file.
+Sat 28 Nov 2026 01:57:34 [INFO] [MSVP] [33837] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261128015728334_00033468BLMEAMRL done.
+[INFO] Start query data in PROF_000001_20261128015728334_00033468BLMEAMRL.
+Sat 28 Nov 2026 01:57:35 [WARNING] [MSVP] [33878] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-28 01:57:28.039757	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-28 01:57:28.043498	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261128015728334_00033468BLMEAMRL done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/copy_all_layer_kv_cache_tiled/data/p25/.collector_work/performance/copy_all_layer_kv_cache_tiled/eval_20261128_015711_32815/hardware/PROF_000001_20261128015728334_00033468BLMEAMRL

@@ -21,10 +21,8 @@ def _per_token_group_quant_8bit_colmajor_kernel(
     REQUIRES_M_MASK: tl.constexpr,
     REQUIRES_N_MASK: tl.constexpr,
 ):
-    pid = tl.program_id(0)
-    num_m_blocks = tl.cdiv(M, BLOCK_M)
-    pid_m = pid % num_m_blocks
-    pid_g = pid // num_m_blocks
+    pid_m = tl.program_id(0)
+    pid_g = tl.program_id(1)
     m_offsets = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)
     g_start = pid_g * group_size
     col_offsets = tl.arange(0, BLOCK)
@@ -35,7 +33,7 @@ def _per_token_group_quant_8bit_colmajor_kernel(
         y = tl.load(in_ptrs)
         _absmax = tl.max(tl.abs(y), axis=1)
         _absmax_f32 = tl.maximum(_absmax.to(tl.float32), eps)
-        y_s = _absmax_f32 / BIT8_MAX
+        y_s = _absmax_f32 * (1.0 / BIT8_MAX)
         if SCALE_UE8M0:
             y_s = tl.exp2(tl.ceil(tl.log2(tl.abs(y_s))))
         inv_s = 1.0 / y_s
@@ -51,7 +49,7 @@ def _per_token_group_quant_8bit_colmajor_kernel(
         y = tl.load(in_ptrs, mask=mask2d, other=0.0)
         _absmax = tl.max(tl.abs(y), axis=1)
         _absmax_f32 = tl.maximum(_absmax.to(tl.float32), eps)
-        y_s = _absmax_f32 / BIT8_MAX
+        y_s = _absmax_f32 * (1.0 / BIT8_MAX)
         if SCALE_UE8M0:
             y_s = tl.exp2(tl.ceil(tl.log2(tl.abs(y_s))))
         inv_s = 1.0 / y_s
@@ -88,8 +86,7 @@ def per_token_group_quant_8bit_colmajor(y: torch.Tensor, group_size: int, eps: f
         num_warps = 4
     else:
         num_warps = 2
-    num_m_blocks = triton.cdiv(M, BLOCK_M)
-    grid = (num_m_blocks * num_groups_per_row,)
+    grid = (triton.cdiv(M, BLOCK_M), num_groups_per_row)
     _per_token_group_quant_8bit_colmajor_kernel[grid](
         y_view,
         y_q,

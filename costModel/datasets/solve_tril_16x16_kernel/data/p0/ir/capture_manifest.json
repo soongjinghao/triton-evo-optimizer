@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 96405,
+      "call_index": 1,
+      "jit_function": "solve_tril_16x16_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p096405_k001_solve_tril_16x16_kernel.ttir.mlir",
+        "p096405_k001_solve_tril_16x16_kernel.ttadapter.mlir",
+        "p096405_k001_solve_tril_16x16_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 96666,
+      "call_index": 1,
+      "jit_function": "solve_tril_16x16_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p096666_k001_solve_tril_16x16_kernel.ttir.mlir",
+        "p096666_k001_solve_tril_16x16_kernel.ttadapter.mlir",
+        "p096666_k001_solve_tril_16x16_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 97056,
+      "call_index": 1,
+      "jit_function": "solve_tril_16x16_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p097056_k001_solve_tril_16x16_kernel.ttir.mlir",
+        "p097056_k001_solve_tril_16x16_kernel.ttadapter.mlir",
+        "p097056_k001_solve_tril_16x16_kernel.npubin"
+      ]
+    }
+  ]
+}

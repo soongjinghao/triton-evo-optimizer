@@ -4,6 +4,7 @@ import torch_npu
 import triton
 import triton.language as tl
 logger = logging.getLogger(__name__)
+
 @triton.jit
 def softplus_kernel(x_ptr, out_ptr, N, beta_inv, threshold, BLOCK_SIZE: tl.constexpr):
     pid = tl.program_id(0)
@@ -16,6 +17,7 @@ def softplus_kernel(x_ptr, out_ptr, N, beta_inv, threshold, BLOCK_SIZE: tl.const
     soft_z = tl.where(z > threshold, z, tl.log(1 + tl.exp(z)))
     out = (soft_z * beta_inv).to(x.dtype)
     tl.store(out_ptr + offsets, out, mask=mask)
+
 @triton.jit
 def softplus_kernel_default(x_ptr, out_ptr, N, beta_inv, threshold, BLOCK_SIZE: tl.constexpr):
     pid = tl.program_id(0)
@@ -27,18 +29,19 @@ def softplus_kernel_default(x_ptr, out_ptr, N, beta_inv, threshold, BLOCK_SIZE: 
     soft_z = tl.where(x_fp > 20.0, x_fp, tl.log(1 + tl.exp(x_fp)))
     out = soft_z.to(x.dtype)
     tl.store(out_ptr + offsets, out, mask=mask)
+
 def softplus_forward(x, beta, threshold):
     logger.debug("GEMS SOFTPLUS FORWARD")
     N = x.numel()
     out = torch.empty_like(x)
-    BLOCK_SIZE = 2048
     grid = lambda meta: (triton.cdiv(N, meta['BLOCK_SIZE']),)
     if beta == 1.0 and threshold == 20.0:
-        softplus_kernel_default[grid](x, out, N, 1.0, threshold, BLOCK_SIZE=BLOCK_SIZE)
+        softplus_kernel_default[grid](x, out, N, 1.0, threshold, BLOCK_SIZE=1024)
     else:
         beta_inv = 1.0 / beta
-        softplus_kernel[grid](x, out, N, beta_inv, threshold, BLOCK_SIZE=BLOCK_SIZE)
+        softplus_kernel[grid](x, out, N, beta_inv, threshold, BLOCK_SIZE=1024)
     return out
+
 def softplus(self, beta=1.0, threshold=20.0):
     output = softplus_forward(self, beta, threshold)
     return output

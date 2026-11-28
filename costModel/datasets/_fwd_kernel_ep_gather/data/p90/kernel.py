@@ -2,72 +2,56 @@ import torch
 import torch_npu
 import triton
 import triton.language as tl
-@triton.jit
-def apply_expert_map(expert_id, expert_map):
-    return tl.load(expert_map + expert_id)
+
 @triton.jit
 def _fwd_kernel_ep_gather(
     total_token_num,
     input_tensor,
     input_tensor_stride0,
     input_tensor_stride1,
-    recv_topk_ids,
-    recv_topk_ids_stride0,
-    recv_topk_ids_stride1,
-    recv_topk_weight,
-    recv_topk_weight_stride0,
-    recv_topk_weight_stride1,
-    input_index,
-    input_index_stride0,
-    input_index_stride1,
+    precomputed_indices,
+    precomputed_indices_stride0,
+    recv_topk_weight_precomputed,
+    recv_topk_weight_precomputed_stride0,
     output_tensor,
     output_tensor_stride0,
     output_tensor_stride1,
     topk_num: tl.constexpr,
-    expert_map,
-    HAS_EXPERT_MAP: tl.constexpr,
     BLOCK_D: tl.constexpr,
     BLOCK_B: tl.constexpr,
     NUM_D_BLOCKS: tl.constexpr,
 ):
     pid = tl.program_id(0)
     b_start = pid * BLOCK_B
-    b_offsets = tl.arange(0, BLOCK_B)
-    b_idx = b_start + b_offsets
+    b_idx = b_start + tl.arange(0, BLOCK_B)
     b_mask = b_idx < total_token_num
+
     for d_block in range(NUM_D_BLOCKS):
         off_d = tl.arange(0, BLOCK_D)
-        d_start = d_block * BLOCK_D
-        accumulator = tl.zeros([BLOCK_B, BLOCK_D], dtype=tl.float32)
-        for topk_index in range(topk_num):
-            expert_id = tl.load(
-                recv_topk_ids + b_idx * recv_topk_ids_stride0 + topk_index,
-                mask=b_mask,
-                other=-1
-            )
-            if HAS_EXPERT_MAP:
-                expert_id = apply_expert_map(expert_id, expert_map)
-            source_token_index = tl.load(
-                input_index + b_idx * input_index_stride0 + topk_index,
-                mask=b_mask,
-                other=0
-            )
-            acc_weight = tl.load(
-                recv_topk_weight + b_idx * recv_topk_weight_stride0 + topk_index,
-                mask=b_mask,
-                other=0.0
-            )
-            tmp = tl.load(
-                input_tensor + source_token_index[:, None] * input_tensor_stride0 + d_start + off_d[None, :],
-                mask=(source_token_index >= 0)[:, None] & b_mask[:, None],
-                other=0.0
-            )
-            accumulator += tmp * acc_weight[:, None]
-        tl.store(
-            output_tensor + b_idx[:, None] * output_tensor_stride0 + d_start + off_d[None, :],
-            accumulator.to(output_tensor.dtype.element_ty),
-            mask=b_mask[:, None]
-        )
+        for b_offset in range(BLOCK_B):
+            b_token = b_start + b_offset
+            if b_token < total_token_num:
+                accumulator = tl.zeros([BLOCK_D], dtype=tl.float32)
+                base_offset = b_token * precomputed_indices_stride0
+                weight_base_offset = b_token * recv_topk_weight_precomputed_stride0
+                for topk_index in range(0, topk_num):
+                    source_token_index = tl.load(precomputed_indices + base_offset + topk_index)
+                    acc_weight = tl.load(recv_topk_weight_precomputed + weight_base_offset + topk_index)
+                    tmp = tl.load(
+                        input_tensor
+                        + source_token_index * input_tensor_stride0
+                        + d_block * BLOCK_D
+                        + off_d
+                    )
+                    accumulator += tmp.to(tl.float32) * acc_weight
+                tl.store(
+                    output_tensor
+                    + b_token * output_tensor_stride0
+                    + d_block * BLOCK_D
+                    + off_d,
+                    accumulator.to(output_tensor.dtype.element_ty),
+                )
+
 @torch.no_grad()
 def ep_gather(
     input_tensor: torch.Tensor,
@@ -84,9 +68,22 @@ def ep_gather(
     assert output_tensor.device.type == 'npu', "output_tensor must be on NPU"
     if expert_map is not None:
         assert expert_map.device.type == 'npu', "expert_map must be on NPU"
-    num_warps = 2
+
     num_tokens = output_tensor.shape[0]
     hidden_size = input_tensor.shape[1]
+    topk_num = recv_topk_ids.shape[1]
+
+    # Precompute source_token_index and expert_id into a single contiguous tensor
+    # Also pre-arrange recv_topk_weight in the same layout
+    if expert_map is not None:
+        mapped_expert_ids = expert_map[recv_topk_ids.long()]
+    else:
+        mapped_expert_ids = recv_topk_ids.long()
+    valid_mask = mapped_expert_ids >= 0
+    precomputed_indices = torch.where(valid_mask, input_index, torch.zeros_like(input_index))
+    recv_topk_weight_precomputed = torch.where(valid_mask, recv_topk_weight, torch.zeros_like(recv_topk_weight))
+
+    num_warps = 2
     BLOCK_D = min(hidden_size, 1024)
     BLOCK_D = triton.next_power_of_2(BLOCK_D)
     BLOCK_B = 4
@@ -98,26 +95,20 @@ def ep_gather(
     assert num_tokens > 0, "Cannot process empty token tensor"
     assert hidden_size > 0, "Cannot process empty hidden dimension"
     NUM_D_BLOCKS = triton.cdiv(hidden_size, BLOCK_D)
+
     _fwd_kernel_ep_gather[grid](
         num_tokens,
         input_tensor,
         input_tensor.stride(0),
         input_tensor.stride(1),
-        recv_topk_ids,
-        recv_topk_ids.stride(0),
-        recv_topk_ids.stride(1),
-        recv_topk_weight,
-        recv_topk_weight.stride(0),
-        recv_topk_weight.stride(1),
-        input_index,
-        input_index.stride(0),
-        input_index.stride(1),
+        precomputed_indices,
+        precomputed_indices.stride(0),
+        recv_topk_weight_precomputed,
+        recv_topk_weight_precomputed.stride(0),
         output_tensor,
         output_tensor.stride(0),
         output_tensor.stride(1),
-        topk_num=recv_topk_ids.shape[1],
-        expert_map=expert_map,
-        HAS_EXPERT_MAP=expert_map is not None,
+        topk_num=topk_num,
         num_warps=num_warps,
         BLOCK_D=BLOCK_D,
         BLOCK_B=BLOCK_B,

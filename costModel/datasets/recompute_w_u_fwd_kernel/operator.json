@@ -21,10 +21,10 @@
     "recompute_w_u_fwd_kernel__p90__004e52b3aa6b",
     "recompute_w_u_fwd_kernel__p100__004e52b3aa6b"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 604,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "recompute_w_u_fwd_kernel",
   "operator_name": "recompute_w_u_fwd_kernel",
   "percentiles": [
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/recompute_w_u_fwd_kernel/test.py",
   "test_sha256": "e2ae8b32f629db24500d6e63e38960c8fe5f0b63a61e90e32191bc1b5c045426",
   "test_source_path": "datasets2/recompute_w_u_fwd_kernel/test_recompute_w_u_fwd_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": false,
+  "last_collector_version": "2.2.0"
 }

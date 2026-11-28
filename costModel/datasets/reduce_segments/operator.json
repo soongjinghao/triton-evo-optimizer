@@ -21,10 +21,10 @@
     "reduce_segments__p90__6fd7aaba8e08",
     "reduce_segments__p100__6fd7aaba8e08"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 175,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "reduce_segments",
   "operator_name": "reduce_segments",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/reduce_segments/test.py",
   "test_sha256": "aa0b6b0d065cd8b7a3a4a9d5e9c37da7efa9ab9954657697a21082baa5aa6354",
   "test_source_path": "datasets2/reduce_segments/test_reduce_segments_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

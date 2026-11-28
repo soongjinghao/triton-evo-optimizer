@@ -13,8 +13,7 @@ module attributes {dlti.target_system_spec = #dlti.target_system_spec<"NPU" : #h
     %true = arith.constant true
     %c48_i32 = arith.constant 48 : i32
     %c0 = arith.constant 0 : index
-    %c6_i64 = arith.constant 6 : i64
-    %c63_i64 = arith.constant 63 : i64
+    %c64_i64 = arith.constant 64 : i64
     %c8448_i64 = arith.constant 8448 : i64
     %c128_i64 = arith.constant 128 : i64
     %c2112_i64 = arith.constant 2112 : i64
@@ -72,8 +71,8 @@ module attributes {dlti.target_system_spec = #dlti.target_system_spec<"NPU" : #h
       hivm.hir.set_flag[<PIPE_MTE2>, <PIPE_MTE3>, <EVENT_ID0>]
       %reinterpret_cast_2 = memref.reinterpret_cast %arg7 to offset: [%29], sizes: [1], strides: [1] : memref<?xf32, #hivm.address_space<gm>> to memref<1xf32, strided<[1], offset: ?>, #hivm.address_space<gm>>
       %33 = memref.load %reinterpret_cast_2[%c0] {markDCacheInvalidatePatternVisited = 0 : i32} : memref<1xf32, strided<[1], offset: ?>, #hivm.address_space<gm>>
-      %34 = arith.shrsi %30, %c6_i64 : i64
-      %35 = arith.andi %30, %c63_i64 : i64
+      %34 = arith.divsi %30, %c64_i64 : i64
+      %35 = arith.remsi %30, %c64_i64 : i64
       %36 = arith.muli %34, %c8448_i64 : i64
       %37 = arith.muli %35, %c128_i64 : i64
       %38 = arith.addi %36, %37 : i64

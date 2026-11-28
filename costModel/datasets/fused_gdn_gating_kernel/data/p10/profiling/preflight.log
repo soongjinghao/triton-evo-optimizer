@@ -1,3 +1,9 @@
-[W1125 11:42:23.230134470 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p10/.collector_work/compiler_save_temps/f2287e6cb041dc35669822a6d12b9884a23aeca360f26f48_pid206368_qrvoyf_s
-All tests passed!
+[W1128 02:00:58.796794200 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/fused_gdn_gating_kernel/data/p10/.collector_work/compiler_save_temps/e3c76492e6b8b122c67af1961b174fcce64d4787b06962c3_pid37810_7p8z25lu
+Traceback (most recent call last):
+  File "/tmp/fused_gdn_gating_kernel_uqeqp68f/test_fused_gdn_gating_kernel.py", line 26, in <module>
+    test_fused_gdn_gating()
+  File "/tmp/fused_gdn_gating_kernel_uqeqp68f/test_fused_gdn_gating_kernel.py", line 20, in test_fused_gdn_gating
+    assert torch.allclose(g.squeeze(0), g_ref, rtol=1e-5, atol=1e-5)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

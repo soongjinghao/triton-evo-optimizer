@@ -1,8 +1,0 @@
-[W1116 08:20:43.060654440 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile_assign_extend_cache_locs_8bb01fcf054adfce_5dd5326f_c63znn9l/home/.triton/dump/CLArJ_IttSK5ypD4cJlouEmv7eiqsz4IcHRO2QVuuA4
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpuqll9_c5/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpuqll9_c5/kernel
-✅ Triton kernel output matches reference implementation
-Triton result: tensor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-       device='npu:0', dtype=torch.int32)
-Reference result: tensor([116, 878, 548, 258,  23, 151, 463, 328, 420, 537,  20, 427, 722, 472,
-        437, 392, 849, 584, 461, 792], device='npu:0', dtype=torch.int32)

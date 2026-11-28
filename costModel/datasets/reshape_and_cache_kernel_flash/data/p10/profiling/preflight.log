@@ -1,0 +1,26 @@
+[W1126 13:34:25.459895160 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+/tmp/reshape_and_cache_kernel_flash_rv82vcww/test_reshape_and_cache_kernel_flash.py:54: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:423.)
+  block_offset = slot_idx % block_size
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/6017a585a36af20e1db3e2d8e95d955468d5d0ed847b5496_pid104008_7eesi3c_
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/10bb26d5ef3250416071203a95a511e5d5ed5f20d5d2242e_pid104008_exzz21bl
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/1256573c0487e386be5aebaec71934b9619b2ae17570dece_pid104008_s31kxv3e
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/9c5a161dd0649ee35ab068cbb6d098e68472592588e5b488_pid104008_pj8hl9je
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/c7d9cfd9226a5760c5626b51d41cffd4fd2d768363a31252_pid104008_l3a2z9sd
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/f0e2e5e44ce20d885f64344da02777f7433e7241f0ad8e40_pid104008_rjm6uu2s
+✓ Basic test passed
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/4ca5e53b91ea57f9d48d0ae16ee809057adc171d7f139afc_pid104008_z0lw8eou
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/9a37f0bd9833b92b2cf14564c4e564e98587d96bc4223db2_pid104008_tmkf9e9l
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/6c7f43db5d9be763741c7e5207ffa77825ebc5fd2d9415e5_pid104008_y8ew0qxv
+✓ Negative slots test passed
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/9a487e4357fa569f5cd8a484af4520ee4546210e692bb8e2_pid104008_2r8wz9vu
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/951bfd8947bb3f7b8bdf2ef821b93241e6213307b4bb73d5_pid104008_y1r836r_
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/3061c9c2c49af174a60633102d04d083fd212a3356e4f67d_pid104008_kyo8d335
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/b034992474e0d123fb42499e42a7f35334fb54669a56dfa0_pid104008_wvzdcpas
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/d2af8ecca18f47d3329e03d2e672ad940d67293a8db3c0f5_pid104008_0vl2rc8n
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/637858f9f7073ebdb56398fe9b56e7bddf26a18bbd473e3f_pid104008_r1ifggru
+✓ Large tile test passed
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/6ea22ab779fffa2f10a1620aac057437b12cbb192b9843c2_pid104008_edt485qz
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/b2be90befef1a1c78cf80244025b4e6d1e95459a2d1b3d94_pid104008_rh4o3vcc
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p10/.collector_work/compiler_save_temps/6360de2f8497a4877a978f860bedcd8e8a20daf1550bc78b_pid104008_biz4rmul
+✓ Edge cases test passed
+All tests passed!

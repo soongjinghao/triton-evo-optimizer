@@ -2,6 +2,7 @@ import logging
 import torch
 import triton
 import triton.language as tl
+
 @triton.jit
 def post_reorder_triton_kernel_for_cutlass_moe(
     down_output_ptr,
@@ -36,6 +37,7 @@ def post_reorder_triton_kernel_for_cutlass_moe(
                 in_data = tl.load(load_ptr + offset, mask=mask)
                 sum_vec += in_data * weigh_scale
         tl.store(store_ptr + offset, sum_vec, mask=mask)
+
 def post_reorder_triton_for_cutlass_moe(
     down_output: torch.Tensor,
     src2dst: torch.Tensor,
@@ -58,8 +60,6 @@ def post_reorder_triton_for_cutlass_moe(
         topk,
         num_local_experts,
         hidden_size,
-        BLOCK_SIZE=BLOCK_SIZE,
-        num_warps=4,
-        num_stages=2
+        BLOCK_SIZE=BLOCK_SIZE
     )
     return output

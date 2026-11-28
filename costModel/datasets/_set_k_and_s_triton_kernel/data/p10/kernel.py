@@ -14,23 +14,24 @@ def _set_k_and_s_triton_kernel(
     BUF_NUMEL_PER_PAGE: tl.constexpr,
     NUM_K_ELEMS_PER_TOKEN: tl.constexpr,
     S_OFFSET_NBYTES_IN_PAGE: tl.constexpr,
+    S_OFFSET_NBYTES_IN_PAGE_DIV_4: tl.constexpr,
+    BUF_NUMEL_PER_PAGE_DIV_4: tl.constexpr,
 ):
     token_id = tl.program_id(0)
     loc = tl.load(loc_ptr + token_id)
     in_k_offsets = token_id * index_k_ptr_stride_0 + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)
     k = tl.load(index_k_ptr + in_k_offsets)
     k_scale = tl.load(index_k_scale_ptr + token_id)
-    loc_page_index = loc >> 6
-    loc_token_offset_in_page = loc & 63
+    loc_page_index = loc // PAGE_SIZE
+    loc_token_offset_in_page = loc % PAGE_SIZE
     out_k_offsets = (
         loc_page_index * BUF_NUMEL_PER_PAGE
         + loc_token_offset_in_page * NUM_K_ELEMS_PER_TOKEN
         + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)
     )
-    S_OFFSET_WORDS: tl.constexpr = S_OFFSET_NBYTES_IN_PAGE // 4
     out_s_offset = (
-        loc_page_index * (BUF_NUMEL_PER_PAGE // 4)
-        + S_OFFSET_WORDS
+        loc_page_index * BUF_NUMEL_PER_PAGE_DIV_4
+        + S_OFFSET_NBYTES_IN_PAGE_DIV_4
         + loc_token_offset_in_page
     )
     tl.store(buf_fp16_ptr + out_k_offsets, k)
@@ -69,6 +70,7 @@ def _set_k_and_s_triton(
     assert index_k_scale.is_contiguous()
     buf_fp16 = buf.view(torch.float16)
     buf_fp32 = buf.view(torch.float32)
+    s_offset_nbytes_in_page = page_size * index_head_dim
     _set_k_and_s_triton_kernel[(num_tokens_to_write,)](
         buf_fp16,
         buf_fp32,
@@ -79,5 +81,7 @@ def _set_k_and_s_triton(
         PAGE_SIZE=page_size,
         BUF_NUMEL_PER_PAGE=buf_numel_per_page,
         NUM_K_ELEMS_PER_TOKEN=index_head_dim,
-        S_OFFSET_NBYTES_IN_PAGE=page_size * index_head_dim,
+        S_OFFSET_NBYTES_IN_PAGE=s_offset_nbytes_in_page,
+        S_OFFSET_NBYTES_IN_PAGE_DIV_4=s_offset_nbytes_in_page // 4,
+        BUF_NUMEL_PER_PAGE_DIV_4=buf_numel_per_page // 4,
     )

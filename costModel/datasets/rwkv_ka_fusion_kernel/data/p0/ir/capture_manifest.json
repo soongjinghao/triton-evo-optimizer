@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 80224,
+      "call_index": 1,
+      "jit_function": "rwkv_ka_fusion_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p080224_k001_rwkv_ka_fusion_kernel.ttir.mlir",
+        "p080224_k001_rwkv_ka_fusion_kernel.ttadapter.mlir",
+        "p080224_k001_rwkv_ka_fusion_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 80474,
+      "call_index": 1,
+      "jit_function": "rwkv_ka_fusion_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p080474_k001_rwkv_ka_fusion_kernel.ttir.mlir",
+        "p080474_k001_rwkv_ka_fusion_kernel.ttadapter.mlir",
+        "p080474_k001_rwkv_ka_fusion_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 80884,
+      "call_index": 1,
+      "jit_function": "rwkv_ka_fusion_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p080884_k001_rwkv_ka_fusion_kernel.ttir.mlir",
+        "p080884_k001_rwkv_ka_fusion_kernel.ttadapter.mlir",
+        "p080884_k001_rwkv_ka_fusion_kernel.npubin"
+      ]
+    }
+  ]
+}

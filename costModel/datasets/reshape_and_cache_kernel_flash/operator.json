@@ -21,10 +21,10 @@
     "reshape_and_cache_kernel_flash__p90__8f4cda66ad86",
     "reshape_and_cache_kernel_flash__p100__e49333af7ffd"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 646,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "reshape_and_cache_kernel_flash",
   "operator_name": "reshape_and_cache_kernel_flash",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/reshape_and_cache_kernel_flash/test.py",
   "test_sha256": "fba9d0acf0f4e082417c62b24a92766b288d45c5380adc9c130ae18710d063cc",
   "test_source_path": "datasets2/reshape_and_cache_kernel_flash/test_reshape_and_cache_kernel_flash_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

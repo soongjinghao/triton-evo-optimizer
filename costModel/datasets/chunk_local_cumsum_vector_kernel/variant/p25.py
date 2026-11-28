@@ -86,7 +86,7 @@ def chunk_local_cumsum_vector_kernel(
                             bos = i_b * T
                             T_curr = T
                             i_t = nt_idx
-                            for s_offset in range(BLOCK_NS):
+                            for s_offset in range(0, BLOCK_NS, 4):
                                 s_idx = s_start + s_offset
                                 if s_idx < s_end:
                                     i_s = s_idx
@@ -130,55 +130,57 @@ def chunk_local_cumsum_vector_kernel(
                                         tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0, 1))
                     else:
                         if nt_idx >= 0 and chunk_indices is not None:
-                            i_n = tl.load(chunk_indices + nt_idx * 2).to(tl.int32)
-                            i_t_local = tl.load(chunk_indices + nt_idx * 2 + 1).to(tl.int32)
-                            bos = tl.load(cu_seqlens + i_n).to(tl.int32)
-                            eos = tl.load(cu_seqlens + i_n + 1).to(tl.int32)
-                            T_curr = eos - bos
-                            i_t = i_t_local
-                            if i_t * BT < T_curr:
-                                for s_offset in range(BLOCK_NS):
-                                    s_idx = s_start + s_offset
-                                    if s_idx < s_end:
-                                        i_s = s_idx
-                                        if i_s * BS < S:
-                                            if HEAD_FIRST:
-                                                p_s = tl.make_block_ptr(
-                                                    s + (bos * H + i_h * T_curr) * S,
-                                                    (T_curr, S),
-                                                    (S, 1),
-                                                    (i_t * BT, i_s * BS),
-                                                    (BT, BS),
-                                                    (1, 0),
-                                                )
-                                                p_o = tl.make_block_ptr(
-                                                    o + (bos * H + i_h * T_curr) * S,
-                                                    (T_curr, S),
-                                                    (S, 1),
-                                                    (i_t * BT, i_s * BS),
-                                                    (BT, BS),
-                                                    (1, 0),
-                                                )
-                                            else:
-                                                p_s = tl.make_block_ptr(
-                                                    s + (bos * H + i_h) * S,
-                                                    (T_curr, S),
-                                                    (H * S, 1),
-                                                    (i_t * BT, i_s * BS),
-                                                    (BT, BS),
-                                                    (1, 0),
-                                                )
-                                                p_o = tl.make_block_ptr(
-                                                    o + (bos * H + i_h) * S,
-                                                    (T_curr, S),
-                                                    (H * S, 1),
-                                                    (i_t * BT, i_s * BS),
-                                                    (BT, BS),
-                                                    (1, 0),
-                                                )
-                                            b_s = tl.load(p_s, boundary_check=(0, 1)).to(tl.float32)
-                                            b_o = tl.dot(m_s, b_s, allow_tf32=False)
-                                            tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0, 1))
+                            chunk_valid_idx = nt_idx >= 0
+                            if chunk_valid_idx:
+                                i_n = tl.load(chunk_indices + nt_idx * 2).to(tl.int32)
+                                i_t_local = tl.load(chunk_indices + nt_idx * 2 + 1).to(tl.int32)
+                                bos = tl.load(cu_seqlens + i_n).to(tl.int32)
+                                eos = tl.load(cu_seqlens + i_n + 1).to(tl.int32)
+                                T_curr = eos - bos
+                                i_t = i_t_local
+                                if i_t * BT < T_curr:
+                                    for s_offset in range(0, BLOCK_NS, 4):
+                                        s_idx = s_start + s_offset
+                                        if s_idx < s_end:
+                                            i_s = s_idx
+                                            if i_s * BS < S:
+                                                if HEAD_FIRST:
+                                                    p_s = tl.make_block_ptr(
+                                                        s + (bos * H + i_h * T_curr) * S,
+                                                        (T_curr, S),
+                                                        (S, 1),
+                                                        (i_t * BT, i_s * BS),
+                                                        (BT, BS),
+                                                        (1, 0),
+                                                    )
+                                                    p_o = tl.make_block_ptr(
+                                                        o + (bos * H + i_h * T_curr) * S,
+                                                        (T_curr, S),
+                                                        (S, 1),
+                                                        (i_t * BT, i_s * BS),
+                                                        (BT, BS),
+                                                        (1, 0),
+                                                    )
+                                                else:
+                                                    p_s = tl.make_block_ptr(
+                                                        s + (bos * H + i_h) * S,
+                                                        (T_curr, S),
+                                                        (H * S, 1),
+                                                        (i_t * BT, i_s * BS),
+                                                        (BT, BS),
+                                                        (1, 0),
+                                                    )
+                                                    p_o = tl.make_block_ptr(
+                                                        o + (bos * H + i_h) * S,
+                                                        (T_curr, S),
+                                                        (H * S, 1),
+                                                        (i_t * BT, i_s * BS),
+                                                        (BT, BS),
+                                                        (1, 0),
+                                                    )
+                                                b_s = tl.load(p_s, boundary_check=(0, 1)).to(tl.float32)
+                                                b_o = tl.dot(m_s, b_s, allow_tf32=False)
+                                                tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0, 1))
 
 def chunk_local_cumsum_vector(
     g: torch.Tensor,

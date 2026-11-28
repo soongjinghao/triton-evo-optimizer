@@ -21,10 +21,10 @@
     "post_reorder_triton_kernel_for_cutlass_moe__p75__fff97a09c63d",
     "post_reorder_triton_kernel_for_cutlass_moe__p100__2bf5d8cab6f9"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 147,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "post_reorder_triton_kernel_for_cutlass_moe",
   "operator_name": "post_reorder_triton_kernel_for_cutlass_moe",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p75",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "moderate",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -44,8 +44,8 @@
   "test_sha256": "c46213828ed632f3fcce14791df5691763387a3766c35863ec1f74ab3bcea0e7",
   "test_source_path": "datasets2/post_reorder_triton_kernel_for_cutlass_moe/test_post_reorder_triton_kernel_for_cutlass_moe_1.py",
   "variants_ready": true,
-  "npubin_ready": false,
-  "m3_ir_ready": false,
-  "complete_data_ready": false,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
   "last_collector_version": "2.2.0"
 }

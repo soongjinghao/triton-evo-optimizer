@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -46,6 +46,6 @@
   "variants_ready": true,
   "npubin_ready": true,
   "m3_ir_ready": true,
-  "complete_data_ready": false,
+  "complete_data_ready": true,
   "last_collector_version": "2.2.0"
 }

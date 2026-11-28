@@ -3,7 +3,7 @@
   "event_count": 3,
   "events": [
     {
-      "pid": 123736,
+      "pid": 16337,
       "call_index": 1,
       "jit_function": "_silu_mul_fp8_quant_deep_gemm",
       "asm_keys": [
@@ -12,13 +12,13 @@
         "npubin"
       ],
       "saved_file_names": [
-        "p123736_k001_silu_mul_fp8_quant_deep_gemm.ttir.mlir",
-        "p123736_k001_silu_mul_fp8_quant_deep_gemm.ttadapter.mlir",
-        "p123736_k001_silu_mul_fp8_quant_deep_gemm.npubin"
+        "p016337_k001_silu_mul_fp8_quant_deep_gemm.ttir.mlir",
+        "p016337_k001_silu_mul_fp8_quant_deep_gemm.ttadapter.mlir",
+        "p016337_k001_silu_mul_fp8_quant_deep_gemm.npubin"
       ]
     },
     {
-      "pid": 124008,
+      "pid": 16623,
       "call_index": 1,
       "jit_function": "_silu_mul_fp8_quant_deep_gemm",
       "asm_keys": [
@@ -27,13 +27,13 @@
         "npubin"
       ],
       "saved_file_names": [
-        "p124008_k001_silu_mul_fp8_quant_deep_gemm.ttir.mlir",
-        "p124008_k001_silu_mul_fp8_quant_deep_gemm.ttadapter.mlir",
-        "p124008_k001_silu_mul_fp8_quant_deep_gemm.npubin"
+        "p016623_k001_silu_mul_fp8_quant_deep_gemm.ttir.mlir",
+        "p016623_k001_silu_mul_fp8_quant_deep_gemm.ttadapter.mlir",
+        "p016623_k001_silu_mul_fp8_quant_deep_gemm.npubin"
       ]
     },
     {
-      "pid": 124401,
+      "pid": 17002,
       "call_index": 1,
       "jit_function": "_silu_mul_fp8_quant_deep_gemm",
       "asm_keys": [
@@ -42,9 +42,9 @@
         "npubin"
       ],
       "saved_file_names": [
-        "p124401_k001_silu_mul_fp8_quant_deep_gemm.ttir.mlir",
-        "p124401_k001_silu_mul_fp8_quant_deep_gemm.ttadapter.mlir",
-        "p124401_k001_silu_mul_fp8_quant_deep_gemm.npubin"
+        "p017002_k001_silu_mul_fp8_quant_deep_gemm.ttir.mlir",
+        "p017002_k001_silu_mul_fp8_quant_deep_gemm.ttadapter.mlir",
+        "p017002_k001_silu_mul_fp8_quant_deep_gemm.npubin"
       ]
     }
   ]

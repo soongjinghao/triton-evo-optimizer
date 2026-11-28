@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1128 02:13:06.772338850 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Basic test passed!
+Test case 2 passed!
+All tests passed!
+[INFO] Start export data in PROF_000001_20261128021306211_00058176AQMLGKHO.
+Sat 28 Nov 2026 02:13:11 [WARNING] [MSVP] [58976] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Sat 28 Nov 2026 02:13:11 [INFO] [MSVP] [58978] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/host" ...
+Sat 28 Nov 2026 02:13:11 [INFO] [MSVP] [58978] msprof_common.py: It may take few minutes, please be patient ...
+Sat 28 Nov 2026 02:13:11 [INFO] [MSVP] [58978] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/host" finished.
+Sat 28 Nov 2026 02:13:11 [INFO] [MSVP] [58978] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/device_0" ...
+Sat 28 Nov 2026 02:13:11 [INFO] [MSVP] [58978] msprof_common.py: It may take few minutes, please be patient ...
+Sat 28 Nov 2026 02:13:11 [INFO] [MSVP] [58978] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/device_0" finished.
+Sat 28 Nov 2026 02:13:11 [INFO] [MSVP] [58978] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/device_0.
+Sat 28 Nov 2026 02:13:12 [WARNING] [MSVP] [59158] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Sat 28 Nov 2026 02:13:12 [INFO] [MSVP] [59160] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/host" has been analyzed. Parsing phase will be skipped.
+Sat 28 Nov 2026 02:13:12 [INFO] [MSVP] [59160] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/device_0" has been analyzed. Parsing phase will be skipped.
+Sat 28 Nov 2026 02:13:12 [INFO] [MSVP] [59160] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/device_0.
+Sat 28 Nov 2026 02:13:12 [INFO] [MSVP] [59160] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/host"
+Sat 28 Nov 2026 02:13:12 [INFO] [MSVP] [59160] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/device_0.
+Sat 28 Nov 2026 02:13:12 [INFO] [MSVP] [59160] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/device_0"
+Sat 28 Nov 2026 02:13:12 [INFO] [MSVP] [59160] msprof_common.py: Start exporting summary output_file.
+Sat 28 Nov 2026 02:13:12 [INFO] [MSVP] [59160] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261128021306211_00058176AQMLGKHO done.
+[INFO] Start query data in PROF_000001_20261128021306211_00058176AQMLGKHO.
+Sat 28 Nov 2026 02:13:13 [WARNING] [MSVP] [59199] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-28 02:13:06.928607	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-28 02:13:06.932001	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261128021306211_00058176AQMLGKHO done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/reduce_segments/data/p100/.collector_work/performance/reduce_segments/eval_20261128_021301_57167/timing/PROF_000001_20261128021306211_00058176AQMLGKHO

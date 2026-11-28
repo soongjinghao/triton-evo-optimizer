@@ -1,0 +1,34 @@
+[INFO] Start profiling....
+[W1125 13:17:28.155540740 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+reshape_and_cache_flash test passed!
+All tests passed!
+[INFO] Start export data in PROF_000001_20261125131727784_00070871FGBOAPPJ.
+Wed 25 Nov 2026 13:17:32 [WARNING] [MSVP] [71020] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 13:17:32 [INFO] [MSVP] [71028] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/host" ...
+Wed 25 Nov 2026 13:17:32 [INFO] [MSVP] [71028] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 13:17:32 [INFO] [MSVP] [71028] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/host" finished.
+Wed 25 Nov 2026 13:17:32 [INFO] [MSVP] [71028] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/device_0" ...
+Wed 25 Nov 2026 13:17:32 [INFO] [MSVP] [71028] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 13:17:32 [INFO] [MSVP] [71028] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/device_0" finished.
+Wed 25 Nov 2026 13:17:32 [INFO] [MSVP] [71028] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/device_0.
+Wed 25 Nov 2026 13:17:33 [WARNING] [MSVP] [71202] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 13:17:33 [INFO] [MSVP] [71204] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 13:17:33 [INFO] [MSVP] [71204] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 13:17:33 [INFO] [MSVP] [71204] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/device_0.
+Wed 25 Nov 2026 13:17:33 [INFO] [MSVP] [71204] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/host"
+Wed 25 Nov 2026 13:17:33 [INFO] [MSVP] [71204] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/device_0.
+Wed 25 Nov 2026 13:17:33 [INFO] [MSVP] [71204] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/device_0"
+Wed 25 Nov 2026 13:17:33 [INFO] [MSVP] [71204] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 13:17:33 [INFO] [MSVP] [71204] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125131727784_00070871FGBOAPPJ done.
+[INFO] Start query data in PROF_000001_20261125131727784_00070871FGBOAPPJ.
+Wed 25 Nov 2026 13:17:34 [WARNING] [MSVP] [71243] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 13:17:28.796622	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 13:17:28.798991	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125131727784_00070871FGBOAPPJ done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/reshape_and_cache_flash_kernel/data/p100/.collector_work/performance/reshape_and_cache_flash_kernel/eval_20261125_131722_70615/timing/PROF_000001_20261125131727784_00070871FGBOAPPJ

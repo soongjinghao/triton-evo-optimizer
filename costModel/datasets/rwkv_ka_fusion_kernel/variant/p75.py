@@ -30,7 +30,8 @@ def rwkv_ka_fusion_kernel(
         kt2 = kt * kt
         norm_kt2 = tl.sum(kt2.to(tl.float32))
         norm_kt = tl.sqrt(norm_kt2 + 1e-12)
-        okk = kt / norm_kt
+        inv_norm_kt = 1.0 / norm_kt
+        okk = kt * inv_norm_kt
         tl.store(o_kk_ptr + offs, okk, mask=offs < T * C)
         ok = k * (1 + (a.to(tl.float32) - 1) * ka)
         okka = okk * a
@@ -51,8 +52,6 @@ def rwkv_ka_fusion(
     grid = lambda meta: (triton.cdiv(T * C, BLOCK_SIZE),)
     N_size = triton.next_power_of_2(N)
     rwkv_ka_fusion_kernel[grid](
-        k, kk, a, ka, o_k, o_kk, o_kka, T, C, H, N, N_size, BLOCK_SIZE,
-        num_warps=4,
-        num_stages=2
+        k, kk, a, ka, o_k, o_kk, o_kka, T, C, H, N, N_size, BLOCK_SIZE
     )
     return o_k, o_kk, o_kka

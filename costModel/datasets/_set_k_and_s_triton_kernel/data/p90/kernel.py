@@ -1,10 +1,9 @@
 import torch
 import triton
 import triton.language as tl
-device = 'npu'
 @triton.jit
 def _set_k_and_s_triton_kernel(
-    buf_fp16_ptr,
+    buf_fp8_ptr,
     buf_fp32_ptr,
     loc_ptr,
     index_k_ptr,
@@ -28,11 +27,11 @@ def _set_k_and_s_triton_kernel(
         + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)
     )
     out_s_offset = (
-        loc_page_index * (BUF_NUMEL_PER_PAGE * 16777216 // 67108864)
-        + S_OFFSET_NBYTES_IN_PAGE * 16777216 // 67108864
+        loc_page_index * BUF_NUMEL_PER_PAGE // 4
+        + S_OFFSET_NBYTES_IN_PAGE // 4
         + loc_token_offset_in_page
     )
-    tl.store(buf_fp16_ptr + out_k_offsets, k)
+    tl.store(buf_fp8_ptr + out_k_offsets, k)
     tl.store(buf_fp32_ptr + out_s_offset, k_scale)
 def _set_k_and_s_triton(
     buf: torch.Tensor,
@@ -79,4 +78,6 @@ def _set_k_and_s_triton(
         BUF_NUMEL_PER_PAGE=buf_numel_per_page,
         NUM_K_ELEMS_PER_TOKEN=index_head_dim,
         S_OFFSET_NBYTES_IN_PAGE=page_size * index_head_dim,
+        num_warps=4,
+        num_stages=2,
     )

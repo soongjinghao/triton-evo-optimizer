@@ -1,8 +1,0 @@
-[W1117 00:59:21.891953890 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-[2026-11-17 00:59:32] [WARNING] [1505824] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
-[2026-11-17 00:59:32] [INFO] [1506176] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/matmul_kernel_simplified__dataset_seed__821eabfdcab0_r04_vuiz1k3j/home/.triton/profile_results/prof_20261117_005932_MainProcess-1505824/f6d29f527e7c_1505824_20261117005932029_ascend_pt
-|/-\|/-\|/-\|/-\[2026-11-17 00:59:47] [INFO] [1506185] profiler.py: CANN profiling data parsed in a total time of 0:00:15.038437
-|/-\[2026-11-17 00:59:52] [INFO] [1506176] profiler.py: All profiling data parsed in a total time of 0:00:19.856139
-[costmodel-bench] matmul_kernel_simplified: 0.006418 ms
-✓ Float32 matmul test passed
-All tests passed!

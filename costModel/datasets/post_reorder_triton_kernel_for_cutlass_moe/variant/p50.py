@@ -2,6 +2,7 @@ import logging
 import torch
 import triton
 import triton.language as tl
+
 @triton.jit
 def post_reorder_triton_kernel_for_cutlass_moe(
     down_output_ptr,
@@ -17,15 +18,20 @@ def post_reorder_triton_kernel_for_cutlass_moe(
     InDtype = down_output_ptr.dtype.element_ty
     src_idx_int32 = tl.program_id(0)
     src_idx = src_idx_int32.to(tl.int64)
+    
     src2dst_ptr = src2dst_ptr + src_idx * topk
     topk_ids_ptr = topk_ids_ptr + src_idx * topk
     topk_weights_ptr = topk_weights_ptr + src_idx * topk
     store_ptr = output_ptr + src_idx * hidden_size
+    
     vec = tl.arange(0, BLOCK_SIZE)
+    
     for start_offset in tl.range(0, hidden_size, BLOCK_SIZE):
         offset = start_offset + vec
         mask = offset < hidden_size
+        
         sum_vec = tl.zeros([BLOCK_SIZE], dtype=InDtype)
+        
         for idx in range(topk):
             expert_id = tl.load(topk_ids_ptr + idx)
             if expert_id != num_local_experts:
@@ -35,7 +41,9 @@ def post_reorder_triton_kernel_for_cutlass_moe(
                 load_ptr = down_output_ptr + dst_idx * hidden_size
                 in_data = tl.load(load_ptr + offset, mask=mask)
                 sum_vec += in_data * weigh_scale
+        
         tl.store(store_ptr + offset, sum_vec, mask=mask)
+
 def post_reorder_triton_for_cutlass_moe(
     down_output: torch.Tensor,
     src2dst: torch.Tensor,
@@ -58,8 +66,6 @@ def post_reorder_triton_for_cutlass_moe(
         topk,
         num_local_experts,
         hidden_size,
-        BLOCK_SIZE=BLOCK_SIZE,
-        num_warps=4,
-        num_stages=2
+        BLOCK_SIZE=BLOCK_SIZE
     )
     return output

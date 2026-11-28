@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 66373,
+      "call_index": 1,
+      "jit_function": "reshape_and_cache_flash_kernel_single_chunk_int32",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p066373_k001_reshape_and_cache_flash_kernel_single_chunk_int32.ttir.mlir",
+        "p066373_k001_reshape_and_cache_flash_kernel_single_chunk_int32.ttadapter.mlir",
+        "p066373_k001_reshape_and_cache_flash_kernel_single_chunk_int32.npubin"
+      ]
+    },
+    {
+      "pid": 66635,
+      "call_index": 1,
+      "jit_function": "reshape_and_cache_flash_kernel_single_chunk_int32",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p066635_k001_reshape_and_cache_flash_kernel_single_chunk_int32.ttir.mlir",
+        "p066635_k001_reshape_and_cache_flash_kernel_single_chunk_int32.ttadapter.mlir",
+        "p066635_k001_reshape_and_cache_flash_kernel_single_chunk_int32.npubin"
+      ]
+    },
+    {
+      "pid": 67019,
+      "call_index": 1,
+      "jit_function": "reshape_and_cache_flash_kernel_single_chunk_int32",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p067019_k001_reshape_and_cache_flash_kernel_single_chunk_int32.ttir.mlir",
+        "p067019_k001_reshape_and_cache_flash_kernel_single_chunk_int32.ttadapter.mlir",
+        "p067019_k001_reshape_and_cache_flash_kernel_single_chunk_int32.npubin"
+      ]
+    }
+  ]
+}

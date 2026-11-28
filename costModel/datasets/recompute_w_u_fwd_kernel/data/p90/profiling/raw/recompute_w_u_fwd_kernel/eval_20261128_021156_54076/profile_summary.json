@@ -1,0 +1,205 @@
+{
+  "schema_version": "costmodel_msprof_v1",
+  "kernel_name": "recompute_w_u_fwd_kernel",
+  "profile_mode": "full",
+  "timing": {
+    "execution_time_us": 60.721,
+    "source": "op_summary.Task Duration(us)",
+    "sample_count": 3475,
+    "task_time_cross_check": {
+      "median_task_time_us": 57.821,
+      "sample_count": 3018,
+      "task_id": "252",
+      "stream_id": "47"
+    },
+    "hardware_pass_task_duration_us": 57.821,
+    "cross_pass_difference_us": 2.8999999999999986,
+    "cross_pass_relative_difference_pct": 4.775942425190624,
+    "cross_pass_consistent_20pct": true,
+    "label_valid": true,
+    "label_execution_time_us": 60.721
+  },
+  "kernel": {
+    "Device_id": "0",
+    "Task ID": "252",
+    "Stream ID": "47",
+    "Op Name": "recompute_w_u_fwd_kernel",
+    "OP Type": "recompute_w_u_fwd_kernel",
+    "OP State": "static",
+    "Task Type": "MIX_AIC",
+    "Task Start Time(us)": "1795831939387914.561\t",
+    "Task Duration(us)": 57.821,
+    "Block Num": "16",
+    "Mix Block Num": "32",
+    "HF32 Eligible": "YES",
+    "Input Shapes": "\"2,32,4,64;2,32,4,32;2,32,4\"",
+    "Input Data Types": "FLOAT;FLOAT;FLOAT",
+    "Output Shapes": "\"2,32,4,64;2,32,4,32\"",
+    "Output Data Types": "FLOAT;FLOAT",
+    "aicore_time(us)": 55.7415,
+    "aic_total_cycles": 1605355.5,
+    "aic_mac_time(us)": 0.199,
+    "aic_mac_ratio": 0.004,
+    "aic_scalar_time(us)": 3.361,
+    "aic_scalar_ratio": 0.076,
+    "aic_mte1_time(us)": 0.281,
+    "aic_mte1_ratio": 0.005,
+    "aic_mte2_time(us)": 1.6495,
+    "aic_mte2_ratio": 0.038,
+    "aic_fixpipe_time(us)": 0.659,
+    "aic_fixpipe_ratio": 0.017,
+    "aic_icache_miss_rate": 0.0,
+    "aiv_time(us)": 55.531499999999994,
+    "aiv_total_cycles": 3198605.0,
+    "aiv_vec_time(us)": 0.591,
+    "aiv_vec_ratio": 0.011,
+    "aiv_scalar_time(us)": 49.794,
+    "aiv_scalar_ratio": 0.88,
+    "aiv_mte2_time(us)": 4.309,
+    "aiv_mte2_ratio": 0.092,
+    "aiv_mte3_time(us)": 0.722,
+    "aiv_mte3_ratio": 0.016,
+    "aiv_icache_miss_rate": 0.0,
+    "cube_utilization(%)": 63.8575
+  },
+  "core_utilization": {
+    "ai_core": {
+      "source": "op_summary_task",
+      "task_type": "MIX_AIC",
+      "applicability": "available",
+      "record_count": 1,
+      "active_record_count": 1,
+      "mac_ratio_mean": 0.004,
+      "scalar_ratio_mean": 0.076,
+      "mte1_ratio_mean": 0.005,
+      "mte2_ratio_mean": 0.038,
+      "fixpipe_ratio_mean": 0.017,
+      "icache_miss_rate_mean": 0.0,
+      "mac_ratio_max": 0.004,
+      "scalar_ratio_max": 0.076,
+      "mte1_ratio_max": 0.005,
+      "mte2_ratio_max": 0.038,
+      "fixpipe_ratio_max": 0.017,
+      "icache_miss_rate_max": 0.0
+    },
+    "ai_vector_core": {
+      "source": "op_summary_task",
+      "task_type": "MIX_AIC",
+      "applicability": "available",
+      "record_count": 1,
+      "active_record_count": 1,
+      "vec_ratio_mean": 0.011,
+      "scalar_ratio_mean": 0.88,
+      "mte2_ratio_mean": 0.092,
+      "mte3_ratio_mean": 0.016,
+      "icache_miss_rate_mean": 0.0,
+      "vec_ratio_max": 0.011,
+      "scalar_ratio_max": 0.88,
+      "mte2_ratio_max": 0.092,
+      "mte3_ratio_max": 0.016,
+      "icache_miss_rate_max": 0.0
+    }
+  },
+  "memory": {
+    "hbm": {
+      "scope": "device_level_sampled_bandwidth",
+      "sample_count": 5,
+      "read_mb_s": 44.125,
+      "write_mb_s": 23318.397
+    },
+    "llc": {
+      "scope": "device_level_llc_profile",
+      "sample_count": 3,
+      "read_hit_rate_pct": 40.15,
+      "read_throughput_mb_s": 8212.596,
+      "write_hit_rate_pct": null,
+      "write_throughput_mb_s": null
+    },
+    "npu_memory": {
+      "scope": "application_level_sampled_memory",
+      "ddr_kb_peak": 0.0,
+      "ddr_kb_mean": 0.0,
+      "hbm_kb_peak": 331360.0,
+      "hbm_kb_mean": 329312.0,
+      "total_memory_kb_peak": 331360.0,
+      "total_memory_kb_mean": 329312.0,
+      "sample_count": 181,
+      "timestamp_start_us": 1795831938872727.8,
+      "timestamp_end_us": 1795831942460348.0,
+      "sampling_span_us": 3587620.25
+    },
+    "npu_module_memory": {
+      "RUNTIME": {
+        "reserved_kb_peak": 39016.0,
+        "reserved_kb_mean": 37319.82320441989,
+        "sample_count": 181
+      },
+      "APP": {
+        "reserved_kb_peak": 200704.0,
+        "reserved_kb_mean": 142183.24861878454,
+        "sample_count": 181
+      }
+    }
+  },
+  "metric_coverage": {
+    "kernel_task_duration": true,
+    "aic_pipeline_from_op_summary_or_csv": true,
+    "aiv_pipeline_from_op_summary_or_csv": true,
+    "task_type": "MIX_AIC",
+    "hbm_read_bandwidth": true,
+    "hbm_write_bandwidth": true,
+    "llc_read": true,
+    "llc_write": false,
+    "npu_memory": true,
+    "npu_module_memory": true,
+    "aic_applicability": "available",
+    "aiv_applicability": "available"
+  },
+  "collection": {
+    "hardware_profile_success": true,
+    "op_summary_rows_for_kernel": 3018,
+    "source_csv": {
+      "op_summary": "/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/hardware/PROF_000001_20261128021218486_00056568LRKQJDIB/mindstudio_profiler_output/op_summary_20261128021229.csv",
+      "ai_core_utilization": null,
+      "ai_vector_core_utilization": null,
+      "hbm": "/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/hardware/PROF_000001_20261128021218486_00056568LRKQJDIB/mindstudio_profiler_output/hbm_20261128021229.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/hardware/PROF_000001_20261128021218486_00056568LRKQJDIB/mindstudio_profiler_output/llc_read_write_20261128021229.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/hardware/PROF_000001_20261128021218486_00056568LRKQJDIB/mindstudio_profiler_output/npu_mem_20261128021229.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/hardware/PROF_000001_20261128021218486_00056568LRKQJDIB/mindstudio_profiler_output/npu_module_mem_20261128021229.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/hardware/PROF_000001_20261128021218486_00056568LRKQJDIB/mindstudio_profiler_output/task_time_20261128021229.csv"
+    },
+    "commands": {
+      "timing": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/timing",
+        "--task-time=l0",
+        "--ai-core=off",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "python3",
+        "/tmp/recompute_w_u_fwd_kernel_zvwpg7s8/test_recompute_w_u_fwd_kernel.py"
+      ],
+      "hardware": [
+        "msprof",
+        "--output=/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/hardware",
+        "--task-time=l1",
+        "--task-memory=on",
+        "--ai-core=on",
+        "--aic-mode=task-based",
+        "--aic-metrics=PipeUtilization",
+        "--sys-hardware-mem=on",
+        "--sys-hardware-mem-freq=50",
+        "--llc-profiling=read",
+        "--ascendcl=off",
+        "--runtime-api=off",
+        "--ge-api=off",
+        "python3",
+        "/tmp/recompute_w_u_fwd_kernel_zvwpg7s8/test_recompute_w_u_fwd_kernel.py"
+      ]
+    },
+    "raw_profile_directories": {
+      "timing": "/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/recompute_w_u_fwd_kernel/data/p90/.collector_work/performance/recompute_w_u_fwd_kernel/eval_20261128_021156_54076/hardware"
+    }
+  }
+}

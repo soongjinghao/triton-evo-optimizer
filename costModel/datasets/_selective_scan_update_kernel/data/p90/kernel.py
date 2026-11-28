@@ -106,55 +106,25 @@ def _selective_scan_update_kernel(
     out_ptr += pid_b * stride_out_batch + pid_h * stride_out_head
     offs_m = pid_m * BLOCK_SIZE_M + tl.arange(0, BLOCK_SIZE_M)
     offs_n = tl.arange(0, BLOCK_SIZE_DSTATE)
-    if stride_state_dim == 1 and stride_state_dstate == 1:
-        state_ptrs = state_ptr + offs_m[:, None] * stride_state_dim + offs_n[None, :]
-    else:
-        state_ptrs = state_ptr + (
-            offs_m[:, None] * stride_state_dim + offs_n[None, :] * stride_state_dstate
-        )
-    if stride_x_dim == 1:
-        x_ptrs = x_ptr + offs_m
-    else:
-        x_ptrs = x_ptr + offs_m * stride_x_dim
-    if stride_dt_dim == 1:
-        dt_ptrs = dt_ptr + offs_m
-    else:
-        dt_ptrs = dt_ptr + offs_m * stride_dt_dim
+    state_ptrs = state_ptr + (
+        offs_m[:, None] * stride_state_dim + offs_n[None, :] * stride_state_dstate
+    )
+    x_ptrs = x_ptr + offs_m * stride_x_dim
+    dt_ptrs = dt_ptr + offs_m * stride_dt_dim
     if HAS_DT_BIAS:
-        if stride_dt_bias_dim == 1:
-            dt_bias_ptrs = dt_bias_ptr + offs_m
-        else:
-            dt_bias_ptrs = dt_bias_ptr + offs_m * stride_dt_bias_dim
+        dt_bias_ptrs = dt_bias_ptr + offs_m * stride_dt_bias_dim
     if HAS_D:
         D_ptr += pid_h * stride_D_head
-    if stride_A_dim == 1 and stride_A_dstate == 1:
-        A_ptrs = A_ptr + offs_m[:, None] + offs_n[None, :]
-    else:
-        A_ptrs = A_ptr + (
-            offs_m[:, None] * stride_A_dim + offs_n[None, :] * stride_A_dstate
-        )
-    if stride_B_dstate == 1:
-        B_ptrs = B_ptr + offs_n
-    else:
-        B_ptrs = B_ptr + offs_n * stride_B_dstate
-    if stride_C_dstate == 1:
-        C_ptrs = C_ptr + offs_n
-    else:
-        C_ptrs = C_ptr + offs_n * stride_C_dstate
+    A_ptrs = A_ptr + (
+        offs_m[:, None] * stride_A_dim + offs_n[None, :] * stride_A_dstate
+    )
+    B_ptrs = B_ptr + offs_n * stride_B_dstate
+    C_ptrs = C_ptr + offs_n * stride_C_dstate
     if HAS_D:
-        if stride_D_dim == 1:
-            D_ptrs = D_ptr + offs_m
-        else:
-            D_ptrs = D_ptr + offs_m * stride_D_dim
+        D_ptrs = D_ptr + offs_m * stride_D_dim
     if HAS_Z:
-        if stride_z_dim == 1:
-            z_ptrs = z_ptr + offs_m
-        else:
-            z_ptrs = z_ptr + offs_m * stride_z_dim
-    if stride_out_dim == 1:
-        out_ptrs = out_ptr + offs_m
-    else:
-        out_ptrs = out_ptr + offs_m * stride_out_dim
+        z_ptrs = z_ptr + offs_m * stride_z_dim
+    out_ptrs = out_ptr + offs_m * stride_out_dim
     mask = (offs_m[:, None] < dim) & (offs_n[None, :] < dstate)
     if HAS_STATE_BATCH_INDICES:
         mask &= state_batch_idx != pad_slot_id
@@ -251,15 +221,15 @@ def selective_state_update(
     assert out.shape == x.shape
     grid = lambda META: (triton.cdiv(dim, META["BLOCK_SIZE_M"]), batch, nheads)
     z_strides = (z.stride(0), z.stride(1), z.stride(2)) if z is not None else (0, 0, 0)
-    BLOCK_SIZE_M, num_warps = (
-        (32, 4)
-        if dstate <= 16
-        else (
-            (16, 4)
-            if dstate <= 32
-            else ((8, 4) if dstate <= 64 else ((4, 4) if dstate <= 128 else ((4, 8))))
-        )
-    )
+    if dstate <= 16:
+        BLOCK_SIZE_M = 64
+        num_warps = 8
+    elif dstate <= 32:
+        BLOCK_SIZE_M = 32
+        num_warps = 8
+    else:
+        BLOCK_SIZE_M = 16
+        num_warps = 8
     tie_hdim = (
         A.stride(-1) == 0
         and A.stride(-2) == 0

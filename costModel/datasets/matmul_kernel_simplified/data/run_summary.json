@@ -1,13 +1,9 @@
 {
   "schema_version": "costmodel_collection_run_v2",
   "script_version": "2.2.0",
-  "run_id": "20261125_120024",
+  "run_id": "20261126_125838",
   "operator_name": "matmul_kernel_simplified",
   "selected_roles": [
-    "p0",
-    "p10",
-    "p50",
-    "p90",
     "p100"
   ],
   "official_percentile_roles": [
@@ -18,13 +14,13 @@
     "p100"
   ],
   "temporary_roles_selected": [],
-  "selected_count": 5,
-  "success_count": 4,
+  "selected_count": 1,
+  "success_count": 1,
   "partial_success_count": 0,
   "correctness_failure_count": 0,
-  "measurement_inconsistent_count": 1,
-  "incomplete_or_failed_count": 1,
+  "measurement_inconsistent_count": 0,
+  "incomplete_or_failed_count": 0,
   "profile_mode": "full",
   "history_path": "costModel/datasets/matmul_kernel_simplified/data/collection_history.jsonl",
-  "finished_at": "2026-11-25T12:04:07+00:00"
+  "finished_at": "2026-11-26T12:59:24+00:00"
 }

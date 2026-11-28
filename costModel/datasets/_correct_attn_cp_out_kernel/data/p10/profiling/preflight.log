@@ -1,8 +1,10 @@
-[W1125 10:00:46.917716920 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-[W1125 10:01:01.205596910 ToKernelNpu.cpp:40] Warning: Device do not support double dtype now, dtype cast replace with float. (function operator())
-[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p10/.collector_work/compiler_save_temps/1f69eb384f3238135c9b4661fb29fc688d1da6fe679111ff_pid59652_cou2a3xr
-✅ Triton and PyTorch implementations match!
-Output shape: torch.Size([4, 8, 64])
-VLSE shape: torch.Size([4, 8])
-Sample output values: tensor([-0.1421,  0.0739,  0.0038,  0.0912,  0.0460], device='npu:0')
-Sample VLSE values: tensor([1.4853, 2.2458, 1.9022, 1.1312, 1.8198], device='npu:0')
+[W1128 01:40:33.226896020 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_correct_attn_cp_out_kernel/data/p10/.collector_work/compiler_save_temps/c0d31a8e91d3e3fc96d17891a605a37bb4ddb3d13b82826e_pid12143_zn6g7r89
+Traceback (most recent call last):
+  File "/tmp/_correct_attn_cp_out_kernel_6t_qo2yo/test__correct_attn_cp_out_kernel.py", line 64, in <module>
+    test_correct_attn_cp_out()
+  File "/tmp/_correct_attn_cp_out_kernel_6t_qo2yo/test__correct_attn_cp_out_kernel.py", line 51, in test_correct_attn_cp_out
+    assert torch.allclose(triton_new_output, torch_new_output, atol=1e-5, rtol=1e-3), \
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Outputs don't match! Max diff: 2.222848892211914
+[ERROR] 2026-11-28-01:40:47 (PID:12143, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

@@ -1,9 +1,9 @@
 {
   "schema_version": "costmodel_capture_manifest_v1",
-  "event_count": 2,
+  "event_count": 3,
   "events": [
     {
-      "pid": 251390,
+      "pid": 61056,
       "call_index": 1,
       "jit_function": "merge_16x16_to_32x32_inverse_kernel",
       "asm_keys": [
@@ -12,13 +12,13 @@
         "npubin"
       ],
       "saved_file_names": [
-        "p251390_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir",
-        "p251390_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir",
-        "p251390_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
+        "p061056_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir",
+        "p061056_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir",
+        "p061056_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
       ]
     },
     {
-      "pid": 251778,
+      "pid": 61363,
       "call_index": 1,
       "jit_function": "merge_16x16_to_32x32_inverse_kernel",
       "asm_keys": [
@@ -27,9 +27,24 @@
         "npubin"
       ],
       "saved_file_names": [
-        "p251778_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir",
-        "p251778_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir",
-        "p251778_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
+        "p061363_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir",
+        "p061363_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir",
+        "p061363_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 61785,
+      "call_index": 1,
+      "jit_function": "merge_16x16_to_32x32_inverse_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p061785_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir",
+        "p061785_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir",
+        "p061785_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
       ]
     }
   ]

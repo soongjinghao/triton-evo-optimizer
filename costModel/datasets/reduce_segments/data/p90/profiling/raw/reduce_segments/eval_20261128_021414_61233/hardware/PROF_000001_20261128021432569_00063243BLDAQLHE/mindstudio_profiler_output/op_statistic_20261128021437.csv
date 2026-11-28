@@ -1,0 +1,6 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,reduce_segments,AI_VECTOR_CORE,2,16.081,5.34,8.04,10.741,36.267
+0,DSARandomNormal,DSA_SQE,6,8.94,1.1,1.49,2.74,20.162
+0,IsClose,AI_VECTOR_CORE,2,7.72,3.36,3.86,4.36,17.411
+0,ReduceAll,MIX_AIV,2,6.56,2.34,3.28,4.22,14.794
+0,ZerosLike,AI_VECTOR_CORE,2,5.04,1.64,2.52,3.4,11.366

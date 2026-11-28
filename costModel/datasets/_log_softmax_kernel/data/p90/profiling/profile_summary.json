@@ -3,21 +3,21 @@
   "kernel_name": "_log_softmax_kernel",
   "profile_mode": "full",
   "timing": {
-    "execution_time_us": 668.127,
+    "execution_time_us": 371.275,
     "source": "op_summary.Task Duration(us)",
     "sample_count": 1,
     "task_time_cross_check": {
-      "median_task_time_us": 665.326,
+      "median_task_time_us": 369.335,
       "sample_count": 1,
       "task_id": "2",
       "stream_id": "47"
     },
-    "hardware_pass_task_duration_us": 665.326,
-    "cross_pass_difference_us": 2.800999999999931,
-    "cross_pass_relative_difference_pct": 0.4192316730202388,
+    "hardware_pass_task_duration_us": 369.335,
+    "cross_pass_difference_us": 1.9399999999999977,
+    "cross_pass_relative_difference_pct": 0.522523735775368,
     "cross_pass_consistent_20pct": true,
     "label_valid": true,
-    "label_execution_time_us": 668.127
+    "label_execution_time_us": 371.275
   },
   "kernel": {
     "Device_id": "0",
@@ -27,8 +27,8 @@
     "OP Type": "_log_softmax_kernel",
     "OP State": "static",
     "Task Type": "AI_VECTOR_CORE",
-    "Task Start Time(us)": "1795601917086909.794\t",
-    "Task Duration(us)": 665.326,
+    "Task Start Time(us)": "1795699056618653.536\t",
+    "Task Duration(us)": 369.335,
     "Block Num": "48",
     "Mix Block Num": "0",
     "HF32 Eligible": "YES",
@@ -49,16 +49,16 @@
     "aic_fixpipe_time(us)": 0.0,
     "aic_fixpipe_ratio": 0.0,
     "aic_icache_miss_rate": 0.0,
-    "aiv_time(us)": 653.628,
-    "aiv_total_cycles": 56473470.0,
-    "aiv_vec_time(us)": 237.849,
-    "aiv_vec_ratio": 0.364,
-    "aiv_scalar_time(us)": 237.356,
-    "aiv_scalar_ratio": 0.363,
-    "aiv_mte2_time(us)": 275.833,
-    "aiv_mte2_ratio": 0.422,
-    "aiv_mte3_time(us)": 104.415,
-    "aiv_mte3_ratio": 0.16,
+    "aiv_time(us)": 364.158,
+    "aiv_total_cycles": 31463244.0,
+    "aiv_vec_time(us)": 151.992,
+    "aiv_vec_ratio": 0.417,
+    "aiv_scalar_time(us)": 130.971,
+    "aiv_scalar_ratio": 0.36,
+    "aiv_mte2_time(us)": 143.477,
+    "aiv_mte2_ratio": 0.394,
+    "aiv_mte3_time(us)": 60.434,
+    "aiv_mte3_ratio": 0.166,
     "aiv_icache_miss_rate": 0.0,
     "cube_utilization(%)": 0.0
   },
@@ -88,15 +88,15 @@
       "applicability": "available",
       "record_count": 1,
       "active_record_count": 1,
-      "vec_ratio_mean": 0.364,
-      "scalar_ratio_mean": 0.363,
-      "mte2_ratio_mean": 0.422,
-      "mte3_ratio_mean": 0.16,
+      "vec_ratio_mean": 0.417,
+      "scalar_ratio_mean": 0.36,
+      "mte2_ratio_mean": 0.394,
+      "mte3_ratio_mean": 0.166,
       "icache_miss_rate_mean": 0.0,
-      "vec_ratio_max": 0.364,
-      "scalar_ratio_max": 0.363,
-      "mte2_ratio_max": 0.422,
-      "mte3_ratio_max": 0.16,
+      "vec_ratio_max": 0.417,
+      "scalar_ratio_max": 0.36,
+      "mte2_ratio_max": 0.394,
+      "mte3_ratio_max": 0.166,
       "icache_miss_rate_max": 0.0
     }
   },
@@ -104,14 +104,14 @@
     "hbm": {
       "scope": "device_level_sampled_bandwidth",
       "sample_count": 5,
-      "read_mb_s": 385.476,
-      "write_mb_s": 299.096
+      "read_mb_s": 243.607,
+      "write_mb_s": 188.488
     },
     "llc": {
       "scope": "device_level_llc_profile",
       "sample_count": 3,
-      "read_hit_rate_pct": 43.218,
-      "read_throughput_mb_s": 4976.96,
+      "read_hit_rate_pct": 39.996,
+      "read_throughput_mb_s": 6797.986,
       "write_hit_rate_pct": null,
       "write_throughput_mb_s": null
     },
@@ -119,25 +119,25 @@
       "scope": "application_level_sampled_memory",
       "ddr_kb_peak": 0.0,
       "ddr_kb_mean": 0.0,
-      "hbm_kb_peak": 555192.0,
-      "hbm_kb_mean": 157880.0,
-      "total_memory_kb_peak": 555192.0,
-      "total_memory_kb_mean": 157880.0,
-      "sample_count": 35,
-      "timestamp_start_us": 1795601916823783.2,
-      "timestamp_end_us": 1795601917490634.2,
-      "sampling_span_us": 666851.0
+      "hbm_kb_peak": 560736.0,
+      "hbm_kb_mean": 163424.0,
+      "total_memory_kb_peak": 560736.0,
+      "total_memory_kb_mean": 163424.0,
+      "sample_count": 57,
+      "timestamp_start_us": 1795699056333352.5,
+      "timestamp_end_us": 1795699057444355.5,
+      "sampling_span_us": 1111003.0
     },
     "npu_module_memory": {
       "RUNTIME": {
         "reserved_kb_peak": 32876.0,
-        "reserved_kb_mean": 32754.85714285714,
-        "sample_count": 35
+        "reserved_kb_mean": 32798.80701754386,
+        "sample_count": 57
       },
       "APP": {
         "reserved_kb_peak": 436224.0,
-        "reserved_kb_mean": 161733.48571428572,
-        "sample_count": 35
+        "reserved_kb_mean": 111059.08771929824,
+        "sample_count": 57
       }
     }
   },
@@ -159,29 +159,29 @@
     "hardware_profile_success": true,
     "op_summary_rows_for_kernel": 1,
     "source_csv": {
-      "op_summary": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261125_101818_80941/hardware/PROF_000001_20261125101836449_00084933CJJNAACA/mindstudio_profiler_output/op_summary_20261125101841.csv",
+      "op_summary": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261126_131718_77479/hardware/PROF_000001_20261126131735951_00078132NEMREMJR/mindstudio_profiler_output/op_summary_20261126131741.csv",
       "ai_core_utilization": null,
       "ai_vector_core_utilization": null,
-      "hbm": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261125_101818_80941/hardware/PROF_000001_20261125101836449_00084933CJJNAACA/mindstudio_profiler_output/hbm_20261125101842.csv",
-      "llc_read_write": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261125_101818_80941/hardware/PROF_000001_20261125101836449_00084933CJJNAACA/mindstudio_profiler_output/llc_read_write_20261125101842.csv",
-      "npu_mem": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261125_101818_80941/hardware/PROF_000001_20261125101836449_00084933CJJNAACA/mindstudio_profiler_output/npu_mem_20261125101841.csv",
-      "npu_module_mem": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261125_101818_80941/hardware/PROF_000001_20261125101836449_00084933CJJNAACA/mindstudio_profiler_output/npu_module_mem_20261125101841.csv",
-      "task_time": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261125_101818_80941/hardware/PROF_000001_20261125101836449_00084933CJJNAACA/mindstudio_profiler_output/task_time_20261125101841.csv"
+      "hbm": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261126_131718_77479/hardware/PROF_000001_20261126131735951_00078132NEMREMJR/mindstudio_profiler_output/hbm_20261126131741.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261126_131718_77479/hardware/PROF_000001_20261126131735951_00078132NEMREMJR/mindstudio_profiler_output/llc_read_write_20261126131741.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261126_131718_77479/hardware/PROF_000001_20261126131735951_00078132NEMREMJR/mindstudio_profiler_output/npu_mem_20261126131741.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261126_131718_77479/hardware/PROF_000001_20261126131735951_00078132NEMREMJR/mindstudio_profiler_output/npu_module_mem_20261126131741.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261126_131718_77479/hardware/PROF_000001_20261126131735951_00078132NEMREMJR/mindstudio_profiler_output/task_time_20261126131741.csv"
     },
     "commands": {
       "timing": [
         "msprof",
-        "--output=/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/.collector_work/performance/_log_softmax_kernel/eval_20261125_101818_80941/timing",
+        "--output=/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/.collector_work/performance/_log_softmax_kernel/eval_20261126_131718_77479/timing",
         "--task-time=l0",
         "--ai-core=off",
         "--ascendcl=off",
         "--runtime-api=off",
         "python3",
-        "/tmp/_log_softmax_kernel_26a4bz39/test__log_softmax_kernel.py"
+        "/tmp/_log_softmax_kernel_r2r_l6sv/test__log_softmax_kernel.py"
       ],
       "hardware": [
         "msprof",
-        "--output=/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/.collector_work/performance/_log_softmax_kernel/eval_20261125_101818_80941/hardware",
+        "--output=/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/.collector_work/performance/_log_softmax_kernel/eval_20261126_131718_77479/hardware",
         "--task-time=l1",
         "--task-memory=on",
         "--ai-core=on",
@@ -194,12 +194,12 @@
         "--runtime-api=off",
         "--ge-api=off",
         "python3",
-        "/tmp/_log_softmax_kernel_26a4bz39/test__log_softmax_kernel.py"
+        "/tmp/_log_softmax_kernel_r2r_l6sv/test__log_softmax_kernel.py"
       ]
     },
     "raw_profile_directories": {
-      "timing": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261125_101818_80941/timing",
-      "hardware": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261125_101818_80941/hardware"
+      "timing": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261126_131718_77479/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/_log_softmax_kernel/data/p90/profiling/raw/_log_softmax_kernel/eval_20261126_131718_77479/hardware"
     }
   }
 }

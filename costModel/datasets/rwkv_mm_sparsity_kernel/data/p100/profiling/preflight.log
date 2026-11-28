@@ -1,0 +1,6 @@
+[W1126 12:16:36.253496560 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p100/.collector_work/compiler_save_temps/66643cf5bcc666e0f18dad54e7302e35fb8f8949d339cd30_pid45454_8a2t3czq
+✅ RWKV MM Sparsity test passed!
+Triton output shape: torch.Size([512])
+PyTorch output shape: torch.Size([512])
+Max difference: 3.814697265625e-05

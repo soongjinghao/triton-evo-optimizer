@@ -1,3 +1,7 @@
-[W1125 10:10:29.117522310 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p90/.collector_work/compiler_save_temps/117376c2c4d084f8c78ea89b4cfd5a5dd38ed4a4947e744f_pid73377_ax8hdvjd
+[W1128 01:42:47.762605300 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.
+  warn("view is deprecated, please use reshape with can_reorder being true.")
+/usr/local/python3.11.15/lib/python3.11/site-packages/triton/language/core.py:1424: UserWarning: view is deprecated, please use reshape with can_reorder being true.
+  warn("view is deprecated, please use reshape with can_reorder being true.")
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_dequantize_k_cache_fast_kernel/data/p90/.collector_work/compiler_save_temps/49bf8deab39fbc03bd54645de2c32d1330ff7e7f92b08a52_pid14885_diuvlc6s
 Test passed: Triton output matches PyTorch reference implementation.

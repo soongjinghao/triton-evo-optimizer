@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1128 01:47:23.089288250 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+All features - Output max diff: 7.629395e-05
+? Test with all features passed
+All tests passed!
+[INFO] Start export data in PROF_000001_20261128014723476_00020969JCHOKMMA.
+Sat 28 Nov 2026 01:47:29 [WARNING] [MSVP] [21123] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Sat 28 Nov 2026 01:47:29 [INFO] [MSVP] [21125] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/host" ...
+Sat 28 Nov 2026 01:47:29 [INFO] [MSVP] [21125] msprof_common.py: It may take few minutes, please be patient ...
+Sat 28 Nov 2026 01:47:29 [INFO] [MSVP] [21125] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/host" finished.
+Sat 28 Nov 2026 01:47:29 [INFO] [MSVP] [21125] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/device_0" ...
+Sat 28 Nov 2026 01:47:29 [INFO] [MSVP] [21125] msprof_common.py: It may take few minutes, please be patient ...
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21125] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/device_0" finished.
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21125] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/device_0.
+Sat 28 Nov 2026 01:47:30 [WARNING] [MSVP] [21303] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21311] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/host" has been analyzed. Parsing phase will be skipped.
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21311] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/device_0" has been analyzed. Parsing phase will be skipped.
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21311] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/device_0.
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21311] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/host"
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21311] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/device_0.
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21311] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/device_0"
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21311] msprof_common.py: Start exporting summary output_file.
+Sat 28 Nov 2026 01:47:30 [INFO] [MSVP] [21311] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261128014723476_00020969JCHOKMMA done.
+[INFO] Start query data in PROF_000001_20261128014723476_00020969JCHOKMMA.
+Sat 28 Nov 2026 01:47:31 [WARNING] [MSVP] [21350] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-28 01:47:23.244495	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-28 01:47:23.247829	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261128014723476_00020969JCHOKMMA done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_selective_scan_update_kernel/data/p10/.collector_work/performance/_selective_scan_update_kernel/eval_20261128_014718_20676/timing/PROF_000001_20261128014723476_00020969JCHOKMMA

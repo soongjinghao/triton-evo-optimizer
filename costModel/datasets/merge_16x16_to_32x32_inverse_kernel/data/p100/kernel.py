@@ -31,7 +31,7 @@ def merge_16x16_to_32x32_inverse_kernel(
     IS_VARLEN: tl.constexpr,
     DOT_PRECISION: tl.constexpr,
 ):
-    i_t, i_bh, i_i = tl.program_id(0), tl.program_id(1), tl.program_id(2)
+    i_t, i_bh = tl.program_id(0), tl.program_id(1)
     i_b, i_h = i_bh // H, i_bh % H
     if IS_VARLEN:
         i_n, i_t = (
@@ -48,38 +48,54 @@ def merge_16x16_to_32x32_inverse_kernel(
     o_i = tl.arange(0, 16)
     m_A = o_i[:, None] > o_i[None, :]
     m_I = o_i[:, None] == o_i[None, :]
+    row_stride = H * BT
     A += (bos * H + i_h) * BT
     Ai += (bos * H + i_h) * BT
     if not USE_TMA:
         p_A_11 = tl.make_block_ptr(
-            A, (T, BT), (H * BT, 1), (i_t * BT, 0), (16, 16), (1, 0)
+            A, (T, BT), (row_stride, 1), (i_t * BT, 0), (16, 16), (1, 0)
         )
         p_A_22 = tl.make_block_ptr(
-            A, (T, BT), (H * BT, 1), (i_t * BT + 16, 16), (16, 16), (1, 0)
+            A, (T, BT), (row_stride, 1), (i_t * BT + 16, 16), (16, 16), (1, 0)
         )
         b_Ai_11 = tl.load(p_A_11, boundary_check=(0, 1)).to(tl.float32)
         b_Ai_22 = tl.load(p_A_22, boundary_check=(0, 1)).to(tl.float32)
     else:
-        desc = tl.make_tensor_descriptor(A, [T, BT], [H * BT, 1], [16, 16])
-        desc_o = tl.make_tensor_descriptor(Ai, [T, BT], [H * BT, 1], [16, 16])
+        desc = tl.make_tensor_descriptor(A, [T, BT], [row_stride, 1], [16, 16])
+        desc_o = tl.make_tensor_descriptor(Ai, [T, BT], [row_stride, 1], [16, 16])
         b_Ai_11 = desc.load([i_t * BT + 0, 0]).to(tl.float32)
         b_Ai_22 = desc.load([i_t * BT + 16, 16]).to(tl.float32)
     b_Ai_11 = -tl.where(m_A, b_Ai_11, 0)
     b_Ai_22 = -tl.where(m_A, b_Ai_22, 0)
-    i = i_i
-    if i >= 2 and i < min(16, T - i_t * BT):
-        b_a_11 = -tl.load(A + (i_t * BT + i) * H * BT + o_i)
-        b_a_11 += tl.sum(b_a_11[:, None] * b_Ai_11, 0)
-        b_Ai_11 = tl.where((o_i == i)[:, None], b_a_11, b_Ai_11)
-    if i >= 16 + 2 and i < min(32, T - i_t * BT):
-        b_a_22 = -tl.load(A + (i_t * BT + i) * H * BT + o_i + 16)
-        b_a_22 += tl.sum(b_a_22[:, None] * b_Ai_22, 0)
-        b_Ai_22 = tl.where((o_i == i - 16)[:, None], b_a_22, b_Ai_22)
+    rem = T - i_t * BT
+    if rem >= 32:
+        addr11 = A + (i_t * BT) * row_stride + o_i + 2 * row_stride
+        addr22 = A + (i_t * BT) * row_stride + o_i + 16 + 18 * row_stride
+        for k in range(2, 16):
+            b_a_11 = -tl.load(addr11)
+            b_a_11 += tl.sum(b_a_11[:, None] * b_Ai_11, 0)
+            b_Ai_11 = tl.where((o_i == k)[:, None], b_a_11, b_Ai_11)
+            b_a_22 = -tl.load(addr22)
+            b_a_22 += tl.sum(b_a_22[:, None] * b_Ai_22, 0)
+            b_Ai_22 = tl.where((o_i == k)[:, None], b_a_22, b_Ai_22)
+            addr11 += row_stride
+            addr22 += row_stride
+    else:
+        limit1 = tl.minimum(16, rem)
+        for i in range(2, limit1):
+            b_a_11 = -tl.load(A + (i_t * BT + i) * row_stride + o_i)
+            b_a_11 += tl.sum(b_a_11[:, None] * b_Ai_11, 0)
+            b_Ai_11 = tl.where((o_i == i)[:, None], b_a_11, b_Ai_11)
+        limit2 = tl.minimum(32, rem)
+        for i in range(18, limit2):
+            b_a_22 = -tl.load(A + (i_t * BT + i) * row_stride + o_i + 16)
+            b_a_22 += tl.sum(b_a_22[:, None] * b_Ai_22, 0)
+            b_Ai_22 = tl.where((o_i == i - 16)[:, None], b_a_22, b_Ai_22)
     b_Ai_11 += m_I
     b_Ai_22 += m_I
     if not USE_TMA:
         p_A_21 = tl.make_block_ptr(
-            A, (T, BT), (H * BT, 1), (i_t * BT + 16, 0), (16, 16), (1, 0)
+            A, (T, BT), (row_stride, 1), (i_t * BT + 16, 0), (16, 16), (1, 0)
         )
         b_A_21 = tl.load(p_A_21, boundary_check=(0, 1)).to(tl.float32)
     else:
@@ -91,13 +107,13 @@ def merge_16x16_to_32x32_inverse_kernel(
     )
     if not USE_TMA:
         p_Ai_11 = tl.make_block_ptr(
-            Ai, (T, BT), (H * BT, 1), (i_t * BT, 0), (16, 16), (1, 0)
+            Ai, (T, BT), (row_stride, 1), (i_t * BT, 0), (16, 16), (1, 0)
         )
         p_Ai_21 = tl.make_block_ptr(
-            Ai, (T, BT), (H * BT, 1), (i_t * BT + 16, 0), (16, 16), (1, 0)
+            Ai, (T, BT), (row_stride, 1), (i_t * BT + 16, 0), (16, 16), (1, 0)
         )
         p_Ai_22 = tl.make_block_ptr(
-            Ai, (T, BT), (H * BT, 1), (i_t * BT + 16, 16), (16, 16), (1, 0)
+            Ai, (T, BT), (row_stride, 1), (i_t * BT + 16, 16), (16, 16), (1, 0)
         )
         tl.store(
             p_Ai_11,
@@ -138,7 +154,7 @@ def solve_tril(
     )
     NT = len(chunk_indices) if cu_seqlens is not None else triton.cdiv(T, BT)
     Ai = torch.zeros_like(A, dtype=output_dtype)
-    merge_16x16_to_32x32_inverse_kernel[NT, B * H, 16](
+    merge_16x16_to_32x32_inverse_kernel[NT, B * H](
         A=A,
         Ai=Ai,
         cu_seqlens=cu_seqlens,

@@ -1,0 +1,11 @@
+Device_id,OP Type,Core Type,Count,Total Time(us),Min Time(us),Avg Time(us),Max Time(us),Ratio(%)
+0,Transpose,AI_VECTOR_CORE,2,26.24,11.52,13.12,14.72,34.949
+0,RealDiv,AI_VECTOR_CORE,2,13.88,3.76,6.94,10.12,18.487
+0,ArgMaxWithValue,AI_VECTOR_CORE,1,9.9,9.9,9.9,9.9,13.186
+0,_per_token_group_quant_8bit_colmajor_kernel,AI_VECTOR_CORE,1,6.56,6.56,6.56,6.56,8.737
+0,Cast,AI_VECTOR_CORE,2,5.44,1.96,2.72,3.48,7.246
+0,Abs,AI_VECTOR_CORE,1,3.74,3.74,3.74,3.74,4.981
+0,ClipByValueV2,AI_VECTOR_CORE,1,3.08,3.08,3.08,3.08,4.102
+0,DSARandomNormal,DSA_SQE,1,2.7,2.7,2.7,2.7,3.596
+0,Maximum,AI_VECTOR_CORE,1,1.88,1.88,1.88,1.88,2.504
+0,Round,AI_VECTOR_CORE,1,1.66,1.66,1.66,1.66,2.211

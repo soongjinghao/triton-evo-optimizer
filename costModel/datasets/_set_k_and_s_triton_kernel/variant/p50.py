@@ -1,7 +1,9 @@
 import torch
 import triton
 import triton.language as tl
+
 device = 'npu'
+
 @triton.jit
 def _set_k_and_s_triton_kernel(
     buf_fp16_ptr,
@@ -17,23 +19,30 @@ def _set_k_and_s_triton_kernel(
 ):
     token_id = tl.program_id(0)
     loc = tl.load(loc_ptr + token_id)
+    
     in_k_offsets = token_id * index_k_ptr_stride_0 + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)
     k = tl.load(index_k_ptr + in_k_offsets)
     k_scale = tl.load(index_k_scale_ptr + token_id)
-    loc_page_index = loc >> 6
-    loc_token_offset_in_page = loc & 63
+    
+    loc_page_index = loc // PAGE_SIZE
+    loc_token_offset_in_page = loc % PAGE_SIZE
+    
     out_k_offsets = (
         loc_page_index * BUF_NUMEL_PER_PAGE
         + loc_token_offset_in_page * NUM_K_ELEMS_PER_TOKEN
         + tl.arange(0, NUM_K_ELEMS_PER_TOKEN)
     )
+    
     out_s_offset = (
-        loc_page_index * (BUF_NUMEL_PER_PAGE * 16777216 // 67108864)
-        + S_OFFSET_NBYTES_IN_PAGE * 16777216 // 67108864
+        loc_page_index * (BUF_NUMEL_PER_PAGE // 4)
+        + (S_OFFSET_NBYTES_IN_PAGE // 4)
         + loc_token_offset_in_page
     )
+    
     tl.store(buf_fp16_ptr + out_k_offsets, k)
     tl.store(buf_fp32_ptr + out_s_offset, k_scale)
+
+
 def _set_k_and_s_triton(
     buf: torch.Tensor,
     loc: torch.Tensor,
@@ -44,6 +53,7 @@ def _set_k_and_s_triton(
     num_pages, buf_numel_per_page = buf.shape
     (num_tokens_to_write,) = loc.shape
     num_tokens_to_write_, index_head_dim = index_k.shape
+    
     if index_k_scale.ndim == 1:
         num_tokens_to_write__ = index_k_scale.shape[0]
         scale_dim = 1
@@ -53,6 +63,7 @@ def _set_k_and_s_triton(
         raise ValueError(
             f"index_k_scale must be 1D or 2D, got shape {index_k_scale.shape}"
         )
+    
     assert buf_numel_per_page == 64 * (128 + 4)
     assert num_tokens_to_write == num_tokens_to_write_ == num_tokens_to_write__
     assert index_head_dim == 128
@@ -66,8 +77,10 @@ def _set_k_and_s_triton(
     assert loc.is_contiguous()
     assert index_k.is_contiguous()
     assert index_k_scale.is_contiguous()
+    
     buf_fp16 = buf.view(torch.float16)
     buf_fp32 = buf.view(torch.float32)
+    
     _set_k_and_s_triton_kernel[(num_tokens_to_write,)](
         buf_fp16,
         buf_fp32,

@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 45454,
+      "call_index": 1,
+      "jit_function": "rwkv_mm_sparsity_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p045454_k001_rwkv_mm_sparsity_kernel.ttir.mlir",
+        "p045454_k001_rwkv_mm_sparsity_kernel.ttadapter.mlir",
+        "p045454_k001_rwkv_mm_sparsity_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 45734,
+      "call_index": 1,
+      "jit_function": "rwkv_mm_sparsity_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p045734_k001_rwkv_mm_sparsity_kernel.ttir.mlir",
+        "p045734_k001_rwkv_mm_sparsity_kernel.ttadapter.mlir",
+        "p045734_k001_rwkv_mm_sparsity_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 46165,
+      "call_index": 1,
+      "jit_function": "rwkv_mm_sparsity_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p046165_k001_rwkv_mm_sparsity_kernel.ttir.mlir",
+        "p046165_k001_rwkv_mm_sparsity_kernel.ttadapter.mlir",
+        "p046165_k001_rwkv_mm_sparsity_kernel.npubin"
+      ]
+    }
+  ]
+}

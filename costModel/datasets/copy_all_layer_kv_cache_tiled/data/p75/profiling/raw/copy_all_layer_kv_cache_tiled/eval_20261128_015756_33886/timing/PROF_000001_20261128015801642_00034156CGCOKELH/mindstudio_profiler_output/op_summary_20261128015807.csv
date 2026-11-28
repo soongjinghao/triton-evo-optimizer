@@ -1,0 +1,13 @@
+Device_id,Model ID,Task ID,Stream ID,Op Name,OP Type,OP State,Task Type,Task Start Time(us),Task Duration(us),Task Wait Time(us),Block Num,Mix Block Num,HF32 Eligible,Input Shapes,Input Data Types,Input Formats,Output Shapes,Output Data Types,Output Formats,Context ID
+0,4294967295,1,47,aclnnInplaceRandom_DSARandomUniform_DSARandomUniform,N/A,N/A,N/A,1795831082163752.479	,14.800,0,0,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,2,47,aclnnInplaceRandom_CastAiCore_Cast,N/A,N/A,N/A,1795831082233267.628	,11.960,69500.450000,47,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,4,47,aclnnInplaceRandom_DSARandomUniform_DSARandomUniform,N/A,N/A,N/A,1795831082233869.200	,13.660,589.540000,47,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,5,47,aclnnInplaceRandom_CastAiCore_Cast,N/A,N/A,N/A,1795831082233904.280	,4.001,21.340000,47,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,12,47,aclnnMax_ReduceMaxAiCore_ReduceMax,N/A,N/A,N/A,1795831082245532.713	,2.360,11624.499000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0
+0,4294967295,13,47,copy_all_layer_kv_cache_tiled,N/A,N/A,N/A,1795831082442461.648	,3.280,196926.640000,4,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+0,4294967295,14,47,aclnnEqual_TensorEqualAiCore_TensorEqual,N/A,N/A,N/A,1795831082446982.998	,4.200,4517.970000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0
+0,4294967295,15,47,aclnnEqual_TensorEqualAiCore_TensorEqual,N/A,N/A,N/A,1795831082447570.190	,3.020,583.050000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0
+0,4294967295,16,47,aclnnEqual_TensorEqualAiCore_TensorEqual,N/A,N/A,N/A,1795831082447785.674	,2.780,212.480000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0
+0,4294967295,17,47,aclnnEqual_TensorEqualAiCore_TensorEqual,N/A,N/A,N/A,1795831082447995.278	,2.920,206.720000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0
+0,4294967295,18,47,aclnnEqual_TensorEqualAiCore_TensorEqual,N/A,N/A,N/A,1795831082448166.782	,2.980,168.580000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0
+0,4294967295,19,47,aclnnEqual_TensorEqualAiCore_TensorEqual,N/A,N/A,N/A,1795831082448302.044	,2.840,132.270000,1,0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0

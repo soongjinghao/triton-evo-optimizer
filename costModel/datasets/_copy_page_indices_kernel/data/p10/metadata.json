@@ -4,10 +4,10 @@
   "operator_name": "_copy_page_indices_kernel",
   "candidate_id": "_copy_page_indices_kernel__p10__03a995b98164",
   "candidate_role": "p10",
-  "status": "measurement_inconsistent",
-  "started_at": "2026-11-25T09:56:55+00:00",
-  "finished_at": "2026-11-25T09:57:40+00:00",
-  "duration_seconds": 45.279,
+  "status": "success",
+  "started_at": "2026-11-25T12:43:01+00:00",
+  "finished_at": "2026-11-25T12:43:49+00:00",
+  "duration_seconds": 47.932,
   "source": {
     "variant_path": "costModel/datasets/_copy_page_indices_kernel/variant/p10.py",
     "source_code_sha256": "03a995b981643c94b388e8e8b28d4ae92527bf6ad99ff0c800f68ab60254c1cb",
@@ -17,10 +17,10 @@
   },
   "evaluation": {
     "success": true,
-    "execution_time_us": 3.361,
+    "execution_time_us": 3.28,
     "error": null,
     "profile_mode": "full",
-    "profile_dir": "profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193",
+    "profile_dir": "profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603",
     "hardware_profile_success": true
   },
   "correctness": {
@@ -34,21 +34,21 @@
     "summary_path": "profiling/profile_summary.json",
     "raw_profile_dir": "profiling/raw",
     "timing": {
-      "execution_time_us": 3.361,
+      "execution_time_us": 3.28,
       "source": "op_summary.Task Duration(us)",
       "sample_count": 1,
       "task_time_cross_check": {
-        "median_task_time_us": 4.22,
+        "median_task_time_us": 4.0,
         "sample_count": 1,
         "task_id": "16",
         "stream_id": "47"
       },
-      "hardware_pass_task_duration_us": 4.22,
-      "cross_pass_difference_us": 0.8589999999999995,
-      "cross_pass_relative_difference_pct": 20.355450236966817,
-      "cross_pass_consistent_20pct": false,
-      "label_valid": false,
-      "label_execution_time_us": null
+      "hardware_pass_task_duration_us": 4.0,
+      "cross_pass_difference_us": 0.7200000000000002,
+      "cross_pass_relative_difference_pct": 18.000000000000004,
+      "cross_pass_consistent_20pct": true,
+      "label_valid": true,
+      "label_execution_time_us": 3.28
     },
     "kernel": {
       "Device_id": "0",
@@ -58,14 +58,14 @@
       "OP Type": "_copy_page_indices_kernel",
       "OP State": "static",
       "Task Type": "AI_VECTOR_CORE",
-      "Task Start Time(us)": "1795600654037461.010\t",
-      "Task Duration(us)": 4.22,
+      "Task Start Time(us)": "1795610622883167.714\t",
+      "Task Duration(us)": 4.0,
       "Block Num": "4",
       "Mix Block Num": "0",
       "HF32 Eligible": "YES",
       "Input Shapes": "\"4,8;5\"",
-      "Input Data Types": "INT32;1056824640",
-      "Output Shapes": "\"15\"",
+      "Input Data Types": "INT32;1383914816",
+      "Output Shapes": "\"23\"",
       "Output Data Types": "INT32",
       "aicore_time(us)": 0.0,
       "aic_total_cycles": 0.0,
@@ -80,17 +80,17 @@
       "aic_fixpipe_time(us)": 0.0,
       "aic_fixpipe_ratio": 0.0,
       "aic_icache_miss_rate": 0.0,
-      "aiv_time(us)": 3.469,
-      "aiv_total_cycles": 24977.0,
+      "aiv_time(us)": 3.345,
+      "aiv_total_cycles": 24086.0,
       "aiv_vec_time(us)": 0.018,
       "aiv_vec_ratio": 0.005,
-      "aiv_scalar_time(us)": 1.281,
-      "aiv_scalar_ratio": 0.369,
-      "aiv_mte2_time(us)": 0.373,
-      "aiv_mte2_ratio": 0.108,
-      "aiv_mte3_time(us)": 0.141,
-      "aiv_mte3_ratio": 0.041,
-      "aiv_icache_miss_rate": 0.198,
+      "aiv_scalar_time(us)": 1.261,
+      "aiv_scalar_ratio": 0.377,
+      "aiv_mte2_time(us)": 0.298,
+      "aiv_mte2_ratio": 0.089,
+      "aiv_mte3_time(us)": 0.133,
+      "aiv_mte3_ratio": 0.04,
+      "aiv_icache_miss_rate": 0.186,
       "cube_utilization(%)": 0.0
     },
     "core_utilization": {
@@ -120,29 +120,29 @@
         "record_count": 1,
         "active_record_count": 1,
         "vec_ratio_mean": 0.005,
-        "scalar_ratio_mean": 0.369,
-        "mte2_ratio_mean": 0.108,
-        "mte3_ratio_mean": 0.041,
-        "icache_miss_rate_mean": 0.198,
+        "scalar_ratio_mean": 0.377,
+        "mte2_ratio_mean": 0.089,
+        "mte3_ratio_mean": 0.04,
+        "icache_miss_rate_mean": 0.186,
         "vec_ratio_max": 0.005,
-        "scalar_ratio_max": 0.369,
-        "mte2_ratio_max": 0.108,
-        "mte3_ratio_max": 0.041,
-        "icache_miss_rate_max": 0.198
+        "scalar_ratio_max": 0.377,
+        "mte2_ratio_max": 0.089,
+        "mte3_ratio_max": 0.04,
+        "icache_miss_rate_max": 0.186
       }
     },
     "memory": {
       "hbm": {
         "scope": "device_level_sampled_bandwidth",
         "sample_count": 5,
-        "read_mb_s": 21.358,
-        "write_mb_s": 10.56
+        "read_mb_s": 18.07,
+        "write_mb_s": 8.458
       },
       "llc": {
         "scope": "device_level_llc_profile",
         "sample_count": 3,
-        "read_hit_rate_pct": 44.624,
-        "read_throughput_mb_s": 5466.989,
+        "read_hit_rate_pct": 44.043,
+        "read_throughput_mb_s": 5076.484,
         "write_hit_rate_pct": null,
         "write_throughput_mb_s": null
       },
@@ -151,24 +151,24 @@
         "ddr_kb_peak": 0.0,
         "ddr_kb_mean": 0.0,
         "hbm_kb_peak": 127160.0,
-        "hbm_kb_mean": 123064.0,
+        "hbm_kb_mean": 127160.0,
         "total_memory_kb_peak": 127160.0,
-        "total_memory_kb_mean": 123064.0,
-        "sample_count": 36,
-        "timestamp_start_us": 1795600653620849.2,
-        "timestamp_end_us": 1795600654319583.2,
-        "sampling_span_us": 698734.0
+        "total_memory_kb_mean": 127160.0,
+        "sample_count": 56,
+        "timestamp_start_us": 1795610622447191.0,
+        "timestamp_end_us": 1795610623542357.0,
+        "sampling_span_us": 1095166.0
       },
       "npu_module_memory": {
         "RUNTIME": {
           "reserved_kb_peak": 36968.0,
-          "reserved_kb_mean": 35361.08108108108,
-          "sample_count": 37
+          "reserved_kb_mean": 35831.857142857145,
+          "sample_count": 56
         },
         "APP": {
           "reserved_kb_peak": 2048.0,
-          "reserved_kb_mean": 996.3243243243244,
-          "sample_count": 37
+          "reserved_kb_mean": 694.8571428571429,
+          "sample_count": 56
         }
       }
     },
@@ -176,29 +176,29 @@
       "hardware_profile_success": true,
       "op_summary_rows_for_kernel": 1,
       "source_csv": {
-        "op_summary": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193/hardware/PROF_000001_20261125095733258_00054877DHGPNJKI/mindstudio_profiler_output/op_summary_20261125095738.csv",
+        "op_summary": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603/hardware/PROF_000001_20261125124342099_00010342ENCLJLHL/mindstudio_profiler_output/op_summary_20261125124347.csv",
         "ai_core_utilization": null,
         "ai_vector_core_utilization": null,
-        "hbm": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193/hardware/PROF_000001_20261125095733258_00054877DHGPNJKI/mindstudio_profiler_output/hbm_20261125095738.csv",
-        "llc_read_write": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193/hardware/PROF_000001_20261125095733258_00054877DHGPNJKI/mindstudio_profiler_output/llc_read_write_20261125095738.csv",
-        "npu_mem": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193/hardware/PROF_000001_20261125095733258_00054877DHGPNJKI/mindstudio_profiler_output/npu_mem_20261125095738.csv",
-        "npu_module_mem": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193/hardware/PROF_000001_20261125095733258_00054877DHGPNJKI/mindstudio_profiler_output/npu_module_mem_20261125095738.csv",
-        "task_time": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193/hardware/PROF_000001_20261125095733258_00054877DHGPNJKI/mindstudio_profiler_output/task_time_20261125095738.csv"
+        "hbm": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603/hardware/PROF_000001_20261125124342099_00010342ENCLJLHL/mindstudio_profiler_output/hbm_20261125124348.csv",
+        "llc_read_write": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603/hardware/PROF_000001_20261125124342099_00010342ENCLJLHL/mindstudio_profiler_output/llc_read_write_20261125124348.csv",
+        "npu_mem": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603/hardware/PROF_000001_20261125124342099_00010342ENCLJLHL/mindstudio_profiler_output/npu_mem_20261125124347.csv",
+        "npu_module_mem": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603/hardware/PROF_000001_20261125124342099_00010342ENCLJLHL/mindstudio_profiler_output/npu_module_mem_20261125124347.csv",
+        "task_time": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603/hardware/PROF_000001_20261125124342099_00010342ENCLJLHL/mindstudio_profiler_output/task_time_20261125124347.csv"
       },
       "commands": {
         "timing": [
           "msprof",
-          "--output=/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/.collector_work/performance/_copy_page_indices_kernel/eval_20261125_095715_53193/timing",
+          "--output=/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/.collector_work/performance/_copy_page_indices_kernel/eval_20261125_124323_9603/timing",
           "--task-time=l0",
           "--ai-core=off",
           "--ascendcl=off",
           "--runtime-api=off",
           "python3",
-          "/tmp/_copy_page_indices_kernel_41fsqcy3/test__copy_page_indices_kernel.py"
+          "/tmp/_copy_page_indices_kernel_bhiymg_y/test__copy_page_indices_kernel.py"
         ],
         "hardware": [
           "msprof",
-          "--output=/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/.collector_work/performance/_copy_page_indices_kernel/eval_20261125_095715_53193/hardware",
+          "--output=/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/.collector_work/performance/_copy_page_indices_kernel/eval_20261125_124323_9603/hardware",
           "--task-time=l1",
           "--task-memory=on",
           "--ai-core=on",
@@ -211,12 +211,12 @@
           "--runtime-api=off",
           "--ge-api=off",
           "python3",
-          "/tmp/_copy_page_indices_kernel_41fsqcy3/test__copy_page_indices_kernel.py"
+          "/tmp/_copy_page_indices_kernel_bhiymg_y/test__copy_page_indices_kernel.py"
         ]
       },
       "raw_profile_directories": {
-        "timing": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193/timing",
-        "hardware": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_095715_53193/hardware"
+        "timing": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603/timing",
+        "hardware": "/workspace/Agent/costModel/datasets/_copy_page_indices_kernel/data/p10/profiling/raw/_copy_page_indices_kernel/eval_20261125_124323_9603/hardware"
       }
     }
   },
@@ -234,13 +234,13 @@
   },
   "ir_paths": {
     "npubin": [
-      "ir/npubin/asm_p054249_k001_copy_page_indices_kernel.npubin"
+      "ir/npubin/asm_p009604_k001_copy_page_indices_kernel.npubin"
     ],
     "ttadapter": [
-      "ir/ttadapter/asm_p054249_k001_copy_page_indices_kernel.ttadapter.mlir"
+      "ir/ttadapter/asm_p009604_k001_copy_page_indices_kernel.ttadapter.mlir"
     ],
     "ttir": [
-      "ir/ttir/asm_p054249_k001_copy_page_indices_kernel.ttir.mlir"
+      "ir/ttir/asm_p009604_k001_copy_page_indices_kernel.ttir.mlir"
     ],
     "hivm_opt": [
       "ir/hivm_opt/save_temps_module.hivm.opt.mlir"

@@ -1,5 +1,5 @@
-[W1125 10:49:03.353535710 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[W1125 12:48:47.337772200 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
 Testing persistent_masked_m_silu_mul_quant on NPU...
-[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/compiler_save_temps/609d5e6ef5d14b403be19172f9c97dba9055aece41aea129_pid127960_yxyzrdkr
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/compiler_save_temps/609d5e6ef5d14b403be19172f9c97dba9055aece41aea129_pid17452_8w94zg1b
 ✓ SiLU quantization test passed
 ✅ NPU quantization kernel test completed successfully!

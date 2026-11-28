@@ -21,10 +21,10 @@
     "rwkv_mm_sparsity_kernel__p90__b1baff907524",
     "rwkv_mm_sparsity_kernel__p100__169e4d74e0fd"
   ],
-  "correctness_ready": false,
+  "correctness_ready": true,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 144,
-  "ir_ready": false,
+  "ir_ready": true,
   "operator": "rwkv_mm_sparsity_kernel",
   "operator_name": "rwkv_mm_sparsity_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": false,
+  "profiling_ready": true,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -43,5 +43,9 @@
   "test_path": "costModel/datasets/rwkv_mm_sparsity_kernel/test.py",
   "test_sha256": "384e5a608932464145fc9f61fff8288315d86fe4999923c7c279fdda0885a351",
   "test_source_path": "datasets2/rwkv_mm_sparsity_kernel/test_rwkv_mm_sparsity_kernel_1.py",
-  "variants_ready": true
+  "variants_ready": true,
+  "npubin_ready": true,
+  "m3_ir_ready": true,
+  "complete_data_ready": true,
+  "last_collector_version": "2.2.0"
 }

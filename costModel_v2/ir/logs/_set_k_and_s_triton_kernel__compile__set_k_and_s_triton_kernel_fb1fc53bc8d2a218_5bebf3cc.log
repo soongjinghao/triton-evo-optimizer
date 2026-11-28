@@ -1,6 +1,0 @@
-[W1116 01:23:45.533573470 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-/workspace/Agent/costModel_v2/ir/_work/compile__set_k_and_s_triton_kernel_fb1fc53bc8d2a218_5bebf3cc_scrzimsb/test_env/_set_k_and_s_triton_kernel.py:70: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:423.)
-  loc_page_index = loc >> 6
-Dumping intermediate results to /workspace/Agent/costModel_v2/ir/_work/compile__set_k_and_s_triton_kernel_fb1fc53bc8d2a218_5bebf3cc_scrzimsb/home/.triton/dump/MrSK8FjSO8CAQcXRTChxPvbfWawjrkqfPQX-75HSFEo
-[DEBUG] cmd_list: /usr/local/python3.11.15/lib/python3.11/site-packages/triton/backends/ascend/bishengir/bin/bishengir-compile /tmp/tmpz12j8s4f/kernel.ttadapter.mlir --target=Ascend910_9382 --enable-auto-multi-buffer=True --enable-auto-bind-sub-block=True --enable-auto-blockify-loop --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --mlir-print-ir-after-failure --mlir-print-stacktrace-on-diagnostic --bishengir-print-ir-after=hivm-graph-sync-solver -o /tmp/tmpz12j8s4f/kernel
-All tests passed!

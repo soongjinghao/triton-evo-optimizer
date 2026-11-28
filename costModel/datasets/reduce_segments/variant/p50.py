@@ -56,15 +56,15 @@ def reduce_segments(
     segm_mask = tl.arange(0, NUM_SEGMENTS_PER_SEQ) < tl.full(
         [NUM_SEGMENTS_PER_SEQ], act_num_segments, dtype=tl.int32
     )
-    dim_mask = tl.full([HEAD_SIZE_PADDED], 1, dtype=tl.int1) if HEAD_SIZE == HEAD_SIZE_PADDED else tl.where(tl.arange(0, HEAD_SIZE_PADDED) < HEAD_SIZE, 1, 0).to(tl.int1)
+    dim_mask = tl.arange(0, HEAD_SIZE_PADDED) < HEAD_SIZE
     segm_offset = (
         query_token_idx.to(tl.int64) * (num_query_heads * NUM_SEGMENTS_PER_SEQ)
         + query_head_idx * NUM_SEGMENTS_PER_SEQ
         + tl.arange(0, NUM_SEGMENTS_PER_SEQ)
     )
     segm_max = tl.load(segm_max_ptr + segm_offset, mask=segm_mask, other=float("-inf"))
-    overall_max = tl.max(segm_max)
     segm_expsum = tl.load(segm_expsum_ptr + segm_offset, mask=segm_mask, other=0.0)
+    overall_max = tl.max(segm_max)
     segm_expsum = segm_expsum * tl.exp(segm_max - overall_max)
     overall_expsum = tl.sum(segm_expsum)
     segm_output_offset = (

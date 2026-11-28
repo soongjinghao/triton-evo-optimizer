@@ -1,9 +1,0 @@
-[W1116 15:25:23.377358750 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-[WARNING] AutoBlockify disabled for kernel '_state_passing_fwd_kernel'. Unsafe ops: loads or stores with cache modifiers. Enabling may cause correctness issues. To force enable: set has_auto_blockify_blacklist_op=False.
-[2026-11-16 15:25:36] [WARNING] [547958] profiler.py: Incorrect schedule: Stop profiler while current state is RECORD which may result in incomplete parsed data.
-[2026-11-16 15:25:36] [INFO] [548315] profiler.py: Start parsing profiling data in sync mode at: /workspace/Agent/costModel_v2/labels/work/_state_passing_fwd_kernel__historical_best__6fdf9430923b_r01_6y95yz8g/home/.triton/profile_results/prof_20261116_152535_MainProcess-547958/f6d29f527e7c_547958_20261116152535943_ascend_pt
-|/-\|/-\|/-\|/-\[2026-11-16 15:25:51] [INFO] [548324] profiler.py: CANN profiling data parsed in a total time of 0:00:15.037469
-|/-\[2026-11-16 15:25:56] [INFO] [548315] profiler.py: All profiling data parsed in a total time of 0:00:20.062313
-[costmodel-bench] _state_passing_fwd_kernel: 0.004149 ms
-Max absolute diff - out: 0.00e+00, final_states: 0.00e+00
-Max relative diff - out: 0.00e+00, final_states: 0.00e+00

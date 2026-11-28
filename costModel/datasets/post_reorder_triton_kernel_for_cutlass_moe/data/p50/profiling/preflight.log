@@ -1,0 +1,21 @@
+[W1126 13:28:45.521404600 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[W1126 13:28:57.320533190 ToKernelNpu.cpp:40] Warning: Device do not support double dtype now, dtype cast replace with float. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p50/.collector_work/compiler_save_temps/b607c140db31fcc7274c3135510468bf9ddfd86ea313e694_pid91422_1lcjr4d8
+Triton output: tensor([[-2.1641,  0.4067, -0.2372,  ..., -0.2031,  1.1377,  0.5723],
+        [ 0.1223,  0.7949, -0.3745,  ...,  1.4414, -0.8213,  0.5693],
+        [-0.1414,  0.4041, -0.8262,  ..., -0.8735,  0.5371,  0.1736],
+        ...,
+        [ 0.7822,  1.3350,  0.6396,  ...,  1.2168,  0.0486, -0.8403],
+        [ 0.7642,  1.0625, -0.5190,  ..., -0.1406, -0.0673, -1.2666],
+        [-0.2207,  0.1094, -0.8096,  ..., -0.3530, -0.1741, -0.5742]],
+       device='npu:0', dtype=torch.float16)
+PyTorch output: tensor([[-2.1641,  0.4067, -0.2372,  ..., -0.2031,  1.1377,  0.5723],
+        [ 0.1223,  0.7949, -0.3745,  ...,  1.4414, -0.8213,  0.5693],
+        [-0.1414,  0.4041, -0.8262,  ..., -0.8735,  0.5371,  0.1736],
+        ...,
+        [ 0.7822,  1.3350,  0.6396,  ...,  1.2168,  0.0486, -0.8403],
+        [ 0.7642,  1.0625, -0.5190,  ..., -0.1406, -0.0673, -1.2666],
+        [-0.2207,  0.1094, -0.8096,  ..., -0.3530, -0.1741, -0.5742]],
+       device='npu:0', dtype=torch.float16)
+Max difference: 0.0
+✅ Triton and PyTorch implementations match!

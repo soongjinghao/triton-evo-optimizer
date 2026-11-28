@@ -1,0 +1,12 @@
+[W1125 13:21:13.306836300 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+/tmp/reshape_and_cache_kernel_flash_zozky5zl/test_reshape_and_cache_kernel_flash.py:54: UserWarning: Cannot create tensor with interal format while allow_internel_format=False, tensor will be created with base format. (Triggered internally at ../torch_npu/csrc/aten/common/TensorFactories.cpp:423.)
+  block_offset = slot_idx % block_size
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p90/.collector_work/compiler_save_temps/c94a9db9f49516c0a73ec21f5799b33ab327fd88f5943a53_pid77654_wvhm7776
+✓ Basic test passed
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p90/.collector_work/compiler_save_temps/9fa9e15fd682358eaaab1d5a67cb677d0823b0f0157b0e6b_pid77654_zveg0mxd
+✓ Negative slots test passed
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p90/.collector_work/compiler_save_temps/38dfaae9c5098579b531bb5d1f31d75b91783cba4aaab468_pid77654_z1hynfh5
+✓ Large tile test passed
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/reshape_and_cache_kernel_flash/data/p90/.collector_work/compiler_save_temps/899fbe8224f8c00165d3e3847fd023957ee7591e572347ee_pid77654_nkmjyyyr
+✓ Edge cases test passed
+All tests passed!

@@ -2,6 +2,7 @@ import torch
 import torch_npu
 import triton
 import triton.language as tl
+
 @triton.jit
 def reshape_and_cache_kernel_flash(
     key_ptr,
@@ -33,19 +34,17 @@ def reshape_and_cache_kernel_flash(
         key_ptr + src_key_idx + tile_pos, mask=tile_pos < (num_heads * head_size)
     )
     if FP8_KV_CACHE:
-        inv_k_scale = 1.0 / tl.load(k_scale)
-        key_tile = key_load if key_load.dtype.is_fp8() else key_load * inv_k_scale
+        key_tile = key_load if key_load.dtype.is_fp8() else key_load / tl.load(k_scale)
     else:
         key_tile = key_load
     value_load = tl.load(
         value_ptr + src_value_idx + tile_pos, mask=tile_pos < (num_heads * head_size)
     )
     if FP8_KV_CACHE:
-        inv_v_scale = 1.0 / tl.load(v_scale)
         if value_load.dtype.is_fp8():
             value_tile = value_load
         else:
-            value_tile = value_load * inv_v_scale
+            value_tile = value_load / tl.load(v_scale)
     else:
         value_tile = value_load
     tl.store(
@@ -58,6 +57,7 @@ def reshape_and_cache_kernel_flash(
         value_tile,
         mask=tile_pos < (num_heads * head_size),
     )
+
 def triton_reshape_and_cache_flash(
     key: torch.Tensor,
     value: torch.Tensor,
@@ -96,8 +96,8 @@ def triton_reshape_and_cache_flash(
         value_cache = value_cache.to(kv_cache_torch_dtype)
     FP8_KV_CACHE = kv_cache_dtype.startswith("fp8")
     TILE_SIZE = min(512, triton.next_power_of_2(n))
-    num_warps = 8
-    num_stages = 3
+    num_warps = 4
+    num_stages = 2
     num_tokens = slot_mapping.shape[0]
     slot_mapping_cpu = slot_mapping.cpu()
     for token_idx in range(num_tokens):

@@ -3,21 +3,21 @@
   "kernel_name": "fn_triton_kernel",
   "profile_mode": "full",
   "timing": {
-    "execution_time_us": 9.84,
+    "execution_time_us": 4.26,
     "source": "op_summary.Task Duration(us)",
     "sample_count": 1,
     "task_time_cross_check": {
-      "median_task_time_us": 6.62,
+      "median_task_time_us": 4.48,
       "sample_count": 1,
       "task_id": "5",
       "stream_id": "47"
     },
-    "hardware_pass_task_duration_us": 6.62,
-    "cross_pass_difference_us": 3.2199999999999998,
-    "cross_pass_relative_difference_pct": 32.72357723577235,
-    "cross_pass_consistent_20pct": false,
-    "label_valid": false,
-    "label_execution_time_us": null
+    "hardware_pass_task_duration_us": 4.48,
+    "cross_pass_difference_us": 0.22000000000000064,
+    "cross_pass_relative_difference_pct": 4.9107142857143,
+    "cross_pass_consistent_20pct": true,
+    "label_valid": true,
+    "label_execution_time_us": 4.26
   },
   "kernel": {
     "Device_id": "0",
@@ -27,9 +27,9 @@
     "OP Type": "fn_triton_kernel",
     "OP State": "static",
     "Task Type": "AI_VECTOR_CORE",
-    "Task Start Time(us)": "1795606885185072.625\t",
-    "Task Duration(us)": 6.62,
-    "Block Num": "2",
+    "Task Start Time(us)": "1795697528219111.124\t",
+    "Task Duration(us)": 4.48,
+    "Block Num": "8",
     "Mix Block Num": "0",
     "HF32 Eligible": "YES",
     "Input Shapes": "\"128,8,64;128,32\"",
@@ -49,17 +49,17 @@
     "aic_fixpipe_time(us)": 0.0,
     "aic_fixpipe_ratio": 0.0,
     "aic_icache_miss_rate": 0.0,
-    "aiv_time(us)": 5.976,
-    "aiv_total_cycles": 21513.0,
-    "aiv_vec_time(us)": 0.301,
-    "aiv_vec_ratio": 0.05,
-    "aiv_scalar_time(us)": 0.342,
-    "aiv_scalar_ratio": 0.057,
-    "aiv_mte2_time(us)": 1.211,
-    "aiv_mte2_ratio": 0.203,
-    "aiv_mte3_time(us)": 3.949,
-    "aiv_mte3_ratio": 0.661,
-    "aiv_icache_miss_rate": 0.172,
+    "aiv_time(us)": 3.258,
+    "aiv_total_cycles": 46919.0,
+    "aiv_vec_time(us)": 0.346,
+    "aiv_vec_ratio": 0.106,
+    "aiv_scalar_time(us)": 0.46,
+    "aiv_scalar_ratio": 0.141,
+    "aiv_mte2_time(us)": 0.591,
+    "aiv_mte2_ratio": 0.182,
+    "aiv_mte3_time(us)": 1.223,
+    "aiv_mte3_ratio": 0.375,
+    "aiv_icache_miss_rate": 0.12,
     "cube_utilization(%)": 0.0
   },
   "core_utilization": {
@@ -88,30 +88,30 @@
       "applicability": "available",
       "record_count": 1,
       "active_record_count": 1,
-      "vec_ratio_mean": 0.05,
-      "scalar_ratio_mean": 0.057,
-      "mte2_ratio_mean": 0.203,
-      "mte3_ratio_mean": 0.661,
-      "icache_miss_rate_mean": 0.172,
-      "vec_ratio_max": 0.05,
-      "scalar_ratio_max": 0.057,
-      "mte2_ratio_max": 0.203,
-      "mte3_ratio_max": 0.661,
-      "icache_miss_rate_max": 0.172
+      "vec_ratio_mean": 0.106,
+      "scalar_ratio_mean": 0.141,
+      "mte2_ratio_mean": 0.182,
+      "mte3_ratio_mean": 0.375,
+      "icache_miss_rate_mean": 0.12,
+      "vec_ratio_max": 0.106,
+      "scalar_ratio_max": 0.141,
+      "mte2_ratio_max": 0.182,
+      "mte3_ratio_max": 0.375,
+      "icache_miss_rate_max": 0.12
     }
   },
   "memory": {
     "hbm": {
       "scope": "device_level_sampled_bandwidth",
       "sample_count": 5,
-      "read_mb_s": 26.004,
-      "write_mb_s": 11.057
+      "read_mb_s": 38.15,
+      "write_mb_s": 23.347
     },
     "llc": {
       "scope": "device_level_llc_profile",
       "sample_count": 3,
-      "read_hit_rate_pct": 41.814,
-      "read_throughput_mb_s": 5465.106,
+      "read_hit_rate_pct": 40.26,
+      "read_throughput_mb_s": 8247.156,
       "write_hit_rate_pct": null,
       "write_throughput_mb_s": null
     },
@@ -119,25 +119,25 @@
       "scope": "application_level_sampled_memory",
       "ddr_kb_peak": 0.0,
       "ddr_kb_mean": 0.0,
-      "hbm_kb_peak": 123064.0,
-      "hbm_kb_mean": 123064.0,
-      "total_memory_kb_peak": 123064.0,
-      "total_memory_kb_mean": 123064.0,
-      "sample_count": 67,
-      "timestamp_start_us": 1795606884825381.8,
-      "timestamp_end_us": 1795606886128663.5,
-      "sampling_span_us": 1303281.75
+      "hbm_kb_peak": 128608.0,
+      "hbm_kb_mean": 126560.0,
+      "total_memory_kb_peak": 128608.0,
+      "total_memory_kb_mean": 126560.0,
+      "sample_count": 25,
+      "timestamp_start_us": 1795697527804926.8,
+      "timestamp_end_us": 1795697528276643.5,
+      "sampling_span_us": 471716.75
     },
     "npu_module_memory": {
       "RUNTIME": {
         "reserved_kb_peak": 32880.0,
-        "reserved_kb_mean": 32840.119402985074,
-        "sample_count": 67
+        "reserved_kb_mean": 32712.16,
+        "sample_count": 25
       },
       "APP": {
         "reserved_kb_peak": 2048.0,
-        "reserved_kb_mean": 458.5074626865672,
-        "sample_count": 67
+        "reserved_kb_mean": 1392.64,
+        "sample_count": 25
       }
     }
   },
@@ -159,29 +159,29 @@
     "hardware_profile_success": true,
     "op_summary_rows_for_kernel": 1,
     "source_csv": {
-      "op_summary": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261125_114106_200003/hardware/PROF_000001_20261125114124477_00204829MQQNROMM/mindstudio_profiler_output/op_summary_20261125114130.csv",
+      "op_summary": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261126_125150_59667/hardware/PROF_000001_20261126125207445_00060353LFPGPIBJ/mindstudio_profiler_output/op_summary_20261126125213.csv",
       "ai_core_utilization": null,
       "ai_vector_core_utilization": null,
-      "hbm": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261125_114106_200003/hardware/PROF_000001_20261125114124477_00204829MQQNROMM/mindstudio_profiler_output/hbm_20261125114130.csv",
-      "llc_read_write": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261125_114106_200003/hardware/PROF_000001_20261125114124477_00204829MQQNROMM/mindstudio_profiler_output/llc_read_write_20261125114130.csv",
-      "npu_mem": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261125_114106_200003/hardware/PROF_000001_20261125114124477_00204829MQQNROMM/mindstudio_profiler_output/npu_mem_20261125114130.csv",
-      "npu_module_mem": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261125_114106_200003/hardware/PROF_000001_20261125114124477_00204829MQQNROMM/mindstudio_profiler_output/npu_module_mem_20261125114130.csv",
-      "task_time": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261125_114106_200003/hardware/PROF_000001_20261125114124477_00204829MQQNROMM/mindstudio_profiler_output/task_time_20261125114130.csv"
+      "hbm": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261126_125150_59667/hardware/PROF_000001_20261126125207445_00060353LFPGPIBJ/mindstudio_profiler_output/hbm_20261126125213.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261126_125150_59667/hardware/PROF_000001_20261126125207445_00060353LFPGPIBJ/mindstudio_profiler_output/llc_read_write_20261126125213.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261126_125150_59667/hardware/PROF_000001_20261126125207445_00060353LFPGPIBJ/mindstudio_profiler_output/npu_mem_20261126125213.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261126_125150_59667/hardware/PROF_000001_20261126125207445_00060353LFPGPIBJ/mindstudio_profiler_output/npu_module_mem_20261126125213.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261126_125150_59667/hardware/PROF_000001_20261126125207445_00060353LFPGPIBJ/mindstudio_profiler_output/task_time_20261126125213.csv"
     },
     "commands": {
       "timing": [
         "msprof",
-        "--output=/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/.collector_work/performance/fn_triton_kernel/eval_20261125_114106_200003/timing",
+        "--output=/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/.collector_work/performance/fn_triton_kernel/eval_20261126_125150_59667/timing",
         "--task-time=l0",
         "--ai-core=off",
         "--ascendcl=off",
         "--runtime-api=off",
         "python3",
-        "/tmp/fn_triton_kernel_0h13_vh3/test_fn_triton_kernel.py"
+        "/tmp/fn_triton_kernel_shxhipm0/test_fn_triton_kernel.py"
       ],
       "hardware": [
         "msprof",
-        "--output=/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/.collector_work/performance/fn_triton_kernel/eval_20261125_114106_200003/hardware",
+        "--output=/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/.collector_work/performance/fn_triton_kernel/eval_20261126_125150_59667/hardware",
         "--task-time=l1",
         "--task-memory=on",
         "--ai-core=on",
@@ -194,12 +194,12 @@
         "--runtime-api=off",
         "--ge-api=off",
         "python3",
-        "/tmp/fn_triton_kernel_0h13_vh3/test_fn_triton_kernel.py"
+        "/tmp/fn_triton_kernel_shxhipm0/test_fn_triton_kernel.py"
       ]
     },
     "raw_profile_directories": {
-      "timing": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261125_114106_200003/timing",
-      "hardware": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261125_114106_200003/hardware"
+      "timing": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261126_125150_59667/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/fn_triton_kernel/data/p100/profiling/raw/fn_triton_kernel/eval_20261126_125150_59667/hardware"
     }
   }
 }

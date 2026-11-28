@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 68511,
+      "call_index": 1,
+      "jit_function": "reshape_and_cache_flash_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p068511_k001_reshape_and_cache_flash_kernel.ttir.mlir",
+        "p068511_k001_reshape_and_cache_flash_kernel.ttadapter.mlir",
+        "p068511_k001_reshape_and_cache_flash_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 68737,
+      "call_index": 1,
+      "jit_function": "reshape_and_cache_flash_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p068737_k001_reshape_and_cache_flash_kernel.ttir.mlir",
+        "p068737_k001_reshape_and_cache_flash_kernel.ttadapter.mlir",
+        "p068737_k001_reshape_and_cache_flash_kernel.npubin"
+      ]
+    },
+    {
+      "pid": 69115,
+      "call_index": 1,
+      "jit_function": "reshape_and_cache_flash_kernel",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p069115_k001_reshape_and_cache_flash_kernel.ttir.mlir",
+        "p069115_k001_reshape_and_cache_flash_kernel.ttadapter.mlir",
+        "p069115_k001_reshape_and_cache_flash_kernel.npubin"
+      ]
+    }
+  ]
+}

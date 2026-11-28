@@ -161,7 +161,8 @@ def recompute_w_u_fwd(
     BV = 64
     u = torch.empty_like(v)
     w = k.new_empty(B, T, H, K)
-    recompute_w_u_fwd_kernel[(NT, B * H)](
+    grid = (NT, B * H)
+    recompute_w_u_fwd_kernel[grid](
         k=k,
         v=v,
         beta=beta,

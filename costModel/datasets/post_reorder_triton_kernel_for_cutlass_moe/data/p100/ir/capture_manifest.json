@@ -1,0 +1,51 @@
+{
+  "schema_version": "costmodel_capture_manifest_v1",
+  "event_count": 3,
+  "events": [
+    {
+      "pid": 32857,
+      "call_index": 1,
+      "jit_function": "post_reorder_triton_kernel_for_cutlass_moe",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p032857_k001_post_reorder_triton_kernel_for_cutlass_moe.ttir.mlir",
+        "p032857_k001_post_reorder_triton_kernel_for_cutlass_moe.ttadapter.mlir",
+        "p032857_k001_post_reorder_triton_kernel_for_cutlass_moe.npubin"
+      ]
+    },
+    {
+      "pid": 33105,
+      "call_index": 1,
+      "jit_function": "post_reorder_triton_kernel_for_cutlass_moe",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p033105_k001_post_reorder_triton_kernel_for_cutlass_moe.ttir.mlir",
+        "p033105_k001_post_reorder_triton_kernel_for_cutlass_moe.ttadapter.mlir",
+        "p033105_k001_post_reorder_triton_kernel_for_cutlass_moe.npubin"
+      ]
+    },
+    {
+      "pid": 33483,
+      "call_index": 1,
+      "jit_function": "post_reorder_triton_kernel_for_cutlass_moe",
+      "asm_keys": [
+        "ttir",
+        "ttadapter",
+        "npubin"
+      ],
+      "saved_file_names": [
+        "p033483_k001_post_reorder_triton_kernel_for_cutlass_moe.ttir.mlir",
+        "p033483_k001_post_reorder_triton_kernel_for_cutlass_moe.ttadapter.mlir",
+        "p033483_k001_post_reorder_triton_kernel_for_cutlass_moe.npubin"
+      ]
+    }
+  ]
+}

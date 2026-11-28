@@ -1,0 +1,37 @@
+[INFO] Start profiling....
+[W1126 13:36:23.026579860 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ RWKV KA Fusion tests passed!
+o_k max difference: 0.0
+o_kk max difference: 1.1920928955078125e-07
+o_kka max difference: 2.384185791015625e-07
+All tests passed!
+[INFO] Start export data in PROF_000001_20261126133623473_00106920ORNHQPCF.
+Thu 26 Nov 2026 13:36:28 [WARNING] [MSVP] [107065] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Thu 26 Nov 2026 13:36:28 [INFO] [MSVP] [107068] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/host" ...
+Thu 26 Nov 2026 13:36:28 [INFO] [MSVP] [107068] msprof_common.py: It may take few minutes, please be patient ...
+Thu 26 Nov 2026 13:36:28 [INFO] [MSVP] [107068] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/host" finished.
+Thu 26 Nov 2026 13:36:28 [INFO] [MSVP] [107068] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/device_0" ...
+Thu 26 Nov 2026 13:36:28 [INFO] [MSVP] [107068] msprof_common.py: It may take few minutes, please be patient ...
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107068] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/device_0" finished.
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107068] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/device_0.
+Thu 26 Nov 2026 13:36:29 [WARNING] [MSVP] [107247] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107249] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/host" has been analyzed. Parsing phase will be skipped.
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107249] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/device_0" has been analyzed. Parsing phase will be skipped.
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107249] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/device_0.
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107249] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/host"
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107249] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/device_0.
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107249] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/device_0"
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107249] msprof_common.py: Start exporting summary output_file.
+Thu 26 Nov 2026 13:36:29 [INFO] [MSVP] [107249] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261126133623473_00106920ORNHQPCF done.
+[INFO] Start query data in PROF_000001_20261126133623473_00106920ORNHQPCF.
+Thu 26 Nov 2026 13:36:30 [WARNING] [MSVP] [107288] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-26 13:36:23.189475	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-26 13:36:23.192582	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261126133623473_00106920ORNHQPCF done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/rwkv_ka_fusion_kernel/data/p75/.collector_work/performance/rwkv_ka_fusion_kernel/eval_20261126_133618_106646/timing/PROF_000001_20261126133623473_00106920ORNHQPCF

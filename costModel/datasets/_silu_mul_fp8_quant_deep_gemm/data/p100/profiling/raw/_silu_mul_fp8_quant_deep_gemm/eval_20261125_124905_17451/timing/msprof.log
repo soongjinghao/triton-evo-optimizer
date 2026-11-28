@@ -1,0 +1,35 @@
+[INFO] Start profiling....
+[W1125 12:49:11.095347580 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing persistent_masked_m_silu_mul_quant on NPU...
+✓ SiLU quantization test passed
+✅ NPU quantization kernel test completed successfully!
+[INFO] Start export data in PROF_000001_20261125124910688_00017713FQJGODGP.
+Wed 25 Nov 2026 12:49:14 [WARNING] [MSVP] [17869] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:49:14 [INFO] [MSVP] [17871] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/host" ...
+Wed 25 Nov 2026 12:49:14 [INFO] [MSVP] [17871] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:49:14 [INFO] [MSVP] [17871] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/host" finished.
+Wed 25 Nov 2026 12:49:14 [INFO] [MSVP] [17871] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/device_0" ...
+Wed 25 Nov 2026 12:49:14 [INFO] [MSVP] [17871] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [17871] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/device_0" finished.
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [17871] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/device_0.
+Wed 25 Nov 2026 12:49:15 [WARNING] [MSVP] [18045] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [18053] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [18053] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [18053] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/device_0.
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [18053] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/host"
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [18053] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/device_0.
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [18053] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/device_0"
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [18053] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 12:49:15 [INFO] [MSVP] [18053] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125124910688_00017713FQJGODGP done.
+[INFO] Start query data in PROF_000001_20261125124910688_00017713FQJGODGP.
+Wed 25 Nov 2026 12:49:16 [WARNING] [MSVP] [18092] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 12:49:11.728694	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 12:49:11.732524	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125124910688_00017713FQJGODGP done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/_silu_mul_fp8_quant_deep_gemm/data/p100/.collector_work/performance/_silu_mul_fp8_quant_deep_gemm/eval_20261125_124905_17451/timing/PROF_000001_20261125124910688_00017713FQJGODGP

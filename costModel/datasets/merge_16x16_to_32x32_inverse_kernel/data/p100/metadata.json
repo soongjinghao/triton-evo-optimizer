@@ -4,24 +4,24 @@
   "operator_name": "merge_16x16_to_32x32_inverse_kernel",
   "candidate_id": "merge_16x16_to_32x32_inverse_kernel__p100__7c0cd362d128",
   "candidate_role": "p100",
-  "status": "execution_failed",
-  "started_at": "2026-11-25T12:11:10+00:00",
-  "finished_at": "2026-11-25T12:11:48+00:00",
-  "duration_seconds": 38.296,
+  "status": "success",
+  "started_at": "2026-11-26T12:53:22+00:00",
+  "finished_at": "2026-11-26T12:54:14+00:00",
+  "duration_seconds": 51.658,
   "source": {
     "variant_path": "costModel/datasets/merge_16x16_to_32x32_inverse_kernel/variant/p100.py",
-    "source_code_sha256": "7c0cd362d12814fca4c2f6578345e28a17cd7d9a7241ac5144543e233136ce68",
+    "source_code_sha256": "17b8c7b48ae6709bf30d915555ac96faca1b5e4e112fc91a4e3e64fd5e3364d6",
     "kernel_snapshot": "costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/kernel.py",
     "test_path": "costModel/datasets/merge_16x16_to_32x32_inverse_kernel/test.py",
     "test_sha256": "4e24d7812cdbed72469993895584fecced25eb6c6e05e34eb57eadd8fa3befd9"
   },
   "evaluation": {
-    "success": false,
-    "execution_time_us": null,
-    "error": "timing application failed inside MSProf even though the MSProf process returned 0; see /workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261125_121134_243574/timing/msprof.log",
+    "success": true,
+    "execution_time_us": 20.14,
+    "error": null,
     "profile_mode": "full",
-    "profile_dir": "profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261125_121134_243574",
-    "hardware_profile_success": null
+    "profile_dir": "profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224",
+    "hardware_profile_success": true
   },
   "correctness": {
     "preflight_enabled": true,
@@ -30,14 +30,195 @@
     "error": null
   },
   "profiling": {
-    "summary_available": false,
-    "summary_path": null,
+    "summary_available": true,
+    "summary_path": "profiling/profile_summary.json",
     "raw_profile_dir": "profiling/raw",
-    "timing": {},
-    "kernel": {},
-    "core_utilization": {},
-    "memory": {},
-    "collection": {}
+    "timing": {
+      "execution_time_us": 20.14,
+      "source": "op_summary.Task Duration(us)",
+      "sample_count": 1,
+      "task_time_cross_check": {
+        "median_task_time_us": 18.121,
+        "sample_count": 1,
+        "task_id": "13059",
+        "stream_id": "47"
+      },
+      "hardware_pass_task_duration_us": 18.121,
+      "cross_pass_difference_us": 2.019000000000002,
+      "cross_pass_relative_difference_pct": 10.024826216484616,
+      "cross_pass_consistent_20pct": true,
+      "label_valid": true,
+      "label_execution_time_us": 20.14
+    },
+    "kernel": {
+      "Device_id": "0",
+      "Task ID": "13059",
+      "Stream ID": "47",
+      "Op Name": "merge_16x16_to_32x32_inverse_kernel",
+      "OP Type": "merge_16x16_to_32x32_inverse_kernel",
+      "OP State": "static",
+      "Task Type": "MIX_AIC",
+      "Task Start Time(us)": "1795697646022718.587\t",
+      "Task Duration(us)": 18.121,
+      "Block Num": "16",
+      "Mix Block Num": "32",
+      "HF32 Eligible": "YES",
+      "Input Shapes": "\"2,64,4,32\"",
+      "Input Data Types": "FLOAT",
+      "Output Shapes": "\"2,64,4,32\"",
+      "Output Data Types": "FLOAT",
+      "aicore_time(us)": 14.456,
+      "aic_total_cycles": 416340.0,
+      "aic_mac_time(us)": 0.079,
+      "aic_mac_ratio": 0.005,
+      "aic_scalar_time(us)": 2.343,
+      "aic_scalar_ratio": 0.162,
+      "aic_mte1_time(us)": 0.099,
+      "aic_mte1_ratio": 0.007,
+      "aic_mte2_time(us)": 0.373,
+      "aic_mte2_ratio": 0.026,
+      "aic_fixpipe_time(us)": 0.289,
+      "aic_fixpipe_ratio": 0.02,
+      "aic_icache_miss_rate": 0.46,
+      "aiv_time(us)": 14.776,
+      "aiv_total_cycles": 851126.0,
+      "aiv_vec_time(us)": 4.185,
+      "aiv_vec_ratio": 0.283,
+      "aiv_scalar_time(us)": 6.824,
+      "aiv_scalar_ratio": 0.462,
+      "aiv_mte2_time(us)": 5.294,
+      "aiv_mte2_ratio": 0.358,
+      "aiv_mte3_time(us)": 1.408,
+      "aiv_mte3_ratio": 0.095,
+      "aiv_icache_miss_rate": 0.017,
+      "cube_utilization(%)": 53.184
+    },
+    "core_utilization": {
+      "ai_core": {
+        "source": "op_summary_task",
+        "task_type": "MIX_AIC",
+        "applicability": "available",
+        "record_count": 1,
+        "active_record_count": 1,
+        "mac_ratio_mean": 0.005,
+        "scalar_ratio_mean": 0.162,
+        "mte1_ratio_mean": 0.007,
+        "mte2_ratio_mean": 0.026,
+        "fixpipe_ratio_mean": 0.02,
+        "icache_miss_rate_mean": 0.46,
+        "mac_ratio_max": 0.005,
+        "scalar_ratio_max": 0.162,
+        "mte1_ratio_max": 0.007,
+        "mte2_ratio_max": 0.026,
+        "fixpipe_ratio_max": 0.02,
+        "icache_miss_rate_max": 0.46
+      },
+      "ai_vector_core": {
+        "source": "op_summary_task",
+        "task_type": "MIX_AIC",
+        "applicability": "available",
+        "record_count": 1,
+        "active_record_count": 1,
+        "vec_ratio_mean": 0.283,
+        "scalar_ratio_mean": 0.462,
+        "mte2_ratio_mean": 0.358,
+        "mte3_ratio_mean": 0.095,
+        "icache_miss_rate_mean": 0.017,
+        "vec_ratio_max": 0.283,
+        "scalar_ratio_max": 0.462,
+        "mte2_ratio_max": 0.358,
+        "mte3_ratio_max": 0.095,
+        "icache_miss_rate_max": 0.017
+      }
+    },
+    "memory": {
+      "hbm": {
+        "scope": "device_level_sampled_bandwidth",
+        "sample_count": 5,
+        "read_mb_s": 32.217,
+        "write_mb_s": 19.93
+      },
+      "llc": {
+        "scope": "device_level_llc_profile",
+        "sample_count": 3,
+        "read_hit_rate_pct": 39.142,
+        "read_throughput_mb_s": 7383.801,
+        "write_hit_rate_pct": null,
+        "write_throughput_mb_s": null
+      },
+      "npu_memory": {
+        "scope": "application_level_sampled_memory",
+        "ddr_kb_peak": 0.0,
+        "ddr_kb_mean": 0.0,
+        "hbm_kb_peak": 126564.0,
+        "hbm_kb_mean": 126564.0,
+        "total_memory_kb_peak": 126564.0,
+        "total_memory_kb_mean": 126564.0,
+        "sample_count": 46,
+        "timestamp_start_us": 1795697645388603.0,
+        "timestamp_end_us": 1795697646275890.8,
+        "sampling_span_us": 887287.75
+      },
+      "npu_module_memory": {
+        "RUNTIME": {
+          "reserved_kb_peak": 32876.0,
+          "reserved_kb_mean": 32025.217391304348,
+          "sample_count": 46
+        },
+        "APP": {
+          "reserved_kb_peak": 2048.0,
+          "reserved_kb_mean": 2003.4782608695652,
+          "sample_count": 46
+        }
+      }
+    },
+    "collection": {
+      "hardware_profile_success": true,
+      "op_summary_rows_for_kernel": 1,
+      "source_csv": {
+        "op_summary": "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/hardware/PROF_000001_20261126125404998_00062940OQDQHFHB/mindstudio_profiler_output/op_summary_20261126125412.csv",
+        "ai_core_utilization": null,
+        "ai_vector_core_utilization": null,
+        "hbm": "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/hardware/PROF_000001_20261126125404998_00062940OQDQHFHB/mindstudio_profiler_output/hbm_20261126125412.csv",
+        "llc_read_write": "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/hardware/PROF_000001_20261126125404998_00062940OQDQHFHB/mindstudio_profiler_output/llc_read_write_20261126125412.csv",
+        "npu_mem": "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/hardware/PROF_000001_20261126125404998_00062940OQDQHFHB/mindstudio_profiler_output/npu_mem_20261126125412.csv",
+        "npu_module_mem": "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/hardware/PROF_000001_20261126125404998_00062940OQDQHFHB/mindstudio_profiler_output/npu_module_mem_20261126125412.csv",
+        "task_time": "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/hardware/PROF_000001_20261126125404998_00062940OQDQHFHB/mindstudio_profiler_output/task_time_20261126125412.csv"
+      },
+      "commands": {
+        "timing": [
+          "msprof",
+          "--output=/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/timing",
+          "--task-time=l0",
+          "--ai-core=off",
+          "--ascendcl=off",
+          "--runtime-api=off",
+          "python3",
+          "/tmp/merge_16x16_to_32x32_inverse_kernel_ozsru76h/test_merge_16x16_to_32x32_inverse_kernel.py"
+        ],
+        "hardware": [
+          "msprof",
+          "--output=/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/.collector_work/performance/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/hardware",
+          "--task-time=l1",
+          "--task-memory=on",
+          "--ai-core=on",
+          "--aic-mode=task-based",
+          "--aic-metrics=PipeUtilization",
+          "--sys-hardware-mem=on",
+          "--sys-hardware-mem-freq=50",
+          "--llc-profiling=read",
+          "--ascendcl=off",
+          "--runtime-api=off",
+          "--ge-api=off",
+          "python3",
+          "/tmp/merge_16x16_to_32x32_inverse_kernel_ozsru76h/test_merge_16x16_to_32x32_inverse_kernel.py"
+        ]
+      },
+      "raw_profile_directories": {
+        "timing": "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/timing",
+        "hardware": "/workspace/Agent/costModel/datasets/merge_16x16_to_32x32_inverse_kernel/data/p100/profiling/raw/merge_16x16_to_32x32_inverse_kernel/eval_20261126_125345_62224/hardware"
+      }
+    }
   },
   "ir_found": {
     "npubin": true,
@@ -53,13 +234,13 @@
   },
   "ir_paths": {
     "npubin": [
-      "ir/npubin/asm_p252161_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
+      "ir/npubin/asm_p062225_k001_merge_16x16_to_32x32_inverse_kernel.npubin"
     ],
     "ttadapter": [
-      "ir/ttadapter/asm_p252161_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir"
+      "ir/ttadapter/asm_p062225_k001_merge_16x16_to_32x32_inverse_kernel.ttadapter.mlir"
     ],
     "ttir": [
-      "ir/ttir/asm_p252161_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir"
+      "ir/ttir/asm_p062225_k001_merge_16x16_to_32x32_inverse_kernel.ttir.mlir"
     ],
     "hivm_opt": [
       "ir/hivm_opt/save_temps_module.hivm.opt.mlir"

@@ -5,22 +5,22 @@
   "candidate_id": "_state_passing_fwd_kernel__p75__95e2ec09a8aa",
   "candidate_role": "p75",
   "status": "success",
-  "started_at": "2026-11-25T10:52:02+00:00",
-  "finished_at": "2026-11-25T10:52:46+00:00",
-  "duration_seconds": 44.129,
+  "started_at": "2026-11-26T13:21:57+00:00",
+  "finished_at": "2026-11-26T13:22:42+00:00",
+  "duration_seconds": 44.659,
   "source": {
     "variant_path": "costModel/datasets/_state_passing_fwd_kernel/variant/p75.py",
-    "source_code_sha256": "95e2ec09a8aa7af78c8c05bd6de2bd7aed060326f5552c466988f34fd972170c",
+    "source_code_sha256": "fab9bbec03883d0dc2f627444065d4345919e2382f69b3ffef26d8702939ef95",
     "kernel_snapshot": "costModel/datasets/_state_passing_fwd_kernel/data/p75/kernel.py",
     "test_path": "costModel/datasets/_state_passing_fwd_kernel/test.py",
     "test_sha256": "e2df3718ba2e8bbf0d1c763e79b4978dc770ab10f161f7bbacc473716aad1df0"
   },
   "evaluation": {
     "success": true,
-    "execution_time_us": 4.58,
+    "execution_time_us": 5.201,
     "error": null,
     "profile_mode": "full",
-    "profile_dir": "profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032",
+    "profile_dir": "profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766",
     "hardware_profile_success": true
   },
   "correctness": {
@@ -34,21 +34,21 @@
     "summary_path": "profiling/profile_summary.json",
     "raw_profile_dir": "profiling/raw",
     "timing": {
-      "execution_time_us": 4.58,
+      "execution_time_us": 5.201,
       "source": "op_summary.Task Duration(us)",
       "sample_count": 1,
       "task_time_cross_check": {
-        "median_task_time_us": 4.44,
+        "median_task_time_us": 5.081,
         "sample_count": 1,
         "task_id": "9",
         "stream_id": "47"
       },
-      "hardware_pass_task_duration_us": 4.44,
-      "cross_pass_difference_us": 0.13999999999999968,
-      "cross_pass_relative_difference_pct": 3.056768558951958,
+      "hardware_pass_task_duration_us": 5.081,
+      "cross_pass_difference_us": 0.11999999999999922,
+      "cross_pass_relative_difference_pct": 2.3072486060372857,
       "cross_pass_consistent_20pct": true,
       "label_valid": true,
-      "label_execution_time_us": 4.58
+      "label_execution_time_us": 5.201
     },
     "kernel": {
       "Device_id": "0",
@@ -58,11 +58,11 @@
       "OP Type": "_state_passing_fwd_kernel",
       "OP State": "static",
       "Task Type": "AI_VECTOR_CORE",
-      "Task Start Time(us)": "1795603958663584.318\t",
-      "Task Duration(us)": 4.44,
+      "Task Start Time(us)": "1795699355711604.517\t",
+      "Task Duration(us)": 5.081,
       "Block Num": "6",
       "Mix Block Num": "0",
-      "HF32 Eligible": "NO",
+      "HF32 Eligible": "YES",
       "Input Shapes": "\"2,4,3,32;2,3,4,8;2,3,32\"",
       "Input Data Types": "FLOAT;FLOAT;FLOAT",
       "Output Shapes": "\"2,4,3,32;2,3,32\"",
@@ -80,17 +80,17 @@
       "aic_fixpipe_time(us)": 0.0,
       "aic_fixpipe_ratio": 0.0,
       "aic_icache_miss_rate": 0.0,
-      "aiv_time(us)": 3.364,
-      "aiv_total_cycles": 36328.0,
-      "aiv_vec_time(us)": 0.182,
-      "aiv_vec_ratio": 0.054,
-      "aiv_scalar_time(us)": 1.244,
-      "aiv_scalar_ratio": 0.37,
-      "aiv_mte2_time(us)": 0.946,
-      "aiv_mte2_ratio": 0.281,
-      "aiv_mte3_time(us)": 0.568,
-      "aiv_mte3_ratio": 0.169,
-      "aiv_icache_miss_rate": 0.089,
+      "aiv_time(us)": 3.699,
+      "aiv_total_cycles": 39954.0,
+      "aiv_vec_time(us)": 0.191,
+      "aiv_vec_ratio": 0.052,
+      "aiv_scalar_time(us)": 1.388,
+      "aiv_scalar_ratio": 0.375,
+      "aiv_mte2_time(us)": 0.889,
+      "aiv_mte2_ratio": 0.24,
+      "aiv_mte3_time(us)": 0.688,
+      "aiv_mte3_ratio": 0.186,
+      "aiv_icache_miss_rate": 0.085,
       "cube_utilization(%)": 0.0
     },
     "core_utilization": {
@@ -119,30 +119,30 @@
         "applicability": "available",
         "record_count": 1,
         "active_record_count": 1,
-        "vec_ratio_mean": 0.054,
-        "scalar_ratio_mean": 0.37,
-        "mte2_ratio_mean": 0.281,
-        "mte3_ratio_mean": 0.169,
-        "icache_miss_rate_mean": 0.089,
-        "vec_ratio_max": 0.054,
-        "scalar_ratio_max": 0.37,
-        "mte2_ratio_max": 0.281,
-        "mte3_ratio_max": 0.169,
-        "icache_miss_rate_max": 0.089
+        "vec_ratio_mean": 0.052,
+        "scalar_ratio_mean": 0.375,
+        "mte2_ratio_mean": 0.24,
+        "mte3_ratio_mean": 0.186,
+        "icache_miss_rate_mean": 0.085,
+        "vec_ratio_max": 0.052,
+        "scalar_ratio_max": 0.375,
+        "mte2_ratio_max": 0.24,
+        "mte3_ratio_max": 0.186,
+        "icache_miss_rate_max": 0.085
       }
     },
     "memory": {
       "hbm": {
         "scope": "device_level_sampled_bandwidth",
         "sample_count": 5,
-        "read_mb_s": 26.929,
-        "write_mb_s": 14.181
+        "read_mb_s": 34.81,
+        "write_mb_s": 18.452
       },
       "llc": {
         "scope": "device_level_llc_profile",
         "sample_count": 3,
-        "read_hit_rate_pct": 41.894,
-        "read_throughput_mb_s": 5869.388,
+        "read_hit_rate_pct": 38.611,
+        "read_throughput_mb_s": 6977.711,
         "write_hit_rate_pct": null,
         "write_throughput_mb_s": null
       },
@@ -150,25 +150,25 @@
         "scope": "application_level_sampled_memory",
         "ddr_kb_peak": 0.0,
         "ddr_kb_mean": 0.0,
-        "hbm_kb_peak": 125112.0,
-        "hbm_kb_mean": 121016.0,
-        "total_memory_kb_peak": 125112.0,
-        "total_memory_kb_mean": 121016.0,
-        "sample_count": 26,
-        "timestamp_start_us": 1795603958249902.8,
-        "timestamp_end_us": 1795603958737188.8,
-        "sampling_span_us": 487286.0
+        "hbm_kb_peak": 130660.0,
+        "hbm_kb_mean": 130660.0,
+        "total_memory_kb_peak": 130660.0,
+        "total_memory_kb_mean": 130660.0,
+        "sample_count": 63,
+        "timestamp_start_us": 1795699355253422.2,
+        "timestamp_end_us": 1795699356488196.2,
+        "sampling_span_us": 1234774.0
       },
       "npu_module_memory": {
         "RUNTIME": {
           "reserved_kb_peak": 34920.0,
-          "reserved_kb_mean": 33425.692307692305,
-          "sample_count": 26
+          "reserved_kb_mean": 34214.9375,
+          "sample_count": 64
         },
         "APP": {
           "reserved_kb_peak": 2048.0,
-          "reserved_kb_mean": 1969.2307692307693,
-          "sample_count": 26
+          "reserved_kb_mean": 2016.0,
+          "sample_count": 64
         }
       }
     },
@@ -176,29 +176,29 @@
       "hardware_profile_success": true,
       "op_summary_rows_for_kernel": 1,
       "source_csv": {
-        "op_summary": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032/hardware/PROF_000001_20261125105237895_00132826RQQNADNF/mindstudio_profiler_output/op_summary_20261125105244.csv",
+        "op_summary": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766/hardware/PROF_000001_20261126132234871_00084407DOKIKFJR/mindstudio_profiler_output/op_summary_20261126132240.csv",
         "ai_core_utilization": null,
         "ai_vector_core_utilization": null,
-        "hbm": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032/hardware/PROF_000001_20261125105237895_00132826RQQNADNF/mindstudio_profiler_output/hbm_20261125105244.csv",
-        "llc_read_write": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032/hardware/PROF_000001_20261125105237895_00132826RQQNADNF/mindstudio_profiler_output/llc_read_write_20261125105244.csv",
-        "npu_mem": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032/hardware/PROF_000001_20261125105237895_00132826RQQNADNF/mindstudio_profiler_output/npu_mem_20261125105244.csv",
-        "npu_module_mem": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032/hardware/PROF_000001_20261125105237895_00132826RQQNADNF/mindstudio_profiler_output/npu_module_mem_20261125105244.csv",
-        "task_time": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032/hardware/PROF_000001_20261125105237895_00132826RQQNADNF/mindstudio_profiler_output/task_time_20261125105244.csv"
+        "hbm": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766/hardware/PROF_000001_20261126132234871_00084407DOKIKFJR/mindstudio_profiler_output/hbm_20261126132240.csv",
+        "llc_read_write": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766/hardware/PROF_000001_20261126132234871_00084407DOKIKFJR/mindstudio_profiler_output/llc_read_write_20261126132240.csv",
+        "npu_mem": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766/hardware/PROF_000001_20261126132234871_00084407DOKIKFJR/mindstudio_profiler_output/npu_mem_20261126132240.csv",
+        "npu_module_mem": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766/hardware/PROF_000001_20261126132234871_00084407DOKIKFJR/mindstudio_profiler_output/npu_module_mem_20261126132240.csv",
+        "task_time": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766/hardware/PROF_000001_20261126132234871_00084407DOKIKFJR/mindstudio_profiler_output/task_time_20261126132240.csv"
       },
       "commands": {
         "timing": [
           "msprof",
-          "--output=/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/.collector_work/performance/_state_passing_fwd_kernel/eval_20261125_105221_129032/timing",
+          "--output=/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/.collector_work/performance/_state_passing_fwd_kernel/eval_20261126_132217_83766/timing",
           "--task-time=l0",
           "--ai-core=off",
           "--ascendcl=off",
           "--runtime-api=off",
           "python3",
-          "/tmp/_state_passing_fwd_kernel_0wn5jt8y/test__state_passing_fwd_kernel.py"
+          "/tmp/_state_passing_fwd_kernel_c7ag5oia/test__state_passing_fwd_kernel.py"
         ],
         "hardware": [
           "msprof",
-          "--output=/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/.collector_work/performance/_state_passing_fwd_kernel/eval_20261125_105221_129032/hardware",
+          "--output=/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/.collector_work/performance/_state_passing_fwd_kernel/eval_20261126_132217_83766/hardware",
           "--task-time=l1",
           "--task-memory=on",
           "--ai-core=on",
@@ -211,12 +211,12 @@
           "--runtime-api=off",
           "--ge-api=off",
           "python3",
-          "/tmp/_state_passing_fwd_kernel_0wn5jt8y/test__state_passing_fwd_kernel.py"
+          "/tmp/_state_passing_fwd_kernel_c7ag5oia/test__state_passing_fwd_kernel.py"
         ]
       },
       "raw_profile_directories": {
-        "timing": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032/timing",
-        "hardware": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261125_105221_129032/hardware"
+        "timing": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766/timing",
+        "hardware": "/workspace/Agent/costModel/datasets/_state_passing_fwd_kernel/data/p75/profiling/raw/_state_passing_fwd_kernel/eval_20261126_132217_83766/hardware"
       }
     }
   },
@@ -234,13 +234,13 @@
   },
   "ir_paths": {
     "npubin": [
-      "ir/npubin/asm_p132194_k001_state_passing_fwd_kernel.npubin"
+      "ir/npubin/asm_p083767_k001_state_passing_fwd_kernel.npubin"
     ],
     "ttadapter": [
-      "ir/ttadapter/asm_p132194_k001_state_passing_fwd_kernel.ttadapter.mlir"
+      "ir/ttadapter/asm_p083767_k001_state_passing_fwd_kernel.ttadapter.mlir"
     ],
     "ttir": [
-      "ir/ttir/asm_p132194_k001_state_passing_fwd_kernel.ttir.mlir"
+      "ir/ttir/asm_p083767_k001_state_passing_fwd_kernel.ttir.mlir"
     ],
     "hivm_opt": [
       "ir/hivm_opt/save_temps_module.hivm.opt.mlir"

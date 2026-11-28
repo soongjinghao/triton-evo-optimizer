@@ -1,0 +1,32 @@
+[INFO] Start profiling....
+[W1126 12:09:40.323732680 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+All tests passed!
+[INFO] Start export data in PROF_000001_20261126120939759_00033179GNGJFMEP.
+Thu 26 Nov 2026 12:09:44 [WARNING] [MSVP] [33395] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Thu 26 Nov 2026 12:09:44 [INFO] [MSVP] [33399] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/host" ...
+Thu 26 Nov 2026 12:09:44 [INFO] [MSVP] [33399] msprof_common.py: It may take few minutes, please be patient ...
+Thu 26 Nov 2026 12:09:45 [INFO] [MSVP] [33399] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/host" finished.
+Thu 26 Nov 2026 12:09:45 [INFO] [MSVP] [33399] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/device_0" ...
+Thu 26 Nov 2026 12:09:45 [INFO] [MSVP] [33399] msprof_common.py: It may take few minutes, please be patient ...
+Thu 26 Nov 2026 12:09:45 [INFO] [MSVP] [33399] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/device_0" finished.
+Thu 26 Nov 2026 12:09:45 [INFO] [MSVP] [33399] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/device_0.
+Thu 26 Nov 2026 12:09:45 [WARNING] [MSVP] [33699] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Thu 26 Nov 2026 12:09:45 [INFO] [MSVP] [33709] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/host" has been analyzed. Parsing phase will be skipped.
+Thu 26 Nov 2026 12:09:45 [INFO] [MSVP] [33709] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/device_0" has been analyzed. Parsing phase will be skipped.
+Thu 26 Nov 2026 12:09:46 [INFO] [MSVP] [33709] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/device_0.
+Thu 26 Nov 2026 12:09:46 [INFO] [MSVP] [33709] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/host"
+Thu 26 Nov 2026 12:09:46 [INFO] [MSVP] [33709] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/device_0.
+Thu 26 Nov 2026 12:09:46 [INFO] [MSVP] [33709] msprof_common.py: Start exporting summary output_file.
+Thu 26 Nov 2026 12:09:46 [INFO] [MSVP] [33709] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261126120939759_00033179GNGJFMEP done.
+[INFO] Start query data in PROF_000001_20261126120939759_00033179GNGJFMEP.
+Thu 26 Nov 2026 12:09:46 [WARNING] [MSVP] [33754] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-26 12:09:40.405495	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-26 12:09:40.409855	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261126120939759_00033179GNGJFMEP done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/fused_qkvzba_split_reshape_cat_kernel/data/p100/.collector_work/performance/fused_qkvzba_split_reshape_cat_kernel/eval_20261126_120922_32339/hardware/PROF_000001_20261126120939759_00033179GNGJFMEP

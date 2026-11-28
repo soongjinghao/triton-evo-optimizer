@@ -1,7 +1,8 @@
-[W1125 11:06:49.779317770 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p50/.collector_work/compiler_save_temps/446eb51fb57940e34bbdecf4428a84213fb9770d870c1cd2_pid153177_y6jree5w
-✅ Triton kernel output matches reference implementation
-Triton result: tensor([101, 227, 349, 105, 680, 992, 628, 731, 480, 502, 529,  79, 690, 687,
-         92, 252, 880, 286, 359, 644], device='npu:0', dtype=torch.int32)
-Reference result: tensor([101, 227, 349, 105, 680, 992, 628, 731, 480, 502, 529,  79, 690, 687,
-         92, 252, 880, 286, 359, 644], device='npu:0', dtype=torch.int32)
+[W1128 01:53:44.087040740 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/assign_extend_cache_locs/data/p50/.collector_work/compiler_save_temps/256fa5c49009776eebe4ce43c48bd1ee308086ce071bfa06_pid28107_5fip3924
+Traceback (most recent call last):
+  File "/tmp/assign_extend_cache_locs_l3s20ywn/test_assign_extend_cache_locs.py", line 83, in <module>
+    assert torch.allclose(out_cache_loc_triton, out_cache_loc_ref), "Results do not match!"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Results do not match!
+[ERROR] 2026-11-28-01:53:58 (PID:28107, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

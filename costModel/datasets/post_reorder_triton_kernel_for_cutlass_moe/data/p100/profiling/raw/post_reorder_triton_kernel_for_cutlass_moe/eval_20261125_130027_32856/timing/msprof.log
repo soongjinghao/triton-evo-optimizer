@@ -1,0 +1,51 @@
+[INFO] Start profiling....
+[W1125 13:00:32.815002580 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[W1125 13:00:33.232956420 ToKernelNpu.cpp:40] Warning: Device do not support double dtype now, dtype cast replace with float. (function operator())
+Triton output: tensor([[-2.1641,  0.4067, -0.2371,  ..., -0.2031,  1.1367,  0.5728],
+        [ 0.1223,  0.7954, -0.3748,  ...,  1.4424, -0.8208,  0.5693],
+        [-0.1414,  0.4041, -0.8262,  ..., -0.8735,  0.5371,  0.1736],
+        ...,
+        [ 0.7832,  1.3340,  0.6396,  ...,  1.2168,  0.0487, -0.8398],
+        [ 0.7646,  1.0625, -0.5190,  ..., -0.1407, -0.0673, -1.2666],
+        [-0.2207,  0.1094, -0.8096,  ..., -0.3528, -0.1742, -0.5742]],
+       device='npu:0', dtype=torch.float16)
+PyTorch output: tensor([[-2.1641,  0.4067, -0.2372,  ..., -0.2031,  1.1377,  0.5723],
+        [ 0.1223,  0.7949, -0.3745,  ...,  1.4414, -0.8213,  0.5693],
+        [-0.1414,  0.4041, -0.8262,  ..., -0.8735,  0.5371,  0.1736],
+        ...,
+        [ 0.7822,  1.3350,  0.6396,  ...,  1.2168,  0.0486, -0.8403],
+        [ 0.7642,  1.0625, -0.5190,  ..., -0.1406, -0.0673, -1.2666],
+        [-0.2207,  0.1094, -0.8096,  ..., -0.3530, -0.1741, -0.5742]],
+       device='npu:0', dtype=torch.float16)
+Max difference: 0.00390625
+✅ Triton and PyTorch implementations match!
+[INFO] Start export data in PROF_000001_20261125130032451_00033105IGBMNDEL.
+Wed 25 Nov 2026 13:00:37 [WARNING] [MSVP] [33250] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 13:00:37 [INFO] [MSVP] [33258] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/host" ...
+Wed 25 Nov 2026 13:00:37 [INFO] [MSVP] [33258] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 13:00:37 [INFO] [MSVP] [33258] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/host" finished.
+Wed 25 Nov 2026 13:00:37 [INFO] [MSVP] [33258] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/device_0" ...
+Wed 25 Nov 2026 13:00:37 [INFO] [MSVP] [33258] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 13:00:37 [INFO] [MSVP] [33258] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/device_0" finished.
+Wed 25 Nov 2026 13:00:37 [INFO] [MSVP] [33258] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/device_0.
+Wed 25 Nov 2026 13:00:38 [WARNING] [MSVP] [33432] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 13:00:38 [INFO] [MSVP] [33434] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 13:00:38 [INFO] [MSVP] [33434] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 13:00:38 [INFO] [MSVP] [33434] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/device_0.
+Wed 25 Nov 2026 13:00:38 [INFO] [MSVP] [33434] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/host"
+Wed 25 Nov 2026 13:00:38 [INFO] [MSVP] [33434] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/device_0.
+Wed 25 Nov 2026 13:00:38 [INFO] [MSVP] [33434] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/device_0"
+Wed 25 Nov 2026 13:00:38 [INFO] [MSVP] [33434] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 13:00:38 [INFO] [MSVP] [33434] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125130032451_00033105IGBMNDEL done.
+[INFO] Start query data in PROF_000001_20261125130032451_00033105IGBMNDEL.
+Wed 25 Nov 2026 13:00:39 [WARNING] [MSVP] [33473] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 13:00:32.453689	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 13:00:32.456386	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125130032451_00033105IGBMNDEL done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/post_reorder_triton_kernel_for_cutlass_moe/data/p100/.collector_work/performance/post_reorder_triton_kernel_for_cutlass_moe/eval_20261125_130027_32856/timing/PROF_000001_20261125130032451_00033105IGBMNDEL

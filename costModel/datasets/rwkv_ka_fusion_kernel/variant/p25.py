@@ -1,6 +1,7 @@
 import torch
 import triton
 import triton.language as tl
+
 @triton.jit
 def rwkv_ka_fusion_kernel(
     k_ptr,
@@ -36,6 +37,7 @@ def rwkv_ka_fusion_kernel(
         okka = okk * a
         tl.store(o_k_ptr + offs, ok, mask=offs < T * C)
         tl.store(o_kka_ptr + offs, okka, mask=offs < T * C)
+
 def rwkv_ka_fusion(
     k: torch.Tensor, kk: torch.Tensor, a: torch.Tensor, ka: torch.Tensor, H: int, N: int
 ):
@@ -51,8 +53,6 @@ def rwkv_ka_fusion(
     grid = lambda meta: (triton.cdiv(T * C, BLOCK_SIZE),)
     N_size = triton.next_power_of_2(N)
     rwkv_ka_fusion_kernel[grid](
-        k, kk, a, ka, o_k, o_kk, o_kka, T, C, H, N, N_size, BLOCK_SIZE,
-        num_warps=4,
-        num_stages=2
+        k, kk, a, ka, o_k, o_kk, o_kka, T, C, H, N, N_size, BLOCK_SIZE
     )
     return o_k, o_kk, o_kka

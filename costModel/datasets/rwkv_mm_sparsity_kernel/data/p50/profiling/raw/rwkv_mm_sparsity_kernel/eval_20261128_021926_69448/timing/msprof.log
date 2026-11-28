@@ -1,0 +1,36 @@
+[INFO] Start profiling....
+[W1128 02:19:32.392409980 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+✅ RWKV MM Sparsity test passed!
+Triton output shape: torch.Size([512])
+PyTorch output shape: torch.Size([512])
+Max difference: 3.814697265625e-05
+[INFO] Start export data in PROF_000001_20261128021931821_00069766QGKBDAKI.
+Sat 28 Nov 2026 02:19:36 [WARNING] [MSVP] [69920] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Sat 28 Nov 2026 02:19:36 [INFO] [MSVP] [69922] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/host" ...
+Sat 28 Nov 2026 02:19:36 [INFO] [MSVP] [69922] msprof_common.py: It may take few minutes, please be patient ...
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [69922] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/host" finished.
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [69922] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/device_0" ...
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [69922] msprof_common.py: It may take few minutes, please be patient ...
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [69922] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/device_0" finished.
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [69922] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/device_0.
+Sat 28 Nov 2026 02:19:37 [WARNING] [MSVP] [70102] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [70104] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/host" has been analyzed. Parsing phase will be skipped.
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [70104] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/device_0" has been analyzed. Parsing phase will be skipped.
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [70104] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/device_0.
+Sat 28 Nov 2026 02:19:37 [INFO] [MSVP] [70104] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/host"
+Sat 28 Nov 2026 02:19:38 [INFO] [MSVP] [70104] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/device_0.
+Sat 28 Nov 2026 02:19:38 [INFO] [MSVP] [70104] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/device_0"
+Sat 28 Nov 2026 02:19:38 [INFO] [MSVP] [70104] msprof_common.py: Start exporting summary output_file.
+Sat 28 Nov 2026 02:19:38 [INFO] [MSVP] [70104] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261128021931821_00069766QGKBDAKI done.
+[INFO] Start query data in PROF_000001_20261128021931821_00069766QGKBDAKI.
+Sat 28 Nov 2026 02:19:38 [WARNING] [MSVP] [70143] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-28 02:19:32.541292	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-28 02:19:32.545328	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261128021931821_00069766QGKBDAKI done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/rwkv_mm_sparsity_kernel/data/p50/.collector_work/performance/rwkv_mm_sparsity_kernel/eval_20261128_021926_69448/timing/PROF_000001_20261128021931821_00069766QGKBDAKI

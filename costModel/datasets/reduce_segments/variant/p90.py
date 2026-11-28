@@ -1,9 +1,11 @@
 import torch
 import triton
 import triton.language as tl
+
 @triton.jit
 def cdiv_fn(x, y):
     return (x + y - 1) // y
+
 @triton.jit
 def find_seq_idx(
     query_start_len_ptr,
@@ -15,14 +17,14 @@ def find_seq_idx(
     left: tl.int32 = 0
     right = num_seqs
     while left < right:
-        mid = (left + right) // 2
+        mid = (left + right) >> 1
         val = tl.load(query_start_len_ptr + mid)
         mid_val = val // BLOCK_Q + mid if use_q_block_mode else val
-        if mid_val <= target_idx:
-            left = mid + 1
-        else:
-            right = mid
+        lt = mid_val <= target_idx
+        left = tl.where(lt, mid + 1, left)
+        right = tl.where(lt, right, mid)
     return left - 1
+
 @triton.jit
 def reduce_segments(
     output_ptr,
@@ -56,15 +58,15 @@ def reduce_segments(
     segm_mask = tl.arange(0, NUM_SEGMENTS_PER_SEQ) < tl.full(
         [NUM_SEGMENTS_PER_SEQ], act_num_segments, dtype=tl.int32
     )
-    dim_mask = tl.full([HEAD_SIZE_PADDED], 1, dtype=tl.int1) if HEAD_SIZE == HEAD_SIZE_PADDED else tl.where(tl.arange(0, HEAD_SIZE_PADDED) < HEAD_SIZE, 1, 0).to(tl.int1)
+    dim_mask = tl.where(tl.arange(0, HEAD_SIZE_PADDED) < HEAD_SIZE, 1, 0).to(tl.int1)
     segm_offset = (
         query_token_idx.to(tl.int64) * (num_query_heads * NUM_SEGMENTS_PER_SEQ)
         + query_head_idx * NUM_SEGMENTS_PER_SEQ
         + tl.arange(0, NUM_SEGMENTS_PER_SEQ)
     )
     segm_max = tl.load(segm_max_ptr + segm_offset, mask=segm_mask, other=float("-inf"))
-    overall_max = tl.max(segm_max)
     segm_expsum = tl.load(segm_expsum_ptr + segm_offset, mask=segm_mask, other=0.0)
+    overall_max = tl.max(segm_max)
     segm_expsum = segm_expsum * tl.exp(segm_max - overall_max)
     overall_expsum = tl.sum(segm_expsum)
     segm_output_offset = (

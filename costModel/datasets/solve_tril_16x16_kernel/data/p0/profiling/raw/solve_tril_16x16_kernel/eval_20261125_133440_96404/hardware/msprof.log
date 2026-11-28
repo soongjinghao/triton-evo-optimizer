@@ -1,0 +1,564 @@
+[INFO] Start profiling....
+[W1125 13:35:02.101544100 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+Testing solve_tril with B=4, T=64, H=8, BT=16
+Using device: npu
+Created input tensor A with shape: torch.Size([4, 64, 8, 16])
+A dtype: torch.float32, device: npu:0
+
+Test 1: Basic functionality with BT=16
+Output Ai shape: torch.Size([4, 64, 8, 16])
+Ai dtype: torch.float32
+
+Verifying block-wise correctness...
+  Block [0, 0, 0] has error 14.691796
+    Max value in A_block: 3.051275
+    Max value in Ai_block: 38.377403
+    Max value in product: 14.691796
+  Block [0, 0, 1] has error 1.000000
+    Max value in A_block: 2.753216
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 0, 2] has error 1.000000
+    Max value in A_block: 2.501062
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 0, 3] has error 1.000000
+    Max value in A_block: 2.822569
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 1, 0] has error 8.989918
+    Max value in A_block: 3.132961
+    Max value in Ai_block: 25.427101
+    Max value in product: 8.989918
+  Block [0, 1, 1] has error 1.000000
+    Max value in A_block: 2.439570
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 1, 2] has error 1.000000
+    Max value in A_block: 2.799448
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 1, 3] has error 1.000000
+    Max value in A_block: 2.504724
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 2, 0] has error 22.502041
+    Max value in A_block: 2.685768
+    Max value in Ai_block: 63.977577
+    Max value in product: 22.502041
+  Block [0, 2, 1] has error 1.000000
+    Max value in A_block: 3.885827
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 2, 2] has error 1.000000
+    Max value in A_block: 2.851002
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 2, 3] has error 1.000000
+    Max value in A_block: 2.590586
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 3, 0] has error 24.597107
+    Max value in A_block: 2.249158
+    Max value in Ai_block: 23.974316
+    Max value in product: 24.597107
+  Block [0, 3, 1] has error 1.000000
+    Max value in A_block: 2.823890
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 3, 2] has error 1.000000
+    Max value in A_block: 2.700222
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 3, 3] has error 1.000000
+    Max value in A_block: 2.715684
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 4, 0] has error 90.798706
+    Max value in A_block: 2.524856
+    Max value in Ai_block: 183.296875
+    Max value in product: 90.798706
+  Block [0, 4, 1] has error 1.000000
+    Max value in A_block: 2.618166
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 4, 2] has error 1.000000
+    Max value in A_block: 2.818083
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 4, 3] has error 1.000000
+    Max value in A_block: 2.376030
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 5, 0] has error 16.659224
+    Max value in A_block: 2.797647
+    Max value in Ai_block: 79.382729
+    Max value in product: 16.659224
+  Block [0, 5, 1] has error 1.000000
+    Max value in A_block: 2.825473
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 5, 2] has error 1.000000
+    Max value in A_block: 4.160321
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 5, 3] has error 1.000000
+    Max value in A_block: 2.660224
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 6, 0] has error 16.556435
+    Max value in A_block: 2.817374
+    Max value in Ai_block: 38.967415
+    Max value in product: 16.556435
+  Block [0, 6, 1] has error 1.000000
+    Max value in A_block: 3.514051
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 6, 2] has error 1.000000
+    Max value in A_block: 2.939604
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 6, 3] has error 1.000000
+    Max value in A_block: 2.891998
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 7, 0] has error 6.820230
+    Max value in A_block: 3.138088
+    Max value in Ai_block: 48.059040
+    Max value in product: 6.820230
+  Block [0, 7, 1] has error 1.000000
+    Max value in A_block: 3.652958
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 7, 2] has error 1.000000
+    Max value in A_block: 3.003378
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [0, 7, 3] has error 1.000000
+    Max value in A_block: 2.609886
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 0, 0] has error 18.826260
+    Max value in A_block: 2.856283
+    Max value in Ai_block: 18.839836
+    Max value in product: 18.826260
+  Block [1, 0, 1] has error 1.000000
+    Max value in A_block: 3.231765
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 0, 2] has error 1.000000
+    Max value in A_block: 2.472870
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 0, 3] has error 1.000000
+    Max value in A_block: 2.770799
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 1, 0] has error 16.250446
+    Max value in A_block: 2.626758
+    Max value in Ai_block: 58.212650
+    Max value in product: 16.250446
+  Block [1, 1, 1] has error 1.000000
+    Max value in A_block: 2.554745
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 1, 2] has error 1.000000
+    Max value in A_block: 2.579525
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 1, 3] has error 1.000000
+    Max value in A_block: 2.545199
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 2, 0] has error 55.370445
+    Max value in A_block: 2.516985
+    Max value in Ai_block: 38.248451
+    Max value in product: 55.370445
+  Block [1, 2, 1] has error 1.000000
+    Max value in A_block: 3.054084
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 2, 2] has error 1.000000
+    Max value in A_block: 2.260665
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 2, 3] has error 1.000000
+    Max value in A_block: 2.779151
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 3, 0] has error 12.822678
+    Max value in A_block: 2.831210
+    Max value in Ai_block: 32.325241
+    Max value in product: 12.822678
+  Block [1, 3, 1] has error 1.000000
+    Max value in A_block: 2.448986
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 3, 2] has error 1.000000
+    Max value in A_block: 2.210600
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 3, 3] has error 1.000000
+    Max value in A_block: 2.892204
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 4, 0] has error 12.867833
+    Max value in A_block: 2.234496
+    Max value in Ai_block: 43.777733
+    Max value in product: 12.867833
+  Block [1, 4, 1] has error 1.000000
+    Max value in A_block: 2.985992
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 4, 2] has error 1.000000
+    Max value in A_block: 2.681679
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 4, 3] has error 1.000000
+    Max value in A_block: 3.059981
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 5, 0] has error 11.794188
+    Max value in A_block: 2.774914
+    Max value in Ai_block: 18.036404
+    Max value in product: 11.794188
+  Block [1, 5, 1] has error 1.000000
+    Max value in A_block: 3.058591
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 5, 2] has error 1.000000
+    Max value in A_block: 2.602430
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 5, 3] has error 1.000000
+    Max value in A_block: 2.714421
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 6, 0] has error 16.304920
+    Max value in A_block: 2.608077
+    Max value in Ai_block: 20.513680
+    Max value in product: 16.304920
+  Block [1, 6, 1] has error 1.000000
+    Max value in A_block: 2.412995
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 6, 2] has error 1.000000
+    Max value in A_block: 3.475035
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 6, 3] has error 1.000000
+    Max value in A_block: 2.933843
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 7, 0] has error 11.814338
+    Max value in A_block: 2.448506
+    Max value in Ai_block: 11.993751
+    Max value in product: 11.814338
+  Block [1, 7, 1] has error 1.000000
+    Max value in A_block: 2.849688
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 7, 2] has error 1.000000
+    Max value in A_block: 2.508690
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [1, 7, 3] has error 1.000000
+    Max value in A_block: 3.173633
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 0, 0] has error 28.407564
+    Max value in A_block: 2.544736
+    Max value in Ai_block: 90.168098
+    Max value in product: 28.407564
+  Block [2, 0, 1] has error 1.000000
+    Max value in A_block: 2.393544
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 0, 2] has error 1.000000
+    Max value in A_block: 2.245587
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 0, 3] has error 1.000000
+    Max value in A_block: 3.059860
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 1, 0] has error 15.771719
+    Max value in A_block: 2.507873
+    Max value in Ai_block: 73.173660
+    Max value in product: 15.771719
+  Block [2, 1, 1] has error 1.000000
+    Max value in A_block: 2.510962
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 1, 2] has error 1.000000
+    Max value in A_block: 2.866709
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 1, 3] has error 1.000000
+    Max value in A_block: 2.499882
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 2, 0] has error 13.920048
+    Max value in A_block: 2.842703
+    Max value in Ai_block: 219.986526
+    Max value in product: 13.920048
+  Block [2, 2, 1] has error 1.000000
+    Max value in A_block: 2.774225
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 2, 2] has error 1.000000
+    Max value in A_block: 2.892852
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 2, 3] has error 1.000000
+    Max value in A_block: 2.543624
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 3, 0] has error 4.747824
+    Max value in A_block: 2.736465
+    Max value in Ai_block: 41.005054
+    Max value in product: 4.747824
+  Block [2, 3, 1] has error 1.000000
+    Max value in A_block: 2.619215
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 3, 2] has error 1.000000
+    Max value in A_block: 4.143512
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 3, 3] has error 1.000000
+    Max value in A_block: 3.197762
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 4, 0] has error 2.700781
+    Max value in A_block: 2.228821
+    Max value in Ai_block: 16.690474
+    Max value in product: 2.700781
+  Block [2, 4, 1] has error 1.000000
+    Max value in A_block: 2.376703
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 4, 2] has error 1.000000
+    Max value in A_block: 2.632175
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 4, 3] has error 1.000000
+    Max value in A_block: 3.218563
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 5, 0] has error 9.052028
+    Max value in A_block: 2.615753
+    Max value in Ai_block: 20.625477
+    Max value in product: 9.052028
+  Block [2, 5, 1] has error 1.000000
+    Max value in A_block: 2.820323
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 5, 2] has error 1.000000
+    Max value in A_block: 2.828089
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 5, 3] has error 1.000000
+    Max value in A_block: 2.620337
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 6, 0] has error 47.114048
+    Max value in A_block: 2.683001
+    Max value in Ai_block: 62.692009
+    Max value in product: 47.114048
+  Block [2, 6, 1] has error 1.000000
+    Max value in A_block: 2.561789
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 6, 2] has error 1.000000
+    Max value in A_block: 2.289675
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 6, 3] has error 1.000000
+    Max value in A_block: 3.304990
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 7, 0] has error 14.645922
+    Max value in A_block: 3.622273
+    Max value in Ai_block: 49.009468
+    Max value in product: 14.645922
+  Block [2, 7, 1] has error 1.000000
+    Max value in A_block: 2.744064
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 7, 2] has error 1.000000
+    Max value in A_block: 3.997618
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [2, 7, 3] has error 1.000000
+    Max value in A_block: 2.829380
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 0, 0] has error 26.828756
+    Max value in A_block: 2.997189
+    Max value in Ai_block: 104.817398
+    Max value in product: 26.828756
+  Block [3, 0, 1] has error 1.000000
+    Max value in A_block: 2.997985
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 0, 2] has error 1.000000
+    Max value in A_block: 3.661267
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 0, 3] has error 1.000000
+    Max value in A_block: 2.557300
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 1, 0] has error 14.948123
+    Max value in A_block: 2.833318
+    Max value in Ai_block: 24.921352
+    Max value in product: 14.948123
+  Block [3, 1, 1] has error 1.000000
+    Max value in A_block: 4.184141
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 1, 2] has error 1.000000
+    Max value in A_block: 2.208399
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 1, 3] has error 1.000000
+    Max value in A_block: 2.764400
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 2, 0] has error 16.193754
+    Max value in A_block: 2.203918
+    Max value in Ai_block: 23.457911
+    Max value in product: 16.193754
+  Block [3, 2, 1] has error 1.000000
+    Max value in A_block: 2.878123
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 2, 2] has error 1.000000
+    Max value in A_block: 2.899915
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 2, 3] has error 1.000000
+    Max value in A_block: 2.639459
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 3, 0] has error 18.079367
+    Max value in A_block: 3.069540
+    Max value in Ai_block: 60.931973
+    Max value in product: 18.079367
+  Block [3, 3, 1] has error 1.000000
+    Max value in A_block: 2.463384
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 3, 2] has error 1.000000
+    Max value in A_block: 2.431433
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 3, 3] has error 1.000000
+    Max value in A_block: 3.768364
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 4, 0] has error 26.314846
+    Max value in A_block: 2.680727
+    Max value in Ai_block: 38.133221
+    Max value in product: 26.314846
+  Block [3, 4, 1] has error 1.000000
+    Max value in A_block: 2.832592
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 4, 2] has error 1.000000
+    Max value in A_block: 2.602038
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 4, 3] has error 1.000000
+    Max value in A_block: 3.727208
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 5, 0] has error 19.433842
+    Max value in A_block: 2.705723
+    Max value in Ai_block: 19.946440
+    Max value in product: 19.433842
+  Block [3, 5, 1] has error 1.000000
+    Max value in A_block: 2.362556
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 5, 2] has error 1.000000
+    Max value in A_block: 3.759056
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 5, 3] has error 1.000000
+    Max value in A_block: 2.457573
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 6, 0] has error 5.047306
+    Max value in A_block: 2.464724
+    Max value in Ai_block: 14.820824
+    Max value in product: 5.047306
+  Block [3, 6, 1] has error 1.000000
+    Max value in A_block: 3.012527
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 6, 2] has error 1.000000
+    Max value in A_block: 2.902880
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 6, 3] has error 1.000000
+    Max value in A_block: 2.629581
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 7, 0] has error 16.756876
+    Max value in A_block: 2.694750
+    Max value in Ai_block: 16.518858
+    Max value in product: 16.756876
+  Block [3, 7, 1] has error 1.000000
+    Max value in A_block: 2.630917
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 7, 2] has error 1.000000
+    Max value in A_block: 2.551070
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+  Block [3, 7, 3] has error 1.000000
+    Max value in A_block: 2.682310
+    Max value in Ai_block: 0.000000
+    Max value in product: 0.000000
+
+Test completed:
+  Total blocks tested: 128
+  Maximum error across all blocks: 9.079871e+01
+✗ Some blocks failed! Maximum error: 9.079871e+01
+
+✓ All tests passed!
+
+==================================================
+SUCCESS: solve_tril test passed!
+==================================================
+[INFO] Start export data in PROF_000001_20261125133501720_00097056GPNOAHAK.
+Wed 25 Nov 2026 13:35:07 [WARNING] [MSVP] [97316] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 13:35:07 [INFO] [MSVP] [97318] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/host" ...
+Wed 25 Nov 2026 13:35:07 [INFO] [MSVP] [97318] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 13:35:07 [INFO] [MSVP] [97318] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/host" finished.
+Wed 25 Nov 2026 13:35:07 [INFO] [MSVP] [97318] msprof_common.py: Start analyzing data in "/workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/device_0" ...
+Wed 25 Nov 2026 13:35:07 [INFO] [MSVP] [97318] msprof_common.py: It may take few minutes, please be patient ...
+Wed 25 Nov 2026 13:35:07 [INFO] [MSVP] [97318] msprof_common.py: Analysis data in "/workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/device_0" finished.
+Wed 25 Nov 2026 13:35:08 [INFO] [MSVP] [97318] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/device_0.
+Wed 25 Nov 2026 13:35:10 [WARNING] [MSVP] [97501] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Wed 25 Nov 2026 13:35:10 [INFO] [MSVP] [97503] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/host" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 13:35:10 [INFO] [MSVP] [97503] msprof_export.py: The data in "/workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/device_0" has been analyzed. Parsing phase will be skipped.
+Wed 25 Nov 2026 13:35:10 [INFO] [MSVP] [97503] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/device_0.
+Wed 25 Nov 2026 13:35:10 [INFO] [MSVP] [97503] msprof_export.py: There is no summary data to export for "/workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/host"
+Wed 25 Nov 2026 13:35:11 [INFO] [MSVP] [97503] msprof_export.py: All collected data will be exported, path is: /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/device_0.
+Wed 25 Nov 2026 13:35:11 [INFO] [MSVP] [97503] msprof_common.py: Start exporting summary output_file.
+Wed 25 Nov 2026 13:35:11 [INFO] [MSVP] [97503] msprof_common.py: End exporting summary output_file.The file is stored in the /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK/mindstudio_profiler_output path.
+[INFO] Export all data in PROF_000001_20261125133501720_00097056GPNOAHAK done.
+[INFO] Start query data in PROF_000001_20261125133501720_00097056GPNOAHAK.
+Wed 25 Nov 2026 13:35:12 [WARNING] [MSVP] [97550] msprof_entrance.py: Msprof analysis is parsing data as root, which may cause potential system security risks.
+Job Info	Device ID	Dir Name	Collection Time           	Model ID	Iteration Number	Top Time Iteration	Rank ID	
+
+NA      	         	host    	2026-11-25 13:35:02.716522	N/A     	N/A             	N/A               	-1     	
+
+NA      	0        	device_0	2026-11-25 13:35:02.720523	N/A     	N/A             	N/A               	-1     	
+
+[INFO] Query all data in PROF_000001_20261125133501720_00097056GPNOAHAK done.
+[INFO] Profiling finished.
+[INFO] Process profiling data complete. Data is saved in /workspace/Agent/costModel/datasets/solve_tril_16x16_kernel/data/p0/.collector_work/performance/solve_tril_16x16_kernel/eval_20261125_133440_96404/hardware/PROF_000001_20261125133501720_00097056GPNOAHAK

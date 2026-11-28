@@ -3,21 +3,21 @@
   "kernel_name": "chunk_local_cumsum_vector_kernel",
   "profile_mode": "full",
   "timing": {
-    "execution_time_us": 14.321,
+    "execution_time_us": 12.681,
     "source": "op_summary.Task Duration(us)",
-    "sample_count": 1050,
+    "sample_count": 950,
     "task_time_cross_check": {
-      "median_task_time_us": 10.44,
-      "sample_count": 962,
+      "median_task_time_us": 10.8,
+      "sample_count": 865,
       "task_id": "2",
       "stream_id": "47"
     },
-    "hardware_pass_task_duration_us": 10.441,
-    "cross_pass_difference_us": 3.879999999999999,
-    "cross_pass_relative_difference_pct": 27.09308009217233,
-    "cross_pass_consistent_20pct": false,
-    "label_valid": false,
-    "label_execution_time_us": null
+    "hardware_pass_task_duration_us": 10.801,
+    "cross_pass_difference_us": 1.879999999999999,
+    "cross_pass_relative_difference_pct": 14.825329232710347,
+    "cross_pass_consistent_20pct": true,
+    "label_valid": true,
+    "label_execution_time_us": 12.681
   },
   "kernel": {
     "Device_id": "0",
@@ -27,8 +27,8 @@
     "OP Type": "chunk_local_cumsum_vector_kernel",
     "OP State": "static",
     "Task Type": "MIX_AIC",
-    "Task Start Time(us)": "1795605426304294.307\t",
-    "Task Duration(us)": 10.441,
+    "Task Start Time(us)": "1795611087093655.164\t",
+    "Task Duration(us)": 10.801,
     "Block Num": "24",
     "Mix Block Num": "48",
     "HF32 Eligible": "YES",
@@ -36,31 +36,31 @@
     "Input Data Types": "FLOAT",
     "Output Shapes": "\"4,128,16,64\"",
     "Output Data Types": "FLOAT",
-    "aicore_time(us)": 6.901,
-    "aic_total_cycles": 298125.0,
+    "aicore_time(us)": 7.209,
+    "aic_total_cycles": 311419.0,
     "aic_mac_time(us)": 0.714,
-    "aic_mac_ratio": 0.107,
-    "aic_scalar_time(us)": 2.2995,
-    "aic_scalar_ratio": 0.312,
-    "aic_mte1_time(us)": 0.892,
-    "aic_mte1_ratio": 0.134,
-    "aic_mte2_time(us)": 1.829,
-    "aic_mte2_ratio": 0.264,
-    "aic_fixpipe_time(us)": 1.948,
-    "aic_fixpipe_ratio": 0.292,
+    "aic_mac_ratio": 0.103,
+    "aic_scalar_time(us)": 2.471,
+    "aic_scalar_ratio": 0.332,
+    "aic_mte1_time(us)": 0.891,
+    "aic_mte1_ratio": 0.129,
+    "aic_mte2_time(us)": 1.8,
+    "aic_mte2_ratio": 0.249,
+    "aic_fixpipe_time(us)": 1.936,
+    "aic_fixpipe_ratio": 0.28,
     "aic_icache_miss_rate": 0.0,
-    "aiv_time(us)": 4.0005,
-    "aiv_total_cycles": 345650.0,
+    "aiv_time(us)": 4.316,
+    "aiv_total_cycles": 372869.0,
     "aiv_vec_time(us)": 0.223,
-    "aiv_vec_ratio": 0.056,
-    "aiv_scalar_time(us)": 1.839,
-    "aiv_scalar_ratio": 0.438,
+    "aiv_vec_ratio": 0.052,
+    "aiv_scalar_time(us)": 1.97,
+    "aiv_scalar_ratio": 0.465,
     "aiv_mte2_time(us)": 0.004,
     "aiv_mte2_ratio": 0.001,
-    "aiv_mte3_time(us)": 0.395,
-    "aiv_mte3_ratio": 0.093,
+    "aiv_mte3_time(us)": 0.391,
+    "aiv_mte3_ratio": 0.086,
     "aiv_icache_miss_rate": 0.0,
-    "cube_utilization(%)": 66.58850000000001
+    "cube_utilization(%)": 66.54
   },
   "core_utilization": {
     "ai_core": {
@@ -69,17 +69,17 @@
       "applicability": "available",
       "record_count": 1,
       "active_record_count": 1,
-      "mac_ratio_mean": 0.107,
-      "scalar_ratio_mean": 0.312,
-      "mte1_ratio_mean": 0.134,
-      "mte2_ratio_mean": 0.264,
-      "fixpipe_ratio_mean": 0.292,
+      "mac_ratio_mean": 0.103,
+      "scalar_ratio_mean": 0.332,
+      "mte1_ratio_mean": 0.129,
+      "mte2_ratio_mean": 0.249,
+      "fixpipe_ratio_mean": 0.28,
       "icache_miss_rate_mean": 0.0,
-      "mac_ratio_max": 0.107,
-      "scalar_ratio_max": 0.312,
-      "mte1_ratio_max": 0.134,
-      "mte2_ratio_max": 0.264,
-      "fixpipe_ratio_max": 0.292,
+      "mac_ratio_max": 0.103,
+      "scalar_ratio_max": 0.332,
+      "mte1_ratio_max": 0.129,
+      "mte2_ratio_max": 0.249,
+      "fixpipe_ratio_max": 0.28,
       "icache_miss_rate_max": 0.0
     },
     "ai_vector_core": {
@@ -88,15 +88,15 @@
       "applicability": "available",
       "record_count": 1,
       "active_record_count": 1,
-      "vec_ratio_mean": 0.056,
-      "scalar_ratio_mean": 0.438,
+      "vec_ratio_mean": 0.052,
+      "scalar_ratio_mean": 0.465,
       "mte2_ratio_mean": 0.001,
-      "mte3_ratio_mean": 0.093,
+      "mte3_ratio_mean": 0.086,
       "icache_miss_rate_mean": 0.0,
-      "vec_ratio_max": 0.056,
-      "scalar_ratio_max": 0.438,
+      "vec_ratio_max": 0.052,
+      "scalar_ratio_max": 0.465,
       "mte2_ratio_max": 0.001,
-      "mte3_ratio_max": 0.093,
+      "mte3_ratio_max": 0.086,
       "icache_miss_rate_max": 0.0
     }
   },
@@ -104,14 +104,14 @@
     "hbm": {
       "scope": "device_level_sampled_bandwidth",
       "sample_count": 5,
-      "read_mb_s": 255.314,
-      "write_mb_s": 6373.579
+      "read_mb_s": 60.32,
+      "write_mb_s": 5759.159
     },
     "llc": {
       "scope": "device_level_llc_profile",
       "sample_count": 3,
-      "read_hit_rate_pct": 41.88,
-      "read_throughput_mb_s": 6073.905,
+      "read_hit_rate_pct": 40.715,
+      "read_throughput_mb_s": 5626.205,
       "write_hit_rate_pct": null,
       "write_throughput_mb_s": null
     },
@@ -123,21 +123,21 @@
       "hbm_kb_mean": 141496.0,
       "total_memory_kb_peak": 340152.0,
       "total_memory_kb_mean": 141496.0,
-      "sample_count": 95,
-      "timestamp_start_us": 1795605426062996.5,
-      "timestamp_end_us": 1795605427941528.5,
-      "sampling_span_us": 1878532.0
+      "sample_count": 89,
+      "timestamp_start_us": 1795611086849643.2,
+      "timestamp_end_us": 1795611088600645.5,
+      "sampling_span_us": 1751002.25
     },
     "npu_module_memory": {
       "RUNTIME": {
         "reserved_kb_peak": 32876.0,
-        "reserved_kb_mean": 31931.875,
-        "sample_count": 96
+        "reserved_kb_mean": 31950.157303370786,
+        "sample_count": 89
       },
       "APP": {
         "reserved_kb_peak": 221184.0,
-        "reserved_kb_mean": 114517.33333333333,
-        "sample_count": 96
+        "reserved_kb_mean": 115148.22471910113,
+        "sample_count": 89
       }
     }
   },
@@ -157,31 +157,31 @@
   },
   "collection": {
     "hardware_profile_success": true,
-    "op_summary_rows_for_kernel": 962,
+    "op_summary_rows_for_kernel": 865,
     "source_csv": {
-      "op_summary": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/hardware/PROF_000001_20261125111705711_00169480JOOJPBMG/mindstudio_profiler_output/op_summary_20261125111712.csv",
+      "op_summary": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/hardware/PROF_000001_20261125125126459_00021393CKBMLAEF/mindstudio_profiler_output/op_summary_20261125125133.csv",
       "ai_core_utilization": null,
       "ai_vector_core_utilization": null,
-      "hbm": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/hardware/PROF_000001_20261125111705711_00169480JOOJPBMG/mindstudio_profiler_output/hbm_20261125111712.csv",
-      "llc_read_write": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/hardware/PROF_000001_20261125111705711_00169480JOOJPBMG/mindstudio_profiler_output/llc_read_write_20261125111712.csv",
-      "npu_mem": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/hardware/PROF_000001_20261125111705711_00169480JOOJPBMG/mindstudio_profiler_output/npu_mem_20261125111712.csv",
-      "npu_module_mem": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/hardware/PROF_000001_20261125111705711_00169480JOOJPBMG/mindstudio_profiler_output/npu_module_mem_20261125111712.csv",
-      "task_time": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/hardware/PROF_000001_20261125111705711_00169480JOOJPBMG/mindstudio_profiler_output/task_time_20261125111712.csv"
+      "hbm": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/hardware/PROF_000001_20261125125126459_00021393CKBMLAEF/mindstudio_profiler_output/hbm_20261125125133.csv",
+      "llc_read_write": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/hardware/PROF_000001_20261125125126459_00021393CKBMLAEF/mindstudio_profiler_output/llc_read_write_20261125125133.csv",
+      "npu_mem": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/hardware/PROF_000001_20261125125126459_00021393CKBMLAEF/mindstudio_profiler_output/npu_mem_20261125125133.csv",
+      "npu_module_mem": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/hardware/PROF_000001_20261125125126459_00021393CKBMLAEF/mindstudio_profiler_output/npu_module_mem_20261125125133.csv",
+      "task_time": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/hardware/PROF_000001_20261125125126459_00021393CKBMLAEF/mindstudio_profiler_output/task_time_20261125125133.csv"
     },
     "commands": {
       "timing": [
         "msprof",
-        "--output=/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/timing",
+        "--output=/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/timing",
         "--task-time=l0",
         "--ai-core=off",
         "--ascendcl=off",
         "--runtime-api=off",
         "python3",
-        "/tmp/chunk_local_cumsum_vector_kernel_au9xt_r7/test_chunk_local_cumsum_vector_kernel.py"
+        "/tmp/chunk_local_cumsum_vector_kernel_pdb2dnb_/test_chunk_local_cumsum_vector_kernel.py"
       ],
       "hardware": [
         "msprof",
-        "--output=/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/hardware",
+        "--output=/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/.collector_work/performance/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/hardware",
         "--task-time=l1",
         "--task-memory=on",
         "--ai-core=on",
@@ -194,12 +194,12 @@
         "--runtime-api=off",
         "--ge-api=off",
         "python3",
-        "/tmp/chunk_local_cumsum_vector_kernel_au9xt_r7/test_chunk_local_cumsum_vector_kernel.py"
+        "/tmp/chunk_local_cumsum_vector_kernel_pdb2dnb_/test_chunk_local_cumsum_vector_kernel.py"
       ]
     },
     "raw_profile_directories": {
-      "timing": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/timing",
-      "hardware": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_111646_163062/hardware"
+      "timing": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/timing",
+      "hardware": "/workspace/Agent/costModel/datasets/chunk_local_cumsum_vector_kernel/data/p75/profiling/raw/chunk_local_cumsum_vector_kernel/eval_20261125_125107_20199/hardware"
     }
   }
 }

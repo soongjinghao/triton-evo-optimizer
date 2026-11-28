@@ -21,10 +21,10 @@
     "_correct_attn_cp_out_kernel__p90__c14c39bfca47",
     "_correct_attn_cp_out_kernel__p100__7dde9aeb2874"
   ],
-  "correctness_ready": true,
+  "correctness_ready": false,
   "historical_log_files": 1345,
   "historical_valid_evaluation_rows": 170,
-  "ir_ready": true,
+  "ir_ready": false,
   "operator": "_correct_attn_cp_out_kernel",
   "operator_name": "_correct_attn_cp_out_kernel",
   "percentiles": [
@@ -34,7 +34,7 @@
     "p90",
     "p100"
   ],
-  "profiling_ready": true,
+  "profiling_ready": false,
   "sample_sufficiency": "sufficient",
   "schema_version": "costmodel_dataset_v1",
   "selection_method": "pooled_devices_nearest_rank_sha256_dedup",
@@ -45,7 +45,7 @@
   "test_source_path": "datasets2/_correct_attn_cp_out_kernel/test__correct_attn_cp_out_kernel_1.py",
   "variants_ready": true,
   "npubin_ready": true,
-  "m3_ir_ready": true,
-  "complete_data_ready": true,
+  "m3_ir_ready": false,
+  "complete_data_ready": false,
   "last_collector_version": "2.2.0"
 }
