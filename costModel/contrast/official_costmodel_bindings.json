@@ -1,5 +1,5 @@
 {
-  "_comment": "Bindings are runtime scalar values for TTIR %argN. Use operator-level values only when all candidate roles share the same workload.",
+  "_comment": "Runtime scalar bindings for TTIR arguments. Candidate entries take precedence over operator entries.",
   "default": {},
   "operators": {
     "_chunk_state_fwd_kernel": {
@@ -11,5 +11,9 @@
       "arg10": 2
     }
   },
-  "candidates": {}
+  "candidates": {
+    "_rms_norm_kernel__p50__3a23fda6d5e9": {"arg5": 512},
+    "_rms_norm_kernel__p90__cd3155e8daee": {"arg5": 512},
+    "_rms_norm_kernel__p100__0668871f8819": {"arg5": 512}
+  }
 }
