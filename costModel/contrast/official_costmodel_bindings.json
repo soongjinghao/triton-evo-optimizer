@@ -9,11 +9,78 @@
       "arg8": 2,
       "arg9": 4096,
       "arg10": 2
+    },
+    "_copy_page_indices_kernel": {
+      "arg3": 32
+    },
+    "_log_softmax_kernel": {
+      "arg4": 8192
+    },
+    "_per_group_transpose": {
+      "arg2": 32,
+      "arg3": 16
+    },
+    "_unpack_seq_triton_kernel": {
+      "arg2": 32
+    },
+    "assign_extend_cache_locs": {
+      "arg0": 8,
+      "arg2": 64,
+      "arg3": 64
+    },
+    "compute_identity_kernel": {
+      "arg0": 2,
+      "arg5": 512
+    },
+    "l2norm_fwd_kernel2": {
+      "arg3": 128
+    },
+    "matmul_kernel_simplified": {
+      "arg5": 64
+    },
+    "mean_kernel": {
+      "arg3": 4096,
+      "arg4": 8192
+    },
+    "merge_16x16_to_32x32_inverse_kernel": {
+      "arg2": 64
+    },
+    "merge_16x16_to_64x64_inverse_kernel": {
+      "arg2": 128
+    },
+    "moe_align_block_size_stage": {
+      "arg3": 128,
+      "arg4": 32
+    },
+    "post_reorder_triton_kernel_for_cutlass_moe": {
+      "arg5": 4,
+      "arg7": 128
+    },
+    "rwkv_ka_fusion_kernel": {
+      "arg9": 2
+    },
+    "solve_tril_16x16_kernel": {
+      "arg2": 64
     }
   },
   "candidates": {
-    "_rms_norm_kernel__p50__3a23fda6d5e9": {"arg5": 512},
-    "_rms_norm_kernel__p90__cd3155e8daee": {"arg5": 512},
-    "_rms_norm_kernel__p100__0668871f8819": {"arg5": 512}
+    "_rms_norm_kernel__p50__3a23fda6d5e9": {
+      "arg5": 512
+    },
+    "_rms_norm_kernel__p90__cd3155e8daee": {
+      "arg5": 512
+    },
+    "_rms_norm_kernel__p100__0668871f8819": {
+      "arg5": 512
+    },
+    "merge_16x16_to_64x64_inverse_kernel__p0__5dbfcec9f533": {
+      "arg2": 128
+    },
+    "merge_16x16_to_64x64_inverse_kernel__p25__0d995a8d2326": {
+      "arg2": 128
+    },
+    "merge_16x16_to_64x64_inverse_kernel__p100__7ac3ad8a864c": {
+      "arg2": 128
+    }
   }
 }
