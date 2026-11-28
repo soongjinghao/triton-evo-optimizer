@@ -2,6 +2,7 @@ from typing import Optional, Tuple
 import torch
 import triton
 import triton.language as tl
+
 @triton.jit
 def _act_quant_kernel(
     X_ptr,
@@ -34,14 +35,14 @@ def _act_quant_kernel(
         scale = tl.exp2(log_ceil)
     else:
         scale = amax * fp8_max_inv
-    scale_inv = 1.0 / scale
-    y = x * scale_inv
+    y = x / scale
     y = tl.minimum(tl.maximum(y, fp8_min), fp8_max)
     y_ptrs = Y_ptr + row * N + cols
     tl.store(y_ptrs, y, mask=col_mask)
     s_cols = pid_n
     s_ptrs = S_ptr + row * (N // group_size) + s_cols
     tl.store(s_ptrs, scale, mask=True)
+
 def act_quant(
     x: torch.Tensor, block_size: int = 128, scale_fmt: Optional[str] = None
 ) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -70,6 +71,6 @@ def act_quant(
         round_scale=round_scale,
         BLOCK_M=BLOCK_M,
         BLOCK_N=BLOCK_N,
-        num_stages=0 if round_scale else 2,
+        num_stages=4 if round_scale else 3,
     )
     return y, s

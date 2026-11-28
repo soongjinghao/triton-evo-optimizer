@@ -14,45 +14,35 @@ def _act_quant_kernel(
     round_scale: tl.constexpr,
     BLOCK_M: tl.constexpr,
     BLOCK_N: tl.constexpr,
-    N_GROUPS_PER_PROGRAM: tl.constexpr,
 ):
     pid_m = tl.program_id(0)
     pid_n = tl.program_id(1)
     fp8_min = -448.0
     fp8_max = 448.0
     fp8_max_inv = 1.0 / fp8_max
-    row_start = pid_m * BLOCK_M
-    rows = row_start + tl.arange(0, BLOCK_M)
-    row_mask = rows < M
-    n_groups = N // group_size
-    group_start = pid_n * N_GROUPS_PER_PROGRAM
-    for g in range(N_GROUPS_PER_PROGRAM):
-        current_group = group_start + g
-        group_valid = current_group < n_groups
-        col_start = current_group * group_size
-        cols = col_start + tl.arange(0, BLOCK_N)
-        col_mask = cols < N
-        mask = row_mask[:, None] & col_mask[None, :] & group_valid
-        x_ptrs = X_ptr + rows[:, None] * N + cols[None, :]
-        x = tl.load(x_ptrs, mask=mask, other=0.0).to(tl.float32)
-        x_abs = tl.abs(x)
-        amax = tl.max(x_abs, axis=1)
-        amax = tl.maximum(amax, 1e-4)
-        if round_scale:
-            log_val = tl.log2(amax * fp8_max_inv)
-            log_ceil = tl.ceil(log_val)
-            scale = tl.exp2(log_ceil)
-        else:
-            scale = amax * fp8_max_inv
-        scale_broadcast = scale[:, None]
-        y = x / scale_broadcast
-        y = tl.minimum(tl.maximum(y, fp8_min), fp8_max)
-        y_ptrs = Y_ptr + rows[:, None] * N + cols[None, :]
-        tl.store(y_ptrs, y, mask=mask)
-        s_cols = current_group
-        s_ptrs = S_ptr + rows * (N // group_size) + s_cols
-        s_mask = row_mask & group_valid
-        tl.store(s_ptrs, scale, mask=s_mask)
+    row = pid_m
+    col_start = pid_n * group_size
+    cols = col_start + tl.arange(0, BLOCK_N)
+    col_mask = cols < N
+    x_ptrs = X_ptr + row * N + cols
+    x = tl.load(x_ptrs, mask=col_mask, other=0.0).to(tl.float32)
+    x_abs = tl.abs(x)
+    amax = tl.max(x_abs, axis=0)
+    amax = tl.maximum(amax, 1e-4)
+    if round_scale:
+        log_val = tl.log2(amax * fp8_max_inv)
+        log_ceil = tl.ceil(log_val)
+        scale = tl.exp2(log_ceil)
+    else:
+        scale = amax * fp8_max_inv
+    scale_inv = 1.0 / scale
+    y = x * scale_inv
+    y = tl.minimum(tl.maximum(y, fp8_min), fp8_max)
+    y_ptrs = Y_ptr + row * N + cols
+    tl.store(y_ptrs, y, mask=col_mask)
+    s_cols = pid_n
+    s_ptrs = S_ptr + row * (N // group_size) + s_cols
+    tl.store(s_ptrs, scale, mask=True)
 
 def act_quant(
     x: torch.Tensor, block_size: int = 128, scale_fmt: Optional[str] = None
@@ -68,11 +58,9 @@ def act_quant(
     y_flat = y.view(-1, N)
     s = x.new_empty(*x.size()[:-1], N // block_size, dtype=torch.float32)
     s_flat = s.view(-1, N // block_size)
-    BLOCK_M = 32
+    BLOCK_M = 1
     BLOCK_N = block_size
-    N_GROUPS_PER_PROGRAM = 4
-    n_groups = N // block_size
-    grid = (triton.cdiv(M, BLOCK_M), triton.cdiv(n_groups, N_GROUPS_PER_PROGRAM))
+    grid = (M, triton.cdiv(N, block_size))
     round_scale = scale_fmt is not None
     _act_quant_kernel[grid](
         x_flat,
@@ -84,7 +72,7 @@ def act_quant(
         round_scale=round_scale,
         BLOCK_M=BLOCK_M,
         BLOCK_N=BLOCK_N,
-        N_GROUPS_PER_PROGRAM=N_GROUPS_PER_PROGRAM,
+        num_warps=4,
         num_stages=0 if round_scale else 2,
     )
     return y, s

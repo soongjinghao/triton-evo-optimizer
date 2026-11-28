@@ -5,22 +5,22 @@
   "candidate_id": "_act_quant_kernel__p10__49da26ed3a8c",
   "candidate_role": "p10",
   "status": "success",
-  "started_at": "2026-11-25T09:12:20+00:00",
-  "finished_at": "2026-11-25T09:13:11+00:00",
-  "duration_seconds": 50.325,
+  "started_at": "2026-11-26T13:09:59+00:00",
+  "finished_at": "2026-11-26T13:10:47+00:00",
+  "duration_seconds": 48.565,
   "source": {
     "variant_path": "costModel/datasets/_act_quant_kernel/variant/p10.py",
-    "source_code_sha256": "49da26ed3a8cdfdd66ddd346fe6ca22c415eef4b0a56287d1f763c20e367492b",
+    "source_code_sha256": "e0933b7abfa443eff8ec492e752e4225bd7a330b1971c7a9e9528550d5007b5f",
     "kernel_snapshot": "costModel/datasets/_act_quant_kernel/data/p10/kernel.py",
     "test_path": "costModel/datasets/_act_quant_kernel/test.py",
     "test_sha256": "2ab41625c1f7b3d9e477569cfe536357f1af3808b00ec9ae9a3ef4c978e59339"
   },
   "evaluation": {
     "success": true,
-    "execution_time_us": 6.41,
+    "execution_time_us": 6.2505,
     "error": null,
     "profile_mode": "full",
-    "profile_dir": "profiling/raw/_act_quant_kernel/eval_20261125_091244_21593",
+    "profile_dir": "profiling/raw/_act_quant_kernel/eval_20261126_131022_69509",
     "hardware_profile_success": true
   },
   "correctness": {
@@ -34,21 +34,21 @@
     "summary_path": "profiling/profile_summary.json",
     "raw_profile_dir": "profiling/raw",
     "timing": {
-      "execution_time_us": 6.41,
+      "execution_time_us": 6.2505,
       "source": "op_summary.Task Duration(us)",
       "sample_count": 2,
       "task_time_cross_check": {
-        "median_task_time_us": 6.52,
+        "median_task_time_us": 6.7105,
         "sample_count": 2,
         "task_id": "2",
         "stream_id": "47"
       },
-      "hardware_pass_task_duration_us": 6.52,
-      "cross_pass_difference_us": 0.10999999999999943,
-      "cross_pass_relative_difference_pct": 1.6871165644171693,
+      "hardware_pass_task_duration_us": 6.7105,
+      "cross_pass_difference_us": 0.45999999999999996,
+      "cross_pass_relative_difference_pct": 6.854928842858207,
       "cross_pass_consistent_20pct": true,
       "label_valid": true,
-      "label_execution_time_us": 6.41
+      "label_execution_time_us": 6.2505
     },
     "kernel": {
       "Device_id": "0",
@@ -58,8 +58,8 @@
       "OP Type": "_act_quant_kernel",
       "OP State": "static",
       "Task Type": "AI_VECTOR_CORE",
-      "Task Start Time(us)": "1795597983945027.386\t",
-      "Task Duration(us)": 6.52,
+      "Task Start Time(us)": "1795698640343149.743\t",
+      "Task Duration(us)": 6.7105,
       "Block Num": "16",
       "Mix Block Num": "0",
       "HF32 Eligible": "YES",
@@ -80,17 +80,17 @@
       "aic_fixpipe_time(us)": 0.0,
       "aic_fixpipe_ratio": 0.0,
       "aic_icache_miss_rate": 0.0,
-      "aiv_time(us)": 4.695,
-      "aiv_total_cycles": 135215.0,
-      "aiv_vec_time(us)": 0.4285,
-      "aiv_vec_ratio": 0.0995,
-      "aiv_scalar_time(us)": 1.2625,
-      "aiv_scalar_ratio": 0.255,
-      "aiv_mte2_time(us)": 0.357,
-      "aiv_mte2_ratio": 0.0665,
-      "aiv_mte3_time(us)": 0.1295,
-      "aiv_mte3_ratio": 0.029,
-      "aiv_icache_miss_rate": 0.1665,
+      "aiv_time(us)": 4.9505,
+      "aiv_total_cycles": 142568.5,
+      "aiv_vec_time(us)": 0.4455,
+      "aiv_vec_ratio": 0.101,
+      "aiv_scalar_time(us)": 0.9725,
+      "aiv_scalar_ratio": 0.1975,
+      "aiv_mte2_time(us)": 0.3555,
+      "aiv_mte2_ratio": 0.062,
+      "aiv_mte3_time(us)": 0.127,
+      "aiv_mte3_ratio": 0.028499999999999998,
+      "aiv_icache_miss_rate": 0.16599999999999998,
       "cube_utilization(%)": 0.0
     },
     "core_utilization": {
@@ -119,30 +119,30 @@
         "applicability": "available",
         "record_count": 1,
         "active_record_count": 1,
-        "vec_ratio_mean": 0.0995,
-        "scalar_ratio_mean": 0.255,
-        "mte2_ratio_mean": 0.0665,
-        "mte3_ratio_mean": 0.029,
-        "icache_miss_rate_mean": 0.1665,
-        "vec_ratio_max": 0.0995,
-        "scalar_ratio_max": 0.255,
-        "mte2_ratio_max": 0.0665,
-        "mte3_ratio_max": 0.029,
-        "icache_miss_rate_max": 0.1665
+        "vec_ratio_mean": 0.101,
+        "scalar_ratio_mean": 0.1975,
+        "mte2_ratio_mean": 0.062,
+        "mte3_ratio_mean": 0.028499999999999998,
+        "icache_miss_rate_mean": 0.16599999999999998,
+        "vec_ratio_max": 0.101,
+        "scalar_ratio_max": 0.1975,
+        "mte2_ratio_max": 0.062,
+        "mte3_ratio_max": 0.028499999999999998,
+        "icache_miss_rate_max": 0.16599999999999998
       }
     },
     "memory": {
       "hbm": {
         "scope": "device_level_sampled_bandwidth",
         "sample_count": 5,
-        "read_mb_s": 19.431,
-        "write_mb_s": 8.355
+        "read_mb_s": 30.465,
+        "write_mb_s": 16.712
       },
       "llc": {
         "scope": "device_level_llc_profile",
         "sample_count": 3,
-        "read_hit_rate_pct": 43.409,
-        "read_throughput_mb_s": 4888.248,
+        "read_hit_rate_pct": 39.34,
+        "read_throughput_mb_s": 6974.649,
         "write_hit_rate_pct": null,
         "write_throughput_mb_s": null
       },
@@ -150,25 +150,25 @@
         "scope": "application_level_sampled_memory",
         "ddr_kb_peak": 0.0,
         "ddr_kb_mean": 0.0,
-        "hbm_kb_peak": 123064.0,
-        "hbm_kb_mean": 123064.0,
-        "total_memory_kb_peak": 123064.0,
-        "total_memory_kb_mean": 123064.0,
-        "sample_count": 72,
-        "timestamp_start_us": 1795597983670600.2,
-        "timestamp_end_us": 1795597985074015.2,
-        "sampling_span_us": 1403415.0
+        "hbm_kb_peak": 128608.0,
+        "hbm_kb_mean": 128608.0,
+        "total_memory_kb_peak": 128608.0,
+        "total_memory_kb_mean": 128608.0,
+        "sample_count": 69,
+        "timestamp_start_us": 1795698640032536.0,
+        "timestamp_end_us": 1795698641379920.2,
+        "sampling_span_us": 1347384.25
       },
       "npu_module_memory": {
         "RUNTIME": {
-          "reserved_kb_peak": 32876.0,
-          "reserved_kb_mean": 32813.166666666664,
-          "sample_count": 72
+          "reserved_kb_peak": 34920.0,
+          "reserved_kb_mean": 32840.463768115944,
+          "sample_count": 69
         },
         "APP": {
           "reserved_kb_peak": 2048.0,
-          "reserved_kb_mean": 2019.5555555555557,
-          "sample_count": 72
+          "reserved_kb_mean": 2018.3188405797102,
+          "sample_count": 69
         }
       }
     },
@@ -176,29 +176,29 @@
       "hardware_profile_success": true,
       "op_summary_rows_for_kernel": 2,
       "source_csv": {
-        "op_summary": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261125_091244_21593/hardware/PROF_000001_20261125091303263_00023545OQBGNHDF/mindstudio_profiler_output/op_summary_20261125091309.csv",
+        "op_summary": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261126_131022_69509/hardware/PROF_000001_20261126131039661_00070264LQAEOREP/mindstudio_profiler_output/op_summary_20261126131046.csv",
         "ai_core_utilization": null,
         "ai_vector_core_utilization": null,
-        "hbm": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261125_091244_21593/hardware/PROF_000001_20261125091303263_00023545OQBGNHDF/mindstudio_profiler_output/hbm_20261125091309.csv",
-        "llc_read_write": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261125_091244_21593/hardware/PROF_000001_20261125091303263_00023545OQBGNHDF/mindstudio_profiler_output/llc_read_write_20261125091309.csv",
-        "npu_mem": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261125_091244_21593/hardware/PROF_000001_20261125091303263_00023545OQBGNHDF/mindstudio_profiler_output/npu_mem_20261125091309.csv",
-        "npu_module_mem": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261125_091244_21593/hardware/PROF_000001_20261125091303263_00023545OQBGNHDF/mindstudio_profiler_output/npu_module_mem_20261125091309.csv",
-        "task_time": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261125_091244_21593/hardware/PROF_000001_20261125091303263_00023545OQBGNHDF/mindstudio_profiler_output/task_time_20261125091309.csv"
+        "hbm": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261126_131022_69509/hardware/PROF_000001_20261126131039661_00070264LQAEOREP/mindstudio_profiler_output/hbm_20261126131046.csv",
+        "llc_read_write": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261126_131022_69509/hardware/PROF_000001_20261126131039661_00070264LQAEOREP/mindstudio_profiler_output/llc_read_write_20261126131046.csv",
+        "npu_mem": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261126_131022_69509/hardware/PROF_000001_20261126131039661_00070264LQAEOREP/mindstudio_profiler_output/npu_mem_20261126131046.csv",
+        "npu_module_mem": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261126_131022_69509/hardware/PROF_000001_20261126131039661_00070264LQAEOREP/mindstudio_profiler_output/npu_module_mem_20261126131046.csv",
+        "task_time": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261126_131022_69509/hardware/PROF_000001_20261126131039661_00070264LQAEOREP/mindstudio_profiler_output/task_time_20261126131046.csv"
       },
       "commands": {
         "timing": [
           "msprof",
-          "--output=/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/.collector_work/performance/_act_quant_kernel/eval_20261125_091244_21593/timing",
+          "--output=/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/.collector_work/performance/_act_quant_kernel/eval_20261126_131022_69509/timing",
           "--task-time=l0",
           "--ai-core=off",
           "--ascendcl=off",
           "--runtime-api=off",
           "python3",
-          "/tmp/_act_quant_kernel_1lnrgno4/test__act_quant_kernel.py"
+          "/tmp/_act_quant_kernel_aice9od9/test__act_quant_kernel.py"
         ],
         "hardware": [
           "msprof",
-          "--output=/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/.collector_work/performance/_act_quant_kernel/eval_20261125_091244_21593/hardware",
+          "--output=/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/.collector_work/performance/_act_quant_kernel/eval_20261126_131022_69509/hardware",
           "--task-time=l1",
           "--task-memory=on",
           "--ai-core=on",
@@ -211,12 +211,12 @@
           "--runtime-api=off",
           "--ge-api=off",
           "python3",
-          "/tmp/_act_quant_kernel_1lnrgno4/test__act_quant_kernel.py"
+          "/tmp/_act_quant_kernel_aice9od9/test__act_quant_kernel.py"
         ]
       },
       "raw_profile_directories": {
-        "timing": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261125_091244_21593/timing",
-        "hardware": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261125_091244_21593/hardware"
+        "timing": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261126_131022_69509/timing",
+        "hardware": "/workspace/Agent/costModel/datasets/_act_quant_kernel/data/p10/profiling/raw/_act_quant_kernel/eval_20261126_131022_69509/hardware"
       }
     }
   },
@@ -234,20 +234,20 @@
   },
   "ir_paths": {
     "npubin": [
-      "ir/npubin/asm_p022823_k001_act_quant_kernel.npubin",
-      "ir/npubin/asm_p022823_k002_act_quant_kernel.npubin"
+      "ir/npubin/asm_p069510_k001_act_quant_kernel.npubin",
+      "ir/npubin/asm_p069510_k002_act_quant_kernel.npubin"
     ],
     "ttadapter": [
-      "ir/ttadapter/asm_p022823_k001_act_quant_kernel.ttadapter.mlir",
-      "ir/ttadapter/asm_p022823_k002_act_quant_kernel.ttadapter.mlir"
+      "ir/ttadapter/asm_p069510_k001_act_quant_kernel.ttadapter.mlir",
+      "ir/ttadapter/asm_p069510_k002_act_quant_kernel.ttadapter.mlir"
     ],
     "ttir": [
-      "ir/ttir/asm_p022823_k001_act_quant_kernel.ttir.mlir",
-      "ir/ttir/asm_p022823_k002_act_quant_kernel.ttir.mlir"
+      "ir/ttir/asm_p069510_k001_act_quant_kernel.ttir.mlir",
+      "ir/ttir/asm_p069510_k002_act_quant_kernel.ttir.mlir"
     ],
     "hivm_opt": [
       "ir/hivm_opt/save_temps_module.hivm.opt.mlir",
-      "ir/hivm_opt/save_temps_module.hivm.opt_199608fb0a.mlir"
+      "ir/hivm_opt/save_temps_module.hivm.opt_7382af2631.mlir"
     ]
   },
   "ir_stage_status": {

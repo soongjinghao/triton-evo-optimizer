@@ -47,8 +47,9 @@ def _chunk_cumsum_fwd_kernel(
 ):
     pid_b = tl.program_id(axis=0)
     pid_ch = tl.program_id(axis=1)
-    pid_c = pid_ch // tl.cdiv(nheads, BLOCK_SIZE_H)
-    pid_h = pid_ch % tl.cdiv(nheads, BLOCK_SIZE_H)
+    nchunks = tl.cdiv(seqlen, chunk_size)
+    pid_c = pid_ch // nchunks
+    pid_h = pid_ch % nchunks
     dt_ptr += pid_b * stride_dt_batch + pid_c * chunk_size * stride_dt_seqlen
     dt_out_ptr += pid_b * stride_dt_out_batch + pid_c * stride_dt_out_chunk
     dA_cumsum_ptr += pid_b * stride_dA_cs_batch + pid_c * stride_dA_cs_chunk
@@ -141,5 +142,7 @@ def _chunk_cumsum_fwd(
         dt_softplus,
         HAS_DT_BIAS=dt_bias is not None,
         BLOCK_SIZE_CHUNK=triton.next_power_of_2(chunk_size),
+        num_warps=4,
+        num_stages=2,
     )
     return dA_cumsum, dt_out

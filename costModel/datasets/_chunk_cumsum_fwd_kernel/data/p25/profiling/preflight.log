@@ -1,3 +1,13 @@
-[W1125 09:42:56.505305310 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
-[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_chunk_cumsum_fwd_kernel/data/p25/.collector_work/compiler_save_temps/24c71e4c401fcdae7047bfb08066fd720d45aaaa68a10738_pid36058_h2ajq1v4
-All tests passed!
+[W1128 01:38:46.519788050 NPUCachingAllocator.cpp:198] Warning: The current CANN and Soc Version require processing for 32 padding size, with memory allocation. (function operator())
+[COSTMODEL] BiShengIR save-temps directory: /workspace/Agent/costModel/datasets/_chunk_cumsum_fwd_kernel/data/p25/.collector_work/compiler_save_temps/ff804233fbb185d2b825d38fe0456d7e0f5db64e88de33d7_pid10259_cflfgct9
+Traceback (most recent call last):
+  File "/tmp/_chunk_cumsum_fwd_kernel_80r1kev7/test__chunk_cumsum_fwd_kernel.py", line 64, in <module>
+    torch.testing.assert_close(dA_cumsum, dA_cumsum_ref, atol=1e-4, rtol=1e-4)
+  File "/usr/local/python3.11.15/lib/python3.11/site-packages/torch/testing/_comparison.py", line 1519, in assert_close
+    raise error_metas[0].to_error(msg)
+AssertionError: Tensor-likes are not close!
+
+Mismatched elements: 64 / 128 (50.0%)
+Greatest absolute difference: 15.722097396850586 at index (0, 3, 1, 7) (up to 0.0001 allowed)
+Greatest relative difference: 1.0 at index (0, 0, 1, 0) (up to 0.0001 allowed)
+[ERROR] 2026-11-28-01:38:59 (PID:10259, Device:0, RankID:-1) ERR99999 UNKNOWN applicaiton exception

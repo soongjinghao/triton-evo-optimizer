@@ -36,8 +36,8 @@ module attributes {dlti.target_system_spec = #dlti.target_system_spec<"NPU" : #h
     %c2_i32 = arith.constant 2 : i32
     %true = arith.constant true
     %c48_i32 = arith.constant 48 : i32
+    %c1_i32 = arith.constant 1 : i32
     %cst = arith.constant 1.000000e+00 : f32
-    %c15_i32 = arith.constant 15 : i32
     %cst_0 = arith.constant 2.000000e+01 : f32
     %c8 = arith.constant 8 : index
     %c0 = arith.constant 0 : index
@@ -102,8 +102,8 @@ module attributes {dlti.target_system_spec = #dlti.target_system_spec<"NPU" : #h
     %collapse_shape_2 = memref.collapse_shape %16 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
     %cast_3 = memref.cast %collapse_shape_2 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
     call @broadcast_scalar_float_to_1d(%cst_0, %cast_3) : (f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-    %17 = arith.addi %arg10, %c15_i32 : i32
-    %18 = arith.divsi %17, %c16_i32 : i32
+    %17 = arith.addi %arg9, %arg11 : i32
+    %18 = arith.subi %17, %c1_i32 : i32
     %19 = arith.index_cast %arg18 : i32 to index
     %20 = arith.index_cast %arg21 : i32 to index
     %21 = arith.index_cast %arg15 : i32 to index
@@ -194,47 +194,48 @@ module attributes {dlti.target_system_spec = #dlti.target_system_spec<"NPU" : #h
       %72 = arith.remsi %71, %arg23 : i32
       %73 = arith.divsi %arg25, %14 : i32
       %74 = arith.remsi %73, %arg22 : i32
-      %75 = arith.divsi %72, %18 : i32
-      %76 = arith.remsi %72, %18 : i32
-      %77 = arith.muli %74, %arg14 : i32
-      %78 = arith.muli %75, %arg11 : i32
-      %79 = arith.muli %78, %arg15 : i32
-      %80 = arith.addi %77, %79 : i32
-      %81 = arith.index_cast %80 : i32 to index
-      %82 = arith.muli %74, %arg16 : i32
-      %83 = arith.muli %75, %arg17 : i32
-      %84 = arith.addi %82, %83 : i32
-      %85 = arith.muli %74, %arg19 : i32
-      %86 = arith.muli %75, %arg20 : i32
-      %87 = arith.addi %85, %86 : i32
-      %88 = arith.muli %76, %c16_i32 : i32
-      %89 = arith.index_cast %88 : i32 to index
-      %reinterpret_cast = memref.reinterpret_cast %arg4 to offset: [%89], sizes: [16, 1], strides: [1, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<16x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>>
-      %90 = arith.index_cast %84 : i32 to index
-      %91 = affine.apply #map3()[%90, %89, %19]
-      %reinterpret_cast_24 = memref.reinterpret_cast %arg6 to offset: [%91], sizes: [16, 8], strides: [%19, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<16x8xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
-      %92 = arith.index_cast %87 : i32 to index
-      %93 = affine.apply #map3()[%92, %89, %20]
-      %reinterpret_cast_25 = memref.reinterpret_cast %arg7 to offset: [%93], sizes: [16, 8], strides: [%20, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<16x8xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
-      %94 = arith.subi %arg9, %78 : i32
-      %95 = arith.minsi %arg11, %94 : i32
-      %96 = affine.apply #map4()[%81, %89]
-      %reinterpret_cast_26 = memref.reinterpret_cast %arg3 to offset: [%96], sizes: [8, 16], strides: [%21, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<8x16xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
-      %97 = arith.index_cast %95 : i32 to index
-      %98 = affine.max #map()[%97]
-      %99 = affine.max #map5()[%89, %22]
-      %100 = affine.min #map6()[%99, %89]
-      %101 = affine.apply #map7()[%100, %89]
-      %102 = affine.min #map1()[%98]
-      %103 = affine.max #map()[%102]
-      %104 = affine.min #map8()[%100, %89]
-      %105 = affine.max #map()[%104]
-      %106 = arith.cmpi slt, %103, %c8 : index
-      %107 = arith.cmpi slt, %105, %c16 : index
-      %108 = arith.ori %106, %107 : i1
-      %subview = memref.subview %reinterpret_cast_26[0, 0] [%103, %105] [1, 1] : memref<8x16xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
-      %subview_27 = memref.subview %64[0, 0] [%103, %105] [1, 1] : memref<8x16xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[16, 1]>, #hivm.address_space<ub>>
-      scf.if %108 {
+      %75 = arith.divsi %18, %arg11 : i32
+      %76 = arith.divsi %72, %75 : i32
+      %77 = arith.remsi %72, %75 : i32
+      %78 = arith.muli %74, %arg14 : i32
+      %79 = arith.muli %76, %arg11 : i32
+      %80 = arith.muli %79, %arg15 : i32
+      %81 = arith.addi %78, %80 : i32
+      %82 = arith.index_cast %81 : i32 to index
+      %83 = arith.muli %74, %arg16 : i32
+      %84 = arith.muli %76, %arg17 : i32
+      %85 = arith.addi %83, %84 : i32
+      %86 = arith.muli %74, %arg19 : i32
+      %87 = arith.muli %76, %arg20 : i32
+      %88 = arith.addi %86, %87 : i32
+      %89 = arith.muli %77, %c16_i32 : i32
+      %90 = arith.index_cast %89 : i32 to index
+      %reinterpret_cast = memref.reinterpret_cast %arg4 to offset: [%90], sizes: [16, 1], strides: [1, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<16x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>>
+      %91 = arith.index_cast %85 : i32 to index
+      %92 = affine.apply #map3()[%91, %90, %19]
+      %reinterpret_cast_24 = memref.reinterpret_cast %arg6 to offset: [%92], sizes: [16, 8], strides: [%19, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<16x8xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %93 = arith.index_cast %88 : i32 to index
+      %94 = affine.apply #map3()[%93, %90, %20]
+      %reinterpret_cast_25 = memref.reinterpret_cast %arg7 to offset: [%94], sizes: [16, 8], strides: [%20, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<16x8xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %95 = arith.subi %arg9, %79 : i32
+      %96 = arith.minsi %arg11, %95 : i32
+      %97 = affine.apply #map4()[%82, %90]
+      %reinterpret_cast_26 = memref.reinterpret_cast %arg3 to offset: [%97], sizes: [8, 16], strides: [%21, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<8x16xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %98 = arith.index_cast %96 : i32 to index
+      %99 = affine.max #map()[%98]
+      %100 = affine.max #map5()[%90, %22]
+      %101 = affine.min #map6()[%100, %90]
+      %102 = affine.apply #map7()[%101, %90]
+      %103 = affine.min #map1()[%99]
+      %104 = affine.max #map()[%103]
+      %105 = affine.min #map8()[%101, %90]
+      %106 = affine.max #map()[%105]
+      %107 = arith.cmpi slt, %104, %c8 : index
+      %108 = arith.cmpi slt, %106, %c16 : index
+      %109 = arith.ori %107, %108 : i1
+      %subview = memref.subview %reinterpret_cast_26[0, 0] [%104, %106] [1, 1] : memref<8x16xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %subview_27 = memref.subview %64[0, 0] [%104, %106] [1, 1] : memref<8x16xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[16, 1]>, #hivm.address_space<ub>>
+      scf.if %109 {
         %collapse_shape_137 = memref.collapse_shape %64 [[0, 1]] : memref<8x16xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
         %cast_138 = memref.cast %collapse_shape_137 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
         func.call @broadcast_scalar_float_to_1d(%cst_1, %cast_138) : (f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
@@ -245,16 +246,16 @@ module attributes {dlti.target_system_spec = #dlti.target_system_spec<"NPU" : #h
       %cast_29 = memref.cast %subview_27 : memref<?x?xf32, strided<[16, 1]>, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       func.call @load_gm_to_ubuf_2d_float(%cast_28, %cast_29, %c2_i32, %cst_1, %c0) : (memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<gm>>, memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, i32, f32, index) -> ()
       hivm.hir.set_flag[<PIPE_MTE2>, <PIPE_V>, <EVENT_ID0>]
-      %109 = hivm.hir.pointer_cast(%c2560_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %110 = hivm.hir.pointer_cast(%c2560_i64) : memref<16x8xf32, #hivm.address_space<ub>>
       hivm.hir.wait_flag[<PIPE_MTE2>, <PIPE_V>, <EVENT_ID0>]
       %cast_30 = memref.cast %64 : memref<8x16xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
-      %cast_31 = memref.cast %109 : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
+      %cast_31 = memref.cast %110 : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       func.call @transpose_2d_with_last_axis_float(%cast_30, %cast_31) : (memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %reinterpret_cast_32 = memref.reinterpret_cast %arg5 to offset: [%89], sizes: [16, 1], strides: [1, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<16x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>>
-      %110 = arith.cmpi slt, %101, %c16 : index
-      %subview_33 = memref.subview %reinterpret_cast_32[0, 0] [%101, 1] [1, 1] : memref<16x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>>
-      %subview_34 = memref.subview %58[0, 0] [%101, 1] [1, 1] : memref<16x1xf32, #hivm.address_space<ub>> to memref<?x1xf32, strided<[1, 1]>, #hivm.address_space<ub>>
-      scf.if %110 {
+      %reinterpret_cast_32 = memref.reinterpret_cast %arg5 to offset: [%90], sizes: [16, 1], strides: [1, 1] : memref<?xf32, #hivm.address_space<gm>> to memref<16x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>>
+      %111 = arith.cmpi slt, %102, %c16 : index
+      %subview_33 = memref.subview %reinterpret_cast_32[0, 0] [%102, 1] [1, 1] : memref<16x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>>
+      %subview_34 = memref.subview %58[0, 0] [%102, 1] [1, 1] : memref<16x1xf32, #hivm.address_space<ub>> to memref<?x1xf32, strided<[1, 1]>, #hivm.address_space<ub>>
+      scf.if %111 {
         %collapse_shape_137 = memref.collapse_shape %58 [[0, 1]] : memref<16x1xf32, #hivm.address_space<ub>> into memref<16xf32, #hivm.address_space<ub>>
         %cast_138 = memref.cast %collapse_shape_137 : memref<16xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
         func.call @broadcast_scalar_float_to_1d(%cst_1, %cast_138) : (f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
@@ -267,160 +268,160 @@ module attributes {dlti.target_system_spec = #dlti.target_system_spec<"NPU" : #h
       %cast_38 = memref.cast %collapse_shape_36 : memref<?xf32, strided<[1]>, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @load_gm_to_ubuf_1d_float(%cast_37, %cast_38, %c2_i32, %cst_1, %c0) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<gm>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, i32, f32, index) -> ()
       hivm.hir.set_flag[<PIPE_MTE2>, <PIPE_V>, <EVENT_ID0>]
-      %111 = hivm.hir.pointer_cast(%c2560_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %112 = hivm.hir.pointer_cast(%c3136_i64) : memref<128xf32, #hivm.address_space<ub>>
+      %112 = hivm.hir.pointer_cast(%c2560_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %113 = hivm.hir.pointer_cast(%c3136_i64) : memref<128xf32, #hivm.address_space<ub>>
       hivm.hir.wait_flag[<PIPE_MTE2>, <PIPE_V>, <EVENT_ID0>]
       hivm.hir.pipe_barrier[<PIPE_V>]
-      %cast_39 = memref.cast %109 : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
+      %cast_39 = memref.cast %110 : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       %cast_40 = memref.cast %58 : memref<16x1xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
-      %cast_41 = memref.cast %111 : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
-      %cast_42 = memref.cast %112 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_41 = memref.cast %112 : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
+      %cast_42 = memref.cast %113 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vadd_2d_float(%cast_39, %cast_40, %cast_41, %cast_42) : (memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %113 = hivm.hir.pointer_cast(%c3648_i64) : memref<16x8xi1, #hivm.address_space<ub>>
-      %collapse_shape_43 = memref.collapse_shape %111 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %collapse_shape_44 = memref.collapse_shape %113 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
+      %114 = hivm.hir.pointer_cast(%c3648_i64) : memref<16x8xi1, #hivm.address_space<ub>>
+      %collapse_shape_43 = memref.collapse_shape %112 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %collapse_shape_44 = memref.collapse_shape %114 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_45 = memref.cast %collapse_shape_43 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_46 = memref.cast %collapse_shape_2 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_47 = memref.cast %collapse_shape_44 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vcmp_le_1d_float(%cast_45, %cast_46, %cast_47) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %114 = hivm.hir.pointer_cast(%c3680_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_48 = memref.collapse_shape %114 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %115 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
+      %115 = hivm.hir.pointer_cast(%c3680_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_48 = memref.collapse_shape %115 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %116 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
       %cast_49 = memref.cast %collapse_shape_43 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_50 = memref.cast %collapse_shape_48 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_51 = memref.cast %115 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_51 = memref.cast %116 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vexp_1d_float(%cast_49, %cast_50, %cast_51) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %116 = hivm.hir.pointer_cast(%c3680_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_52 = memref.collapse_shape %116 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %117 = hivm.hir.pointer_cast(%c3680_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_52 = memref.collapse_shape %117 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
-      %117 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
+      %118 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
       %cast_53 = memref.cast %collapse_shape_48 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_54 = memref.cast %collapse_shape_52 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_55 = memref.cast %117 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_55 = memref.cast %118 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vadds_vs_1d_float(%cast_53, %cst, %cast_54, %cast_55) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %118 = hivm.hir.pointer_cast(%c3680_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_56 = memref.collapse_shape %118 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %119 = hivm.hir.pointer_cast(%c3680_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_56 = memref.collapse_shape %119 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
-      %119 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
+      %120 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
       %cast_57 = memref.cast %collapse_shape_52 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_58 = memref.cast %collapse_shape_56 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_59 = memref.cast %119 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_59 = memref.cast %120 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vln_1d_float(%cast_57, %cast_58, %cast_59) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %120 = hivm.hir.pointer_cast(%c4192_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_60 = memref.collapse_shape %120 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %121 = hivm.hir.pointer_cast(%c4704_i64) : memref<8xf32, #hivm.address_space<ub>>
+      %121 = hivm.hir.pointer_cast(%c4192_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_60 = memref.collapse_shape %121 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %122 = hivm.hir.pointer_cast(%c4704_i64) : memref<8xf32, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_61 = memref.cast %collapse_shape_44 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_62 = memref.cast %collapse_shape_56 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_63 = memref.cast %collapse_shape_43 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_64 = memref.cast %collapse_shape_60 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_65 = memref.cast %121 : memref<8xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_65 = memref.cast %122 : memref<8xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vsel_vv_1d_bool_float(%cast_61, %cast_62, %cast_63, %cast_64, %cast_65) : (memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %122 = hivm.hir.pointer_cast(%c4736_i64) : memref<16x8xi1, #hivm.address_space<ub>>
-      %collapse_shape_66 = memref.collapse_shape %122 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
+      %123 = hivm.hir.pointer_cast(%c4736_i64) : memref<16x8xi1, #hivm.address_space<ub>>
+      %collapse_shape_66 = memref.collapse_shape %123 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_67 = memref.cast %collapse_shape_60 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_68 = memref.cast %collapse_shape_60 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_69 = memref.cast %collapse_shape_66 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vcmp_eq_1d_float(%cast_67, %cast_68, %cast_69) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %123 = hivm.hir.pointer_cast(%c4736_i64) : memref<16x8xi1, #hivm.address_space<ub>>
-      %collapse_shape_70 = memref.collapse_shape %123 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
+      %124 = hivm.hir.pointer_cast(%c4736_i64) : memref<16x8xi1, #hivm.address_space<ub>>
+      %collapse_shape_70 = memref.collapse_shape %124 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
-      %124 = hivm.hir.pointer_cast(%c0_i64) : memref<0xi1, #hivm.address_space<ub>>
+      %125 = hivm.hir.pointer_cast(%c0_i64) : memref<0xi1, #hivm.address_space<ub>>
       %cast_71 = memref.cast %collapse_shape_66 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_72 = memref.cast %collapse_shape_70 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_73 = memref.cast %124 : memref<0xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_73 = memref.cast %125 : memref<0xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vnot_1d_bool(%cast_71, %cast_72, %cast_73) : (memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %125 = hivm.hir.pointer_cast(%c4768_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_74 = memref.collapse_shape %125 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %126 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
+      %126 = hivm.hir.pointer_cast(%c4768_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_74 = memref.collapse_shape %126 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %127 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
       %cast_75 = memref.cast %collapse_shape_60 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_76 = memref.cast %collapse_shape_74 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_77 = memref.cast %126 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_77 = memref.cast %127 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vmaxs_vs_1d_float(%cast_75, %arg12, %cast_76, %cast_77) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %127 = hivm.hir.pointer_cast(%c5280_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_78 = memref.collapse_shape %127 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %128 = hivm.hir.pointer_cast(%c5792_i64) : memref<16xf32, #hivm.address_space<ub>>
+      %128 = hivm.hir.pointer_cast(%c5280_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_78 = memref.collapse_shape %128 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %129 = hivm.hir.pointer_cast(%c5792_i64) : memref<16xf32, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_79 = memref.cast %collapse_shape_70 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_80 = memref.cast %collapse_shape_74 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_81 = memref.cast %collapse_shape_78 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_82 = memref.cast %128 : memref<16xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_82 = memref.cast %129 : memref<16xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vsel_sv_1d_float(%cast_79, %arg12, %cast_80, %cast_81, %cast_82) : (memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %129 = hivm.hir.pointer_cast(%c5856_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_83 = memref.collapse_shape %129 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %130 = hivm.hir.pointer_cast(%c6368_i64) : memref<8xf32, #hivm.address_space<ub>>
+      %130 = hivm.hir.pointer_cast(%c5856_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_83 = memref.collapse_shape %130 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %131 = hivm.hir.pointer_cast(%c6368_i64) : memref<8xf32, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_84 = memref.cast %collapse_shape_10 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_85 = memref.cast %collapse_shape_60 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_86 = memref.cast %collapse_shape_78 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_87 = memref.cast %collapse_shape_83 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_88 = memref.cast %130 : memref<8xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_88 = memref.cast %131 : memref<8xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vsel_vv_1d_bool_float(%cast_84, %cast_85, %cast_86, %cast_87, %cast_88) : (memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %131 = hivm.hir.pointer_cast(%c6400_i64) : memref<16x8xi1, #hivm.address_space<ub>>
-      %collapse_shape_89 = memref.collapse_shape %131 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
+      %132 = hivm.hir.pointer_cast(%c6400_i64) : memref<16x8xi1, #hivm.address_space<ub>>
+      %collapse_shape_89 = memref.collapse_shape %132 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_90 = memref.cast %collapse_shape_83 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_91 = memref.cast %collapse_shape_83 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_92 = memref.cast %collapse_shape_89 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vcmp_eq_1d_float(%cast_90, %cast_91, %cast_92) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %132 = hivm.hir.pointer_cast(%c6400_i64) : memref<16x8xi1, #hivm.address_space<ub>>
-      %collapse_shape_93 = memref.collapse_shape %132 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
+      %133 = hivm.hir.pointer_cast(%c6400_i64) : memref<16x8xi1, #hivm.address_space<ub>>
+      %collapse_shape_93 = memref.collapse_shape %133 [[0, 1]] : memref<16x8xi1, #hivm.address_space<ub>> into memref<128xi1, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
-      %133 = hivm.hir.pointer_cast(%c0_i64) : memref<0xi1, #hivm.address_space<ub>>
+      %134 = hivm.hir.pointer_cast(%c0_i64) : memref<0xi1, #hivm.address_space<ub>>
       %cast_94 = memref.cast %collapse_shape_89 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_95 = memref.cast %collapse_shape_93 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_96 = memref.cast %133 : memref<0xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_96 = memref.cast %134 : memref<0xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vnot_1d_bool(%cast_94, %cast_95, %cast_96) : (memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %134 = hivm.hir.pointer_cast(%c6432_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_97 = memref.collapse_shape %134 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %135 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
+      %135 = hivm.hir.pointer_cast(%c6432_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_97 = memref.collapse_shape %135 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %136 = hivm.hir.pointer_cast(%c0_i64) : memref<0xf32, #hivm.address_space<ub>>
       %cast_98 = memref.cast %collapse_shape_83 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_99 = memref.cast %collapse_shape_97 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_100 = memref.cast %135 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_100 = memref.cast %136 : memref<0xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vmins_vs_1d_float(%cast_98, %arg13, %cast_99, %cast_100) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %136 = hivm.hir.pointer_cast(%c6944_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_101 = memref.collapse_shape %136 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %137 = hivm.hir.pointer_cast(%c7456_i64) : memref<16xf32, #hivm.address_space<ub>>
+      %137 = hivm.hir.pointer_cast(%c6944_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_101 = memref.collapse_shape %137 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %138 = hivm.hir.pointer_cast(%c7456_i64) : memref<16xf32, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_102 = memref.cast %collapse_shape_93 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_103 = memref.cast %collapse_shape_97 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_104 = memref.cast %collapse_shape_101 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_105 = memref.cast %137 : memref<16xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_105 = memref.cast %138 : memref<16xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vsel_sv_1d_float(%cast_102, %arg13, %cast_103, %cast_104, %cast_105) : (memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %138 = hivm.hir.pointer_cast(%c7520_i64) : memref<16x8xf32, #hivm.address_space<ub>>
-      %collapse_shape_106 = memref.collapse_shape %138 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
-      %139 = hivm.hir.pointer_cast(%c8032_i64) : memref<8xf32, #hivm.address_space<ub>>
+      %139 = hivm.hir.pointer_cast(%c7520_i64) : memref<16x8xf32, #hivm.address_space<ub>>
+      %collapse_shape_106 = memref.collapse_shape %139 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
+      %140 = hivm.hir.pointer_cast(%c8032_i64) : memref<8xf32, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_107 = memref.cast %collapse_shape_20 : memref<128xi1, #hivm.address_space<ub>> to memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_108 = memref.cast %collapse_shape_83 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_109 = memref.cast %collapse_shape_101 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_110 = memref.cast %collapse_shape_106 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
-      %cast_111 = memref.cast %139 : memref<8xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_111 = memref.cast %140 : memref<8xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vsel_vv_1d_bool_float(%cast_107, %cast_108, %cast_109, %cast_110, %cast_111) : (memref<?xi1, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
-      %subview_112 = memref.subview %138[0, 0] [%105, %103] [1, 1] : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>>
+      %subview_112 = memref.subview %139[0, 0] [%106, %104] [1, 1] : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>>
       %collapse_shape_113 = memref.collapse_shape %52 [[0, 1]] : memref<16x8xf32, #hivm.address_space<ub>> into memref<128xf32, #hivm.address_space<ub>>
       hivm.hir.wait_flag[<PIPE_S>, <PIPE_V>, %70]
       %cast_114 = memref.cast %collapse_shape : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       %cast_115 = memref.cast %collapse_shape_113 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @copy_ubuf_to_ubuf_1d_float(%cast_114, %cast_115, %c0_i32, %cst_1) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, i32, f32) -> ()
-      %subview_116 = memref.subview %52[0, 0] [%105, %103] [1, 1] : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>>
+      %subview_116 = memref.subview %52[0, 0] [%106, %104] [1, 1] : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>>
       hivm.hir.pipe_barrier[<PIPE_V>]
       %cast_117 = memref.cast %subview_112 : memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       %cast_118 = memref.cast %subview_116 : memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       func.call @copy_ubuf_to_ubuf_2d_float(%cast_117, %cast_118, %c0_i32, %cst_1) : (memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, i32, f32) -> ()
       hivm.hir.set_flag[<PIPE_V>, <PIPE_MTE3>, <EVENT_ID0>]
-      %subview_119 = memref.subview %52[0, 0] [%105, %34] [1, 1] : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>>
-      %subview_120 = memref.subview %reinterpret_cast_24[0, 0] [%105, %34] [1, 1] : memref<16x8xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %subview_119 = memref.subview %52[0, 0] [%106, %34] [1, 1] : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>>
+      %subview_120 = memref.subview %reinterpret_cast_24[0, 0] [%106, %34] [1, 1] : memref<16x8xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
       hivm.hir.wait_flag[<PIPE_V>, <PIPE_MTE3>, <EVENT_ID0>]
       %cast_121 = memref.cast %subview_119 : memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       %cast_122 = memref.cast %subview_120 : memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<gm>>
       func.call @store_ubuf_to_gm_2d_float(%cast_121, %cast_122, %c0_i32) : (memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<gm>>, i32) -> ()
       hivm.hir.set_flag[<PIPE_MTE3>, <PIPE_V>, <EVENT_ID0>]
-      %subview_123 = memref.subview %reinterpret_cast[0, 0] [%101, 1] [1, 1] : memref<16x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>>
-      %subview_124 = memref.subview %46[0, 0] [%101, 1] [1, 1] : memref<16x1xf32, #hivm.address_space<ub>> to memref<?x1xf32, strided<[1, 1]>, #hivm.address_space<ub>>
-      scf.if %110 {
+      %subview_123 = memref.subview %reinterpret_cast[0, 0] [%102, 1] [1, 1] : memref<16x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x1xf32, strided<[1, 1], offset: ?>, #hivm.address_space<gm>>
+      %subview_124 = memref.subview %46[0, 0] [%102, 1] [1, 1] : memref<16x1xf32, #hivm.address_space<ub>> to memref<?x1xf32, strided<[1, 1]>, #hivm.address_space<ub>>
+      scf.if %111 {
         %collapse_shape_137 = memref.collapse_shape %46 [[0, 1]] : memref<16x1xf32, #hivm.address_space<ub>> into memref<16xf32, #hivm.address_space<ub>>
         %cast_138 = memref.cast %collapse_shape_137 : memref<16xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
         func.call @broadcast_scalar_float_to_1d(%cst_1, %cast_138) : (f32, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
@@ -433,31 +434,31 @@ module attributes {dlti.target_system_spec = #dlti.target_system_spec<"NPU" : #h
       %cast_128 = memref.cast %collapse_shape_126 : memref<?xf32, strided<[1]>, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @load_gm_to_ubuf_1d_float(%cast_127, %cast_128, %c2_i32, %cst_1, %c0) : (memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<gm>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>, i32, f32, index) -> ()
       hivm.hir.set_flag[<PIPE_MTE2>, <PIPE_V>, <EVENT_ID0>]
-      %140 = hivm.hir.pointer_cast(%c8640_i64) : memref<128xf32, #hivm.address_space<ub>>
+      %141 = hivm.hir.pointer_cast(%c8640_i64) : memref<128xf32, #hivm.address_space<ub>>
       hivm.hir.wait_flag[<PIPE_MTE3>, <PIPE_V>, <EVENT_ID0>]
       hivm.hir.wait_flag[<PIPE_MTE2>, <PIPE_V>, <EVENT_ID0>]
       %cast_129 = memref.cast %52 : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       %cast_130 = memref.cast %46 : memref<16x1xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       %cast_131 = memref.cast %52 : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
-      %cast_132 = memref.cast %140 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
+      %cast_132 = memref.cast %141 : memref<128xf32, #hivm.address_space<ub>> to memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>
       func.call @vmul_2d_float(%cast_129, %cast_130, %cast_131, %cast_132) : (memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>, memref<?xf32, strided<[?], offset: ?>, #hivm.address_space<ub>>) -> ()
       hivm.hir.set_flag[<PIPE_V>, <PIPE_S>, <EVENT_ID0>]
       hivm.hir.wait_flag[<PIPE_V>, <PIPE_S>, <EVENT_ID0>]
       scf.for %arg26 = %c0 to %c16 step %c1 {
-        %141 = memref.load %52[%arg26, %c0] : memref<16x8xf32, #hivm.address_space<ub>>
-        memref.store %141, %40[%arg26, %c0] : memref<16x8xf32, #hivm.address_space<ub>>
+        %142 = memref.load %52[%arg26, %c0] : memref<16x8xf32, #hivm.address_space<ub>>
+        memref.store %142, %40[%arg26, %c0] : memref<16x8xf32, #hivm.address_space<ub>>
         scf.for %arg27 = %c1 to %c8 step %c1 {
-          %142 = memref.load %52[%arg26, %arg27] : memref<16x8xf32, #hivm.address_space<ub>>
-          %143 = arith.subi %arg27, %c1 : index
-          %144 = memref.load %40[%arg26, %143] : memref<16x8xf32, #hivm.address_space<ub>>
-          %145 = arith.addf %142, %144 : f32
-          memref.store %145, %40[%arg26, %arg27] : memref<16x8xf32, #hivm.address_space<ub>>
+          %143 = memref.load %52[%arg26, %arg27] : memref<16x8xf32, #hivm.address_space<ub>>
+          %144 = arith.subi %arg27, %c1 : index
+          %145 = memref.load %40[%arg26, %144] : memref<16x8xf32, #hivm.address_space<ub>>
+          %146 = arith.addf %143, %145 : f32
+          memref.store %146, %40[%arg26, %arg27] : memref<16x8xf32, #hivm.address_space<ub>>
         }
       }
       hivm.hir.set_flag[<PIPE_S>, <PIPE_MTE3>, <EVENT_ID0>]
       hivm.hir.set_flag[<PIPE_S>, <PIPE_V>, %70]
-      %subview_133 = memref.subview %40[0, 0] [%105, %34] [1, 1] : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>>
-      %subview_134 = memref.subview %reinterpret_cast_25[0, 0] [%105, %34] [1, 1] : memref<16x8xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
+      %subview_133 = memref.subview %40[0, 0] [%106, %34] [1, 1] : memref<16x8xf32, #hivm.address_space<ub>> to memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>>
+      %subview_134 = memref.subview %reinterpret_cast_25[0, 0] [%106, %34] [1, 1] : memref<16x8xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>>
       hivm.hir.wait_flag[<PIPE_S>, <PIPE_MTE3>, <EVENT_ID0>]
       %cast_135 = memref.cast %subview_133 : memref<?x?xf32, strided<[8, 1]>, #hivm.address_space<ub>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<ub>>
       %cast_136 = memref.cast %subview_134 : memref<?x?xf32, strided<[?, 1], offset: ?>, #hivm.address_space<gm>> to memref<?x?xf32, strided<[?, ?], offset: ?>, #hivm.address_space<gm>>

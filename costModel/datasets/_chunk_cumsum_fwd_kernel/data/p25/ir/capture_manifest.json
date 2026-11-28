@@ -1,9 +1,9 @@
 {
   "schema_version": "costmodel_capture_manifest_v1",
-  "event_count": 3,
+  "event_count": 1,
   "events": [
     {
-      "pid": 36058,
+      "pid": 10259,
       "call_index": 1,
       "jit_function": "_chunk_cumsum_fwd_kernel",
       "asm_keys": [
@@ -12,39 +12,9 @@
         "npubin"
       ],
       "saved_file_names": [
-        "p036058_k001_chunk_cumsum_fwd_kernel.ttir.mlir",
-        "p036058_k001_chunk_cumsum_fwd_kernel.ttadapter.mlir",
-        "p036058_k001_chunk_cumsum_fwd_kernel.npubin"
-      ]
-    },
-    {
-      "pid": 36321,
-      "call_index": 1,
-      "jit_function": "_chunk_cumsum_fwd_kernel",
-      "asm_keys": [
-        "ttir",
-        "ttadapter",
-        "npubin"
-      ],
-      "saved_file_names": [
-        "p036321_k001_chunk_cumsum_fwd_kernel.ttir.mlir",
-        "p036321_k001_chunk_cumsum_fwd_kernel.ttadapter.mlir",
-        "p036321_k001_chunk_cumsum_fwd_kernel.npubin"
-      ]
-    },
-    {
-      "pid": 36711,
-      "call_index": 1,
-      "jit_function": "_chunk_cumsum_fwd_kernel",
-      "asm_keys": [
-        "ttir",
-        "ttadapter",
-        "npubin"
-      ],
-      "saved_file_names": [
-        "p036711_k001_chunk_cumsum_fwd_kernel.ttir.mlir",
-        "p036711_k001_chunk_cumsum_fwd_kernel.ttadapter.mlir",
-        "p036711_k001_chunk_cumsum_fwd_kernel.npubin"
+        "p010259_k001_chunk_cumsum_fwd_kernel.ttir.mlir",
+        "p010259_k001_chunk_cumsum_fwd_kernel.ttadapter.mlir",
+        "p010259_k001_chunk_cumsum_fwd_kernel.npubin"
       ]
     }
   ]
